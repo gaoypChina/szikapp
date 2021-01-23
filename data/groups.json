@@ -1,0 +1,18 @@
+{
+    "groups": [
+        {
+            "groupID": "g0",
+            "name": "admin",
+            "description": "Group of admins",
+            "emailList": null,
+            "members": []
+        },
+        {
+            "groupID": "g1",
+            "name": "admin",
+            "description": "Group of admins",
+            "emailList": null,
+            "members": []
+        }
+    ]
+}

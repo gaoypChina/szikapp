@@ -1,22 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'place.g.dart';
+
+@JsonSerializable()
 class Place {
+  final String placeID;
   final String name;
   final String number;
   final String description;
 
-  Place({this.name, this.number, this.description});
+  Place({this.placeID, this.name, this.number, this.description});
 
-  Map<String, Object> toJSON() {
-    return {
-      "name": this.name,
-      "number": this.number,
-      "description": this.description
-    };
-  }
+  Map<String, dynamic> toJson() => _$PlaceToJson(this);
 
-  factory Place.fromJSON(Map<String, Object> doc) {
-    return Place(
-        name: doc['name'],
-        number: doc['number'],
-        description: doc['description']);
-  }
+  factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
 }
