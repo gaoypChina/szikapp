@@ -1,18 +1,132 @@
 {
     "groups": [
         {
-            "groupID": "g0",
+            "groupID": "g000",
             "name": "admin",
             "description": "Group of admins",
             "emailList": null,
-            "members": []
+            "members": [],
+            "permissions": []
         },
         {
-            "groupID": "g1",
-            "name": "admin",
-            "description": "Group of admins",
+            "groupID": "g001",
+            "name": "rektor",
+            "description": "A SZIK rektora",
+            "emailList": "rektor@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g002",
+            "name": "db",
+            "description": "A SZIK Diákbizottsága",
+            "emailList": "db@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g003",
+            "name": "titkár",
+            "description": "A SZIK titkára",
+            "emailList": "titkar@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g004",
+            "name": "irodavezető",
+            "description": "A SZIK irodavezetője",
+            "emailList": "iroda@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g005",
+            "name": "gondnok",
+            "description": "A SZIK gondnoka",
             "emailList": null,
-            "members": []
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g006",
+            "name": "teamvezető",
+            "description": "A SZIK teamvezetői",
+            "emailList": null,
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g007",
+            "name": "albérlő",
+            "description": "A SZIK albérlői",
+            "emailList": "alberlo@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g100",
+            "name": "belügy",
+            "description": "A Belügyi Team",
+            "emailList": "belugy@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g101",
+            "name": "kommteam",
+            "description": "A Kommunikáció Team",
+            "emailList": "kommunikacio@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g102",
+            "name": "közteam",
+            "description": "A Közösségi Team",
+            "emailList": "kozossegi@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g103",
+            "name": "külügy",
+            "description": "A Külügyi Team",
+            "emailList": "kulugy@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g104",
+            "name": "marketing",
+            "description": "A Marketing Team",
+            "emailList": "marketing@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g105",
+            "name": "rekru",
+            "description": "A Rekrutációs Team",
+            "emailList": "rekrutacio@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g106",
+            "name": "spiri",
+            "description": "A Spiri Team",
+            "emailList": "spiri@szentignac.hu",
+            "members": [],
+            "permissions": []
+        },
+        {
+            "groupID": "g107",
+            "name": "szakmai",
+            "description": "A Szakmai Team",
+            "emailList": "szakmai@szentignac.hu",
+            "members": [],
+            "permissions": []
         }
     ]
 }
