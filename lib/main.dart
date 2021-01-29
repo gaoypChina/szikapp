@@ -1,3 +1,4 @@
+///[SZIKApp] is an awesome application made in Flutter for the lovely people in da SZIK.
 import 'package:flutter/material.dart';
 
 void main() {

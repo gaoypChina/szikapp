@@ -9,10 +9,20 @@ class User {
   String email;
   String mobile;
   List<String> groupIDs;
+  List<String> taskIDs;
 
-  User({this.userID, this.name, this.email, this.mobile, this.groupIDs}) {
+  User(
+      {this.userID,
+      this.name,
+      this.email,
+      this.mobile,
+      this.groupIDs,
+      this.taskIDs}) {
     if (groupIDs == null) {
       this.groupIDs = <String>[];
+    }
+    if (taskIDs == null) {
+      this.taskIDs = <String>[];
     }
   }
 
@@ -31,6 +41,18 @@ class User {
   void removeAllGroups() {
     if (this.groupIDs.length > 0) {
       this.groupIDs.clear();
+    }
+  }
+
+  void addTask(String taskID) {
+    if (!this.taskIDs.contains(taskID)) {
+      this.taskIDs.add(taskID);
+    }
+  }
+
+  void removeTask(String taskID) {
+    if (this.taskIDs.contains(taskID)) {
+      this.taskIDs.remove(taskID);
     }
   }
 

@@ -5,7 +5,9 @@
             "name": "admin",
             "description": "Group of admins",
             "emailList": null,
-            "members": [],
+            "members": [
+                "u000"
+            ],
             "permissions": []
         },
         {

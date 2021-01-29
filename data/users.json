@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "userID": "u000",
+            "name": "Teszt Gedeon",
+            "email": "gedeon@szentignac.hu",
+            "mobile": "+36305847777",
+            "groupIDs": [
+                "g000"
+            ]
+        }
+    ]
+}

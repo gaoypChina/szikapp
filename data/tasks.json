@@ -1,0 +1,15 @@
+{
+    "tasks": [
+        {
+            "taskID": "t0000001",
+            "name": "Konyhatakarítás",
+            "start": "2021-01-01 22:00:01",
+            "end": "2021-01-01 23:59:59",
+            "type": "cleaning",
+            "involvedIDs": [
+                "u000", "g106"
+            ],
+            "description": "Pluszfeladat: egy vízforralót vízkőtleníteni."
+        }
+    ]
+}
