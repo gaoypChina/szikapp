@@ -10,9 +10,8 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - name: format & analyze
-        run: flutter format
-        run: flutter analyze --congratulate
+    - run: flutter format  
+    - run: flutter analyze --congratulate
   
   build-android:
     name: Android builder
