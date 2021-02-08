@@ -1,0 +1,193 @@
+# Mixin of Effective Dart, Google Pedantic and Flutter style linter rules for the SzikApp project.
+# Comment out the unnecessary rules below linter/rules, do not change priority levels.
+
+analyzer:
+  errors:
+    # Error rules
+    avoid_empty_else: error
+    avoid_relative_lib_imports: error
+    avoid_types_as_parameter_names: error
+    avoid_web_libraries_in_flutter: error
+    cancel_subscriptions: error
+    close_sinks: error
+    control_flow_in_finally: error
+    empty_statements: error
+    hash_and_equals: warning
+    no_duplicate_case_values: error
+    prefer_relative_imports: warning
+    test_types_in_equals: error
+    throw_in_finally: error
+    unnecessary_statements: error
+    unrelated_type_equality_checks: error
+    valid_regexps: error
+
+    # Style rules
+    always_declare_return_types: error
+    always_require_non_null_named_parameters: warning
+    annotate_overrides: error
+    avoid_catches_without_on_clauses: warning
+    avoid_catching_errors: error
+    avoid_classes_with_only_static_members: error
+    avoid_equals_and_hash_code_on_mutable_classes: warning
+    avoid_function_literals_in_foreach_calls: warning
+    avoid_init_to_null: error
+    avoid_null_checks_in_equality_operators: error
+    avoid_positional_boolean_parameters: warning
+    avoid_private_typedef_functions: error
+    avoid_return_types_on_setters: warning
+    avoid_returning_null: error
+    avoid_returning_this: error
+    avoid_setters_without_getters: warning
+    avoid_shadowing_type_parameters: error
+    avoid_types_on_closure_parameters: warning
+    await_only_futures: warning
+    camel_case_extensions: info
+    constant_identifier_names: info
+    curly_braces_in_flow_control_structures: warning
+    directives_ordering: info
+    empty_catches: warning
+    empty_constructor_bodies: warning
+    file_names: info
+    implementation_imports: warning
+    library_names: info
+    library_prefixes: info
+    lines_longer_than_80_chars: info
+    non_constant_identifier_names: info
+    null_closures: warning
+    omit_local_variable_types: warning
+    one_member_abstracts: warning
+    package_api_docs: info
+    package_prefixed_library_names: info
+    prefer_adjacent_string_concatenation: warning
+    prefer_collection_literals: warning
+    prefer_conditional_assignment: warning
+    prefer_contains: warning
+    prefer_equal_for_default_values: warning
+    prefer_final_fields: warning
+    prefer_for_elements_to_map_fromIterable: warning
+    prefer_function_declarations_over_variables: warning
+    prefer_generic_function_type_aliases: warning
+    prefer_if_null_operators: warning
+    prefer_initializing_formals: warning
+    prefer_interpolation_to_compose_strings: warning
+    prefer_is_empty: warning
+    prefer_is_not_empty: warning
+    prefer_iterable_whereType: warning
+    prefer_mixin: warning
+    prefer_single_quotes: info
+    prefer_spread_collections: warning
+    public_member_api_docs: info
+    recursive_getters: warning
+    slash_for_doc_comments: info
+    type_annotate_public_apis: warning
+    type_init_formals: warning
+    unawaited_futures: warning
+    unnecessary_brace_in_string_interps: warning
+    unnecessary_const: warning
+    unnecessary_getters_setters: warning
+    unnecessary_lambdas: warning
+    unnecessary_new: warning
+    unnecessary_null_in_if_null_operators: warning
+    unnecessary_this: warning
+    use_function_type_syntax_for_parameters: warning
+    use_rethrow_when_possible: warning
+    use_setters_to_change_properties: warning
+    use_to_and_as_if_applicable: warning
+
+    # Pub rules
+    package_names: info
+
+linter:
+  rules:
+    # Error rules
+    - avoid_empty_else
+    - avoid_relative_lib_imports
+    - avoid_types_as_parameter_names
+    - avoid_web_libraries_in_flutter
+    - cancel_subscriptions
+    - close_sinks
+    - control_flow_in_finally
+    - empty_statements
+    - hash_and_equals
+    - no_duplicate_case_values
+    - prefer_relative_imports
+    - test_types_in_equals
+    - throw_in_finally
+    - unnecessary_statements
+    - unrelated_type_equality_checks
+    - valid_regexps
+
+    # Style rules
+    - always_declare_return_types
+    - always_require_non_null_named_parameters
+    - annotate_overrides
+    - avoid_catches_without_on_clauses
+    - avoid_catching_errors
+    - avoid_classes_with_only_static_members
+    - avoid_equals_and_hash_code_on_mutable_classes
+    - avoid_function_literals_in_foreach_calls
+    - avoid_init_to_null
+    - avoid_null_checks_in_equality_operators
+    - avoid_positional_boolean_parameters
+    - avoid_private_typedef_functions
+    - avoid_return_types_on_setters
+    - avoid_returning_null
+    - avoid_returning_this
+    - avoid_setters_without_getters
+    - avoid_shadowing_type_parameters
+    - avoid_types_on_closure_parameters
+    - await_only_futures
+    - camel_case_extensions
+    - constant_identifier_names
+    - directives_ordering
+    - empty_catches
+    - empty_constructor_bodies
+    - file_names
+    - implementation_imports
+    - library_names
+    - library_prefixes
+    - lines_longer_than_80_chars
+    - non_constant_identifier_names
+    - null_closures
+    - omit_local_variable_types
+    - one_member_abstracts
+    - package_api_docs
+    - package_prefixed_library_names
+    - prefer_adjacent_string_concatenation
+    - prefer_collection_literals
+    - prefer_conditional_assignment
+    - prefer_contains
+    - prefer_equal_for_default_values
+    - prefer_final_fields
+    - prefer_for_elements_to_map_fromIterable
+    - prefer_function_declarations_over_variables
+    - prefer_generic_function_type_aliases
+    - prefer_if_null_operators
+    - prefer_initializing_formals
+    - prefer_interpolation_to_compose_strings
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_iterable_whereType
+    - prefer_mixin
+    - prefer_single_quotes
+    - prefer_spread_collections
+    # - public_member_api_docs
+    - recursive_getters
+    - slash_for_doc_comments
+    - type_annotate_public_apis
+    - type_init_formals
+    - unawaited_futures
+    - unnecessary_brace_in_string_interps
+    - unnecessary_const
+    - unnecessary_getters_setters
+    - unnecessary_lambdas
+    - unnecessary_new
+    - unnecessary_null_in_if_null_operators
+    - unnecessary_this
+    - use_function_type_syntax_for_parameters
+    - use_rethrow_when_possible
+    - use_setters_to_change_properties
+    - use_to_and_as_if_applicable
+
+    # Pub rules
+    - package_names

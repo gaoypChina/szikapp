@@ -1,4 +1,5 @@
-///[SZIKApp] is an awesome application made in Flutter for the lovely people in da SZIK.
+///[SZIKApp] is an awesome application made in Flutter for the lovely people
+///in da SZIK.
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +14,6 @@ class SZIKApp extends StatefulWidget {
 class _SZIKAppState extends State<SZIKApp> {
   @override
   Widget build(BuildContext context) {
-    return Text("Hello world!");
+    return Text('Hello world!');
   }
 }

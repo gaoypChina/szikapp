@@ -32,12 +32,12 @@ Map<String, dynamic> _$AgendaTaskToJson(AgendaTask instance) =>
     };
 
 const _$TaskTypeEnumMap = {
-  TaskType.AGENDA: 'agenda',
-  TaskType.JANITOR: 'janitor',
-  TaskType.RESERVATION: 'reservation',
-  TaskType.TIMETABLE: 'timetable',
-  TaskType.CLEANING: 'cleaning',
-  TaskType.BOOKLOAN: 'bookloan',
+  TaskType.agenda: 'agenda',
+  TaskType.janitor: 'janitor',
+  TaskType.reservation: 'reservation',
+  TaskType.timetable: 'timetable',
+  TaskType.cleaning: 'cleaning',
+  TaskType.bookloan: 'bookloan',
 };
 
 TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) {
@@ -127,9 +127,9 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$TaskStatusEnumMap = {
-  TaskStatus.NOTICED: 'noticed',
-  TaskStatus.INPROGRESS: 'inprogress',
-  TaskStatus.COMPLETED: 'completed',
+  TaskStatus.noticed: 'noticed',
+  TaskStatus.inProgress: 'inprogress',
+  TaskStatus.completed: 'completed',
 };
 
 CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) {
