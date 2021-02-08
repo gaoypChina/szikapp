@@ -1,6 +1,7 @@
 # szikapp
 
 SZIK projekt a 2020/21-es tanév őszi félévében.
+[![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 
 ## Kezdő lépések
 
