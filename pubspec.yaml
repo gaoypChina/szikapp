@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 authors:
   - Csertán Tamás <csertan.tamas@szentignac.hu>
-  - Sárvári Márk <sarvari-mark@szentignac.hu>
+  - Sárvári Márk <sarvari.mark@szentignac.hu>
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
