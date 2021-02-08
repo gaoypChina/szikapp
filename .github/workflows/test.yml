@@ -13,7 +13,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         flutter-version: '1.22.6'
-    - run: flutter format  
+    - run: flutter format .
     - run: flutter analyze --congratulate
   
   build-android:
