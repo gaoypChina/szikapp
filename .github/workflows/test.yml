@@ -10,6 +10,9 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
+    - uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '1.22.6'
     - run: flutter format  
     - run: flutter analyze --congratulate
   
