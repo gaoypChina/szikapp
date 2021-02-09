@@ -2,58 +2,58 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum GroupPermission {
   @JsonValue('createAllTask')
-  CAN_CREATE_ALL_TASK,
+  createAllTask,
   @JsonValue('readAllTask')
-  CAN_READ_ALL_TASK,
+  readAllTask,
   @JsonValue('editAllTask')
-  CAN_EDIT_ALL_TASK,
+  editAllTask,
   @JsonValue('createAgendaTask')
-  CAN_CREATE_AGENDA_TASK,
+  createAgendaTask,
   @JsonValue('readAgendaTask')
-  CAN_READ_AGENDA_TASK,
+  readAgendaTask,
   @JsonValue('editAgendaTask')
-  CAN_EDIT_AGENDA_TASK,
+  editAgendaTask,
   @JsonValue('createTimetableTask')
-  CAN_CREATE_TIMETABLE_TASK,
+  createTimetableTask,
   @JsonValue('readTimetableTask')
-  CAN_READ_TIMETABLE_TASK,
+  readTimetableTask,
   @JsonValue('editTimetableTask')
-  CAN_EDIT_TIMETABLE_TASK,
+  editTimetableTask,
   @JsonValue('createJanitorTask')
-  CAN_CREATE_JANITOR_TASK,
+  createJanitorTask,
   @JsonValue('readJanitorTask')
-  CAN_READ_JANITOR_TASK,
+  readJanitorTask,
   @JsonValue('editJanitorTask')
-  CAN_EDIT_JANITOR_TASK,
+  editJanitorTask,
   @JsonValue('createReservationTask')
-  CAN_CREATE_RESERVATION_TASK,
+  createReservationTask,
   @JsonValue('readReservationTask')
-  CAN_READ_RESERVATION_TASK,
+  readReservationTask,
   @JsonValue('editReservationTask')
-  CAN_EDIT_RESERVATION_TASK,
+  editReservationTask,
   @JsonValue('createCleaningTask')
-  CAN_CREATE_CLEANING_TASK,
+  createCleaningTask,
   @JsonValue('readCleaningTask')
-  CAN_READ_CLEANING_TASK,
+  readCleaningTask,
   @JsonValue('editCleaningTask')
-  CAN_EDIT_CLEANING_TASK,
+  editCleaningTask,
   @JsonValue('createBookloanTask')
-  CAN_CREATE_BOOKLOAN_TASK,
+  createBookloanTask,
   @JsonValue('readBookloanTask')
-  CAN_READ_BOOKLOAN_TASK,
+  readBookloanTask,
   @JsonValue('editBookloanTask')
-  CAN_EDIT_BOOKLOAN_TASK,
+  editBookloanTask,
 
   @JsonValue('createGroups')
-  CAN_CREATE_GROUPS,
+  createGroups,
   @JsonValue('readGroups')
-  CAN_READ_GROUPS,
+  readGroups,
   @JsonValue('editGroups')
-  CAN_EDIT_GROUPS,
+  editGroups,
   @JsonValue('createUsers')
-  CAN_CREATE_USERS,
+  createUsers,
   @JsonValue('readUsers')
-  CAN_READ_USERS,
+  readUsers,
   @JsonValue('editUsers')
-  CAN_EDIT_USERS
+  editUsers
 }

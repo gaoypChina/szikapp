@@ -5,27 +5,27 @@ part 'tasks.g.dart';
 ///[TaskType] enum represents types of [Task]s
 enum TaskType {
   @JsonValue('agenda')
-  AGENDA,
+  agenda,
   @JsonValue('janitor')
-  JANITOR,
+  janitor,
   @JsonValue('reservation')
-  RESERVATION,
+  reservation,
   @JsonValue('timetable')
-  TIMETABLE,
+  timetable,
   @JsonValue('cleaning')
-  CLEANING,
+  cleaning,
   @JsonValue('bookloan')
-  BOOKLOAN
+  bookloan
 }
 
 ///[TaskStatus] enum represents current statuses of [Task]s
 enum TaskStatus {
   @JsonValue('noticed')
-  NOTICED,
+  noticed,
   @JsonValue('inprogress')
-  INPROGRESS,
+  inProgress,
   @JsonValue('completed')
-  COMPLETED
+  completed
 }
 
 ///Basic [Task] class. Ancestor of descended Task types.
@@ -39,9 +39,7 @@ class Task {
 
   Task(this.taskID, this.name, this.start, this.end, this.type,
       this.involvedIDs) {
-    if (involvedIDs == null) {
-      this.involvedIDs = <String>[];
-    }
+    involvedIDs ??= <String>[];
   }
 }
 
@@ -68,7 +66,8 @@ class AgendaTask extends Task {
       _$AgendaTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents an event in the SZIK Timetable.
+///Descendant of the basic [Task] class. Represents an event in the SZIK
+/// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
   String description;
@@ -132,7 +131,8 @@ class CleaningTask extends Task {
       _$CleaningTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents a book loan from the library.
+///Descendant of the basic [Task] class. Represents a book loan from the
+///library.
 @JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
   String bookID;

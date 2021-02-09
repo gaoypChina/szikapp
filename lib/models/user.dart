@@ -18,41 +18,37 @@ class User {
       this.mobile,
       this.groupIDs,
       this.taskIDs}) {
-    if (groupIDs == null) {
-      this.groupIDs = <String>[];
-    }
-    if (taskIDs == null) {
-      this.taskIDs = <String>[];
-    }
+    groupIDs ??= <String>[];
+    taskIDs ??= <String>[];
   }
 
   void addGroup(String groupID) {
-    if (!this.groupIDs.contains(groupID)) {
-      this.groupIDs.add(groupID);
+    if (!groupIDs.contains(groupID)) {
+      groupIDs.add(groupID);
     }
   }
 
   void removeGroup(String groupID) {
-    if (this.groupIDs.contains(groupID)) {
-      this.groupIDs.remove(groupID);
+    if (groupIDs.contains(groupID)) {
+      groupIDs.remove(groupID);
     }
   }
 
   void removeAllGroups() {
-    if (this.groupIDs.length > 0) {
-      this.groupIDs.clear();
+    if (groupIDs.isNotEmpty) {
+      groupIDs.clear();
     }
   }
 
   void addTask(String taskID) {
-    if (!this.taskIDs.contains(taskID)) {
-      this.taskIDs.add(taskID);
+    if (!taskIDs.contains(taskID)) {
+      taskIDs.add(taskID);
     }
   }
 
   void removeTask(String taskID) {
-    if (this.taskIDs.contains(taskID)) {
-      this.taskIDs.remove(taskID);
+    if (taskIDs.contains(taskID)) {
+      taskIDs.remove(taskID);
     }
   }
 

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:szikapp/models/permissions.dart';
+import 'permissions.dart';
 
 part 'group.g.dart';
 
@@ -21,48 +21,43 @@ class Group {
       this.memberIDs,
       this.maxMemberCount,
       this.permissions}) {
-    if (memberIDs == null) {
-      this.memberIDs = <String>[];
-    }
-    if (permissions == null) {
-      this.permissions = <GroupPermission>[];
-    }
+    memberIDs ??= <String>[];
+    permissions ??= <GroupPermission>[];
   }
 
   void addMember(String userID) {
-    if (this.memberIDs.length < this.maxMemberCount &&
-        !this.memberIDs.contains(userID)) {
-      this.memberIDs.add(userID);
+    if (memberIDs.length < maxMemberCount && !memberIDs.contains(userID)) {
+      memberIDs.add(userID);
     }
   }
 
   void removeMember(String userID) {
-    if (this.memberIDs.contains(userID)) {
-      this.memberIDs.remove(userID);
+    if (memberIDs.contains(userID)) {
+      memberIDs.remove(userID);
     }
   }
 
   void removeAllMembers() {
-    if (this.memberIDs.length > 0) {
-      this.memberIDs.clear();
+    if (memberIDs.isNotEmpty) {
+      memberIDs.clear();
     }
   }
 
   void addPermission(GroupPermission permission) {
-    if (!this.permissions.contains(permission)) {
-      this.permissions.add(permission);
+    if (!permissions.contains(permission)) {
+      permissions.add(permission);
     }
   }
 
   void removePermission(GroupPermission permission) {
-    if (this.permissions.contains(permission)) {
-      this.permissions.remove(permission);
+    if (permissions.contains(permission)) {
+      permissions.remove(permission);
     }
   }
 
   void removeAllPermissions() {
-    if (this.permissions.length > 0) {
-      this.permissions.clear();
+    if (permissions.isNotEmpty) {
+      permissions.clear();
     }
   }
 
