@@ -10,12 +10,12 @@ CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) {
   return CleaningExchange(
     taskID: json['taskID'] as String,
     initiatorID: json['initiatorID'] as String,
-    replaceTaskID: json['replaceTaskID'] as String,
-    responderID: json['responderID'] as String,
+    replaceTaskID: json['replaceTaskID'] as String?,
+    responderID: json['responderID'] as String?,
     approved: json['approved'] as bool,
-    rejected: (json['rejected'] as List)
+    rejected: (json['rejected'] as List<dynamic>?)
         ?.map((e) => e as Map<String, dynamic>)
-        ?.toList(),
+        .toList(),
     lastUpdate: json['lastUpdate'] == null
         ? null
         : DateTime.parse(json['lastUpdate'] as String),

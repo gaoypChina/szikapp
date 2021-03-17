@@ -28,16 +28,16 @@ class Preferences {
   DarkMode darkMode;
   Language language;
   Theme theme;
-  Map<String, bool> notifications;
+  Map<String, bool>? notifications;
   bool dataLite;
-  List menuOptions;
+  List? menuOptions;
 
   Preferences(
-      {this.darkMode,
-      this.language,
-      this.theme,
+      {this.darkMode = DarkMode.system,
+      this.language = Language.hu,
+      this.theme = Theme.defaultTheme,
       this.notifications,
-      this.dataLite,
+      this.dataLite = false,
       this.menuOptions}) {
     notifications ??= <String, bool>{};
     menuOptions ??= [];

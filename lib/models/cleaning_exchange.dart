@@ -6,18 +6,18 @@ part 'cleaning_exchange.g.dart';
 class CleaningExchange {
   String taskID;
   String initiatorID;
-  String replaceTaskID;
-  String responderID;
+  String? replaceTaskID;
+  String? responderID;
   bool approved;
-  List<Map<String, dynamic>> rejected;
-  DateTime lastUpdate;
+  List<Map<String, dynamic>>? rejected;
+  DateTime? lastUpdate;
 
   CleaningExchange({
-    this.taskID,
-    this.initiatorID,
-    this.replaceTaskID,
+    required this.taskID,
+    required this.initiatorID,
+    required this.replaceTaskID,
     this.responderID,
-    this.approved,
+    this.approved = false,
     this.rejected,
     this.lastUpdate,
   });

@@ -35,16 +35,16 @@ class Task {
   DateTime start;
   DateTime end;
   TaskType type;
-  List<String> involvedIDs;
-  String description;
-  DateTime lastUpdate;
+  List<String>? involvedIDs;
+  String? description;
+  DateTime? lastUpdate;
 
   Task({
-    this.uid,
-    this.name,
-    this.start,
-    this.end,
-    this.type,
+    required this.uid,
+    required this.name,
+    required this.start,
+    required this.end,
+    required this.type,
     this.involvedIDs,
     this.description,
     this.lastUpdate,
@@ -59,15 +59,15 @@ class AgendaTask extends Task {
   String organizerID;
 
   AgendaTask(
-      {uid,
-      name,
-      start,
-      end,
-      type,
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
       involved,
       description,
       update,
-      this.organizerID})
+      required this.organizerID})
       : super(
           uid: uid,
           name: name,
@@ -89,15 +89,15 @@ class AgendaTask extends Task {
 /// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  List<String> organizerIDs;
-  List<String> resourceIDs;
+  List<String>? organizerIDs;
+  List<String>? resourceIDs;
 
   TimetableTask(
-      {uid,
-      name,
-      start,
-      end,
-      type,
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
       involved,
       description,
       update,
@@ -112,7 +112,10 @@ class TimetableTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        );
+        ) {
+    organizerIDs ??= <String>[];
+    resourceIDs ??= <String>[];
+  }
 
   Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
 
@@ -123,22 +126,22 @@ class TimetableTask extends Task {
 ///Descendant of the basic [Task] class. Represents a repair request.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  List<Map<String, dynamic>> feedback;
+  List<Map<String, dynamic>>? feedback;
   String roomID;
   TaskStatus status;
 
   JanitorTask(
-      {uid,
-      name,
-      start,
-      end,
-      type,
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
       involved,
       description,
       update,
       this.feedback,
-      this.roomID,
-      this.status})
+      required this.roomID,
+      required this.status})
       : super(
           uid: uid,
           name: name,
@@ -148,7 +151,9 @@ class JanitorTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        );
+        ) {
+    feedback ??= <Map<String, dynamic>>[];
+  }
 
   Map<String, dynamic> toJson() => _$JanitorTaskToJson(this);
 
@@ -159,20 +164,20 @@ class JanitorTask extends Task {
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  List<Map<String, dynamic>> feedback;
+  List<Map<String, dynamic>>? feedback;
   TaskStatus status;
 
   CleaningTask(
-      {uid,
-      name,
-      start,
-      end,
-      type,
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
       involved,
       description,
       update,
       this.feedback,
-      this.status})
+      required this.status})
       : super(
           uid: uid,
           name: name,
@@ -182,7 +187,9 @@ class CleaningTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        );
+        ) {
+    feedback ??= <Map<String, dynamic>>[];
+  }
 
   Map<String, dynamic> toJson() => _$CleaningTaskToJson(this);
 
@@ -197,7 +204,15 @@ class BookloanTask extends Task {
   String bookID;
 
   BookloanTask(
-      {uid, name, start, end, type, involved, description, update, this.bookID})
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
+      involved,
+      description,
+      update,
+      required this.bookID})
       : super(
           uid: uid,
           name: name,

@@ -7,14 +7,14 @@ class Place {
   final String id;
   final String name;
   final String type;
-  String description;
-  String overseerID;
-  DateTime lastUpdate;
+  String? description;
+  String? overseerID;
+  DateTime? lastUpdate;
 
   Place({
-    this.id,
-    this.name,
-    this.type,
+    required this.id,
+    required this.name,
+    required this.type,
     this.description,
     this.overseerID,
     this.lastUpdate,

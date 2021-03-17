@@ -6,14 +6,14 @@ part 'group.g.dart';
 class Group {
   final String id;
   String name;
-  String description;
-  String email;
-  List<String> memberIDs;
-  DateTime lastUpdate;
+  String? description;
+  String? email;
+  List<String>? memberIDs;
+  DateTime? lastUpdate;
 
   Group({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.description,
     this.email,
     this.memberIDs,
@@ -23,20 +23,20 @@ class Group {
   }
 
   void addMember(String userID) {
-    if (!memberIDs.contains(userID)) {
-      memberIDs.add(userID);
+    if (!memberIDs!.contains(userID)) {
+      memberIDs!.add(userID);
     }
   }
 
   void removeMember(String userID) {
-    if (memberIDs.contains(userID)) {
-      memberIDs.remove(userID);
+    if (memberIDs!.contains(userID)) {
+      memberIDs!.remove(userID);
     }
   }
 
   void removeAllMembers() {
-    if (memberIDs.isNotEmpty) {
-      memberIDs.clear();
+    if (memberIDs!.isNotEmpty) {
+      memberIDs!.clear();
     }
   }
 

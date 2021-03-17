@@ -7,20 +7,20 @@ part 'user_data.g.dart';
 class UserData {
   final String id;
   String name;
-  String nick;
+  String? nick;
   String email;
-  String phone;
-  String secondaryPhone;
-  Preferences preferences;
-  DateTime birthday;
-  List<String> groupIDs;
-  DateTime lastUpdate;
+  String? phone;
+  String? secondaryPhone;
+  Preferences? preferences;
+  DateTime? birthday;
+  List<String>? groupIDs;
+  DateTime? lastUpdate;
 
   UserData({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.nick,
-    this.email,
+    required this.email,
     this.phone,
     this.secondaryPhone,
     this.preferences,
@@ -32,20 +32,20 @@ class UserData {
   }
 
   void addGroup(String groupID) {
-    if (!groupIDs.contains(groupID)) {
-      groupIDs.add(groupID);
+    if (!groupIDs!.contains(groupID)) {
+      groupIDs!.add(groupID);
     }
   }
 
   void removeGroup(String groupID) {
-    if (groupIDs.contains(groupID)) {
-      groupIDs.remove(groupID);
+    if (groupIDs!.contains(groupID)) {
+      groupIDs!.remove(groupID);
     }
   }
 
   void removeAllGroups() {
-    if (groupIDs.isNotEmpty) {
-      groupIDs.clear();
+    if (groupIDs!.isNotEmpty) {
+      groupIDs!.clear();
     }
   }
 

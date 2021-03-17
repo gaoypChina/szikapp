@@ -10,9 +10,10 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
     id: json['id'] as String,
     name: json['name'] as String,
-    description: json['description'] as String,
-    email: json['email'] as String,
-    memberIDs: (json['memberIDs'] as List)?.map((e) => e as String)?.toList(),
+    description: json['description'] as String?,
+    email: json['email'] as String?,
+    memberIDs:
+        (json['memberIDs'] as List<dynamic>?)?.map((e) => e as String).toList(),
     lastUpdate: json['lastUpdate'] == null
         ? null
         : DateTime.parse(json['lastUpdate'] as String),

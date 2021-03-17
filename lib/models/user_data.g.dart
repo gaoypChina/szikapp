@@ -10,17 +10,18 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
   return UserData(
     id: json['id'] as String,
     name: json['name'] as String,
-    nick: json['nick'] as String,
+    nick: json['nick'] as String?,
     email: json['email'] as String,
-    phone: json['phone'] as String,
-    secondaryPhone: json['secondaryPhone'] as String,
+    phone: json['phone'] as String?,
+    secondaryPhone: json['secondaryPhone'] as String?,
     preferences: json['preferences'] == null
         ? null
         : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
     birthday: json['birthday'] == null
         ? null
         : DateTime.parse(json['birthday'] as String),
-    groupIDs: (json['groupIDs'] as List)?.map((e) => e as String)?.toList(),
+    groupIDs:
+        (json['groupIDs'] as List<dynamic>?)?.map((e) => e as String).toList(),
     lastUpdate: json['lastUpdate'] == null
         ? null
         : DateTime.parse(json['lastUpdate'] as String),

@@ -11,8 +11,8 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     name: json['name'] as String,
     type: json['type'] as String,
-    description: json['description'] as String,
-    overseerID: json['overseerID'] as String,
+    description: json['description'] as String?,
+    overseerID: json['overseerID'] as String?,
     lastUpdate: json['lastUpdate'] == null
         ? null
         : DateTime.parse(json['lastUpdate'] as String),

@@ -8,14 +8,14 @@ part of 'preferences.dart';
 
 Preferences _$PreferencesFromJson(Map<String, dynamic> json) {
   return Preferences(
-    darkMode: _$enumDecodeNullable(_$DarkModeEnumMap, json['darkMode']),
-    language: _$enumDecodeNullable(_$LanguageEnumMap, json['language']),
-    theme: _$enumDecodeNullable(_$ThemeEnumMap, json['theme']),
-    notifications: (json['notifications'] as Map<String, dynamic>)?.map(
+    darkMode: _$enumDecode(_$DarkModeEnumMap, json['darkMode']),
+    language: _$enumDecode(_$LanguageEnumMap, json['language']),
+    theme: _$enumDecode(_$ThemeEnumMap, json['theme']),
+    notifications: (json['notifications'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as bool),
     ),
     dataLite: json['dataLite'] as bool,
-    menuOptions: json['menuOptions'] as List,
+    menuOptions: json['menuOptions'] as List<dynamic>?,
   );
 }
 
@@ -29,36 +29,30 @@ Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
       'menuOptions': instance.menuOptions,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$DarkModeEnumMap = {
