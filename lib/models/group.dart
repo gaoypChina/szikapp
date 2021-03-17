@@ -4,26 +4,26 @@ part 'group.g.dart';
 
 @JsonSerializable()
 class Group {
-  final String groupID;
-  final String name;
+  final String id;
+  String name;
   String description;
-  String emailList;
-  final int maxMemberCount;
+  String email;
   List<String> memberIDs;
+  DateTime lastUpdate;
 
   Group({
-    this.groupID,
+    this.id,
     this.name,
     this.description,
-    this.emailList,
+    this.email,
     this.memberIDs,
-    this.maxMemberCount,
+    this.lastUpdate,
   }) {
     memberIDs ??= <String>[];
   }
 
   void addMember(String userID) {
-    if (memberIDs.length < maxMemberCount && !memberIDs.contains(userID)) {
+    if (!memberIDs.contains(userID)) {
       memberIDs.add(userID);
     }
   }

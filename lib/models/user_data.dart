@@ -1,23 +1,32 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'preferences.dart';
 
 part 'user_data.g.dart';
 
 @JsonSerializable()
 class UserData {
-  final String userID;
+  final String id;
   String name;
+  String nick;
   String email;
-  String mobile;
+  String phone;
+  String secondaryPhone;
+  Preferences preferences;
   DateTime birthday;
   List<String> groupIDs;
+  DateTime lastUpdate;
 
   UserData({
-    this.userID,
+    this.id,
     this.name,
+    this.nick,
     this.email,
-    this.mobile,
+    this.phone,
+    this.secondaryPhone,
+    this.preferences,
     this.birthday,
     this.groupIDs,
+    this.lastUpdate,
   }) {
     groupIDs ??= <String>[];
   }

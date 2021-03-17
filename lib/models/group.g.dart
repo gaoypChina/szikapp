@@ -8,20 +8,22 @@ part of 'group.dart';
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
-    groupID: json['groupID'] as String,
+    id: json['id'] as String,
     name: json['name'] as String,
     description: json['description'] as String,
-    emailList: json['emailList'] as String,
+    email: json['email'] as String,
     memberIDs: (json['memberIDs'] as List)?.map((e) => e as String)?.toList(),
-    maxMemberCount: json['maxMemberCount'] as int,
+    lastUpdate: json['lastUpdate'] == null
+        ? null
+        : DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
 Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
-      'groupID': instance.groupID,
+      'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'emailList': instance.emailList,
-      'maxMemberCount': instance.maxMemberCount,
+      'email': instance.email,
       'memberIDs': instance.memberIDs,
+      'lastUpdate': instance.lastUpdate?.toIso8601String(),
     };

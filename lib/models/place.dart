@@ -4,12 +4,21 @@ part 'place.g.dart';
 
 @JsonSerializable()
 class Place {
-  final String placeID;
+  final String id;
   final String name;
-  final String number;
-  final String description;
+  final String type;
+  String description;
+  String overseerID;
+  DateTime lastUpdate;
 
-  Place({this.placeID, this.name, this.number, this.description});
+  Place({
+    this.id,
+    this.name,
+    this.type,
+    this.description,
+    this.overseerID,
+    this.lastUpdate,
+  });
 
   Map<String, dynamic> toJson() => _$PlaceToJson(this);
 

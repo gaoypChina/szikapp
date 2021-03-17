@@ -30,15 +30,25 @@ enum TaskStatus {
 
 ///Basic [Task] class. Ancestor of descended Task types.
 class Task {
-  final String taskID;
+  final String uid;
   String name;
   DateTime start;
   DateTime end;
-  final TaskType type;
+  TaskType type;
   List<String> involvedIDs;
+  String description;
+  DateTime lastUpdate;
 
-  Task(this.taskID, this.name, this.start, this.end, this.type,
-      this.involvedIDs) {
+  Task({
+    this.uid,
+    this.name,
+    this.start,
+    this.end,
+    this.type,
+    this.involvedIDs,
+    this.description,
+    this.lastUpdate,
+  }) {
     involvedIDs ??= <String>[];
   }
 }
@@ -46,19 +56,28 @@ class Task {
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
 @JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
-  String description;
   String organizerID;
 
   AgendaTask(
-      {taskID,
+      {uid,
       name,
       start,
       end,
       type,
       involved,
-      this.description,
+      description,
+      update,
       this.organizerID})
-      : super(taskID, name, start, end, type, involved);
+      : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        );
 
   Map<String, dynamic> toJson() => _$AgendaTaskToJson(this);
 
@@ -70,21 +89,30 @@ class AgendaTask extends Task {
 /// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  String description;
-  String organizerID;
-  String roomID;
+  List<String> organizerIDs;
+  List<String> resourceIDs;
 
   TimetableTask(
-      {taskID,
+      {uid,
       name,
       start,
       end,
       type,
       involved,
-      this.description,
-      this.organizerID,
-      this.roomID})
-      : super(taskID, name, start, end, type, involved);
+      description,
+      update,
+      this.organizerIDs,
+      this.resourceIDs})
+      : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        );
 
   Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
 
@@ -95,21 +123,32 @@ class TimetableTask extends Task {
 ///Descendant of the basic [Task] class. Represents a repair request.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  String description;
+  List<Map<String, dynamic>> feedback;
   String roomID;
   TaskStatus status;
 
   JanitorTask(
-      {taskID,
+      {uid,
       name,
       start,
       end,
       type,
       involved,
-      this.description,
+      description,
+      update,
+      this.feedback,
       this.roomID,
       this.status})
-      : super(taskID, name, start, end, type, involved);
+      : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        );
 
   Map<String, dynamic> toJson() => _$JanitorTaskToJson(this);
 
@@ -120,10 +159,30 @@ class JanitorTask extends Task {
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  String description;
+  List<Map<String, dynamic>> feedback;
+  TaskStatus status;
 
-  CleaningTask({taskID, name, start, end, type, involved, this.description})
-      : super(taskID, name, start, end, type, involved);
+  CleaningTask(
+      {uid,
+      name,
+      start,
+      end,
+      type,
+      involved,
+      description,
+      update,
+      this.feedback,
+      this.status})
+      : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        );
 
   Map<String, dynamic> toJson() => _$CleaningTaskToJson(this);
 
@@ -137,8 +196,18 @@ class CleaningTask extends Task {
 class BookloanTask extends Task {
   String bookID;
 
-  BookloanTask({taskID, name, start, end, type, involved, this.bookID})
-      : super(taskID, name, start, end, type, involved);
+  BookloanTask(
+      {uid, name, start, end, type, involved, description, update, this.bookID})
+      : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        );
 
   Map<String, dynamic> toJson() => _$BookloanTaskToJson(this);
 

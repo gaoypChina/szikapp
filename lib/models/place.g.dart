@@ -8,16 +8,22 @@ part of 'place.dart';
 
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return Place(
-    placeID: json['placeID'] as String,
+    id: json['id'] as String,
     name: json['name'] as String,
-    number: json['number'] as String,
+    type: json['type'] as String,
     description: json['description'] as String,
+    overseerID: json['overseerID'] as String,
+    lastUpdate: json['lastUpdate'] == null
+        ? null
+        : DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
-      'placeID': instance.placeID,
+      'id': instance.id,
       'name': instance.name,
-      'number': instance.number,
+      'type': instance.type,
       'description': instance.description,
+      'overseerID': instance.overseerID,
+      'lastUpdate': instance.lastUpdate?.toIso8601String(),
     };
