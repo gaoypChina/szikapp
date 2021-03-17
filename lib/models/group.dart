@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'permissions.dart';
 
 part 'group.g.dart';
 
@@ -11,18 +10,16 @@ class Group {
   String emailList;
   final int maxMemberCount;
   List<String> memberIDs;
-  List<GroupPermission> permissions;
 
-  Group(
-      {this.groupID,
-      this.name,
-      this.description,
-      this.emailList,
-      this.memberIDs,
-      this.maxMemberCount,
-      this.permissions}) {
+  Group({
+    this.groupID,
+    this.name,
+    this.description,
+    this.emailList,
+    this.memberIDs,
+    this.maxMemberCount,
+  }) {
     memberIDs ??= <String>[];
-    permissions ??= <GroupPermission>[];
   }
 
   void addMember(String userID) {
@@ -40,24 +37,6 @@ class Group {
   void removeAllMembers() {
     if (memberIDs.isNotEmpty) {
       memberIDs.clear();
-    }
-  }
-
-  void addPermission(GroupPermission permission) {
-    if (!permissions.contains(permission)) {
-      permissions.add(permission);
-    }
-  }
-
-  void removePermission(GroupPermission permission) {
-    if (permissions.contains(permission)) {
-      permissions.remove(permission);
-    }
-  }
-
-  void removeAllPermissions() {
-    if (permissions.isNotEmpty) {
-      permissions.clear();
     }
   }
 

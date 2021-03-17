@@ -1,27 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'user_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return User(
+UserData _$UserDataFromJson(Map<String, dynamic> json) {
+  return UserData(
     userID: json['userID'] as String,
     name: json['name'] as String,
     email: json['email'] as String,
     mobile: json['mobile'] as String,
+    birthday: json['birthday'] == null
+        ? null
+        : DateTime.parse(json['birthday'] as String),
     groupIDs: (json['groupIDs'] as List)?.map((e) => e as String)?.toList(),
-    taskIDs: (json['taskIDs'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'userID': instance.userID,
       'name': instance.name,
       'email': instance.email,
       'mobile': instance.mobile,
+      'birthday': instance.birthday?.toIso8601String(),
       'groupIDs': instance.groupIDs,
-      'taskIDs': instance.taskIDs,
     };
