@@ -1,37 +1,55 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:szikapp/utils/io.dart';//Warning1
+import 'io.dart';
 
 class User {
-  //Publikus változók - amik a specifikációban vannak
-  String?       name;
-  String?       email;
-  Uri?          profilePicture;
-  String?       nick;
-  DateTime?     birthday;
-  String?       phone;
-  String?       secondaryPhone;
+  //Tagváltozók
+  late String name;
+  late String email;
+  late Uri profilePicture;
+  String? nick;
+  DateTime? _birthday;
+  String? _phone;
+  String? _secondaryPhone;
   List<String>? groupIDs;
-  //Privát változók - amikre szerinted szükség van
+  List<Permission>? _permissions;
 
-  //Setterek és getterek - amennyiben vannak validálandó publikus váltózóid
-  void setBirthday(DateTime birthday){
-    if(birthday.isBefore(DateTime(1903, 01, 2))){
-      print('Nem lehet ilyen idős'); 
-      }
-      else{
-        this.birthday = birthday; 
-      }
+  //Setterek és getterek
+  DateTime? get birthday => _birthday;
+  set birthday(DateTime? date) {
+    if (date!.isBefore(DateTime(1960, 1, 1))) {
+      throw ArgumentError();
+    } else {
+      _birthday = date;
+    }
   }
-  //Publikus függvények aka Interface - amit a specifikáció megkövetel
-  User.email(this.email,{String name = 'guest'}){
-    // ignore: prefer_initializing_formals
-    this.name = name;
-    // ignore: prefer_initializing_formals
+
+  String? get phone => _phone;
+  set phone(String? value) {
+    var expression = RegExp(
+        r'^[\+36|\+421][0-9]{8,9}$'); //TODO telefonszámok különböző országból
+    if (expression.hasMatch(value!)) {
+      _phone = value;
+    } else {
+      throw ArgumentError();
+    }
+  }
+
+  String? get secondaryPhone => _phone;
+  set secondaryPhone(String? value) {
+    var expression = RegExp(
+        r'^[\+36|\+421][0-9]{8,9}$'); //TODO telefonszámok különböző országból
+    if (expression.hasMatch(value!)) {
+      _phone = value;
+    } else {
+      throw ArgumentError();
+    }
+  }
+
+  //Publikus függvények aka Interface
+  User.guest({required this.email, this.name = 'guest'}) {
+    profilePicture = Uri.parse('../assets/default.png'); //TODO csere
     groupIDs = <String>[];
   }
-  User.data(Uri profilePicture, UserData userData){  //Error1: Undefined class 'UserData'
-    // ignore: prefer_initializing_formals
-    this.profilePicture = profilePicture;
+  User(this.profilePicture, UserData userData) {
     name = userData.name;
     email = userData.email;
     nick = userData.nick;
@@ -40,13 +58,14 @@ class User {
     secondaryPhone = userData.secondaryPhone;
     groupIDs = userData.groupIDs;
   }
-  // ignore: type_annotate_public_apis
-  bool hasPermission(type, Object subject){
-    List<String> permissions = getUserPermissions();//Error2: The method 'getUserPermissions' isn't defined for the type 'User'.
-    if (permissions.contains(type.toString())){ 
-      return true;
-   }
-   return false;   
+
+  Future<bool> hasPermission(Permission type, Object subject) async {
+    //TODO kezdeni valamit a subjecttel
+    if (_permissions != null) {
+      return _permissions!.contains(type) ? true : false;
+    }
+    var io = IO();
+    _permissions ??= await io.getUserPermissions();
+    return _permissions!.contains(type) ? true : false;
   }
-  //Privát függvények - amikre szerinted szükség vaN
 }
