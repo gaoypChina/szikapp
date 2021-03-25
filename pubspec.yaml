@@ -13,6 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.1
   cupertino_icons: ^1.0.2
   json_annotation: ^4.0.0
   easy_localization:
