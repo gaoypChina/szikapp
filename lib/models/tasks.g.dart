@@ -217,3 +217,50 @@ Map<String, dynamic> _$BookloanTaskToJson(BookloanTask instance) =>
       'lastUpdate': instance.lastUpdate?.toIso8601String(),
       'bookID': instance.bookID,
     };
+
+PollTask _$PollTaskFromJson(Map<String, dynamic> json) {
+  return PollTask(
+    uid: json['uid'],
+    name: json['name'],
+    start: json['start'],
+    end: json['end'],
+    type: json['type'],
+    description: json['description'],
+    question: json['question'] as String,
+    answerOptions: (json['answerOptions'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    answers: (json['answers'] as List<dynamic>?)
+        ?.map((e) => Map<String, String>.from(e as Map))
+        .toList(),
+    issuerIDs:
+        (json['issuerIDs'] as List<dynamic>).map((e) => e as String).toList(),
+    isLive: json['isLive'] as bool?,
+    isConfidential: json['isConfidential'] as bool?,
+    isMultipleChoice: json['isMultipleChoice'] as bool?,
+  )
+    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList()
+    ..lastUpdate = json['lastUpdate'] == null
+        ? null
+        : DateTime.parse(json['lastUpdate'] as String);
+}
+
+Map<String, dynamic> _$PollTaskToJson(PollTask instance) => <String, dynamic>{
+      'uid': instance.uid,
+      'name': instance.name,
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
+      'type': _$TaskTypeEnumMap[instance.type],
+      'involvedIDs': instance.involvedIDs,
+      'description': instance.description,
+      'lastUpdate': instance.lastUpdate?.toIso8601String(),
+      'question': instance.question,
+      'answerOptions': instance.answerOptions,
+      'answers': instance.answers,
+      'issuerIDs': instance.issuerIDs,
+      'isLive': instance.isLive,
+      'isConfidential': instance.isConfidential,
+      'isMultipleChoice': instance.isMultipleChoice,
+    };

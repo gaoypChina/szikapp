@@ -229,3 +229,49 @@ class BookloanTask extends Task {
   factory BookloanTask.fromJson(Map<String, dynamic> json) =>
       _$BookloanTaskFromJson(json);
 }
+
+///Descendant of the basic [Task] class. Represents a poll.
+@JsonSerializable()
+class PollTask extends Task {
+  String question;
+  List<String> answerOptions;
+  List<Map<String, String>>? answers;
+  List<String> issuerIDs;
+  bool? isLive;
+  bool? isConfidential;
+  bool? isMultipleChoice;
+
+  PollTask({
+    required uid,
+    required name,
+    required start,
+    required end,
+    required type,
+    involved,
+    description,
+    update,
+    required this.question,
+    required this.answerOptions,
+    this.answers,
+    required this.issuerIDs,
+    this.isLive = false,
+    this.isConfidential = false,
+    this.isMultipleChoice = false,
+  }) : super(
+          uid: uid,
+          name: name,
+          start: start,
+          end: end,
+          type: type,
+          involvedIDs: involved,
+          description: description,
+          lastUpdate: update,
+        ) {
+    answers ??= <Map<String, String>>[];
+  }
+
+  Map<String, dynamic> toJson() => _$PollTaskToJson(this);
+
+  factory PollTask.fromJson(Map<String, dynamic> json) =>
+      _$PollTaskFromJson(json);
+}
