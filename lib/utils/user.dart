@@ -24,10 +24,13 @@ class User {
 
   String? get phone => _phone;
   set phone(String? value) {
-    var expression = RegExp(
-        r'^[\+36|\+421][0-9]{8,9}$'); //TODO telefonszámok különböző országból
-    if (expression.hasMatch(value!)) {
+    var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
+    var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
+    if (validationPhone.hasMatch(value!)) {
       _phone = value;
+      if (!validationHU.hasMatch(value)) {
+        throw ValidationNonHungarianPhoneException();
+      }
     } else {
       throw ArgumentError();
     }
@@ -35,10 +38,13 @@ class User {
 
   String? get secondaryPhone => _phone;
   set secondaryPhone(String? value) {
-    var expression = RegExp(
-        r'^[\+36|\+421][0-9]{8,9}$'); //TODO telefonszámok különböző országból
-    if (expression.hasMatch(value!)) {
+    var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
+    var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
+    if (validationPhone.hasMatch(value!)) {
       _phone = value;
+      if (!validationHU.hasMatch(value)) {
+        throw ValidationNonHungarianPhoneException();
+      }
     } else {
       throw ArgumentError();
     }
