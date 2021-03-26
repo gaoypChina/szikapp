@@ -8,7 +8,7 @@ class Place {
   final String name;
   final String type;
   String? description;
-  String? overseerID;
+  List<String>? overseerIDs;
   DateTime? lastUpdate;
 
   Place({
@@ -16,7 +16,7 @@ class Place {
     required this.name,
     required this.type,
     this.description,
-    this.overseerID,
+    this.overseerIDs,
     this.lastUpdate,
   });
 

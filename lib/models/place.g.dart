@@ -12,7 +12,9 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     type: json['type'] as String,
     description: json['description'] as String?,
-    overseerID: json['overseerID'] as String?,
+    overseerIDs: (json['overseerIDs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     lastUpdate: json['lastUpdate'] == null
         ? null
         : DateTime.parse(json['lastUpdate'] as String),
@@ -24,6 +26,6 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'name': instance.name,
       'type': instance.type,
       'description': instance.description,
-      'overseerID': instance.overseerID,
+      'overseerIDs': instance.overseerIDs,
       'lastUpdate': instance.lastUpdate?.toIso8601String(),
     };

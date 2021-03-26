@@ -1,3 +1,5 @@
+import '../models/user_data.dart';
+
 import 'io.dart';
 
 class User {
@@ -71,7 +73,7 @@ class User {
       return _permissions!.contains(type) ? true : false;
     }
     var io = IO();
-    _permissions ??= await io.getUserPermissions();
+    _permissions ??= await io.getUserPermissions(null);
     return _permissions!.contains(type) ? true : false;
   }
 }
