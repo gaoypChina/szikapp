@@ -498,15 +498,21 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<TimetableTask> getReservation(Map<String, String>? parameters) async {
+  Future<List<TimetableTask>> getReservation(
+      Map<String, String>? parameters) async {
     var uri = '$_vm_1$_reservationEndpoint';
     parameters!.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {..._commonHeaders(), ..._cacheHeaders()});
 
     if (response.statusCode == 200) {
+      var answer = <TimetableTask>[];
       var parsed = json.decode(response.body);
-      return TimetableTask.fromJson(parsed['results']);
+      var timetables = parsed['results'];
+      timetables.forEach((item) {
+        answer.add(TimetableTask.fromJson(item));
+      });
+      return answer;
     }
     throw _handleErrors(response);
   }
