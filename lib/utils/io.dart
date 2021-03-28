@@ -27,6 +27,7 @@ class IO {
   final _pollEndpoint = '/poll';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
+  final _reservationEndpoint = '/reservation';
   final _janitorEndpoint = '/janitor';
 
   static final IO _instance = IO._privateContructor();
@@ -489,6 +490,57 @@ class IO {
 
   Future<bool> deletePoll(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_pollEndpoint';
+    parameters!.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: _commonHeaders());
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<List<TimetableTask>> getReservation(
+      Map<String, String>? parameters) async {
+    var uri = '$_vm_1$_reservationEndpoint';
+    parameters!.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {..._commonHeaders(), ..._cacheHeaders()});
+
+    if (response.statusCode == 200) {
+      var answer = <TimetableTask>[];
+      var parsed = json.decode(response.body);
+      var timetables = parsed['results'];
+      timetables.forEach((item) {
+        answer.add(TimetableTask.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  Future<bool> postReservation(
+      Map<String, String>? parameters, TimetableTask data) async {
+    var uri = '$_vm_1$_reservationEndpoint';
+    parameters!.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
+        headers: _commonHeaders(), body: data.toJson());
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> putReservation(
+      Map<String, String>? parameters, TimetableTask data) async {
+    var uri = '$_vm_1$_reservationEndpoint';
+    parameters!.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: _commonHeaders(), body: data.toJson());
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> deleteReservation(Map<String, String>? parameters) async {
+    var uri = '$_vm_1$_reservationEndpoint';
     parameters!.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: _commonHeaders());
