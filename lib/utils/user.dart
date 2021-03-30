@@ -1,5 +1,5 @@
+import '../models/permission.dart';
 import '../models/user_data.dart';
-
 import 'io.dart';
 
 class User {
@@ -38,12 +38,12 @@ class User {
     }
   }
 
-  String? get secondaryPhone => _phone;
+  String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
     if (validationPhone.hasMatch(value!)) {
-      _phone = value;
+      _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw ValidationNonHungarianPhoneException();
       }
