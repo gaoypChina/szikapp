@@ -7,6 +7,7 @@ import '../utils/io.dart';
 
 class Contacts {
   late List<UserData> contacts;
+
   Contacts() {
     refresh();
   }
@@ -35,20 +36,21 @@ class Contacts {
     }
   }
 
-  Future<void> makePhoneCall(String url) async {
+  Future<void> makePhoneCall(String phoneNumber) async {
+    var url = 'tel:$phoneNumber';
     if (await canLaunch(url)) {
-      /*await = aszinkron fgv-ben olyan rész, amit meg kell várni*/
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      throw NotSupportedCallFunctionality(url);
     }
   }
 
-  Future<void> makeEmail(String url) async {
+  Future<void> makeEmail(String emailAddress) async {
+    var url = 'mailto:$emailAddress';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      throw NotSupportedEmailFunctionality(url);
     }
   }
 
