@@ -1,12 +1,59 @@
+import 'dart:core';
+
+import 'package:url_launcher/url_launcher.dart';
+
+import '../models/user_data.dart';
+import '../utils/io.dart';
+
 class Contacts {
-  //Publikus változók - amik a specifikációban vannak
+  late List<UserData> contacts;
+  Contacts() {
+    refresh();
+  }
 
-  //Privát változók - amikre szerinted szükség van
+  List<UserData> search(String text) {
+    if (text == '') {
+      return contacts;
+    } else {
+      var results = <UserData>[];
+      contacts.forEach((item) {
+        if (item.name.contains(text)) results.add(item);
+      });
+      return results;
+    }
+  }
 
-  //Setterek és getterek - amennyiben vannak validálandó publikus váltózóid
+  List<UserData> filter(String groupIDs) {
+    if (groupIDs == '') {
+      return contacts;
+    } else {
+      var results = <UserData>[];
+      contacts.forEach((item) {
+        if (item.name.contains(groupIDs)) results.add(item);
+      });
+      return results;
+    }
+  }
 
-  //Publikus függvények aka Interface - amit a specifikáció megkövetel
+  Future<void> makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      /*await = aszinkron fgv-ben olyan rész, amit meg kell várni*/
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
-  //Privát függvények - amikre szerinted szükség van
+  Future<void> makeEmail(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
+  Future<void> refresh() async {
+    var io = IO();
+    contacts = await io.getContacts(null);
+  }
 }
