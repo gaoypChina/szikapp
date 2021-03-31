@@ -566,8 +566,8 @@ class IO {
 
   Map<String, String> _commonHeaders() {
     return {
-      'User': SZIKApp.user.email,
-      'AuthToken': SZIKApp.authManager.getAuthToken(),
+      'User': SZIKAppState().user.email,
+      'AuthToken': SZIKAppState().authManager.getAuthToken(),
     };
   }
 

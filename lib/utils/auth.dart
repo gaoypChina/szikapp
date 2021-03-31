@@ -1,27 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
-  //Publikus változók - amik a specifikációban vannak
-
-  //Privát változók - amikre szerinted szükség van
-
-  //Setterek és getterek - amennyiben vannak validálandó publikus váltózóid
-
-  //Publikus függvények aka Interface - amit a specifikáció megkövetel
-
-  //Privát függvények - amikre szerinted szükség van
-
   //Kell még:
   // Lekérni a tokent
   // Ellenőrizni, hogy a User benne van-e az API-ban.
   // Visszatérni User-, vagy User.guest-tel.
-  // Beépíteni a google-signin json fájlt az android/app mappába
 
-  final FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Auth(this._firebaseAuth);
+  Auth();
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+
+//Az alábbiak helyett: https://firebase.flutter.dev/docs/auth/social#google
 
   Future<String> singIn({String email, String password}) {
     try {
