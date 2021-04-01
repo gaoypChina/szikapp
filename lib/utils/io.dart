@@ -11,6 +11,7 @@ import '../models/place.dart';
 import '../models/preferences.dart';
 import '../models/tasks.dart';
 import '../models/user_data.dart';
+import 'exceptions.dart';
 
 class IO {
   //Publikus változók

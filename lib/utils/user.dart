@@ -1,5 +1,6 @@
 import '../models/permission.dart';
 import '../models/user_data.dart';
+import 'exceptions.dart';
 import 'io.dart';
 
 class User {
@@ -31,7 +32,7 @@ class User {
     if (validationPhone.hasMatch(value!)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
-        throw ValidationNonHungarianPhoneException();
+        throw NonHungarianPhoneException('');
       }
     } else {
       throw ArgumentError();
@@ -45,7 +46,7 @@ class User {
     if (validationPhone.hasMatch(value!)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
-        throw ValidationNonHungarianPhoneException();
+        throw NonHungarianPhoneException('');
       }
     } else {
       throw ArgumentError();

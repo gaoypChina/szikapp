@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/user_data.dart';
+import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 class Contacts {
@@ -24,13 +25,13 @@ class Contacts {
     }
   }
 
-  List<UserData> filter(String groupIDs) {
-    if (groupIDs == '') {
+  List<UserData> filter(String groupID) {
+    if (groupID == '') {
       return contacts;
     } else {
       var results = <UserData>[];
       contacts.forEach((item) {
-        if (item.name.contains(groupIDs)) results.add(item);
+        if (item.name.contains(groupID)) results.add(item);
       });
       return results;
     }
