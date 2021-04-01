@@ -41,7 +41,7 @@ class Contacts {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw NotSupportedCallFunctionality(url);
+      throw NotSupportedCallFunctionalityException(url);
     }
   }
 
@@ -50,7 +50,7 @@ class Contacts {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw NotSupportedEmailFunctionality(url);
+      throw NotSupportedEmailFunctionalityException(url);
     }
   }
 
