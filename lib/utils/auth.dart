@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Auth {
   //Publikus változók - amik a specifikációban vannak
@@ -17,31 +18,37 @@ class Auth {
   // Visszatérni User-, vagy User.guest-tel.
   // Beépíteni a google-signin json fájlt az android/app mappába
 
-  final FirebaseAuth _firebaseAuth;
+  final _auth = FirebaseAuth.instance;
 
-  Auth(this._firebaseAuth);
+  Future<UserCredential> signInWithUserCredential(AuthCredential credential) =>
+      _auth.signInWithCredential(credential);
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Future<void> logout() => _auth.signOut();
 
-  Future<String> singIn({String email, String password}) {
+  Stream<User> get currentUser => _auth.authStateChanges();
+}
+
+class AuthBloc {
+  final auth = Auth();
+  final googleSignin = GoogleSignIn(scopes: ['email']);
+
+  Stream<User> get currentUser => auth.currentUser;
+
+  loginGoogle() async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return 'Signed in';
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
-  }
+      final GoogleSignInAccount googleUser = googleSignin.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
 
-  Future<String> singUp({String email, String password}) {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return 'Signed up';
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    } catch (e) {
-      print(e);
+      // Firebase Sign in
+      final result = await auth.signInWithUserCredential(credential);
+      print('${result.user.displayName}')
+    } catch (error) {
+      print(error);
     }
   }
 }

@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized(); // firebase "el van-e kezdve"
-  await Firebase.initializeApp(); // firebase --> FlutterFire initialisation
   runApp(SZIKApp());
 }
 
