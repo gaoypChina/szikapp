@@ -46,7 +46,7 @@ class Janitor {
     janitorTasks = await io.getJanitor(null);
   }
 
-  List<JanitorTask> filter(List<String> statuses, List<String> roomIDs) {
+  List<JanitorTask> filter(List<TaskStatus> statuses, List<String> roomIDs) {
     if (roomIDs.isEmpty && statuses.isEmpty) return janitorTasks;
 
     var filteredJanitorTasks = <JanitorTask>[];
