@@ -14,7 +14,7 @@ class Janitor {
     janitorTasks[taskIndex].status = status;
 
     var io = IO();
-    var parameter = <String, String>{'request_id': taskIndex.toString()};
+    var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
     await io.patchJanitor(parameter, status);
 
     return true;
