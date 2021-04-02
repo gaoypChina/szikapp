@@ -35,7 +35,7 @@ class Janitor {
     janitorTasks.removeAt(taskIndex);
 
     var io = IO();
-    var parameter = <String, String>{'request_id': janitorTasks[taskIndex].uid};
+    var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
     await io.deleteJanitor(parameter);
 
     return true;
