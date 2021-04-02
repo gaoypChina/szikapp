@@ -2,7 +2,7 @@ import '../models/tasks.dart';
 import '../utils/io.dart';
 
 class Janitor {
-  late List<JanitorTask> janitorTasks; //kéréslista
+  late List<JanitorTask> janitorTasks;
 
   Janitor() {
     refresh();
@@ -14,7 +14,8 @@ class Janitor {
     janitorTasks[taskIndex].status = status;
 
     var io = IO();
-    await io.patchJanitor(null, status);
+    var parameter = <String, String>{'request_id': taskIndex.toString()};
+    await io.patchJanitor(parameter, status);
 
     return true;
   }
@@ -34,7 +35,8 @@ class Janitor {
     janitorTasks.removeAt(taskIndex);
 
     var io = IO();
-    await io.deleteJanitor(null);
+    var parameter = <String, String>{'request_id': janitorTasks[taskIndex].uid};
+    await io.deleteJanitor(parameter);
 
     return true;
   }
@@ -49,24 +51,23 @@ class Janitor {
 
     var filteredJanitorTasks = <JanitorTask>[];
 
-    if (roomIDs.isEmpty) //csak státuszra szűr
-    {
+    if (roomIDs.isEmpty) {
+      //csak státuszra szűr
       for (var task in janitorTasks) {
         if (statuses.contains(task.status)) filteredJanitorTasks.add(task);
       }
-    } else if (statuses.isEmpty) //csak teremre szűr
-    {
+    } else if (statuses.isEmpty) {
+      //csak teremre szűr
       for (var task in janitorTasks) {
         if (roomIDs.contains(task.roomID)) filteredJanitorTasks.add(task);
       }
-    } else //mindkettőre szűrünk
-    {
+    } else {
+      //mindkettőre szűrünk
       for (var task in janitorTasks) {
         if (roomIDs.contains(task.roomID) && statuses.contains(task.status))
           filteredJanitorTasks.add(task);
       }
     }
-
     return filteredJanitorTasks;
   }
 }
