@@ -8,10 +8,14 @@ class Janitor {
     refresh();
   }
 
-  bool editStatus(TaskStatus status, int taskIndex) {
-    if (taskIndex >= janitorTasks.length) return false;
+  Future<bool> editStatus(TaskStatus status, int taskIndex) async {
+    if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
     janitorTasks[taskIndex].status = status;
+
+    var io = IO();
+    await io.patchJanitor(null, status);
+
     return true;
   }
 
@@ -25,6 +29,8 @@ class Janitor {
   }
 
   Future<bool> deleteTask(int taskIndex) async {
+    if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
+
     janitorTasks.removeAt(taskIndex);
 
     var io = IO();
