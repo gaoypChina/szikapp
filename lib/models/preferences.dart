@@ -29,7 +29,7 @@ class Preferences {
   Language language;
   Theme theme;
   Map<String, bool>? notifications;
-  bool dataLite;
+  bool? dataLite;
   List? menuOptions;
 
   Preferences(

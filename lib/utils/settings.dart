@@ -93,7 +93,9 @@ class Settings {
     var prefs = Preferences()
       ..darkMode = darkMode
       ..language = language
-      ..theme = theme;
+      ..theme = theme
+      ..dataLite = dataLite
+      ..notifications = notifications;
 
     var io = IO();
     io.putUserPreferences(data: prefs);
