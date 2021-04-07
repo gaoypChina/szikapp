@@ -13,11 +13,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.1
   cupertino_icons: ^1.0.2
   json_annotation: ^4.0.0
   easy_localization:
   shared_preferences: ^2.0.5
-
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:

@@ -8,16 +8,18 @@ class Place {
   final String name;
   final String type;
   String? description;
-  String? overseerID;
-  DateTime? lastUpdate;
+  @JsonValue('overseer_ids')
+  List<String>? overseerIDs;
+  @JsonValue('last_update')
+  DateTime lastUpdate;
 
   Place({
     required this.id,
     required this.name,
     required this.type,
     this.description,
-    this.overseerID,
-    this.lastUpdate,
+    this.overseerIDs,
+    required this.lastUpdate,
   });
 
   Map<String, dynamic> toJson() => _$PlaceToJson(this);

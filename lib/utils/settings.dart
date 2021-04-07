@@ -94,9 +94,9 @@ class Settings {
   }
 
   //Publikus függvények (Interface)
-  bool loadPreferences() {
+  Future<bool> loadPreferences() async {
     var io = IO();
-    var serverPreferences = io.getUserPreferences();
+    var serverPreferences = await io.getUserPreferences(null);
     darkMode = serverPreferences.darkMode;
     theme = serverPreferences.theme;
     language = serverPreferences.language;
@@ -107,8 +107,8 @@ class Settings {
     return true;
   }
 
-  bool savePreferences() {
-    var prefs = Preferences()
+  Future<bool> savePreferences() async {
+    var prefs = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
       ..theme = theme
@@ -118,12 +118,12 @@ class Settings {
       ..rightMenuOption = rightMenuOption;
 
     var io = IO();
-    io.putUserPreferences(data: prefs);
+    await io.putUserPreferences(null, prefs);
     return true;
   }
 
   //Privát függvények
-  void _intialize() async {
+  Future<void> _intialize() async {
     _ownSharedPreferences ??= await SharedPreferences.getInstance();
   }
 }
