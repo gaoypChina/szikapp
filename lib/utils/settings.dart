@@ -47,6 +47,12 @@ class Settings {
     return result;
   }
 
+  String? get leftMenuOption =>
+      _ownSharedPreferences!.getString('leftMenuOption');
+
+  String? get rightMenuOption =>
+      _ownSharedPreferences!.getString('rightMenuOption');
+
   //Setterek
   set darkMode(DarkMode mode) {
     _ownSharedPreferences!.setString('darkMode', mode.toString());
@@ -77,6 +83,16 @@ class Settings {
     _ownSharedPreferences!.setStringList('enabled', enabled);
   }
 
+  set leftMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('leftMenuOption', option);
+  }
+
+  set rightMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('rightMenuOption', option);
+  }
+
   //Publikus függvények (Interface)
   bool loadPreferences() {
     var io = IO();
@@ -86,6 +102,8 @@ class Settings {
     language = serverPreferences.language;
     dataLite = serverPreferences.dataLite;
     notifications = serverPreferences.notifications;
+    leftMenuOption = serverPreferences.leftMenuOption;
+    rightMenuOption = serverPreferences.rightMenuOption;
     return true;
   }
 
@@ -95,7 +113,9 @@ class Settings {
       ..language = language
       ..theme = theme
       ..dataLite = dataLite
-      ..notifications = notifications;
+      ..notifications = notifications
+      ..leftMenuOption = leftMenuOption
+      ..rightMenuOption = rightMenuOption;
 
     var io = IO();
     io.putUserPreferences(data: prefs);

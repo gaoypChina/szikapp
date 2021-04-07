@@ -30,7 +30,8 @@ class Preferences {
   Theme theme;
   Map<String, bool>? notifications;
   bool? dataLite;
-  List? menuOptions;
+  String? leftMenuOption;
+  String? rightMenuOption;
 
   Preferences(
       {this.darkMode = DarkMode.system,
@@ -38,9 +39,9 @@ class Preferences {
       this.theme = Theme.defaultTheme,
       this.notifications,
       this.dataLite = false,
-      this.menuOptions}) {
+      this.leftMenuOption,
+      this.rightMenuOption}) {
     notifications ??= <String, bool>{};
-    menuOptions ??= [];
   }
 
   Map<String, dynamic> toJson() => _$PreferencesToJson(this);
