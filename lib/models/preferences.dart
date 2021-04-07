@@ -30,10 +30,12 @@ class Preferences {
   Language language;
   Theme theme;
   Map<String, bool>? notifications;
+  @JsonValue('left_menu_option')
+  String? leftMenuOption;
+  @JsonValue('right_menu_option')
+  String? rightMenuOption;
   @JsonValue('data_lite')
   bool dataLite;
-  @JsonValue('menu_options')
-  List? menuOptions;
   @JsonValue('last_update')
   DateTime lastUpdate;
 
@@ -43,10 +45,10 @@ class Preferences {
       this.theme = Theme.defaultTheme,
       this.notifications,
       this.dataLite = false,
-      this.menuOptions,
+      this.leftMenuOption,
+      this.rightMenuOption}) {
       required this.lastUpdate}) {
     notifications ??= <String, bool>{};
-    menuOptions ??= [];
   }
 
   Map<String, dynamic> toJson() => _$PreferencesToJson(this);
