@@ -35,9 +35,11 @@ class Task {
   DateTime start;
   DateTime end;
   TaskType type;
+  @JsonValue('involved_ids')
   List<String>? involvedIDs;
   String? description;
-  DateTime? lastUpdate;
+  @JsonValue('last_update')
+  DateTime lastUpdate;
 
   Task({
     required this.uid,
@@ -47,7 +49,7 @@ class Task {
     required this.type,
     this.involvedIDs,
     this.description,
-    this.lastUpdate,
+    required this.lastUpdate,
   }) {
     involvedIDs ??= <String>[];
   }
@@ -56,7 +58,8 @@ class Task {
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
 @JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
-  String organizerID;
+  @JsonValue('organizer_ids')
+  List<String> organizerIDs;
 
   AgendaTask(
       {required uid,
@@ -67,7 +70,7 @@ class AgendaTask extends Task {
       involved,
       description,
       update,
-      required this.organizerID})
+      required this.organizerIDs})
       : super(
           uid: uid,
           name: name,
@@ -89,8 +92,10 @@ class AgendaTask extends Task {
 /// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  List<String>? organizerIDs;
-  List<String>? resourceIDs;
+  @JsonValue('organizer_ids')
+  List<String> organizerIDs;
+  @JsonValue('resource_ids')
+  List<String> resourceIDs;
 
   TimetableTask(
       {required uid,
@@ -101,8 +106,8 @@ class TimetableTask extends Task {
       involved,
       description,
       update,
-      this.organizerIDs,
-      this.resourceIDs})
+      required this.organizerIDs,
+      required this.resourceIDs})
       : super(
           uid: uid,
           name: name,
@@ -112,10 +117,7 @@ class TimetableTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        ) {
-    organizerIDs ??= <String>[];
-    resourceIDs ??= <String>[];
-  }
+        );
 
   Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
 
@@ -127,7 +129,8 @@ class TimetableTask extends Task {
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
   List<Map<String, dynamic>>? feedback;
-  String roomID;
+  @JsonValue('place_id')
+  String placeID;
   TaskStatus status;
 
   JanitorTask(
@@ -140,7 +143,7 @@ class JanitorTask extends Task {
       description,
       update,
       this.feedback,
-      required this.roomID,
+      required this.placeID,
       required this.status})
       : super(
           uid: uid,
@@ -201,6 +204,7 @@ class CleaningTask extends Task {
 ///library.
 @JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
+  @JsonValue('book_id')
   String bookID;
 
   BookloanTask(
@@ -234,11 +238,16 @@ class BookloanTask extends Task {
 @JsonSerializable()
 class PollTask extends Task {
   String question;
+  @JsonValue('answer_options')
   List<String> answerOptions;
   List<Map<String, String>>? answers;
+  @JsonValue('issuer_ids')
   List<String> issuerIDs;
+  @JsonValue('is_live')
   bool? isLive;
+  @JsonValue('is_confidential')
   bool? isConfidential;
+  @JsonValue('is_multiple_choice')
   bool? isMultipleChoice;
 
   PollTask({

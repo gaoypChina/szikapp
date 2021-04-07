@@ -90,7 +90,7 @@ class Settings {
   }
 
   Future<bool> savePreferences() async {
-    var prefs = Preferences()
+    var prefs = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
       ..theme = theme;

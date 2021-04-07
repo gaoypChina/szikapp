@@ -16,6 +16,7 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) {
     ),
     dataLite: json['dataLite'] as bool,
     menuOptions: json['menuOptions'] as List<dynamic>?,
+    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
@@ -27,6 +28,7 @@ Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
       'notifications': instance.notifications,
       'dataLite': instance.dataLite,
       'menuOptions': instance.menuOptions,
+      'lastUpdate': instance.lastUpdate.toIso8601String(),
     };
 
 K _$enumDecode<K, V>(

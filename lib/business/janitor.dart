@@ -59,12 +59,12 @@ class Janitor {
     } else if (statuses.isEmpty) {
       //csak teremre szűr
       for (var task in janitorTasks) {
-        if (roomIDs.contains(task.roomID)) filteredJanitorTasks.add(task);
+        if (roomIDs.contains(task.placeID)) filteredJanitorTasks.add(task);
       }
     } else {
       //mindkettőre szűrünk
       for (var task in janitorTasks) {
-        if (roomIDs.contains(task.roomID) && statuses.contains(task.status))
+        if (roomIDs.contains(task.placeID) && statuses.contains(task.status))
           filteredJanitorTasks.add(task);
       }
     }
