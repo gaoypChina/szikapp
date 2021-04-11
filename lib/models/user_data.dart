@@ -10,10 +10,13 @@ class UserData {
   String? nick;
   String email;
   String? phone;
+  @JsonValue('secondary_phone')
   String? secondaryPhone;
   Preferences? preferences;
   DateTime? birthday;
+  @JsonValue('group_ids')
   List<String>? groupIDs;
+  @JsonValue('last_update')
   DateTime? lastUpdate;
 
   UserData({

@@ -16,9 +16,7 @@ CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) {
     rejected: (json['rejected'] as List<dynamic>?)
         ?.map((e) => e as Map<String, dynamic>)
         .toList(),
-    lastUpdate: json['lastUpdate'] == null
-        ? null
-        : DateTime.parse(json['lastUpdate'] as String),
+    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
@@ -30,5 +28,5 @@ Map<String, dynamic> _$CleaningExchangeToJson(CleaningExchange instance) =>
       'responderID': instance.responderID,
       'approved': instance.approved,
       'rejected': instance.rejected,
-      'lastUpdate': instance.lastUpdate?.toIso8601String(),
+      'lastUpdate': instance.lastUpdate.toIso8601String(),
     };
