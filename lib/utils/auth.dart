@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:szikapp/utils/user.dart' as user;
 
 import 'io.dart';
+import 'user.dart' as user;
 
 class Auth {
   //Kell még:
@@ -13,6 +13,8 @@ class Auth {
   final _auth = FirebaseAuth.instance;
   user.User? _user;
 
+  user.User? get ownUser => _user;
+
   Future<void> logout() => _auth.signOut();
 
   Stream<User?> get stateChanges => _auth.authStateChanges();
@@ -21,14 +23,13 @@ class Auth {
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
+    final googleAuth = await googleUser!.authentication;
 
     // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+    final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     ) as GoogleAuthCredential;
@@ -41,15 +42,23 @@ class Auth {
     await signInWithGoogle();
     try {
       var io = IO();
-      await io.getUser(null);
+
+      var profilePicture = _auth.currentUser!.photoURL;
+      var userData = await io.getUser(null);
+      _user = user.User(Uri.parse(profilePicture ?? ''), userData);
     } on Exception catch (e) {
-      _user =
-          user.User.guest(email: email); // emailt kiszedni a currentUser-ből
+      var userEmail = _auth.currentUser!.email;
+      _user = user.User.guest(email: userEmail ?? '');
       return true;
     }
   }
 
-  Future<String> getAuthToken([bool forceRefresh = false]) {
-    return _delegate.getIdToken(forceRefresh);
+  Future<bool?> signOut() async {
+    await logout();
+    _user = null;
+  }
+
+  Future<String> getAuthToken() {
+    return _auth.currentUser!.getIdToken();
   }
 }
