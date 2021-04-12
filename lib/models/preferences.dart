@@ -46,7 +46,7 @@ class Preferences {
       this.notifications,
       this.dataLite = false,
       this.leftMenuOption,
-      this.rightMenuOption}) {
+      this.rightMenuOption,
       required this.lastUpdate}) {
     notifications ??= <String, bool>{};
   }

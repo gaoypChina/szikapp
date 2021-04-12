@@ -142,9 +142,12 @@ K _$enumDecode<K, V>(
 }
 
 const _$TaskStatusEnumMap = {
-  TaskStatus.noticed: 'noticed',
-  TaskStatus.inProgress: 'inprogress',
-  TaskStatus.completed: 'completed',
+  TaskStatus.sent: 'sent',
+  TaskStatus.irresolvable: 'irresolvable',
+  TaskStatus.inProgress: 'in_progress',
+  TaskStatus.awaitingApproval: 'awaiting_approval',
+  TaskStatus.refused: 'refused',
+  TaskStatus.approved: 'approved',
 };
 
 CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) {

@@ -54,10 +54,6 @@ class User {
   }
 
   //Publikus függvények aka Interface
-  User.guest({required this.email, this.name = 'guest'}) {
-    profilePicture = Uri.parse('../assets/default.png'); //TODO csere
-    groupIDs = <String>[];
-  }
   User(this.profilePicture, UserData userData) {
     name = userData.name;
     email = userData.email;
