@@ -30,7 +30,7 @@ class Settings {
         .firstWhere((element) => element.toString() == 'Theme.$value');
   }
 
-  bool? get dataLite => _ownSharedPreferences!.getBool('dataLite');
+  bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
 
   Map<String, bool>? get notifications {
     var enabled = _ownSharedPreferences!.getStringList('enabled');
@@ -66,8 +66,7 @@ class Settings {
     _ownSharedPreferences!.setString('theme', ownTheme.toString());
   }
 
-  set dataLite(bool? ownLite) {
-    ownLite ??= false;
+  set dataLite(bool ownLite) {
     _ownSharedPreferences!.setBool('dataLite', ownLite);
   }
 
