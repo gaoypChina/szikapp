@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -6,23 +5,16 @@ import 'io.dart';
 import 'user.dart' as szikapp_user;
 
 class Auth {
-  //Kell még:
-  // Lekérni a tokent
-  // Ellenőrizni, hogy a User benne van-e az API-ban.
-  // Visszatérni User-, vagy User.guest-tel.
-
   final _auth = FirebaseAuth.instance;
   szikapp_user.User? _user;
 
   szikapp_user.User? get user => _user;
 
-  Future<void> logout() => _auth.signOut();
-
   Stream<User?> get stateChanges => _auth.authStateChanges();
 
   User? get firebaseUser => _auth.currentUser;
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<UserCredential> _signInWithGoogle() async {
     // Trigger the authentication flow
     final googleUser = await GoogleSignIn().signIn();
 
@@ -40,7 +32,7 @@ class Auth {
   }
 
   Future<bool> signIn() async {
-    await signInWithGoogle();
+    await _signInWithGoogle();
     var io = IO();
 
     var userData = await io.getUser(null);
@@ -53,7 +45,7 @@ class Auth {
   }
 
   Future<bool> signOut() async {
-    await logout();
+    await _auth.signOut();
     _user = null;
     return true;
   }
