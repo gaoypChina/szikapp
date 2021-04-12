@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'io.dart';
-import 'user.dart' as user;
+import 'user.dart' as szikapp_user;
 
 class Auth {
   //Kell még:
@@ -11,15 +12,15 @@ class Auth {
   // Visszatérni User-, vagy User.guest-tel.
 
   final _auth = FirebaseAuth.instance;
-  user.User? _user;
+  szikapp_user.User? _user;
 
-  user.User? get ownUser => _user;
+  szikapp_user.User? get user => _user;
 
   Future<void> logout() => _auth.signOut();
 
   Stream<User?> get stateChanges => _auth.authStateChanges();
 
-  User? get currentUser => _auth.currentUser;
+  User? get firebaseUser => _auth.currentUser;
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -38,27 +39,26 @@ class Auth {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<bool?> signIn() async {
+  Future<bool> signIn() async {
     await signInWithGoogle();
-    try {
-      var io = IO();
+    var io = IO();
 
-      var profilePicture = _auth.currentUser!.photoURL;
-      var userData = await io.getUser(null);
-      _user = user.User(Uri.parse(profilePicture ?? ''), userData);
-    } on Exception catch (e) {
-      var userEmail = _auth.currentUser!.email;
-      _user = user.User.guest(email: userEmail ?? '');
-      return true;
-    }
+    var userData = await io.getUser(null);
+    var profilePicture = userData.name == 'Guest'
+        ? _auth.currentUser!.photoURL
+        : '../assets/default.png';
+    _user = szikapp_user.User(
+        Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+    return true;
   }
 
-  Future<bool?> signOut() async {
+  Future<bool> signOut() async {
     await logout();
     _user = null;
+    return true;
   }
 
-  Future<String> getAuthToken() {
+  Future<String> getAuthToken() async {
     return _auth.currentUser!.getIdToken();
   }
 }

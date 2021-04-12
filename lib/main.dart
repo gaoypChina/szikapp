@@ -3,6 +3,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'utils/auth.dart';
+import 'utils/user.dart';
+
 void main() {
   runApp(SZIKApp());
 }
@@ -15,8 +18,8 @@ class SZIKApp extends StatefulWidget {
 class SZIKAppState extends State<SZIKApp> {
   bool _firebaseInitialized = false;
   bool _firebaseError = false;
-  Auth authManager;
-  User user;
+  late Auth authManager;
+  User? user;
 
   void initializeFlutterFire() async {
     try {
@@ -36,6 +39,7 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     initializeFlutterFire();
+    authManager = Auth();
     super.initState();
   }
 

@@ -17,7 +17,7 @@ class UserData {
   @JsonValue('group_ids')
   List<String>? groupIDs;
   @JsonValue('last_update')
-  DateTime? lastUpdate;
+  DateTime lastUpdate;
 
   UserData({
     required this.id,
@@ -29,7 +29,7 @@ class UserData {
     this.preferences,
     this.birthday,
     this.groupIDs,
-    this.lastUpdate,
+    required this.lastUpdate,
   }) {
     groupIDs ??= <String>[];
   }
