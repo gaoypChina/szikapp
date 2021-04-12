@@ -5,10 +5,15 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'pages/home_page.dart';
 import 'pages/menu_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/signin_page.dart';
 
 const routeHome = '/';
 const routeSettings = '/settings';
+const routeProfile = '/profile';
 const routeMenu = '/menu';
+const routeSignIn = '/signin';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +55,12 @@ class _SZIKAppState extends State<SZIKApp> {
       page = HomePage();
     } else if (settings.name == routeMenu) {
       page = MenuPage();
+    } else if (settings.name == routeProfile) {
+      page = ProfilePage();
+    } else if (settings.name == routeSettings) {
+      page = SettingsPage();
+    } else if (settings.name == routeSignIn) {
+      page = SignInPage();
     } else {
       throw Exception(
           'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
