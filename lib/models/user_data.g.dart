@@ -22,9 +22,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['birthday'] as String),
     groupIDs:
         (json['groupIDs'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    lastUpdate: json['lastUpdate'] == null
-        ? null
-        : DateTime.parse(json['lastUpdate'] as String),
+    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
@@ -38,5 +36,5 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'preferences': instance.preferences,
       'birthday': instance.birthday?.toIso8601String(),
       'groupIDs': instance.groupIDs,
-      'lastUpdate': instance.lastUpdate?.toIso8601String(),
+      'lastUpdate': instance.lastUpdate.toIso8601String(),
     };

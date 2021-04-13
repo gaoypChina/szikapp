@@ -30,7 +30,7 @@ class Settings {
         .firstWhere((element) => element.toString() == 'Theme.$value');
   }
 
-  bool? get dataLite => _ownSharedPreferences!.getBool('dataLite');
+  bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
 
   Map<String, bool>? get notifications {
     var enabled = _ownSharedPreferences!.getStringList('enabled');
@@ -47,6 +47,12 @@ class Settings {
     return result;
   }
 
+  String? get leftMenuOption =>
+      _ownSharedPreferences!.getString('leftMenuOption');
+
+  String? get rightMenuOption =>
+      _ownSharedPreferences!.getString('rightMenuOption');
+
   //Setterek
   set darkMode(DarkMode mode) {
     _ownSharedPreferences!.setString('darkMode', mode.toString());
@@ -60,8 +66,7 @@ class Settings {
     _ownSharedPreferences!.setString('theme', ownTheme.toString());
   }
 
-  set dataLite(bool? ownLite) {
-    ownLite ??= false;
+  set dataLite(bool ownLite) {
     _ownSharedPreferences!.setBool('dataLite', ownLite);
   }
 
@@ -77,6 +82,16 @@ class Settings {
     _ownSharedPreferences!.setStringList('enabled', enabled);
   }
 
+  set leftMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('leftMenuOption', option);
+  }
+
+  set rightMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('rightMenuOption', option);
+  }
+
   //Publikus függvények (Interface)
   Future<bool> loadPreferences() async {
     var io = IO();
@@ -86,6 +101,8 @@ class Settings {
     language = serverPreferences.language;
     dataLite = serverPreferences.dataLite;
     notifications = serverPreferences.notifications;
+    leftMenuOption = serverPreferences.leftMenuOption;
+    rightMenuOption = serverPreferences.rightMenuOption;
     return true;
   }
 
@@ -93,7 +110,11 @@ class Settings {
     var prefs = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
-      ..theme = theme;
+      ..theme = theme
+      ..dataLite = dataLite
+      ..notifications = notifications
+      ..leftMenuOption = leftMenuOption
+      ..rightMenuOption = rightMenuOption;
 
     var io = IO();
     await io.putUserPreferences(null, prefs);

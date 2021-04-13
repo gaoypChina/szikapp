@@ -20,12 +20,18 @@ enum TaskType {
 
 ///[TaskStatus] enum represents current statuses of [Task]s
 enum TaskStatus {
-  @JsonValue('noticed')
-  noticed,
-  @JsonValue('inprogress')
+  @JsonValue('sent')
+  sent,
+  @JsonValue('irresolvable')
+  irresolvable,
+  @JsonValue('in_progress')
   inProgress,
-  @JsonValue('completed')
-  completed
+  @JsonValue('awaiting_approval')
+  awaitingApproval,
+  @JsonValue('refused')
+  refused,
+  @JsonValue('approved')
+  approved
 }
 
 ///Basic [Task] class. Ancestor of descended Task types.

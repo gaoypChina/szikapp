@@ -3,8 +3,8 @@
 SZIK projekt a 2020/21-es tanév őszi félévében.
 
 [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
-![develop](https://github.com/csertant/szikapp/workflows/SzikAPP%20-%20test%20&%20build/badge.svg?branch=develop)
-![master](https://github.com/csertant/szikapp/workflows/SzikAPP%20-%20build%20&%20deploy/badge.svg?branch=master)
+![develop](https://github.com/csertant/szikapp/workflows/test/badge.svg?branch=develop)
+![master](https://github.com/csertant/szikapp/workflows/build%20&%20deploy/badge.svg?branch=master)
 
 ## Kezdő lépések
 
