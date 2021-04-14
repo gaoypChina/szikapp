@@ -63,7 +63,8 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     initializeFlutterFire();
-    authManager = Auth();
+    //TODO: Auth() meghívása később
+    //authManager = Auth();
     super.initState();
   }
 
