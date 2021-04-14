@@ -43,5 +43,15 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>tel</string>
+			<string>mailto</string>
+		</array>
+		<key>CFBundleLocalizations</key>
+			<array>
+				<string>en</string>
+				<string>hu</string>
+			</array>
 	</dict>
 </plist>

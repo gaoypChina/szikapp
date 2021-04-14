@@ -8,8 +8,10 @@ class Group {
   String name;
   String? description;
   String? email;
+  @JsonValue('member_ids')
   List<String>? memberIDs;
-  DateTime? lastUpdate;
+  @JsonValue('last_update')
+  DateTime lastUpdate;
 
   Group({
     required this.id,
@@ -17,7 +19,7 @@ class Group {
     this.description,
     this.email,
     this.memberIDs,
-    this.lastUpdate,
+    required this.lastUpdate,
   }) {
     memberIDs ??= <String>[];
   }

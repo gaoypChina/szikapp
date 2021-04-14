@@ -14,9 +14,7 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
     email: json['email'] as String?,
     memberIDs:
         (json['memberIDs'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    lastUpdate: json['lastUpdate'] == null
-        ? null
-        : DateTime.parse(json['lastUpdate'] as String),
+    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
@@ -26,5 +24,5 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'description': instance.description,
       'email': instance.email,
       'memberIDs': instance.memberIDs,
-      'lastUpdate': instance.lastUpdate?.toIso8601String(),
+      'lastUpdate': instance.lastUpdate.toIso8601String(),
     };

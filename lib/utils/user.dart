@@ -1,5 +1,6 @@
+import '../models/permission.dart';
 import '../models/user_data.dart';
-
+import 'exceptions.dart';
 import 'io.dart';
 
 class User {
@@ -31,21 +32,21 @@ class User {
     if (validationPhone.hasMatch(value!)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
-        throw ValidationNonHungarianPhoneException();
+        throw NonHungarianPhoneException('');
       }
     } else {
       throw ArgumentError();
     }
   }
 
-  String? get secondaryPhone => _phone;
+  String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
     if (validationPhone.hasMatch(value!)) {
-      _phone = value;
+      _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
-        throw ValidationNonHungarianPhoneException();
+        throw NonHungarianPhoneException('');
       }
     } else {
       throw ArgumentError();
@@ -53,10 +54,6 @@ class User {
   }
 
   //Publikus függvények aka Interface
-  User.guest({required this.email, this.name = 'guest'}) {
-    profilePicture = Uri.parse('../assets/default.png'); //TODO csere
-    groupIDs = <String>[];
-  }
   User(this.profilePicture, UserData userData) {
     name = userData.name;
     email = userData.email;

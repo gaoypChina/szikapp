@@ -15,7 +15,9 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as bool),
     ),
     dataLite: json['dataLite'] as bool,
-    menuOptions: json['menuOptions'] as List<dynamic>?,
+    leftMenuOption: json['leftMenuOption'] as String?,
+    rightMenuOption: json['rightMenuOption'] as String?,
+    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
   );
 }
 
@@ -25,8 +27,10 @@ Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
       'language': _$LanguageEnumMap[instance.language],
       'theme': _$ThemeEnumMap[instance.theme],
       'notifications': instance.notifications,
+      'leftMenuOption': instance.leftMenuOption,
+      'rightMenuOption': instance.rightMenuOption,
       'dataLite': instance.dataLite,
-      'menuOptions': instance.menuOptions,
+      'lastUpdate': instance.lastUpdate.toIso8601String(),
     };
 
 K _$enumDecode<K, V>(
