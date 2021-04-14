@@ -26,6 +26,19 @@ dev_dependencies:
   build_runner: ^1.12.1
   json_serializable: ^4.0.3
   pedantic: ^1.9.2
+  flutter_native_splash: ^1.1.7+1
+
+flutter_native_splash:
+  # After change, run this command:
+  # flutter clean && flutter pub get
+  # flutter pub run flutter_native_splash:create
+  color: "#59A3B0"
+  image: assets/logo_white_800.png
+  android: true
+  ios: true
+  # Dark mode
+  color_dark: "#444444"
+  image_dark: "assets/logo_white_500.png"
 
 flutter:
   uses-material-design: true
