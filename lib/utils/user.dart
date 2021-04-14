@@ -64,11 +64,8 @@ class User {
     groupIDs = userData.groupIDs;
   }
 
-  Future<bool> hasPermission(Permission type, Object subject) async {
+  Future<bool> hasPermission(Permission type, dynamic subject) async {
     //TODO kezdeni valamit a subjecttel
-    if (_permissions != null) {
-      return _permissions!.contains(type) ? true : false;
-    }
     var io = IO();
     _permissions ??= await io.getUserPermissions(null);
     return _permissions!.contains(type) ? true : false;
