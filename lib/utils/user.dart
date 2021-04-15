@@ -70,7 +70,7 @@ class User {
       return _permissions!.contains(type) ? true : false;
     }
     var io = IO();
-    _permissions ??= await io.getUserPermissions(null);
+    _permissions ??= await io.getUserPermissions();
     return _permissions!.contains(type) ? true : false;
   }
 }

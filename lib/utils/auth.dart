@@ -35,7 +35,7 @@ class Auth {
     await _signInWithGoogle();
     var io = IO();
 
-    var userData = await io.getUser(null);
+    var userData = await io.getUser();
     var profilePicture = userData.name == 'Guest'
         ? _auth.currentUser!.photoURL
         : '../assets/default.png';

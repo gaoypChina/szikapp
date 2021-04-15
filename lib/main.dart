@@ -43,7 +43,7 @@ class SZIKAppState extends State<SZIKApp> {
   bool _firebaseInitialized = false;
   bool _firebaseError = false;
   static late Auth authManager;
-  User? user;
+  static User? user;
 
   void initializeFlutterFire() async {
     try {

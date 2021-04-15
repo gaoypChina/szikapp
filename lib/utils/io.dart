@@ -43,9 +43,9 @@ class IO {
     return _instance;
   }
 
-  Future<UserData> getUser(Map<String, String>? parameters) async {
+  Future<UserData> getUser([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_userEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -58,7 +58,7 @@ class IO {
 
   Future<bool> postUser(Map<String, String>? parameters, UserData data) async {
     var uri = '$_vm_1$_userEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -68,7 +68,7 @@ class IO {
 
   Future<bool> putUser(Map<String, String>? parameters, UserData data) async {
     var uri = '$_vm_1$_userEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -78,7 +78,7 @@ class IO {
 
   Future<bool> deleteUser(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_userEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -87,9 +87,9 @@ class IO {
   }
 
   Future<Preferences> getUserPreferences(
-      Map<String, String>? parameters) async {
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -103,7 +103,7 @@ class IO {
   Future<bool> putUserPreferences(
       Map<String, String>? parameters, Preferences data) async {
     var uri = '$_vm_1$_preferencesEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -113,7 +113,7 @@ class IO {
 
   Future<bool> deleteUserPreferences(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_preferencesEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -121,9 +121,9 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<List<Place>> getPlace(Map<String, String>? parameters) async {
+  Future<List<Place>> getPlace([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_placeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -141,7 +141,7 @@ class IO {
 
   Future<bool> postPlace(Map<String, String>? parameters, Place data) async {
     var uri = '$_vm_1$_placeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -151,7 +151,7 @@ class IO {
 
   Future<bool> putPlace(Map<String, String>? parameters, Place data) async {
     var uri = '$_vm_1$_placeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -160,9 +160,9 @@ class IO {
   }
 
   Future<List<Permission>> getUserPermissions(
-      Map<String, String>? parameters) async {
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_permissionsEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -182,7 +182,7 @@ class IO {
   Future<bool> patchUserPermissions(
       Map<String, String>? parameters, Permission data) async {
     var uri = '$_vm_1$_permissionsEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toString());
 
@@ -193,7 +193,7 @@ class IO {
   Future<bool> putUserPermissions(
       Map<String, String>? parameters, Permission data) async {
     var uri = '$_vm_1$_permissionsEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toString());
 
@@ -201,9 +201,10 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<List<JanitorTask>> getJanitor(Map<String, String>? parameters) async {
+  Future<List<JanitorTask>> getJanitor(
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -222,7 +223,7 @@ class IO {
   Future<bool> postJanitor(
       Map<String, String>? parameters, JanitorTask data) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -233,7 +234,7 @@ class IO {
   Future<bool> patchJanitor(
       Map<String, String>? parameters, TaskStatus data) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toString());
 
@@ -244,7 +245,7 @@ class IO {
   Future<bool> putJanitor(
       Map<String, String>? parameters, JanitorTask data) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -254,7 +255,7 @@ class IO {
 
   Future<bool> deleteJanitor(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -262,9 +263,9 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<List<Group>> getGroup(Map<String, String>? parameters) async {
+  Future<List<Group>> getGroup([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -282,7 +283,7 @@ class IO {
 
   Future<bool> postGroup(Map<String, String>? parameters, Group data) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -292,7 +293,7 @@ class IO {
 
   Future<bool> putGroup(Map<String, String>? parameters, Group data) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -302,7 +303,7 @@ class IO {
 
   Future<bool> deleteGroup(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -310,9 +311,9 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<List<UserData>> getContacts(Map<String, String>? parameters) async {
+  Future<List<UserData>> getContacts([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_contactsEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -329,9 +330,9 @@ class IO {
   }
 
   Future<List<CleaningExchange>> getCleaningExchange(
-      Map<String, String>? parameters) async {
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -350,7 +351,7 @@ class IO {
   Future<bool> postCleaningExchange(
       Map<String, String>? parameters, CleaningExchange data) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -361,7 +362,7 @@ class IO {
   Future<bool> patchCleaningExchange(
       Map<String, String>? parameters, String data) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data);
 
@@ -372,7 +373,7 @@ class IO {
   Future<bool> putCleaningExchange(
       Map<String, String>? parameters, String data) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data);
 
@@ -382,7 +383,7 @@ class IO {
 
   Future<bool> deleteCleaningExchange(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -391,9 +392,9 @@ class IO {
   }
 
   Future<List<CleaningTask>> getCleaning(
-      Map<String, String>? parameters) async {
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -412,7 +413,7 @@ class IO {
   Future<bool> postCleaning(
       Map<String, String>? parameters, CleaningPeriod data) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -423,7 +424,7 @@ class IO {
   Future<bool> patchCleaning(
       Map<String, String>? parameters, CleaningPeriod data) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -434,7 +435,7 @@ class IO {
   Future<bool> putCleaning(
       Map<String, String>? parameters, CleaningTask data) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -442,9 +443,9 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<List<PollTask>> getPoll(Map<String, String>? parameters) async {
+  Future<List<PollTask>> getPoll([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -462,7 +463,7 @@ class IO {
 
   Future<bool> postPoll(Map<String, String>? parameters, PollTask data) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -472,7 +473,7 @@ class IO {
 
   Future<bool> patchPoll(Map<String, String>? parameters, PollTask data) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -483,7 +484,7 @@ class IO {
   Future<bool> putPoll(
       Map<String, String>? parameters, Map<String, String> data) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data);
 
@@ -493,7 +494,7 @@ class IO {
 
   Future<bool> deletePoll(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -502,9 +503,9 @@ class IO {
   }
 
   Future<List<TimetableTask>> getReservation(
-      Map<String, String>? parameters) async {
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._cacheHeaders()});
 
@@ -523,7 +524,7 @@ class IO {
   Future<bool> postReservation(
       Map<String, String>? parameters, TimetableTask data) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -534,7 +535,7 @@ class IO {
   Future<bool> putReservation(
       Map<String, String>? parameters, TimetableTask data) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders(), body: data.toJson());
 
@@ -544,7 +545,7 @@ class IO {
 
   Future<bool> deleteReservation(Map<String, String>? parameters) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters!.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
@@ -569,7 +570,7 @@ class IO {
 
   Future<Map<String, String>> _commonHeaders() async {
     return {
-      'User': SZIKAppState().user!.email,
+      'User': SZIKAppState.user?.email ?? '',
       'AuthToken': await SZIKAppState.authManager.getAuthToken(),
     };
   }
