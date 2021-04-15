@@ -8,6 +8,8 @@ import '../main.dart';
 import 'home_page.dart';
 
 class SignInPage extends StatefulWidget {
+  static const String route = '/signin';
+
   const SignInPage({Key key = const Key('SignInPage')}) : super(key: key);
   @override
   _SignInPageState createState() => _SignInPageState();

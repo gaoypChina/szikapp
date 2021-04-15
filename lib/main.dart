@@ -16,12 +16,6 @@ import 'utils/auth.dart';
 import 'utils/io.dart';
 import 'utils/user.dart';
 
-const routeHome = '/';
-const routeSettings = '/settings';
-const routeProfile = '/profile';
-const routeMenu = '/menu';
-const routeSignIn = '/signin';
-
 void main() async {
   HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +72,7 @@ class SZIKAppState extends State<SZIKApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SzikApp',
-      initialRoute: routeSignIn,
+      initialRoute: SignInPage.route,
       onGenerateRoute: _onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -88,15 +82,15 @@ class SZIKAppState extends State<SZIKApp> {
 
   Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
     late Widget page;
-    if (settings.name == routeHome) {
+    if (settings.name == HomePage.route) {
       page = HomePage();
-    } else if (settings.name == routeMenu) {
+    } else if (settings.name == MenuPage.route) {
       page = MenuPage();
-    } else if (settings.name == routeProfile) {
+    } else if (settings.name == ProfilePage.route) {
       page = ProfilePage();
-    } else if (settings.name == routeSettings) {
+    } else if (settings.name == SettingsPage.route) {
       page = SettingsPage();
-    } else if (settings.name == routeSignIn) {
+    } else if (settings.name == SignInPage.route) {
       page = SignInPage();
     } else {
       throw Exception(
