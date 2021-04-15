@@ -1,8 +1,11 @@
+import 'dart:io';
+
+import 'package:easy_localization/easy_localization.dart';
+
 ///[SZIKApp] is an awesome application made in Flutter for the lovely people
 ///in da SZIK.
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 import 'pages/home_page.dart';
 import 'pages/menu_page.dart';
@@ -10,6 +13,7 @@ import 'pages/profile_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'utils/auth.dart';
+import 'utils/io.dart';
 import 'utils/user.dart';
 
 const routeHome = '/';
@@ -19,6 +23,7 @@ const routeMenu = '/menu';
 const routeSignIn = '/signin';
 
 void main() async {
+  HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   runApp(
