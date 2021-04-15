@@ -16,16 +16,20 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  void _onPressed() {
+    SZIKAppState.authManager.signIn().then((value) => {
+          if (value == true)
+            Navigator.of(context).pushReplacementNamed(HomePage.route)
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (SZIKAppState.authManager.firebaseUser != null) {
       @override
       void run() {
         scheduleMicrotask(() {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
+          Navigator.pushReplacementNamed(context, HomePage.route);
         });
       }
 
@@ -54,7 +58,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SignInButton(
                   Buttons.Google,
-                  onPressed: () => SZIKAppState.authManager.signIn(),
+                  onPressed: _onPressed,
                   text: 'SIGN_IN_MESSAGE'.tr(),
                 ),
               ],
