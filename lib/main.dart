@@ -42,13 +42,14 @@ class SZIKApp extends StatefulWidget {
 class SZIKAppState extends State<SZIKApp> {
   bool _firebaseInitialized = false;
   bool _firebaseError = false;
-  late Auth authManager;
+  static late Auth authManager;
   User? user;
 
   void initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
+      authManager = Auth();
       setState(() {
         _firebaseInitialized = true;
       });
@@ -72,7 +73,7 @@ class SZIKAppState extends State<SZIKApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SzikApp',
-      initialRoute: routeHome,
+      initialRoute: routeSignIn,
       onGenerateRoute: _onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

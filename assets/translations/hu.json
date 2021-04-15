@@ -1,3 +1,4 @@
 {
-    "NAVIGATOR_MESSAGE_ERROR": "Ismeretlen út: {}"
+    "NAVIGATOR_MESSAGE_ERROR": "Ismeretlen út: {}", 
+    "SIGN_IN_MESSAGE": "Belépés Google fiókkal"
 }

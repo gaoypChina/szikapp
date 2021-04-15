@@ -570,7 +570,7 @@ class IO {
   Future<Map<String, String>> _commonHeaders() async {
     return {
       'User': SZIKAppState().user!.email,
-      'AuthToken': await SZIKAppState().authManager.getAuthToken(),
+      'AuthToken': await SZIKAppState.authManager.getAuthToken(),
     };
   }
 
