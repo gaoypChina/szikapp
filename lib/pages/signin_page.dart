@@ -16,11 +16,20 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  void _onPressed() {
-    SZIKAppState.authManager.signIn().then((value) => {
-          if (value == true)
-            Navigator.of(context).pushReplacementNamed(HomePage.route)
-        });
+  bool selected = false;
+  void _startAnimation() {
+    setState(() {
+      selected = !selected;
+    });
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      selected = false;
+    });
+    Future.delayed(Duration(milliseconds: 1), _startAnimation);
+    super.initState();
   }
 
   @override
@@ -36,36 +45,76 @@ class _SignInPageState extends State<SignInPage> {
       run();
       return Container();
     } else {
-      return Scaffold(
-        backgroundColor: Color(0xff59a3b0),
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                      Color(0xff59a3b0).withOpacity(0.5), BlendMode.dstATop),
-                  image: AssetImage('assets/pictures/background_1.jpg'),
-                  fit: BoxFit.cover)),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/pictures/logo_white_500.png',
-                  width: 250,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                SignInButton(
-                  Buttons.Google,
-                  onPressed: _onPressed,
-                  text: 'SIGN_IN_MESSAGE'.tr(),
-                ),
-              ],
+      var queryData = MediaQuery.of(context);
+      var devicePixelRatio = queryData.devicePixelRatio;
+      return Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/pictures/background_1.jpg'),
+                    fit: BoxFit.cover)),
+          ),
+          AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: selected ? 0.5 : 1,
+            child: Container(
+              color: Color(0xff59a3b0),
             ),
           ),
-        ),
+          AnimatedContainer(
+            duration: Duration(seconds: 2),
+            curve: Curves.easeInOutQuad,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: AnimatedAlign(
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.easeInOutQuad,
+                        alignment: selected
+                            ? FractionalOffset(0.5, 0.4)
+                            : Alignment.center,
+                        child: Image.asset(
+                          'assets/pictures/logo_white_800.png',
+                          width: 800 / devicePixelRatio,
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          ),
+          AnimatedOpacity(
+            opacity: selected ? 1 : 0,
+            duration: Duration(seconds: 2),
+            curve: Curves.easeInOutQuad,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 200,
+                  ),
+                  SignInButton(
+                    Buttons.Google,
+                    onPressed: _onPressed,
+                    text: 'SIGN_IN_MESSAGE'.tr(),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       );
     }
+  }
+
+  void _onPressed() {
+    SZIKAppState.authManager.signIn().then((value) => {
+          if (value == true)
+            Navigator.of(context).pushReplacementNamed(HomePage.route)
+        });
   }
 }
