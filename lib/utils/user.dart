@@ -41,9 +41,10 @@ class User {
 
   String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
+    if (value == null) return null;
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (validationPhone.hasMatch(value!)) {
+    if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('');

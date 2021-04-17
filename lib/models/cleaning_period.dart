@@ -8,9 +8,9 @@ class CleaningPeriod {
   String uid;
   DateTime start;
   DateTime end;
-  @JsonValue('is_live')
+  @JsonKey(name: 'is_live')
   bool isLive;
-  @JsonValue('last_update')
+  @JsonKey(name: 'last_update')
   DateTime lastUpdate;
 
   CleaningPeriod({

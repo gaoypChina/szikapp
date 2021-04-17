@@ -34,7 +34,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (SZIKAppState.authManager.firebaseUser != null) {
+    if (SZIKAppState.authManager.isSignedIn) {
       @override
       void run() {
         scheduleMicrotask(() {
@@ -112,8 +112,8 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _onPressed() {
-    SZIKAppState.authManager.signIn().then((value) => {
-          if (value == true)
+    SZIKAppState.authManager.signIn().then((success) => {
+          if (success == true)
             Navigator.of(context).pushReplacementNamed(HomePage.route)
         });
   }

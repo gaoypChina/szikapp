@@ -8,25 +8,25 @@ part of 'cleaning_exchange.dart';
 
 CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) {
   return CleaningExchange(
-    taskID: json['taskID'] as String,
-    initiatorID: json['initiatorID'] as String,
-    replaceTaskID: json['replaceTaskID'] as String?,
-    responderID: json['responderID'] as String?,
+    taskID: json['task_id'] as String,
+    initiatorID: json['initiator_id'] as String,
+    replaceTaskID: json['replace_task_id'] as String?,
+    responderID: json['responder_id'] as String?,
     approved: json['approved'] as bool,
     rejected: (json['rejected'] as List<dynamic>?)
         ?.map((e) => e as Map<String, dynamic>)
         .toList(),
-    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
+    lastUpdate: DateTime.parse(json['last_update'] as String),
   );
 }
 
 Map<String, dynamic> _$CleaningExchangeToJson(CleaningExchange instance) =>
     <String, dynamic>{
-      'taskID': instance.taskID,
-      'initiatorID': instance.initiatorID,
-      'replaceTaskID': instance.replaceTaskID,
-      'responderID': instance.responderID,
+      'task_id': instance.taskID,
+      'initiator_id': instance.initiatorID,
+      'replace_task_id': instance.replaceTaskID,
+      'responder_id': instance.responderID,
       'approved': instance.approved,
       'rejected': instance.rejected,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
+      'last_update': instance.lastUpdate.toIso8601String(),
     };

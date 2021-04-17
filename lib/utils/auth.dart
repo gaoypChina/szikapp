@@ -14,6 +14,8 @@ class Auth {
 
   User? get firebaseUser => _auth.currentUser;
 
+  bool get isSignedIn => user != null && firebaseUser != null;
+
   Future<UserCredential> _signInWithGoogle() async {
     // Trigger the authentication flow
     final googleUser = await GoogleSignIn().signIn();
