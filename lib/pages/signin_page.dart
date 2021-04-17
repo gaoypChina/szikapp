@@ -17,17 +17,18 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   bool selected = false;
+  bool logoSelected = false;
   void _startAnimation() {
     setState(() {
-      selected = !selected;
+      logoSelected = true;
     });
+    Future.delayed(Duration(seconds: 1)).then((value) => setState(() {
+          selected = true;
+        }));
   }
 
   @override
   void initState() {
-    setState(() {
-      selected = false;
-    });
     Future.delayed(Duration(milliseconds: 1), _startAnimation);
     super.initState();
   }
@@ -74,12 +75,12 @@ class _SignInPageState extends State<SignInPage> {
                       child: AnimatedAlign(
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOutQuad,
-                        alignment: selected
+                        alignment: logoSelected
                             ? FractionalOffset(0.5, 0.4)
                             : Alignment.center,
                         child: Image.asset(
                           'assets/pictures/logo_white_800.png',
-                          width: 800 / devicePixelRatio,
+                          width: 600 / devicePixelRatio,
                         ),
                       )),
                 ],
