@@ -1,3 +1,4 @@
 {
-    "NAVIGATOR_MESSAGE_ERROR": "Unknown route: {}"
+    "NAVIGATOR_MESSAGE_ERROR": "Unknown route: {}", 
+    "SIGN_IN_MESSAGE": "Sign in with Google"
 }

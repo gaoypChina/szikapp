@@ -14,6 +14,8 @@ class Auth {
 
   User? get firebaseUser => _auth.currentUser;
 
+  bool get isSignedIn => user != null && firebaseUser != null;
+
   Future<UserCredential> _signInWithGoogle() async {
     // Trigger the authentication flow
     final googleUser = await GoogleSignIn().signIn();
@@ -35,7 +37,7 @@ class Auth {
     await _signInWithGoogle();
     var io = IO();
 
-    var userData = await io.getUser(null);
+    var userData = await io.getUser();
     var profilePicture = userData.name == 'Guest'
         ? _auth.currentUser!.photoURL
         : '../assets/default.png';

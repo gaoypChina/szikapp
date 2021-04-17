@@ -4,17 +4,17 @@ part 'cleaning_exchange.g.dart';
 
 @JsonSerializable()
 class CleaningExchange {
-  @JsonValue('task_id')
+  @JsonKey(name: 'task_id')
   String taskID;
-  @JsonValue('initiator_id')
+  @JsonKey(name: 'initiator_id')
   String initiatorID;
-  @JsonValue('replace_task_id')
+  @JsonKey(name: 'replace_task_id')
   String? replaceTaskID;
-  @JsonValue('responder_id')
+  @JsonKey(name: 'responder_id')
   String? responderID;
   bool approved;
   List<Map<String, dynamic>>? rejected;
-  @JsonValue('last_update')
+  @JsonKey(name: 'last_update')
   DateTime lastUpdate;
 
   CleaningExchange({

@@ -41,10 +41,10 @@ class Task {
   DateTime start;
   DateTime end;
   TaskType type;
-  @JsonValue('involved_ids')
+  @JsonKey(name: 'involved_ids')
   List<String>? involvedIDs;
   String? description;
-  @JsonValue('last_update')
+  @JsonKey(name: 'last_update')
   DateTime lastUpdate;
 
   Task({
@@ -64,7 +64,7 @@ class Task {
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
 @JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
-  @JsonValue('organizer_ids')
+  @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
 
   AgendaTask(
@@ -98,9 +98,9 @@ class AgendaTask extends Task {
 /// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  @JsonValue('organizer_ids')
+  @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
-  @JsonValue('resource_ids')
+  @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
 
   TimetableTask(
@@ -135,7 +135,7 @@ class TimetableTask extends Task {
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
   List<Map<String, dynamic>>? feedback;
-  @JsonValue('place_id')
+  @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
 
@@ -210,7 +210,7 @@ class CleaningTask extends Task {
 ///library.
 @JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
-  @JsonValue('book_id')
+  @JsonKey(name: 'book_id')
   String bookID;
 
   BookloanTask(
@@ -244,16 +244,16 @@ class BookloanTask extends Task {
 @JsonSerializable()
 class PollTask extends Task {
   String question;
-  @JsonValue('answer_options')
+  @JsonKey(name: 'answer_options')
   List<String> answerOptions;
   List<Map<String, String>>? answers;
-  @JsonValue('issuer_ids')
+  @JsonKey(name: 'issuer_ids')
   List<String> issuerIDs;
-  @JsonValue('is_live')
+  @JsonKey(name: 'is_live')
   bool? isLive;
-  @JsonValue('is_confidential')
+  @JsonKey(name: 'is_confidential')
   bool? isConfidential;
-  @JsonValue('is_multiple_choice')
+  @JsonKey(name: 'is_multiple_choice')
   bool? isMultipleChoice;
 
   PollTask({

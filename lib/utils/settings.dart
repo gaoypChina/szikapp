@@ -95,7 +95,7 @@ class Settings {
   //Publikus függvények (Interface)
   Future<bool> loadPreferences() async {
     var io = IO();
-    var serverPreferences = await io.getUserPreferences(null);
+    var serverPreferences = await io.getUserPreferences();
     darkMode = serverPreferences.darkMode;
     theme = serverPreferences.theme;
     language = serverPreferences.language;

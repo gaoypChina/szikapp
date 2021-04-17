@@ -13,7 +13,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
     nick: json['nick'] as String?,
     email: json['email'] as String,
     phone: json['phone'] as String?,
-    secondaryPhone: json['secondaryPhone'] as String?,
+    secondaryPhone: json['secondary_phone'] as String?,
     preferences: json['preferences'] == null
         ? null
         : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
@@ -21,8 +21,8 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['birthday'] as String),
     groupIDs:
-        (json['groupIDs'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    lastUpdate: DateTime.parse(json['lastUpdate'] as String),
+        (json['group_ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    lastUpdate: DateTime.parse(json['last_update'] as String),
   );
 }
 
@@ -32,9 +32,9 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'nick': instance.nick,
       'email': instance.email,
       'phone': instance.phone,
-      'secondaryPhone': instance.secondaryPhone,
+      'secondary_phone': instance.secondaryPhone,
       'preferences': instance.preferences,
       'birthday': instance.birthday?.toIso8601String(),
-      'groupIDs': instance.groupIDs,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
+      'group_ids': instance.groupIDs,
+      'last_update': instance.lastUpdate.toIso8601String(),
     };
