@@ -14,6 +14,7 @@ class User {
   String? _secondaryPhone;
   List<String>? groupIDs;
   List<Permission>? _permissions;
+  late final DateTime lastUpdate;
 
   //Setterek és getterek
   DateTime? get birthday => _birthday;
@@ -63,6 +64,7 @@ class User {
     phone = userData.phone;
     secondaryPhone = userData.secondaryPhone;
     groupIDs = userData.groupIDs;
+    lastUpdate = userData.lastUpdate;
   }
 
   Future<bool> hasPermission(Permission type, Object subject) async {

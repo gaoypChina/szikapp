@@ -11,7 +11,7 @@ class Place {
   @JsonKey(name: 'overseer_ids')
   List<String>? overseerIDs;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Place({
     required this.id,

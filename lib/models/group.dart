@@ -11,7 +11,7 @@ class Group {
   @JsonKey(name: 'member_ids')
   List<String>? memberIDs;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Group({
     required this.id,

@@ -15,7 +15,7 @@ class CleaningExchange {
   bool approved;
   List<Map<String, dynamic>>? rejected;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   CleaningExchange({
     required this.taskID,
