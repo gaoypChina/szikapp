@@ -8,7 +8,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../main.dart';
 import 'home_page.dart';
 import 'menu_page.dart';
-import 'submenu_page.dart';
 
 class SignInPage extends StatefulWidget {
   static const String route = '/signin';
@@ -120,33 +119,6 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
-          DelayedDisplay(
-            delay: Duration(milliseconds: 1500),
-            slidingBeginOffset: Offset(0.0, 0.02),
-            child: AnimatedOpacity(
-              opacity: selected ? 1 : 0,
-              duration: Duration(seconds: 2),
-              curve: Curves.easeInOutQuad,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 200,
-                    ),
-                    SignInButton(
-                      Buttons.Google,
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(SubMenuPage.route);
-                      },
-                      text: 'Almenü oldal',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
         ],
       );
     }

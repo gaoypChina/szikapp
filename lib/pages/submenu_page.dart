@@ -1,8 +1,71 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'signin_page.dart';
 
+final List<SubMenuButton> subMenuAdatokListItems = [
+  SubMenuButton(
+      name: 'Telefonkönyv, kontaktok',
+      picture: 'assets/pictures/default.png',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      name: 'Pinned post',
+      picture: 'assets/pictures/default.png',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      name: 'Hivatalos dokumentumok',
+      picture: 'assets/pictures/default.png',
+      ontap: SignInPage.route),
+];
+
+final List<SubMenuButton> subMenuKozossegiListItems = [
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Help me! fül',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Beer with me',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Spiri részleg',
+      ontap: SignInPage.route),
+];
+
+final List<SubMenuButton> subMenuMindennapiListItems = [
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Konyhataka és csere',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Foglalások',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Gondnoki kérések',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Form kitöltés fül',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Szavazás közgyűlésen',
+      ontap: SignInPage.route),
+  SubMenuButton(
+      picture: 'assets/pictures/default.png',
+      name: 'Könyvtári kölcsönzés',
+      ontap: SignInPage.route),
+];
+
 class SubMenuPage extends StatefulWidget {
+  final List<SubMenuButton> listItems;
   static const String route = '/submenu';
+
+  const SubMenuPage(
+      {Key key = const Key('SubMenuPage'), required this.listItems})
+      : super(key: key);
   @override
   _SubMenuPageState createState() => _SubMenuPageState();
 }
@@ -18,53 +81,6 @@ class SubMenuButton {
 }
 
 class _SubMenuPageState extends State<SubMenuPage> {
-  final List<SubMenuButton> _listItem = [
-    SubMenuButton(
-        name: 'Sign in with Google',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: SignInPage.route),
-    SubMenuButton(
-        name: 'második',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'harmadik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'negyedik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'ötödik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'hatodik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'hetedik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'nyolcadik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'kilencedik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'tizedik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-    SubMenuButton(
-        name: 'tizenegyedik',
-        picture: 'assets/pictures/kristof.jpg',
-        ontap: 'HomePage'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +110,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                       : 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  children: _listItem
+                  children: widget.listItems
                       .map((item) => Card(
                             color: Colors.transparent,
                             elevation: 0,
