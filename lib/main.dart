@@ -12,6 +12,7 @@ import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
+import 'pages/submenu_page.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
 import 'utils/user.dart';
@@ -46,7 +47,8 @@ class SZIKAppState extends State<SZIKApp> {
 
   void initializeFlutterFire() async {
     try {
-      // Wait for Firebase to initialize and set `_firebaseInitialized` state to true
+      // Wait for Firebase to initialize and
+      // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
       setState(() {
@@ -90,6 +92,8 @@ class SZIKAppState extends State<SZIKApp> {
       page = ProfilePage();
     } else if (settings.name == SettingsPage.route) {
       page = SettingsPage();
+    } else if (settings.name == SubMenuPage.route) {
+      page = SubMenuPage();
     } else if (settings.name == SignInPage.route) {
       page = SignInPage();
     } else {
