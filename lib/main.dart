@@ -90,6 +90,9 @@ class SZIKAppState extends State<SZIKApp> {
       page = SettingsPage();
     } else if (settings.name == SignInPage.route) {
       page = SignInPage();
+    } else if (settings.name == SubMenuPage.route) {
+      final args = settings.arguments as RouteArgumentsList<SubMenuButton>;
+      page = SubMenuPage(listItems: args.list);
     } else if (settings.name == ErrorScreen.route) {
       page = ErrorScreen();
     } else {
@@ -103,4 +106,10 @@ class SZIKAppState extends State<SZIKApp> {
       settings: settings,
     );
   }
+}
+
+class RouteArgumentsList<T> {
+  List<T> list;
+
+  RouteArgumentsList({required this.list});
 }
