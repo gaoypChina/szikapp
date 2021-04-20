@@ -1,80 +1,96 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'signin_page.dart';
 
 class SubMenuButton {
   final String picture;
   final String name;
-  final String ontap;
+  final String route;
 
   /// Konstruktor
   SubMenuButton(
-      {required this.picture, required this.name, required this.ontap});
+      {required this.picture, required this.name, required this.route});
 }
 
 final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
-      name: 'Telefonkönyv, kontaktok',
-      picture: 'assets/pictures/default.png',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_DATA_CONTACTS'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      name: 'Pinned post',
-      picture: 'assets/pictures/default.png',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_DATA_PINNED'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      name: 'Hivatalos dokumentumok',
-      picture: 'assets/pictures/default.png',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
 ];
 
 final List<SubMenuButton> subMenuCommunityListItems = [
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Help me! fül',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_COMMUNITY_HELPME'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Beer with me',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_COMMUNITY_BEERWITHME'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Spiri részleg',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_COMMUNITY_SPIRITUAL'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
 ];
 
 final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Konyhataka és csere',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Foglalások',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Gondnoki kérések',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Form kitöltés fül',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Szavazás közgyűlésen',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_POLL'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
   SubMenuButton(
-      picture: 'assets/pictures/default.png',
-      name: 'Könyvtári kölcsönzés',
-      ontap: SignInPage.route),
+    name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),
+    picture: 'assets/pictures/default.png',
+    route: SignInPage.route,
+  ),
 ];
 
 class SubMenuPage extends StatefulWidget {
   final List<SubMenuButton> listItems;
+  final String title;
   static const String route = '/submenu';
 
   const SubMenuPage(
-      {Key key = const Key('SubMenuPage'), required this.listItems})
+      {Key key = const Key('SubMenuPage'),
+      required this.listItems,
+      required this.title})
       : super(key: key);
   @override
   _SubMenuPageState createState() => _SubMenuPageState();
@@ -96,7 +112,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
           child: Column(
             children: [
               Text(
-                'BELÜGY',
+                widget.title,
                 style: TextStyle(
                     color: Color(0xff990e35),
                     fontSize: 25,
@@ -116,7 +132,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                             elevation: 0,
                             child: GestureDetector(
                               onTap: () {
-                                _onPressed(item.ontap);
+                                _onPressed(item.route);
                               },
                               child: Container(
                                 width: double.infinity,
@@ -134,8 +150,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                       width: 55,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/pictures/default.png'),
+                                            image: AssetImage(item.picture),
                                             fit: BoxFit.cover),
                                       ),
                                     ),
@@ -173,6 +188,6 @@ class _SubMenuPageState extends State<SubMenuPage> {
   }
 
   void _onPressed(String route) {
-    Navigator.of(context).pushReplacementNamed(route);
+    Navigator.of(context).pushNamed(route);
   }
 }
