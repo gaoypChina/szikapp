@@ -15,7 +15,9 @@ enum TaskType {
   @JsonValue('cleaning')
   cleaning,
   @JsonValue('bookloan')
-  bookloan
+  bookloan,
+  @JsonValue('poll')
+  poll
 }
 
 ///[TaskStatus] enum represents current statuses of [Task]s
@@ -45,7 +47,7 @@ class Task {
   List<String>? involvedIDs;
   String? description;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Task({
     required this.uid,
@@ -255,24 +257,27 @@ class PollTask extends Task {
   bool? isConfidential;
   @JsonKey(name: 'is_multiple_choice')
   bool? isMultipleChoice;
+  @JsonKey(name: 'max_selectable_options')
+  int maxSelectableOptions;
 
-  PollTask({
-    required uid,
-    required name,
-    required start,
-    required end,
-    required type,
-    involved,
-    description,
-    update,
-    required this.question,
-    required this.answerOptions,
-    this.answers,
-    required this.issuerIDs,
-    this.isLive = false,
-    this.isConfidential = false,
-    this.isMultipleChoice = false,
-  }) : super(
+  PollTask(
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
+      involved,
+      description,
+      update,
+      required this.question,
+      required this.answerOptions,
+      this.answers,
+      required this.issuerIDs,
+      this.isLive = false,
+      this.isConfidential = false,
+      this.isMultipleChoice = false,
+      this.maxSelectableOptions = 999})
+      : super(
           uid: uid,
           name: name,
           start: start,

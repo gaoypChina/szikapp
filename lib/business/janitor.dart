@@ -11,11 +11,11 @@ class Janitor {
   Future<bool> editStatus(TaskStatus status, int taskIndex) async {
     if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
-    janitorTasks[taskIndex].status = status;
-
     var io = IO();
     var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
     await io.patchJanitor(parameter, status);
+
+    janitorTasks[taskIndex].status = status;
 
     return true;
   }
@@ -32,21 +32,23 @@ class Janitor {
   Future<bool> deleteTask(int taskIndex) async {
     if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
-    janitorTasks.removeAt(taskIndex);
-
     var io = IO();
     var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
     await io.deleteJanitor(parameter);
+
+    janitorTasks.removeAt(taskIndex);
 
     return true;
   }
 
   Future<void> refresh() async {
     var io = IO();
-    janitorTasks = await io.getJanitor(null);
+    janitorTasks = await io.getJanitor();
   }
 
-  List<JanitorTask> filter(List<TaskStatus> statuses, List<String> roomIDs) {
+  List<JanitorTask> filter(
+      [List<TaskStatus> statuses = const <TaskStatus>[],
+      List<String> roomIDs = const <String>[]]) {
     if (roomIDs.isEmpty && statuses.isEmpty) return janitorTasks;
 
     var filteredJanitorTasks = <JanitorTask>[];

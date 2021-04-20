@@ -17,7 +17,7 @@ class UserData {
   @JsonKey(name: 'group_ids')
   List<String>? groupIDs;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   UserData({
     required this.id,

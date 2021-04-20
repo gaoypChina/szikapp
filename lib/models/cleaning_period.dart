@@ -11,7 +11,7 @@ class CleaningPeriod {
   @JsonKey(name: 'is_live')
   bool isLive;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   CleaningPeriod({
     required this.uid,

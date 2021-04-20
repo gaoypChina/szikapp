@@ -1,9 +1,8 @@
+///[SZIKApp] is an awesome application made in Flutter for the lovely people
+///in da SZIK.
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-
-///[SZIKApp] is an awesome application made in Flutter for the lovely people
-///in da SZIK.
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,7 @@ import 'pages/profile_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
+import 'ui/screens/error_screen.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
 import 'utils/user.dart';
@@ -65,8 +65,6 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     initializeFlutterFire();
-    //TODO: Auth() meghívása később
-    //authManager = Auth();
     super.initState();
   }
 
@@ -92,10 +90,13 @@ class SZIKAppState extends State<SZIKApp> {
       page = ProfilePage();
     } else if (settings.name == SettingsPage.route) {
       page = SettingsPage();
-    } else if (settings.name == SubMenuPage.route) {
-      page = SubMenuPage();
     } else if (settings.name == SignInPage.route) {
       page = SignInPage();
+    } else if (settings.name == SubMenuPage.route) {
+      final args = settings.arguments as RouteArgumentsList<SubMenuButton>;
+      page = SubMenuPage(listItems: args.list);
+    } else if (settings.name == ErrorScreen.route) {
+      page = ErrorScreen();
     } else {
       throw Exception(
           'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
@@ -107,4 +108,10 @@ class SZIKAppState extends State<SZIKApp> {
       settings: settings,
     );
   }
+}
+
+class RouteArgumentsList<T> {
+  List<T> list;
+
+  RouteArgumentsList({required this.list});
 }
