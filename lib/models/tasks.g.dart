@@ -14,14 +14,12 @@ AgendaTask _$AgendaTaskFromJson(Map<String, dynamic> json) {
     end: json['end'],
     type: json['type'],
     description: json['description'],
-    organizerIDs: (json['organizerIDs'] as List<dynamic>)
+    organizerIDs: (json['organizer_ids'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$AgendaTaskToJson(AgendaTask instance) =>
@@ -31,10 +29,9 @@ Map<String, dynamic> _$AgendaTaskToJson(AgendaTask instance) =>
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
-      'organizerIDs': instance.organizerIDs,
+      'organizer_ids': instance.organizerIDs,
     };
 
 const _$TaskTypeEnumMap = {
@@ -44,6 +41,7 @@ const _$TaskTypeEnumMap = {
   TaskType.timetable: 'timetable',
   TaskType.cleaning: 'cleaning',
   TaskType.bookloan: 'bookloan',
+  TaskType.poll: 'poll',
 };
 
 TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) {
@@ -54,16 +52,15 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) {
     end: json['end'],
     type: json['type'],
     description: json['description'],
-    organizerIDs: (json['organizerIDs'] as List<dynamic>)
+    organizerIDs: (json['organizer_ids'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
-    resourceIDs:
-        (json['resourceIDs'] as List<dynamic>).map((e) => e as String).toList(),
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+    resourceIDs: (json['resource_ids'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
@@ -73,11 +70,10 @@ Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
-      'organizerIDs': instance.organizerIDs,
-      'resourceIDs': instance.resourceIDs,
+      'organizer_ids': instance.organizerIDs,
+      'resource_ids': instance.resourceIDs,
     };
 
 JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) {
@@ -91,13 +87,11 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) {
     feedback: (json['feedback'] as List<dynamic>?)
         ?.map((e) => e as Map<String, dynamic>)
         .toList(),
-    placeID: json['placeID'] as String,
+    placeID: json['place_id'] as String,
     status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$JanitorTaskToJson(JanitorTask instance) =>
@@ -107,11 +101,10 @@ Map<String, dynamic> _$JanitorTaskToJson(JanitorTask instance) =>
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
       'feedback': instance.feedback,
-      'placeID': instance.placeID,
+      'place_id': instance.placeID,
       'status': _$TaskStatusEnumMap[instance.status],
     };
 
@@ -162,11 +155,9 @@ CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) {
         ?.map((e) => e as Map<String, dynamic>)
         .toList(),
     status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
@@ -176,9 +167,8 @@ Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
       'feedback': instance.feedback,
       'status': _$TaskStatusEnumMap[instance.status],
     };
@@ -191,12 +181,10 @@ BookloanTask _$BookloanTaskFromJson(Map<String, dynamic> json) {
     end: json['end'],
     type: json['type'],
     description: json['description'],
-    bookID: json['bookID'] as String,
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+    bookID: json['book_id'] as String,
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$BookloanTaskToJson(BookloanTask instance) =>
@@ -206,10 +194,9 @@ Map<String, dynamic> _$BookloanTaskToJson(BookloanTask instance) =>
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
-      'bookID': instance.bookID,
+      'book_id': instance.bookID,
     };
 
 PollTask _$PollTaskFromJson(Map<String, dynamic> json) {
@@ -221,22 +208,21 @@ PollTask _$PollTaskFromJson(Map<String, dynamic> json) {
     type: json['type'],
     description: json['description'],
     question: json['question'] as String,
-    answerOptions: (json['answerOptions'] as List<dynamic>)
+    answerOptions: (json['answer_options'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
     answers: (json['answers'] as List<dynamic>?)
         ?.map((e) => Map<String, String>.from(e as Map))
         .toList(),
     issuerIDs:
-        (json['issuerIDs'] as List<dynamic>).map((e) => e as String).toList(),
-    isLive: json['isLive'] as bool?,
-    isConfidential: json['isConfidential'] as bool?,
-    isMultipleChoice: json['isMultipleChoice'] as bool?,
-  )
-    ..involvedIDs = (json['involvedIDs'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList()
-    ..lastUpdate = DateTime.parse(json['lastUpdate'] as String);
+        (json['issuer_ids'] as List<dynamic>).map((e) => e as String).toList(),
+    isLive: json['is_live'] as bool?,
+    isConfidential: json['is_confidential'] as bool?,
+    isMultipleChoice: json['is_multiple_choice'] as bool?,
+    maxSelectableOptions: json['max_selectable_options'] as int,
+  )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList();
 }
 
 Map<String, dynamic> _$PollTaskToJson(PollTask instance) => <String, dynamic>{
@@ -245,14 +231,14 @@ Map<String, dynamic> _$PollTaskToJson(PollTask instance) => <String, dynamic>{
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type],
-      'involvedIDs': instance.involvedIDs,
+      'involved_ids': instance.involvedIDs,
       'description': instance.description,
-      'lastUpdate': instance.lastUpdate.toIso8601String(),
       'question': instance.question,
-      'answerOptions': instance.answerOptions,
+      'answer_options': instance.answerOptions,
       'answers': instance.answers,
-      'issuerIDs': instance.issuerIDs,
-      'isLive': instance.isLive,
-      'isConfidential': instance.isConfidential,
-      'isMultipleChoice': instance.isMultipleChoice,
+      'issuer_ids': instance.issuerIDs,
+      'is_live': instance.isLive,
+      'is_confidential': instance.isConfidential,
+      'is_multiple_choice': instance.isMultipleChoice,
+      'max_selectable_options': instance.maxSelectableOptions,
     };

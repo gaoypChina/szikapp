@@ -8,10 +8,10 @@ class Place {
   final String name;
   final String type;
   String? description;
-  @JsonValue('overseer_ids')
+  @JsonKey(name: 'overseer_ids')
   List<String>? overseerIDs;
-  @JsonValue('last_update')
-  DateTime lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Place({
     required this.id,

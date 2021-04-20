@@ -57,6 +57,6 @@ class Contacts {
 
   Future<void> refresh() async {
     var io = IO();
-    contacts = await io.getContacts(null);
+    contacts = await io.getContacts();
   }
 }

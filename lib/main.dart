@@ -1,18 +1,24 @@
 ///[SZIKApp] is an awesome application made in Flutter for the lovely people
 ///in da SZIK.
+import 'dart:io';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 import 'pages/home_page.dart';
 import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
+import 'pages/submenu_page.dart';
+import 'ui/screens/error_screen.dart';
 import 'utils/auth.dart';
+import 'utils/io.dart';
 import 'utils/user.dart';
 
 void main() async {
+  HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   runApp(
@@ -36,13 +42,15 @@ class SZIKApp extends StatefulWidget {
 class SZIKAppState extends State<SZIKApp> {
   bool _firebaseInitialized = false;
   bool _firebaseError = false;
-  late Auth authManager;
-  User? user;
+  static late Auth authManager;
+  static User? user;
 
   void initializeFlutterFire() async {
     try {
-      // Wait for Firebase to initialize and set `_firebaseInitialized` state to true
+      // Wait for Firebase to initialize and
+      // set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
+      authManager = Auth();
       setState(() {
         _firebaseInitialized = true;
       });
@@ -57,7 +65,6 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     initializeFlutterFire();
-    authManager = Auth();
     super.initState();
   }
 
@@ -65,7 +72,7 @@ class SZIKAppState extends State<SZIKApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SzikApp',
-      initialRoute: HomePage.route,
+      initialRoute: SignInPage.route,
       onGenerateRoute: _onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -85,6 +92,14 @@ class SZIKAppState extends State<SZIKApp> {
       page = SettingsPage();
     } else if (settings.name == SignInPage.route) {
       page = SignInPage();
+    } else if (settings.name == SubMenuPage.route) {
+      final args = settings.arguments as SubMenuArguments;
+      page = SubMenuPage(
+        listItems: args.items,
+        title: args.title,
+      );
+    } else if (settings.name == ErrorScreen.route) {
+      page = ErrorScreen();
     } else {
       throw Exception(
           'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
@@ -96,4 +111,11 @@ class SZIKAppState extends State<SZIKApp> {
       settings: settings,
     );
   }
+}
+
+class SubMenuArguments {
+  List<SubMenuButton> items;
+  String title;
+
+  SubMenuArguments({required this.items, required this.title});
 }

@@ -8,10 +8,10 @@ class Group {
   String name;
   String? description;
   String? email;
-  @JsonValue('member_ids')
+  @JsonKey(name: 'member_ids')
   List<String>? memberIDs;
-  @JsonValue('last_update')
-  DateTime lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Group({
     required this.id,

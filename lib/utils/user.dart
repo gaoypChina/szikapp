@@ -18,6 +18,7 @@ class User {
   String? _secondaryPhone;
   List<String>? groupIDs;
   List<Permission>? _permissions;
+  late final DateTime lastUpdate;
 
   //Setterek és getterek
   DateTime? get birthday => _birthday;
@@ -45,9 +46,10 @@ class User {
 
   String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
+    if (value == null) return null;
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (validationPhone.hasMatch(value!)) {
+    if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('');
@@ -67,6 +69,7 @@ class User {
     phone = userData.phone;
     secondaryPhone = userData.secondaryPhone;
     groupIDs = userData.groupIDs;
+    lastUpdate = userData.lastUpdate;
   }
 
   Future<bool> hasPermission(Permission type, dynamic subject) async {
@@ -107,6 +110,6 @@ class User {
     }
 
 
-    return _permissions!.contains(type) ? true : false; 
-  }
+    return _permissions!.contains(type) ? true : false;
+}
 }

@@ -25,19 +25,19 @@ enum Theme {
 
 @JsonSerializable()
 class Preferences {
-  @JsonValue('dark_mode')
+  @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
   Language language;
   Theme theme;
   Map<String, bool>? notifications;
-  @JsonValue('left_menu_option')
+  @JsonKey(name: 'left_menu_option')
   String? leftMenuOption;
-  @JsonValue('right_menu_option')
+  @JsonKey(name: 'right_menu_option')
   String? rightMenuOption;
-  @JsonValue('data_lite')
+  @JsonKey(name: 'data_lite')
   bool dataLite;
-  @JsonValue('last_update')
-  DateTime lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Preferences(
       {this.darkMode = DarkMode.system,
