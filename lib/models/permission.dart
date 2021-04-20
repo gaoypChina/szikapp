@@ -6,6 +6,7 @@ enum Permission {
   pollSendAnswer,
   pollSendNotification,
   pollResultsView,
+  pollResultsExport,
 
   cleaningTaskView,
   cleaningPeriodCreate,
