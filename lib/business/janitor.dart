@@ -12,7 +12,7 @@ class Janitor {
     if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
     var io = IO();
-    var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
+    var parameter = <String, String>{'id': janitorTasks[taskIndex].uid};
     await io.patchJanitor(status, parameter);
 
     janitorTasks[taskIndex].status = status;
@@ -33,7 +33,7 @@ class Janitor {
     if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
     var io = IO();
-    var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
+    var parameter = <String, String>{'id': janitorTasks[taskIndex].uid};
     await io.deleteJanitor(parameter, janitorTasks[taskIndex].lastUpdate);
 
     janitorTasks.removeAt(taskIndex);

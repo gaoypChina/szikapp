@@ -6,8 +6,9 @@ class Settings {
   //Privát változók
   SharedPreferences? _ownSharedPreferences;
 
-  //Konstruktor
-  Settings() {
+  static final Settings _instance = Settings._privateConstructor();
+  factory Settings() => _instance;
+  Settings._privateConstructor() {
     _intialize();
   }
 
@@ -37,10 +38,10 @@ class Settings {
     var disabled = _ownSharedPreferences!.getStringList('disabled');
     var result = <String, bool>{};
 
-    enabled!.forEach((element) {
+    enabled?.forEach((element) {
       result.putIfAbsent(element, () => true);
     });
-    disabled!.forEach((element) {
+    disabled?.forEach((element) {
       result.putIfAbsent(element, () => false);
     });
 
