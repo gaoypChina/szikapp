@@ -2,7 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'signin_page.dart';
 
-final List<SubMenuButton> subMenuAdatokListItems = [
+class SubMenuButton {
+  final String picture;
+  final String name;
+  final String ontap;
+
+  /// Konstruktor
+  SubMenuButton(
+      {required this.picture, required this.name, required this.ontap});
+}
+
+final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
       name: 'Telefonkönyv, kontaktok',
       picture: 'assets/pictures/default.png',
@@ -17,7 +27,7 @@ final List<SubMenuButton> subMenuAdatokListItems = [
       ontap: SignInPage.route),
 ];
 
-final List<SubMenuButton> subMenuKozossegiListItems = [
+final List<SubMenuButton> subMenuCommunityListItems = [
   SubMenuButton(
       picture: 'assets/pictures/default.png',
       name: 'Help me! fül',
@@ -32,7 +42,7 @@ final List<SubMenuButton> subMenuKozossegiListItems = [
       ontap: SignInPage.route),
 ];
 
-final List<SubMenuButton> subMenuMindennapiListItems = [
+final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
       picture: 'assets/pictures/default.png',
       name: 'Konyhataka és csere',
@@ -68,16 +78,6 @@ class SubMenuPage extends StatefulWidget {
       : super(key: key);
   @override
   _SubMenuPageState createState() => _SubMenuPageState();
-}
-
-class SubMenuButton {
-  final String picture;
-  final String name;
-  final String ontap;
-
-  /// Konstruktor
-  SubMenuButton(
-      {required this.picture, required this.name, required this.ontap});
 }
 
 class _SubMenuPageState extends State<SubMenuPage> {
@@ -135,7 +135,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: AssetImage(
-                                                'assets/pictures/kristof.jpg'),
+                                                'assets/pictures/default.png'),
                                             fit: BoxFit.cover),
                                       ),
                                     ),

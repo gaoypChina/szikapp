@@ -48,7 +48,7 @@ class SZIKAppState extends State<SZIKApp> {
   void initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
-      // set `firebaseInitialized` state to true
+      // set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
       setState(() {
