@@ -1,3 +1,6 @@
+import 'package:szikapp/models/cleaning_exchange.dart';
+import 'package:szikapp/models/tasks.dart';
+
 import '../models/permission.dart';
 import '../models/user_data.dart';
 import 'exceptions.dart';
@@ -5,6 +8,7 @@ import 'io.dart';
 
 class User {
   //Tagváltozók
+  late final String id;
   late String name;
   late String email;
   late Uri profilePicture;
@@ -55,6 +59,7 @@ class User {
 
   //Publikus függvények aka Interface
   User(this.profilePicture, UserData userData) {
+    id = userData.id;
     name = userData.name;
     email = userData.email;
     nick = userData.nick;
@@ -65,9 +70,43 @@ class User {
   }
 
   Future<bool> hasPermission(Permission type, dynamic subject) async {
-    //TODO kezdeni valamit a subjecttel
     var io = IO();
     _permissions ??= await io.getUserPermissions(null);
-    return _permissions!.contains(type) ? true : false;
+
+    if (type == Permission.pollEdit || 
+    type == Permission.pollResultsView || 
+    type == Permission.pollResultsExport) {
+      if (subject.runtimeType != PollTask) throw TypeError();
+      var poll = subject as PollTask;
+      return poll.issuerIDs.contains(id) && 
+      _permissions!.contains(type) ? true : false;
+    }
+
+    if(type == Permission.cleaningExchangeOffer||
+    type==Permission.cleaningExchangeAccept || 
+    type==Permission.cleaningExchangeReject){
+      if(subject.runtimeType != CleaningExchange) throw TypeError();
+      var cleaningex = subject as CleaningExchange;
+      return cleaningex.initiatorID.contains(id) &&
+      _permissions!.contains(type) ? true : false;
+    }
+
+    if(type==Permission.janitorTaskEdit||
+    type==Permission.janitorTaskSolutionAccept){
+      if(subject.runtimeType != JanitorTask) throw TypeError();
+      var janitor = subject as JanitorTask;
+      return janitor.involvedIDs!.contains(id) &&
+      _permissions!.contains(type) ? true : false;
+    }
+
+    if(type == Permission.reservationEdit){
+      if(subject.runtimeType != TimetableTask) throw TypeError();
+      var tttask = subject as TimetableTask;
+      return tttask.organizerIDs.contains(type) &&
+      _permissions!.contains(type) ? true : false;
+    }
+
+
+    return _permissions!.contains(type) ? true : false; 
   }
 }
