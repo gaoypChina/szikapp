@@ -117,7 +117,7 @@ class Settings {
       ..rightMenuOption = rightMenuOption;
 
     var io = IO();
-    await io.putUserPreferences(null, prefs);
+    await io.putUserPreferences(prefs);
     return true;
   }
 

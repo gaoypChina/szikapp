@@ -58,7 +58,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var parsed = json.decode(utf8.decode(response.bodyBytes));
@@ -67,7 +67,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postUser(Map<String, String>? parameters, UserData data) async {
+  Future<bool> postUser(UserData data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_userEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -79,7 +80,7 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> putUser(Map<String, String>? parameters, UserData data) async {
+  Future<bool> putUser(UserData data, [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_userEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(
@@ -91,12 +92,12 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteUser(Map<String, String>? parameters) async {
+  Future<bool> deleteUser(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_userEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -108,7 +109,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var parsed = json.decode(utf8.decode(response.bodyBytes));
@@ -117,8 +118,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> putUserPreferences(
-      Map<String, String>? parameters, Preferences data) async {
+  Future<bool> putUserPreferences(Preferences data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(
@@ -130,7 +131,7 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteUserPreferences(Map<String, String>? parameters) async {
+  Future<bool> deleteUserPreferences([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(
@@ -146,7 +147,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <Place>[];
@@ -160,7 +161,7 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postPlace(Map<String, String>? parameters, Place data) async {
+  Future<bool> postPlace(Place data, [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_placeEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -172,13 +173,11 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> putPlace(Map<String, String>? parameters, Place data) async {
+  Future<bool> putPlace(Place data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_placeEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -190,7 +189,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <Permission>[];
@@ -205,27 +204,48 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> patchUserPermissions(
-      Map<String, String>? parameters, Permission data) async {
+  Future<bool> postUserPermission(List<Permission> data,
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.patch(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)},
         body: data.toString());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> putUserPermissions(
-      Map<String, String>? parameters, Permission data) async {
+  Future<bool> patchUserPermissions(Permission data,
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)},
         body: data.toString());
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> putUserPermissions(Permission data,
+      Map<String, String> parameters, DateTime lastUpdate) async {
+    var uri = '$_vm_1$_permissionsEndpoint';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)},
+        body: data.toString());
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> deleteUserPermission(
+      Map<String, String> parameters, DateTime lastUpdate) async {
+    var uri = '$_vm_1$_permissionsEndpoint';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -237,7 +257,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <JanitorTask>[];
@@ -251,8 +271,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postJanitor(
-      Map<String, String>? parameters, JanitorTask data) async {
+  Future<bool> postJanitor(JanitorTask data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_janitorEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -265,37 +285,33 @@ class IO {
   }
 
   Future<bool> patchJanitor(
-      Map<String, String>? parameters, TaskStatus data) async {
+      TaskStatus data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.patch(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toString());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toString());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
   Future<bool> putJanitor(
-      Map<String, String>? parameters, JanitorTask data) async {
+      JanitorTask data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteJanitor(Map<String, String>? parameters) async {
+  Future<bool> deleteJanitor(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_janitorEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -306,7 +322,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <Group>[];
@@ -320,7 +336,7 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postGroup(Map<String, String>? parameters, Group data) async {
+  Future<bool> postGroup(Group data, [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_groupEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -332,24 +348,22 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> putGroup(Map<String, String>? parameters, Group data) async {
+  Future<bool> putGroup(Group data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteGroup(Map<String, String>? parameters) async {
+  Future<bool> deleteGroup(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_groupEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -360,7 +374,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <UserData>[];
@@ -380,7 +394,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <CleaningExchange>[];
@@ -394,8 +408,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postCleaningExchange(
-      Map<String, String>? parameters, CleaningExchange data) async {
+  Future<bool> postCleaningExchange(CleaningExchange data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -408,12 +422,11 @@ class IO {
   }
 
   Future<bool> patchCleaningExchange(
-      Map<String, String>? parameters, String data) async {
+      String data, Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.patch(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)},
         body: data);
 
     if (response.statusCode == 200) return true;
@@ -421,24 +434,23 @@ class IO {
   }
 
   Future<bool> putCleaningExchange(
-      Map<String, String>? parameters, String data) async {
+      String data, Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)},
         body: data);
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteCleaningExchange(Map<String, String>? parameters) async {
+  Future<bool> deleteCleaningExchange(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -450,7 +462,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <CleaningTask>[];
@@ -464,8 +476,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postCleaning(
-      Map<String, String>? parameters, CleaningPeriod data) async {
+  Future<bool> postCleaning(CleaningPeriod data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_cleaningEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -478,26 +490,22 @@ class IO {
   }
 
   Future<bool> patchCleaning(
-      Map<String, String>? parameters, CleaningPeriod data) async {
+      CleaningPeriod data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.patch(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
   Future<bool> putCleaning(
-      Map<String, String>? parameters, CleaningTask data) async {
+      CleaningTask data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_cleaningEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -506,9 +514,8 @@ class IO {
   Future<List<PollTask>> getPoll([Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_pollEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.get(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <PollTask>[];
@@ -522,7 +529,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postPoll(Map<String, String>? parameters, PollTask data) async {
+  Future<bool> postPoll(PollTask data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_pollEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -534,37 +542,33 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> patchPoll(Map<String, String>? parameters, PollTask data) async {
+  Future<bool> patchPoll(PollTask data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.patch(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
   Future<bool> putPoll(
-      Map<String, String>? parameters, Map<String, String> data) async {
+      Map<String, String> data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data);
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data);
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> deletePoll(Map<String, String>? parameters) async {
+  Future<bool> deletePoll(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_pollEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -576,7 +580,7 @@ class IO {
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(
         parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._cacheHeaders()});
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <TimetableTask>[];
@@ -590,8 +594,8 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> postReservation(
-      Map<String, String>? parameters, TimetableTask data) async {
+  Future<bool> postReservation(TimetableTask data,
+      [Map<String, String>? parameters]) async {
     var uri = '$_vm_1$_reservationEndpoint';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(
@@ -604,24 +608,22 @@ class IO {
   }
 
   Future<bool> putReservation(
-      Map<String, String>? parameters, TimetableTask data) async {
+      TimetableTask data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.put(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(),
-        body: data.toJson());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
   }
 
-  Future<bool> deleteReservation(Map<String, String>? parameters) async {
+  Future<bool> deleteReservation(
+      Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_reservationEndpoint';
-    parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.delete(
-        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders());
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -649,9 +651,9 @@ class IO {
     };
   }
 
-  Map<String, String> _cacheHeaders() {
-    return {
-      'LastUpdate': DateTime(1998).toIso8601String(),
-    };
+  Map<String, String> _lastUpdateHeader([DateTime? time]) {
+    return time == null
+        ? {'LastUpdate': DateTime(1998).toIso8601String()}
+        : {'LastUpdate': time.toIso8601String()};
   }
 }

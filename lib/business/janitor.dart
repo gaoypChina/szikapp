@@ -13,7 +13,7 @@ class Janitor {
 
     var io = IO();
     var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
-    await io.patchJanitor(parameter, status);
+    await io.patchJanitor(status, parameter);
 
     janitorTasks[taskIndex].status = status;
 
@@ -24,7 +24,7 @@ class Janitor {
     janitorTasks.add(task);
 
     var io = IO();
-    await io.postJanitor(null, task);
+    await io.postJanitor(task);
 
     return true;
   }
@@ -34,7 +34,7 @@ class Janitor {
 
     var io = IO();
     var parameter = <String, String>{'uuid': janitorTasks[taskIndex].uid};
-    await io.deleteJanitor(parameter);
+    await io.deleteJanitor(parameter, janitorTasks[taskIndex].lastUpdate);
 
     janitorTasks.removeAt(taskIndex);
 
