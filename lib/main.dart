@@ -11,6 +11,7 @@ import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
+import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
@@ -46,7 +47,8 @@ class SZIKAppState extends State<SZIKApp> {
 
   void initializeFlutterFire() async {
     try {
-      // Wait for Firebase to initialize and set `_firebaseInitialized` state to true
+      // Wait for Firebase to initialize and
+      // set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
       setState(() {
@@ -91,8 +93,11 @@ class SZIKAppState extends State<SZIKApp> {
     } else if (settings.name == SignInPage.route) {
       page = SignInPage();
     } else if (settings.name == SubMenuPage.route) {
-      final args = settings.arguments as RouteArgumentsList<SubMenuButton>;
-      page = SubMenuPage(listItems: args.list);
+      final args = settings.arguments as SubMenuArguments;
+      page = SubMenuPage(
+        listItems: args.items,
+        title: args.title,
+      );
     } else if (settings.name == ErrorScreen.route) {
       page = ErrorScreen();
     } else {
@@ -108,8 +113,9 @@ class SZIKAppState extends State<SZIKApp> {
   }
 }
 
-class RouteArgumentsList<T> {
-  List<T> list;
+class SubMenuArguments {
+  List<SubMenuButton> items;
+  String title;
 
-  RouteArgumentsList({required this.list});
+  SubMenuArguments({required this.items, required this.title});
 }
