@@ -66,7 +66,6 @@ class User {
   }
 
   Future<bool> hasPermission(Permission type, Object subject) async {
-    //TODO kezdeni valamit a subjecttel
     if (_permissions != null) {
       return _permissions!.contains(type) ? true : false;
     }
