@@ -21,11 +21,11 @@ class Reservation {
   Future<bool> deleteReservation(int taskIndex) async {
     if (taskIndex >= reservations.length || taskIndex < 0) return false;
 
-    reservations.removeAt(taskIndex);
-
     var io = IO();
     var parameter = <String, String>{'uuid': reservations[taskIndex].uid};
     await io.deleteReservation(parameter);
+
+    reservations.removeAt(taskIndex);
 
     return true;
   }
@@ -36,20 +36,30 @@ class Reservation {
   }
 
   List<TimetableTask> filter(
-      List<DateTime> startTimes, List<DateTime> endTimes, List<String> rooms) {
+      DateTime startTime, DateTime endTime, List<String> rooms) {
     var filteredTimeTableTasks = <TimetableTask>[];
 
-    for (var res in reservations) {
-      if (startTimes.contains(res.start) || endTimes.contains(res.end))
-        filteredTimeTableTasks.add(res);
-      else {
+    if (rooms.isEmpty) {
+      //csak időpontra szűrünk
+      for (var res in reservations) {
+        if (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
+            res.end.isAfter(startTime) && res.end.isBefore(endTime))
+          filteredTimeTableTasks.add(res);
+      }
+    } else {
+      //szobára és időpontra is szűrünk
+      for (var res in reservations) {
         for (var i in res.resourceIDs!) {
-          if (i.startsWith('p') && rooms.contains(i))
+          //ha van szűrési feltétel az adott foglalás szobájára
+          //és az intervallumba is beleesik:
+          if (i.startsWith('p') &&
+              rooms.contains(i) &&
+              (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
+                  res.end.isAfter(startTime) && res.end.isBefore(endTime)))
             filteredTimeTableTasks.add(res);
         }
       }
     }
-
     return filteredTimeTableTasks;
   }
 }
