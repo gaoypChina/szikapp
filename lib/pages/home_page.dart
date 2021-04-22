@@ -33,21 +33,30 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
+        icon: ColorFiltered(
+          child: Image.asset('assets/icons/profile.png'),
+          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
         title: 'Profile',
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.menu),
+        icon: ColorFiltered(
+          child: Image.asset('assets/icons/menu.png'),
+          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
         title: 'Menu',
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.settings),
+        icon: ColorFiltered(
+          child: Image.asset('assets/icons/settings.png'),
+          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
         title: 'Settings',
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),

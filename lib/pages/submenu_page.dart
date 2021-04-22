@@ -16,17 +16,17 @@ class SubMenuButton {
 final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_CONTACTS'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/users.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_PINNED'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/tag.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/book.png',
     route: SignInPage.route,
   ),
 ];
@@ -34,17 +34,17 @@ final List<SubMenuButton> subMenuDataListItems = [
 final List<SubMenuButton> subMenuCommunityListItems = [
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_HELPME'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/help.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_BEERWITHME'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/glass.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_SPIRITUAL'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/heart.png',
     route: SignInPage.route,
   ),
 ];
@@ -52,32 +52,32 @@ final List<SubMenuButton> subMenuCommunityListItems = [
 final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/crockery.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/lock.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/repair_tool.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/pen.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_POLL'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/feedback.png',
     route: SignInPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),
-    picture: 'assets/pictures/default.png',
+    picture: 'assets/icons/open_book.png',
     route: SignInPage.route,
   ),
 ];
