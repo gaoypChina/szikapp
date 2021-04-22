@@ -13,7 +13,7 @@ class Reservation {
     reservations.add(task);
 
     var io = IO();
-    await io.postReservation(null, task);
+    await io.postReservation(task);
 
     return true;
   }
@@ -23,7 +23,7 @@ class Reservation {
 
     var io = IO();
     var parameter = <String, String>{'uuid': reservations[taskIndex].uid};
-    await io.deleteReservation(parameter);
+    await io.deleteReservation(parameter, reservations[taskIndex].lastUpdate);
 
     reservations.removeAt(taskIndex);
 
@@ -32,7 +32,7 @@ class Reservation {
 
   Future<void> refresh() async {
     var io = IO();
-    reservations = await io.getReservation(null);
+    reservations = await io.getReservation();
   }
 
   List<TimetableTask> filter(
