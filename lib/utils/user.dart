@@ -22,7 +22,9 @@ class User {
   //Setterek és getterek
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
-    if (date!.isBefore(DateTime(1960, 1, 1))) {
+    if (date == null)
+      _birthday = null;
+    else if (date.isBefore(DateTime(1960, 1, 1))) {
       throw ArgumentError();
     } else {
       _birthday = date;
@@ -33,7 +35,9 @@ class User {
   set phone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (validationPhone.hasMatch(value!)) {
+    if (value == null)
+      _phone = null;
+    else if (validationPhone.hasMatch(value)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('');
@@ -45,10 +49,11 @@ class User {
 
   String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
-    if (value == null) return null;
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (validationPhone.hasMatch(value)) {
+    if (value == null)
+      _secondaryPhone = null;
+    else if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('');
