@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +44,9 @@ class SZIKApp extends StatefulWidget {
 class SZIKAppState extends State<SZIKApp> {
   bool _firebaseInitialized = false;
   bool _firebaseError = false;
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
   static late Auth authManager;
   static User? user;
 
@@ -77,6 +82,7 @@ class SZIKAppState extends State<SZIKApp> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
+      navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 
