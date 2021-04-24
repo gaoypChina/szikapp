@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'signin_page.dart';
 
+class SubMenuArguments {
+  List<SubMenuButton> items;
+  String title;
+
+  SubMenuArguments({required this.items, required this.title});
+}
+
 class SubMenuButton {
   final String picture;
   final String name;

@@ -105,7 +105,10 @@ class SZIKAppState extends State<SZIKApp> {
         title: args.title,
       );
     } else if (settings.name == ErrorScreen.route) {
-      page = ErrorScreen();
+      final args = settings.arguments as ErrorScreenArguments;
+      page = ErrorScreen(
+        error: args.error,
+      );
     } else {
       throw Exception(
           'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
@@ -117,11 +120,4 @@ class SZIKAppState extends State<SZIKApp> {
       settings: settings,
     );
   }
-}
-
-class SubMenuArguments {
-  List<SubMenuButton> items;
-  String title;
-
-  SubMenuArguments({required this.items, required this.title});
 }

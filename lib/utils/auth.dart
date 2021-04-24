@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'exceptions.dart';
 
 import 'io.dart';
 import 'user.dart' as szikapp_user;
@@ -52,15 +53,19 @@ class Auth {
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<bool> signIn() async {
-    await _signInWithGoogle();
-    var io = IO();
+    try {
+      await _signInWithGoogle();
+      var io = IO();
 
-    var userData = await io.getUser();
-    var profilePicture = userData.name != 'Guest'
-        ? _auth.currentUser!.photoURL
-        : '../assets/default.png';
-    _user = szikapp_user.User(
-        Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      var userData = await io.getUser();
+      var profilePicture = userData.name != 'Guest'
+          ? _auth.currentUser!.photoURL
+          : '../assets/default.png';
+      _user = szikapp_user.User(
+          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+    } on Exception catch (e) {
+      throw AuthException(e.toString());
+    }
     return true;
   }
 

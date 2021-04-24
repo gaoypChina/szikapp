@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../main.dart';
+import '../ui/screens/error_screen.dart';
+import '../utils/exceptions.dart';
 import 'home_page.dart';
 import 'menu_page.dart';
 
@@ -20,6 +22,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   bool started = false;
   bool logoStarted = false;
+  bool _authError = false;
   void _startAnimation() {
     setState(() {
       logoStarted = true;
@@ -125,9 +128,15 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _onPressed() {
-    SZIKAppState.authManager.signIn().then((success) => {
-          if (success == true)
-            Navigator.of(context).pushReplacementNamed(HomePage.route)
-        });
+    SZIKAppState.authManager
+        .signIn()
+        .then((success) => {
+              if (success == true)
+                Navigator.of(context).pushReplacementNamed(HomePage.route)
+            })
+        .catchError((error) => {
+              Navigator.of(context).pushNamed(ErrorScreen.route,
+                  arguments: ErrorScreenArguments(error: error))
+            });
   }
 }
