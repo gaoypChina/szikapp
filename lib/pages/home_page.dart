@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'menu_page.dart';
 import 'profile_page.dart';
@@ -34,30 +35,30 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
-          child: Image.asset('assets/icons/profile.png'),
+          child: Image.asset('assets/icons/profile_light_72.png'),
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        title: 'Profile',
+        title: 'MENU_CONTACTS'.tr(),
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
       ),
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
-          child: Image.asset('assets/icons/menu.png'),
+          child: Image.asset('assets/icons/cedar_light_72.png'),
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        title: 'Menu',
+        title: 'MENU_HOME'.tr(),
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
       ),
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
-          child: Image.asset('assets/icons/settings.png'),
+          child: Image.asset('assets/icons/calendar_light_72.png'),
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        title: 'Settings',
+        title: 'MENU_CALENDAR'.tr(),
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,

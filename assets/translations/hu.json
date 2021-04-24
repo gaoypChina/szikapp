@@ -1,6 +1,9 @@
 {
     "NAVIGATOR_MESSAGE_ERROR": "Ismeretlen út: {}", 
     "SIGN_IN_MESSAGE": "Belépés Google fiókkal",
+    "MENU_HOME": "Menü",
+    "MENU_CONTACTS": "Kontaktok",
+    "MENU_CALENDAR": "Naptár",
     "SUBMENU_DATA_CONTACTS": "Telefonkönyv, kontaktok",
     "SUBMENU_DATA_PINNED": "Pinned post",
     "SUBMENU_DATA_DOCUMENTS": "Hivatalos dokumentumok",

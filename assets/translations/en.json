@@ -1,6 +1,9 @@
 {
     "NAVIGATOR_MESSAGE_ERROR": "Unknown route: {}", 
     "SIGN_IN_MESSAGE": "Sign in with Google",
+    "MENU_HOME": "Menu",
+    "MENU_CONTACTS": "Contacts",
+    "MENU_CALENDAR": "Calendar",
     "SUBMENU_DATA_CONTACTS": "Telefonkönyv, kontaktok",
     "SUBMENU_DATA_PINNED": "Pinned post",
     "SUBMENU_DATA_DOCUMENTS": "Hivatalos dokumentumok",
