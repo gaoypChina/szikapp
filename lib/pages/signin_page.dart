@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:delayed_display/delayed_display.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -88,7 +89,8 @@ class _SignInPageState extends State<SignInPage> {
                             : Alignment.center,
                         child: Image.asset(
                           'assets/pictures/logo_white_800.png',
-                          width: 800 / devicePixelRatio,
+                          width: min(800 / devicePixelRatio,
+                              queryData.size.height / 3),
                         ),
                       )),
                 ],
