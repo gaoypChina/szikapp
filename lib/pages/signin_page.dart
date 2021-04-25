@@ -13,7 +13,7 @@ import 'home_page.dart';
 import 'menu_page.dart';
 
 class SignInPage extends StatefulWidget {
-  static const String route = '/signin';
+  static const String route = '/';
 
   const SignInPage({Key key = const Key('SignInPage')}) : super(key: key);
   @override
