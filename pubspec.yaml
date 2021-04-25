@@ -28,6 +28,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   provider: ^5.0.0
   delayed_display: ^2.0.0
+  persistent_bottom_nav_bar: ^4.0.2
   google_fonts: ^2.0.0
 
 dev_dependencies:
@@ -56,3 +57,4 @@ flutter:
   assets:
     - assets/translations/
     - assets/pictures/
+    - assets/icons/

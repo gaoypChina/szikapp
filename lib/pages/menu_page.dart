@@ -8,7 +8,9 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(),
+      child: Container(
+        child: Text('Menu'),
+      ),
     );
   }
 }
