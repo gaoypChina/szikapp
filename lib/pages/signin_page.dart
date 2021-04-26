@@ -19,22 +19,19 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool started = false;
-  bool logoStarted = false;
+  bool _started = false;
+  bool _logoStarted = false;
   void _startAnimation() {
     setState(() {
-      logoStarted = true;
+      _logoStarted = true;
     });
     Future.delayed(Duration(seconds: 1)).then((value) => setState(() {
-          started = true;
+          _started = true;
         }));
   }
 
   @override
   void initState() {
-    setState(() {
-      started = false;
-    });
     Future.delayed(Duration(microseconds: 10), _startAnimation);
     super.initState();
   }
@@ -66,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
           AnimatedOpacity(
             // Háttérszín (animált)
             duration: Duration(seconds: 2),
-            opacity: started ? 0.5 : 1,
+            opacity: _started ? 0.5 : 1,
             child: Container(
               color: Color(0xff59a3b0),
             ),
@@ -84,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                       child: AnimatedAlign(
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOutQuad,
-                        alignment: logoStarted
+                        alignment: _logoStarted
                             ? FractionalOffset(0.5, 0.4)
                             : Alignment.center,
                         child: Image.asset(
@@ -101,7 +98,7 @@ class _SignInPageState extends State<SignInPage> {
             delay: Duration(milliseconds: 1500),
             slidingBeginOffset: Offset(0.0, 0.02),
             child: AnimatedOpacity(
-              opacity: started ? 1 : 0,
+              opacity: _started ? 1 : 0,
               duration: Duration(seconds: 2),
               curve: Curves.easeInOutQuad,
               child: Center(

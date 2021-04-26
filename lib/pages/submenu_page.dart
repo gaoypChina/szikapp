@@ -148,10 +148,11 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                     Container(
                                       height: 55,
                                       width: 55,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(item.picture),
-                                            fit: BoxFit.cover),
+                                      child: ColorFiltered(
+                                        child: Image.asset(item.picture),
+                                        //TODO szín ne legyen hardcodeolva
+                                        colorFilter: ColorFilter.mode(
+                                            Color(0xff59a3b0), BlendMode.srcIn),
                                       ),
                                     ),
                                     SizedBox(

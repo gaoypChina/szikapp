@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:easy_localization/easy_localization.dart';
 
+import '../main.dart';
 import 'menu_page.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    SZIKAppState.authManager.signInSilently();
     _controller = PersistentTabController(initialIndex: 1);
   }
 
@@ -42,6 +44,10 @@ class _HomePageState extends State<HomePage> {
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: ProfilePage.route,
+          onGenerateRoute: SZIKAppState.onGenerateRoute,
+        ),
       ),
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
@@ -52,6 +58,10 @@ class _HomePageState extends State<HomePage> {
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: MenuPage.route,
+          onGenerateRoute: SZIKAppState.onGenerateRoute,
+        ),
       ),
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
@@ -62,6 +72,10 @@ class _HomePageState extends State<HomePage> {
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Color(0xffeeeeee),
         inactiveColorSecondary: Colors.purple,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: SettingsPage.route,
+          onGenerateRoute: SZIKAppState.onGenerateRoute,
+        ),
       ),
     ];
   }
@@ -82,7 +96,7 @@ class _HomePageState extends State<HomePage> {
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
-        confineInSafeArea: true,
+        confineInSafeArea: false,
         backgroundColor: Color(0xff59a3b0),
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,

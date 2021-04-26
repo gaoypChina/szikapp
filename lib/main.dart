@@ -73,14 +73,14 @@ class SZIKAppState extends State<SZIKApp> {
     return MaterialApp(
       title: 'SzikApp',
       initialRoute: SignInPage.route,
-      onGenerateRoute: _onGenerateRoute,
+      onGenerateRoute: onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
     );
   }
 
-  Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
     if (settings.name == HomePage.route) {
       page = HomePage();

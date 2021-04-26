@@ -13,7 +13,8 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    var fifth = MediaQuery.of(context).size.height * 0.2;
+    var fifth =
+        (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -42,19 +43,27 @@ class MenuPage extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      /*
-                      child: Icon(
-                        Icons.face,
-                        size: fifth * 0.5,
-                      ),
-                      */
+                      width: fifth * 0.5,
+                      height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Colors.grey,
-                        image: DecorationImage(
+                        //TODO szín ne legyen hardcodeolva
+                        color: Color(0x8059a3b0),
+                      ),
+                      child: Container(
+                        /*
+                        child: Icon(
+                          Icons.face,
+                          size: fifth * 0.5,
+                        ),
+                        */
+                        margin: EdgeInsets.all(fifth * 0.05),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
                             image: AssetImage(
                                 'assets/icons/bookopen_light_72.png'),
-                            fit: BoxFit.cover),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -101,18 +110,27 @@ class MenuPage extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      /*
-                      child: Icon(
-                        Icons.face,
-                        size: fifth * 0.5,
-                      ),
-                      */
+                      width: fifth * 0.5,
+                      height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Colors.grey,
-                        image: DecorationImage(
-                            image: AssetImage('assets/icons/smiley_white.png'),
-                            fit: BoxFit.cover),
+                        //TODO szín ne legyen hardcodeolva
+                        color: Color(0x8059a3b0),
+                      ),
+                      child: Container(
+                        /*
+                        child: Icon(
+                          Icons.face,
+                          size: fifth * 0.5,
+                        ),
+                        */
+                        margin: EdgeInsets.all(fifth * 0.05),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image:
+                                AssetImage('assets/icons/smiley_light_72.png'),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -145,19 +163,27 @@ class MenuPage extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      /*
-                      child: Icon(
-                        Icons.face,
-                        size: fifth * 0.5,
-                      ),
-                      */
+                      width: fifth * 0.5,
+                      height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Colors.grey,
-                        image: DecorationImage(
+                        //TODO szín ne legyen hardcodeolva
+                        color: Color(0x8059a3b0),
+                      ),
+                      child: Container(
+                        /*
+                        child: Icon(
+                          Icons.face,
+                          size: fifth * 0.5,
+                        ),
+                        */
+                        margin: EdgeInsets.all(fifth * 0.05),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
                             image:
                                 AssetImage('assets/icons/house_light_72.png'),
-                            fit: BoxFit.cover),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -199,19 +225,27 @@ class MenuPage extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      /*
-                      child: Icon(
-                        Icons.face,
-                        size: fifth * 0.5,
-                      ),
-                      */
+                      width: fifth * 0.5,
+                      height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Colors.grey,
-                        image: DecorationImage(
+                        //TODO szín ne legyen hardcodeolva
+                        color: Color(0x8059a3b0),
+                      ),
+                      child: Container(
+                        /*
+                        child: Icon(
+                          Icons.face,
+                          size: fifth * 0.5,
+                        ),
+                        */
+                        margin: EdgeInsets.all(fifth * 0.05),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
                             image: AssetImage(
                                 'assets/icons/calendar_light_72.png'),
-                            fit: BoxFit.cover),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -238,18 +272,26 @@ class MenuPage extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      /*
-                      child: Icon(
-                        Icons.face,
-                        size: fifth * 0.5,
-                      ),
-                      */
+                      width: fifth * 0.5,
+                      height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Colors.grey,
-                        image: DecorationImage(
+                        //TODO szín ne legyen hardcodeolva
+                        color: Color(0x8059a3b0),
+                      ),
+                      child: Container(
+                        /*
+                        child: Icon(
+                          Icons.face,
+                          size: fifth * 0.5,
+                        ),
+                        */
+                        margin: EdgeInsets.all(fifth * 0.05),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
                             image: AssetImage('assets/icons/gear_light_72.png'),
-                            fit: BoxFit.cover),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -257,7 +299,7 @@ class MenuPage extends StatelessWidget {
                     flex: 1,
                     child: Container(
                       child: Text(
-                        'MENU_SETTINGS',
+                        'MENU_SETTINGS'.tr(),
                         textAlign: TextAlign.left,
                         style: Theme.of(context).textTheme.headline3,
                       ),
