@@ -42,7 +42,7 @@ class _SignInPageState extends State<SignInPage> {
       @override
       void run() {
         scheduleMicrotask(() {
-          Navigator.pushReplacementNamed(context, MenuPage.route);
+          Navigator.pushReplacementNamed(context, HomePage.route);
         });
       }
 

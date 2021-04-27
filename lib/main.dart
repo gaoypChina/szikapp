@@ -51,6 +51,7 @@ class SZIKAppState extends State<SZIKApp> {
       // set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
+      await SZIKAppState.authManager.signInSilently();
       setState(() {
         _firebaseInitialized = true;
       });

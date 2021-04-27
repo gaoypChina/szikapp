@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    SZIKAppState.authManager.signInSilently();
+
     _controller = PersistentTabController(initialIndex: 1);
   }
 
