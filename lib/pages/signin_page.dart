@@ -11,7 +11,7 @@ import '../ui/screens/error_screen.dart';
 import 'home_page.dart';
 
 class SignInPage extends StatefulWidget {
-  static const String route = '/';
+  static const String route = '/signin';
 
   const SignInPage({Key key = const Key('SignInPage')}) : super(key: key);
   @override

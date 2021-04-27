@@ -56,7 +56,6 @@ class SZIKAppState extends State<SZIKApp> {
       // set `_firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
-      await SZIKAppState.authManager.signInSilently();
       setState(() {
         _firebaseInitialized = true;
       });
@@ -78,7 +77,7 @@ class SZIKAppState extends State<SZIKApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SzikApp',
-      initialRoute: SignInPage.route,
+      initialRoute: HomePage.route,
       onGenerateRoute: onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

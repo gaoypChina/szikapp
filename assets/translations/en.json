@@ -1,4 +1,5 @@
 {
+    "ERROR_UNKNOWN": "Unknown error.",
     "NAVIGATOR_MESSAGE_ERROR": "Unknown route: {}", 
     "SIGN_IN_MESSAGE": "Sign in with Google",
     "MENU_HOME": "Menu",

@@ -1,4 +1,5 @@
 {
+    "ERROR_UNKNOWN": "Ismeretlen hiba.",
     "NAVIGATOR_MESSAGE_ERROR": "Ismeretlen út: {}", 
     "SIGN_IN_MESSAGE": "Belépés Google fiókkal",
     "MENU_HOME": "Menü",

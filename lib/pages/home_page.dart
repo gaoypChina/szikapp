@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
+import '../ui/screens/error_screen.dart';
+import '../ui/screens/progress_screen.dart';
 import 'menu_page.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
+import 'signin_page.dart';
 
 class HomePage extends StatefulWidget {
-  static const String route = '/home';
+  static const String route = '/';
   HomePage({Key key = const Key('HomePage')}) : super(key: key);
 
   @override
@@ -90,41 +93,56 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: false,
-        backgroundColor: Color(0xff59a3b0),
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-            ? 0.0
-            : kBottomNavigationBarHeight,
-        hideNavigationBarWhenKeyboardShows: true,
-        margin: EdgeInsets.all(0.0),
-        popActionScreens: PopActionScreensType.all,
-        bottomScreenMargin: 0.0,
-        onWillPop: _onPop,
-        decoration: NavBarDecoration(
-          colorBehindNavBar: Color(0xff59a3b0),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-        ),
-        popAllScreensOnTapOfSelectedTab: true,
-        itemAnimationProperties: ItemAnimationProperties(
-          duration: Duration(milliseconds: 400),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style1,
-      ),
+    return FutureBuilder<bool>(
+      future: SZIKAppState.authManager.signInSilently(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ProgressScreen();
+        } else if (snapshot.hasData) {
+          return snapshot.data!
+              ? Scaffold(
+                  body: PersistentTabView(
+                    context,
+                    controller: _controller,
+                    screens: _buildScreens(),
+                    items: _navBarsItems(),
+                    confineInSafeArea: false,
+                    backgroundColor: Color(0xff59a3b0),
+                    handleAndroidBackButtonPress: true,
+                    resizeToAvoidBottomInset: true,
+                    stateManagement: true,
+                    navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
+                        ? 0.0
+                        : kBottomNavigationBarHeight,
+                    hideNavigationBarWhenKeyboardShows: true,
+                    margin: EdgeInsets.all(0.0),
+                    popActionScreens: PopActionScreensType.all,
+                    bottomScreenMargin: 0.0,
+                    onWillPop: _onPop,
+                    decoration: NavBarDecoration(
+                      colorBehindNavBar: Color(0xff59a3b0),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(15)),
+                    ),
+                    popAllScreensOnTapOfSelectedTab: true,
+                    itemAnimationProperties: ItemAnimationProperties(
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.ease,
+                    ),
+                    screenTransitionAnimation: ScreenTransitionAnimation(
+                      animateTabTransition: true,
+                      curve: Curves.ease,
+                      duration: Duration(milliseconds: 200),
+                    ),
+                    navBarStyle: NavBarStyle.style1,
+                  ),
+                )
+              : SignInPage();
+        } else if (snapshot.hasError) {
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
+        } else
+          return ErrorScreen(error: 'ERROR_UNKNOWN'.tr());
+      },
     );
   }
 }
