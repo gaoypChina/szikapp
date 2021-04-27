@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'exceptions.dart';
 
 import 'io.dart';
 import 'user.dart' as szikapp_user;
@@ -55,15 +56,19 @@ class Auth {
     if (isSignedIn)
       return true;
     else if (_auth.currentUser == null) return false;
-    var io = IO();
+    try {
+      var io = IO();
 
-    var userData = await io.getUser();
-    var profilePicture = userData.name != 'Guest'
-        ? _auth.currentUser!.photoURL
-        : '../assets/default.png';
-    _user = szikapp_user.User(
-        Uri.parse(profilePicture ?? '../assets/default.png'), userData);
-    return true;
+      var userData = await io.getUser();
+      var profilePicture = userData.name != 'Guest'
+          ? _auth.currentUser!.photoURL
+          : '../assets/default.png';
+      _user = szikapp_user.User(
+          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      return true;
+    } on Exception catch (e) {
+      throw AuthException(e.toString());
+    }
   }
 
   /// Bejelentkezés. A függvény a Google autentikáció segítségével
@@ -71,16 +76,20 @@ class Auth {
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<bool> signIn() async {
     if (isSignedIn) return true;
-    await _signInWithGoogle();
-    var io = IO();
+    try {
+      await _signInWithGoogle();
+      var io = IO();
 
-    var userData = await io.getUser();
-    var profilePicture = userData.name != 'Guest'
-        ? _auth.currentUser!.photoURL
-        : '../assets/default.png';
-    _user = szikapp_user.User(
-        Uri.parse(profilePicture ?? '../assets/default.png'), userData);
-    return true;
+      var userData = await io.getUser();
+      var profilePicture = userData.name != 'Guest'
+          ? _auth.currentUser!.photoURL
+          : '../assets/default.png';
+      _user = szikapp_user.User(
+          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      return true;
+    } on Exception catch (e) {
+      throw AuthException(e.toString());
+    }
   }
 
   /// Kijelentkezés. A függvény kijelentkezteti az aktuális Firebase fiókot

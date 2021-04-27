@@ -8,7 +8,7 @@ import 'profile_page.dart';
 import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
-  static const String route = '/';
+  static const String route = '/home';
   HomePage({Key key = const Key('HomePage')}) : super(key: key);
 
   @override
