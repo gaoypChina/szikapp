@@ -6,8 +6,9 @@ class Settings {
   //Privát változók
   SharedPreferences? _ownSharedPreferences;
 
-  //Konstruktor
-  Settings() {
+  static final Settings _instance = Settings._privateConstructor();
+  factory Settings() => _instance;
+  Settings._privateConstructor() {
     _intialize();
   }
 
@@ -30,22 +31,28 @@ class Settings {
         .firstWhere((element) => element.toString() == 'Theme.$value');
   }
 
-  bool? get dataLite => _ownSharedPreferences!.getBool('dataLite');
+  bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
 
   Map<String, bool>? get notifications {
     var enabled = _ownSharedPreferences!.getStringList('enabled');
     var disabled = _ownSharedPreferences!.getStringList('disabled');
     var result = <String, bool>{};
 
-    enabled!.forEach((element) {
+    enabled?.forEach((element) {
       result.putIfAbsent(element, () => true);
     });
-    disabled!.forEach((element) {
+    disabled?.forEach((element) {
       result.putIfAbsent(element, () => false);
     });
 
     return result;
   }
+
+  String? get leftMenuOption =>
+      _ownSharedPreferences!.getString('leftMenuOption');
+
+  String? get rightMenuOption =>
+      _ownSharedPreferences!.getString('rightMenuOption');
 
   //Setterek
   set darkMode(DarkMode mode) {
@@ -60,8 +67,7 @@ class Settings {
     _ownSharedPreferences!.setString('theme', ownTheme.toString());
   }
 
-  set dataLite(bool? ownLite) {
-    ownLite ??= false;
+  set dataLite(bool ownLite) {
     _ownSharedPreferences!.setBool('dataLite', ownLite);
   }
 
@@ -77,26 +83,42 @@ class Settings {
     _ownSharedPreferences!.setStringList('enabled', enabled);
   }
 
+  set leftMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('leftMenuOption', option);
+  }
+
+  set rightMenuOption(String? option) {
+    option ??= '';
+    _ownSharedPreferences!.setString('rightMenuOption', option);
+  }
+
   //Publikus függvények (Interface)
   Future<bool> loadPreferences() async {
     var io = IO();
-    var serverPreferences = await io.getUserPreferences(null);
+    var serverPreferences = await io.getUserPreferences();
     darkMode = serverPreferences.darkMode;
     theme = serverPreferences.theme;
     language = serverPreferences.language;
     dataLite = serverPreferences.dataLite;
     notifications = serverPreferences.notifications;
+    leftMenuOption = serverPreferences.leftMenuOption;
+    rightMenuOption = serverPreferences.rightMenuOption;
     return true;
   }
 
   Future<bool> savePreferences() async {
-    var prefs = Preferences()
+    var prefs = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
-      ..theme = theme;
+      ..theme = theme
+      ..dataLite = dataLite
+      ..notifications = notifications
+      ..leftMenuOption = leftMenuOption
+      ..rightMenuOption = rightMenuOption;
 
     var io = IO();
-    await io.putUserPreferences(null, prefs);
+    await io.putUserPreferences(prefs);
     return true;
   }
 

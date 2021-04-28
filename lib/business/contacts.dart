@@ -1,12 +1,62 @@
+import 'dart:core';
+
+import 'package:url_launcher/url_launcher.dart';
+
+import '../models/user_data.dart';
+import '../utils/exceptions.dart';
+import '../utils/io.dart';
+
 class Contacts {
-  //Publikus változók - amik a specifikációban vannak
+  late List<UserData> contacts;
 
-  //Privát változók - amikre szerinted szükség van
+  Contacts() {
+    refresh();
+  }
 
-  //Setterek és getterek - amennyiben vannak validálandó publikus váltózóid
+  List<UserData> search(String text) {
+    if (text == '') {
+      return contacts;
+    } else {
+      var results = <UserData>[];
+      contacts.forEach((item) {
+        if (item.name.contains(text)) results.add(item);
+      });
+      return results;
+    }
+  }
 
-  //Publikus függvények aka Interface - amit a specifikáció megkövetel
+  List<UserData> filter(String groupID) {
+    if (groupID == '') {
+      return contacts;
+    } else {
+      var results = <UserData>[];
+      contacts.forEach((item) {
+        if (item.name.contains(groupID)) results.add(item);
+      });
+      return results;
+    }
+  }
 
-  //Privát függvények - amikre szerinted szükség van
+  Future<void> makePhoneCall(String phoneNumber) async {
+    var url = 'tel:$phoneNumber';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw NotSupportedCallFunctionalityException(url);
+    }
+  }
 
+  Future<void> makeEmail(String emailAddress) async {
+    var url = 'mailto:$emailAddress';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw NotSupportedEmailFunctionalityException(url);
+    }
+  }
+
+  Future<void> refresh() async {
+    var io = IO();
+    contacts = await io.getContacts();
+  }
 }

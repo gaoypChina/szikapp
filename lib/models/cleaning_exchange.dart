@@ -4,22 +4,27 @@ part 'cleaning_exchange.g.dart';
 
 @JsonSerializable()
 class CleaningExchange {
+  @JsonKey(name: 'task_id')
   String taskID;
+  @JsonKey(name: 'initiator_id')
   String initiatorID;
+  @JsonKey(name: 'replace_task_id')
   String? replaceTaskID;
+  @JsonKey(name: 'responder_id')
   String? responderID;
   bool approved;
   List<Map<String, dynamic>>? rejected;
-  DateTime? lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   CleaningExchange({
     required this.taskID,
     required this.initiatorID,
-    required this.replaceTaskID,
+    this.replaceTaskID,
     this.responderID,
     this.approved = false,
     this.rejected,
-    this.lastUpdate,
+    required this.lastUpdate,
   });
 
   Map<String, dynamic> toJson() => _$CleaningExchangeToJson(this);

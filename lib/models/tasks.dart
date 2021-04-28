@@ -15,17 +15,25 @@ enum TaskType {
   @JsonValue('cleaning')
   cleaning,
   @JsonValue('bookloan')
-  bookloan
+  bookloan,
+  @JsonValue('poll')
+  poll
 }
 
 ///[TaskStatus] enum represents current statuses of [Task]s
 enum TaskStatus {
-  @JsonValue('noticed')
-  noticed,
-  @JsonValue('inprogress')
+  @JsonValue('sent')
+  sent,
+  @JsonValue('irresolvable')
+  irresolvable,
+  @JsonValue('in_progress')
   inProgress,
-  @JsonValue('completed')
-  completed
+  @JsonValue('awaiting_approval')
+  awaitingApproval,
+  @JsonValue('refused')
+  refused,
+  @JsonValue('approved')
+  approved
 }
 
 ///Basic [Task] class. Ancestor of descended Task types.
@@ -35,9 +43,11 @@ class Task {
   DateTime start;
   DateTime end;
   TaskType type;
+  @JsonKey(name: 'involved_ids')
   List<String>? involvedIDs;
   String? description;
-  DateTime? lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Task({
     required this.uid,
@@ -47,7 +57,7 @@ class Task {
     required this.type,
     this.involvedIDs,
     this.description,
-    this.lastUpdate,
+    required this.lastUpdate,
   }) {
     involvedIDs ??= <String>[];
   }
@@ -56,7 +66,8 @@ class Task {
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
 @JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
-  String organizerID;
+  @JsonKey(name: 'organizer_ids')
+  List<String> organizerIDs;
 
   AgendaTask(
       {required uid,
@@ -67,7 +78,7 @@ class AgendaTask extends Task {
       involved,
       description,
       update,
-      required this.organizerID})
+      required this.organizerIDs})
       : super(
           uid: uid,
           name: name,
@@ -89,8 +100,10 @@ class AgendaTask extends Task {
 /// Timetable.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  List<String>? organizerIDs;
-  List<String>? resourceIDs;
+  @JsonKey(name: 'organizer_ids')
+  List<String> organizerIDs;
+  @JsonKey(name: 'resource_ids')
+  List<String> resourceIDs;
 
   TimetableTask(
       {required uid,
@@ -101,8 +114,8 @@ class TimetableTask extends Task {
       involved,
       description,
       update,
-      this.organizerIDs,
-      this.resourceIDs})
+      required this.organizerIDs,
+      required this.resourceIDs})
       : super(
           uid: uid,
           name: name,
@@ -112,10 +125,7 @@ class TimetableTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        ) {
-    organizerIDs ??= <String>[];
-    resourceIDs ??= <String>[];
-  }
+        );
 
   Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
 
@@ -127,7 +137,8 @@ class TimetableTask extends Task {
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
   List<Map<String, dynamic>>? feedback;
-  String roomID;
+  @JsonKey(name: 'place_id')
+  String placeID;
   TaskStatus status;
 
   JanitorTask(
@@ -140,7 +151,7 @@ class JanitorTask extends Task {
       description,
       update,
       this.feedback,
-      required this.roomID,
+      required this.placeID,
       required this.status})
       : super(
           uid: uid,
@@ -201,6 +212,7 @@ class CleaningTask extends Task {
 ///library.
 @JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
+  @JsonKey(name: 'book_id')
   String bookID;
 
   BookloanTask(
@@ -234,30 +246,38 @@ class BookloanTask extends Task {
 @JsonSerializable()
 class PollTask extends Task {
   String question;
+  @JsonKey(name: 'answer_options')
   List<String> answerOptions;
   List<Map<String, String>>? answers;
+  @JsonKey(name: 'issuer_ids')
   List<String> issuerIDs;
+  @JsonKey(name: 'is_live')
   bool? isLive;
+  @JsonKey(name: 'is_confidential')
   bool? isConfidential;
+  @JsonKey(name: 'is_multiple_choice')
   bool? isMultipleChoice;
+  @JsonKey(name: 'max_selectable_options')
+  int maxSelectableOptions;
 
-  PollTask({
-    required uid,
-    required name,
-    required start,
-    required end,
-    required type,
-    involved,
-    description,
-    update,
-    required this.question,
-    required this.answerOptions,
-    this.answers,
-    required this.issuerIDs,
-    this.isLive = false,
-    this.isConfidential = false,
-    this.isMultipleChoice = false,
-  }) : super(
+  PollTask(
+      {required uid,
+      required name,
+      required start,
+      required end,
+      required type,
+      involved,
+      description,
+      update,
+      required this.question,
+      required this.answerOptions,
+      this.answers,
+      required this.issuerIDs,
+      this.isLive = false,
+      this.isConfidential = false,
+      this.isMultipleChoice = false,
+      this.maxSelectableOptions = 999})
+      : super(
           uid: uid,
           name: name,
           start: start,

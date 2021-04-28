@@ -1,16 +1,3 @@
-/*
-  //Publikus változók - amik a specifikációban vannak
-
-  //Privát változók - amikre szerinted szükség van
-
-  //Setterek és getterek - amennyiben vannak validálandó publikus váltózóid
-
-  //Publikus függvények aka Interface - amit a specifikáció megkövetel
-
-  //Privát függvények - amikre szerinted szükség van
-
-*/
-
 class BaseException implements Exception {
   String message;
 
@@ -18,6 +5,10 @@ class BaseException implements Exception {
 
   @override
   String toString() => 'Exception: $message\n';
+}
+
+class AuthException extends BaseException {
+  AuthException(message) : super(message);
 }
 
 class IOException extends BaseException {
@@ -34,4 +25,24 @@ class IOClientException extends IOException {
 
 class IOUnknownException extends IOException {
   IOUnknownException(message) : super(message);
+}
+
+class ValidationException extends BaseException {
+  ValidationException(message) : super(message);
+}
+
+class NonHungarianPhoneException extends ValidationException {
+  NonHungarianPhoneException(message) : super(message);
+}
+
+class FunctionalityException extends BaseException {
+  FunctionalityException(message) : super(message);
+}
+
+class NotSupportedCallFunctionalityException extends FunctionalityException {
+  NotSupportedCallFunctionalityException(message) : super(message);
+}
+
+class NotSupportedEmailFunctionalityException extends FunctionalityException {
+  NotSupportedEmailFunctionalityException(message) : super(message);
 }

@@ -25,12 +25,19 @@ enum Theme {
 
 @JsonSerializable()
 class Preferences {
+  @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
   Language language;
   Theme theme;
   Map<String, bool>? notifications;
+  @JsonKey(name: 'left_menu_option')
+  String? leftMenuOption;
+  @JsonKey(name: 'right_menu_option')
+  String? rightMenuOption;
+  @JsonKey(name: 'data_lite')
   bool dataLite;
-  List? menuOptions;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Preferences(
       {this.darkMode = DarkMode.system,
@@ -38,9 +45,10 @@ class Preferences {
       this.theme = Theme.defaultTheme,
       this.notifications,
       this.dataLite = false,
-      this.menuOptions}) {
+      this.leftMenuOption,
+      this.rightMenuOption,
+      required this.lastUpdate}) {
     notifications ??= <String, bool>{};
-    menuOptions ??= [];
   }
 
   Map<String, dynamic> toJson() => _$PreferencesToJson(this);

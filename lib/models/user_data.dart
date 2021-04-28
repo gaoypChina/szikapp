@@ -10,11 +10,14 @@ class UserData {
   String? nick;
   String email;
   String? phone;
+  @JsonKey(name: 'secondary_phone')
   String? secondaryPhone;
   Preferences? preferences;
   DateTime? birthday;
+  @JsonKey(name: 'group_ids')
   List<String>? groupIDs;
-  DateTime? lastUpdate;
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   UserData({
     required this.id,
@@ -26,7 +29,7 @@ class UserData {
     this.preferences,
     this.birthday,
     this.groupIDs,
-    this.lastUpdate,
+    required this.lastUpdate,
   }) {
     groupIDs ??= <String>[];
   }
