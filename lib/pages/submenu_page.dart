@@ -166,7 +166,6 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 32,
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

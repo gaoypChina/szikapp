@@ -6,7 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'pages/home_page.dart';
 import 'pages/menu_page.dart';
@@ -15,6 +17,7 @@ import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/themes.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
 import 'utils/user.dart';
@@ -23,6 +26,14 @@ void main() async {
   HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/Montserrat/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/Nunito/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('hu')],
@@ -83,6 +94,7 @@ class SZIKAppState extends State<SZIKApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       navigatorObservers: <NavigatorObserver>[observer],
+      theme: ourThemeData,
     );
   }
 
