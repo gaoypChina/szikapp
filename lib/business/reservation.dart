@@ -22,7 +22,7 @@ class Reservation {
     if (taskIndex >= reservations.length || taskIndex < 0) return false;
 
     var io = IO();
-    var parameter = <String, String>{'uuid': reservations[taskIndex].uid};
+    var parameter = {'id': reservations[taskIndex].uid};
     await io.deleteReservation(parameter, reservations[taskIndex].lastUpdate);
 
     reservations.removeAt(taskIndex);

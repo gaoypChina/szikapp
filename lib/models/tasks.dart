@@ -64,7 +64,7 @@ class Task {
 }
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class AgendaTask extends Task {
   @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
@@ -98,7 +98,7 @@ class AgendaTask extends Task {
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK
 /// Timetable.
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class TimetableTask extends Task {
   @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
@@ -134,7 +134,7 @@ class TimetableTask extends Task {
 }
 
 ///Descendant of the basic [Task] class. Represents a repair request.
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class JanitorTask extends Task {
   List<Map<String, dynamic>>? feedback;
   @JsonKey(name: 'place_id')
@@ -173,7 +173,7 @@ class JanitorTask extends Task {
 }
 
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class CleaningTask extends Task {
   List<Map<String, dynamic>>? feedback;
   TaskStatus status;
@@ -210,7 +210,7 @@ class CleaningTask extends Task {
 
 ///Descendant of the basic [Task] class. Represents a book loan from the
 ///library.
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class BookloanTask extends Task {
   @JsonKey(name: 'book_id')
   String bookID;
@@ -248,7 +248,7 @@ class PollTask extends Task {
   String question;
   @JsonKey(name: 'answer_options')
   List<String> answerOptions;
-  List<Map<String, String>>? answers;
+  List<Vote> answers;
   @JsonKey(name: 'issuer_ids')
   List<String> issuerIDs;
   @JsonKey(name: 'is_live')
@@ -271,7 +271,7 @@ class PollTask extends Task {
       update,
       required this.question,
       required this.answerOptions,
-      this.answers,
+      required this.answers,
       required this.issuerIDs,
       this.isLive = false,
       this.isConfidential = false,
@@ -286,12 +286,21 @@ class PollTask extends Task {
           involvedIDs: involved,
           description: description,
           lastUpdate: update,
-        ) {
-    answers ??= <Map<String, String>>[];
-  }
+        );
 
   Map<String, dynamic> toJson() => _$PollTaskToJson(this);
 
   factory PollTask.fromJson(Map<String, dynamic> json) =>
       _$PollTaskFromJson(json);
+}
+
+@JsonSerializable()
+class Vote {
+  String voterID;
+
+  Vote({required this.voterID});
+
+  Map<String, dynamic> toJson() => _$VoteToJson(this);
+
+  factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
 }
