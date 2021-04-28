@@ -211,8 +211,8 @@ PollTask _$PollTaskFromJson(Map<String, dynamic> json) {
     answerOptions: (json['answer_options'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
-    answers: (json['answers'] as List<dynamic>?)
-        ?.map((e) => Map<String, String>.from(e as Map))
+    answers: (json['answers'] as List<dynamic>)
+        .map((e) => Vote.fromJson(e as Map<String, dynamic>))
         .toList(),
     issuerIDs:
         (json['issuer_ids'] as List<dynamic>).map((e) => e as String).toList(),
@@ -241,4 +241,14 @@ Map<String, dynamic> _$PollTaskToJson(PollTask instance) => <String, dynamic>{
       'is_confidential': instance.isConfidential,
       'is_multiple_choice': instance.isMultipleChoice,
       'max_selectable_options': instance.maxSelectableOptions,
+    };
+
+Vote _$VoteFromJson(Map<String, dynamic> json) {
+  return Vote(
+    voterID: json['voterID'] as String,
+  );
+}
+
+Map<String, dynamic> _$VoteToJson(Vote instance) => <String, dynamic>{
+      'voterID': instance.voterID,
     };

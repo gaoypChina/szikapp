@@ -552,12 +552,11 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> putPoll(
-      Map<String, String> data, Map<String, String> parameters) async {
+  Future<bool> putPoll(Vote data, Map<String, String> parameters) async {
     var uri = '$_vm_1$_pollEndpoint';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
-        headers: await _commonHeaders(), body: data);
+        headers: await _commonHeaders(), body: data.toJson());
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
