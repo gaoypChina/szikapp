@@ -18,6 +18,17 @@ class Reservation {
     return true;
   }
 
+  Future<bool> editReservation(TimetableTask task) async {
+    var io = IO();
+    var parameter = {'reservation_id': task.uid};
+    await io.putReservation(task, parameter);
+
+    reservations.removeWhere((element) => element.uid == task.uid);
+    reservations.add(task);
+
+    return true;
+  }
+
   Future<bool> deleteReservation(int taskIndex) async {
     if (taskIndex >= reservations.length || taskIndex < 0) return false;
 
