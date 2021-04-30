@@ -15,13 +15,14 @@ class Poll {
     return true;
   }
 
-  Future<bool> editPoll(PollTask task, int taskIndex) async {
+  Future<bool> editPoll(PollTask task) async {
     var io = IO();
-    var parameter = {'id': pollTasks[taskIndex].uid};
+    var parameter = {'id': task.uid};
     await io.patchPoll(task, parameter);
 
-    pollTasks.removeAt(taskIndex);
+    pollTasks.removeWhere((element) => element.uid == task.uid);
     pollTasks.add(task);
+
     return true;
   }
 
