@@ -20,7 +20,7 @@ class Reservation {
 
   Future<bool> editReservation(TimetableTask task) async {
     var io = IO();
-    var parameter = {'reservation_id': task.uid};
+    var parameter = {'id': task.uid};
     await io.putReservation(task, parameter);
 
     reservations.removeWhere((element) => element.uid == task.uid);
