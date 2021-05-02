@@ -8,8 +8,8 @@ import '../models/cleaning_exchange.dart';
 import '../models/cleaning_period.dart';
 import '../models/group.dart';
 import '../models/permission.dart';
-import '../models/place.dart';
 import '../models/preferences.dart';
+import '../models/resource.dart';
 import '../models/tasks.dart';
 import '../models/user_data.dart';
 import 'exceptions.dart';
@@ -18,8 +18,7 @@ class IOHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (cert, host, port) => true;
   }
 }
 

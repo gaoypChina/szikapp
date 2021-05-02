@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../main.dart';
 import '../pages/settings_page.dart';
 import '../pages/submenu_page.dart';
 

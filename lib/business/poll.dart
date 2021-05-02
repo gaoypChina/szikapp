@@ -50,11 +50,11 @@ class Poll {
 
   List<PollTask> filter(String userID) {
     var results = <PollTask>[];
-    pollTasks.forEach((element) {
-      element.answers?.forEach((vote) {
-        if (vote.voterID == userID) results.add(element);
-      });
-    });
+    for (var poll in pollTasks) {
+      for (var vote in poll.answers) {
+        if (vote.voterID == userID) results.add(poll);
+      }
+    }
     return results;
   }
 

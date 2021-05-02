@@ -296,9 +296,11 @@ class PollTask extends Task {
 
 @JsonSerializable()
 class Vote {
+  @JsonKey(name: 'voter_id')
   String voterID;
+  List<String> votes;
 
-  Vote({required this.voterID});
+  Vote({required this.voterID, required this.votes});
 
   Map<String, dynamic> toJson() => _$VoteToJson(this);
 

@@ -60,7 +60,7 @@ class Reservation {
     } else {
       //szobára és időpontra is szűrünk
       for (var res in reservations) {
-        for (var i in res.resourceIDs!) {
+        for (var i in res.resourceIDs) {
           //ha van szűrési feltétel az adott foglalás szobájára
           //és az intervallumba is beleesik:
           if (i.startsWith('p') &&

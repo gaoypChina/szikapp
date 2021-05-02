@@ -245,10 +245,12 @@ Map<String, dynamic> _$PollTaskToJson(PollTask instance) => <String, dynamic>{
 
 Vote _$VoteFromJson(Map<String, dynamic> json) {
   return Vote(
-    voterID: json['voterID'] as String,
+    voterID: json['voter_id'] as String,
+    votes: (json['votes'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$VoteToJson(Vote instance) => <String, dynamic>{
-      'voterID': instance.voterID,
+      'voter_id': instance.voterID,
+      'votes': instance.votes,
     };
