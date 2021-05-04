@@ -48,6 +48,50 @@ class Poll {
     return true;
   }
 
+  Future<Map<dynamic, dynamic>> getResults(PollTask task) async {
+    var io = IO();
+    var param = {'id': task.uid};
+    var resultTaskList = await io.getPoll(param);
+    var resultTask = resultTaskList.first;
+
+    var results = {};
+    if (resultTask.isLive) {
+      if (resultTask.answers.isNotEmpty) results['isLive'] = true;
+    } else {
+      if (resultTask.answers.isEmpty)
+        results['isNotStarted'] = true;
+      else
+        results['isLive'] = false;
+    }
+    results['isConfidential'] = resultTask.isConfidential ? true : false;
+    results['isMultipleChoice'] = resultTask.isMultipleChoice ? true : false;
+
+    if (resultTask.isMultipleChoice) {
+      for (var answerOption in resultTask.answerOptions) {
+        results[answerOption] = resultTask.isConfidential ? 0 : [];
+      }
+    } else {
+      results['yes'] = resultTask.isConfidential ? 0 : [];
+      results['no'] = resultTask.isConfidential ? 0 : [];
+      results['abstain'] = resultTask.isConfidential ? 0 : [];
+    }
+
+    for (var vote in resultTask.answers) {
+      if (resultTask.isMultipleChoice) {
+        for (var option in vote.votes)
+          resultTask.isConfidential
+              ? results[option] += 1
+              : results[option].add(vote.voterID);
+      } else {
+        resultTask.isConfidential
+            ? results[vote.votes.first] += 1
+            : results[vote.votes.first].add(vote.voterID);
+      }
+    }
+
+    return results;
+  }
+
   List<PollTask> filter(String userID) {
     var results = <PollTask>[];
     for (var poll in pollTasks) {

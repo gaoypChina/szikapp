@@ -4,6 +4,7 @@ part 'cleaning_exchange.g.dart';
 
 @JsonSerializable()
 class CleaningExchange {
+  String uid;
   @JsonKey(name: 'task_id')
   String taskID;
   @JsonKey(name: 'initiator_id')
@@ -18,6 +19,7 @@ class CleaningExchange {
   final DateTime lastUpdate;
 
   CleaningExchange({
+    required this.uid,
     required this.taskID,
     required this.initiatorID,
     this.replaceTaskID,

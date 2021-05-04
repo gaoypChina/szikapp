@@ -252,11 +252,11 @@ class PollTask extends Task {
   @JsonKey(name: 'issuer_ids')
   List<String> issuerIDs;
   @JsonKey(name: 'is_live')
-  bool? isLive;
+  bool isLive;
   @JsonKey(name: 'is_confidential')
-  bool? isConfidential;
+  bool isConfidential;
   @JsonKey(name: 'is_multiple_choice')
-  bool? isMultipleChoice;
+  bool isMultipleChoice;
   @JsonKey(name: 'max_selectable_options')
   int maxSelectableOptions;
 

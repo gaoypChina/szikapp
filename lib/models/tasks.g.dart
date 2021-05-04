@@ -216,9 +216,9 @@ PollTask _$PollTaskFromJson(Map<String, dynamic> json) {
         .toList(),
     issuerIDs:
         (json['issuer_ids'] as List<dynamic>).map((e) => e as String).toList(),
-    isLive: json['is_live'] as bool?,
-    isConfidential: json['is_confidential'] as bool?,
-    isMultipleChoice: json['is_multiple_choice'] as bool?,
+    isLive: json['is_live'] as bool,
+    isConfidential: json['is_confidential'] as bool,
+    isMultipleChoice: json['is_multiple_choice'] as bool,
     maxSelectableOptions: json['max_selectable_options'] as int,
   )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
       ?.map((e) => e as String)
