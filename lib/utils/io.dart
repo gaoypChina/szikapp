@@ -41,6 +41,7 @@ class IO {
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
   final _reservationEndpoint = '/reservation';
   final _janitorEndpoint = '/janitor';
+  final _boardgameEndpoint = '/boardgame';
 
   static final IO _instance = IO._privateContructor();
   final http.Client client = http.Client();
@@ -656,6 +657,61 @@ class IO {
   Future<bool> deleteReservation(
       Map<String, String> parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_reservationEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<List<Boardgame>> getBoardgame(
+      [Map<String, String>? parameters]) async {
+    var uri = '$_vm_1$_boardgameEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(
+        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <Boardgame>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var timetables = parsed['results'];
+      timetables.forEach((item) {
+        answer.add(Boardgame.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  Future<bool> postBoardgame(Boardgame data,
+      [Map<String, String>? parameters]) async {
+    var uri = '$_vm_1$_boardgameEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(
+        parameters == null ? Uri.parse(uri) : Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(),
+        body: {'data': data.toJson()});
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> putBoardgame(
+      Boardgame data, Map<String, String> parameters) async {
+    var uri = '$_vm_1$_boardgameEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: await _commonHeaders(), body: {'data': data.toJson()});
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> deleteBoardgame(
+      Map<String, String> parameters, DateTime lastUpdate) async {
+    var uri = '$_vm_1$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});

@@ -2,10 +2,11 @@ import '../models/tasks.dart';
 import '../utils/io.dart';
 
 class Reservation {
-  //foglalások a létrehozást követő 48 órára
   late List<TimetableTask> reservations;
 
-  Reservation() {
+  static final Reservation _instance = Reservation._privateConstructor();
+  factory Reservation() => _instance;
+  Reservation._privateConstructor() {
     refresh();
   }
 
