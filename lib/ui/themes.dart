@@ -13,7 +13,7 @@ const szikColorScheme = ColorScheme(
   primary: szikHippieBlue,
   primaryVariant: szikTarawera,
   secondary: szikMonarch,
-  secondaryVariant: szikMonarch,
+  secondaryVariant: szikGunSmoke,
   surface: szikHippieBlueLight,
   background: szikAmour,
   error: Color(0xffc80000),

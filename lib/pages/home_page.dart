@@ -44,8 +44,9 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_CONTACTS'.tr(),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Color(0xffeeeeee),
+        activeColorPrimary: Theme.of(context).colorScheme.background,
+        inactiveColorPrimary:
+            Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: ProfilePage.route,
@@ -58,8 +59,9 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_HOME'.tr(),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Color(0xffeeeeee),
+        activeColorPrimary: Theme.of(context).colorScheme.background,
+        inactiveColorPrimary:
+            Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: MenuPage.route,
@@ -72,8 +74,9 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_CALENDAR'.tr(),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Color(0xffeeeeee),
+        activeColorPrimary: Theme.of(context).colorScheme.background,
+        inactiveColorPrimary:
+            Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: SettingsPage.route,
@@ -107,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     screens: _buildScreens(),
                     items: _navBarsItems(),
                     confineInSafeArea: false,
-                    backgroundColor: Color(0xff59a3b0),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     handleAndroidBackButtonPress: true,
                     resizeToAvoidBottomInset: true,
                     stateManagement: true,
@@ -120,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                     bottomScreenMargin: 0.0,
                     onWillPop: _onPop,
                     decoration: NavBarDecoration(
-                      colorBehindNavBar: Color(0xff59a3b0),
+                      colorBehindNavBar: Theme.of(context).colorScheme.primary,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(15)),
                     ),

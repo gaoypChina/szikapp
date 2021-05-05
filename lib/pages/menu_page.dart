@@ -47,8 +47,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -114,8 +116,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -167,8 +171,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -229,8 +235,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -276,8 +284,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*

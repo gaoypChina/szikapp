@@ -107,7 +107,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[600],
+      backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -121,7 +121,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
               Text(
                 widget.title,
                 style: TextStyle(
-                    color: Color(0xff990e35),
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
               ),
@@ -135,7 +135,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                   mainAxisSpacing: 10,
                   children: widget.listItems
                       .map((item) => Card(
-                            color: Colors.transparent,
+                            //color: Colors.transparent,
                             elevation: 0,
                             child: GestureDetector(
                               onTap: () {
@@ -145,7 +145,10 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white.withOpacity(.7),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .withOpacity(0.7),
                                 ),
                                 child: Column(
                                   children: [
@@ -157,9 +160,11 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                       width: 55,
                                       child: ColorFiltered(
                                         child: Image.asset(item.picture),
-                                        //TODO szín ne legyen hardcodeolva
                                         colorFilter: ColorFilter.mode(
-                                            Color(0xff59a3b0), BlendMode.srcIn),
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            BlendMode.srcIn),
                                       ),
                                     ),
                                     SizedBox(
@@ -174,7 +179,9 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                             item.name,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Color(0xff59a3b0)),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
                                           ),
                                         ],
                                       ),

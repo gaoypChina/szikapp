@@ -34,7 +34,7 @@ class _ProgressScreenState extends State<ProgressScreen>
     return Stack(children: [
       Container(
           decoration: BoxDecoration(
-        color: Color(0xff59a3b0),
+        color: Theme.of(context).colorScheme.primary,
       )),
       Container(
         child: Center(
@@ -49,9 +49,13 @@ class _ProgressScreenState extends State<ProgressScreen>
                 ),
               ),
               LinearProgressIndicator(
-                backgroundColor: Color(0xff59a3b0),
-                valueColor: animationController.drive(
-                    ColorTween(begin: Colors.white, end: Colors.white24)),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                valueColor: animationController.drive(ColorTween(
+                    begin: Theme.of(context).colorScheme.onPrimary,
+                    end: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withOpacity(0.25))),
               )
             ],
           ),
