@@ -2,10 +2,11 @@ import '../models/tasks.dart';
 import '../utils/io.dart';
 
 class Reservation {
-  //foglalások a létrehozást követő 48 órára
   late List<TimetableTask> reservations;
 
-  Reservation() {
+  static final Reservation _instance = Reservation._privateConstructor();
+  factory Reservation() => _instance;
+  Reservation._privateConstructor() {
     refresh();
   }
 
@@ -18,11 +19,22 @@ class Reservation {
     return true;
   }
 
+  Future<bool> editReservation(TimetableTask task) async {
+    var io = IO();
+    var parameter = {'id': task.uid};
+    await io.putReservation(task, parameter);
+
+    reservations.removeWhere((element) => element.uid == task.uid);
+    reservations.add(task);
+
+    return true;
+  }
+
   Future<bool> deleteReservation(int taskIndex) async {
     if (taskIndex >= reservations.length || taskIndex < 0) return false;
 
     var io = IO();
-    var parameter = <String, String>{'uuid': reservations[taskIndex].uid};
+    var parameter = {'id': reservations[taskIndex].uid};
     await io.deleteReservation(parameter, reservations[taskIndex].lastUpdate);
 
     reservations.removeAt(taskIndex);
@@ -49,7 +61,7 @@ class Reservation {
     } else {
       //szobára és időpontra is szűrünk
       for (var res in reservations) {
-        for (var i in res.resourceIDs!) {
+        for (var i in res.resourceIDs) {
           //ha van szűrési feltétel az adott foglalás szobájára
           //és az intervallumba is beleesik:
           if (i.startsWith('p') &&

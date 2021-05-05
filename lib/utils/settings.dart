@@ -34,16 +34,16 @@ class Settings {
   bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
 
   Map<String, bool>? get notifications {
-    var enabled = _ownSharedPreferences!.getStringList('enabled');
-    var disabled = _ownSharedPreferences!.getStringList('disabled');
+    var enabled = _ownSharedPreferences!.getStringList('enabled') ?? [];
+    var disabled = _ownSharedPreferences!.getStringList('disabled') ?? [];
     var result = <String, bool>{};
 
-    enabled?.forEach((element) {
+    for (var element in enabled) {
       result.putIfAbsent(element, () => true);
-    });
-    disabled?.forEach((element) {
+    }
+    for (var element in disabled) {
       result.putIfAbsent(element, () => false);
-    });
+    }
 
     return result;
   }

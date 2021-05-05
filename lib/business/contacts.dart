@@ -16,9 +16,9 @@ class Contacts {
       return contacts;
     } else {
       var results = <UserData>[];
-      contacts.forEach((item) {
+      for (var item in contacts) {
         if (item.name.contains(text)) results.add(item);
-      });
+      }
       return results;
     }
   }
@@ -28,9 +28,9 @@ class Contacts {
       return contacts;
     } else {
       var results = <UserData>[];
-      contacts.forEach((item) {
+      for (var item in contacts) {
         if (item.name.contains(groupID)) results.add(item);
-      });
+      }
       return results;
     }
   }
