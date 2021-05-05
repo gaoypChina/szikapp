@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import '../pages/settings_page.dart';
 import '../pages/submenu_page.dart';
+import 'calendar_page.dart';
 
 class MenuPage extends StatelessWidget {
   static const String route = '/menu';
@@ -208,8 +210,7 @@ class MenuPage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context)
-                .pushNamed(/*TODO: CalendarPage*/ SettingsPage.route),
+            onTap: () => Navigator.of(context).pushNamed(CalendarPage.route),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 3),
