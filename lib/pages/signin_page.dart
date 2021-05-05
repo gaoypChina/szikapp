@@ -112,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                     SignInButton(
                       Buttons.Google,
                       onPressed: _onPressed,
-                      text: 'SIGN_IN_MESSAGE'.tr(),
+                      text: 'SIGN_IN_BUTTON'.tr(),
                     ),
                   ],
                 ),

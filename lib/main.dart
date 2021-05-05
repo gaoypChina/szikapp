@@ -123,7 +123,7 @@ class SZIKAppState extends State<SZIKApp> {
       );
     } else {
       throw Exception(
-          'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
+          'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
     }
     return MaterialPageRoute<dynamic>(
       builder: (context) {
