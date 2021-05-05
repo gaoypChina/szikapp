@@ -9,9 +9,7 @@ import '../utils/io.dart';
 class Contacts {
   late List<UserData> contacts;
 
-  Contacts() {
-    refresh();
-  }
+  Contacts();
 
   List<UserData> search(String text) {
     if (text == '') {

@@ -30,6 +30,7 @@ dependencies:
   delayed_display: ^2.0.0
   persistent_bottom_nav_bar: ^4.0.2
   google_fonts: ^2.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
