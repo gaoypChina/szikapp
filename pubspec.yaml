@@ -58,6 +58,7 @@ flutter:
   assets:
     - assets/translations/
     - assets/pictures/
+    - assets/pictures/boardgames/
     - assets/icons/
     - assets/fonts/
     

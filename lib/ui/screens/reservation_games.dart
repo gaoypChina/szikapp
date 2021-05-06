@@ -71,15 +71,14 @@ class _ReservationGamesListScreenState
                           mainAxisSpacing: 10,
                           children: boardgames!
                               .map((item) => Card(
-                                    //color: Colors.transparent,
-                                    elevation: 0,
                                     child: Container(
-                                      width: double.infinity,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          image: DecorationImage(
-                                              image: AssetImage(item.name))),
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(0),
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/pictures/${item.iconLink}')),
+                                      ),
                                     ),
                                   ))
                               .toList(),
