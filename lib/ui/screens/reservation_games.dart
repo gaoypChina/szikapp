@@ -43,8 +43,53 @@ class _ReservationGamesListScreenState
           } else if (snapshot.hasData) {
             var boardgames = snapshot.data;
             return Scaffold(
-                //Ide
-                );
+              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+              body: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/pictures/background_1.jpg'),
+                      fit: BoxFit.cover),
+                ),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: GridView.count(
+                          crossAxisCount: MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                              ? 4
+                              : 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          children: boardgames!
+                              .map((item) => Card(
+                                    //color: Colors.transparent,
+                                    elevation: 0,
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          image: DecorationImage(
+                                              image: AssetImage(item.name))),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
           return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         });

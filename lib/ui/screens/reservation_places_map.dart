@@ -7,6 +7,9 @@ class ReservationPlacesMapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Center(child: Text('Ez az oldal még nincs kész.')),
+    );
   }
 }
