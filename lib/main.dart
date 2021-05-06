@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:szikapp/pages/janitor_page.dart';
 
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
@@ -121,14 +122,12 @@ class SZIKAppState extends State<SZIKApp> {
         return CalendarPage();
       case ContactsPage.route:
         return ContactsPage();
+      case JanitorPage.route:
+        return JanitorPage();
       case ProfilePage.route:
         return ProfilePage();
       case ReservationPage.route:
-        final args = settings.arguments as SubMenuArguments;
-        return SubMenuPage(
-          listItems: args.items,
-          title: args.title,
-        );
+        return ReservationPage();
       case SettingsPage.route:
         return SettingsPage();
       case SignInPage.route:
@@ -148,7 +147,11 @@ class SZIKAppState extends State<SZIKApp> {
       case ReservationPlacesMapScreen.route:
         return ReservationPlacesMapScreen();
       case ErrorScreen.route:
-        final args = settings.arguments as ErrorScreenArguments;
+        var args;
+        if (settings.arguments == null)
+          args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
+        else
+          args = settings.arguments as ErrorScreenArguments;
         return ErrorScreen(
           error: args.error,
         );

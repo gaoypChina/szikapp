@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'signin_page.dart';
+import 'package:szikapp/pages/janitor_page.dart';
+
+import '../ui/screens/error_screen.dart';
+import 'contacts_page.dart';
+import 'reservation_page.dart';
 
 class SubMenuArguments {
   List<SubMenuButton> items;
@@ -24,17 +28,17 @@ final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_CONTACTS'.tr(),
     picture: 'assets/icons/profile_light_72.png',
-    route: SignInPage.route,
+    route: ContactsPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_PINNED'.tr(),
     picture: 'assets/icons/pin_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
     picture: 'assets/icons/book_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -42,17 +46,17 @@ final List<SubMenuButton> subMenuCommunityListItems = [
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_HELPME'.tr(),
     picture: 'assets/icons/helpme_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_BEERWITHME'.tr(),
     picture: 'assets/icons/beer_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_SPIRITUAL'.tr(),
     picture: 'assets/icons/fire_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -60,32 +64,32 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
     picture: 'assets/icons/knife_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
     picture: 'assets/icons/hourglass_light_72.png',
-    route: SignInPage.route,
+    route: ReservationPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
     picture: 'assets/icons/wrench_light_72.png',
-    route: SignInPage.route,
+    route: JanitorPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
     picture: 'assets/icons/pencil_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_POLL'.tr(),
     picture: 'assets/icons/handpalm_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),
     picture: 'assets/icons/bank_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -135,7 +139,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                   mainAxisSpacing: 10,
                   children: widget.listItems
                       .map((item) => Card(
-                            //color: Colors.transparent,
+                            color: Colors.transparent,
                             elevation: 0,
                             child: GestureDetector(
                               onTap: () {

@@ -730,6 +730,9 @@ class IO {
     else if (response.statusCode >= 400)
       return IOClientException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
+    else if (response.statusCode == 304)
+      return IONotModifiedException(
+          '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     else
       return IOUnknownException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
