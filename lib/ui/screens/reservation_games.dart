@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/resource.dart';
+import '../../pages/reservation_page.dart';
 import '../../utils/io.dart';
 import 'error_screen.dart';
 
@@ -51,7 +52,7 @@ class _ReservationGamesListScreenState
                       fit: BoxFit.cover),
                 ),
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                  margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
                   child: Column(
                     children: [
                       Text(
@@ -63,6 +64,7 @@ class _ReservationGamesListScreenState
                       ),
                       Expanded(
                         child: GridView.count(
+                          padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                           crossAxisCount: MediaQuery.of(context).orientation ==
                                   Orientation.landscape
                               ? 4
@@ -71,13 +73,27 @@ class _ReservationGamesListScreenState
                           mainAxisSpacing: 10,
                           children: boardgames!
                               .map((item) => Card(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(0),
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/pictures/${item.iconLink}')),
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.of(context)
+                                          .pushNamed(ReservationPage.route),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.6),
+                                              spreadRadius: 0,
+                                              blurRadius: 17,
+                                              offset: Offset(5, 5),
+                                            ),
+                                          ],
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/pictures/${item.iconLink}')),
+                                        ),
                                       ),
                                     ),
                                   ))
