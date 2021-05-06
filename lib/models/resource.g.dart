@@ -23,13 +23,13 @@ Map<String, dynamic> _$ResourceToJson(Resource instance) => <String, dynamic>{
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return Place(
     id: json['id'] as String,
-    name: json['name'],
-    description: json['description'],
+    name: json['name'] as String,
+    description: json['description'] as String?,
     type: json['type'] as String,
     overseerIDs: (json['overseer_ids'] as List<dynamic>?)
         ?.map((e) => e as String)
         .toList(),
-    lastUpdate: json['last_update'],
+    lastUpdate: DateTime.parse(json['last_update'] as String),
   );
 }
 
@@ -45,10 +45,10 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
 Boardgame _$BoardgameFromJson(Map<String, dynamic> json) {
   return Boardgame(
     id: json['id'] as String,
-    name: json['name'],
-    description: json['description'],
+    name: json['name'] as String,
+    description: json['description'] as String?,
     iconLink: json['icon_link'] as String,
-    lastUpdate: json['last_update'],
+    lastUpdate: DateTime.parse(json['last_update'] as String),
   );
 }
 
