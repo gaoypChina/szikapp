@@ -3,6 +3,7 @@
     "ERROR": null,
         "ERROR_UNKNOWN": "Ismeretlen hiba.",
         "ERROR_NAVIGATOR_MESSAGE": "Ismeretlen út: {}",
+        "ERROR_NOT_IMPLEMENTED": "Ez a funkció még nem elérhető.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
     "MENU": null,
