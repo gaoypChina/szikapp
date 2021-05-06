@@ -134,9 +134,15 @@ class SZIKAppState extends State<SZIKApp> {
       case SignInPage.route:
         return SignInPage();
       case ReservationDetailsScreen.route:
-        return ReservationDetailsScreen();
+        final args = settings.arguments as ReservationDetailsArguments;
+        return ReservationDetailsScreen(
+          title: args.title,
+        );
       case ReservationGamesListScreen.route:
-        return ReservationGamesListScreen();
+        final args = settings.arguments as ReservationGamesListArguments;
+        return ReservationGamesListScreen(
+          title: args.title,
+        );
       case ReservationNewEditScreen.route:
         return ReservationNewEditScreen();
       case ReservationPlacesMapScreen.route:
