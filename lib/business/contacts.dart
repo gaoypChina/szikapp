@@ -9,7 +9,9 @@ import '../utils/io.dart';
 class Contacts {
   late List<UserData> contacts;
 
-  Contacts();
+  static final Contacts _instance = Contacts._privateConstructor();
+  factory Contacts() => _instance;
+  Contacts._privateConstructor();
 
   List<UserData> search(String text) {
     if (text == '') {

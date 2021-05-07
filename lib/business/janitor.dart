@@ -4,7 +4,9 @@ import '../utils/io.dart';
 class Janitor {
   late List<JanitorTask> janitorTasks;
 
-  Janitor() {
+  static final Janitor _instance = Janitor._privateConstructor();
+  factory Janitor() => _instance;
+  Janitor._privateConstructor() {
     refresh();
   }
 

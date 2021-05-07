@@ -8,6 +8,13 @@ class KitchenCleaning {
   late List<CleaningExchange> cleaningExchanges;
   late List<CleaningPeriod> cleaningPeriods;
 
+  static final KitchenCleaning _instance =
+      KitchenCleaning._privateConstructor();
+
+  factory KitchenCleaning() => _instance;
+
+  KitchenCleaning._privateConstructor();
+
   void refreshTasks() async {
     var io = IO();
     cleaningTasks = await io.getCleaning();

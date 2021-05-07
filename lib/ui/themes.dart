@@ -74,7 +74,7 @@ TextTheme szikTextTheme = TextTheme(
 
   ///The smallest style. [...]
   ///Montserrat, 14 pt
-  overline: GoogleFonts.montserrat(fontSize: 14),
+  overline: GoogleFonts.montserrat(fontSize: 12),
 
   ///Used for the primary text in lists (e.g., ListTile.title).
   ///Montserrat, 14 pt

@@ -44,63 +44,49 @@ class _ReservationGamesListScreenState
           } else if (snapshot.hasData) {
             var boardgames = snapshot.data;
             return Scaffold(
-              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
               body: Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/pictures/background_1.jpg'),
-                      fit: BoxFit.cover),
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.title,
-                        style: Theme.of(context).textTheme.headline2!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      Expanded(
-                        child: GridView.count(
-                          padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                          crossAxisCount: MediaQuery.of(context).orientation ==
-                                  Orientation.landscape
-                              ? 4
-                              : 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          children: boardgames!
-                              .map((item) => Card(
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.of(context)
-                                          .pushNamed(ReservationPage.route),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.6),
-                                              spreadRadius: 0,
-                                              blurRadius: 17,
-                                              offset: Offset(5, 5),
-                                            ),
-                                          ],
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/pictures/${item.iconLink}')),
-                                        ),
+                margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.title,
+                      style: Theme.of(context).textTheme.headline2!.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                    ),
+                    Expanded(
+                      child: GridView.count(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        crossAxisCount: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? 4
+                            : 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        children: boardgames!
+                            .map((item) => Card(
+                                  elevation: 5,
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.of(context)
+                                        .pushNamed(ReservationPage.route),
+                                    child: Container(
+                                      margin: EdgeInsets.all(10),
+                                      child: Image.asset(
+                                        'assets/pictures/${item.iconLink}',
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
-                                  ))
-                              .toList(),
-                        ),
+                                  ),
+                                ))
+                            .toList(),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
