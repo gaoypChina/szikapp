@@ -1,5 +1,7 @@
 # Secrets
 android/app/google-services.json
+android/key.properties
+*.jks
 # Miscellaneous
 *.lock
 *.class
@@ -11,6 +13,7 @@ android/app/google-services.json
 .buildlog/
 .history
 .svn/
+
 
 # IntelliJ related
 *.iml
