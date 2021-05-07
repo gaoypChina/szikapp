@@ -57,10 +57,9 @@ class _ReservationGamesListScreenState
                     children: [
                       Text(
                         widget.title,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headline2!.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                       ),
                       Expanded(
                         child: GridView.count(

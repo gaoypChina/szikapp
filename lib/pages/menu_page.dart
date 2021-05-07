@@ -76,7 +76,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_DATA_TITLE'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -106,7 +108,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_COMMUNITY_TITLE'.tr(),
                         textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -200,7 +204,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_EVERYDAY_TITLE'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -224,7 +230,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'MENU_CALENDAR'.tr(),
                         textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -311,7 +319,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'MENU_SETTINGS'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),

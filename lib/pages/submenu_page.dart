@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/pages/janitor_page.dart';
 
 import '../ui/screens/error_screen.dart';
 import 'contacts_page.dart';
+import 'janitor_page.dart';
 import 'reservation_page.dart';
 
 class SubMenuArguments {
@@ -119,15 +119,18 @@ class _SubMenuPageState extends State<SubMenuPage> {
               fit: BoxFit.cover),
         ),
         child: Container(
-          margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
+          margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
           child: Column(
             children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  widget.title.toUpperCase(),
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 25,
+                      ),
+                ),
               ),
               Expanded(
                 child: GridView.count(
@@ -182,10 +185,15 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                           Text(
                                             item.name,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline3!
+                                                .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontSize: 16,
+                                                ),
                                           ),
                                         ],
                                       ),

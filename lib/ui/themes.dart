@@ -50,7 +50,7 @@ TextTheme szikTextTheme = TextTheme(
   ///Very, very large text.
   ///Used for the date in the dialog shown by showDatePicker.
   ///Montserrat, Semi-bold, 18 pt
-  headline2: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w600),
+  headline2: GoogleFonts.montserrat(fontSize: 25, fontWeight: FontWeight.w600),
 
   ///Very large text.
   ///Montserrat, Semi-bold, 18 pt

@@ -94,6 +94,7 @@ class SZIKAppState extends State<SZIKApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       title: 'SzikApp',
       initialRoute: HomePage.route,
