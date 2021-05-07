@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_CONTACTS'.tr(),
+        textStyle: Theme.of(context).textTheme.overline,
         activeColorPrimary: Theme.of(context).colorScheme.background,
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_HOME'.tr(),
+        textStyle: Theme.of(context).textTheme.overline,
         activeColorPrimary: Theme.of(context).colorScheme.background,
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
@@ -74,6 +76,7 @@ class _HomePageState extends State<HomePage> {
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_CALENDAR'.tr(),
+        textStyle: Theme.of(context).textTheme.overline,
         activeColorPrimary: Theme.of(context).colorScheme.background,
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
