@@ -4,9 +4,9 @@ import '../utils/io.dart';
 class Poll {
   late List<PollTask> pollTasks;
 
-  Poll() {
-    refresh();
-  }
+  static final Poll _instance = Poll._privateConstructor();
+  factory Poll() => _instance;
+  Poll._privateConstructor();
 
   Future<bool> addPoll(PollTask task) async {
     pollTasks.add(task);

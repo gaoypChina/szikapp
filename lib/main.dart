@@ -9,11 +9,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:szikapp/pages/janitor_page.dart';
 
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
 import 'pages/home_page.dart';
+import 'pages/janitor_page.dart';
 import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/reservation_page.dart';
