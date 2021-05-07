@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import '../pages/settings_page.dart';
 import '../pages/submenu_page.dart';
+import 'calendar_page.dart';
 
 class MenuPage extends StatelessWidget {
   static const String route = '/menu';
@@ -46,8 +48,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -72,7 +76,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_DATA_TITLE'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -102,7 +108,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_COMMUNITY_TITLE'.tr(),
                         textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -113,8 +121,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -166,8 +176,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -192,7 +204,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'SUBMENU_EVERYDAY_TITLE'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -202,8 +216,7 @@ class MenuPage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context)
-                .pushNamed(/*TODO: CalendarPage*/ SettingsPage.route),
+            onTap: () => Navigator.of(context).pushNamed(CalendarPage.route),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 3),
@@ -217,7 +230,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'MENU_CALENDAR'.tr(),
                         textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),
@@ -228,8 +243,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -275,8 +292,10 @@ class MenuPage extends StatelessWidget {
                       height: fifth * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(fifth * 0.1),
-                        //TODO szín ne legyen hardcodeolva
-                        color: Color(0x8059a3b0),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.5),
                       ),
                       child: Container(
                         /*
@@ -300,7 +319,9 @@ class MenuPage extends StatelessWidget {
                       child: Text(
                         'MENU_SETTINGS'.tr(),
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
                     ),

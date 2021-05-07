@@ -66,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
             duration: Duration(seconds: 2),
             opacity: _started ? 0.5 : 1,
             child: Container(
-              color: Color(0xff59a3b0),
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           AnimatedContainer(
@@ -112,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                     SignInButton(
                       Buttons.Google,
                       onPressed: _onPressed,
-                      text: 'SIGN_IN_MESSAGE'.tr(),
+                      text: 'SIGN_IN_BUTTON'.tr(),
                     ),
                   ],
                 ),

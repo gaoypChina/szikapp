@@ -23,6 +23,10 @@ class IOClientException extends IOException {
   IOClientException(message) : super(message);
 }
 
+class IONotModifiedException extends IOException {
+  IONotModifiedException(message) : super(message);
+}
+
 class IOUnknownException extends IOException {
   IOUnknownException(message) : super(message);
 }

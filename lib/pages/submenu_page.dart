@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'signin_page.dart';
+
+import '../ui/screens/error_screen.dart';
+import 'contacts_page.dart';
+import 'janitor_page.dart';
+import 'reservation_page.dart';
 
 class SubMenuArguments {
   List<SubMenuButton> items;
@@ -24,17 +28,17 @@ final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_CONTACTS'.tr(),
     picture: 'assets/icons/profile_light_72.png',
-    route: SignInPage.route,
+    route: ContactsPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_PINNED'.tr(),
     picture: 'assets/icons/pin_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
     picture: 'assets/icons/book_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -42,17 +46,17 @@ final List<SubMenuButton> subMenuCommunityListItems = [
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_HELPME'.tr(),
     picture: 'assets/icons/helpme_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_BEERWITHME'.tr(),
     picture: 'assets/icons/beer_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_COMMUNITY_SPIRITUAL'.tr(),
     picture: 'assets/icons/fire_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -60,32 +64,32 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
     picture: 'assets/icons/knife_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
     picture: 'assets/icons/hourglass_light_72.png',
-    route: SignInPage.route,
+    route: ReservationPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
     picture: 'assets/icons/wrench_light_72.png',
-    route: SignInPage.route,
+    route: JanitorPage.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
     picture: 'assets/icons/pencil_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_POLL'.tr(),
     picture: 'assets/icons/handpalm_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),
     picture: 'assets/icons/bank_light_72.png',
-    route: SignInPage.route,
+    route: ErrorScreen.route,
   ),
 ];
 
@@ -107,7 +111,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[600],
+      backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -115,15 +119,18 @@ class _SubMenuPageState extends State<SubMenuPage> {
               fit: BoxFit.cover),
         ),
         child: Container(
-          margin: EdgeInsets.fromLTRB(20, 40, 20, 0),
+          margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
           child: Column(
             children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                    color: Color(0xff990e35),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  widget.title.toUpperCase(),
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 25,
+                      ),
+                ),
               ),
               Expanded(
                 child: GridView.count(
@@ -145,7 +152,10 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white.withOpacity(.7),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .withOpacity(0.7),
                                 ),
                                 child: Column(
                                   children: [
@@ -157,9 +167,11 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                       width: 55,
                                       child: ColorFiltered(
                                         child: Image.asset(item.picture),
-                                        //TODO szín ne legyen hardcodeolva
                                         colorFilter: ColorFilter.mode(
-                                            Color(0xff59a3b0), BlendMode.srcIn),
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            BlendMode.srcIn),
                                       ),
                                     ),
                                     SizedBox(
@@ -173,8 +185,15 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                           Text(
                                             item.name,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Color(0xff59a3b0)),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline3!
+                                                .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontSize: 16,
+                                                ),
                                           ),
                                         ],
                                       ),

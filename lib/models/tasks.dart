@@ -37,6 +37,7 @@ enum TaskStatus {
 }
 
 ///Basic [Task] class. Ancestor of descended Task types.
+@JsonSerializable(explicitToJson: true)
 class Task {
   final String uid;
   String name;
@@ -61,23 +62,27 @@ class Task {
   }) {
     involvedIDs ??= <String>[];
   }
+
+  Map<String, dynamic> toJson() => _$TaskToJson(this);
+
+  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
   @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
 
   AgendaTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       required this.organizerIDs})
       : super(
           uid: uid,
@@ -87,9 +92,10 @@ class AgendaTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         );
 
+  @override
   Map<String, dynamic> toJson() => _$AgendaTaskToJson(this);
 
   factory AgendaTask.fromJson(Map<String, dynamic> json) =>
@@ -98,7 +104,7 @@ class AgendaTask extends Task {
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK
 /// Timetable.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
   @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
@@ -106,14 +112,14 @@ class TimetableTask extends Task {
   List<String> resourceIDs;
 
   TimetableTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       required this.organizerIDs,
       required this.resourceIDs})
       : super(
@@ -124,9 +130,10 @@ class TimetableTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         );
 
+  @override
   Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
 
   factory TimetableTask.fromJson(Map<String, dynamic> json) =>
@@ -134,7 +141,7 @@ class TimetableTask extends Task {
 }
 
 ///Descendant of the basic [Task] class. Represents a repair request.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
   List<Map<String, dynamic>>? feedback;
   @JsonKey(name: 'place_id')
@@ -142,14 +149,14 @@ class JanitorTask extends Task {
   TaskStatus status;
 
   JanitorTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       this.feedback,
       required this.placeID,
       required this.status})
@@ -161,11 +168,12 @@ class JanitorTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         ) {
     feedback ??= <Map<String, dynamic>>[];
   }
 
+  @override
   Map<String, dynamic> toJson() => _$JanitorTaskToJson(this);
 
   factory JanitorTask.fromJson(Map<String, dynamic> json) =>
@@ -173,20 +181,20 @@ class JanitorTask extends Task {
 }
 
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
   List<Map<String, dynamic>>? feedback;
   TaskStatus status;
 
   CleaningTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       this.feedback,
       required this.status})
       : super(
@@ -197,11 +205,12 @@ class CleaningTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         ) {
     feedback ??= <Map<String, dynamic>>[];
   }
 
+  @override
   Map<String, dynamic> toJson() => _$CleaningTaskToJson(this);
 
   factory CleaningTask.fromJson(Map<String, dynamic> json) =>
@@ -210,20 +219,20 @@ class CleaningTask extends Task {
 
 ///Descendant of the basic [Task] class. Represents a book loan from the
 ///library.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
   @JsonKey(name: 'book_id')
   String bookID;
 
   BookloanTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       required this.bookID})
       : super(
           uid: uid,
@@ -233,9 +242,10 @@ class BookloanTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         );
 
+  @override
   Map<String, dynamic> toJson() => _$BookloanTaskToJson(this);
 
   factory BookloanTask.fromJson(Map<String, dynamic> json) =>
@@ -243,7 +253,7 @@ class BookloanTask extends Task {
 }
 
 ///Descendant of the basic [Task] class. Represents a poll.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PollTask extends Task {
   String question;
   @JsonKey(name: 'answer_options')
@@ -261,14 +271,14 @@ class PollTask extends Task {
   int maxSelectableOptions;
 
   PollTask(
-      {required uid,
-      required name,
-      required start,
-      required end,
-      required type,
-      involved,
-      description,
-      update,
+      {required String uid,
+      required String name,
+      required DateTime start,
+      required DateTime end,
+      required TaskType type,
+      List<String>? involved,
+      String? description,
+      required DateTime lastUpdate,
       required this.question,
       required this.answerOptions,
       required this.answers,
@@ -285,16 +295,17 @@ class PollTask extends Task {
           type: type,
           involvedIDs: involved,
           description: description,
-          lastUpdate: update,
+          lastUpdate: lastUpdate,
         );
 
+  @override
   Map<String, dynamic> toJson() => _$PollTaskToJson(this);
 
   factory PollTask.fromJson(Map<String, dynamic> json) =>
       _$PollTaskFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Vote {
   @JsonKey(name: 'voter_id')
   String voterID;

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'resource.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Resource {
   final String name;
   String? description;
@@ -21,7 +21,7 @@ class Resource {
       _$ResourceFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Place extends Resource {
   final String id;
   final String type;
@@ -30,11 +30,11 @@ class Place extends Resource {
 
   Place(
       {required this.id,
-      required name,
-      description,
+      required String name,
+      String? description,
       required this.type,
       this.overseerIDs,
-      required lastUpdate})
+      required DateTime lastUpdate})
       : super(
           name: name,
           description: description,
@@ -47,7 +47,7 @@ class Place extends Resource {
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Boardgame extends Resource {
   final String id;
   @JsonKey(name: 'icon_link')
@@ -55,10 +55,10 @@ class Boardgame extends Resource {
 
   Boardgame(
       {required this.id,
-      required name,
-      description,
+      required String name,
+      String? description,
       required this.iconLink,
-      required lastUpdate})
+      required DateTime lastUpdate})
       : super(
           name: name,
           description: description,

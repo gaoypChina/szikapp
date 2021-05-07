@@ -9,14 +9,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:szikapp/pages/janitor_page.dart';
 
+import 'pages/calendar_page.dart';
+import 'pages/contacts_page.dart';
 import 'pages/home_page.dart';
 import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
+import 'pages/reservation_page.dart';
 import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/screens/reservation_details.dart';
+import 'ui/screens/reservation_games.dart';
+import 'ui/screens/reservation_new_edit.dart';
+import 'ui/screens/reservation_places_map.dart';
 import 'ui/themes.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
@@ -86,6 +94,7 @@ class SZIKAppState extends State<SZIKApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       title: 'SzikApp',
       initialRoute: HomePage.route,
@@ -98,8 +107,67 @@ class SZIKAppState extends State<SZIKApp> {
     );
   }
 
+  static Widget getDestination(RouteSettings settings) {
+    switch (settings.name) {
+      case HomePage.route:
+        return HomePage();
+      case MenuPage.route:
+        return MenuPage();
+      case SubMenuPage.route:
+        final args = settings.arguments as SubMenuArguments;
+        return SubMenuPage(
+          listItems: args.items,
+          title: args.title,
+        );
+      case CalendarPage.route:
+        return CalendarPage();
+      case ContactsPage.route:
+        return ContactsPage();
+      case JanitorPage.route:
+        return JanitorPage();
+      case ProfilePage.route:
+        return ProfilePage();
+      case ReservationPage.route:
+        return ReservationPage();
+      case SettingsPage.route:
+        return SettingsPage();
+      case SignInPage.route:
+        return SignInPage();
+      case ReservationDetailsScreen.route:
+        final args = settings.arguments as ReservationDetailsArguments;
+        return ReservationDetailsScreen(
+          title: args.title,
+        );
+      case ReservationGamesListScreen.route:
+        final args = settings.arguments as ReservationGamesListArguments;
+        return ReservationGamesListScreen(
+          title: args.title,
+        );
+      case ReservationNewEditScreen.route:
+        return ReservationNewEditScreen();
+      case ReservationPlacesMapScreen.route:
+        return ReservationPlacesMapScreen();
+      case ErrorScreen.route:
+        var args;
+        if (settings.arguments == null)
+          args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
+        else
+          args = settings.arguments as ErrorScreenArguments;
+        return ErrorScreen(
+          error: args.error,
+        );
+      default:
+        throw Exception(
+            'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
+    }
+  }
+
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
+
+    page = getDestination(settings);
+
+    /*
     if (settings.name == HomePage.route) {
       page = HomePage();
     } else if (settings.name == MenuPage.route) {
@@ -123,8 +191,8 @@ class SZIKAppState extends State<SZIKApp> {
       );
     } else {
       throw Exception(
-          'NAVIGATOR_MESSAGE_ERROR'.tr(args: [settings.name ?? '']));
-    }
+          'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
+    }*/
     return MaterialPageRoute<dynamic>(
       builder: (context) {
         return page;

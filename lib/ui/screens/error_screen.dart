@@ -27,7 +27,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
             child: Text(
               widget.error.toString(),
               style: TextStyle(
-                color: Colors.red,
+                color: Theme.of(context).colorScheme.error,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
