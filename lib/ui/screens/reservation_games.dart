@@ -48,7 +48,8 @@ class _ReservationGamesListScreenState
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.background,
                 ),
-                margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                margin:
+                    EdgeInsets.fromLTRB(0, 25, 0, kBottomNavigationBarHeight),
                 child: Column(
                   children: [
                     Text(

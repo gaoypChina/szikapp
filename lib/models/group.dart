@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'permission.dart';
 
 part 'group.g.dart';
 
@@ -10,6 +11,9 @@ class Group {
   String? email;
   @JsonKey(name: 'member_ids')
   List<String>? memberIDs;
+  @JsonKey(name: 'max_member_count')
+  int maxMemberCount;
+  List<Permission>? permissions;
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
@@ -19,9 +23,12 @@ class Group {
     this.description,
     this.email,
     this.memberIDs,
+    this.maxMemberCount = 999,
+    this.permissions,
     required this.lastUpdate,
   }) {
     memberIDs ??= <String>[];
+    permissions ??= <Permission>[];
   }
 
   void addMember(String userID) {
