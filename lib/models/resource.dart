@@ -45,6 +45,17 @@ class Place extends Resource {
   Map<String, dynamic> toJson() => _$PlaceToJson(this);
 
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
+
+  String placeAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(Place other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -70,4 +81,15 @@ class Boardgame extends Resource {
 
   factory Boardgame.fromJson(Map<String, dynamic> json) =>
       _$BoardgameFromJson(json);
+
+  String boardgameAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(Boardgame other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
 }

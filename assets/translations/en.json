@@ -4,6 +4,7 @@
         "ERROR_UNKNOWN": "Unknown error.",
         "ERROR_NAVIGATOR_MESSAGE": "Unknown route: {}",
         "ERROR_NOT_IMPLEMENTED": "Not implemented.",
+        "ERROR_REQUIRED_FIELD": "Required field",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Sign in with Google",
     "MENU": null,
