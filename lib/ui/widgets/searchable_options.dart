@@ -21,10 +21,47 @@ class SearchableOptions<T> extends StatelessWidget {
       hint: hint,
       mode: Mode.MENU,
       showSelectedItem: true,
-      showClearButton: true,
+      showClearButton: false,
       items: items,
       selectedItem: items.first,
       onChanged: onItemChanged,
+      showSearchBox: true,
+      searchBoxDecoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+        ),
+        contentPadding: EdgeInsets.all(5),
+      ),
+      dropdownSearchDecoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+          gapPadding: 6,
+        ),
+        contentPadding: EdgeInsets.all(5),
+      ),
+      searchBoxStyle: Theme.of(context).textTheme.headline3!.copyWith(
+            fontSize: 14,
+            color: Theme.of(context).colorScheme.primaryVariant,
+            fontStyle: FontStyle.italic,
+          ),
+      popupShape: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.primary,
+          width: 2,
+          style: BorderStyle.solid,
+        ),
+      ),
     );
   }
 }
