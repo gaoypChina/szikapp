@@ -6,13 +6,15 @@ class SearchableOptions<T> extends StatelessWidget {
   final List<T> items;
   final String? hint;
   final ValueChanged onItemChanged;
+  final T? selectedItem;
 
-  const SearchableOptions({
-    Key? key,
-    this.hint,
-    required this.items,
-    required this.onItemChanged,
-  }) : super(key: key);
+  const SearchableOptions(
+      {Key? key,
+      this.hint,
+      required this.items,
+      required this.onItemChanged,
+      this.selectedItem})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class SearchableOptions<T> extends StatelessWidget {
       showSelectedItem: true,
       showClearButton: false,
       items: items,
-      selectedItem: items.first,
+      selectedItem: selectedItem ?? items.first,
       onChanged: onItemChanged,
       showSearchBox: true,
       searchBoxDecoration: InputDecoration(

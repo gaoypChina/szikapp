@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/ui/screens/janitor_new_edit.dart';
+
 import '../business/janitor.dart';
 import '../ui/screens/error_screen.dart';
+import '../ui/screens/janitor_new_edit.dart';
 
 class JanitorPage extends StatefulWidget {
   static const String route = '/janitor';

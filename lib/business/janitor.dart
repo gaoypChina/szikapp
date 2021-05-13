@@ -1,3 +1,5 @@
+import 'package:szikapp/utils/exceptions.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
@@ -31,6 +33,17 @@ class Janitor {
     return true;
   }
 
+  Future<bool> editTask(JanitorTask task) async {
+    var io = IO();
+    var parameter = {'id': task.uid};
+    await io.putJanitor(task, parameter);
+
+    janitorTasks.removeWhere((element) => element.uid == task.uid);
+    janitorTasks.add(task);
+
+    return true;
+  }
+
   Future<bool> deleteTask(int taskIndex) async {
     if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
 
@@ -44,8 +57,12 @@ class Janitor {
   }
 
   Future<void> refresh() async {
-    var io = IO();
-    janitorTasks = await io.getJanitor();
+    try {
+      var io = IO();
+      janitorTasks = await io.getJanitor();
+    } on IOException {
+      janitorTasks = <JanitorTask>[];
+    }
   }
 
   List<JanitorTask> filter(

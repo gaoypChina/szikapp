@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../business/janitor.dart';
+import '../../models/resource.dart';
 import '../../models/tasks.dart';
 import '../widgets/searchable_options.dart';
 
@@ -28,6 +31,26 @@ class JanitorNewEditScreen extends StatefulWidget {
 }
 
 class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
+  late final Janitor janitor;
+  late JanitorTask task;
+
+  @override
+  void initState() {
+    super.initState();
+    janitor = Janitor();
+    var uuid = Uuid();
+    task = widget.task ??
+        JanitorTask(
+            uid: uuid.v4(),
+            name: '',
+            start: DateTime.now(),
+            end: DateTime.now(),
+            type: TaskType.janitor,
+            lastUpdate: DateTime.now(),
+            placeID: '',
+            status: TaskStatus.created);
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -42,6 +65,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
         child: ListView(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //Picture
             Container(
               width: width * 0.7,
               height: width * 0.7,
@@ -51,6 +75,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     fit: BoxFit.contain),
               ),
             ),
+            //Title
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(bottom: 5),
@@ -71,6 +96,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
               endIndent: 25,
               color: Theme.of(context).colorScheme.secondary,
             ),
+            //Details, text fields and buttons
             Flex(
               direction: Axis.vertical,
               /*child: Expanded(
@@ -97,8 +123,10 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                       ),
                       Expanded(
                         child: SearchableOptions(
+                            //TODO Places
                             items: ['alpha', 'beta', 'gamma'],
-                            onItemChanged: (item) => {}),
+                            selectedItem: 'alpha',
+                            onItemChanged: _onPlaceChanged),
                       ),
                     ],
                   ),
@@ -124,6 +152,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          initialValue: widget.isEdit ? task.name : null,
                           style:
                               Theme.of(context).textTheme.headline3!.copyWith(
                                     fontSize: 14,
@@ -144,6 +173,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                             ),
                             contentPadding: EdgeInsets.all(5),
                           ),
+                          onFieldSubmitted: _onTitleSubmitted,
                         ),
                       ),
                     ],
@@ -170,6 +200,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          initialValue: widget.isEdit ? task.description : null,
                           style:
                               Theme.of(context).textTheme.headline3!.copyWith(
                                     fontSize: 14,
@@ -190,6 +221,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                             ),
                             contentPadding: EdgeInsets.all(5),
                           ),
+                          onFieldSubmitted: _onDescriptionSubmitted,
                         ),
                       ),
                     ],
@@ -220,7 +252,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                           child: Text(
                             'JANITOR_ACTION_CREATE'.tr(),
                             style: Theme.of(context).textTheme.button!.copyWith(
@@ -245,5 +277,27 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
         ),
       ),
     );
+  }
+
+  void _onPlaceChanged(dynamic item) {
+    var place = item as Place;
+    task.placeID = place.id;
+  }
+
+  void _onTitleSubmitted(String? title) {
+    task.name = title ?? '';
+  }
+
+  void _onDescriptionSubmitted(String? description) {
+    task.description = description ?? '';
+  }
+
+  void _onNewSent() {
+    task.status = TaskStatus.sent;
+    janitor.addTask(task);
+  }
+
+  void _onEditSent() {
+    janitor.editTask(task);
   }
 }
