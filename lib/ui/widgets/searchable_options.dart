@@ -7,19 +7,23 @@ class SearchableOptions<T> extends StatelessWidget {
   final String? hint;
   final ValueChanged onItemChanged;
   final T? selectedItem;
+  final bool Function(T, T?) compare;
 
-  const SearchableOptions(
-      {Key? key,
-      this.hint,
-      required this.items,
-      required this.onItemChanged,
-      this.selectedItem})
-      : super(key: key);
+  const SearchableOptions({
+    Key? key,
+    this.hint,
+    required this.items,
+    required this.onItemChanged,
+    this.selectedItem,
+    required this.compare,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<T>(
       validator: (v) => v == null ? 'ERROR_REQUIRED_FIELD'.tr() : null,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      compareFn: compare,
       hint: hint,
       mode: Mode.MENU,
       showSelectedItem: true,

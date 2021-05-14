@@ -8,6 +8,8 @@ class CustomAlertDialog extends StatelessWidget {
   final String? onCancelText;
   final void Function()? onAccept;
   final void Function()? onCancel;
+  final Color? color;
+  final Color? backgroundColor;
 
   const CustomAlertDialog({
     Key? key,
@@ -17,6 +19,8 @@ class CustomAlertDialog extends StatelessWidget {
     this.onCancelText,
     this.onAccept,
     this.onCancel,
+    this.color,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -26,22 +30,23 @@ class CustomAlertDialog extends StatelessWidget {
       title: Text(title),
       titleTextStyle: theme.textTheme.headline3!.copyWith(
         fontSize: 20,
-        color: theme.colorScheme.background,
+        color: color ?? theme.colorScheme.background,
       ),
       content: content == null ? null : Text(content!),
       contentTextStyle: theme.textTheme.headline3!.copyWith(
         fontSize: 16,
         fontStyle: FontStyle.normal,
-        color: theme.colorScheme.background,
+        color: color ?? theme.colorScheme.background,
       ),
-      backgroundColor: theme.colorScheme.secondary.withOpacity(0.8),
+      backgroundColor:
+          backgroundColor ?? theme.colorScheme.secondary.withOpacity(0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       actions: [
         Container(
           decoration: BoxDecoration(
-              border: Border.all(color: theme.colorScheme.background),
+              border: Border.all(color: color ?? theme.colorScheme.background),
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: onCancel,
@@ -49,15 +54,16 @@ class CustomAlertDialog extends StatelessWidget {
               onCancelText ?? 'BUTTON_CANCEL'.tr(),
               style: theme.textTheme.headline6!.copyWith(
                 fontSize: 20,
-                color: theme.colorScheme.background,
+                color: color ?? theme.colorScheme.background,
               ),
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-              color: theme.colorScheme.background.withOpacity(0.5),
-              border: Border.all(color: theme.colorScheme.background),
+              color: color?.withOpacity(0.5) ??
+                  theme.colorScheme.background.withOpacity(0.5),
+              border: Border.all(color: color ?? theme.colorScheme.background),
               borderRadius: BorderRadius.circular(20)),
           child: TextButton(
             onPressed: onAccept,
@@ -65,7 +71,7 @@ class CustomAlertDialog extends StatelessWidget {
               onAcceptText ?? 'BUTTON_OK'.tr(),
               style: theme.textTheme.headline6!.copyWith(
                 fontSize: 20,
-                color: theme.colorScheme.background,
+                color: color ?? theme.colorScheme.background,
               ),
             ),
           ),

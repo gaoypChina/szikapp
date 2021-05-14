@@ -50,7 +50,8 @@ class Place extends Resource {
     return '#$id $name';
   }
 
-  bool isEqual(Place other) {
+  bool isEqual(Place? other) {
+    if (other == null) return false;
     return id == other.id;
   }
 

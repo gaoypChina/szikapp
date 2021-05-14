@@ -5,6 +5,7 @@
         "ERROR_NAVIGATOR_MESSAGE": "Ismeretlen út: {}",
         "ERROR_NOT_IMPLEMENTED": "Ez a funkció még nem elérhető.",
         "ERROR_REQUIRED_FIELD": "Kötelező mező",
+        "ERROR_EMPTY_FIELD": "Töltsd ki ezt a mezőt.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
     "MENU": null,
@@ -52,7 +53,10 @@
     "BUTTON": null,
         "BUTTON_OK": "OK",
         "BUTTON_CANCEL": "MÉGSE",
+        "BUTTON_YES": "igen",
+        "BUTTON_NO": "nem",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "VÁLASSZ DÁTUMOT",
-        "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT"
+        "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT",
+        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?"
 }

@@ -5,6 +5,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/progress_screen.dart';
+import 'calendar_page.dart';
+import 'contacts_page.dart';
 import 'menu_page.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
@@ -30,13 +32,13 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      ProfilePage(),
+      ContactsPage(),
       MenuPage(),
-      SettingsPage(),
+      CalendarPage(),
     ];
   }
 
-  List<PersistentBottomNavBarItem> _navBarsItems() {
+  List<PersistentBottomNavBarItem> _navBarItems() {
     return [
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
@@ -100,18 +102,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: SZIKAppState.authManager.signInSilently(),
+      future: SZIKAppState.initializeFlutterFire(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ProgressScreen();
         } else if (snapshot.hasData) {
+          SZIKAppState.loadEarlyData();
           return snapshot.data!
               ? Scaffold(
                   body: PersistentTabView(
                     context,
                     controller: _controller,
                     screens: _buildScreens(),
-                    items: _navBarsItems(),
+                    items: _navBarItems(),
                     confineInSafeArea: false,
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     handleAndroidBackButtonPress: true,

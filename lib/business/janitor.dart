@@ -25,6 +25,7 @@ class Janitor {
   }
 
   Future<bool> addTask(JanitorTask task) async {
+    if (janitorTasks.contains(task)) return false;
     janitorTasks.add(task);
 
     var io = IO();
@@ -44,14 +45,14 @@ class Janitor {
     return true;
   }
 
-  Future<bool> deleteTask(int taskIndex) async {
-    if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
+  Future<bool> deleteTask(JanitorTask task) async {
+    if (!janitorTasks.contains(task)) return false;
 
     var io = IO();
-    var parameter = {'id': janitorTasks[taskIndex].uid};
-    await io.deleteJanitor(parameter, janitorTasks[taskIndex].lastUpdate);
+    var parameter = {'id': task.uid};
+    await io.deleteJanitor(parameter, task.lastUpdate);
 
-    janitorTasks.removeAt(taskIndex);
+    janitorTasks.remove(task);
 
     return true;
   }
