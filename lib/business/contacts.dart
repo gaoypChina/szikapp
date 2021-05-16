@@ -11,14 +11,16 @@ class Contacts {
 
   static final Contacts _instance = Contacts._privateConstructor();
   factory Contacts() => _instance;
-  Contacts._privateConstructor();
+  Contacts._privateConstructor() {
+    contacts = <UserData>[];
+  }
 
   List<UserData> search(String text) {
     if (text == '') {
-      return contacts;
+      return contacts!;
     } else {
       var results = <UserData>[];
-      for (var item in contacts) {
+      for (var item in contacts!) {
         if (item.name.contains(text))
           results.add(item);
         else if (item.email.contains(text))
@@ -39,10 +41,10 @@ class Contacts {
 
   List<UserData> filter(String groupID) {
     if (groupID == '') {
-      return contacts;
+      return contacts!;
     } else {
       var results = <UserData>[];
-      for (var item in contacts) {
+      for (var item in contacts!) {
         if (item.name.contains(groupID)) results.add(item);
       }
       return results;
@@ -67,8 +69,11 @@ class Contacts {
     }
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({bool forceRefresh = false}) async {
     var io = IO();
-    contacts = await io.getContacts();
+
+    if (contacts.isEmpty || forceRefresh) {
+      contacts = await io.getContacts();
+    }
   }
 }
