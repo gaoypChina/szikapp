@@ -6,8 +6,9 @@ class Settings {
   //Privát változók
   SharedPreferences? _ownSharedPreferences;
 
-  //Konstruktor
-  Settings() {
+  static final Settings _instance = Settings._privateConstructor();
+  factory Settings() => _instance;
+  Settings._privateConstructor() {
     _intialize();
   }
 
@@ -33,16 +34,16 @@ class Settings {
   bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
 
   Map<String, bool>? get notifications {
-    var enabled = _ownSharedPreferences!.getStringList('enabled');
-    var disabled = _ownSharedPreferences!.getStringList('disabled');
+    var enabled = _ownSharedPreferences!.getStringList('enabled') ?? [];
+    var disabled = _ownSharedPreferences!.getStringList('disabled') ?? [];
     var result = <String, bool>{};
 
-    enabled!.forEach((element) {
+    for (var element in enabled) {
       result.putIfAbsent(element, () => true);
-    });
-    disabled!.forEach((element) {
+    }
+    for (var element in disabled) {
       result.putIfAbsent(element, () => false);
-    });
+    }
 
     return result;
   }
@@ -117,7 +118,7 @@ class Settings {
       ..rightMenuOption = rightMenuOption;
 
     var io = IO();
-    await io.putUserPreferences(null, prefs);
+    await io.putUserPreferences(prefs);
     return true;
   }
 

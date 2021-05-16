@@ -3,7 +3,7 @@ import 'preferences.dart';
 
 part 'user_data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UserData {
   final String id;
   String name;
@@ -17,7 +17,7 @@ class UserData {
   @JsonKey(name: 'group_ids')
   List<String>? groupIDs;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   UserData({
     required this.id,
@@ -56,4 +56,15 @@ class UserData {
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
       _$UserDataFromJson(json);
+
+  String userAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(UserData other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
 }

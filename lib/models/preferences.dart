@@ -37,7 +37,7 @@ class Preferences {
   @JsonKey(name: 'data_lite')
   bool dataLite;
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Preferences(
       {this.darkMode = DarkMode.system,

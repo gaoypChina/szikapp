@@ -7,6 +7,10 @@ class BaseException implements Exception {
   String toString() => 'Exception: $message\n';
 }
 
+class AuthException extends BaseException {
+  AuthException(message) : super(message);
+}
+
 class IOException extends BaseException {
   IOException(message) : super(message);
 }
@@ -17,6 +21,10 @@ class IOServerException extends IOException {
 
 class IOClientException extends IOException {
   IOClientException(message) : super(message);
+}
+
+class IONotModifiedException extends IOException {
+  IONotModifiedException(message) : super(message);
 }
 
 class IOUnknownException extends IOException {

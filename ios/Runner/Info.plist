@@ -49,9 +49,9 @@
 			<string>mailto</string>
 		</array>
 		<key>CFBundleLocalizations</key>
-			<array>
-				<string>en</string>
-				<string>hu</string>
-			</array>
+		<array>
+			<string>en</string>
+			<string>hu</string>
+		</array>
 	</dict>
 </plist>

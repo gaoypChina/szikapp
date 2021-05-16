@@ -9,18 +9,30 @@ import '../utils/io.dart';
 class Contacts {
   late List<UserData> contacts;
 
-  Contacts() {
-    refresh();
-  }
+  static final Contacts _instance = Contacts._privateConstructor();
+  factory Contacts() => _instance;
+  Contacts._privateConstructor();
 
   List<UserData> search(String text) {
     if (text == '') {
       return contacts;
     } else {
       var results = <UserData>[];
-      contacts.forEach((item) {
-        if (item.name.contains(text)) results.add(item);
-      });
+      for (var item in contacts) {
+        if (item.name.contains(text))
+          results.add(item);
+        else if (item.email.contains(text))
+          results.add(item);
+        else if (item.birthday != null) {
+          var intInString = RegExp(r'\d{1,2}');
+          var matches = intInString.allMatches(text);
+          if (matches.length == 2 &&
+              item.birthday!.month.toString() == matches.first.toString() &&
+              item.birthday!.day.toString() == matches.last.toString()) {
+            results.add(item);
+          }
+        }
+      }
       return results;
     }
   }
@@ -30,9 +42,9 @@ class Contacts {
       return contacts;
     } else {
       var results = <UserData>[];
-      contacts.forEach((item) {
+      for (var item in contacts) {
         if (item.name.contains(groupID)) results.add(item);
-      });
+      }
       return results;
     }
   }
@@ -57,6 +69,6 @@ class Contacts {
 
   Future<void> refresh() async {
     var io = IO();
-    contacts = await io.getContacts(null);
+    contacts = await io.getContacts();
   }
 }
