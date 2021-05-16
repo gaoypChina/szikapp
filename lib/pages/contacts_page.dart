@@ -1,6 +1,6 @@
+import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/main.dart';
 
 import '../business/contacts.dart';
 import '../models/user_data.dart';
@@ -36,7 +36,7 @@ class _ContactsPageState extends State<ContactsPage> {
             return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
           } else {
             //contactsData = contacts.contacts;
-            return ContactsListView(contacts.contacts!);
+            return ContactsListView(contacts.contacts);
           }
         });
   }
@@ -52,161 +52,157 @@ class ContactsListView extends StatefulWidget {
 }
 
 class _ContactsListViewState extends State<ContactsListView> {
-  int expandedIndex = -1;
+  late Contacts contacts;
+
+  @override
+  void initState() {
+    super.initState();
+    contacts = Contacts();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          child: ExpansionPanelList(
-            expansionCallback: (index, isExpanded) {
-              setState(() {
-                expandedIndex = index;
-              });
-            },
-            children: widget.contactsData.map<ExpansionPanel>((item) {
-              return ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (context, isExpanded) {
-                  var names = item.name.split(' ');
-                  var initials = '${names[0][0]}${names[1][0]}';
-                  return ListTile(
-                    shape: Border.all(style: BorderStyle.none),
-                    /*contentPadding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.05,
-                      MediaQuery.of(context).size.width * 0.1,
-                      MediaQuery.of(context).size.width * 0.05,
-                      MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    */
-                    contentPadding: EdgeInsets.all(18),
-                    leading: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minWidth: 60,
-                        minHeight: 60,
-                        maxWidth: 60,
-                        maxHeight: 60,
-                      ),
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryVariant,
-                        child: Text(
-                          initials,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.background,
-                                fontStyle: FontStyle.normal,
-                              ),
+      body: Accordion(
+        headerBorderRadius: 0,
+        headerBackgroundColor: theme.colorScheme.background,
+        contentBackgroundColor: theme.colorScheme.background,
+        headerPadding: EdgeInsets.all(20),
+        //contentHorizontalPadding: 20,
+        //contentBorderRadius: 10,
+        headerTextStyle: theme.textTheme.headline3!.copyWith(
+          color: theme.colorScheme.secondary,
+        ),
+        rightIcon: ColorFiltered(
+          child: Image.asset('assets/icons/down_light_72.png',
+              height: theme.textTheme.headline3!.fontSize),
+          colorFilter: ColorFilter.mode(
+              theme.colorScheme.primaryVariant, BlendMode.srcIn),
+        ),
+        children: widget.contactsData.map<AccordionSection>((item) {
+          var names = item.name.split(' ');
+          var initials = '${names[0][0]}${names[1][0]}';
+          return AccordionSection(
+            headerText: item.name,
+            leftIcon: CircleAvatar(
+              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              backgroundColor: theme.colorScheme.primaryVariant,
+              child: Text(
+                initials,
+                style: theme.textTheme.headline4!.copyWith(
+                  color: theme.colorScheme.background,
+                  fontStyle: FontStyle.normal,
+                ),
+              ),
+            ),
+            content: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: theme.colorScheme.primaryVariant.withOpacity(0.15),
+              ),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (item.phone != null) {
+                        try {
+                          contacts.makePhoneCall(item.phone!);
+                        } on Exception {
+                          //TODO
+                        }
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                          style: theme.textTheme.bodyText1?.copyWith(
+                              color: theme.colorScheme.primaryVariant),
                         ),
-                      ),
-                    ),
-                    title: Text(
-                      item.name,
-                      style: Theme.of(context).textTheme.headline2!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 20,
+                        ColorFiltered(
+                          child: Image.asset(
+                            'assets/icons/phone_light_72.png',
+                            height: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .fontSize! *
+                                1.5,
                           ),
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context).colorScheme.primaryVariant,
+                              BlendMode.srcIn),
+                        ),
+                      ],
                     ),
-                  );
-                },
-                body: ListTile(
-                  title: Row(
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      try {
+                        contacts.makeEmail(item.email);
+                      } on Exception {
+                        //TODO
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Text(
+                            item.email,
+                            style: theme.textTheme.bodyText1?.copyWith(
+                                color: theme.colorScheme.primaryVariant),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        ColorFiltered(
+                          child: Image.asset(
+                            'assets/icons/at_light_72.png',
+                            height: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .fontSize! *
+                                1.5,
+                          ),
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context).colorScheme.primaryVariant,
+                              BlendMode.srcIn),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.phone ?? 'ERROR', //TODO
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryVariant),
-                          ),
-                          Text(
-                            item.email,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryVariant),
-                          ),
-                          Text(
-                            //TODO
-                            '${item.birthday?.year.toString() ?? ""}. ${item.birthday?.month.toString() ?? ""}. ${item.birthday?.day.toString() ?? ""}.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryVariant),
-                          ),
-                        ],
+                      Text(
+                        item.birthday != null
+                            ? DateFormat('yyyy. MM. dd').format(item.birthday!)
+                            : 'BIRTHDAY_NOT_FOUND'.tr(),
+                        style: theme.textTheme.bodyText1
+                            ?.copyWith(color: theme.colorScheme.primaryVariant),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ColorFiltered(
-                            child: Image.asset(
-                              'assets/icons/phone_light_72.png',
-                              height: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .fontSize! *
+                      ColorFiltered(
+                        child: Image.asset(
+                          'assets/icons/gift_light_72.png',
+                          height:
+                              Theme.of(context).textTheme.bodyText1!.fontSize! *
                                   1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                                Theme.of(context).colorScheme.primaryVariant,
-                                BlendMode.srcIn),
-                          ),
-                          ColorFiltered(
-                            child: Image.asset(
-                              'assets/icons/at_light_72.png',
-                              height: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .fontSize! *
-                                  1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                                Theme.of(context).colorScheme.primaryVariant,
-                                BlendMode.srcIn),
-                          ),
-                          ColorFiltered(
-                            child: Image.asset(
-                              'assets/icons/gift_light_72.png',
-                              height: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .fontSize! *
-                                  1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                                Theme.of(context).colorScheme.primaryVariant,
-                                BlendMode.srcIn),
-                          ),
-                        ],
+                        ),
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.primaryVariant,
+                            BlendMode.srcIn),
                       ),
                     ],
                   ),
-                ),
-                isExpanded: widget.contactsData.indexOf(item) == expandedIndex,
-              );
-            }).toList(),
-          ),
-        ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

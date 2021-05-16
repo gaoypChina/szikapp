@@ -58,5 +58,8 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "VÁLASSZ DÁTUMOT",
         "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
+    "CONTACTS": null,
+        "PHONE_NOT_FOUND": "Telefonszám nem található",
+        "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
 }

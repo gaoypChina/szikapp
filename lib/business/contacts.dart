@@ -17,10 +17,10 @@ class Contacts {
 
   List<UserData> search(String text) {
     if (text == '') {
-      return contacts!;
+      return contacts;
     } else {
       var results = <UserData>[];
-      for (var item in contacts!) {
+      for (var item in contacts) {
         if (item.name.contains(text))
           results.add(item);
         else if (item.email.contains(text))
@@ -41,10 +41,10 @@ class Contacts {
 
   List<UserData> filter(String groupID) {
     if (groupID == '') {
-      return contacts!;
+      return contacts;
     } else {
       var results = <UserData>[];
-      for (var item in contacts!) {
+      for (var item in contacts) {
         if (item.name.contains(groupID)) results.add(item);
       }
       return results;
