@@ -1,3 +1,5 @@
+import 'package:szikapp/utils/exceptions.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
@@ -23,6 +25,7 @@ class Janitor {
   }
 
   Future<bool> addTask(JanitorTask task) async {
+    if (janitorTasks.contains(task)) return false;
     janitorTasks.add(task);
 
     var io = IO();
@@ -31,21 +34,36 @@ class Janitor {
     return true;
   }
 
-  Future<bool> deleteTask(int taskIndex) async {
-    if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
+  Future<bool> editTask(JanitorTask task) async {
+    var io = IO();
+    var parameter = {'id': task.uid};
+    await io.putJanitor(task, parameter);
+
+    janitorTasks.removeWhere((element) => element.uid == task.uid);
+    janitorTasks.add(task);
+
+    return true;
+  }
+
+  Future<bool> deleteTask(JanitorTask task) async {
+    if (!janitorTasks.contains(task)) return false;
 
     var io = IO();
-    var parameter = {'id': janitorTasks[taskIndex].uid};
-    await io.deleteJanitor(parameter, janitorTasks[taskIndex].lastUpdate);
+    var parameter = {'id': task.uid};
+    await io.deleteJanitor(parameter, task.lastUpdate);
 
-    janitorTasks.removeAt(taskIndex);
+    janitorTasks.remove(task);
 
     return true;
   }
 
   Future<void> refresh() async {
-    var io = IO();
-    janitorTasks = await io.getJanitor();
+    try {
+      var io = IO();
+      janitorTasks = await io.getJanitor();
+    } on IOException {
+      janitorTasks = <JanitorTask>[];
+    }
   }
 
   List<JanitorTask> filter([

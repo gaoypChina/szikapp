@@ -19,7 +19,19 @@ class Contacts {
     } else {
       var results = <UserData>[];
       for (var item in contacts) {
-        if (item.name.contains(text)) results.add(item);
+        if (item.name.contains(text))
+          results.add(item);
+        else if (item.email.contains(text))
+          results.add(item);
+        else if (item.birthday != null) {
+          var intInString = RegExp(r'\d{1,2}');
+          var matches = intInString.allMatches(text);
+          if (matches.length == 2 &&
+              item.birthday!.month.toString() == matches.first.toString() &&
+              item.birthday!.day.toString() == matches.last.toString()) {
+            results.add(item);
+          }
+        }
       }
       return results;
     }

@@ -22,6 +22,8 @@ enum TaskType {
 
 ///[TaskStatus] enum represents current statuses of [Task]s
 enum TaskStatus {
+  @JsonValue('created')
+  created,
   @JsonValue('sent')
   sent,
   @JsonValue('irresolvable')

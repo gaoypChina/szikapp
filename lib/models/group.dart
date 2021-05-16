@@ -52,4 +52,15 @@ class Group {
   Map<String, dynamic> toJson() => _$GroupToJson(this);
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+
+  String groupAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(Group other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
 }

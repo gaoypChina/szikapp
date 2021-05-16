@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../themes.dart';
+
 class TimePicker extends StatefulWidget {
   final ValueChanged<TimeOfDay> onChanged;
   final TimeOfDay time;
+  final Color color;
+  final double fontSize;
 
-  const TimePicker({Key? key, required this.time, required this.onChanged})
+  const TimePicker(
+      {Key? key,
+      required this.time,
+      required this.onChanged,
+      this.color = szikTarawera,
+      this.fontSize = 14})
       : super(key: key);
 
   @override
@@ -31,7 +40,15 @@ class _TimePickerState extends State<TimePicker> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _selectTime,
-      child: Container(child: Text(widget.time.format(context))),
+      child: Container(
+        child: Text(
+          '${widget.time.hour} : ${widget.time.minute}',
+          style: Theme.of(context).textTheme.button!.copyWith(
+              color: widget.color,
+              fontSize: widget.fontSize,
+              fontStyle: FontStyle.italic),
+        ),
+      ),
     );
   }
 }

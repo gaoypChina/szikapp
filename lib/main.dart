@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'models/resource.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
 import 'pages/home_page.dart';
@@ -28,7 +29,6 @@ import 'ui/screens/reservation_places_map.dart';
 import 'ui/themes.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
-import 'utils/user.dart';
 
 void main() async {
   HttpOverrides.global = IOHttpOverrides();
@@ -61,34 +61,43 @@ class SZIKApp extends StatefulWidget {
 }
 
 class SZIKAppState extends State<SZIKApp> {
-  bool _firebaseInitialized = false;
-  bool _firebaseError = false;
+  static bool firebaseInitialized = false;
+  static bool firebaseError = false;
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
-  static late Auth authManager;
-  static User? user;
 
-  void initializeFlutterFire() async {
+  static late Auth authManager;
+  static late List<Place> places;
+
+  static Future<bool> initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
-      // set `_firebaseInitialized` state to true
+      // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
-      setState(() {
-        _firebaseInitialized = true;
-      });
-    } on Exception catch (e) {
-      // Set `_firebaseError` state to true if Firebase initialization fails
-      setState(() {
-        _firebaseError = true;
-      });
+      firebaseInitialized = true;
+      var result = await SZIKAppState.authManager.signInSilently();
+      return result;
+    } on Exception {
+      // Set `firebaseError` state to true if Firebase initialization fails
+      firebaseError = true;
+      return false;
+    }
+  }
+
+  static void loadEarlyData() async {
+    try {
+      var io = IO();
+      places = await io.getPlace();
+    } on Exception {
+      places = <Place>[];
+      print('Error loading early data');
     }
   }
 
   @override
   void initState() {
-    initializeFlutterFire();
     super.initState();
   }
 
