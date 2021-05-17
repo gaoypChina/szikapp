@@ -1,7 +1,6 @@
 import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:substring_highlight/substring_highlight.dart';
 
 import '../business/contacts.dart';
 import '../models/user_data.dart';
