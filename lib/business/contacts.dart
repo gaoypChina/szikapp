@@ -11,7 +11,9 @@ class Contacts {
 
   static final Contacts _instance = Contacts._privateConstructor();
   factory Contacts() => _instance;
-  Contacts._privateConstructor();
+  Contacts._privateConstructor() {
+    contacts = <UserData>[];
+  }
 
   List<UserData> search(String text) {
     if (text == '') {
@@ -67,8 +69,11 @@ class Contacts {
     }
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({bool forceRefresh = false}) async {
     var io = IO();
-    contacts = await io.getContacts();
+
+    if (contacts.isEmpty || forceRefresh) {
+      contacts = await io.getContacts();
+    }
   }
 }

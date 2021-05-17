@@ -58,5 +58,8 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "SELECT A DATE",
         "TIME_PICKER_HELP": "SELECT TIME",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?",
+    "CONTACTS": null,
+        "PHONE_NOT_FOUND": "Telefonszám nem található",
+        "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
 }
