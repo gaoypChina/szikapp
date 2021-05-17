@@ -49,6 +49,7 @@
     "PLACEHOLDER": null,
         "PLACEHOLDER_DESCRIPTION": "Megjegyzés",
         "PLACEHOLDER_SEARCH": "Keresés",
+        "PLACEHOLDER_EMPTY_SEARCH_RESULTS": "Nincs találat.",
         "PLACEHOLDER_TITLE": "Megnevezés",
     "BUTTON": null,
         "BUTTON_OK": "OK",
@@ -58,5 +59,8 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "VÁLASSZ DÁTUMOT",
         "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
+    "CONTACTS": null,
+        "PHONE_NOT_FOUND": "Telefonszám nem található",
+        "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
 }
