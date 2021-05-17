@@ -1,6 +1,5 @@
-import 'package:szikapp/utils/exceptions.dart';
-
 import '../models/tasks.dart';
+import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 class Janitor {
@@ -66,29 +65,24 @@ class Janitor {
     }
   }
 
-  List<JanitorTask> filter(
-      [List<TaskStatus> statuses = const <TaskStatus>[],
-      List<String> roomIDs = const <String>[]]) {
-    if (roomIDs.isEmpty && statuses.isEmpty) return janitorTasks;
+  List<JanitorTask> filter([
+    List<TaskStatus> statuses = const <TaskStatus>[],
+    List<String> roomIDs = const <String>[],
+    String involvedID = '',
+  ]) {
+    if (roomIDs.isEmpty && statuses.isEmpty && involvedID.isEmpty)
+      return janitorTasks;
 
     var filteredJanitorTasks = <JanitorTask>[];
 
-    if (roomIDs.isEmpty) {
-      //csak státuszra szűr
-      for (var task in janitorTasks) {
-        if (statuses.contains(task.status)) filteredJanitorTasks.add(task);
-      }
-    } else if (statuses.isEmpty) {
-      //csak teremre szűr
-      for (var task in janitorTasks) {
-        if (roomIDs.contains(task.placeID)) filteredJanitorTasks.add(task);
-      }
-    } else {
-      //mindkettőre szűrünk
-      for (var task in janitorTasks) {
-        if (roomIDs.contains(task.placeID) && statuses.contains(task.status))
-          filteredJanitorTasks.add(task);
-      }
+    //Filter by all options that are specified
+    for (var task in janitorTasks) {
+      if (involvedID.isNotEmpty && task.involvedIDs!.contains(involvedID))
+        filteredJanitorTasks.add(task);
+      else if (statuses.isNotEmpty && statuses.contains(task.status))
+        filteredJanitorTasks.add(task);
+      else if (roomIDs.isNotEmpty && roomIDs.contains(task.placeID))
+        filteredJanitorTasks.add(task);
     }
     return filteredJanitorTasks;
   }

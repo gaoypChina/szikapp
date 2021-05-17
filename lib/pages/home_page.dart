@@ -5,8 +5,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/progress_screen.dart';
-import 'calendar_page.dart';
-import 'contacts_page.dart';
 import 'menu_page.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
@@ -32,9 +30,9 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      ContactsPage(),
+      ProfilePage(),
       MenuPage(),
-      CalendarPage(),
+      SettingsPage(),
     ];
   }
 
