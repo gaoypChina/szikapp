@@ -43,12 +43,12 @@ class Reservation {
   }
 
   Future<void> refresh({DateTime? start, DateTime? end}) async {
-    start ?? DateTime.now();
-    end ?? DateTime.now().add(const Duration(days: 7));
+    start ??= DateTime.now();
+    end ??= DateTime.now().add(const Duration(days: 7));
 
     var parameter = {
-      'start': start!.toIso8601String(),
-      'end': end!.toIso8601String()
+      'start': start.toIso8601String(),
+      'end': end.toIso8601String()
     };
 
     var io = IO();

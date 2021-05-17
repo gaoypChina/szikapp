@@ -104,10 +104,10 @@ class Poll {
     return results;
   }
 
-  Future<void> refresh() async {
-    var id = SZIKAppState.authManager.user!.id;
-
-    var parameter = {'issuer': id, 'involved': id};
+  Future<void> refresh({String? issuer, String? involved}) async {
+    var parameter = <String, String>{};
+    if (issuer != null) parameter['issuer'] = issuer;
+    if (involved != null) parameter['involved'] = involved;
 
     var io = IO();
     pollTasks = await io.getPoll(parameter);
