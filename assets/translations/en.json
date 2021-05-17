@@ -49,6 +49,7 @@
     "PLACEHOLDER": null,
         "PLACEHOLDER_DESCRIPTION": "Megjegyzés",
         "PLACEHOLDER_SEARCH": "Search",
+        "PLACEHOLDER_EMPTY_SEARCH_RESULTS": "No results found.",
         "PLACEHOLDER_TITLE": "Megnevezés",
     "BUTTON": null,
         "BUTTON_OK": "OK",

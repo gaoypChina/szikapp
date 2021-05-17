@@ -21,16 +21,20 @@ class Contacts {
     } else {
       var results = <UserData>[];
       for (var item in contacts) {
-        if (item.name.contains(text))
+        if (item.name.toLowerCase().contains(text.toLowerCase()))
           results.add(item);
-        else if (item.email.contains(text))
+        else if (item.email.contains(text.toLowerCase()))
           results.add(item);
-        else if (item.birthday != null) {
+        else if (item.phone != null) {
+          if (item.phone!.contains(text)) results.add(item);
+        } else if (item.birthday != null) {
           var intInString = RegExp(r'\d{1,2}');
           var matches = intInString.allMatches(text);
           if (matches.length == 2 &&
-              item.birthday!.month.toString() == matches.first.toString() &&
-              item.birthday!.day.toString() == matches.last.toString()) {
+              item.birthday!.month.toString() ==
+                  matches.first.group(0).toString() &&
+              item.birthday!.day.toString() ==
+                  matches.last.group(0).toString()) {
             results.add(item);
           }
         }
