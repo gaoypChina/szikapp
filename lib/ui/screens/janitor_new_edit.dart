@@ -57,6 +57,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr(),
       onCancel: () => Navigator.pop(context),
     );
+    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(

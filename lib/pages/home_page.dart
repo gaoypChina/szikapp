@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ProgressScreen();
         } else if (snapshot.hasData) {
-          SZIKAppState.loadEarlyData();
+          if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
           return snapshot.data!
               ? Scaffold(
                   body: PersistentTabView(

@@ -22,6 +22,7 @@ import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/screens/janitor_new_edit.dart';
 import 'ui/screens/reservation_details.dart';
 import 'ui/screens/reservation_games.dart';
 import 'ui/screens/reservation_new_edit.dart';
@@ -156,6 +157,12 @@ class SZIKAppState extends State<SZIKApp> {
         return ReservationNewEditScreen();
       case ReservationPlacesMapScreen.route:
         return ReservationPlacesMapScreen();
+      case JanitorNewEditScreen.route:
+        final args = settings.arguments as JanitorNewEditArguments;
+        return JanitorNewEditScreen(
+          isEdit: args.isEdit,
+          task: args.task,
+        );
       case ErrorScreen.route:
         var args;
         if (settings.arguments == null)
@@ -176,32 +183,6 @@ class SZIKAppState extends State<SZIKApp> {
 
     page = getDestination(settings);
 
-    /*
-    if (settings.name == HomePage.route) {
-      page = HomePage();
-    } else if (settings.name == MenuPage.route) {
-      page = MenuPage();
-    } else if (settings.name == ProfilePage.route) {
-      page = ProfilePage();
-    } else if (settings.name == SettingsPage.route) {
-      page = SettingsPage();
-    } else if (settings.name == SignInPage.route) {
-      page = SignInPage();
-    } else if (settings.name == SubMenuPage.route) {
-      final args = settings.arguments as SubMenuArguments;
-      page = SubMenuPage(
-        listItems: args.items,
-        title: args.title,
-      );
-    } else if (settings.name == ErrorScreen.route) {
-      final args = settings.arguments as ErrorScreenArguments;
-      page = ErrorScreen(
-        error: args.error,
-      );
-    } else {
-      throw Exception(
-          'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
-    }*/
     return MaterialPageRoute<dynamic>(
       builder: (context) {
         return page;
