@@ -1,3 +1,5 @@
+import '../main.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
@@ -103,7 +105,11 @@ class Poll {
   }
 
   Future<void> refresh() async {
+    var id = SZIKAppState.authManager.user!.id;
+
+    var parameter = {'issuer': id, 'involved': id};
+
     var io = IO();
-    pollTasks = await io.getPoll(null);
+    pollTasks = await io.getPoll(parameter);
   }
 }
