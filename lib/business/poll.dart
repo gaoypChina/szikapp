@@ -1,3 +1,5 @@
+import '../main.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
@@ -102,8 +104,12 @@ class Poll {
     return results;
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({String? issuer, String? involved}) async {
+    var parameter = <String, String>{};
+    if (issuer != null) parameter['issuer'] = issuer;
+    if (involved != null) parameter['involved'] = involved;
+
     var io = IO();
-    pollTasks = await io.getPoll(null);
+    pollTasks = await io.getPoll(parameter);
   }
 }

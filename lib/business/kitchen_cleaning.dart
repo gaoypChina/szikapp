@@ -13,21 +13,42 @@ class KitchenCleaning {
 
   factory KitchenCleaning() => _instance;
 
-  KitchenCleaning._privateConstructor();
-
-  void refreshTasks() async {
-    var io = IO();
-    cleaningTasks = await io.getCleaning();
+  KitchenCleaning._privateConstructor() {
+    cleaningPeriods = [];
   }
 
-  void refreshExchanges() async {
+  void refreshTasks({DateTime? start, DateTime? end}) async {
+    if (cleaningPeriods.isEmpty) refreshPeriods();
+
+    start ??= DateTime.now().subtract(const Duration(days: 1));
+    end ??= cleaningPeriods.last.end;
+
+    var parameter = {
+      'start': start.toIso8601String(),
+      'end': end.toIso8601String()
+    };
+
     var io = IO();
-    cleaningExchanges = await io.getCleaningExchange();
+    cleaningTasks = await io.getCleaning(parameter);
   }
 
-  void refreshPeriods() async {
+  void refreshExchanges({bool approved = false}) async {
     var io = IO();
-    cleaningPeriods = await io.getCleaningPeriod();
+    var parameter = {'approved': approved.toString()};
+    cleaningExchanges = await io.getCleaningExchange(parameter);
+  }
+
+  void refreshPeriods({DateTime? start, DateTime? end}) async {
+    start ??= DateTime.now();
+    end ??= DateTime.now();
+
+    var parameter = {
+      'start': start.toIso8601String(),
+      'end': end.toIso8601String()
+    };
+
+    var io = IO();
+    cleaningPeriods = await io.getCleaningPeriod(parameter);
   }
 
   Future<bool> reportInsufficiency() async {
