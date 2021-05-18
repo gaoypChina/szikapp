@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikHippieBlueLight = Color(0xe359a3b0);
@@ -28,61 +27,71 @@ const szikColorScheme = ColorScheme(
 TextTheme szikTextTheme = TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
   ///Nunito, Semi-bold, 18 pt
-  bodyText1: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600),
+  bodyText1: TextStyle(
+      fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600),
 
   ///The default text style for Material.
   ///Nunito, Semi-bold, Italic, 18 pt
-  bodyText2: GoogleFonts.nunito(
-      fontSize: 18, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+  bodyText2: TextStyle(
+      fontFamily: 'Nunito',
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      fontStyle: FontStyle.italic),
 
   ///Used for text on ElevatedButton, TextButton and OutlinedButton.
   ///Montserrat, 18 pt
-  button: GoogleFonts.montserrat(fontSize: 18),
+  button: TextStyle(fontFamily: 'Montserrat', fontSize: 18),
 
   ///Used for auxiliary text associated with images.
   ///Nunito, italic, 14 pt
-  caption: GoogleFonts.nunito(fontSize: 14, fontStyle: FontStyle.italic),
+  caption: TextStyle(
+      fontFamily: 'Nunito', fontSize: 14, fontStyle: FontStyle.italic),
 
   ///Extremely large text.
   ///Montserrat, 18 pt
-  headline1: GoogleFonts.montserrat(fontSize: 18),
+  headline1: TextStyle(fontFamily: 'Montserrat', fontSize: 18),
 
   ///Very, very large text.
   ///Used for the date in the dialog shown by showDatePicker.
   ///Montserrat, Semi-bold, 18 pt
-  headline2: GoogleFonts.montserrat(fontSize: 25, fontWeight: FontWeight.w600),
+  headline2: TextStyle(
+      fontFamily: 'Montserrat', fontSize: 25, fontWeight: FontWeight.w600),
 
   ///Very large text.
   ///Montserrat, Semi-bold, 18 pt
-  headline3: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w600),
+  headline3: TextStyle(
+      fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w600),
 
   ///Large text.
   ///Montserrat, Extra-bold, 18 pt
-  headline4: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w800),
+  headline4: TextStyle(
+      fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w800),
 
   ///Used for large text in dialogs
   ///(e.g., the month and year in the dialog shown by showDatePicker).
   ///Nunito, Black, 18 pt
-  headline5: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w900),
+  headline5: TextStyle(
+      fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w900),
 
   ///Used for the primary text in app bars and dialogs
   ///(e.g., AppBar.title and AlertDialog.title).
   ///Montserrat, 18 pt
-  headline6: GoogleFonts.montserrat(
+  headline6: TextStyle(
+    fontFamily: 'Montserrat',
     fontSize: 18,
   ),
 
   ///The smallest style. [...]
   ///Montserrat, 14 pt
-  overline: GoogleFonts.montserrat(fontSize: 12),
+  overline: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
 
   ///Used for the primary text in lists (e.g., ListTile.title).
   ///Montserrat, 14 pt
-  subtitle1: GoogleFonts.montserrat(fontSize: 14),
+  subtitle1: TextStyle(fontFamily: 'Montserrat', fontSize: 14),
 
   ///For medium emphasis text thats a little smaller than subtitle1.
   ///Montserrat, 14 pt
-  subtitle2: GoogleFonts.montserrat(fontSize: 14),
+  subtitle2: TextStyle(fontFamily: 'Montserrat', fontSize: 14),
 );
 
 ThemeData ourThemeData = ThemeData(
