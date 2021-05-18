@@ -192,7 +192,15 @@ ThemeData ourThemeData = ThemeData(
   ),
   //textButtonTheme: null,
   //elevatedButtonTheme: null,
-  //outlinedButtonTheme: null,
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      primary: szikColorScheme.background,
+      backgroundColor: szikColorScheme.background.withOpacity(0.2),
+      shape: StadiumBorder(
+        side: BorderSide(color: szikColorScheme.background),
+      ),
+    ),
+  ),
   //textSelectionTheme: null,
   //dataTableTheme: null,
   //checkboxTheme: null,

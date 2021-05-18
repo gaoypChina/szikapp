@@ -11,14 +11,13 @@ class Janitor {
     refresh();
   }
 
-  Future<bool> editStatus(TaskStatus status, int taskIndex) async {
-    if (taskIndex >= janitorTasks.length || taskIndex < 0) return false;
-
+  Future<bool> editStatus(TaskStatus status, JanitorTask task) async {
     var io = IO();
-    var parameter = {'id': janitorTasks[taskIndex].uid};
+    var parameter = {'id': task.uid};
     await io.patchJanitor(status, parameter);
 
-    janitorTasks[taskIndex].status = status;
+    janitorTasks.firstWhere((element) => element.uid == task.uid).status =
+        status;
 
     return true;
   }
@@ -65,11 +64,11 @@ class Janitor {
     }
   }
 
-  List<JanitorTask> filter([
+  List<JanitorTask> filter({
     List<TaskStatus> statuses = const <TaskStatus>[],
     List<String> roomIDs = const <String>[],
     String involvedID = '',
-  ]) {
+  }) {
     if (roomIDs.isEmpty && statuses.isEmpty && involvedID.isEmpty)
       return janitorTasks;
 

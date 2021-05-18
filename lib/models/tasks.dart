@@ -38,6 +38,12 @@ enum TaskStatus {
   approved
 }
 
+extension ParseToString on TaskStatus {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+}
+
 ///Basic [Task] class. Ancestor of descended Task types.
 @JsonSerializable(explicitToJson: true)
 class Task {
