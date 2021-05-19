@@ -44,3 +44,9 @@ enum Permission {
   resourceCreate,
   resourceEdit,
 }
+
+extension PermissionToString on Permission {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+}

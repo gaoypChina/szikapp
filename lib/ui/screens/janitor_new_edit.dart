@@ -43,6 +43,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   void initState() {
     super.initState();
     janitor = Janitor();
+    if (SZIKAppState.places.isNotEmpty) placeID = SZIKAppState.places.first.id;
   }
 
   @override
@@ -55,8 +56,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onAcceptText: 'BUTTON_YES'.tr(),
       onAccept: _onAcceptDelete,
       onCancelText: 'BUTTON_NO'.tr(),
-      onCancel: () => Navigator.pop(context),
+      onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
+    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -86,6 +88,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                 style: theme.textTheme.headline1!.copyWith(
                   color: theme.colorScheme.secondary,
                   fontSize: 24,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -195,7 +198,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           child: TextFormField(
                             initialValue:
                                 widget.isEdit ? widget.task!.description : null,
-                            validator: _validateTextField,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primaryVariant,
@@ -248,13 +250,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           flex: 1,
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
-                            child: Text(
-                              'JANITOR_ACTION_CREATE'.tr(),
-                              style: theme.textTheme.button!.copyWith(
-                                fontSize: 14,
-                                color: theme.colorScheme.background,
-                              ),
-                            ),
+                            child: Text(widget.isEdit
+                                ? 'JANITOR_BUTTON_SAVE'.tr()
+                                : 'JANITOR_BUTTON_SEND'.tr()),
                           ),
                         )
                       ],
@@ -279,9 +277,8 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     return null;
   }
 
-  void _onPlaceChanged(dynamic item) {
-    var place = item as Place;
-    placeID = place.id;
+  void _onPlaceChanged(Place? item) {
+    placeID = item!.id;
   }
 
   void _onTitleChanged(String? title) {
@@ -298,7 +295,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       var task = JanitorTask(
           uid: uuid.v4(),
           name: title!,
-          description: description!,
+          description: description,
           start: DateTime.now(),
           end: DateTime.now(),
           type: TaskType.janitor,
@@ -309,6 +306,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           status: TaskStatus.created);
       task.status = TaskStatus.sent;
       janitor.addTask(task);
+      Navigator.of(context).pop(true);
     }
   }
 
@@ -316,14 +314,16 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var task = widget.task;
       task!.name = title!;
-      task.description = description!;
+      task.description = description;
       task.placeID = placeID!;
       janitor.editTask(task);
+      Navigator.of(context).pop(true);
     }
   }
 
   void _onAcceptDelete() {
     janitor.deleteTask(widget.task!);
-    Navigator.pop(context);
+    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.of(context).pop(true);
   }
 }

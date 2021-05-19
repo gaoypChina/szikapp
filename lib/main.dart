@@ -10,9 +10,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'models/group.dart';
 import 'models/resource.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
+import 'pages/feed_page.dart';
 import 'pages/home_page.dart';
 import 'pages/janitor_page.dart';
 import 'pages/menu_page.dart';
@@ -22,6 +24,7 @@ import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/screens/janitor_new_edit.dart';
 import 'ui/screens/reservation_details.dart';
 import 'ui/screens/reservation_games.dart';
 import 'ui/screens/reservation_new_edit.dart';
@@ -69,6 +72,7 @@ class SZIKAppState extends State<SZIKApp> {
 
   static late Auth authManager;
   static late List<Place> places;
+  static late List<Group> groups;
 
   static Future<bool> initializeFlutterFire() async {
     try {
@@ -90,8 +94,10 @@ class SZIKAppState extends State<SZIKApp> {
     try {
       var io = IO();
       places = await io.getPlace();
+      groups = await io.getGroup();
     } on Exception {
       places = <Place>[];
+      groups = <Group>[];
       print('Error loading early data');
     }
   }
@@ -122,6 +128,8 @@ class SZIKAppState extends State<SZIKApp> {
         return HomePage();
       case MenuPage.route:
         return MenuPage();
+      case FeedPage.route:
+        return FeedPage();
       case SubMenuPage.route:
         final args = settings.arguments as SubMenuArguments;
         return SubMenuPage(
@@ -156,6 +164,12 @@ class SZIKAppState extends State<SZIKApp> {
         return ReservationNewEditScreen();
       case ReservationPlacesMapScreen.route:
         return ReservationPlacesMapScreen();
+      case JanitorNewEditScreen.route:
+        final args = settings.arguments as JanitorNewEditArguments;
+        return JanitorNewEditScreen(
+          isEdit: args.isEdit,
+          task: args.task,
+        );
       case ErrorScreen.route:
         var args;
         if (settings.arguments == null)
@@ -176,32 +190,6 @@ class SZIKAppState extends State<SZIKApp> {
 
     page = getDestination(settings);
 
-    /*
-    if (settings.name == HomePage.route) {
-      page = HomePage();
-    } else if (settings.name == MenuPage.route) {
-      page = MenuPage();
-    } else if (settings.name == ProfilePage.route) {
-      page = ProfilePage();
-    } else if (settings.name == SettingsPage.route) {
-      page = SettingsPage();
-    } else if (settings.name == SignInPage.route) {
-      page = SignInPage();
-    } else if (settings.name == SubMenuPage.route) {
-      final args = settings.arguments as SubMenuArguments;
-      page = SubMenuPage(
-        listItems: args.items,
-        title: args.title,
-      );
-    } else if (settings.name == ErrorScreen.route) {
-      final args = settings.arguments as ErrorScreenArguments;
-      page = ErrorScreen(
-        error: args.error,
-      );
-    } else {
-      throw Exception(
-          'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
-    }*/
     return MaterialPageRoute<dynamic>(
       builder: (context) {
         return page;
