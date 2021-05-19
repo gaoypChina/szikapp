@@ -338,7 +338,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                                 children: [
                                   Text(
                                     item.birthday != null
-                                        ? DateFormat('yyyy. MM. dd')
+                                        ? DateFormat('yyyy. MM. dd.')
                                             .format(item.birthday!)
                                         : 'BIRTHDAY_NOT_FOUND'.tr(),
                                     style: theme.textTheme.bodyText1?.copyWith(
