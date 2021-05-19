@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'models/resource.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
+import 'pages/feed_page.dart';
 import 'pages/home_page.dart';
 import 'pages/janitor_page.dart';
 import 'pages/menu_page.dart';
@@ -123,6 +124,8 @@ class SZIKAppState extends State<SZIKApp> {
         return HomePage();
       case MenuPage.route:
         return MenuPage();
+      case FeedPage.route:
+        return FeedPage();
       case SubMenuPage.route:
         final args = settings.arguments as SubMenuArguments;
         return SubMenuPage(

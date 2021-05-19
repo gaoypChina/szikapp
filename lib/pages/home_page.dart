@@ -5,8 +5,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/progress_screen.dart';
+import 'feed_page.dart';
 import 'menu_page.dart';
-import 'profile_page.dart';
 import 'settings_page.dart';
 import 'signin_page.dart';
 
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      ProfilePage(),
+      FeedPage(),
       MenuPage(),
       SettingsPage(),
     ];
@@ -40,17 +40,17 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
-          child: Image.asset('assets/icons/profile_light_72.png'),
+          child: Image.asset('assets/icons/feed_light_72.png'),
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        title: 'MENU_CONTACTS'.tr(),
+        title: 'MENU_FEED'.tr(),
         textStyle: Theme.of(context).textTheme.overline,
         activeColorPrimary: Theme.of(context).colorScheme.background,
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: ProfilePage.route,
+          initialRoute: FeedPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
       ),
@@ -72,10 +72,10 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
-          child: Image.asset('assets/icons/calendar_light_72.png'),
+          child: Image.asset('assets/icons/gear_light_72.png'),
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        title: 'MENU_CALENDAR'.tr(),
+        title: 'MENU_SETTINGS'.tr(),
         textStyle: Theme.of(context).textTheme.overline,
         activeColorPrimary: Theme.of(context).colorScheme.background,
         inactiveColorPrimary:

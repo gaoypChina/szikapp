@@ -27,7 +27,7 @@ class SubMenuButton {
 final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_CONTACTS'.tr(),
-    picture: 'assets/icons/profile_light_72.png',
+    picture: 'assets/icons/users_light_72.png',
     route: ContactsPage.route,
   ),
   SubMenuButton(
