@@ -42,9 +42,17 @@ class Reservation {
     return true;
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({DateTime? start, DateTime? end}) async {
+    start ??= DateTime.now();
+    end ??= DateTime.now().add(const Duration(days: 7));
+
+    var parameter = {
+      'start': start.toIso8601String(),
+      'end': end.toIso8601String()
+    };
+
     var io = IO();
-    reservations = await io.getReservation();
+    reservations = await io.getReservation(parameter);
   }
 
   List<TimetableTask> filter(

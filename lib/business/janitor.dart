@@ -55,11 +55,13 @@ class Janitor {
     return true;
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({DateTime? from}) async {
     try {
+      from ??= DateTime.now().subtract(const Duration(days: 31));
+      var parameter = {'from': from.toIso8601String()};
       var io = IO();
-      janitorTasks = await io.getJanitor();
-    } on IOException {
+      janitorTasks = await io.getJanitor(parameter);
+    } on IONotModifiedException {
       janitorTasks = <JanitorTask>[];
     }
   }
