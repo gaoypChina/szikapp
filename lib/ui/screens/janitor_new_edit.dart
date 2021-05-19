@@ -43,6 +43,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   void initState() {
     super.initState();
     janitor = Janitor();
+    if (SZIKAppState.places.isNotEmpty) placeID = SZIKAppState.places.first.id;
   }
 
   @override
@@ -310,6 +311,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           status: TaskStatus.created);
       task.status = TaskStatus.sent;
       janitor.addTask(task);
+      Navigator.of(context).pop();
     }
   }
 
@@ -320,6 +322,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       task.description = description!;
       task.placeID = placeID!;
       janitor.editTask(task);
+      Navigator.of(context).pop();
     }
   }
 
