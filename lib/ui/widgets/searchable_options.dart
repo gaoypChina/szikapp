@@ -20,6 +20,7 @@ class SearchableOptions<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return DropdownSearch<T>(
       validator: (v) => v == null ? 'ERROR_REQUIRED_FIELD'.tr() : null,
       autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -33,10 +34,12 @@ class SearchableOptions<T> extends StatelessWidget {
       onChanged: onItemChanged,
       showSearchBox: true,
       searchBoxDecoration: InputDecoration(
+        hintText: 'PLACEHOLDER_SEARCH'.tr(),
+        hintStyle: theme.textTheme.caption,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
             width: 2,
             style: BorderStyle.solid,
           ),

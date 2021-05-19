@@ -59,6 +59,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     super.initState();
     janitor = Janitor();
     items = janitor.janitorTasks;
+    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
   }
 
   void _onTabChanged(int? newValue) {
@@ -88,8 +89,14 @@ class _JanitorListViewState extends State<JanitorListView> {
         arguments: JanitorNewEditArguments(isEdit: false));
   }
 
+  void _onEditPressed(JanitorTask task) {
+    Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
+        arguments: JanitorNewEditArguments(isEdit: true, task: task));
+  }
+
   void _onFeedbackPressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaitingApproval) {
+    if (task.status == TaskStatus.awaitingApproval ||
+        task.status == TaskStatus.approved) {
       //TODO feedback
       Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
           arguments: JanitorNewEditArguments(isEdit: true, task: task));
@@ -100,6 +107,34 @@ class _JanitorListViewState extends State<JanitorListView> {
     if (task.status == TaskStatus.awaitingApproval) {
       janitor.editStatus(TaskStatus.approved, task);
     }
+  }
+
+  List<Widget> _buildActionButtons(JanitorTask task) {
+    var buttons = <Widget>[];
+    if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
+        (task.status == TaskStatus.sent ||
+            task.status == TaskStatus.inProgress)) {
+      buttons.add(OutlinedButton(
+        onPressed: () => _onEditPressed(task),
+        child: Text('JANITOR_BUTTON_EDIT'.tr()),
+      ));
+    }
+    if (task.status == TaskStatus.approved ||
+        task.status == TaskStatus.awaitingApproval) {
+      buttons.add(OutlinedButton(
+        onPressed: () => _onFeedbackPressed(task),
+        child: Text('JANITOR_BUTTON_FEEDBACK'.tr()),
+      ));
+    }
+    if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
+        task.status == TaskStatus.awaitingApproval) {
+      buttons.add(OutlinedButton(
+        onPressed: () => _onApprovePressed(task),
+        child: Text('JANITOR_BUTTON_APPROVE'.tr()),
+      ));
+    }
+
+    return buttons;
   }
 
   @override
@@ -351,18 +386,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    OutlinedButton(
-                                      onPressed: () => _onFeedbackPressed(item),
-                                      child:
-                                          Text('JANITOR_BUTTON_FEEDBACK'.tr()),
-                                    ),
-                                    OutlinedButton(
-                                      onPressed: () => _onApprovePressed(item),
-                                      child:
-                                          Text('JANITOR_BUTTON_APPROVE'.tr()),
-                                    ),
-                                  ],
+                                  children: _buildActionButtons(item),
                                 ),
                               )
                             ],

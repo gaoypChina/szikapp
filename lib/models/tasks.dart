@@ -20,6 +20,12 @@ enum TaskType {
   poll
 }
 
+extension TaskTypeToString on TaskType {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+}
+
 ///[TaskStatus] enum represents current statuses of [Task]s
 enum TaskStatus {
   @JsonValue('created')
@@ -38,7 +44,7 @@ enum TaskStatus {
   approved
 }
 
-extension ParseToString on TaskStatus {
+extension TaskStatusToString on TaskStatus {
   String toShortString() {
     return toString().split('.').last;
   }

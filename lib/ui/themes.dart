@@ -191,7 +191,15 @@ ThemeData ourThemeData = ThemeData(
     ),
   ),
   //textButtonTheme: null,
-  //elevatedButtonTheme: null,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: szikColorScheme.primary,
+      onPrimary: szikColorScheme.background,
+      shape: StadiumBorder(
+        side: BorderSide(color: szikColorScheme.primary),
+      ),
+    ),
+  ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       primary: szikColorScheme.background,
