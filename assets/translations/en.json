@@ -12,7 +12,7 @@
         "MENU_HOME": "Menu",
         "MENU_CONTACTS": "Contacts",
         "MENU_CALENDAR": "Calendar",
-        "MENU_SETTINGS": "Beállítások",
+        "MENU_SETTINGS": "Settings",
         "MENU_FEED": "Feed",
     "SUBMENU": null,
         "SUBMENU_DATA_TITLE": "Adatok",
@@ -57,6 +57,8 @@
         "JANITOR_BUTTON_APPROVE": "Approve",
     "CONTROL": null,
         "CONTROL_FILTER": "Filter",
+    "MESSAGE": null,
+        "MESSAGE_CLIPBOARD": "Copied to clipboard.",
     "PLACEHOLDER": null,
         "PLACEHOLDER_DESCRIPTION": "Megjegyzés",
         "PLACEHOLDER_SEARCH": "Search",
@@ -72,6 +74,7 @@
         "TIME_PICKER_HELP": "SELECT TIME",
         "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?",
     "CONTACTS": null,
+        "CONTACTS_FILTER_GROUP": "Csoport",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
 }

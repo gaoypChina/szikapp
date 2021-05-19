@@ -24,6 +24,7 @@ class _JanitorPageState extends State<JanitorPage> {
   void initState() {
     super.initState();
     janitor = Janitor();
+    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
   }
 
   @override
@@ -59,7 +60,6 @@ class _JanitorListViewState extends State<JanitorListView> {
     super.initState();
     janitor = Janitor();
     items = janitor.janitorTasks;
-    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
   }
 
   void _onTabChanged(int? newValue) {

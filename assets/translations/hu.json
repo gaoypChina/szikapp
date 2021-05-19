@@ -57,6 +57,8 @@
         "JANITOR_BUTTON_APPROVE": "Jóváhagyás",
     "CONTROL": null,
         "CONTROL_FILTER": "Szűrés",
+    "MESSAGE": null,
+        "MESSAGE_CLIPBOARD": "Másolva a vágólapra.",
     "PLACEHOLDER": null,
         "PLACEHOLDER_DESCRIPTION": "Megjegyzés",
         "PLACEHOLDER_SEARCH": "Keresés",
@@ -72,6 +74,7 @@
         "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT",
         "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
     "CONTACTS": null,
+        "CONTACTS_FILTER_GROUP": "Csoport",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
 }

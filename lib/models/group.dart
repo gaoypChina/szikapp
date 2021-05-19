@@ -57,7 +57,8 @@ class Group {
     return '#$id $name';
   }
 
-  bool isEqual(Group other) {
+  bool isEqual(Group? other) {
+    if (other == null) return false;
     return id == other.id;
   }
 

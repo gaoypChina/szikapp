@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'models/group.dart';
 import 'models/resource.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
@@ -71,6 +72,7 @@ class SZIKAppState extends State<SZIKApp> {
 
   static late Auth authManager;
   static late List<Place> places;
+  static late List<Group> groups;
 
   static Future<bool> initializeFlutterFire() async {
     try {
@@ -92,8 +94,10 @@ class SZIKAppState extends State<SZIKApp> {
     try {
       var io = IO();
       places = await io.getPlace();
+      groups = await io.getGroup();
     } on Exception {
       places = <Place>[];
+      groups = <Group>[];
       print('Error loading early data');
     }
   }

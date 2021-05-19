@@ -277,9 +277,8 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     return null;
   }
 
-  void _onPlaceChanged(dynamic item) {
-    var place = item as Place;
-    placeID = place.id;
+  void _onPlaceChanged(Place? item) {
+    placeID = item!.id;
   }
 
   void _onTitleChanged(String? title) {

@@ -1,10 +1,14 @@
 import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../business/contacts.dart';
+import '../main.dart';
+import '../models/group.dart';
 import '../models/user_data.dart';
 import '../ui/screens/error_screen.dart';
+import '../ui/widgets/searchable_options.dart';
 
 class ContactsPage extends StatefulWidget {
   static const String route = '/contacts';
@@ -22,6 +26,7 @@ class _ContactsPageState extends State<ContactsPage> {
   void initState() {
     super.initState();
     contacts = Contacts();
+    if (SZIKAppState.groups.isEmpty) SZIKAppState.loadEarlyData();
   }
 
   @override
@@ -51,6 +56,8 @@ class ContactsListView extends StatefulWidget {
 class _ContactsListViewState extends State<ContactsListView> {
   late Contacts contacts;
   late List<UserData> items;
+  double filterExpandableHeight = 0;
+  final double kFilterExpandableHeight = 80;
 
   @override
   void initState() {
@@ -63,6 +70,31 @@ class _ContactsListViewState extends State<ContactsListView> {
     var newItems = contacts.search(query);
     setState(() {
       items = newItems;
+    });
+  }
+
+  void _onToggleFilterExpandable() {
+    filterExpandableHeight == 0
+        ? setState(() {
+            filterExpandableHeight = kFilterExpandableHeight;
+          })
+        : setState(() {
+            filterExpandableHeight = 0;
+          });
+  }
+
+  void _onFilterChanged(Group? group) {
+    var newItems = contacts.filter(group!.id);
+    setState(() {
+      items = newItems;
+    });
+  }
+
+  void _copyToClipBoard(String? text, String message) {
+    if (text == null) return;
+    Clipboard.setData(ClipboardData(text: text)).then((_) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     });
   }
 
@@ -99,7 +131,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                   child: ColorFiltered(
                     child: Image.asset('assets/icons/search_light_72.png'),
                     colorFilter: ColorFilter.mode(
-                        Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                        theme.colorScheme.primary, BlendMode.srcIn),
                   ),
                 ),
                 Expanded(
@@ -122,18 +154,56 @@ class _ContactsListViewState extends State<ContactsListView> {
                     onChanged: _onSearchFieldChanged,
                   ),
                 ),
-                Container(
-                  width: searchBarIconSize,
-                  height: searchBarIconSize,
-                  margin: EdgeInsets.only(right: 8),
-                  child: ColorFiltered(
-                    child: Image.asset('assets/icons/sliders_light_72.png'),
-                    colorFilter: ColorFilter.mode(
-                        Theme.of(context).colorScheme.secondaryVariant,
-                        BlendMode.srcIn),
+                GestureDetector(
+                  onTap: _onToggleFilterExpandable,
+                  child: Container(
+                    width: searchBarIconSize,
+                    height: searchBarIconSize,
+                    margin: EdgeInsets.only(right: 8),
+                    child: ColorFiltered(
+                      child: Image.asset('assets/icons/sliders_light_72.png'),
+                      colorFilter: ColorFilter.mode(
+                          theme.colorScheme.primary, BlendMode.srcIn),
+                    ),
                   ),
                 ),
               ],
+            ),
+          ),
+          AnimatedContainer(
+            duration: Duration(seconds: 1),
+            margin: EdgeInsets.fromLTRB(20, filterExpandableHeight / 16, 20, 0),
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            height: filterExpandableHeight,
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.primary, width: 2),
+                borderRadius: BorderRadius.circular(20)),
+            child: ConstrainedBox(
+              constraints: BoxConstraints.expand(),
+              child: Row(
+                children: [
+                  Container(
+                    child: Text(
+                      'CONTACTS_FILTER_GROUP'.tr(),
+                      style: theme.textTheme.caption!
+                          .copyWith(fontSize: 14, fontStyle: FontStyle.normal),
+                    ),
+                    margin: EdgeInsets.only(right: 5),
+                  ),
+                  filterExpandableHeight == 0
+                      ? Container()
+                      : Expanded(
+                          child: SearchableOptions<Group>(
+                            items: SZIKAppState.groups,
+                            onItemChanged: _onFilterChanged,
+                            selectedItem: null,
+                            compare: (i, s) => i.isEqual(s),
+                            showClearButton: true,
+                            nullValidated: false,
+                          ),
+                        ),
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -195,6 +265,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     }
                                   }
                                 },
+                                onLongPress: () => _copyToClipBoard(
+                                    item.phone, 'MESSAGE_CLIPBOARD'.tr()),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -209,16 +281,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     ColorFiltered(
                                       child: Image.asset(
                                         'assets/icons/phone_light_72.png',
-                                        height: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
+                                        height: theme.textTheme.bodyText1!
                                                 .fontSize! *
                                             1.5,
                                       ),
                                       colorFilter: ColorFilter.mode(
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .primaryVariant,
+                                          theme.colorScheme.primaryVariant,
                                           BlendMode.srcIn),
                                     ),
                                   ],
@@ -232,6 +300,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     //TODO
                                   }
                                 },
+                                onLongPress: () => _copyToClipBoard(
+                                    item.email, 'MESSAGE_CLIPBOARD'.tr()),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -251,16 +321,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     ColorFiltered(
                                       child: Image.asset(
                                         'assets/icons/at_light_72.png',
-                                        height: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
+                                        height: theme.textTheme.bodyText1!
                                                 .fontSize! *
                                             1.5,
                                       ),
                                       colorFilter: ColorFilter.mode(
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .primaryVariant,
+                                          theme.colorScheme.primaryVariant,
                                           BlendMode.srcIn),
                                     ),
                                   ],
@@ -282,16 +348,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                                   ColorFiltered(
                                     child: Image.asset(
                                       'assets/icons/gift_light_72.png',
-                                      height: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .fontSize! *
-                                          1.5,
+                                      height:
+                                          theme.textTheme.bodyText1!.fontSize! *
+                                              1.5,
                                     ),
                                     colorFilter: ColorFilter.mode(
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .primaryVariant,
+                                        theme.colorScheme.primaryVariant,
                                         BlendMode.srcIn),
                                   ),
                                 ],
