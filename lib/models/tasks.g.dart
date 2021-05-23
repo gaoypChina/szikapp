@@ -146,6 +146,7 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) {
         .toList(),
     placeID: json['place_id'] as String,
     status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
+    answer: json['answer'] as String?,
   )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList();
@@ -164,9 +165,11 @@ Map<String, dynamic> _$JanitorTaskToJson(JanitorTask instance) =>
       'feedback': instance.feedback,
       'place_id': instance.placeID,
       'status': _$TaskStatusEnumMap[instance.status],
+      'answer': instance.answer,
     };
 
 const _$TaskStatusEnumMap = {
+  TaskStatus.created: 'created',
   TaskStatus.sent: 'sent',
   TaskStatus.irresolvable: 'irresolvable',
   TaskStatus.inProgress: 'in_progress',

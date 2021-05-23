@@ -158,11 +158,14 @@ class _JanitorListViewState extends State<JanitorListView> {
                 ),
               ),
             ),
-            TabChoice(labels: [
-              'JANITOR_TAB_ALL'.tr(),
-              'JANITOR_TAB_ACTIVE'.tr(),
-              'JANITOR_TAB_OWN'.tr(),
-            ], onChanged: _onTabChanged),
+            TabChoice(
+              labels: [
+                'JANITOR_TAB_ALL'.tr(),
+                'JANITOR_TAB_ACTIVE'.tr(),
+                'JANITOR_TAB_OWN'.tr(),
+              ],
+              onChanged: _onTabChanged,
+            ),
             Expanded(
               child: items.isEmpty
                   ? Center(

@@ -24,6 +24,7 @@ import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/screens/janitor_edit_admin.dart';
 import 'ui/screens/janitor_new_edit.dart';
 import 'ui/screens/reservation_details.dart';
 import 'ui/screens/reservation_games.dart';
@@ -170,6 +171,9 @@ class SZIKAppState extends State<SZIKApp> {
           isEdit: args.isEdit,
           task: args.task,
         );
+      case JanitorEditAdminScreen.route:
+        final args = settings.arguments as JanitorEditAdminArguments;
+        return JanitorEditAdminScreen(task: args.task);
       case ErrorScreen.route:
         var args;
         if (settings.arguments == null)

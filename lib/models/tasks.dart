@@ -20,9 +20,14 @@ enum TaskType {
   poll
 }
 
-extension TaskTypeToString on TaskType {
+extension TaskTypeExtensions on TaskType {
   String toShortString() {
     return toString().split('.').last;
+  }
+
+  bool isEqual(TaskType? other) {
+    if (other == null) return false;
+    return index == other.index;
   }
 }
 
@@ -44,9 +49,14 @@ enum TaskStatus {
   approved
 }
 
-extension TaskStatusToString on TaskStatus {
+extension TaskStatusExtensions on TaskStatus {
   String toShortString() {
     return toString().split('.').last;
+  }
+
+  bool isEqual(TaskStatus? other) {
+    if (other == null) return false;
+    return index == other.index;
   }
 }
 
@@ -161,20 +171,22 @@ class JanitorTask extends Task {
   @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
+  String? answer;
 
-  JanitorTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      this.feedback,
-      required this.placeID,
-      required this.status})
-      : super(
+  JanitorTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    this.feedback,
+    required this.placeID,
+    required this.status,
+    this.answer,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
