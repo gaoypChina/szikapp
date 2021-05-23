@@ -76,5 +76,8 @@
     "CONTACTS": null,
         "CONTACTS_FILTER_GROUP": "Csoport",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
-        "BIRTHDAY_NOT_FOUND": "Születésnap nem található"
+        "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
+    "FEED": null,
+        "FEED_GREETINGS": "Helló {}",
+        "FEED_NOTIFICATIONS": "Értesítéseid"
 }
