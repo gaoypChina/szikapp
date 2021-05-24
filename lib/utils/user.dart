@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 import '../models/cleaning_exchange.dart';
 import '../models/permission.dart';
 import '../models/tasks.dart';
@@ -5,8 +7,11 @@ import '../models/user_data.dart';
 import 'exceptions.dart';
 import 'io.dart';
 
+///Az applikáció aktuális felhasználóját megtestesítő osztály.
+///Az autentikáció során jön létre és a kijelentkezésig megőrzi a felhasználó
+///adatait a programban. Nem hozható létre önállóan, életciklusát az [Auth]
+///menedzser osztály kezeli.
 class User {
-  //Tagváltozók
   late final String id;
   late String name;
   late String email;
@@ -19,13 +24,13 @@ class User {
   List<Permission>? _permissions;
   late final DateTime lastUpdate;
 
-  //Setterek és getterek
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
     if (date == null)
       _birthday = null;
-    else if (date.isBefore(DateTime(1960, 1, 1))) {
-      throw ArgumentError();
+    else if (date.isBefore(DateTime(1930, 1, 1))) {
+      throw ArgumentError(
+          'ERROR_INVALID_VALUE'.tr(args: ['birthday', date.toIso8601String()]));
     } else {
       _birthday = date;
     }
@@ -40,10 +45,10 @@ class User {
     else if (validationPhone.hasMatch(value)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
-        throw NonHungarianPhoneException('');
+        throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError();
+      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
     }
   }
 
@@ -56,14 +61,15 @@ class User {
     else if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
-        throw NonHungarianPhoneException('');
+        throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError();
+      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
     }
   }
 
-  //Publikus függvények aka Interface
+  ///Konstruktor, ami a szerverről érkező [UserData] és a Firebase által
+  ///biztosított [profilePicture] alapján létrehozza a felhasználót.
   User(this.profilePicture, UserData userData) {
     id = userData.id;
     name = userData.name;
@@ -76,6 +82,8 @@ class User {
     lastUpdate = userData.lastUpdate;
   }
 
+  ///Eldönti, hogy a elhasználónak van-e jogosultsága egy adott művelet
+  ///végrehajtására egy adott adaton.
   Future<bool> hasPermission(Permission type, dynamic subject) async {
     var io = IO();
     _permissions ??= await io.getUserPermissions(null);

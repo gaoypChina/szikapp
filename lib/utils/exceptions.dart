@@ -1,4 +1,6 @@
+///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
+  ///Hibaüzenet
   String message;
 
   BaseException(this.message);

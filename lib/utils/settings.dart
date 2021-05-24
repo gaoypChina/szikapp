@@ -2,40 +2,51 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/preferences.dart';
 import 'io.dart';
 
+///Felhasználói beállításokat implementáló osztály. Specifikus interfészt
+///biztosít a [SharedPreferences] lokális perzisztens adattárolóhoz.
 class Settings {
-  //Privát változók
-  SharedPreferences? _ownSharedPreferences;
+  ///Adattár példány
+  SharedPreferences? _preferences;
 
+  ///Singleton osztálypéldány
   static final Settings _instance = Settings._privateConstructor();
+
+  ///Publikus konstruktor, ami visszatér a singleton példánnyal.
   factory Settings() => _instance;
+
+  ///Rejtett konstruktor, ami inicializálja a [_preferences] adattár példányt.
   Settings._privateConstructor() {
-    _intialize();
+    _initialize();
   }
 
-  //Getterek
+  ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
-    var value = _ownSharedPreferences!.getString('darkMode');
+    var value = _preferences!.getString('darkMode');
     return DarkMode.values
         .firstWhere((element) => element.toString() == 'DarkMode.$value');
   }
 
+  ///Lekéri a nyelvbeállításokat.
   Language get language {
-    var value = _ownSharedPreferences!.getString('language');
+    var value = _preferences!.getString('language');
     return Language.values
         .firstWhere((element) => element.toString() == 'Language.$value');
   }
 
+  ///Lekéri az alkalmazás színtémát.
   Theme get theme {
-    var value = _ownSharedPreferences!.getString('theme');
+    var value = _preferences!.getString('theme');
     return Theme.values
         .firstWhere((element) => element.toString() == 'Theme.$value');
   }
 
-  bool get dataLite => _ownSharedPreferences!.getBool('dataLite') ?? false;
+  ///Lekéri az adattakarékos mód beállítását.
+  bool get dataLite => _preferences!.getBool('dataLite') ?? false;
 
+  ///Lekéri a felhasználó értesítés beállításait.
   Map<String, bool>? get notifications {
-    var enabled = _ownSharedPreferences!.getStringList('enabled') ?? [];
-    var disabled = _ownSharedPreferences!.getStringList('disabled') ?? [];
+    var enabled = _preferences!.getStringList('enabled') ?? [];
+    var disabled = _preferences!.getStringList('disabled') ?? [];
     var result = <String, bool>{};
 
     for (var element in enabled) {
@@ -48,52 +59,59 @@ class Settings {
     return result;
   }
 
-  String? get leftMenuOption =>
-      _ownSharedPreferences!.getString('leftMenuOption');
+  ///Lekéri a bal oldali navigációs gomb beállítását.
+  String? get leftMenuOption => _preferences!.getString('leftMenuOption');
 
-  String? get rightMenuOption =>
-      _ownSharedPreferences!.getString('rightMenuOption');
+  ///Lekéri a jobb oldali navigációs gomb beállítását.
+  String? get rightMenuOption => _preferences!.getString('rightMenuOption');
 
-  //Setterek
+  ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
-    _ownSharedPreferences!.setString('darkMode', mode.toString());
+    _preferences!.setString('darkMode', mode.toString());
   }
 
-  set language(Language ownLanguage) {
-    _ownSharedPreferences!.setString('language', ownLanguage.toString());
+  ///Elmenti a nyelvbeállításokat.
+  set language(Language language) {
+    _preferences!.setString('language', language.toString());
   }
 
-  set theme(Theme ownTheme) {
-    _ownSharedPreferences!.setString('theme', ownTheme.toString());
+  ///Elmenti a témabeállításokat.
+  set theme(Theme theme) {
+    _preferences!.setString('theme', theme.toString());
   }
 
-  set dataLite(bool ownLite) {
-    _ownSharedPreferences!.setBool('dataLite', ownLite);
+  ///Elmenti az adattakarékos mód beállításait.
+  set dataLite(bool enabled) {
+    _preferences!.setBool('dataLite', enabled);
   }
 
-  set notifications(Map<String, bool>? notif) {
+  ///Elmenti a felhasználó értesítés beállításait.
+  set notifications(Map<String, bool>? notifications) {
     var enabled = <String>[];
     var disabled = <String>[];
 
-    for (var key in notif!.keys) {
-      notif[key] == true ? enabled.add(key) : disabled.add(key);
+    for (var key in notifications!.keys) {
+      notifications[key] == true ? enabled.add(key) : disabled.add(key);
     }
 
-    _ownSharedPreferences!.setStringList('disabled', disabled);
-    _ownSharedPreferences!.setStringList('enabled', enabled);
+    _preferences!.setStringList('disabled', disabled);
+    _preferences!.setStringList('enabled', enabled);
   }
 
+  ///Elmenti a bal oldali navigációs gomb beállításait.
   set leftMenuOption(String? option) {
     option ??= '';
-    _ownSharedPreferences!.setString('leftMenuOption', option);
+    _preferences!.setString('leftMenuOption', option);
   }
 
+  ///Elmenti a bal oldali navigációs gomb beállításait.
   set rightMenuOption(String? option) {
     option ??= '';
-    _ownSharedPreferences!.setString('rightMenuOption', option);
+    _preferences!.setString('rightMenuOption', option);
   }
 
-  //Publikus függvények (Interface)
+  ///Letölti és lokálisan tárolja a felhasználó szerveren elmentett
+  ///preferenciáit. A fügvényt meghívva a lokális adatok felülíródnak.
   Future<bool> loadPreferences() async {
     var io = IO();
     var serverPreferences = await io.getUserPreferences();
@@ -107,6 +125,7 @@ class Settings {
     return true;
   }
 
+  ///Feltölti a felhasználó preferenciáit a szerverre.
   Future<bool> savePreferences() async {
     var prefs = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
@@ -122,8 +141,8 @@ class Settings {
     return true;
   }
 
-  //Privát függvények
-  Future<void> _intialize() async {
-    _ownSharedPreferences ??= await SharedPreferences.getInstance();
+  ///Inicializálja a lokális adattárat menedzselő paramétert.
+  Future<void> _initialize() async {
+    _preferences ??= await SharedPreferences.getInstance();
   }
 }

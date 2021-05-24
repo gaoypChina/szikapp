@@ -61,7 +61,7 @@ class KitchenCleaning {
 
   Future<bool> createCleaningPeriod(CleaningPeriod period) async {
     var io = IO();
-    await io.postCleaning(period);
+    await io.postCleaningPeriod(period);
     cleaningPeriods.add(period);
     return true;
   }
@@ -69,7 +69,7 @@ class KitchenCleaning {
   Future<bool> editCleaningPeriod(CleaningPeriod period) async {
     var io = IO();
     var parameter = {'id': period.uid};
-    await io.patchCleaning(period, parameter);
+    await io.patchCleaningPeriod(period, parameter);
     cleaningPeriods.removeWhere((element) => element.uid == period.uid);
     cleaningPeriods.add(period);
     return true;
