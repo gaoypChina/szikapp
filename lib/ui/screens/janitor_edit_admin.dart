@@ -125,6 +125,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                       Expanded(
                         child: Text(
                           '${widget.task.start.year}. ${widget.task.start.month}. ${widget.task.start.day}.  ${widget.task.start.hour}:${widget.task.start.minute}',
+                          style: theme.textTheme.headline6!.copyWith(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            color: theme.colorScheme.primaryVariant,
+                          ),
                         ),
                       ),
                     ],
@@ -145,10 +150,17 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(SZIKAppState.places
-                            .firstWhere(
-                                (element) => element.id == widget.task.placeID)
-                            .name),
+                        child: Text(
+                          SZIKAppState.places
+                              .firstWhere((element) =>
+                                  element.id == widget.task.placeID)
+                              .name,
+                          style: theme.textTheme.headline6!.copyWith(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            color: theme.colorScheme.primaryVariant,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -168,7 +180,14 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(widget.task.name),
+                        child: Text(
+                          widget.task.name,
+                          style: theme.textTheme.headline6!.copyWith(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            color: theme.colorScheme.primaryVariant,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -192,6 +211,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         child: Text(
                           widget.task.description ??
                               'PLACEHOLDER_NOT_PROVIDED'.tr(),
+                          style: theme.textTheme.headline6!.copyWith(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            color: theme.colorScheme.primaryVariant,
+                          ),
                         ),
                       ),
                     ],
