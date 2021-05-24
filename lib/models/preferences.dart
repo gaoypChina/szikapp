@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'preferences.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 enum DarkMode {
   @JsonValue('system')
   system,
@@ -51,8 +53,7 @@ class Preferences {
     notifications ??= <String, bool>{};
   }
 
-  Map<String, dynamic> toJson() => _$PreferencesToJson(this);
+  Json toJson() => _$PreferencesToJson(this);
 
-  factory Preferences.fromJson(Map<String, dynamic> json) =>
-      _$PreferencesFromJson(json);
+  factory Preferences.fromJson(Json json) => _$PreferencesFromJson(json);
 }

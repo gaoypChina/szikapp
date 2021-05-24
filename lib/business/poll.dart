@@ -1,5 +1,3 @@
-import '../main.dart';
-
 import '../models/tasks.dart';
 import '../utils/io.dart';
 

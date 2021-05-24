@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cleaning_exchange.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 @JsonSerializable()
 class CleaningExchange {
   String uid;
@@ -29,8 +31,8 @@ class CleaningExchange {
     required this.lastUpdate,
   });
 
-  Map<String, dynamic> toJson() => _$CleaningExchangeToJson(this);
+  Json toJson() => _$CleaningExchangeToJson(this);
 
-  factory CleaningExchange.fromJson(Map<String, dynamic> json) =>
+  factory CleaningExchange.fromJson(Json json) =>
       _$CleaningExchangeFromJson(json);
 }

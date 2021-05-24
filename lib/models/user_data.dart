@@ -3,6 +3,8 @@ import 'preferences.dart';
 
 part 'user_data.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 @JsonSerializable(explicitToJson: true)
 class UserData {
   final String id;
@@ -52,10 +54,9 @@ class UserData {
     }
   }
 
-  Map<String, dynamic> toJson() => _$UserDataToJson(this);
+  Json toJson() => _$UserDataToJson(this);
 
-  factory UserData.fromJson(Map<String, dynamic> json) =>
-      _$UserDataFromJson(json);
+  factory UserData.fromJson(Json json) => _$UserDataFromJson(json);
 
   String userAsString() {
     return '#$id $name';

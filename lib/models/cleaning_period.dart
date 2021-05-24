@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cleaning_period.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 ///Represents a series of [CleaningTask]s
 @JsonSerializable()
 class CleaningPeriod {
@@ -21,8 +23,7 @@ class CleaningPeriod {
     required this.lastUpdate,
   });
 
-  Map<String, dynamic> toJson() => _$CleaningPeriodToJson(this);
+  Json toJson() => _$CleaningPeriodToJson(this);
 
-  factory CleaningPeriod.fromJson(Map<String, dynamic> json) =>
-      _$CleaningPeriodFromJson(json);
+  factory CleaningPeriod.fromJson(Json json) => _$CleaningPeriodFromJson(json);
 }

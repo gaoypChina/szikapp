@@ -3,6 +3,8 @@ import 'permission.dart';
 
 part 'group.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 @JsonSerializable()
 class Group {
   final String id;
@@ -49,9 +51,9 @@ class Group {
     }
   }
 
-  Map<String, dynamic> toJson() => _$GroupToJson(this);
+  Json toJson() => _$GroupToJson(this);
 
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+  factory Group.fromJson(Json json) => _$GroupFromJson(json);
 
   String groupAsString() {
     return '#$id $name';

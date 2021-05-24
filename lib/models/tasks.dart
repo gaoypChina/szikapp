@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'tasks.g.dart';
 
+typedef Json = Map<String, dynamic>;
+
 ///[TaskType] enum represents types of [Task]s
 enum TaskType {
   @JsonValue('agenda')
@@ -77,9 +79,9 @@ class Task {
     involvedIDs ??= <String>[];
   }
 
-  Map<String, dynamic> toJson() => _$TaskToJson(this);
+  Json toJson() => _$TaskToJson(this);
 
-  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+  factory Task.fromJson(Json json) => _$TaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
@@ -110,10 +112,9 @@ class AgendaTask extends Task {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$AgendaTaskToJson(this);
+  Json toJson() => _$AgendaTaskToJson(this);
 
-  factory AgendaTask.fromJson(Map<String, dynamic> json) =>
-      _$AgendaTaskFromJson(json);
+  factory AgendaTask.fromJson(Json json) => _$AgendaTaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents an event in the SZIK
@@ -148,16 +149,15 @@ class TimetableTask extends Task {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$TimetableTaskToJson(this);
+  Json toJson() => _$TimetableTaskToJson(this);
 
-  factory TimetableTask.fromJson(Map<String, dynamic> json) =>
-      _$TimetableTaskFromJson(json);
+  factory TimetableTask.fromJson(Json json) => _$TimetableTaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents a repair request.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  List<Map<String, dynamic>>? feedback;
+  List<Json>? feedback;
   @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
@@ -184,20 +184,19 @@ class JanitorTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Map<String, dynamic>>[];
+    feedback ??= <Json>[];
   }
 
   @override
-  Map<String, dynamic> toJson() => _$JanitorTaskToJson(this);
+  Json toJson() => _$JanitorTaskToJson(this);
 
-  factory JanitorTask.fromJson(Map<String, dynamic> json) =>
-      _$JanitorTaskFromJson(json);
+  factory JanitorTask.fromJson(Json json) => _$JanitorTaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  List<Map<String, dynamic>>? feedback;
+  List<Json>? feedback;
   TaskStatus status;
 
   CleaningTask(
@@ -221,14 +220,13 @@ class CleaningTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Map<String, dynamic>>[];
+    feedback ??= <Json>[];
   }
 
   @override
-  Map<String, dynamic> toJson() => _$CleaningTaskToJson(this);
+  Json toJson() => _$CleaningTaskToJson(this);
 
-  factory CleaningTask.fromJson(Map<String, dynamic> json) =>
-      _$CleaningTaskFromJson(json);
+  factory CleaningTask.fromJson(Json json) => _$CleaningTaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents a book loan from the
@@ -260,10 +258,9 @@ class BookloanTask extends Task {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$BookloanTaskToJson(this);
+  Json toJson() => _$BookloanTaskToJson(this);
 
-  factory BookloanTask.fromJson(Map<String, dynamic> json) =>
-      _$BookloanTaskFromJson(json);
+  factory BookloanTask.fromJson(Json json) => _$BookloanTaskFromJson(json);
 }
 
 ///Descendant of the basic [Task] class. Represents a poll.
@@ -313,10 +310,9 @@ class PollTask extends Task {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$PollTaskToJson(this);
+  Json toJson() => _$PollTaskToJson(this);
 
-  factory PollTask.fromJson(Map<String, dynamic> json) =>
-      _$PollTaskFromJson(json);
+  factory PollTask.fromJson(Json json) => _$PollTaskFromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -327,7 +323,7 @@ class Vote {
 
   Vote({required this.voterID, required this.votes});
 
-  Map<String, dynamic> toJson() => _$VoteToJson(this);
+  Json toJson() => _$VoteToJson(this);
 
-  factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
+  factory Vote.fromJson(Json json) => _$VoteFromJson(json);
 }
