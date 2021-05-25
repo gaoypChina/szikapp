@@ -12,6 +12,7 @@ import '../models/preferences.dart';
 import '../models/resource.dart';
 import '../models/tasks.dart';
 import '../models/user_data.dart';
+import '../utils/types.dart';
 import 'exceptions.dart';
 
 ///Az alapértelmezett [HttpClient] specifikus implementációja.
@@ -67,7 +68,7 @@ class IO {
   //Metódusok
 
   ///Lekéri egy felhasználó adatait.
-  Future<UserData> getUser([Map<String, String>? parameters]) async {
+  Future<UserData> getUser([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -81,8 +82,7 @@ class IO {
   }
 
   ///Létrehoz egy új felhasználót.
-  Future<bool> postUser(UserData data,
-      [Map<String, String>? parameters]) async {
+  Future<bool> postUser(UserData data, [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -94,7 +94,7 @@ class IO {
   }
 
   ///Frissít egy létező felhasználót.
-  Future<bool> putUser(UserData data, [Map<String, String>? parameters]) async {
+  Future<bool> putUser(UserData data, [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -106,8 +106,7 @@ class IO {
   }
 
   ///Töröl egy felhasználót.
-  Future<bool> deleteUser(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+  Future<bool> deleteUser(KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_userEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -118,8 +117,7 @@ class IO {
   }
 
   ///Lekéri egy felhasználó mentett preferenciáit.
-  Future<Preferences> getUserPreferences(
-      [Map<String, String>? parameters]) async {
+  Future<Preferences> getUserPreferences([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -134,7 +132,7 @@ class IO {
 
   ///Elmenti egy felhasználó preferenciáit.
   Future<bool> putUserPreferences(Preferences data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -146,7 +144,7 @@ class IO {
   }
 
   ///Törli egy felhasználó preferenciáit.
-  Future<bool> deleteUserPreferences([Map<String, String>? parameters]) async {
+  Future<bool> deleteUserPreferences([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_preferencesEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -157,7 +155,7 @@ class IO {
   }
 
   ///Lekéri a kollégiumi helyek (szűrt) listáját vagy egy konkrét helyiséget.
-  Future<List<Place>> getPlace([Map<String, String>? parameters]) async {
+  Future<List<Place>> getPlace([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_placeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -176,7 +174,7 @@ class IO {
   }
 
   ///Létrehoz egy új helyiséget.
-  Future<bool> postPlace(Place data, [Map<String, String>? parameters]) async {
+  Future<bool> postPlace(Place data, [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_placeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -188,7 +186,7 @@ class IO {
   }
 
   ///Frissíti egy létező helyiség adatait.
-  Future<bool> putPlace(Place data, Map<String, String> parameters) async {
+  Future<bool> putPlace(Place data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_placeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -201,7 +199,7 @@ class IO {
 
   ///Lekéri egy felhasználóhoz tartozó engedélyeket.
   Future<List<Permission>> getUserPermissions(
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_permissionsEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -222,7 +220,7 @@ class IO {
 
   ///Egy csoport engedélyeit kibővíti a megadott jogosultságokkal.
   Future<bool> postGroupPermission(List<Permission> data,
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -240,8 +238,8 @@ class IO {
   }
 
   ///Egy csoport engedélyeit kibővíti a megadott jogosultsággal.
-  Future<bool> patchGroupPermissions(Permission data,
-      Map<String, String> parameters, DateTime lastUpdate) async {
+  Future<bool> patchGroupPermissions(
+      Permission data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
@@ -259,8 +257,8 @@ class IO {
   }
 
   ///Egy csoport engedélyei közül eltávolítja a megadott jogosultságot.
-  Future<bool> putGroupPermissions(Permission data,
-      Map<String, String> parameters, DateTime lastUpdate) async {
+  Future<bool> putGroupPermissions(
+      Permission data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -279,7 +277,7 @@ class IO {
 
   ///Eltávolítja egy csoport összes jogosultságát.
   Future<bool> deleteUserPermission(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -290,8 +288,7 @@ class IO {
   }
 
   ///Lekéri a (szűrt) gondnoki kérések listáját vagy egy konkrét kérést.
-  Future<List<JanitorTask>> getJanitor(
-      [Map<String, String>? parameters]) async {
+  Future<List<JanitorTask>> getJanitor([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -311,7 +308,7 @@ class IO {
 
   ///Létrehoz egy új gondnoki kérést.
   Future<bool> postJanitor(JanitorTask data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -326,8 +323,7 @@ class IO {
   }
 
   ///Beállítja a megadott gondnoki kérés státusát.
-  Future<bool> patchJanitor(
-      TaskStatus data, Map<String, String> parameters) async {
+  Future<bool> patchJanitor(TaskStatus data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
@@ -341,8 +337,7 @@ class IO {
   }
 
   ///Frissíti a megadott gondnoki kérést.
-  Future<bool> putJanitor(
-      JanitorTask data, Map<String, String> parameters) async {
+  Future<bool> putJanitor(JanitorTask data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -355,7 +350,7 @@ class IO {
 
   ///Törli a megadott gondnoki kérést.
   Future<bool> deleteJanitor(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -366,7 +361,7 @@ class IO {
   }
 
   ///Lekéri a felhasználói csoportok listáját vagy egy konkrét csoportot.
-  Future<List<Group>> getGroup([Map<String, String>? parameters]) async {
+  Future<List<Group>> getGroup([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_groupEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -385,7 +380,7 @@ class IO {
   }
 
   ///Létrehoz egy új felhasználói csoportot.
-  Future<bool> postGroup(Group data, [Map<String, String>? parameters]) async {
+  Future<bool> postGroup(Group data, [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_groupEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -397,7 +392,7 @@ class IO {
   }
 
   ///Frissíti a megadott felhasználói csoportot.
-  Future<bool> putGroup(Group data, Map<String, String> parameters) async {
+  Future<bool> putGroup(Group data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_groupEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -410,7 +405,7 @@ class IO {
 
   ///Törli a megadott felhasználói csoportot.
   Future<bool> deleteGroup(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_groupEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -421,7 +416,7 @@ class IO {
   }
 
   ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
-  Future<List<UserData>> getContacts([Map<String, String>? parameters]) async {
+  Future<List<UserData>> getContacts([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_contactsEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -441,7 +436,7 @@ class IO {
 
   ///Lekéri a konyhatakarítás cserék vagy egy konkrét csere adatait.
   Future<List<CleaningExchange>> getCleaningExchange(
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -461,7 +456,7 @@ class IO {
 
   ///Létrehoz egy új  kanyhatakarítás-cserét.
   Future<bool> postCleaningExchange(CleaningExchange data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -474,7 +469,7 @@ class IO {
 
   ///Felajánl vagy elfogad egy konyhatakarítás-csere ajánlatot.
   Future<bool> patchCleaningExchange(
-      Map<String, String> parameters, DateTime lastUpdate,
+      KeyValuePairs parameters, DateTime lastUpdate,
       [String? data]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -495,7 +490,7 @@ class IO {
 
   ///Visszavon vagy elutasít egy felajánlott konyhatakarítás-csere ajánlatot.
   Future<bool> putCleaningExchange(
-      Map<String, String> parameters, DateTime lastUpdate,
+      KeyValuePairs parameters, DateTime lastUpdate,
       [String? data]) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -516,7 +511,7 @@ class IO {
 
   ///Törli amegadott konyhatakarítás-cserét.
   Future<bool> deleteCleaningExchange(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -528,8 +523,7 @@ class IO {
 
   ///Lekéri a konyhatakarítás feladatok listáját vagy egy konkrét feladat
   ///adatait.
-  Future<List<CleaningTask>> getCleaning(
-      [Map<String, String>? parameters]) async {
+  Future<List<CleaningTask>> getCleaning([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_cleaningEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -549,7 +543,7 @@ class IO {
 
   ///Lekéri a konyhatakarítás periódusok vagy egy konkrét periódus adatait.
   Future<List<CleaningPeriod>> getCleaningPeriod(
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_cleaningEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     uri += 'period=true';
@@ -570,7 +564,7 @@ class IO {
 
   ///Létrehoz egy új konyhatakarítás periódust.
   Future<bool> postCleaningPeriod(CleaningPeriod data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_cleaningEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -583,7 +577,7 @@ class IO {
 
   ///Frissíti a megadott konyhatakarítás periódust.
   Future<bool> patchCleaningPeriod(
-      CleaningPeriod data, Map<String, String> parameters) async {
+      CleaningPeriod data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_cleaningEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
@@ -595,8 +589,7 @@ class IO {
   }
 
   ///Frissíti a megadott konyhatakarítás feladatot.
-  Future<bool> putCleaning(
-      CleaningTask data, Map<String, String> parameters) async {
+  Future<bool> putCleaning(CleaningTask data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_cleaningEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -608,7 +601,7 @@ class IO {
   }
 
   ///Lekéri a szavazások listáját vagy egy konkrét szavazás adatait.
-  Future<List<PollTask>> getPoll([Map<String, String>? parameters]) async {
+  Future<List<PollTask>> getPoll([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_pollEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -627,8 +620,7 @@ class IO {
   }
 
   ///Létrehoz egy új szavazást.
-  Future<bool> postPoll(PollTask data,
-      [Map<String, String>? parameters]) async {
+  Future<bool> postPoll(PollTask data, [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_pollEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -640,7 +632,7 @@ class IO {
   }
 
   ///Frissíti a megadott szavazás adatait.
-  Future<bool> patchPoll(PollTask data, Map<String, String> parameters) async {
+  Future<bool> patchPoll(PollTask data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
@@ -652,7 +644,7 @@ class IO {
   }
 
   ///Leadja a felhasználó szavazatát a megadott szavazásra.
-  Future<bool> putPoll(Vote data, Map<String, String> parameters) async {
+  Future<bool> putPoll(Vote data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -664,8 +656,7 @@ class IO {
   }
 
   ///Törli a megadott szavazást.
-  Future<bool> deletePoll(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+  Future<bool> deletePoll(KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -677,7 +668,7 @@ class IO {
 
   ///Lekéri a foglalások listáját vagy egy konkrét foglalás adatait.
   Future<List<TimetableTask>> getReservation(
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_reservationEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -697,7 +688,7 @@ class IO {
 
   ///Létrehoz egy új foglalást.
   Future<bool> postReservation(TimetableTask data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_reservationEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -710,7 +701,7 @@ class IO {
 
   ///Frissíti a megadott foglalás adatait.
   Future<bool> putReservation(
-      TimetableTask data, Map<String, String> parameters) async {
+      TimetableTask data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_reservationEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -723,7 +714,7 @@ class IO {
 
   ///Törli a megadott foglalást.
   Future<bool> deleteReservation(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_reservationEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -734,8 +725,7 @@ class IO {
   }
 
   ///Lekéri a társasjátékok listáját vagy egy konkrét játék adatait.
-  Future<List<Boardgame>> getBoardgame(
-      [Map<String, String>? parameters]) async {
+  Future<List<Boardgame>> getBoardgame([KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_boardgameEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -755,7 +745,7 @@ class IO {
 
   ///Létrehoz egy új társast.
   Future<bool> postBoardgame(Boardgame data,
-      [Map<String, String>? parameters]) async {
+      [KeyValuePairs? parameters]) async {
     var uri = '$_vm_1$_boardgameEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -767,8 +757,7 @@ class IO {
   }
 
   ///Frissíti a megadott társasjáték adatait.
-  Future<bool> putBoardgame(
-      Boardgame data, Map<String, String> parameters) async {
+  Future<bool> putBoardgame(Boardgame data, KeyValuePairs parameters) async {
     var uri = '$_vm_1$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -781,7 +770,7 @@ class IO {
 
   ///Törli a megadott társast.
   Future<bool> deleteBoardgame(
-      Map<String, String> parameters, DateTime lastUpdate) async {
+      KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
@@ -809,7 +798,7 @@ class IO {
   }
 
   ///Autentikáció header-ök szerver oldali hitelesítéshez.
-  Future<Map<String, String>> _commonHeaders() async {
+  Future<KeyValuePairs> _commonHeaders() async {
     return {
       'User': SZIKAppState.authManager.firebaseUser?.email ?? '',
       'AuthToken': await SZIKAppState.authManager.getAuthToken(),
@@ -818,7 +807,7 @@ class IO {
 
   ///Adatintegritás header. Jelzi a szervernek, hogy a kliens oldali adat
   ///mikor volt utoljára frissítve (vagyis szinkronban a szerverrel).
-  Map<String, String> _lastUpdateHeader([DateTime? time]) {
+  KeyValuePairs _lastUpdateHeader([DateTime? time]) {
     return time == null
         ? {'LastUpdate': DateTime(1998).toIso8601String()}
         : {'LastUpdate': time.toIso8601String()};
@@ -826,7 +815,7 @@ class IO {
 
   ///Adattípus header. `JSON` típusú kérés adatoknál kötelező megadni, hogy a
   ///szerver tudja értelmezni a kérést.
-  Map<String, String> _contentTypeHeader() {
+  KeyValuePairs _contentTypeHeader() {
     return {'Content-Type': 'application/json'};
   }
 }
