@@ -6,7 +6,7 @@ import 'io.dart';
 ///biztosít a [SharedPreferences] lokális perzisztens adattárolóhoz.
 class Settings {
   ///Adattár példány
-  SharedPreferences? _preferences;
+  late SharedPreferences _preferences;
 
   ///Singleton osztálypéldány
   static final Settings _instance = Settings._privateConstructor();
@@ -19,34 +19,37 @@ class Settings {
     _initialize();
   }
 
+  ///Lekéri az első futtatást jelző flaget.
+  bool get firstRun => _preferences.getBool('firstRun') ?? true;
+
   ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
-    var value = _preferences!.getString('darkMode');
+    var value = _preferences.getString('darkMode');
     return DarkMode.values
         .firstWhere((element) => element.toString() == 'DarkMode.$value');
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
-    var value = _preferences!.getString('language');
+    var value = _preferences.getString('language');
     return Language.values
         .firstWhere((element) => element.toString() == 'Language.$value');
   }
 
   ///Lekéri az alkalmazás színtémát.
   Theme get theme {
-    var value = _preferences!.getString('theme');
+    var value = _preferences.getString('theme');
     return Theme.values
         .firstWhere((element) => element.toString() == 'Theme.$value');
   }
 
   ///Lekéri az adattakarékos mód beállítását.
-  bool get dataLite => _preferences!.getBool('dataLite') ?? false;
+  bool get dataLite => _preferences.getBool('dataLite') ?? false;
 
   ///Lekéri a felhasználó értesítés beállításait.
   Map<String, bool>? get notifications {
-    var enabled = _preferences!.getStringList('enabled') ?? [];
-    var disabled = _preferences!.getStringList('disabled') ?? [];
+    var enabled = _preferences.getStringList('enabled') ?? [];
+    var disabled = _preferences.getStringList('disabled') ?? [];
     var result = <String, bool>{};
 
     for (var element in enabled) {
@@ -60,29 +63,32 @@ class Settings {
   }
 
   ///Lekéri a bal oldali navigációs gomb beállítását.
-  String? get leftMenuOption => _preferences!.getString('leftMenuOption');
+  String? get leftMenuOption => _preferences.getString('leftMenuOption');
 
   ///Lekéri a jobb oldali navigációs gomb beállítását.
-  String? get rightMenuOption => _preferences!.getString('rightMenuOption');
+  String? get rightMenuOption => _preferences.getString('rightMenuOption');
+
+  ///Elmenti az első futtatást jelző flaget.
+  set firstRun(bool isFirstRun) => _preferences.setBool('firstRun', false);
 
   ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
-    _preferences!.setString('darkMode', mode.toString());
+    _preferences.setString('darkMode', mode.toString());
   }
 
   ///Elmenti a nyelvbeállításokat.
   set language(Language language) {
-    _preferences!.setString('language', language.toString());
+    _preferences.setString('language', language.toString());
   }
 
   ///Elmenti a témabeállításokat.
   set theme(Theme theme) {
-    _preferences!.setString('theme', theme.toString());
+    _preferences.setString('theme', theme.toString());
   }
 
   ///Elmenti az adattakarékos mód beállításait.
   set dataLite(bool enabled) {
-    _preferences!.setBool('dataLite', enabled);
+    _preferences.setBool('dataLite', enabled);
   }
 
   ///Elmenti a felhasználó értesítés beállításait.
@@ -94,20 +100,20 @@ class Settings {
       notifications[key] == true ? enabled.add(key) : disabled.add(key);
     }
 
-    _preferences!.setStringList('disabled', disabled);
-    _preferences!.setStringList('enabled', enabled);
+    _preferences.setStringList('disabled', disabled);
+    _preferences.setStringList('enabled', enabled);
   }
 
   ///Elmenti a bal oldali navigációs gomb beállításait.
   set leftMenuOption(String? option) {
     option ??= '';
-    _preferences!.setString('leftMenuOption', option);
+    _preferences.setString('leftMenuOption', option);
   }
 
   ///Elmenti a bal oldali navigációs gomb beállításait.
   set rightMenuOption(String? option) {
     option ??= '';
-    _preferences!.setString('rightMenuOption', option);
+    _preferences.setString('rightMenuOption', option);
   }
 
   ///Letölti és lokálisan tárolja a felhasználó szerveren elmentett
@@ -143,6 +149,6 @@ class Settings {
 
   ///Inicializálja a lokális adattárat menedzselő paramétert.
   Future<void> _initialize() async {
-    _preferences ??= await SharedPreferences.getInstance();
+    _preferences = await SharedPreferences.getInstance();
   }
 }
