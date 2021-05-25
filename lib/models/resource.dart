@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'resource.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
+///Alapvető erőforrást reprezentáló adatmodell ősosztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Resource {
   final String name;
@@ -22,6 +23,8 @@ class Resource {
   factory Resource.fromJson(Json json) => _$ResourceFromJson(json);
 }
 
+///Kollégiumi helyiségeket megjelenítő adatmodell osztály. A [Resource]
+///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Place extends Resource {
   final String id;
@@ -60,6 +63,8 @@ class Place extends Resource {
   String toString() => name;
 }
 
+///Társasjátékokat megjelenítő adatmodell osztály. A [Resource] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Boardgame extends Resource {
   final String id;

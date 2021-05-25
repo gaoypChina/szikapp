@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 import 'preferences.dart';
 
 part 'user_data.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
+///Egy felhasználó adatait reprezentáló adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class UserData {
   final String id;

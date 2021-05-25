@@ -1,10 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'tasks.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
-///[TaskType] enum represents types of [Task]s
+///Feladattípusokat [Task] reprezentáló típus.
 enum TaskType {
   @JsonValue('agenda')
   agenda,
@@ -28,7 +27,7 @@ extension TaskTypeToString on TaskType {
   }
 }
 
-///[TaskStatus] enum represents current statuses of [Task]s
+///Feladatok [Task] státuszát reprezentáló típus.
 enum TaskStatus {
   @JsonValue('created')
   created,
@@ -52,7 +51,8 @@ extension TaskStatusToString on TaskStatus {
   }
 }
 
-///Basic [Task] class. Ancestor of descended Task types.
+///Alapvető feladat adatmodell ősosztály. Szerializálható `JSON` formátumba és
+///vice versa.
 @JsonSerializable(explicitToJson: true)
 class Task {
   final String uid;
@@ -84,7 +84,8 @@ class Task {
   factory Task.fromJson(Json json) => _$TaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents an event in the SZIK Agenda.
+///Agenda eseményt megtestesítő adatmodell osztály. A [Task] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class AgendaTask extends Task {
   @JsonKey(name: 'organizer_ids')
@@ -117,8 +118,8 @@ class AgendaTask extends Task {
   factory AgendaTask.fromJson(Json json) => _$AgendaTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents an event in the SZIK
-/// Timetable.
+///Órarendi vagy foglalási eseményt megtestesítő adatmodell osztály. A [Task]
+///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
   @JsonKey(name: 'organizer_ids')
@@ -154,7 +155,8 @@ class TimetableTask extends Task {
   factory TimetableTask.fromJson(Json json) => _$TimetableTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents a repair request.
+///Gondnoki javítási kérést megtestesítő adatmodell osztály. A [Task] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
   List<Json>? feedback;
@@ -193,7 +195,8 @@ class JanitorTask extends Task {
   factory JanitorTask.fromJson(Json json) => _$JanitorTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
+///Konyhatakarítási feladatot megtestesítő adatmodell osztály. A [Task] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
   List<Json>? feedback;
@@ -229,8 +232,8 @@ class CleaningTask extends Task {
   factory CleaningTask.fromJson(Json json) => _$CleaningTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents a book loan from the
-///library.
+///Könyvtári kölcsönzést megtestesítő adatmodell osztály. A [Task] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class BookloanTask extends Task {
   @JsonKey(name: 'book_id')
@@ -263,7 +266,8 @@ class BookloanTask extends Task {
   factory BookloanTask.fromJson(Json json) => _$BookloanTaskFromJson(json);
 }
 
-///Descendant of the basic [Task] class. Represents a poll.
+///Szavazást megtestesítő adatmodell osztály. A [Task] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class PollTask extends Task {
   String question;
@@ -315,6 +319,8 @@ class PollTask extends Task {
   factory PollTask.fromJson(Json json) => _$PollTaskFromJson(json);
 }
 
+///Egy felhasználó szavazatát megtestesítő adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Vote {
   @JsonKey(name: 'voter_id')

@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 import 'permission.dart';
 
 part 'group.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
+///Felhasználói csoportot megvalósító adatmodell osztály. Tárolja a csoport
+///jogosultságait. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
 class Group {
   final String id;

@@ -66,7 +66,7 @@ class SZIKApp extends StatefulWidget {
   SZIKAppState createState() => SZIKAppState();
 }
 
-///Az applikáció állapota a [runApp] függvény meghívásakor jön létre és a
+///Az applikáció állapota. A [runApp] függvény meghívásakor jön létre és a
 ///program futása során megmarad. Így statikus változóként tartalmazza azokat
 ///az adatokat, amelyekre bármikor és funkciótól függetlenül szükség lehet
 ///a futás során.

@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'preferences.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
+///Sötét mód beállításokat tartalmazó típus.
 enum DarkMode {
   @JsonValue('system')
   system,
@@ -13,6 +13,18 @@ enum DarkMode {
   light,
 }
 
+extension DarkModeExtensions on DarkMode {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+
+  bool isEqual(DarkMode? other) {
+    if (other == null) return false;
+    return index == other.index;
+  }
+}
+
+///Nyelvi beállításokat tartalmazó típus.
 enum Language {
   @JsonValue('hu')
   hu,
@@ -20,11 +32,36 @@ enum Language {
   en,
 }
 
+extension LanguageExtensions on Language {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+
+  bool isEqual(Language? other) {
+    if (other == null) return false;
+    return index == other.index;
+  }
+}
+
+///Témabeállításokat tartalmazó típus.
 enum Theme {
   @JsonValue('default')
   defaultTheme,
 }
 
+extension ThemeExtensions on Theme {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+
+  bool isEqual(Theme? other) {
+    if (other == null) return false;
+    return index == other.index;
+  }
+}
+
+///A felhasználó beállításait tároló adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
 class Preferences {
   @JsonKey(name: 'dark_mode')

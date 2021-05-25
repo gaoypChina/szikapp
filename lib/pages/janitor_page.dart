@@ -59,7 +59,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   void initState() {
     super.initState();
     janitor = Janitor();
-    items = janitor.janitorTasks;
+    items = janitor.tasks;
   }
 
   void _onTabChanged(int? newValue) {

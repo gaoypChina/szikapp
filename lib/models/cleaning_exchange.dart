@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'cleaning_exchange.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
+///Konyhatakarítás-csere adatmodell osztály. Szerializálható `JSON` formátumba
+///és vice versa.
 @JsonSerializable()
 class CleaningExchange {
   String uid;

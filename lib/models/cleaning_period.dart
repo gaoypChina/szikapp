@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'cleaning_period.g.dart';
 
-typedef Json = Map<String, dynamic>;
-
-///Represents a series of [CleaningTask]s
+///Konyhatakarítás periódus adatmodell osztály. Takarítások [CleaningTask]
+///összefüggő időszakát reprezentálja. Szerializálható `JSON` formátumba és
+///vice versa.
 @JsonSerializable()
 class CleaningPeriod {
   String uid;
