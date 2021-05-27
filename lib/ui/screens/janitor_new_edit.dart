@@ -11,9 +11,10 @@ import '../widgets/searchable_options.dart';
 
 class JanitorNewEditArguments {
   bool isEdit;
+  bool? isFeedback;
   JanitorTask? task;
 
-  JanitorNewEditArguments({required this.isEdit, this.task});
+  JanitorNewEditArguments({required this.isEdit, this.isFeedback, this.task});
 }
 
 class JanitorNewEditScreen extends StatefulWidget {

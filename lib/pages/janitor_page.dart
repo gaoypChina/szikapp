@@ -8,6 +8,7 @@ import '../models/tasks.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/janitor_edit_admin.dart';
 import '../ui/screens/janitor_new_edit.dart';
+import '../ui/themes.dart';
 import '../ui/widgets/tab_choice.dart';
 
 class JanitorPage extends StatefulWidget {
@@ -103,9 +104,9 @@ class _JanitorListViewState extends State<JanitorListView> {
   void _onFeedbackPressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval ||
         task.status == TaskStatus.approved) {
-      //TODO feedback
       Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
-          arguments: JanitorNewEditArguments(isEdit: true, task: task));
+          arguments: JanitorNewEditArguments(
+              isEdit: true, isFeedback: true, task: task));
     }
   }
 
@@ -201,12 +202,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                             fontSize: 14,
                             color: theme.colorScheme.background,
                           ),
-                          headerBackgroundColor: theme
-                              .colorScheme.primaryVariant
-                              .withOpacity(0.65),
-                          contentBackgroundColor: theme
-                              .colorScheme.primaryVariant
-                              .withOpacity(0.65),
+                          headerBackgroundColor:
+                              statusColors[item.status]!.withOpacity(0.65),
+                          contentBackgroundColor:
+                              statusColors[item.status]!.withOpacity(0.65),
                           leftIcon: Container(
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Text(
