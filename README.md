@@ -21,6 +21,8 @@ SZIK projekt a 2020/21-es tanév őszi félévében.
 ## Fejlesztői parancsok
 
 - ```flutter pub run build_runner build```: elkészíti a legenerálandó forráskódfájlokat
-- ```flutter build appbundle```: elkészíti a Google Play Storeba feltölthető Appbundle fájlt
+- ```flutter pub run flutter_native_splash:create```: generálja a splash screent a pubspec.yaml-ban specifikáltak alapján, használd a `create` helyett a `remove` kapcsolót az eltávolításhoz
+- ```flutter build appbundle```: elkészíti a Google Play Storeba feltölthető Appbundle fájlt, használd a `--split-debug-info` flaget a csomagméret csökkentéséhez
 - ```flutter build apk```: elkészíti az androidos telefonra telepíthető APK-t
-- ```flutter run```: elkészíti és futtatja az Appot egy megfelelő eszközön
+- ```flutter build ios```: elkészíti az iOS-re telepíthető verziót
+- ```flutter run```: elkészíti és futtatja az Appot egy megfelelő eszközön, használd a `--release` kapcsolót az éles futtatáshoz
