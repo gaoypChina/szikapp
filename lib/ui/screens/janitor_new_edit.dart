@@ -20,11 +20,13 @@ class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
 
   final bool isEdit;
+  final bool isFeedback;
   final JanitorTask? task;
 
   JanitorNewEditScreen({
     Key? key,
     this.isEdit = false,
+    this.isFeedback = false,
     this.task,
   }) : super(key: key);
 
@@ -38,12 +40,18 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   String? placeID;
   String? title;
   String? description;
+  String? feedback;
 
   @override
   void initState() {
     super.initState();
     janitor = Janitor();
     if (SZIKAppState.places.isNotEmpty) placeID = SZIKAppState.places.first.id;
+    if (widget.isFeedback) {
+      title = widget.task!.name;
+      description = widget.task!.description;
+      placeID = widget.task!.placeID;
+    }
   }
 
   @override
@@ -153,6 +161,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                         Expanded(
                           flex: 1,
                           child: TextFormField(
+                            readOnly: widget.isFeedback,
                             initialValue:
                                 widget.isEdit ? widget.task!.name : null,
                             validator: _validateTextField,
@@ -187,7 +196,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           width: leftColumnWidth,
                           margin: EdgeInsets.only(right: 10),
                           child: Text(
-                            'JANITOR_LABEL_DESCRIPTION'.tr(),
+                            widget.isFeedback
+                                ? 'JANITOR_LABEL_FEEDBACK'.tr()
+                                : 'JANITOR_LABEL_DESCRIPTION'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
                                 fontSize: 14, color: theme.colorScheme.primary),
                             textAlign: TextAlign.end,
@@ -285,8 +296,8 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     this.title = title ?? '';
   }
 
-  void _onDescriptionChanged(String? description) {
-    this.description = description ?? '';
+  void _onDescriptionChanged(String? text) {
+    widget.isFeedback ? feedback = text ?? '' : description = text ?? '';
   }
 
   void _onNewSent() {
@@ -314,7 +325,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var task = widget.task;
       task!.name = title!;
-      task.description = description;
+      widget.isFeedback
+          ? task.feedback!.add({
+              'user': SZIKAppState.authManager.user!.id,
+              'message': feedback,
+            })
+          : task.description = description;
       task.placeID = placeID!;
       janitor.editTask(task);
       Navigator.of(context).pop(true);

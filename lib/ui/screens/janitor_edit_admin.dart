@@ -85,7 +85,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(20),
         child: ListView(
           children: [
             //Title
@@ -96,6 +96,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
               ),
               alignment: Alignment.center,
               margin: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: Text(
                 'JANITOR_TITLE_EDIT_ADMIN'.tr(),
                 style: theme.textTheme.headline2!.copyWith(
@@ -123,12 +124,19 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          '${widget.task.start.year}. ${widget.task.start.month}. ${widget.task.start.day}.  ${widget.task.start.hour}:${widget.task.start.minute}',
-                          style: theme.textTheme.headline6!.copyWith(
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
-                            color: theme.colorScheme.primaryVariant,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: theme.colorScheme.primary),
+                              borderRadius: BorderRadius.circular(20)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            '${widget.task.start.year}. ${widget.task.start.month}. ${widget.task.start.day}.  ${widget.task.start.hour}:${widget.task.start.minute}',
+                            style: theme.textTheme.headline6!.copyWith(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              color: theme.colorScheme.primaryVariant,
+                            ),
                           ),
                         ),
                       ),
@@ -150,15 +158,22 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          SZIKAppState.places
-                              .firstWhere((element) =>
-                                  element.id == widget.task.placeID)
-                              .name,
-                          style: theme.textTheme.headline6!.copyWith(
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
-                            color: theme.colorScheme.primaryVariant,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: theme.colorScheme.primary),
+                              borderRadius: BorderRadius.circular(20)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            SZIKAppState.places
+                                .firstWhere((element) =>
+                                    element.id == widget.task.placeID)
+                                .name,
+                            style: theme.textTheme.headline6!.copyWith(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              color: theme.colorScheme.primaryVariant,
+                            ),
                           ),
                         ),
                       ),
@@ -180,12 +195,19 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          widget.task.name,
-                          style: theme.textTheme.headline6!.copyWith(
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
-                            color: theme.colorScheme.primaryVariant,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: theme.colorScheme.primary),
+                              borderRadius: BorderRadius.circular(20)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            widget.task.name,
+                            style: theme.textTheme.headline6!.copyWith(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              color: theme.colorScheme.primaryVariant,
+                            ),
                           ),
                         ),
                       ),
@@ -208,125 +230,143 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          widget.task.description ??
-                              'PLACEHOLDER_NOT_PROVIDED'.tr(),
-                          style: theme.textTheme.headline6!.copyWith(
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
-                            color: theme.colorScheme.primaryVariant,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: theme.colorScheme.primary),
+                              borderRadius: BorderRadius.circular(20)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            widget.task.description ??
+                                'PLACEHOLDER_NOT_PROVIDED'.tr(),
+                            style: theme.textTheme.headline6!.copyWith(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              color: theme.colorScheme.primaryVariant,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: leftColumnWidth,
-                              margin: EdgeInsets.only(right: 10),
-                              child: Text(
-                                'JANITOR_LABEL_STATUS'.tr(),
-                                style: theme.textTheme.headline3!.copyWith(
-                                    fontSize: 14,
-                                    color: theme.colorScheme.primary),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                            Expanded(
-                              child: SearchableOptions<TaskStatus>(
-                                items: TaskStatus.values,
-                                selectedItem: widget.task.status,
-                                onItemChanged: _onStatusChanged,
-                                compare: (i, s) => i.isEqual(s),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: leftColumnWidth,
-                              margin: EdgeInsets.only(right: 10),
-                              child: Text(
-                                'JANITOR_LABEL_ANSWER'.tr(),
-                                style: theme.textTheme.headline3!.copyWith(
-                                    fontSize: 14,
-                                    color: theme.colorScheme.secondary),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                initialValue: widget.task.answer,
-                                validator: _validateTextField,
-                                style: theme.textTheme.headline3!.copyWith(
-                                  fontSize: 14,
-                                  color: theme.colorScheme.primaryVariant,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'PLACEHOLDER_ANSWER'.tr(),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: theme.colorScheme.secondary,
-                                      width: 2,
-                                      style: BorderStyle.solid,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.all(5),
-                                ),
-                                onChanged: _onAnswerChanged,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Container(
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 15),
+                          child: Row(
+                            children: [
+                              Container(
                                 width: leftColumnWidth,
                                 margin: EdgeInsets.only(right: 10),
-                                child: IconButton(
-                                  icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
-                                    colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryVariant
-                                            .withOpacity(0.7),
-                                        BlendMode.srcIn),
-                                  ),
-                                  onPressed: () {
-                                    showDialog<void>(
-                                        context: context,
-                                        builder: (context) => confirmDialog);
-                                  },
-                                )),
-                            Expanded(
-                              flex: 1,
-                              child: ElevatedButton(
-                                onPressed: _onEditSent,
-                                child: Text('JANITOR_BUTTON_SEND'.tr()),
+                                child: Text(
+                                  'JANITOR_LABEL_STATUS'.tr(),
+                                  style: theme.textTheme.headline3!.copyWith(
+                                      fontSize: 14,
+                                      color: theme.colorScheme.secondary),
+                                  textAlign: TextAlign.end,
+                                ),
                               ),
-                            )
-                          ],
+                              Expanded(
+                                child: SearchableOptions<TaskStatus>(
+                                  items: TaskStatus.values,
+                                  selectedItem: widget.task.status,
+                                  onItemChanged: _onStatusChanged,
+                                  compare: (i, s) => i.isEqual(s),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: leftColumnWidth,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  'JANITOR_LABEL_ANSWER'.tr(),
+                                  style: theme.textTheme.headline3!.copyWith(
+                                      fontSize: 14,
+                                      color: theme.colorScheme.secondary),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: TextFormField(
+                                  initialValue: widget.task.answer,
+                                  validator: _validateTextField,
+                                  style: theme.textTheme.headline3!.copyWith(
+                                    fontSize: 14,
+                                    color: theme.colorScheme.primaryVariant,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: theme.colorScheme.secondary,
+                                        width: 2,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    hintText: 'PLACEHOLDER_ANSWER'.tr(),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: theme.colorScheme.secondary,
+                                        width: 2,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                  ),
+                                  onChanged: _onAnswerChanged,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                  width: leftColumnWidth,
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: IconButton(
+                                    icon: ColorFiltered(
+                                      child: Image.asset(
+                                          'assets/icons/trash_light_72.png'),
+                                      colorFilter: ColorFilter.mode(
+                                          theme.colorScheme.secondaryVariant
+                                              .withOpacity(0.7),
+                                          BlendMode.srcIn),
+                                    ),
+                                    onPressed: () {
+                                      showDialog<void>(
+                                          context: context,
+                                          builder: (context) => confirmDialog);
+                                    },
+                                  )),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  onPressed: _onEditSent,
+                                  child: Text('JANITOR_BUTTON_SEND'.tr()),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

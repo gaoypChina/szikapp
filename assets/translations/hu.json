@@ -52,6 +52,7 @@
         "JANITOR_LABEL_STATUS": "Státusz",
         "JANITOR_LABEL_START": "Beküldve",
         "JANITOR_LABEL_ANSWER": "Válasz",
+        "JANITOR_LABEL_FEEDBACK": "Visszajelzés",
         "JANITOR_BUTTON_SEND": "Küldés",
         "JANITOR_BUTTON_EDIT": "Szerkesztés",
         "JANITOR_BUTTON_SAVE": "Mentés",

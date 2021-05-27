@@ -295,12 +295,16 @@ class IO {
     throw _handleErrors(response);
   }
 
-  Future<bool> patchJanitor(
-      TaskStatus data, Map<String, String> parameters) async {
+  Future<bool> patchJanitor(TaskStatus data, Map<String, String> parameters,
+      DateTime lastUpdate) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        headers: {
+          ...await _commonHeaders(),
+          ..._contentTypeHeader(),
+          ..._lastUpdateHeader(lastUpdate)
+        },
         body: json.encode({
           'data': {'status': data.toShortString()}
         }));

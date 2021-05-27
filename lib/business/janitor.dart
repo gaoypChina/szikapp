@@ -14,7 +14,7 @@ class Janitor {
   Future<bool> editStatus(TaskStatus status, JanitorTask task) async {
     var io = IO();
     var parameter = {'id': task.uid};
-    await io.patchJanitor(status, parameter);
+    await io.patchJanitor(status, parameter, task.lastUpdate);
 
     janitorTasks.firstWhere((element) => element.uid == task.uid).status =
         status;

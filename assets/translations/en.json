@@ -52,6 +52,7 @@
         "JANITOR_LABEL_STATUS": "Status",
         "JANITOR_LABEL_START": "Beküldve",
         "JANITOR_LABEL_ANSWER": "Answer",
+        "JANITOR_LABEL_FEEDBACK": "Feedback",
         "JANITOR_BUTTON_SEND": "Send",
         "JANITOR_BUTTON_EDIT": "Edit",
         "JANITOR_BUTTON_SAVE": "Save",
