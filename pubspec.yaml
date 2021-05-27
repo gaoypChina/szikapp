@@ -19,7 +19,7 @@ dependencies:
   easy_localization: ^3.0.0
   shared_preferences: ^2.0.5
   # Firebase:
-  firebase_core: ^1.1.1
+  firebase_core: ^1.2.0
   firebase_auth: ^1.2.0
   firebase_crashlytics: ^2.0.4
   firebase_analytics: ^8.1.0
@@ -34,6 +34,7 @@ dependencies:
   dropdown_search: ^0.6.1
   uuid: ^3.0.4
   accordion: ^1.0.4
+  connectivity_plus: ^1.0.1
 
 dev_dependencies:
   flutter_test:

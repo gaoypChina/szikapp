@@ -6,6 +6,7 @@
         "ERROR_NOT_IMPLEMENTED": "Ez a funkció még nem elérhető.",
         "ERROR_REQUIRED_FIELD": "Kötelező mező",
         "ERROR_EMPTY_FIELD": "Töltsd ki ezt a mezőt.",
+        "ERROR_NOT_CONNECTED": "Nincs internet.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
     "MENU": null,
