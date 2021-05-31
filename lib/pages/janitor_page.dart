@@ -147,6 +147,55 @@ class _JanitorListViewState extends State<JanitorListView> {
     return buttons;
   }
 
+  Widget _buildFeedbackList(JanitorTask task) {
+    var theme = Theme.of(context);
+    var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
+    return SZIKAppState.authManager.user!.id == 'u904' &&
+            task.feedback!.isNotEmpty
+        ? Container(
+            margin: EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                Container(
+                  width: leftColumnWidth,
+                  child: Text(
+                    'JANITOR_LABEL_FEEDBACK'.tr(),
+                    style: theme.textTheme.bodyText1!.copyWith(
+                      fontSize: 14,
+                      color: theme.colorScheme.background,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                            color: theme.colorScheme.background, width: 1),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: task.feedback!.map((item) {
+                        return Text(
+                          '${item.timestamp.month}. ${item.timestamp.day}: ${item.message}',
+                          style: theme.textTheme.subtitle1!.copyWith(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.background,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -439,6 +488,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                         ],
                                       ),
                                     ),
+                              _buildFeedbackList(item),
                               Container(
                                 margin: EdgeInsets.only(bottom: 8),
                                 child: Row(

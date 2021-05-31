@@ -209,6 +209,7 @@ class SZIKAppState extends State<SZIKApp> {
         final args = settings.arguments as JanitorNewEditArguments;
         return JanitorNewEditScreen(
           isEdit: args.isEdit,
+          isFeedback: args.isFeedback,
           task: args.task,
         );
       case JanitorEditAdminScreen.route:

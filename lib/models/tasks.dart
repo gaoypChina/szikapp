@@ -167,7 +167,7 @@ class TimetableTask extends Task {
 ///Descendant of the basic [Task] class. Represents a repair request.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  List<Map<String, dynamic>>? feedback;
+  List<Feedback>? feedback;
   @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
@@ -196,7 +196,7 @@ class JanitorTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Map<String, dynamic>>[];
+    feedback ??= <Feedback>[];
   }
 
   @override
@@ -206,10 +206,29 @@ class JanitorTask extends Task {
       _$JanitorTaskFromJson(json);
 }
 
+@JsonSerializable()
+class Feedback {
+  @JsonKey(name: 'user')
+  String user;
+  String message;
+  DateTime timestamp;
+
+  Feedback({
+    required this.user,
+    required this.message,
+    required this.timestamp,
+  });
+
+  Map<String, dynamic> toJson() => _$FeedbackToJson(this);
+
+  factory Feedback.fromJson(Map<String, dynamic> json) =>
+      _$FeedbackFromJson(json);
+}
+
 ///Descendant of the basic [Task] class. Represents a kitchen cleaning task.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  List<Map<String, dynamic>>? feedback;
+  List<Feedback>? feedback;
   TaskStatus status;
 
   CleaningTask(
@@ -233,7 +252,7 @@ class CleaningTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Map<String, dynamic>>[];
+    feedback ??= <Feedback>[];
   }
 
   @override

@@ -142,7 +142,7 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) {
     description: json['description'] as String?,
     lastUpdate: DateTime.parse(json['last_update'] as String),
     feedback: (json['feedback'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
+        ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
         .toList(),
     placeID: json['place_id'] as String,
     status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
@@ -162,7 +162,7 @@ Map<String, dynamic> _$JanitorTaskToJson(JanitorTask instance) =>
       'involved_ids': instance.involvedIDs,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'feedback': instance.feedback,
+      'feedback': instance.feedback?.map((e) => e.toJson()).toList(),
       'place_id': instance.placeID,
       'status': _$TaskStatusEnumMap[instance.status],
       'answer': instance.answer,
@@ -178,6 +178,20 @@ const _$TaskStatusEnumMap = {
   TaskStatus.approved: 'approved',
 };
 
+Feedback _$FeedbackFromJson(Map<String, dynamic> json) {
+  return Feedback(
+    user: json['user'] as String,
+    message: json['message'] as String,
+    timestamp: DateTime.parse(json['timestamp'] as String),
+  );
+}
+
+Map<String, dynamic> _$FeedbackToJson(Feedback instance) => <String, dynamic>{
+      'user': instance.user,
+      'message': instance.message,
+      'timestamp': instance.timestamp.toIso8601String(),
+    };
+
 CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) {
   return CleaningTask(
     uid: json['uid'] as String,
@@ -188,7 +202,7 @@ CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) {
     description: json['description'] as String?,
     lastUpdate: DateTime.parse(json['last_update'] as String),
     feedback: (json['feedback'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
+        ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
         .toList(),
     status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
   )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
@@ -206,7 +220,7 @@ Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
       'involved_ids': instance.involvedIDs,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'feedback': instance.feedback,
+      'feedback': instance.feedback?.map((e) => e.toJson()).toList(),
       'status': _$TaskStatusEnumMap[instance.status],
     };
 
