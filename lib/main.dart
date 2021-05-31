@@ -129,6 +129,7 @@ class SZIKAppState extends State<SZIKApp> {
     }
   }
 
+  ///Kezdeti internetkapcsolat-figyelő bővítmény setup.
   Future<void> _initConnectivity() async {
     late ConnectivityResult result;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -149,6 +150,7 @@ class SZIKAppState extends State<SZIKApp> {
     return _updateConnectionStatus(result);
   }
 
+  ///Segédfüggvény, ami beállítja a tárolt adatkapcsolati státuszt.
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     connectionStatus = result;
   }
@@ -158,6 +160,8 @@ class SZIKAppState extends State<SZIKApp> {
     super.initState();
     _initConnectivity();
 
+    ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
+    ///frissíti a [connectionStatus] paraméter értékét.
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }

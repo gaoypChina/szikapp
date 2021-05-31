@@ -207,6 +207,8 @@ class JanitorTask extends Task {
   factory JanitorTask.fromJson(Json json) => _$JanitorTaskFromJson(json);
 }
 
+///Felhasználói visszajelzést megvalósító adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
 class Feedback {
   @JsonKey(name: 'user')
@@ -222,8 +224,7 @@ class Feedback {
 
   Json toJson() => _$FeedbackToJson(this);
 
-  factory Feedback.fromJson(Json json) =>
-      _$FeedbackFromJson(json);
+  factory Feedback.fromJson(Json json) => _$FeedbackFromJson(json);
 }
 
 ///Konyhatakarítási feladatot megtestesítő adatmodell osztály. A [Task] osztály
