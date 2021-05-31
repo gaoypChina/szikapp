@@ -1,4 +1,5 @@
 {
+    "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "English",
     "ERROR": null,
         "ERROR_UNKNOWN": "Unknown error.",
@@ -7,6 +8,9 @@
         "ERROR_REQUIRED_FIELD": "Required field",
         "ERROR_EMPTY_FIELD": "Please fill out this field.",
         "ERROR_NOT_CONNECTED": "No internet connection.",
+        "ERROR_INALID_VALUE": "Invalid value: {} {}.",
+        "ERROR_NON_HUNGARIAN_PHONE": "Külföldi telefonszám.",
+        "ERROR_INCORRECT_TYPE": "Type error: {} {}.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Sign in with Google",
     "MENU": null,

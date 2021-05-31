@@ -1,8 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 import 'permission.dart';
 
 part 'group.g.dart';
 
+///Felhasználói csoportot megvalósító adatmodell osztály. Tárolja a csoport
+///jogosultságait. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
 class Group {
   final String id;
@@ -49,9 +52,9 @@ class Group {
     }
   }
 
-  Map<String, dynamic> toJson() => _$GroupToJson(this);
+  Json toJson() => _$GroupToJson(this);
 
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+  factory Group.fromJson(Json json) => _$GroupFromJson(json);
 
   String groupAsString() {
     return '#$id $name';

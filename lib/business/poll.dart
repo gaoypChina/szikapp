@@ -1,56 +1,78 @@
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
+///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
 class Poll {
-  late List<PollTask> pollTasks;
+  ///Szavazások listája
+  late List<PollTask> polls;
 
+  ///Singleton osztálypéldány
   static final Poll _instance = Poll._privateConstructor();
+
+  ///Publikus konstruktor, ami visszatér a singleton példánnyal.
   factory Poll() => _instance;
+
+  ///Privát konstruktor
   Poll._privateConstructor();
 
-  Future<bool> addPoll(PollTask task) async {
-    pollTasks.add(task);
+  ///Új szavazás hozzáadása. A függvény feltölti a szerverre az új szavazást,
+  ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
+  Future<bool> addPoll(PollTask poll) async {
     var io = IO();
-    await io.postPoll(task);
-    return true;
-  }
+    await io.postPoll(poll);
 
-  Future<bool> editPoll(PollTask task) async {
-    var io = IO();
-    var parameter = {'id': task.uid};
-    await io.patchPoll(task, parameter);
-
-    pollTasks.removeWhere((element) => element.uid == task.uid);
-    pollTasks.add(task);
+    polls.add(poll);
 
     return true;
   }
 
-  Future<bool> deletePoll(int taskIndex) async {
-    if (taskIndex >= pollTasks.length || taskIndex < 0) return false;
-
+  ///Szavazás szerkesztése. A függvény feltölti a szerverre a módosított
+  ///szavazást, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
+  ///a listán.
+  Future<bool> editPoll(PollTask poll) async {
     var io = IO();
-    var parameter = {'id': pollTasks[taskIndex].uid};
-    await io.deletePoll(parameter, pollTasks[taskIndex].lastUpdate);
+    var parameter = {'id': poll.uid};
+    await io.patchPoll(poll, parameter);
 
-    pollTasks.removeAt(taskIndex);
+    polls.removeWhere((element) => element.uid == poll.uid);
+    polls.add(poll);
 
     return true;
   }
 
-  Future<bool> addVote(Vote vote, int taskIndex) async {
-    if (pollTasks[taskIndex].answers.contains(vote)) return false;
+  ///Szavazás törlése. A függvény törli a szerverről a szavazást,
+  ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
+  Future<bool> deletePoll(PollTask poll) async {
+    if (!polls.contains(poll)) return true;
 
     var io = IO();
-    var param = {'id': pollTasks[taskIndex].uid};
+    var parameter = {'id': poll.uid};
+    await io.deletePoll(parameter, poll.lastUpdate);
+
+    polls.remove(poll);
+
+    return true;
+  }
+
+  ///Szavazat leadása. A függvény leadja a felhasználó szavazatát a megadott
+  ///szavazáson. Ha a szerveren sikeres a változtatás, lokálisan is megteszi.
+  Future<bool> addVote(Vote vote, PollTask poll) async {
+    if (poll.answers.contains(vote)) return false;
+
+    var io = IO();
+    var param = {'id': poll.uid};
     await io.putPoll(vote, param);
-    pollTasks[taskIndex].answers.add(vote);
+
+    poll.answers.add(vote);
+
     return true;
   }
 
-  Future<Map<dynamic, dynamic>> getResults(PollTask task) async {
+  ///Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
+  ///hozza a szavazás eredményeit.
+  Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
     var io = IO();
-    var param = {'id': task.uid};
+    var param = {'id': poll.uid};
     var resultTaskList = await io.getPoll(param);
     var resultTask = resultTaskList.first;
 
@@ -94,7 +116,7 @@ class Poll {
 
   List<PollTask> filter(String userID) {
     var results = <PollTask>[];
-    for (var poll in pollTasks) {
+    for (var poll in polls) {
       for (var vote in poll.answers) {
         if (vote.voterID == userID) results.add(poll);
       }
@@ -102,12 +124,14 @@ class Poll {
     return results;
   }
 
+  ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
+  ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
   Future<void> refresh({String? issuer, String? involved}) async {
     var parameter = <String, String>{};
     if (issuer != null) parameter['issuer'] = issuer;
     if (involved != null) parameter['involved'] = involved;
 
     var io = IO();
-    pollTasks = await io.getPoll(parameter);
+    polls = await io.getPoll(parameter);
   }
 }

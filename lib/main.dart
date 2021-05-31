@@ -36,6 +36,8 @@ import 'ui/themes.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
 
+///Program belépési pont. Futtatja az applikációt a megfelelő kontextus,
+///lokalizáció és kezdeti beállítások elvégzése után.
 void main() async {
   HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +61,7 @@ void main() async {
   );
 }
 
+///Az applikáció
 class SZIKApp extends StatefulWidget {
   SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
 
@@ -66,6 +69,10 @@ class SZIKApp extends StatefulWidget {
   SZIKAppState createState() => SZIKAppState();
 }
 
+///Az applikáció állapota. A [runApp] függvény meghívásakor jön létre és a
+///program futása során megmarad. Így statikus változóként tartalmazza azokat
+///az adatokat, amelyekre bármikor és funkciótól függetlenül szükség lehet
+///a futás során.
 class SZIKAppState extends State<SZIKApp> {
   static bool firebaseInitialized = false;
   static bool firebaseError = false;
@@ -77,10 +84,21 @@ class SZIKAppState extends State<SZIKApp> {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  ///[Auth] singleton, ami menedzseli a bejelentkezett felhasználót
   static late Auth authManager;
+
+  ///A kollégiumban megtalálható helyek [Place] listája
   static late List<Place> places;
+
+  ///A felhasználói csoportok [Group] listája, melyek meghatározzák a tagjaik
+  ///jogosultságait.
   static late List<Group> groups;
 
+  ///Kezdeti Firebase setup és a felhasználó csendes bejelentkeztetésének
+  ///megkísérlése. Beállítja a [firebaseInitialized] és a [firebaseError]
+  ///flageket, ha szükséges. Sikeres csendes bejelenkeztetés esetén Igaz,
+  ///sikertelen bejelentkeztetés vagy egyéb hiba esetén Hamis értékkel tér
+  ///vissza.
   static Future<bool> initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
@@ -97,6 +115,8 @@ class SZIKAppState extends State<SZIKApp> {
     }
   }
 
+  ///A háttérben letölti azokat az adatokat, melyekre bármelyik funkciónak
+  ///szüksége lehet.
   static void loadEarlyData() async {
     try {
       var io = IO();
@@ -105,7 +125,7 @@ class SZIKAppState extends State<SZIKApp> {
     } on Exception {
       places = <Place>[];
       groups = <Group>[];
-      print('Error loading early data');
+      //print('Error loading early data');
     }
   }
 
@@ -150,9 +170,10 @@ class SZIKAppState extends State<SZIKApp> {
 
   @override
   Widget build(BuildContext context) {
+    //Teljes képernyős mód bekapcsolása
     SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
-      title: 'SzikApp',
+      title: 'APP_NAME'.tr(),
       initialRoute: HomePage.route,
       onGenerateRoute: onGenerateRoute,
       localizationsDelegates: context.localizationDelegates,
@@ -163,6 +184,9 @@ class SZIKAppState extends State<SZIKApp> {
     );
   }
 
+  ///Segédfüggvény. A megadott [RouteSettings] paraméter alapján létrehozza
+  ///azt az oldalt, ahová az útvonal mutat. Kezeli a célpont megnyitásához
+  ///szükséges paramétereket is.
   static Widget getDestination(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.route:
@@ -230,6 +254,8 @@ class SZIKAppState extends State<SZIKApp> {
     }
   }
 
+  ///Navigációs függvény, ami a megadott [RouteSettings] adatok alapján
+  ///konstruál egy végrehajtandó navigációs lépést, utat.
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
 

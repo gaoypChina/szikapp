@@ -1,8 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'cleaning_period.g.dart';
 
-///Represents a series of [CleaningTask]s
+///Konyhatakarítás periódus adatmodell osztály. Takarítások [CleaningTask]
+///összefüggő időszakát reprezentálja. Szerializálható `JSON` formátumba és
+///vice versa.
 @JsonSerializable()
 class CleaningPeriod {
   String uid;
@@ -21,8 +24,7 @@ class CleaningPeriod {
     required this.lastUpdate,
   });
 
-  Map<String, dynamic> toJson() => _$CleaningPeriodToJson(this);
+  Json toJson() => _$CleaningPeriodToJson(this);
 
-  factory CleaningPeriod.fromJson(Map<String, dynamic> json) =>
-      _$CleaningPeriodFromJson(json);
+  factory CleaningPeriod.fromJson(Json json) => _$CleaningPeriodFromJson(json);
 }

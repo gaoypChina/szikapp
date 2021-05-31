@@ -1,8 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 import 'preferences.dart';
 
 part 'user_data.g.dart';
 
+///Egy felhasználó adatait reprezentáló adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class UserData {
   final String id;
@@ -52,10 +55,9 @@ class UserData {
     }
   }
 
-  Map<String, dynamic> toJson() => _$UserDataToJson(this);
+  Json toJson() => _$UserDataToJson(this);
 
-  factory UserData.fromJson(Map<String, dynamic> json) =>
-      _$UserDataFromJson(json);
+  factory UserData.fromJson(Json json) => _$UserDataFromJson(json);
 
   String userAsString() {
     return '#$id $name';

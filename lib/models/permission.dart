@@ -1,3 +1,4 @@
+///Az applikációban előforduló jogosultságokat reprezentáló enum típus.
 enum Permission {
   pollView,
   pollCreate,

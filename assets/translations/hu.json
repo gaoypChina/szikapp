@@ -1,4 +1,5 @@
 {
+    "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "Magyar",
     "ERROR": null,
         "ERROR_UNKNOWN": "Ismeretlen hiba.",
@@ -7,6 +8,9 @@
         "ERROR_REQUIRED_FIELD": "Kötelező mező",
         "ERROR_EMPTY_FIELD": "Töltsd ki ezt a mezőt.",
         "ERROR_NOT_CONNECTED": "Nincs internet.",
+        "ERROR_INVALID_VALUE": "Érvénytelen érték: {} {}.",
+        "ERROR_NON_HUNGARIAN_PHONE": "Külföldi telefonszám.",
+        "ERROR_INCORRECT_TYPE": "Típushiba: {} {}.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
     "MENU": null,

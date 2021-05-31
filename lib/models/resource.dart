@@ -1,7 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../utils/types.dart';
 
 part 'resource.g.dart';
 
+///Alapvető erőforrást reprezentáló adatmodell ősosztály.
+///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Resource {
   final String name;
@@ -15,12 +18,13 @@ class Resource {
     required this.lastUpdate,
   });
 
-  Map<String, dynamic> toJson() => _$ResourceToJson(this);
+  Json toJson() => _$ResourceToJson(this);
 
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Json json) => _$ResourceFromJson(json);
 }
 
+///Kollégiumi helyiségeket megjelenítő adatmodell osztály. A [Resource]
+///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Place extends Resource {
   final String id;
@@ -42,9 +46,9 @@ class Place extends Resource {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$PlaceToJson(this);
+  Json toJson() => _$PlaceToJson(this);
 
-  factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
+  factory Place.fromJson(Json json) => _$PlaceFromJson(json);
 
   String placeAsString() {
     return '#$id $name';
@@ -59,6 +63,8 @@ class Place extends Resource {
   String toString() => name;
 }
 
+///Társasjátékokat megjelenítő adatmodell osztály. A [Resource] osztály
+///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Boardgame extends Resource {
   final String id;
@@ -78,10 +84,9 @@ class Boardgame extends Resource {
         );
 
   @override
-  Map<String, dynamic> toJson() => _$BoardgameToJson(this);
+  Json toJson() => _$BoardgameToJson(this);
 
-  factory Boardgame.fromJson(Map<String, dynamic> json) =>
-      _$BoardgameFromJson(json);
+  factory Boardgame.fromJson(Json json) => _$BoardgameFromJson(json);
 
   String boardgameAsString() {
     return '#$id $name';
