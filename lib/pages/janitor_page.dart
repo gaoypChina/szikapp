@@ -6,7 +6,9 @@ import '../business/janitor.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../ui/screens/error_screen.dart';
+import '../ui/screens/janitor_edit_admin.dart';
 import '../ui/screens/janitor_new_edit.dart';
+import '../ui/themes.dart';
 import '../ui/widgets/tab_choice.dart';
 
 class JanitorPage extends StatefulWidget {
@@ -72,8 +74,8 @@ class _JanitorListViewState extends State<JanitorListView> {
       case 1:
         newItems = janitor.filter(statuses: [
           TaskStatus.sent,
-          TaskStatus.inProgress,
-          TaskStatus.awaitingApproval
+          TaskStatus.in_progress,
+          TaskStatus.awaiting_approval
         ]);
         break;
       default:
@@ -94,40 +96,48 @@ class _JanitorListViewState extends State<JanitorListView> {
         arguments: JanitorNewEditArguments(isEdit: true, task: task));
   }
 
+  void _onEditJanitorPressed(JanitorTask task) {
+    Navigator.of(context).pushNamed(JanitorEditAdminScreen.route,
+        arguments: JanitorEditAdminArguments(task: task));
+  }
+
   void _onFeedbackPressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaitingApproval ||
+    if (task.status == TaskStatus.awaiting_approval ||
         task.status == TaskStatus.approved) {
-      //TODO feedback
       Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
-          arguments: JanitorNewEditArguments(isEdit: true, task: task));
+          arguments: JanitorNewEditArguments(
+              isEdit: true, isFeedback: true, task: task));
     }
   }
 
   void _onApprovePressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaitingApproval) {
+    if (task.status == TaskStatus.awaiting_approval) {
       janitor.editStatus(TaskStatus.approved, task);
     }
   }
 
   List<Widget> _buildActionButtons(JanitorTask task) {
     var buttons = <Widget>[];
-    if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
-        (task.status == TaskStatus.sent ||
-            task.status == TaskStatus.inProgress)) {
+    if ((task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
+            (task.status == TaskStatus.sent ||
+                task.status == TaskStatus.in_progress)) ||
+        SZIKAppState.authManager.user!.id == 'u015') {
       buttons.add(OutlinedButton(
-        onPressed: () => _onEditPressed(task),
+        onPressed: () => SZIKAppState.authManager.user!.id == 'u015'
+            ? _onEditJanitorPressed(task)
+            : _onEditPressed(task),
         child: Text('JANITOR_BUTTON_EDIT'.tr()),
       ));
     }
     if (task.status == TaskStatus.approved ||
-        task.status == TaskStatus.awaitingApproval) {
+        task.status == TaskStatus.awaiting_approval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onFeedbackPressed(task),
         child: Text('JANITOR_BUTTON_FEEDBACK'.tr()),
       ));
     }
     if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
-        task.status == TaskStatus.awaitingApproval) {
+        task.status == TaskStatus.awaiting_approval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
         child: Text('JANITOR_BUTTON_APPROVE'.tr()),
@@ -135,6 +145,55 @@ class _JanitorListViewState extends State<JanitorListView> {
     }
 
     return buttons;
+  }
+
+  Widget _buildFeedbackList(JanitorTask task) {
+    var theme = Theme.of(context);
+    var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
+    return SZIKAppState.authManager.user!.id == 'u904' &&
+            task.feedback!.isNotEmpty
+        ? Container(
+            margin: EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                Container(
+                  width: leftColumnWidth,
+                  child: Text(
+                    'JANITOR_LABEL_FEEDBACK'.tr(),
+                    style: theme.textTheme.bodyText1!.copyWith(
+                      fontSize: 14,
+                      color: theme.colorScheme.background,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                            color: theme.colorScheme.background, width: 1),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: task.feedback!.map((item) {
+                        return Text(
+                          '${item.timestamp.month}. ${item.timestamp.day}: ${item.message}',
+                          style: theme.textTheme.subtitle1!.copyWith(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.background,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Container();
   }
 
   @override
@@ -158,11 +217,14 @@ class _JanitorListViewState extends State<JanitorListView> {
                 ),
               ),
             ),
-            TabChoice(labels: [
-              'JANITOR_TAB_ALL'.tr(),
-              'JANITOR_TAB_ACTIVE'.tr(),
-              'JANITOR_TAB_OWN'.tr(),
-            ], onChanged: _onTabChanged),
+            TabChoice(
+              labels: [
+                'JANITOR_TAB_ALL'.tr(),
+                'JANITOR_TAB_ACTIVE'.tr(),
+                'JANITOR_TAB_OWN'.tr(),
+              ],
+              onChanged: _onTabChanged,
+            ),
             Expanded(
               child: items.isEmpty
                   ? Center(
@@ -189,12 +251,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                             fontSize: 14,
                             color: theme.colorScheme.background,
                           ),
-                          headerBackgroundColor: theme
-                              .colorScheme.primaryVariant
-                              .withOpacity(0.65),
-                          contentBackgroundColor: theme
-                              .colorScheme.primaryVariant
-                              .withOpacity(0.65),
+                          headerBackgroundColor:
+                              statusColors[item.status]!.withOpacity(0.65),
+                          contentBackgroundColor:
+                              statusColors[item.status]!.withOpacity(0.65),
                           leftIcon: Container(
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Text(
@@ -381,6 +441,54 @@ class _JanitorListViewState extends State<JanitorListView> {
                                   ],
                                 ),
                               ),
+                              item.answer == null
+                                  ? Container()
+                                  : Container(
+                                      margin: EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: leftColumnWidth,
+                                            child: Text(
+                                              'JANITOR_LABEL_ANSWER'.tr(),
+                                              style: theme.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 14,
+                                                color: theme
+                                                    .colorScheme.background,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: Text(
+                                                item.answer!,
+                                                style: theme
+                                                    .textTheme.subtitle1!
+                                                    .copyWith(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                              _buildFeedbackList(item),
                               Container(
                                 margin: EdgeInsets.only(bottom: 8),
                                 child: Row(

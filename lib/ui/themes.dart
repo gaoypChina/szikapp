@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/tasks.dart';
 
 const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikHippieBlueLight = Color(0xe359a3b0);
@@ -23,6 +24,16 @@ const szikColorScheme = ColorScheme(
   onError: szikAmour,
   brightness: Brightness.light,
 );
+
+final Map<TaskStatus, Color> statusColors = {
+  TaskStatus.created: szikColorScheme.secondary,
+  TaskStatus.sent: szikColorScheme.secondary,
+  TaskStatus.in_progress: szikColorScheme.secondary,
+  TaskStatus.irresolvable: szikColorScheme.secondaryVariant,
+  TaskStatus.refused: szikColorScheme.secondary,
+  TaskStatus.awaiting_approval: szikColorScheme.primaryVariant,
+  TaskStatus.approved: szikColorScheme.primaryVariant,
+};
 
 TextTheme szikTextTheme = TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.

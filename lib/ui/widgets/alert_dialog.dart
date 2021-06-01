@@ -27,7 +27,10 @@ class CustomAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return AlertDialog(
-      title: Text(title),
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+      ),
       titleTextStyle: theme.textTheme.headline3!.copyWith(
         fontSize: 20,
         color: color ?? theme.colorScheme.background,
@@ -44,38 +47,47 @@ class CustomAlertDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       actions: [
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: color ?? theme.colorScheme.background),
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: onCancel,
-            child: Text(
-              onCancelText ?? 'BUTTON_CANCEL'.tr(),
-              style: theme.textTheme.headline6!.copyWith(
-                fontSize: 20,
-                color: color ?? theme.colorScheme.background,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  border:
+                      Border.all(color: color ?? theme.colorScheme.background),
+                  borderRadius: BorderRadius.circular(20)),
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: TextButton(
+                onPressed: onCancel,
+                child: Text(
+                  onCancelText ?? 'BUTTON_CANCEL'.tr(),
+                  style: theme.textTheme.headline6!.copyWith(
+                    fontSize: 20,
+                    color: color ?? theme.colorScheme.background,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              color: color?.withOpacity(0.5) ??
-                  theme.colorScheme.background.withOpacity(0.5),
-              border: Border.all(color: color ?? theme.colorScheme.background),
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: onAccept,
-            child: Text(
-              onAcceptText ?? 'BUTTON_OK'.tr(),
-              style: theme.textTheme.headline6!.copyWith(
-                fontSize: 20,
-                color: color ?? theme.colorScheme.background,
+            Container(
+              decoration: BoxDecoration(
+                  color: color?.withOpacity(0.5) ??
+                      theme.colorScheme.background.withOpacity(0.5),
+                  border:
+                      Border.all(color: color ?? theme.colorScheme.background),
+                  borderRadius: BorderRadius.circular(20)),
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: TextButton(
+                onPressed: onAccept,
+                child: Text(
+                  onAcceptText ?? 'BUTTON_OK'.tr(),
+                  style: theme.textTheme.headline6!.copyWith(
+                    fontSize: 20,
+                    color: color ?? theme.colorScheme.background,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          ],
+        )
       ],
     );
   }

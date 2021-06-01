@@ -2,6 +2,7 @@ import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts.dart';
 import '../main.dart';
@@ -35,8 +36,7 @@ class _ContactsPageState extends State<ContactsPage> {
         future: contacts.refresh(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            //Shrimmer
-            return Scaffold();
+            return ContactsListViewShimmer();
           } else if (snapshot.hasError) {
             return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
           } else {
@@ -364,6 +364,86 @@ class _ContactsListViewState extends State<ContactsListView> {
                       );
                     }).toList(),
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ContactsListViewShimmer extends StatelessWidget {
+  const ContactsListViewShimmer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var searchBarIconSize = 30.0;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Shimmer.fromColors(
+            baseColor: theme.colorScheme.secondaryVariant.withOpacity(0.2),
+            highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: theme.colorScheme.background,
+                  borderRadius: BorderRadius.circular(30)),
+              margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: searchBarIconSize,
+                    height: searchBarIconSize,
+                    margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  10,
+                  (index) => Container(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: theme.colorScheme.secondaryVariant
+                              .withOpacity(0.2),
+                          highlightColor: theme.colorScheme.secondaryVariant
+                              .withOpacity(0.5),
+                          child: CircleAvatar(
+                            radius: theme.textTheme.headline3!.fontSize! * 1.5,
+                            backgroundColor: theme.colorScheme.primaryVariant,
+                          ),
+                        ),
+                        Shimmer.fromColors(
+                          baseColor: theme.colorScheme.secondaryVariant
+                              .withOpacity(0.2),
+                          highlightColor: theme.colorScheme.secondaryVariant
+                              .withOpacity(0.5),
+                          child: Container(
+                            margin: EdgeInsets.all(20),
+                            height: theme.textTheme.headline3!.fontSize! * 1.5,
+                            width: theme.textTheme.headline3!.fontSize! * 10,
+                            decoration: BoxDecoration(
+                                color: theme.colorScheme.secondaryVariant),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
