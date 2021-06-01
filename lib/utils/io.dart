@@ -323,7 +323,8 @@ class IO {
   }
 
   ///Beállítja a megadott gondnoki kérés státusát.
-  Future<bool> patchJanitor(TaskStatus data, KeyValuePairs parameters, DateTime lastUpdate) async {
+  Future<bool> patchJanitor(
+      TaskStatus data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),

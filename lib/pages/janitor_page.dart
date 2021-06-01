@@ -121,9 +121,9 @@ class _JanitorListViewState extends State<JanitorListView> {
     if ((task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
             (task.status == TaskStatus.sent ||
                 task.status == TaskStatus.in_progress)) ||
-        SZIKAppState.authManager.user!.id == 'u904') {
+        SZIKAppState.authManager.user!.id == 'u015') {
       buttons.add(OutlinedButton(
-        onPressed: () => SZIKAppState.authManager.user!.id == 'u904'
+        onPressed: () => SZIKAppState.authManager.user!.id == 'u015'
             ? _onEditJanitorPressed(task)
             : _onEditPressed(task),
         child: Text('JANITOR_BUTTON_EDIT'.tr()),
