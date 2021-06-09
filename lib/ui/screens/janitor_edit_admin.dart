@@ -46,6 +46,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
 
   void _onAcceptDelete() {
     janitor.deleteTask(widget.task);
+    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
     Navigator.of(context, rootNavigator: true).pop();
     Navigator.of(context).pop(true);
   }
@@ -64,6 +65,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       task.status = status!;
       task.answer = answer;
       janitor.editTask(task);
+      SZIKAppState.analytics.logEvent(name: 'edit_admin_sent_janitor_task');
       Navigator.of(context).pop(true);
     }
   }

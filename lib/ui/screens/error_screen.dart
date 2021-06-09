@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:szikapp/main.dart';
 
 class ErrorScreenArguments {
   Object error;
@@ -17,6 +18,17 @@ class ErrorScreen extends StatefulWidget {
 }
 
 class _ErrorScreenState extends State<ErrorScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SZIKAppState.analytics.logEvent(
+      name: 'error_screen_show',
+      parameters: <String, dynamic>{
+        'message': widget.error.toString(),
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

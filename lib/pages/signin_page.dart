@@ -43,6 +43,7 @@ class _SignInPageState extends State<SignInPage> {
       @override
       void run() {
         scheduleMicrotask(() {
+          SZIKAppState.analytics.logEvent(name: 'SIGN_IN_ALREADY_SIGNED_IN');
           Navigator.pushReplacementNamed(context, HomePage.route);
         });
       }
@@ -125,15 +126,14 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _onPressed() {
-    SZIKAppState.authManager
-        .signIn()
-        .then((success) => {
-              if (success == true)
-                Navigator.of(context).pushReplacementNamed(HomePage.route)
-            })
-        .catchError((error) => {
-              Navigator.of(context).pushNamed(ErrorScreen.route,
-                  arguments: ErrorScreenArguments(error: error))
-            });
+    SZIKAppState.authManager.signIn().then((success) {
+      if (success == true) {
+        SZIKAppState.analytics.logLogin(loginMethod: 'sign_in_google');
+        Navigator.of(context).pushReplacementNamed(HomePage.route);
+      }
+    }).catchError((error) {
+      Navigator.of(context).pushNamed(ErrorScreen.route,
+          arguments: ErrorScreenArguments(error: error));
+    });
   }
 }

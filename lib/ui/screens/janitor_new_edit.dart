@@ -323,6 +323,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           status: TaskStatus.created);
       task.status = TaskStatus.sent;
       janitor.addTask(task);
+      SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
       Navigator.of(context).pop(true);
     }
   }
@@ -340,12 +341,14 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           : task.description = description;
       task.placeID = placeID!;
       janitor.editTask(task);
+      SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
       Navigator.of(context).pop(true);
     }
   }
 
   void _onAcceptDelete() {
     janitor.deleteTask(widget.task!);
+    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
     Navigator.of(context, rootNavigator: true).pop();
     Navigator.of(context).pop(true);
   }

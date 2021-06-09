@@ -87,16 +87,19 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   void _onCreateTask() {
+    SZIKAppState.analytics.logEvent(name: 'create_open_janitor_task');
     Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
         arguments: JanitorNewEditArguments(isEdit: false));
   }
 
   void _onEditPressed(JanitorTask task) {
+    SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
     Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
         arguments: JanitorNewEditArguments(isEdit: true, task: task));
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
+    SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
     Navigator.of(context).pushNamed(JanitorEditAdminScreen.route,
         arguments: JanitorEditAdminArguments(task: task));
   }
@@ -104,6 +107,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   void _onFeedbackPressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval ||
         task.status == TaskStatus.approved) {
+      SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
       Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
           arguments: JanitorNewEditArguments(
               isEdit: true, isFeedback: true, task: task));
@@ -112,6 +116,7 @@ class _JanitorListViewState extends State<JanitorListView> {
 
   void _onApprovePressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval) {
+      SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
       janitor.editStatus(TaskStatus.approved, task);
     }
   }

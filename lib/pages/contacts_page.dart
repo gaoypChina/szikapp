@@ -85,6 +85,7 @@ class _ContactsListViewState extends State<ContactsListView> {
 
   void _onFilterChanged(Group? group) {
     var newItems = contacts.filter(group!.id);
+    SZIKAppState.analytics.logSearch(searchTerm: group.name);
     setState(() {
       items = newItems;
     });
@@ -93,6 +94,7 @@ class _ContactsListViewState extends State<ContactsListView> {
   void _copyToClipBoard(String? text, String message) {
     if (text == null) return;
     Clipboard.setData(ClipboardData(text: text)).then((_) {
+      SZIKAppState.analytics.logEvent(name: 'copy_to_clipboard');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
     });
@@ -259,6 +261,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                 onTap: () {
                                   if (item.phone != null) {
                                     try {
+                                      SZIKAppState.analytics
+                                          .logEvent(name: 'phone_call');
                                       contacts.makePhoneCall(item.phone!);
                                     } on Exception {
                                       //TODO
@@ -295,6 +299,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                               GestureDetector(
                                 onTap: () {
                                   try {
+                                    SZIKAppState.analytics
+                                        .logEvent(name: 'make_email');
                                     contacts.makeEmail(item.email);
                                   } on Exception {
                                     //TODO
