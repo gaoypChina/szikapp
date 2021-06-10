@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/main.dart';
+import '../../main.dart';
 
 class ErrorScreenArguments {
   Object error;

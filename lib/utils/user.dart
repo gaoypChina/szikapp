@@ -28,8 +28,9 @@ class User {
   set birthday(DateTime? date) {
     if (date == null)
       _birthday = null;
-    else if (date.isBefore(DateTime(1930, 1, 1))) {
-      throw ArgumentError(
+    else if (date.isBefore(DateTime(1930, 1, 1)) ||
+        date.isAfter(DateTime.now().subtract((Duration(days: 6400))))) {
+      throw NotValidBirthdayException(
           'ERROR_INVALID_VALUE'.tr(args: ['birthday', date.toIso8601String()]));
     } else {
       _birthday = date;
@@ -48,7 +49,9 @@ class User {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
+      throw NotValidPhoneException(
+        'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
+      );
     }
   }
 
@@ -64,7 +67,9 @@ class User {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
+      throw NotValidPhoneException(
+        'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
+      );
     }
   }
 

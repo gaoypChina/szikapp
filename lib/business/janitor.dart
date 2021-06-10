@@ -78,17 +78,12 @@ class Janitor {
   ///[from] paraméter beállításával lehetőség nyílik az intervallumot szűkíteni
   ///avagy bővíteni.
   Future<void> refresh({DateTime? from}) async {
-    try {
-      from ??= DateTime.now().subtract(const Duration(days: 31));
+    from ??= DateTime.now().subtract(const Duration(days: 31));
 
-      var parameter = {'from': from.toIso8601String()};
+    var parameter = {'from': from.toIso8601String()};
 
-      var io = IO();
-      tasks = await io.getJanitor(parameter);
-    } on IONotModifiedException {
-      //TODO hibakezelés
-      tasks = <JanitorTask>[];
-    }
+    var io = IO();
+    tasks = await io.getJanitor(parameter);
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a feladatlistát.

@@ -10,6 +10,7 @@ import '../models/group.dart';
 import '../models/user_data.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/widgets/searchable_options.dart';
+import '../utils/exceptions.dart';
 
 class ContactsPage extends StatefulWidget {
   static const String route = '/contacts';
@@ -95,9 +96,13 @@ class _ContactsListViewState extends State<ContactsListView> {
     if (text == null) return;
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       SZIKAppState.analytics.logEvent(name: 'copy_to_clipboard');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
+      _showSnackBar(message);
     });
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   String? _validateTextField(value) {
@@ -138,7 +143,6 @@ class _ContactsListViewState extends State<ContactsListView> {
                 ),
                 Expanded(
                   child: TextFormField(
-                    //initialValue: '',
                     validator: _validateTextField,
                     autofocus: false,
                     style: theme.textTheme.headline3!.copyWith(
@@ -264,8 +268,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                       SZIKAppState.analytics
                                           .logEvent(name: 'phone_call');
                                       contacts.makePhoneCall(item.phone!);
-                                    } on Exception {
-                                      //TODO
+                                    } on NotSupportedCallFunctionalityException catch (e) {
+                                      _showSnackBar(e.message);
                                     }
                                   }
                                 },
@@ -302,8 +306,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     SZIKAppState.analytics
                                         .logEvent(name: 'make_email');
                                     contacts.makeEmail(item.email);
-                                  } on Exception {
-                                    //TODO
+                                  } on NotSupportedEmailFunctionalityException catch (e) {
+                                    _showSnackBar(e.message);
                                   }
                                 },
                                 onLongPress: () => _copyToClipBoard(
