@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 
+///Személyre szabott lapválasztó widget.
+///Értékben és dizájnban is visszajelzi a választott lap indexét, de magát
+///a lapváltást nem hajtja végre, arról a szülő widgetnek kell gondoskodnia.
+///A lehetőségek megjelenítése a [ChoiceChip] widgeten alapul.
+///Állapota a privát [_TabChoiceState].
 class TabChoice extends StatefulWidget {
+  ///Választási lehetőségek feliratai
   final List<String> labels;
+
+  ///A választott lap indexének jelzésére szolgáló callback
   final ValueChanged<int?> onChanged;
+
+  ///A kiválasztott lap chipjének színe
   final Color? choiceColor;
+
+  ///A körülfogó keret színe
   final Color? wrapColor;
+
+  ///Kiválasztott lap nélküli működés engedélyezése
+  final bool allowNoneSelected;
 
   TabChoice({
     Key? key,
@@ -12,13 +27,17 @@ class TabChoice extends StatefulWidget {
     required this.onChanged,
     this.choiceColor,
     this.wrapColor,
+    this.allowNoneSelected = false,
   }) : super(key: key);
 
   @override
   _TabChoiceState createState() => _TabChoiceState();
 }
 
+///A [TabChoice] widget állapota.
 class _TabChoiceState extends State<TabChoice> {
+  ///Kiválasztott lap indexe. Ha a [TabChoice.allowNoneSelected] flag értéke
+  ///engedi, az érték `null`-t is felvehet.
   int? _value = 0;
 
   @override

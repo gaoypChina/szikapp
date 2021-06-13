@@ -135,7 +135,7 @@ class _ContactsListViewState extends State<ContactsListView> {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       SZIKAppState.analytics.logEvent(
         name: 'copy_to_clipboard',
-        parameters: <String, dynamic>{"message": message},
+        parameters: <String, dynamic>{'message': message},
       );
       _showSnackBar(message);
     });

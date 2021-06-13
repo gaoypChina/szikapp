@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../themes.dart';
 
+///A [DatePicker] widgetben kiválasztható legkorábbi és legkésőbbi dátum
+///különbsége az aktuális időponttól.
 const kDatePickerDifference = Duration(days: 730);
 
+///Személyre szabott dátumválasztó widget.
 class DatePicker extends StatefulWidget {
+  ///A megváltozott dátum jelzésére szolgáló callback
   final ValueChanged<DateTime> onChanged;
+
+  ///Eredeti dátum
   final DateTime date;
+
+  ///Szöveg színe
   final Color color;
+
+  ///Szöveg mérete
   final double fontSize;
 
   DatePicker(

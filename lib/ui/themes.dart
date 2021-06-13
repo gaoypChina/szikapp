@@ -25,6 +25,7 @@ const szikColorScheme = ColorScheme(
   brightness: Brightness.light,
 );
 
+///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek.
 final Map<TaskStatus, Color> statusColors = {
   TaskStatus.created: szikColorScheme.secondary,
   TaskStatus.sent: szikColorScheme.secondary,
@@ -105,7 +106,7 @@ TextTheme szikTextTheme = TextTheme(
   subtitle2: TextStyle(fontFamily: 'Montserrat', fontSize: 14),
 );
 
-ThemeData ourThemeData = ThemeData(
+ThemeData szikThemeData = ThemeData(
   brightness: Brightness.light,
   //visualDensity: null,
   //primarySwatch: null,

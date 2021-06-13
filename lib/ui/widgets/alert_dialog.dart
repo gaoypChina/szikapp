@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+///Személyre szabott [AlertDialog] widget.
+///Két standard akciót támogat (elfogadás és elutasítás), lehetséges
+///címet, tartalomszöveget, színsémát és saját akció callbackeket megadni.
 class CustomAlertDialog extends StatelessWidget {
+  ///Widget címe
   final String title;
+
+  ///A cím alatt olvasható bővebb leírás
   final String? content;
+
+  ///Elfogadás gomb felirata
   final String? onAcceptText;
+
+  ///Elutasítás gomb felirata
   final String? onCancelText;
+
+  ///Elfogadás gomb akció callback
   final void Function()? onAccept;
+
+  ///Elutasítás gomb akció callback
   final void Function()? onCancel;
+
+  ///Szöveg és keretek színe
   final Color? color;
+
+  ///Háttérszín
   final Color? backgroundColor;
 
   const CustomAlertDialog({

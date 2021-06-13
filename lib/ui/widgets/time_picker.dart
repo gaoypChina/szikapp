@@ -3,10 +3,18 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../themes.dart';
 
+///Személyre szabott időpontválasztó widget.
 class TimePicker extends StatefulWidget {
+  ///A megváltozott időpont jelzésére szolgáló callback
   final ValueChanged<TimeOfDay> onChanged;
+
+  ///Eredeti időpont
   final TimeOfDay time;
+
+  ///Szöveg színe
   final Color color;
+
+  ///Szöveg mérete
   final double fontSize;
 
   const TimePicker(
