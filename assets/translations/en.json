@@ -3,6 +3,7 @@
     "LANGUAGE_STRING": "English",
     "ERROR": null,
         "ERROR_UNKNOWN": "Unknown error.",
+        "ERROR_NO_INTERNET": "No internet. Please check the connection.",
         "ERROR_NAVIGATOR_MESSAGE": "Unknown route: {}",
         "ERROR_NOT_IMPLEMENTED": "Not implemented.",
         "ERROR_REQUIRED_FIELD": "Required field",

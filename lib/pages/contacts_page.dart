@@ -1,4 +1,5 @@
 import 'package:accordion/accordion.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,13 @@ import '../ui/screens/error_screen.dart';
 import '../ui/widgets/searchable_options.dart';
 import '../utils/exceptions.dart';
 
+///Telefonkönyv képernyő.
+///Állapota a privát [_ContactsPageState].
+///Adatszinkronizáció alatt egy `FutureBuilder` segítségével töltőképernyőt
+///jelenít meg; majd ennek végeztével buildeli az adatokat ténylegesen
+///tartalmazó [ContactsListView] widgetet.
 class ContactsPage extends StatefulWidget {
+  ///Navigátor útvonal a képernyőhöz
   static const String route = '/contacts';
 
   ContactsPage({Key key = const Key('ContactsPage')}) : super(key: key);
@@ -21,9 +28,14 @@ class ContactsPage extends StatefulWidget {
   _ContactsPageState createState() => _ContactsPageState();
 }
 
+///A [ContactsPage] képernyő állapota. Tartalmazza a [Contacts] signleton
+///egy példányát.
 class _ContactsPageState extends State<ContactsPage> {
   late Contacts contacts;
 
+  ///Létrehozza a [Contacts] singleton egy példányát és betölti a
+  ///csoportadatokat a csoportok szerint való szűréshez, amennyiben ez
+  ///még nem történt meg.
   @override
   void initState() {
     super.initState();
@@ -34,19 +46,27 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-        future: contacts.refresh(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return ContactsListViewShimmer();
-          } else if (snapshot.hasError) {
-            return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-          } else {
-            return ContactsListView();
-          }
-        });
+      future: contacts.refresh(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ContactsListViewShimmer();
+        } else if (snapshot.hasError) {
+          var message;
+          if (SZIKAppState.connectionStatus == ConnectivityResult.none)
+            message = 'ERROR_NO_INTERNET'.tr();
+          else
+            message = snapshot.error;
+          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+        } else {
+          return ContactsListView();
+        }
+      },
+    );
   }
 }
 
+///A kontaktlistát és funkcionalitásait megjelenítő widget.
+///Állapota a privát [_ContactsListViewState].
 class ContactsListView extends StatefulWidget {
   ContactsListView();
 
@@ -54,12 +74,22 @@ class ContactsListView extends StatefulWidget {
   _ContactsListViewState createState() => _ContactsListViewState();
 }
 
+///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
+///[Contacts] singletont.
 class _ContactsListViewState extends State<ContactsListView> {
   late Contacts contacts;
+
+  ///Megjelenített kontaktok
   late List<UserData> items;
+
+  ///Szűrőmező aktuális magassága
   double filterExpandableHeight = 0;
+
+  ///Szűrőmező maximális magassága
   final double kFilterExpandableHeight = 80;
 
+  ///Létrehozásnál lekéri a [Contacts] singletont és megjeleníti az összes
+  ///adatbázisban szereplő kontaktot.
   @override
   void initState() {
     super.initState();
@@ -67,6 +97,8 @@ class _ContactsListViewState extends State<ContactsListView> {
     items = contacts.contacts;
   }
 
+  ///A keresőmező tartalmának változásakor végigkeresi a kontaktlistát
+  ///és megjeleníti a találatokat.
   void _onSearchFieldChanged(String query) {
     var newItems = contacts.search(query);
     setState(() {
@@ -74,6 +106,8 @@ class _ContactsListViewState extends State<ContactsListView> {
     });
   }
 
+  ///A szűrés gomb megnyomásakor megjeleníti / eltünteti a szűrőmezőt a
+  ///mező magasságának változtatásával.
   void _onToggleFilterExpandable() {
     filterExpandableHeight == 0
         ? setState(() {
@@ -84,6 +118,8 @@ class _ContactsListViewState extends State<ContactsListView> {
           });
   }
 
+  ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
+  ///és megjeleníti a találatokat.
   void _onFilterChanged(Group? group) {
     var newItems = contacts.filter(group!.id);
     SZIKAppState.analytics.logSearch(searchTerm: group.name);
@@ -92,19 +128,27 @@ class _ContactsListViewState extends State<ContactsListView> {
     });
   }
 
+  ///Segédfüggvény, ami a rendszer vágólapjára másolja a megadott üzenetet
+  ///és visszajelzést küld a felhasználónak.
   void _copyToClipBoard(String? text, String message) {
     if (text == null) return;
     Clipboard.setData(ClipboardData(text: text)).then((_) {
-      SZIKAppState.analytics.logEvent(name: 'copy_to_clipboard');
+      SZIKAppState.analytics.logEvent(
+        name: 'copy_to_clipboard',
+        parameters: <String, dynamic>{"message": message},
+      );
       _showSnackBar(message);
     });
   }
 
+  ///Segédfüggvény, ami megjelenít egy [SnackBar]-t.
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  ///Segédfüggvény [TextField]-ekhez, ami ellenőrzi, hogy üres-e az elküldött
+  ///mező.
   String? _validateTextField(value) {
     if (value == null || value.isEmpty) {
       return 'ERROR_EMPTY_FIELD'.tr();
@@ -265,8 +309,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                                 onTap: () {
                                   if (item.phone != null) {
                                     try {
-                                      SZIKAppState.analytics
-                                          .logEvent(name: 'phone_call');
+                                      SZIKAppState.analytics.logEvent(
+                                        name: 'phone_call',
+                                        parameters: <String, dynamic>{
+                                          'country': item.phone!.padLeft(5)
+                                        },
+                                      );
                                       contacts.makePhoneCall(item.phone!);
                                     } on NotSupportedCallFunctionalityException catch (e) {
                                       _showSnackBar(e.message);
@@ -303,8 +351,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                               GestureDetector(
                                 onTap: () {
                                   try {
-                                    SZIKAppState.analytics
-                                        .logEvent(name: 'make_email');
+                                    SZIKAppState.analytics.logEvent(
+                                      name: 'make_email',
+                                      parameters: <String, dynamic>{
+                                        'domain': item.email.split('@').last
+                                      },
+                                    );
                                     contacts.makeEmail(item.email);
                                   } on NotSupportedEmailFunctionalityException catch (e) {
                                     _showSnackBar(e.message);

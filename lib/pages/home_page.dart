@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: FeedPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
-          navigatorObservers: <NavigatorObserver>[SZIKAppState.observer],
         ),
       ),
       PersistentBottomNavBarItem(
@@ -69,7 +68,6 @@ class _HomePageState extends State<HomePage> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: MenuPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
-          navigatorObservers: <NavigatorObserver>[SZIKAppState.observer],
         ),
       ),
       PersistentBottomNavBarItem(
@@ -86,7 +84,6 @@ class _HomePageState extends State<HomePage> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: SettingsPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
-          navigatorObservers: <NavigatorObserver>[SZIKAppState.observer],
         ),
       ),
     ];

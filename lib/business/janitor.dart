@@ -1,5 +1,4 @@
 import '../models/tasks.dart';
-import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 ///Gondnoki kérések funkció logikai működését megvalósító singleton

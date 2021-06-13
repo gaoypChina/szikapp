@@ -3,6 +3,7 @@
     "LANGUAGE_STRING": "Magyar",
     "ERROR": null,
         "ERROR_UNKNOWN": "Ismeretlen hiba.",
+        "ERROR_NO_INTERNET": "Nincs internet. Ellenőrizd a kapcsolatot.",
         "ERROR_NAVIGATOR_MESSAGE": "Ismeretlen út: {}",
         "ERROR_NOT_IMPLEMENTED": "Ez a funkció még nem elérhető.",
         "ERROR_REQUIRED_FIELD": "Kötelező mező",

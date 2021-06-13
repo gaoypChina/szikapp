@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   bool _started = false;
   bool _logoStarted = false;
-  bool _authError = false;
+
   void _startAnimation() {
     setState(() {
       _logoStarted = true;
@@ -126,14 +127,23 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _onPressed() {
-    SZIKAppState.authManager.signIn().then((success) {
-      if (success == true) {
-        SZIKAppState.analytics.logLogin(loginMethod: 'sign_in_google');
-        Navigator.of(context).pushReplacementNamed(HomePage.route);
-      }
-    }).catchError((error) {
+    if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
       Navigator.of(context).pushNamed(ErrorScreen.route,
-          arguments: ErrorScreenArguments(error: error));
-    });
+          arguments: ErrorScreenArguments(error: 'ERROR_NO_INTERNET'.tr()));
+    } else {
+      SZIKAppState.authManager.signIn().then(
+        (success) {
+          if (success == true) {
+            SZIKAppState.analytics.logLogin(loginMethod: 'sign_in_google');
+            Navigator.of(context).pushReplacementNamed(HomePage.route);
+          }
+        },
+      ).catchError(
+        (error) {
+          Navigator.of(context).pushNamed(ErrorScreen.route,
+              arguments: ErrorScreenArguments(error: error));
+        },
+      );
+    }
   }
 }

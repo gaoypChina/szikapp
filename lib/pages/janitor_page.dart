@@ -1,4 +1,5 @@
 import 'package:accordion/accordion.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -32,17 +33,23 @@ class _JanitorPageState extends State<JanitorPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-        future: janitor.refresh(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            //Shrimmer
-            return Scaffold();
-          } else if (snapshot.hasError) {
-            return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-          } else {
-            return JanitorListView();
-          }
-        });
+      future: janitor.refresh(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          //Shrimmer
+          return Scaffold();
+        } else if (snapshot.hasError) {
+          var message;
+          if (SZIKAppState.connectionStatus == ConnectivityResult.none)
+            message = 'ERROR_NO_INTERNET'.tr();
+          else
+            message = snapshot.error;
+          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+        } else {
+          return JanitorListView();
+        }
+      },
+    );
   }
 }
 
@@ -126,9 +133,9 @@ class _JanitorListViewState extends State<JanitorListView> {
     if ((task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
             (task.status == TaskStatus.sent ||
                 task.status == TaskStatus.in_progress)) ||
-        SZIKAppState.authManager.user!.id == 'u015') {
+        SZIKAppState.authManager.user!.id == 'u904') {
       buttons.add(OutlinedButton(
-        onPressed: () => SZIKAppState.authManager.user!.id == 'u015'
+        onPressed: () => SZIKAppState.authManager.user!.id == 'u904'
             ? _onEditJanitorPressed(task)
             : _onEditPressed(task),
         child: Text('JANITOR_BUTTON_EDIT'.tr()),
