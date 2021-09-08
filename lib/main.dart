@@ -230,7 +230,12 @@ class SZIKAppState extends State<SZIKApp> {
           title: args.title,
         );
       case ReservationNewEditScreen.route:
-        return ReservationNewEditScreen();
+        final args = settings.arguments as ReservationNewEditArguments;
+        return ReservationNewEditScreen(
+          task: args.task,
+          isEdit: args.isEdit,
+          placeID: args.placeID,
+        );
       case ReservationPlacesMapScreen.route:
         return ReservationPlacesMapScreen();
       case JanitorNewEditScreen.route:
