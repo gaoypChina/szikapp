@@ -175,7 +175,7 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   Widget build(BuildContext context) {
     //Teljes képernyős mód bekapcsolása
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MaterialApp(
       title: 'APP_NAME'.tr(),
       initialRoute: HomePage.route,
@@ -249,7 +249,7 @@ class SZIKAppState extends State<SZIKApp> {
         final args = settings.arguments as JanitorEditAdminArguments;
         return JanitorEditAdminScreen(task: args.task);
       case ErrorScreen.route:
-        var args;
+        ErrorScreenArguments args;
         if (settings.arguments == null) {
           args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
         } else {

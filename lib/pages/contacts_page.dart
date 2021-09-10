@@ -51,7 +51,7 @@ class _ContactsPageState extends State<ContactsPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ContactsListViewShimmer();
         } else if (snapshot.hasError) {
-          var message;
+          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             message = 'ERROR_NO_INTERNET'.tr();
           } else {
@@ -59,7 +59,7 @@ class _ContactsPageState extends State<ContactsPage> {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return ContactsListView();
+          return const ContactsListView();
         }
       },
     );
@@ -69,7 +69,7 @@ class _ContactsPageState extends State<ContactsPage> {
 ///A kontaktlistát és funkcionalitásait megjelenítő widget.
 ///Állapota a privát [_ContactsListViewState].
 class ContactsListView extends StatefulWidget {
-  ContactsListView();
+  const ContactsListView({Key? key}) : super(key: key);
 
   @override
   _ContactsListViewState createState() => _ContactsListViewState();

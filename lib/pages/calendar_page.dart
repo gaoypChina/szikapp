@@ -33,7 +33,7 @@ class _CalendarPageState extends State<CalendarPage> {
             //Shrimmer
             return const Scaffold();
           } else if (snapshot.hasError) {
-            var message;
+            Object? message;
             if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
               message = 'ERROR_NO_INTERNET'.tr();
             } else {

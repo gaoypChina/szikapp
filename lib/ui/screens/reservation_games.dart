@@ -93,7 +93,7 @@ class _ReservationGamesListScreenState
             ),
           );
         }
-        var message;
+        Object? message;
         if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
           message = 'ERROR_NO_INTERNET'.tr();
         } else {

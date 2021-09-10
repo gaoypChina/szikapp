@@ -39,7 +39,7 @@ class _JanitorPageState extends State<JanitorPage> {
           //Shrimmer
           return const Scaffold();
         } else if (snapshot.hasError) {
-          var message;
+          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             message = 'ERROR_NO_INTERNET'.tr();
           } else {
@@ -73,7 +73,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   void _onTabChanged(int? newValue) {
-    var newItems;
+    List<JanitorTask> newItems;
     switch (newValue) {
       case 2:
         var ownID = SZIKAppState.authManager.user!.id;

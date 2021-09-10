@@ -98,9 +98,7 @@ class User {
         type == Permission.pollResultsExport) {
       if (subject.runtimeType != PollTask) throw TypeError();
       var poll = subject as PollTask;
-      return poll.issuerIDs.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return poll.issuerIDs.contains(id) && _permissions!.contains(type);
     }
 
     if (type == Permission.cleaningExchangeOffer ||
@@ -108,28 +106,23 @@ class User {
         type == Permission.cleaningExchangeReject) {
       if (subject.runtimeType != CleaningExchange) throw TypeError();
       var cleaningex = subject as CleaningExchange;
-      return cleaningex.initiatorID.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return cleaningex.initiatorID.contains(id) &&
+          _permissions!.contains(type);
     }
 
     if (type == Permission.janitorTaskEdit ||
         type == Permission.janitorTaskSolutionAccept) {
       if (subject.runtimeType != JanitorTask) throw TypeError();
       var janitor = subject as JanitorTask;
-      return janitor.involvedIDs!.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return janitor.involvedIDs!.contains(id) && _permissions!.contains(type);
     }
 
     if (type == Permission.reservationEdit) {
       if (subject.runtimeType != TimetableTask) throw TypeError();
-      var tttask = subject as TimetableTask;
-      return tttask.organizerIDs.contains(type) && _permissions!.contains(type)
-          ? true
-          : false;
+      var task = subject as TimetableTask;
+      return task.organizerIDs.contains(id) && _permissions!.contains(type);
     }
 
-    return _permissions!.contains(type) ? true : false;
+    return _permissions!.contains(type);
   }
 }
