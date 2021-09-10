@@ -257,6 +257,7 @@ class _ContactsListViewState extends State<ContactsListView> {
               ),
             ),
           ),
+          const SizedBox(height: 20),
           Expanded(
             child: items.isEmpty
                 ? Center(
