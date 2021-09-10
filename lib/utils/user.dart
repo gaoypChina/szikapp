@@ -26,10 +26,10 @@ class User {
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
-    if (date == null)
+    if (date == null) {
       _birthday = null;
-    else if (date.isBefore(DateTime(1930, 1, 1)) ||
-        date.isAfter(DateTime.now().subtract((Duration(days: 6400))))) {
+    } else if (date.isBefore(DateTime(1930, 1, 1)) ||
+        date.isAfter(DateTime.now().subtract((const Duration(days: 6400))))) {
       throw NotValidBirthdayException(
           'ERROR_INVALID_VALUE'.tr(args: ['birthday', date.toIso8601String()]));
     } else {
@@ -41,9 +41,9 @@ class User {
   set phone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (value == null)
+    if (value == null) {
       _phone = null;
-    else if (validationPhone.hasMatch(value)) {
+    } else if (validationPhone.hasMatch(value)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
@@ -59,9 +59,9 @@ class User {
   set secondaryPhone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (value == null)
+    if (value == null) {
       _secondaryPhone = null;
-    else if (validationPhone.hasMatch(value)) {
+    } else if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
@@ -87,7 +87,7 @@ class User {
     lastUpdate = userData.lastUpdate;
   }
 
-  ///Eldönti, hogy a elhasználónak van-e jogosultsága egy adott művelet
+  ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
   ///végrehajtására egy adott adaton.
   Future<bool> hasPermission(Permission type, dynamic subject) async {
     var io = IO();

@@ -36,7 +36,7 @@ final Map<TaskStatus, Color> statusColors = {
   TaskStatus.approved: szikColorScheme.primaryVariant,
 };
 
-TextTheme szikTextTheme = TextTheme(
+TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
   ///Nunito, Semi-bold, 18 pt
   bodyText1: TextStyle(
@@ -138,7 +138,7 @@ ThemeData szikThemeData = ThemeData(
   //dialogBackgroundColor: null,
   //indicatorColor: null,
   //hintColor: null,
-  errorColor: Color(0xffe80000),
+  errorColor: const Color(0xffe80000),
   //toggleableActiveColor: null,
   //fontFamily: null,
   textTheme: szikTextTheme,
@@ -162,7 +162,7 @@ ThemeData szikThemeData = ThemeData(
   //bottomAppBarTheme: null,
   colorScheme: szikColorScheme,
   //dialogTheme: null,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: szikAmour,
       backgroundColor: szikMonarch,
       elevation: 10,
@@ -189,14 +189,14 @@ ThemeData szikThemeData = ThemeData(
     hourMinuteTextColor: szikAmour,
     hourMinuteTextStyle: szikTextTheme.bodyText1!
         .copyWith(fontSize: 46, fontStyle: FontStyle.normal),
-    hourMinuteShape: RoundedRectangleBorder(
+    hourMinuteShape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(10),
       ),
     ),
     helpTextStyle: szikTextTheme.bodyText1!.copyWith(
         fontSize: 14, fontStyle: FontStyle.normal, color: szikGunSmoke),
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(10),
       ),

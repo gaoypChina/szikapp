@@ -788,18 +788,19 @@ class IO {
   ///Hibakezelő függvény. A `HTTP` kérés válasz kódja alapján megfelelő kivételt
   ///emel.
   Exception _handleErrors(http.Response response) {
-    if (response.statusCode >= 500)
+    if (response.statusCode >= 500) {
       return IOServerException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else if (response.statusCode >= 400)
+    } else if (response.statusCode >= 400) {
       return IOClientException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else if (response.statusCode == 304)
+    } else if (response.statusCode == 304) {
       return IONotModifiedException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else
+    } else {
       return IOUnknownException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
+    }
   }
 
   ///Autentikáció header-ök szerver oldali hitelesítéshez.

@@ -10,276 +10,244 @@ class ReservationPlacesMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 120,
           ),
           // 5. emelet ------------------------------------------------
-          Container(
+          SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                        child: MyText(
-                      title: 'Terasz',
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
+                  child: const Center(
                       child: MyText(
-                        title: 'Szemináriumi\nszoba',
-                      ),
+                    title: 'Terasz',
+                  )),
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(ReservationPage.route),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Szemináriumi\nszoba',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                      child: MyText(
-                        title: 'Hencsergő',
-                      ),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Hencsergő',
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           // 4. emelet ------------------------------------------------
-          Container(
+          SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                        child: MyText(
-                      title: 'Párbeszéd\nterme',
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
+                  child: const Center(
                       child: MyText(
-                        title: 'Folyóirat\nolvasó',
-                      ),
+                    title: 'Párbeszéd\nterme',
+                  )),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(ReservationPage.route),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Folyóirat\nolvasó',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                      child: MyText(
-                        title: 'Kápolna',
-                      ),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Kápolna',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                      child: MyText(
-                        title: 'Akvárium',
-                      ),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Akvárium',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                      child: MyText(
-                        title: 'TV szoba',
-                      ),
+                  child: const Center(
+                    child: MyText(
+                      title: 'TV szoba',
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           // 3. emelet ------------------------------------------------
-          Container(
+          SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                        child: MyText(
-                      title: 'Nagy terasz',
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
+                  child: const Center(
                       child: MyText(
-                        title: 'Szalon',
-                      ),
+                    title: 'Nagy terasz',
+                  )),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(ReservationPage.route),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Szalon',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  child: Center(
-                    child: MyText(
-                      title: 'Konyha\nnem foglalható',
-                    ),
+                const Center(
+                  child: MyText(
+                    title: 'Konyha\nnem foglalható',
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           // Földszint ----------------------------------------------
-          Container(
+          SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                        child: MyText(
-                      title: 'Könyvtár',
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
+                  child: const Center(
                       child: MyText(
-                        title: 'Zeneszoba',
-                      ),
+                    title: 'Könyvtár',
+                  )),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(ReservationPage.route),
+                  child: const Center(
+                    child: MyText(
+                      title: 'Zeneszoba',
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           // -1. emelet ------------------------------------------------
-          Container(
+          SizedBox(
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  child: Center(
-                      child: MyText(
-                    title: 'Kondi terem\nnem foglalható',
-                  )),
-                ),
-                SizedBox(
+                const Center(
+                    child: MyText(
+                  title: 'Kondi terem\nnem foglalható',
+                )),
+                const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  child: Center(
-                    child: Text(
-                      'Horánszky\n18',
-                      textAlign: TextAlign.center,
-                      style: szikTextTheme.headline2!.copyWith(
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          decoration: TextDecoration.none,
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
+                Center(
+                  child: Text(
+                    'Horánszky\n18',
+                    textAlign: TextAlign.center,
+                    style: szikTextTheme.headline2!.copyWith(
+                        fontSize: 15,
+                        fontStyle: FontStyle.normal,
+                        decoration: TextDecoration.none,
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 GestureDetector(
                   onTap: () =>
                       Navigator.of(context).pushNamed(ReservationPage.route),
-                  child: Container(
-                    child: Center(
-                      child: MyText(
-                        title: '-1 Közösségi tér',
-                      ),
+                  child: const Center(
+                    child: MyText(
+                      title: '-1 Közösségi tér',
                     ),
                   ),
                 ),

@@ -46,94 +46,92 @@ class _FeedPageState extends State<FeedPage> {
     var showName = SZIKAppState.authManager.user!.nick ??
         SZIKAppState.authManager.user!.name.split(' ')[1];
     return Container(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/pictures/background_1.jpg'),
-              fit: BoxFit.cover),
-        ),
-        child: ListView(
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 30, 0, 30),
-              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.background.withOpacity(0.65),
-                borderRadius: BorderRadius.circular(20),
+      padding:
+          const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover),
+      ),
+      child: ListView(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.background.withOpacity(0.65),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(ProfilePage.route),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'FEED_GREETINGS'.tr(args: [showName]),
+                      style: theme.textTheme.headline1!.copyWith(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  CircleAvatar(
+                    foregroundImage: NetworkImage(
+                      SZIKAppState.authManager.user!.profilePicture.toString(),
+                    ),
+                  )
+                ],
               ),
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(ProfilePage.route),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              'FEED_NOTIFICATIONS'.tr(),
+              style: theme.textTheme.headline2!.copyWith(
+                fontSize: 20,
+                color: theme.colorScheme.background,
+              ),
+            ),
+          ),
+          Column(
+            children: feedItems.map<Container>((item) {
+              return Container(
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.background.withOpacity(0.65),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Row(
                   children: [
-                    Expanded(
+                    Container(
+                      width: 20,
+                      height: 20,
+                      margin: const EdgeInsets.only(right: 5),
+                      child: ColorFiltered(
+                        child: Image.asset(item.iconPath),
+                        colorFilter: ColorFilter.mode(
+                            theme.colorScheme.primary, BlendMode.srcIn),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => {},
                       child: Text(
-                        'FEED_GREETINGS'.tr(args: [showName]),
-                        style: theme.textTheme.headline1!.copyWith(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                        item.title,
+                        style: theme.textTheme.bodyText1!.copyWith(
+                          fontSize: 14,
                           color: theme.colorScheme.primary,
                         ),
                       ),
                     ),
-                    CircleAvatar(
-                      foregroundImage: NetworkImage(
-                        SZIKAppState.authManager.user!.profilePicture
-                            .toString(),
-                      ),
-                    )
                   ],
                 ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              child: Text(
-                'FEED_NOTIFICATIONS'.tr(),
-                style: theme.textTheme.headline2!.copyWith(
-                  fontSize: 20,
-                  color: theme.colorScheme.background,
-                ),
-              ),
-            ),
-            Column(
-              children: feedItems.map<Container>((item) {
-                return Container(
-                  margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.background.withOpacity(0.65),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        margin: EdgeInsets.only(right: 5),
-                        child: ColorFiltered(
-                          child: Image.asset(item.iconPath),
-                          colorFilter: ColorFilter.mode(
-                              theme.colorScheme.primary, BlendMode.srcIn),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => {},
-                        child: Text(
-                          item.title,
-                          style: theme.textTheme.bodyText1!.copyWith(
-                            fontSize: 14,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            )
-          ],
-        ),
+              );
+            }).toList(),
+          )
+        ],
       ),
     );
   }

@@ -27,14 +27,14 @@ class _SignInPageState extends State<SignInPage> {
     setState(() {
       _logoStarted = true;
     });
-    Future.delayed(Duration(seconds: 1)).then((value) => setState(() {
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           _started = true;
         }));
   }
 
   @override
   void initState() {
-    Future.delayed(Duration(microseconds: 10), _startAnimation);
+    Future.delayed(const Duration(microseconds: 10), _startAnimation);
     super.initState();
   }
 
@@ -58,14 +58,14 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           Container(
             // Háttérkép
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/pictures/background_1.jpg'),
                     fit: BoxFit.cover)),
           ),
           AnimatedOpacity(
             // Háttérszín (animált)
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             opacity: _started ? 0.5 : 1,
             child: Container(
               color: Theme.of(context).colorScheme.primary,
@@ -73,7 +73,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
           AnimatedContainer(
             // Sign_In_Button (animated)
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             curve: Curves.easeInOutQuad,
             child: Center(
               child: Column(
@@ -85,7 +85,7 @@ class _SignInPageState extends State<SignInPage> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOutQuad,
                         alignment: _logoStarted
-                            ? FractionalOffset(0.5, 0.4)
+                            ? const FractionalOffset(0.5, 0.4)
                             : Alignment.center,
                         child: Image.asset(
                           'assets/pictures/logo_white_800.png',
@@ -98,17 +98,17 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
           DelayedDisplay(
-            delay: Duration(milliseconds: 1500),
-            slidingBeginOffset: Offset(0.0, 0.02),
+            delay: const Duration(milliseconds: 1500),
+            slidingBeginOffset: const Offset(0.0, 0.02),
             child: AnimatedOpacity(
               opacity: _started ? 1 : 0,
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               curve: Curves.easeInOutQuad,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 200,
                     ),
                     SignInButton(

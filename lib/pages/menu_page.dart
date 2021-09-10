@@ -17,7 +17,7 @@ class MenuPage extends StatelessWidget {
     var fifth =
         (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/pictures/background_1.jpg'),
             fit: BoxFit.cover),
@@ -32,7 +32,7 @@ class MenuPage extends StatelessWidget {
                 title: 'SUBMENU_DATA_TITLE'.tr(),
               ),
             ),
-            child: Container(
+            child: SizedBox(
               height: fifth,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +61,7 @@ class MenuPage extends StatelessWidget {
                         ),
                         */
                         margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
                                 'assets/icons/bookopen_light_72.png'),
@@ -134,7 +134,7 @@ class MenuPage extends StatelessWidget {
                         ),
                         */
                         margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image:
                                 AssetImage('assets/icons/smiley_light_72.png'),
@@ -189,7 +189,7 @@ class MenuPage extends StatelessWidget {
                         ),
                         */
                         margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image:
                                 AssetImage('assets/icons/house_light_72.png'),
@@ -256,7 +256,7 @@ class MenuPage extends StatelessWidget {
                         ),
                         */
                         margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
                                 'assets/icons/calendar_light_72.png'),
@@ -305,7 +305,7 @@ class MenuPage extends StatelessWidget {
                         ),
                         */
                         margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('assets/icons/gear_light_72.png'),
                           ),

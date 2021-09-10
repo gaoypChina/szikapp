@@ -22,7 +22,7 @@ class ContactsPage extends StatefulWidget {
   ///Navigátor útvonal a képernyőhöz
   static const String route = '/contacts';
 
-  ContactsPage({Key key = const Key('ContactsPage')}) : super(key: key);
+  const ContactsPage({Key key = const Key('ContactsPage')}) : super(key: key);
 
   @override
   _ContactsPageState createState() => _ContactsPageState();
@@ -49,13 +49,14 @@ class _ContactsPageState extends State<ContactsPage> {
       future: contacts.refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return ContactsListViewShimmer();
+          return const ContactsListViewShimmer();
         } else if (snapshot.hasError) {
           var message;
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none)
+          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             message = 'ERROR_NO_INTERNET'.tr();
-          else
+          } else {
             message = snapshot.error;
+          }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return ContactsListView();
@@ -171,14 +172,14 @@ class _ContactsListViewState extends State<ContactsListView> {
                 color: theme.colorScheme.background,
                 border: Border.all(color: theme.colorScheme.primary, width: 2),
                 borderRadius: BorderRadius.circular(30)),
-            margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   width: searchBarIconSize,
                   height: searchBarIconSize,
-                  margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: ColorFiltered(
                     child: Image.asset('assets/icons/search_light_72.png'),
                     colorFilter: ColorFilter.mode(
@@ -209,7 +210,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                   child: Container(
                     width: searchBarIconSize,
                     height: searchBarIconSize,
-                    margin: EdgeInsets.only(right: 8),
+                    margin: const EdgeInsets.only(right: 8),
                     child: ColorFiltered(
                       child: Image.asset('assets/icons/sliders_light_72.png'),
                       colorFilter: ColorFilter.mode(
@@ -221,15 +222,15 @@ class _ContactsListViewState extends State<ContactsListView> {
             ),
           ),
           AnimatedContainer(
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
             margin: EdgeInsets.fromLTRB(20, filterExpandableHeight / 16, 20, 0),
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             height: filterExpandableHeight,
             decoration: BoxDecoration(
                 border: Border.all(color: theme.colorScheme.primary, width: 2),
                 borderRadius: BorderRadius.circular(20)),
             child: ConstrainedBox(
-              constraints: BoxConstraints.expand(),
+              constraints: const BoxConstraints.expand(),
               child: Row(
                 children: [
                   Container(
@@ -238,7 +239,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                       style: theme.textTheme.caption!
                           .copyWith(fontSize: 14, fontStyle: FontStyle.normal),
                     ),
-                    margin: EdgeInsets.only(right: 5),
+                    margin: const EdgeInsets.only(right: 5),
                   ),
                   filterExpandableHeight == 0
                       ? Container()
@@ -267,7 +268,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                     headerBorderRadius: 0,
                     headerBackgroundColor: theme.colorScheme.background,
                     contentBackgroundColor: theme.colorScheme.background,
-                    headerPadding: EdgeInsets.all(20),
+                    headerPadding: const EdgeInsets.all(20),
                     //contentHorizontalPadding: 20,
                     //contentBorderRadius: 10,
                     headerTextStyle: theme.textTheme.headline3!.copyWith(
@@ -297,7 +298,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                         ),
                         content: Container(
                           width: MediaQuery.of(context).size.width - 40,
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: theme.colorScheme.primaryVariant
@@ -453,55 +454,53 @@ class ContactsListViewShimmer extends StatelessWidget {
               decoration: BoxDecoration(
                   color: theme.colorScheme.background,
                   borderRadius: BorderRadius.circular(30)),
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              padding: EdgeInsets.all(8),
+              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     width: searchBarIconSize,
                     height: searchBarIconSize,
-                    margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   ),
                 ],
               ),
             ),
           ),
           Expanded(
-            child: Container(
-              child: ListView(
-                physics: NeverScrollableScrollPhysics(),
-                children: List.generate(
-                  10,
-                  (index) => Container(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: theme.colorScheme.secondaryVariant
-                              .withOpacity(0.2),
-                          highlightColor: theme.colorScheme.secondaryVariant
-                              .withOpacity(0.5),
-                          child: CircleAvatar(
-                            radius: theme.textTheme.headline3!.fontSize! * 1.5,
-                            backgroundColor: theme.colorScheme.primaryVariant,
-                          ),
+            child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: List.generate(
+                10,
+                (index) => Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor:
+                            theme.colorScheme.secondaryVariant.withOpacity(0.2),
+                        highlightColor:
+                            theme.colorScheme.secondaryVariant.withOpacity(0.5),
+                        child: CircleAvatar(
+                          radius: theme.textTheme.headline3!.fontSize! * 1.5,
+                          backgroundColor: theme.colorScheme.primaryVariant,
                         ),
-                        Shimmer.fromColors(
-                          baseColor: theme.colorScheme.secondaryVariant
-                              .withOpacity(0.2),
-                          highlightColor: theme.colorScheme.secondaryVariant
-                              .withOpacity(0.5),
-                          child: Container(
-                            margin: EdgeInsets.all(20),
-                            height: theme.textTheme.headline3!.fontSize! * 1.5,
-                            width: theme.textTheme.headline3!.fontSize! * 10,
-                            decoration: BoxDecoration(
-                                color: theme.colorScheme.secondaryVariant),
-                          ),
+                      ),
+                      Shimmer.fromColors(
+                        baseColor:
+                            theme.colorScheme.secondaryVariant.withOpacity(0.2),
+                        highlightColor:
+                            theme.colorScheme.secondaryVariant.withOpacity(0.5),
+                        child: Container(
+                          margin: const EdgeInsets.all(20),
+                          height: theme.textTheme.headline3!.fontSize! * 1.5,
+                          width: theme.textTheme.headline3!.fontSize! * 10,
+                          decoration: BoxDecoration(
+                              color: theme.colorScheme.secondaryVariant),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

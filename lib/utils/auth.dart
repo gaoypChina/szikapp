@@ -53,9 +53,11 @@ class Auth {
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<bool> signInSilently() async {
-    if (isSignedIn)
+    if (isSignedIn) {
       return true;
-    else if (_auth.currentUser == null) return false;
+    } else if (_auth.currentUser == null) {
+      return false;
+    }
     try {
       var io = IO();
 

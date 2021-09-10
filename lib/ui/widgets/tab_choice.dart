@@ -21,7 +21,7 @@ class TabChoice extends StatefulWidget {
   ///Kiválasztott lap nélküli működés engedélyezése
   final bool allowNoneSelected;
 
-  TabChoice({
+  const TabChoice({
     Key? key,
     required this.labels,
     required this.onChanged,
@@ -63,7 +63,7 @@ class _TabChoiceState extends State<TabChoice> {
                   _value = newValue;
                 });
               },
-              labelPadding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              labelPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               selectedColor: widget.choiceColor ??
                   theme.colorScheme.primary.withOpacity(0.3),
               disabledColor: Colors.transparent,

@@ -12,7 +12,7 @@ import 'signin_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/';
-  HomePage({Key key = const Key('HomePage')}) : super(key: key);
+  const HomePage({Key key = const Key('HomePage')}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      FeedPage(),
-      MenuPage(),
-      SettingsPage(),
+      const FeedPage(),
+      const MenuPage(),
+      const SettingsPage(),
     ];
   }
 
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
           child: Image.asset('assets/icons/feed_light_72.png'),
-          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_FEED'.tr(),
         textStyle: Theme.of(context).textTheme.overline,
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        routeAndNavigatorSettings: const RouteAndNavigatorSettings(
           initialRoute: FeedPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
           child: Image.asset('assets/icons/cedar_light_72.png'),
-          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_HOME'.tr(),
         textStyle: Theme.of(context).textTheme.overline,
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        routeAndNavigatorSettings: const RouteAndNavigatorSettings(
           initialRoute: MenuPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: ColorFiltered(
           child: Image.asset('assets/icons/gear_light_72.png'),
-          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         title: 'MENU_SETTINGS'.tr(),
         textStyle: Theme.of(context).textTheme.overline,
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary:
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        routeAndNavigatorSettings: const RouteAndNavigatorSettings(
           initialRoute: SettingsPage.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
       future: SZIKAppState.initializeFlutterFire(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return ProgressScreen();
+          return const ProgressScreen();
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
           return snapshot.data!
@@ -122,21 +122,21 @@ class _HomePageState extends State<HomePage> {
                         ? 0.0
                         : kBottomNavigationBarHeight,
                     hideNavigationBarWhenKeyboardShows: true,
-                    margin: EdgeInsets.all(0.0),
+                    margin: const EdgeInsets.all(0.0),
                     popActionScreens: PopActionScreensType.all,
                     bottomScreenMargin: 0.0,
                     onWillPop: _onPop,
                     decoration: NavBarDecoration(
                       colorBehindNavBar: Theme.of(context).colorScheme.primary,
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(15)),
+                          const BorderRadius.vertical(top: Radius.circular(15)),
                     ),
                     popAllScreensOnTapOfSelectedTab: true,
-                    itemAnimationProperties: ItemAnimationProperties(
+                    itemAnimationProperties: const ItemAnimationProperties(
                       duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     ),
-                    screenTransitionAnimation: ScreenTransitionAnimation(
+                    screenTransitionAnimation: const ScreenTransitionAnimation(
                       animateTabTransition: true,
                       curve: Curves.ease,
                       duration: Duration(milliseconds: 200),
@@ -144,11 +144,12 @@ class _HomePageState extends State<HomePage> {
                     navBarStyle: NavBarStyle.style1,
                   ),
                 )
-              : SignInPage();
+              : const SignInPage();
         } else if (snapshot.hasError) {
           return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else
+        } else {
           return ErrorScreen(error: 'ERROR_UNKNOWN'.tr());
+        }
       },
     );
   }

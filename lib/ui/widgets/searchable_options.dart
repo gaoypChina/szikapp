@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 ///Kereshető lenyíló lista beviteli mező.
 ///A [DropdownSearch] widget személyre szabott változata.
@@ -67,7 +67,7 @@ class SearchableOptions<T> extends StatelessWidget {
             style: BorderStyle.solid,
           ),
         ),
-        contentPadding: EdgeInsets.all(5),
+        contentPadding: const EdgeInsets.all(5),
       ),
       dropdownSearchDecoration: InputDecoration(
         border: OutlineInputBorder(
@@ -79,7 +79,7 @@ class SearchableOptions<T> extends StatelessWidget {
           ),
           gapPadding: 6,
         ),
-        contentPadding: EdgeInsets.all(5),
+        contentPadding: const EdgeInsets.all(5),
       ),
       searchBoxStyle: Theme.of(context).textTheme.headline3!.copyWith(
             fontSize: 14,

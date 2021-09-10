@@ -92,19 +92,20 @@ class Janitor {
     List<String> placeIDs = const <String>[],
     String involvedID = '',
   }) {
-    if (placeIDs.isEmpty && statuses.isEmpty && involvedID.isEmpty)
+    if (placeIDs.isEmpty && statuses.isEmpty && involvedID.isEmpty) {
       return tasks;
-
+    }
     var filteredJanitorTasks = <JanitorTask>[];
 
     //Filter by all options that are specified
     for (var task in tasks) {
-      if (involvedID.isNotEmpty && task.involvedIDs!.contains(involvedID))
+      if (involvedID.isNotEmpty && task.involvedIDs!.contains(involvedID)) {
         filteredJanitorTasks.add(task);
-      else if (statuses.isNotEmpty && statuses.contains(task.status))
+      } else if (statuses.isNotEmpty && statuses.contains(task.status)) {
         filteredJanitorTasks.add(task);
-      else if (placeIDs.isNotEmpty && placeIDs.contains(task.placeID))
+      } else if (placeIDs.isNotEmpty && placeIDs.contains(task.placeID)) {
         filteredJanitorTasks.add(task);
+      }
     }
     return filteredJanitorTasks;
   }

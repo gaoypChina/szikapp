@@ -28,7 +28,7 @@ class JanitorNewEditScreen extends StatefulWidget {
   final bool isFeedback;
   final JanitorTask? task;
 
-  JanitorNewEditScreen({
+  const JanitorNewEditScreen({
     Key? key,
     this.isEdit = false,
     this.isFeedback = false,
@@ -76,7 +76,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: ListView(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -84,7 +84,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
             Container(
               width: width * 0.7,
               height: width * 0.7,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/pictures/gyuri_800.png'),
                     fit: BoxFit.contain),
@@ -93,7 +93,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
             //Title
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(bottom: 5),
+              margin: const EdgeInsets.only(bottom: 5),
               child: Text(
                 widget.isEdit
                     ? 'JANITOR_TITLE_EDIT'.tr().toUpperCase()
@@ -122,12 +122,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,*/
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: 15),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: 10),
                           child: Text(
                             'JANITOR_LABEL_PLACE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -150,12 +150,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: 10),
                           child: Text(
                             'JANITOR_LABEL_TITLE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -185,7 +185,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              contentPadding: EdgeInsets.all(5),
+                              contentPadding: const EdgeInsets.all(5),
                             ),
                             onChanged: _onTitleChanged,
                           ),
@@ -194,12 +194,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: 10),
                           child: Text(
                             widget.isFeedback
                                 ? 'JANITOR_LABEL_FEEDBACK'.tr()
@@ -230,7 +230,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              contentPadding: EdgeInsets.all(5),
+                              contentPadding: const EdgeInsets.all(5),
                             ),
                             onChanged: _onDescriptionChanged,
                           ),
@@ -239,12 +239,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: 10),
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
@@ -278,7 +278,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: kBottomNavigationBarHeight,
             )
           ],
@@ -308,7 +308,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
 
   void _onNewSent() {
     if (_formKey.currentState!.validate()) {
-      var uuid = Uuid();
+      var uuid = const Uuid();
       var task = JanitorTask(
           uid: uuid.v4(),
           name: title!,

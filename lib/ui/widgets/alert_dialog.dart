@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 ///Személyre szabott [AlertDialog] widget.
 ///Két standard akciót támogat (elfogadás és elutasítás), lehetséges
@@ -73,7 +73,7 @@ class CustomAlertDialog extends StatelessWidget {
                   border:
                       Border.all(color: color ?? theme.colorScheme.background),
                   borderRadius: BorderRadius.circular(20)),
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onCancel,
                 child: Text(
@@ -92,7 +92,7 @@ class CustomAlertDialog extends StatelessWidget {
                   border:
                       Border.all(color: color ?? theme.colorScheme.background),
                   borderRadius: BorderRadius.circular(20)),
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onAccept,
                 child: Text(

@@ -42,7 +42,7 @@ class _ReservationGamesListScreenState
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return Scaffold();
+          return const Scaffold();
         } else if (snapshot.hasData) {
           var boardgames = snapshot.data;
           return Scaffold(
@@ -50,7 +50,8 @@ class _ReservationGamesListScreenState
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
               ),
-              margin: EdgeInsets.fromLTRB(0, 25, 0, kBottomNavigationBarHeight),
+              margin: const EdgeInsets.fromLTRB(
+                  0, 25, 0, kBottomNavigationBarHeight),
               child: Column(
                 children: [
                   Text(
@@ -61,7 +62,7 @@ class _ReservationGamesListScreenState
                   ),
                   Expanded(
                     child: GridView.count(
-                      padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
                       crossAxisCount: MediaQuery.of(context).orientation ==
                               Orientation.landscape
                           ? 4
@@ -76,7 +77,7 @@ class _ReservationGamesListScreenState
                                   onTap: () => Navigator.of(context)
                                       .pushNamed(ReservationPage.route),
                                   child: Container(
-                                    margin: EdgeInsets.all(10),
+                                    margin: const EdgeInsets.all(10),
                                     child: Image.asset(
                                       'assets/pictures/${item.iconLink}',
                                       fit: BoxFit.contain,
@@ -93,10 +94,11 @@ class _ReservationGamesListScreenState
           );
         }
         var message;
-        if (SZIKAppState.connectionStatus == ConnectivityResult.none)
+        if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
           message = 'ERROR_NO_INTERNET'.tr();
-        else
+        } else {
           message = snapshot.error;
+        }
         return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
       },
     );

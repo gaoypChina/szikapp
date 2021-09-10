@@ -14,7 +14,7 @@ import '../ui/widgets/tab_choice.dart';
 
 class JanitorPage extends StatefulWidget {
   static const String route = '/janitor';
-  JanitorPage({Key? key}) : super(key: key);
+  const JanitorPage({Key? key}) : super(key: key);
 
   @override
   _JanitorPageState createState() => _JanitorPageState();
@@ -37,16 +37,17 @@ class _JanitorPageState extends State<JanitorPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return Scaffold();
+          return const Scaffold();
         } else if (snapshot.hasError) {
           var message;
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none)
+          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             message = 'ERROR_NO_INTERNET'.tr();
-          else
+          } else {
             message = snapshot.error;
+          }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return JanitorListView();
+          return const JanitorListView();
         }
       },
     );
@@ -54,7 +55,7 @@ class _JanitorPageState extends State<JanitorPage> {
 }
 
 class JanitorListView extends StatefulWidget {
-  JanitorListView({Key? key}) : super(key: key);
+  const JanitorListView({Key? key}) : super(key: key);
 
   @override
   _JanitorListViewState createState() => _JanitorListViewState();
@@ -165,10 +166,10 @@ class _JanitorListViewState extends State<JanitorListView> {
     return SZIKAppState.authManager.user!.id == 'u904' &&
             task.feedback!.isNotEmpty
         ? Container(
-            margin: EdgeInsets.only(bottom: 8),
+            margin: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   width: leftColumnWidth,
                   child: Text(
                     'JANITOR_LABEL_FEEDBACK'.tr(),
@@ -181,7 +182,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border.all(
@@ -212,14 +213,15 @@ class _JanitorListViewState extends State<JanitorListView> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 30, 10, kBottomNavigationBarHeight),
+      padding:
+          const EdgeInsets.fromLTRB(10, 30, 10, kBottomNavigationBarHeight),
       color: theme.colorScheme.background,
       child: Scaffold(
         body: Column(
           children: [
             Center(
               child: Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   'JANITOR_TITLE'.tr().toUpperCase(),
                   style: theme.textTheme.headline2!.copyWith(
@@ -245,7 +247,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                       ),
                     )
                   : Accordion(
-                      headerPadding: EdgeInsets.all(20),
+                      headerPadding: const EdgeInsets.all(20),
                       headerBorderRadius: 20,
                       rightIcon: ColorFiltered(
                         child: Image.asset('assets/icons/down_light_72.png',
@@ -267,7 +269,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                               statusColors[item.status]!.withOpacity(0.65),
                           contentBackgroundColor:
                               statusColors[item.status]!.withOpacity(0.65),
-                          leftIcon: Container(
+                          leftIcon: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Text(
                               SZIKAppState.places
@@ -290,10 +292,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 color: theme.colorScheme.background,
                               ),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 20, 0, 8),
+                                margin: const EdgeInsets.fromLTRB(0, 20, 0, 8),
                                 child: Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: leftColumnWidth,
                                       child: Text(
                                         'JANITOR_LABEL_TITLE'.tr(),
@@ -307,7 +309,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             border: Border.all(
@@ -331,10 +333,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: 8),
                                 child: Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: leftColumnWidth,
                                       child: Text(
                                         'JANITOR_LABEL_DESCRIPTION'.tr(),
@@ -348,7 +350,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             border: Border.all(
@@ -372,10 +374,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: 8),
                                 child: Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: leftColumnWidth,
                                       child: Text(
                                         'JANITOR_LABEL_START'.tr(),
@@ -389,7 +391,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             border: Border.all(
@@ -413,10 +415,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: 8),
                                 child: Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: leftColumnWidth,
                                       child: Text(
                                         'JANITOR_LABEL_STATUS'.tr(),
@@ -430,7 +432,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             border: Border.all(
@@ -456,10 +458,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                               item.answer == null
                                   ? Container()
                                   : Container(
-                                      margin: EdgeInsets.only(bottom: 8),
+                                      margin: const EdgeInsets.only(bottom: 8),
                                       child: Row(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: leftColumnWidth,
                                             child: Text(
                                               'JANITOR_LABEL_ANSWER'.tr(),
@@ -474,7 +476,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                   color: Colors.transparent,
                                                   border: Border.all(
@@ -502,7 +504,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                               _buildFeedbackList(item),
                               Container(
-                                margin: EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: 8),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -520,7 +522,7 @@ class _JanitorListViewState extends State<JanitorListView> {
         floatingActionButton: FloatingActionButton(
           onPressed: _onCreateTask,
           child: ConstrainedBox(
-            constraints: BoxConstraints.expand(width: 36, height: 36),
+            constraints: const BoxConstraints.expand(width: 36, height: 36),
             child: Image.asset('assets/icons/plus_light_72.png'),
           ),
         ),

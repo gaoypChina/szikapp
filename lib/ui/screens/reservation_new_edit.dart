@@ -25,7 +25,7 @@ class ReservationNewEditScreen extends StatefulWidget {
   final String placeID;
   final bool isEdit;
 
-  ReservationNewEditScreen({
+  const ReservationNewEditScreen({
     Key? key,
     this.task,
     this.isEdit = false,
@@ -69,7 +69,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
             //Title
@@ -79,8 +79,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
-              margin: EdgeInsets.only(bottom: 5),
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              margin: const EdgeInsets.only(bottom: 5),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: Text(
                 'JANITOR_TITLE_EDIT_ADMIN'.tr(),
                 style: theme.textTheme.headline2!.copyWith(

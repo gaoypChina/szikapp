@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -10,7 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'models/group.dart';
 import 'models/resource.dart';
@@ -52,10 +52,10 @@ void main() async {
   });
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('hu')],
+      supportedLocales: const [Locale('en'), Locale('hu')],
       path: 'assets/translations',
-      fallbackLocale: Locale('hu'),
-      child: SZIKApp(),
+      fallbackLocale: const Locale('hu'),
+      child: const SZIKApp(),
       useOnlyLangCode: true,
     ),
   );
@@ -63,7 +63,7 @@ void main() async {
 
 ///Az applikáció
 class SZIKApp extends StatefulWidget {
-  SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
+  const SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
 
   @override
   SZIKAppState createState() => SZIKAppState();
@@ -136,7 +136,7 @@ class SZIKAppState extends State<SZIKApp> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      print(e.toString());
+      SZIKAppState.analytics.logEvent(name: 'PACKAGE_ERROR');
       return;
     }
 
@@ -194,11 +194,11 @@ class SZIKAppState extends State<SZIKApp> {
   static Widget getDestination(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.route:
-        return HomePage();
+        return const HomePage();
       case MenuPage.route:
-        return MenuPage();
+        return const MenuPage();
       case FeedPage.route:
-        return FeedPage();
+        return const FeedPage();
       case SubMenuPage.route:
         final args = settings.arguments as SubMenuArguments;
         return SubMenuPage(
@@ -206,19 +206,19 @@ class SZIKAppState extends State<SZIKApp> {
           title: args.title,
         );
       case CalendarPage.route:
-        return CalendarPage();
+        return const CalendarPage();
       case ContactsPage.route:
-        return ContactsPage();
+        return const ContactsPage();
       case JanitorPage.route:
-        return JanitorPage();
+        return const JanitorPage();
       case ProfilePage.route:
-        return ProfilePage();
+        return const ProfilePage();
       case ReservationPage.route:
-        return ReservationPage();
+        return const ReservationPage();
       case SettingsPage.route:
-        return SettingsPage();
+        return const SettingsPage();
       case SignInPage.route:
-        return SignInPage();
+        return const SignInPage();
       case ReservationDetailsScreen.route:
         final args = settings.arguments as ReservationDetailsArguments;
         return ReservationDetailsScreen(
@@ -237,7 +237,7 @@ class SZIKAppState extends State<SZIKApp> {
           placeID: args.placeID,
         );
       case ReservationPlacesMapScreen.route:
-        return ReservationPlacesMapScreen();
+        return const ReservationPlacesMapScreen();
       case JanitorNewEditScreen.route:
         final args = settings.arguments as JanitorNewEditArguments;
         return JanitorNewEditScreen(
@@ -250,10 +250,11 @@ class SZIKAppState extends State<SZIKApp> {
         return JanitorEditAdminScreen(task: args.task);
       case ErrorScreen.route:
         var args;
-        if (settings.arguments == null)
+        if (settings.arguments == null) {
           args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
-        else
+        } else {
           args = settings.arguments as ErrorScreenArguments;
+        }
         return ErrorScreen(
           error: args.error,
         );
