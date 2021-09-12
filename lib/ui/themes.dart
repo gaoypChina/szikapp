@@ -141,7 +141,6 @@ ThemeData szikThemeData = ThemeData(
   //fontFamily: null,
   textTheme: szikTextTheme,
   //primaryTextTheme: null,
-  //accentTextTheme: null,
   //inputDecorationTheme: null,
   //iconTheme: null,
   //primaryIconTheme: null,
@@ -223,5 +222,4 @@ ThemeData szikThemeData = ThemeData(
   //checkboxTheme: null,
   //radioTheme: null,
   //switchTheme: null,
-  //fixTextFieldOutlineLabel: null,
 );

@@ -44,7 +44,7 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var showName = SZIKAppState.authManager.user!.nick ??
-        SZIKAppState.authManager.user!.name.split(' ')[1];
+        SZIKAppState.authManager.user!.name.split(' ').last;
     return Container(
       padding:
           const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
