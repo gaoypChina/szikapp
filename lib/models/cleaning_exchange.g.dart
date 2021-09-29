@@ -6,20 +6,19 @@ part of 'cleaning_exchange.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) {
-  return CleaningExchange(
-    uid: json['uid'] as String,
-    taskID: json['task_id'] as String,
-    initiatorID: json['initiator_id'] as String,
-    replaceTaskID: json['replace_task_id'] as String?,
-    responderID: json['responder_id'] as String?,
-    approved: json['approved'] as bool,
-    rejected: (json['rejected'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
-        .toList(),
-    lastUpdate: DateTime.parse(json['last_update'] as String),
-  );
-}
+CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) =>
+    CleaningExchange(
+      uid: json['uid'] as String,
+      taskID: json['task_id'] as String,
+      initiatorID: json['initiator_id'] as String,
+      replaceTaskID: json['replace_task_id'] as String?,
+      responderID: json['responder_id'] as String?,
+      approved: json['approved'] as bool? ?? false,
+      rejected: (json['rejected'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      lastUpdate: DateTime.parse(json['last_update'] as String),
+    );
 
 Map<String, dynamic> _$CleaningExchangeToJson(CleaningExchange instance) =>
     <String, dynamic>{
