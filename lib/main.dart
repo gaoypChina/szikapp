@@ -51,7 +51,8 @@ void main() async {
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('hu')],
       path: 'assets/translations',
-      fallbackLocale: Locale('hu'),
+      fallbackLocale: Locale('en'),
+      useFallbackTranslations: true,
       child: SZIKApp(),
       useOnlyLangCode: true,
     ),
