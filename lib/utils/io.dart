@@ -847,16 +847,16 @@ class IO {
   ///emel.
   Exception _handleErrors(http.Response response) {
     if (response.statusCode >= 500) {
-      return IOServerException(
+      return IOServerException(response.statusCode,
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     } else if (response.statusCode >= 400) {
-      return IOClientException(
+      return IOClientException(response.statusCode,
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     } else if (response.statusCode == 304) {
       return IONotModifiedException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     } else {
-      return IOUnknownException(
+      return IOUnknownException(response.statusCode,
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     }
   }
