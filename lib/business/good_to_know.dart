@@ -1,12 +1,10 @@
 import '../models/goodtoknow.dart';
 import '../utils/io.dart';
 
-class Goodtoknow
-{
-  late List<GoodToKnow> posts; 
+class Goodtoknow {
+  late List<GoodToKnow> posts;
 
-  static final Goodtoknow _instance =
-      Goodtoknow._privateConstructor();
+  static final Goodtoknow _instance = Goodtoknow._privateConstructor();
 
   factory Goodtoknow() => _instance;
 
@@ -14,16 +12,16 @@ class Goodtoknow
     posts = [];
   }
 
-  Future<bool> addItem(GoodToKnow item) async 
-  {
+  Future<bool> addItem(GoodToKnow item) async {
     var io = IO();
     await io.postGoodToKnow(item);
+
     posts.add(item);
+
     return true;
   }
 
-  Future<bool> editItem(GoodToKnow item) async
-  {
+  Future<bool> editItem(GoodToKnow item) async {
     var io = IO();
     var parameter = {'id': item.uid};
     await io.putGoodToKnow(item, parameter);
@@ -45,8 +43,7 @@ class Goodtoknow
     return true;
   }
 
-  void refresh() async
-  {
+  void refresh() async {
     var io = IO();
     posts = await io.getGoodToKnow();
   }
