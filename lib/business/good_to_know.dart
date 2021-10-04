@@ -22,6 +22,8 @@ class Goodtoknow {
   }
 
   Future<bool> editItem(GoodToKnow item) async {
+    if (!posts.contains(item)) return false;
+
     var io = IO();
     var parameter = {'id': item.uid};
     await io.putGoodToKnow(item, parameter);
@@ -31,14 +33,14 @@ class Goodtoknow {
     return true;
   }
 
-  Future<bool> deketeItem(GoodToKnow post) async {
-    if (!posts.contains(post)) return true;
+  Future<bool> deleteItem(GoodToKnow item) async {
+    if (!posts.contains(item)) return false;
 
     var io = IO();
-    var parameter = {'id': post.uid};
-    await io.deleteGoodToKnow(parameter, post.lastUpdate);
+    var parameter = {'id': item.uid};
+    await io.deleteGoodToKnow(parameter, item.lastUpdate);
 
-    posts.remove(post);
+    posts.remove(item);
 
     return true;
   }
