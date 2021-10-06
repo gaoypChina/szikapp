@@ -160,6 +160,12 @@ class _JanitorListViewState extends State<JanitorListView> {
     return buttons;
   }
 
+  Future<void> _onManualRefresh() async{
+    janitor.refresh();
+    items = janitor.tasks;
+    setState(() {});
+  }
+
   Widget _buildFeedbackList(JanitorTask task) {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
@@ -246,8 +252,12 @@ class _JanitorListViewState extends State<JanitorListView> {
                         'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
                       ),
                     )
-                  : Accordion(
+                  : RefreshIndicator(
+                      onRefresh: _onManualRefresh,
+                      child: Accordion(
                       headerPadding: const EdgeInsets.all(20),
+                      headerBackgroundColor: theme.colorScheme.background,
+                      contentBackgroundColor: theme.colorScheme.background,
                       headerBorderRadius: 20,
                       rightIcon: ColorFiltered(
                         child: Image.asset('assets/icons/down_light_72.png',
@@ -516,6 +526,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                         );
                       }).toList(),
                     ),
+                  )
             ),
           ],
         ),
