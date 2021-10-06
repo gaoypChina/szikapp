@@ -37,6 +37,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  firebase_dynamic_links: ^2.0.10
   build_runner: ^2.1.2
   json_serializable: ^5.0.0
   flutter_native_splash: ^1.2.3
