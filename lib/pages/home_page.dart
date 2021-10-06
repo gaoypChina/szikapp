@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    initDynamicLinks();
 
     _controller = PersistentTabController(initialIndex: 1);
   }
@@ -95,6 +97,37 @@ class _HomePageState extends State<HomePage> {
       return false;
     }
     return true;
+  }
+
+  Future<void> initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+      final Uri? deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        pushNewScreen(
+          context,
+          screen:
+              SZIKAppState.getDestination(RouteSettings(name: deepLink.path)),
+          withNavBar: true,
+        );
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData? data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      pushNewScreen(
+        context,
+        screen: SZIKAppState.getDestination(RouteSettings(name: deepLink.path)),
+        withNavBar: true,
+      );
+    }
   }
 
   @override
