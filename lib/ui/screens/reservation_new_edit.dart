@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:szikapp/ui/widgets/date_picker.dart';
+import 'package:szikapp/ui/widgets/time_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../business/reservation.dart';
 import '../../main.dart';
@@ -41,6 +44,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
   late final Reservation reservation;
   String? description;
+  String? title;
+  late List<String> organizerIDs;
+  late List<String> resourceIDs;
   DateTime? start;
   DateTime? end;
 
@@ -79,19 +85,228 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 5),
+              margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: Text(
-                'JANITOR_TITLE_EDIT_ADMIN'.tr(),
+                'RESERVATION_TITLE_CREATE'.tr(),
                 style: theme.textTheme.headline2!.copyWith(
                   color: theme.colorScheme.primaryVariant,
                   fontSize: 24,
                 ),
               ),
             ),
+            Divider(
+              color: theme.colorScheme.secondary,
+              thickness: 2,
+              indent: 25,
+              endIndent: 25,
+              height: 1,
+            ),
+            Form(
+              key: _formKey,
+              child: Flex(
+                direction: Axis.vertical,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            'DATE_PICKER_HELP'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                                fontSize: 14, color: theme.colorScheme.primary),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: DatePicker(
+                            date: widget.isEdit
+                                ? widget.task!.start
+                                : DateTime.now(),
+                            onChanged: _onDateChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            'RESERVATION_LABEL_TIME_FROM'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                                fontSize: 14, color: theme.colorScheme.primary),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: TimePicker(
+                            time: TimeOfDay.now(),
+                            onChanged: _onStartingTimeChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            'RESERVATION_LABEL_TIME_TO'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                                fontSize: 14, color: theme.colorScheme.primary),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: TimePicker(
+                            time: TimeOfDay.now(),
+                            onChanged: _onFinishingTimeChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            'RESERVATION_LABEL_DESCRIPTION'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                                fontSize: 14, color: theme.colorScheme.primary),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: TextFormField(
+                            initialValue:
+                                widget.isEdit ? widget.task!.description : null,
+                            style: theme.textTheme.headline3!.copyWith(
+                              fontSize: 14,
+                              color: theme.colorScheme.primaryVariant,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'PLACEHOLDER_DESCRIPTION'.tr(),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.all(5),
+                            ),
+                            onChanged: _onDescriptionChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: widget.isEdit
+                              ? IconButton(
+                                  icon: ColorFiltered(
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
+                                    colorFilter: ColorFilter.mode(
+                                        theme.colorScheme.secondaryVariant
+                                            .withOpacity(0.7),
+                                        BlendMode.srcIn),
+                                  ),
+                                  onPressed: () {
+                                    showDialog<void>(
+                                        context: context,
+                                        builder: (context) => confirmDialog);
+                                  },
+                                )
+                              : Container(),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            onPressed: widget.isEdit ? _onEditSent : _onNewSent,
+                            child: Text(widget.isEdit
+                                ? 'RESERVATION_BUTTON_SAVE'.tr()
+                                : 'RESERVATION_BUTTON_SEND'.tr()),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: kBottomNavigationBarHeight,
+            )
           ],
         ),
       ),
     );
+  }
+
+  void _onDateChanged(DateTime? date) {}
+  void _onStartingTimeChanged(TimeOfDay? startingtime) {}
+  void _onFinishingTimeChanged(TimeOfDay? finishingtime) {}
+  void _onDescriptionChanged(String? description) {}
+  void _onNewSent() {
+    if (_formKey.currentState!.validate()) {
+      var uuid = const Uuid();
+      var task = TimetableTask(
+        uid: uuid.v4(),
+        name: title!,
+        start: DateTime.now(),
+        end: DateTime.now(),
+        type: TaskType.janitor,
+        involved: <String>[SZIKAppState.authManager.user!.id],
+        lastUpdate: DateTime.now(),
+        description: description,
+        organizerIDs: organizerIDs,
+        resourceIDs: resourceIDs,
+      );
+      reservation.addReservation(task);
+      SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
+      Navigator.of(context).pop(true);
+    }
+  }
+
+  void _onEditSent() {
+    String? _validateTextField(value) {
+      if (value == null || value.isEmpty) {
+        return 'ERROR_EMPTY_FIELD'.tr();
+      }
+      if (_formKey.currentState!.validate()) {
+        var task = widget.task;
+        task!.name = title!;
+        task.description = description;
+        reservation.editReservation(task);
+        SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
+        Navigator.of(context).pop(true);
+      }
+    }
   }
 }

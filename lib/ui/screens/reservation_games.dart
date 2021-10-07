@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:szikapp/ui/screens/reservation_new_edit.dart';
 
 import '../../main.dart';
 import '../../models/resource.dart';
@@ -74,8 +75,10 @@ class _ReservationGamesListScreenState
                                 elevation: 5,
                                 color: Theme.of(context).colorScheme.background,
                                 child: GestureDetector(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed(ReservationPage.route),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                      ReservationNewEditScreen.route,
+                                      arguments: ReservationNewEditArguments(
+                                          placeID: "p201", isEdit: false)),
                                   child: Container(
                                     margin: const EdgeInsets.all(10),
                                     child: Image.asset(
