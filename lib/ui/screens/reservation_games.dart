@@ -5,7 +5,6 @@ import 'package:szikapp/ui/screens/reservation_new_edit.dart';
 
 import '../../main.dart';
 import '../../models/resource.dart';
-import '../../pages/reservation_page.dart';
 import '../../utils/io.dart';
 import 'error_screen.dart';
 

@@ -92,13 +92,27 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
-              margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+              margin: const EdgeInsets.only(bottom: 15),
               child: Text(
-                'RESERVATION_TITLE_CREATE'.tr(),
+                SZIKAppState.places
+                    .firstWhere((element) => element.id == widget.placeID)
+                    .name,
                 style: theme.textTheme.headline2!.copyWith(
                   color: theme.colorScheme.primaryVariant,
                   fontSize: 24,
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(bottom: 15),
+              child: Text(
+                'RESERVATION_TITLE_CREATE'.tr(),
+                style: theme.textTheme.headline1!.copyWith(
+                  color: theme.colorScheme.secondary,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -122,7 +136,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           width: leftColumnWidth,
                           margin: const EdgeInsets.only(right: 10),
                           child: Text(
-                            'DATE_PICKER_HELP'.tr(),
+                            'RESERVATION_LABEL_DATE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
                                 fontSize: 14, color: theme.colorScheme.primary),
                             textAlign: TextAlign.end,
@@ -138,7 +152,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       children: [
                         Container(
@@ -153,11 +167,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: TimePicker(
-                            time: widget.isEdit
-                                ? TimeOfDay(
-                                    hour: widget.task!.start.hour,
-                                    minute: widget.task!.start.minute)
-                                : TimeOfDay.now(),
+                            time: TimeOfDay.fromDateTime(start),
                             onChanged: _onStartingTimeChanged,
                           ),
                         ),
@@ -165,7 +175,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       children: [
                         Container(
@@ -180,11 +190,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: TimePicker(
-                            time: widget.isEdit
-                                ? TimeOfDay(
-                                    hour: widget.task!.start.hour,
-                                    minute: widget.task!.start.minute)
-                                : TimeOfDay.now(),
+                            time: TimeOfDay.fromDateTime(end),
                             onChanged: _onFinishingTimeChanged,
                           ),
                         ),
@@ -192,7 +198,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       children: [
                         Container(
@@ -235,7 +241,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       children: [
                         Container(
@@ -290,19 +296,25 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   }
 
   void _onDateChanged(DateTime? date) {
-    start =
-        DateTime(date!.year, date.month, date.day, start.hour, start.minute);
-    end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
+    setState(() {
+      start =
+          DateTime(date!.year, date.month, date.day, start.hour, start.minute);
+      end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
+    });
   }
 
   void _onStartingTimeChanged(TimeOfDay? startingTime) {
-    start = DateTime(start.year, start.month, start.day, startingTime!.hour,
-        startingTime.minute);
+    setState(() {
+      start = DateTime(start.year, start.month, start.day, startingTime!.hour,
+          startingTime.minute);
+    });
   }
 
   void _onFinishingTimeChanged(TimeOfDay? endingTime) {
-    end = DateTime(
-        end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
+    setState(() {
+      end = DateTime(
+          end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
+    });
   }
 
   void _onDescriptionChanged(String? description) {

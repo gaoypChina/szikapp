@@ -37,6 +37,7 @@
         "SUBMENU_EVERYDAY_POLL": "Szavazás",
         "SUBMENU_EVERYDAY_BOOKLOAN": "Könyvtári kölcsönzés",
     "RESERVATION": null,
+        "RESERVATION_LABEL_DATE": "Dátum",
         "RESERVATION_LABEL_TIME_FROM": "Kezdés időpontja",
         "RESERVATION_LABEL_TIME_TO": "Befejezés időpontja",
         "RESERVATION_LABEL_DESCRIPTION": "Megjegyzés",
