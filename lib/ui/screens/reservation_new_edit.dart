@@ -195,6 +195,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         Expanded(
                           flex: 1,
                           child: TextFormField(
+                            validator: _validateTextField,
                             initialValue:
                                 widget.isEdit ? widget.task!.description : null,
                             style: theme.textTheme.headline3!.copyWith(
@@ -269,19 +270,28 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     );
   }
 
+  String? _validateTextField(value) {
+    if (value == null || value.isEmpty) {
+      return 'ERROR_EMPTY_FIELD'.tr();
+    }
+  }
+
   void _onDateChanged(DateTime? date) {}
-  void _onStartingTimeChanged(TimeOfDay? startingtime) {}
-  void _onFinishingTimeChanged(TimeOfDay? finishingtime) {}
-  void _onDescriptionChanged(String? description) {}
+  void _onStartingTimeChanged(TimeOfDay? startingTime) {}
+  void _onFinishingTimeChanged(TimeOfDay? finishingTime) {}
+  void _onDescriptionChanged(String? description) {
+    this.description = description;
+  }
+
   void _onNewSent() {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = TimetableTask(
         uid: uuid.v4(),
         name: title!,
-        start: DateTime.now(),
-        end: DateTime.now(),
-        type: TaskType.janitor,
+        start: start!,
+        end: end!,
+        type: TaskType.timetable,
         involved: <String>[SZIKAppState.authManager.user!.id],
         lastUpdate: DateTime.now(),
         description: description,
@@ -295,18 +305,13 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   }
 
   void _onEditSent() {
-    String? _validateTextField(value) {
-      if (value == null || value.isEmpty) {
-        return 'ERROR_EMPTY_FIELD'.tr();
-      }
-      if (_formKey.currentState!.validate()) {
-        var task = widget.task;
-        task!.name = title!;
-        task.description = description;
-        reservation.editReservation(task);
-        SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
-        Navigator.of(context).pop(true);
-      }
+    if (_formKey.currentState!.validate()) {
+      var task = widget.task;
+      task!.name = title!;
+      task.description = description;
+      reservation.editReservation(task);
+      SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
+      Navigator.of(context).pop(true);
     }
   }
 }
