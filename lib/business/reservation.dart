@@ -83,8 +83,9 @@ class Reservation {
       //csak időpontra szűrünk
       for (var res in reservations) {
         if (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-            res.end.isAfter(startTime) && res.end.isBefore(endTime))
+            res.end.isAfter(startTime) && res.end.isBefore(endTime)) {
           results.add(res);
+        }
       }
     } else {
       //szobára és időpontra is szűrünk
@@ -95,8 +96,9 @@ class Reservation {
           if (i.startsWith('p') &&
               placeIDs.contains(i) &&
               (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-                  res.end.isAfter(startTime) && res.end.isBefore(endTime)))
+                  res.end.isAfter(startTime) && res.end.isBefore(endTime))) {
             results.add(res);
+          }
         }
       }
     }

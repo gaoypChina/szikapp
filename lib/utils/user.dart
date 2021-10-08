@@ -26,10 +26,11 @@ class User {
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
-    if (date == null)
+    if (date == null) {
       _birthday = null;
-    else if (date.isBefore(DateTime(1930, 1, 1))) {
-      throw ArgumentError(
+    } else if (date.isBefore(DateTime(1930, 1, 1)) ||
+        date.isAfter(DateTime.now().subtract((const Duration(days: 6400))))) {
+      throw NotValidBirthdayException(
           'ERROR_INVALID_VALUE'.tr(args: ['birthday', date.toIso8601String()]));
     } else {
       _birthday = date;
@@ -40,15 +41,17 @@ class User {
   set phone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (value == null)
+    if (value == null) {
       _phone = null;
-    else if (validationPhone.hasMatch(value)) {
+    } else if (validationPhone.hasMatch(value)) {
       _phone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
+      throw NotValidPhoneException(
+        'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
+      );
     }
   }
 
@@ -56,15 +59,17 @@ class User {
   set secondaryPhone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
     var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
-    if (value == null)
+    if (value == null) {
       _secondaryPhone = null;
-    else if (validationPhone.hasMatch(value)) {
+    } else if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
       if (!validationHU.hasMatch(value)) {
         throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
       }
     } else {
-      throw ArgumentError('ERROR_INVALID_VALUE'.tr(args: ['phone', value]));
+      throw NotValidPhoneException(
+        'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
+      );
     }
   }
 
@@ -82,7 +87,7 @@ class User {
     lastUpdate = userData.lastUpdate;
   }
 
-  ///Eldönti, hogy a elhasználónak van-e jogosultsága egy adott művelet
+  ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
   ///végrehajtására egy adott adaton.
   Future<bool> hasPermission(Permission type, dynamic subject) async {
     var io = IO();
@@ -93,9 +98,7 @@ class User {
         type == Permission.pollResultsExport) {
       if (subject.runtimeType != PollTask) throw TypeError();
       var poll = subject as PollTask;
-      return poll.issuerIDs.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return poll.issuerIDs.contains(id) && _permissions!.contains(type);
     }
 
     if (type == Permission.cleaningExchangeOffer ||
@@ -103,28 +106,23 @@ class User {
         type == Permission.cleaningExchangeReject) {
       if (subject.runtimeType != CleaningExchange) throw TypeError();
       var cleaningex = subject as CleaningExchange;
-      return cleaningex.initiatorID.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return cleaningex.initiatorID.contains(id) &&
+          _permissions!.contains(type);
     }
 
     if (type == Permission.janitorTaskEdit ||
         type == Permission.janitorTaskSolutionAccept) {
       if (subject.runtimeType != JanitorTask) throw TypeError();
       var janitor = subject as JanitorTask;
-      return janitor.involvedIDs!.contains(id) && _permissions!.contains(type)
-          ? true
-          : false;
+      return janitor.involvedIDs!.contains(id) && _permissions!.contains(type);
     }
 
     if (type == Permission.reservationEdit) {
       if (subject.runtimeType != TimetableTask) throw TypeError();
-      var tttask = subject as TimetableTask;
-      return tttask.organizerIDs.contains(type) && _permissions!.contains(type)
-          ? true
-          : false;
+      var task = subject as TimetableTask;
+      return task.organizerIDs.contains(id) && _permissions!.contains(type);
     }
 
-    return _permissions!.contains(type) ? true : false;
+    return _permissions!.contains(type);
   }
 }

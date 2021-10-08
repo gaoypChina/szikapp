@@ -1,12 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 import '../themes.dart';
 
+///Személyre szabott időpontválasztó widget.
 class TimePicker extends StatefulWidget {
+  ///A megváltozott időpont jelzésére szolgáló callback
   final ValueChanged<TimeOfDay> onChanged;
+
+  ///Eredeti időpont
   final TimeOfDay time;
+
+  ///Szöveg színe
   final Color color;
+
+  ///Szöveg mérete
   final double fontSize;
 
   const TimePicker(
@@ -40,14 +48,12 @@ class _TimePickerState extends State<TimePicker> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _selectTime,
-      child: Container(
-        child: Text(
-          '${widget.time.hour} : ${widget.time.minute}',
-          style: Theme.of(context).textTheme.button!.copyWith(
-              color: widget.color,
-              fontSize: widget.fontSize,
-              fontStyle: FontStyle.italic),
-        ),
+      child: Text(
+        '${widget.time.hour} : ${widget.time.minute}',
+        style: Theme.of(context).textTheme.button!.copyWith(
+            color: widget.color,
+            fontSize: widget.fontSize,
+            fontStyle: FontStyle.italic),
       ),
     );
   }

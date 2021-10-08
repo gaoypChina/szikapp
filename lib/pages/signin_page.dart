@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,19 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   bool _started = false;
   bool _logoStarted = false;
-  bool _authError = false;
+
   void _startAnimation() {
     setState(() {
       _logoStarted = true;
     });
-    Future.delayed(Duration(seconds: 1)).then((value) => setState(() {
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           _started = true;
         }));
   }
 
   @override
   void initState() {
-    Future.delayed(Duration(microseconds: 10), _startAnimation);
+    Future.delayed(const Duration(microseconds: 10), _startAnimation);
     super.initState();
   }
 
@@ -43,6 +44,7 @@ class _SignInPageState extends State<SignInPage> {
       @override
       void run() {
         scheduleMicrotask(() {
+          SZIKAppState.analytics.logEvent(name: 'SIGN_IN_ALREADY_SIGNED_IN');
           Navigator.pushReplacementNamed(context, HomePage.route);
         });
       }
@@ -56,14 +58,14 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           Container(
             // Háttérkép
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/pictures/background_1.jpg'),
                     fit: BoxFit.cover)),
           ),
           AnimatedOpacity(
             // Háttérszín (animált)
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             opacity: _started ? 0.5 : 1,
             child: Container(
               color: Theme.of(context).colorScheme.primary,
@@ -71,7 +73,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
           AnimatedContainer(
             // Sign_In_Button (animated)
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             curve: Curves.easeInOutQuad,
             child: Center(
               child: Column(
@@ -83,7 +85,7 @@ class _SignInPageState extends State<SignInPage> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOutQuad,
                         alignment: _logoStarted
-                            ? FractionalOffset(0.5, 0.4)
+                            ? const FractionalOffset(0.5, 0.4)
                             : Alignment.center,
                         child: Image.asset(
                           'assets/pictures/logo_white_800.png',
@@ -96,17 +98,17 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
           DelayedDisplay(
-            delay: Duration(milliseconds: 1500),
-            slidingBeginOffset: Offset(0.0, 0.02),
+            delay: const Duration(milliseconds: 1500),
+            slidingBeginOffset: const Offset(0.0, 0.02),
             child: AnimatedOpacity(
               opacity: _started ? 1 : 0,
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               curve: Curves.easeInOutQuad,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 200,
                     ),
                     SignInButton(
@@ -125,15 +127,23 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _onPressed() {
-    SZIKAppState.authManager
-        .signIn()
-        .then((success) => {
-              if (success == true)
-                Navigator.of(context).pushReplacementNamed(HomePage.route)
-            })
-        .catchError((error) => {
-              Navigator.of(context).pushNamed(ErrorScreen.route,
-                  arguments: ErrorScreenArguments(error: error))
-            });
+    if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
+      Navigator.of(context).pushNamed(ErrorScreen.route,
+          arguments: ErrorScreenArguments(error: 'ERROR_NO_INTERNET'.tr()));
+    } else {
+      SZIKAppState.authManager.signIn().then(
+        (success) {
+          if (success == true) {
+            SZIKAppState.analytics.logLogin(loginMethod: 'sign_in_google');
+            Navigator.of(context).pushReplacementNamed(HomePage.route);
+          }
+        },
+      ).catchError(
+        (error) {
+          Navigator.of(context).pushNamed(ErrorScreen.route,
+              arguments: ErrorScreenArguments(error: error));
+        },
+      );
+    }
   }
 }

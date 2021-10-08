@@ -37,8 +37,16 @@ class ValidationException extends BaseException {
   ValidationException(message) : super(message);
 }
 
+class NotValidPhoneException extends ValidationException {
+  NotValidPhoneException(message) : super(message);
+}
+
 class NonHungarianPhoneException extends ValidationException {
   NonHungarianPhoneException(message) : super(message);
+}
+
+class NotValidBirthdayException extends ValidationException {
+  NotValidBirthdayException(message) : super(message);
 }
 
 class FunctionalityException extends BaseException {

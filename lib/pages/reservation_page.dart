@@ -30,7 +30,7 @@ class _ReservationPageState extends State<ReservationPage> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/pictures/background_1.jpg'),
               fit: BoxFit.cover)),
@@ -162,7 +162,7 @@ class _ReservationPageState extends State<ReservationPage> {
           Expanded(
             child: Container(),
           ),
-          SizedBox(
+          const SizedBox(
             height: kBottomNavigationBarHeight,
           )
         ],

@@ -13,7 +13,8 @@ class ReservationDetailsArguments {
 class ReservationDetailsScreen extends StatefulWidget {
   static const String route = '/reservation/details';
   final String title;
-  ReservationDetailsScreen({Key? key, required this.title}) : super(key: key);
+  const ReservationDetailsScreen({Key? key, required this.title})
+      : super(key: key);
 
   @override
   _ReservationDetailsScreenState createState() =>
@@ -36,11 +37,11 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             //Shrimmer
-            return Scaffold();
+            return const Scaffold();
           } else if (snapshot.hasError) {
             return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
           } else {
-            return Scaffold(
+            return const Scaffold(
                 //Ide
                 );
           }

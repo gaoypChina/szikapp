@@ -80,10 +80,11 @@ class Poll {
     if (resultTask.isLive) {
       if (resultTask.answers.isNotEmpty) results['isLive'] = true;
     } else {
-      if (resultTask.answers.isEmpty)
+      if (resultTask.answers.isEmpty) {
         results['isNotStarted'] = true;
-      else
+      } else {
         results['isLive'] = false;
+      }
     }
     results['isConfidential'] = resultTask.isConfidential ? true : false;
     results['isMultipleChoice'] = resultTask.isMultipleChoice ? true : false;
@@ -100,10 +101,11 @@ class Poll {
 
     for (var vote in resultTask.answers) {
       if (resultTask.isMultipleChoice) {
-        for (var option in vote.votes)
+        for (var option in vote.votes) {
           resultTask.isConfidential
               ? results[option] += 1
               : results[option].add(vote.voterID);
+        }
       } else {
         resultTask.isConfidential
             ? results[vote.votes.first] += 1

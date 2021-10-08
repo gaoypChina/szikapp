@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/tasks.dart';
 
 const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikHippieBlueLight = Color(0xe359a3b0);
@@ -24,7 +25,18 @@ const szikColorScheme = ColorScheme(
   brightness: Brightness.light,
 );
 
-TextTheme szikTextTheme = TextTheme(
+///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek.
+final Map<TaskStatus, Color> statusColors = {
+  TaskStatus.created: szikColorScheme.secondary,
+  TaskStatus.sent: szikColorScheme.secondary,
+  TaskStatus.in_progress: szikColorScheme.secondary,
+  TaskStatus.irresolvable: szikColorScheme.secondaryVariant,
+  TaskStatus.refused: szikColorScheme.secondary,
+  TaskStatus.awaiting_approval: szikColorScheme.primaryVariant,
+  TaskStatus.approved: szikColorScheme.primaryVariant,
+};
+
+TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
   ///Nunito, Semi-bold, 18 pt
   bodyText1: TextStyle(
@@ -94,7 +106,7 @@ TextTheme szikTextTheme = TextTheme(
   subtitle2: TextStyle(fontFamily: 'Montserrat', fontSize: 14),
 );
 
-ThemeData ourThemeData = ThemeData(
+ThemeData szikThemeData = ThemeData(
   brightness: Brightness.light,
   //visualDensity: null,
   //primarySwatch: null,
@@ -102,8 +114,6 @@ ThemeData ourThemeData = ThemeData(
   primaryColorBrightness: Brightness.light,
   primaryColorLight: szikHippieBlueLight,
   primaryColorDark: szikTarawera,
-  accentColor: szikMonarch,
-  accentColorBrightness: Brightness.dark,
   //canvasColor: null,
   //shadowColor: null,
   scaffoldBackgroundColor: szikAmour,
@@ -126,16 +136,14 @@ ThemeData ourThemeData = ThemeData(
   //dialogBackgroundColor: null,
   //indicatorColor: null,
   //hintColor: null,
-  errorColor: Color(0xffe80000),
+  errorColor: const Color(0xffe80000),
   //toggleableActiveColor: null,
   //fontFamily: null,
   textTheme: szikTextTheme,
   //primaryTextTheme: null,
-  //accentTextTheme: null,
   //inputDecorationTheme: null,
   //iconTheme: null,
   //primaryIconTheme: null,
-  //accentIconTheme: null,
   //sliderTheme: null,
   //tabBarTheme: null,
   //tooltipTheme: null,
@@ -150,7 +158,7 @@ ThemeData ourThemeData = ThemeData(
   //bottomAppBarTheme: null,
   colorScheme: szikColorScheme,
   //dialogTheme: null,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: szikAmour,
       backgroundColor: szikMonarch,
       elevation: 10,
@@ -177,14 +185,14 @@ ThemeData ourThemeData = ThemeData(
     hourMinuteTextColor: szikAmour,
     hourMinuteTextStyle: szikTextTheme.bodyText1!
         .copyWith(fontSize: 46, fontStyle: FontStyle.normal),
-    hourMinuteShape: RoundedRectangleBorder(
+    hourMinuteShape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(10),
       ),
     ),
     helpTextStyle: szikTextTheme.bodyText1!.copyWith(
         fontSize: 14, fontStyle: FontStyle.normal, color: szikGunSmoke),
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(10),
       ),
@@ -214,5 +222,4 @@ ThemeData ourThemeData = ThemeData(
   //checkboxTheme: null,
   //radioTheme: null,
   //switchTheme: null,
-  //fixTextFieldOutlineLabel: null,
 );

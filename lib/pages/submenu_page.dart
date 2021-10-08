@@ -113,17 +113,17 @@ class _SubMenuPageState extends State<SubMenuPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/pictures/background_1.jpg'),
               fit: BoxFit.cover),
         ),
         child: Container(
-          margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+          margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   widget.title.toUpperCase(),
                   style: Theme.of(context).textTheme.headline2!.copyWith(
@@ -159,10 +159,10 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                 ),
                                 child: Column(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 25,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 55,
                                       width: 55,
                                       child: ColorFiltered(
@@ -174,29 +174,27 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                             BlendMode.srcIn),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 8,
                                     ),
-                                    Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            item.name,
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline3!
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  fontSize: 16,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          item.name,
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3!
+                                              .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                fontSize: 16,
+                                              ),
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),

@@ -1,7 +1,9 @@
 ///[SZIKApp] is an awesome application made in Flutter for the lovely people
 ///in da SZIK.
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -24,6 +26,7 @@ import 'pages/settings_page.dart';
 import 'pages/signin_page.dart';
 import 'pages/submenu_page.dart';
 import 'ui/screens/error_screen.dart';
+import 'ui/screens/janitor_edit_admin.dart';
 import 'ui/screens/janitor_new_edit.dart';
 import 'ui/screens/reservation_details.dart';
 import 'ui/screens/reservation_games.dart';
@@ -49,11 +52,11 @@ void main() async {
   });
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('hu')],
+      supportedLocales: const [Locale('en'), Locale('hu')],
       path: 'assets/translations',
-      fallbackLocale: Locale('en'),
+      fallbackLocale: const Locale('en'),
       useFallbackTranslations: true,
-      child: SZIKApp(),
+      child: const SZIKApp(),
       useOnlyLangCode: true,
     ),
   );
@@ -61,7 +64,7 @@ void main() async {
 
 ///Az applikáció
 class SZIKApp extends StatefulWidget {
-  SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
+  const SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
 
   @override
   SZIKAppState createState() => SZIKAppState();
@@ -77,6 +80,10 @@ class SZIKAppState extends State<SZIKApp> {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
+
+  static ConnectivityResult connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   ///[Auth] singleton, ami menedzseli a bejelentkezett felhasználót
   static late Auth authManager;
@@ -123,10 +130,53 @@ class SZIKAppState extends State<SZIKApp> {
     }
   }
 
+  ///Kezdeti internetkapcsolat-figyelő bővítmény setup.
+  Future<void> _initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      SZIKAppState.analytics.logEvent(name: 'PACKAGE_ERROR');
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  ///Segédfüggvény, ami beállítja a tárolt adatkapcsolati státuszt.
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    connectionStatus = result;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initConnectivity();
+
+    ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
+    ///frissíti a [connectionStatus] paraméter értékét.
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     //Teljes képernyős mód bekapcsolása
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MaterialApp(
       title: 'APP_NAME'.tr(),
       initialRoute: HomePage.route,
@@ -135,7 +185,7 @@ class SZIKAppState extends State<SZIKApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       navigatorObservers: <NavigatorObserver>[observer],
-      theme: ourThemeData,
+      theme: szikThemeData,
     );
   }
 
@@ -145,11 +195,11 @@ class SZIKAppState extends State<SZIKApp> {
   static Widget getDestination(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.route:
-        return HomePage();
+        return const HomePage();
       case MenuPage.route:
-        return MenuPage();
+        return const MenuPage();
       case FeedPage.route:
-        return FeedPage();
+        return const FeedPage();
       case SubMenuPage.route:
         final args = settings.arguments as SubMenuArguments;
         return SubMenuPage(
@@ -157,19 +207,19 @@ class SZIKAppState extends State<SZIKApp> {
           title: args.title,
         );
       case CalendarPage.route:
-        return CalendarPage();
+        return const CalendarPage();
       case ContactsPage.route:
-        return ContactsPage();
+        return const ContactsPage();
       case JanitorPage.route:
-        return JanitorPage();
+        return const JanitorPage();
       case ProfilePage.route:
-        return ProfilePage();
+        return const ProfilePage();
       case ReservationPage.route:
-        return ReservationPage();
+        return const ReservationPage();
       case SettingsPage.route:
-        return SettingsPage();
+        return const SettingsPage();
       case SignInPage.route:
-        return SignInPage();
+        return const SignInPage();
       case ReservationDetailsScreen.route:
         final args = settings.arguments as ReservationDetailsArguments;
         return ReservationDetailsScreen(
@@ -181,21 +231,31 @@ class SZIKAppState extends State<SZIKApp> {
           title: args.title,
         );
       case ReservationNewEditScreen.route:
-        return ReservationNewEditScreen();
+        final args = settings.arguments as ReservationNewEditArguments;
+        return ReservationNewEditScreen(
+          task: args.task,
+          isEdit: args.isEdit,
+          placeID: args.placeID,
+        );
       case ReservationPlacesMapScreen.route:
-        return ReservationPlacesMapScreen();
+        return const ReservationPlacesMapScreen();
       case JanitorNewEditScreen.route:
         final args = settings.arguments as JanitorNewEditArguments;
         return JanitorNewEditScreen(
           isEdit: args.isEdit,
+          isFeedback: args.isFeedback,
           task: args.task,
         );
+      case JanitorEditAdminScreen.route:
+        final args = settings.arguments as JanitorEditAdminArguments;
+        return JanitorEditAdminScreen(task: args.task);
       case ErrorScreen.route:
-        var args;
-        if (settings.arguments == null)
+        ErrorScreenArguments args;
+        if (settings.arguments == null) {
           args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
-        else
+        } else {
           args = settings.arguments as ErrorScreenArguments;
+        }
         return ErrorScreen(
           error: args.error,
         );

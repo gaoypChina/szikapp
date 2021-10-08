@@ -53,9 +53,11 @@ class Auth {
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<bool> signInSilently() async {
-    if (isSignedIn)
+    if (isSignedIn) {
       return true;
-    else if (_auth.currentUser == null) return false;
+    } else if (_auth.currentUser == null) {
+      return false;
+    }
     try {
       var io = IO();
 
@@ -96,9 +98,13 @@ class Auth {
   /// használó felhasználót, majd megsemmisíti a belső [szikapp_user.User]
   /// adatstruktúrát.
   Future<bool> signOut() async {
-    await _auth.signOut();
-    _user = null;
-    return true;
+    try {
+      await _auth.signOut();
+      _user = null;
+      return true;
+    } on Exception catch (e) {
+      throw AuthException(e.toString());
+    }
   }
 
   /// Autentikációs token lekérése. A függvény egy JWT-t (JSON Web Token) kér

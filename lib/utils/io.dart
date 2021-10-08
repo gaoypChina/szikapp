@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:szikapp/models/goodtoknow.dart';
 
 import '../main.dart';
 import '../models/cleaning_exchange.dart';
@@ -51,6 +52,7 @@ class IO {
   final _reservationEndpoint = '/reservation';
   final _janitorEndpoint = '/janitor';
   final _boardgameEndpoint = '/boardgame';
+  final _goodToKnowEndpoint = '/goodtoknow';
 
   ///Singleton példány
   static final IO _instance = IO._privateContructor();
@@ -323,11 +325,16 @@ class IO {
   }
 
   ///Beállítja a megadott gondnoki kérés státusát.
-  Future<bool> patchJanitor(TaskStatus data, KeyValuePairs parameters) async {
+  Future<bool> patchJanitor(
+      TaskStatus data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vm_1$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        headers: {
+          ...await _commonHeaders(),
+          ..._contentTypeHeader(),
+          ..._lastUpdateHeader(lastUpdate)
+        },
         body: json.encode({
           'data': {'status': data.toShortString()}
         }));
@@ -780,21 +787,78 @@ class IO {
     throw _handleErrors(response);
   }
 
+  ///Lekéri a jótudni infók listáját vagy egy konkrét infó szekció adatait.
+  Future<List<GoodToKnow>> getGoodToKnow([KeyValuePairs? parameters]) async {
+    var uri = '$_vm_1$_goodToKnowEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <GoodToKnow>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var timetables = parsed['results'];
+      timetables.forEach((item) {
+        answer.add(GoodToKnow.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  ///Létrehoz egy új jótudni infócsomagot.
+  Future<bool> postGoodToKnow(GoodToKnow data,
+      [KeyValuePairs? parameters]) async {
+    var uri = '$_vm_1$_goodToKnowEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        body: json.encode({'data': data.toJson()}));
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  ///Frissíti a megadott jótudni infócsomag adatait.
+  Future<bool> putGoodToKnow(GoodToKnow data, KeyValuePairs parameters) async {
+    var uri = '$_vm_1$_goodToKnowEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        body: json.encode({'data': data.toJson()}));
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  ///Törli a megadott jótudni infót.
+  Future<bool> deleteGoodToKnow(
+      KeyValuePairs parameters, DateTime lastUpdate) async {
+    var uri = '$_vm_1$_goodToKnowEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
   ///Hibakezelő függvény. A `HTTP` kérés válasz kódja alapján megfelelő kivételt
   ///emel.
   Exception _handleErrors(http.Response response) {
-    if (response.statusCode >= 500)
+    if (response.statusCode >= 500) {
       return IOServerException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else if (response.statusCode >= 400)
+    } else if (response.statusCode >= 400) {
       return IOClientException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else if (response.statusCode == 304)
+    } else if (response.statusCode == 304) {
       return IONotModifiedException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
-    else
+    } else {
       return IOUnknownException(
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
+    }
   }
 
   ///Autentikáció header-ök szerver oldali hitelesítéshez.

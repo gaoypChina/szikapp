@@ -23,7 +23,7 @@ class _ProgressScreenState extends State<ProgressScreen>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
     animationController.repeat();
   }
 
@@ -36,29 +36,27 @@ class _ProgressScreenState extends State<ProgressScreen>
           decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
       )),
-      Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Image.asset(
-                  'assets/pictures/logo_white_800.png',
-                  width: min(800 / devicePixelRatio, queryData.size.height / 3),
-                ),
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Image.asset(
+                'assets/pictures/logo_white_800.png',
+                width: min(800 / devicePixelRatio, queryData.size.height / 3),
               ),
-              LinearProgressIndicator(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                valueColor: animationController.drive(ColorTween(
-                    begin: Theme.of(context).colorScheme.onPrimary,
-                    end: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.25))),
-              )
-            ],
-          ),
+            ),
+            LinearProgressIndicator(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              valueColor: animationController.drive(ColorTween(
+                  begin: Theme.of(context).colorScheme.onPrimary,
+                  end: Theme.of(context)
+                      .colorScheme
+                      .onPrimary
+                      .withOpacity(0.25))),
+            )
+          ],
         ),
       ),
     ]);

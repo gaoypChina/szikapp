@@ -1,0 +1,4 @@
+#!/bin/sh
+
+python incrbn.py
+git add .

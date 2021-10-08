@@ -26,21 +26,21 @@ class Settings {
   DarkMode get darkMode {
     var value = _preferences.getString('darkMode');
     return DarkMode.values
-        .firstWhere((element) => element.toString() == 'DarkMode.$value');
+        .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
     var value = _preferences.getString('language');
     return Language.values
-        .firstWhere((element) => element.toString() == 'Language.$value');
+        .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri az alkalmazás színtémát.
   Theme get theme {
     var value = _preferences.getString('theme');
     return Theme.values
-        .firstWhere((element) => element.toString() == 'Theme.$value');
+        .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri az adattakarékos mód beállítását.
@@ -73,17 +73,17 @@ class Settings {
 
   ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
-    _preferences.setString('darkMode', mode.toString());
+    _preferences.setString('darkMode', mode.toShortString());
   }
 
   ///Elmenti a nyelvbeállításokat.
   set language(Language language) {
-    _preferences.setString('language', language.toString());
+    _preferences.setString('language', language.toShortString());
   }
 
   ///Elmenti a témabeállításokat.
   set theme(Theme theme) {
-    _preferences.setString('theme', theme.toString());
+    _preferences.setString('theme', theme.toShortString());
   }
 
   ///Elmenti az adattakarékos mód beállításait.
@@ -148,6 +148,8 @@ class Settings {
   }
 
   ///Inicializálja a lokális adattárat menedzselő paramétert.
+  ///Mivel disk olvasást tartalmaz nem szabad `await`tel hívni
+  ///teljesítményérzékeny környezetben.
   Future<void> _initialize() async {
     _preferences = await SharedPreferences.getInstance();
   }

@@ -21,9 +21,14 @@ enum TaskType {
   poll
 }
 
-extension TaskTypeToString on TaskType {
+extension TaskTypeExtensions on TaskType {
   String toShortString() {
     return toString().split('.').last;
+  }
+
+  bool isEqual(TaskType? other) {
+    if (other == null) return false;
+    return index == other.index;
   }
 }
 
@@ -36,18 +41,23 @@ enum TaskStatus {
   @JsonValue('irresolvable')
   irresolvable,
   @JsonValue('in_progress')
-  inProgress,
+  in_progress,
   @JsonValue('awaiting_approval')
-  awaitingApproval,
+  awaiting_approval,
   @JsonValue('refused')
   refused,
   @JsonValue('approved')
   approved
 }
 
-extension TaskStatusToString on TaskStatus {
+extension TaskStatusExtensions on TaskStatus {
   String toShortString() {
     return toString().split('.').last;
+  }
+
+  bool isEqual(TaskStatus? other) {
+    if (other == null) return false;
+    return index == other.index;
   }
 }
 
@@ -159,24 +169,26 @@ class TimetableTask extends Task {
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  List<Json>? feedback;
+  List<Feedback>? feedback;
   @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
+  String? answer;
 
-  JanitorTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      this.feedback,
-      required this.placeID,
-      required this.status})
-      : super(
+  JanitorTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    this.feedback,
+    required this.placeID,
+    required this.status,
+    this.answer,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
@@ -186,7 +198,7 @@ class JanitorTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Json>[];
+    feedback ??= <Feedback>[];
   }
 
   @override
@@ -195,11 +207,31 @@ class JanitorTask extends Task {
   factory JanitorTask.fromJson(Json json) => _$JanitorTaskFromJson(json);
 }
 
+///Felhasználói visszajelzést megvalósító adatmodell osztály.
+///Szerializálható `JSON` formátumba és vice versa.
+@JsonSerializable()
+class Feedback {
+  @JsonKey(name: 'user')
+  String user;
+  String message;
+  DateTime timestamp;
+
+  Feedback({
+    required this.user,
+    required this.message,
+    required this.timestamp,
+  });
+
+  Json toJson() => _$FeedbackToJson(this);
+
+  factory Feedback.fromJson(Json json) => _$FeedbackFromJson(json);
+}
+
 ///Konyhatakarítási feladatot megtestesítő adatmodell osztály. A [Task] osztály
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  List<Json>? feedback;
+  List<Feedback>? feedback;
   TaskStatus status;
 
   CleaningTask(
@@ -223,7 +255,7 @@ class CleaningTask extends Task {
           description: description,
           lastUpdate: lastUpdate,
         ) {
-    feedback ??= <Json>[];
+    feedback ??= <Feedback>[];
   }
 
   @override

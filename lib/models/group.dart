@@ -35,7 +35,7 @@ class Group {
   }
 
   void addMember(String userID) {
-    if (!memberIDs!.contains(userID)) {
+    if (!memberIDs!.contains(userID) && memberIDs!.length < maxMemberCount) {
       memberIDs!.add(userID);
     }
   }
