@@ -47,16 +47,23 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   String? title;
   late List<String> organizerIDs;
   late List<String> resourceIDs;
-  DateTime? start;
-  DateTime? end;
+  late DateTime start;
+  late DateTime end;
 
   @override
   void initState() {
     super.initState();
     reservation = Reservation();
+    start = widget.isEdit ? widget.task!.start : DateTime.now();
+    end = widget.isEdit ? widget.task!.end : DateTime.now();
   }
 
-  void _onAcceptDelete() {}
+  void _onAcceptDelete() {
+    reservation.deleteReservation(widget.task!);
+    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
+    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.of(context).pop(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +130,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: DatePicker(
-                            date: widget.isEdit
-                                ? widget.task!.start
-                                : DateTime.now(),
+                            date: start,
                             onChanged: _onDateChanged,
                           ),
                         ),
@@ -148,7 +153,11 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: TimePicker(
-                            time: TimeOfDay.now(),
+                            time: widget.isEdit
+                                ? TimeOfDay(
+                                    hour: widget.task!.start.hour,
+                                    minute: widget.task!.start.minute)
+                                : TimeOfDay.now(),
                             onChanged: _onStartingTimeChanged,
                           ),
                         ),
@@ -171,7 +180,11 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: TimePicker(
-                            time: TimeOfDay.now(),
+                            time: widget.isEdit
+                                ? TimeOfDay(
+                                    hour: widget.task!.start.hour,
+                                    minute: widget.task!.start.minute)
+                                : TimeOfDay.now(),
                             onChanged: _onFinishingTimeChanged,
                           ),
                         ),
@@ -276,9 +289,22 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     }
   }
 
-  void _onDateChanged(DateTime? date) {}
-  void _onStartingTimeChanged(TimeOfDay? startingTime) {}
-  void _onFinishingTimeChanged(TimeOfDay? finishingTime) {}
+  void _onDateChanged(DateTime? date) {
+    start =
+        DateTime(date!.year, date.month, date.day, start.hour, start.minute);
+    end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
+  }
+
+  void _onStartingTimeChanged(TimeOfDay? startingTime) {
+    start = DateTime(start.year, start.month, start.day, startingTime!.hour,
+        startingTime.minute);
+  }
+
+  void _onFinishingTimeChanged(TimeOfDay? endingTime) {
+    end = DateTime(
+        end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
+  }
+
   void _onDescriptionChanged(String? description) {
     this.description = description;
   }
@@ -289,14 +315,14 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       var task = TimetableTask(
         uid: uuid.v4(),
         name: title!,
-        start: start!,
-        end: end!,
+        start: start,
+        end: end,
         type: TaskType.timetable,
         involved: <String>[SZIKAppState.authManager.user!.id],
         lastUpdate: DateTime.now(),
         description: description,
-        organizerIDs: organizerIDs,
-        resourceIDs: resourceIDs,
+        organizerIDs: <String>[SZIKAppState.authManager.user!.id],
+        resourceIDs: <String>[widget.placeID],
       );
       reservation.addReservation(task);
       SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
@@ -309,6 +335,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       var task = widget.task;
       task!.name = title!;
       task.description = description;
+      task.start = start;
+      task.end = end;
       reservation.editReservation(task);
       SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
       Navigator.of(context).pop(true);
