@@ -46,14 +46,24 @@ class _TimePickerState extends State<TimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _selectTime,
-      child: Text(
-        '${widget.time.hour} : ${widget.time.minute}',
-        style: Theme.of(context).textTheme.button!.copyWith(
-            color: widget.color,
-            fontSize: widget.fontSize,
-            fontStyle: FontStyle.italic),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 1,
+            style: BorderStyle.solid),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+      child: GestureDetector(
+        onTap: _selectTime,
+        child: Text(
+          widget.time.format(context),
+          style: Theme.of(context).textTheme.button!.copyWith(
+              color: widget.color,
+              fontSize: widget.fontSize,
+              fontStyle: FontStyle.italic),
+        ),
       ),
     );
   }
