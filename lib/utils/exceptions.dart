@@ -5,6 +5,9 @@ const int nonHungarianPhoneExceptionCode = 922;
 const int notValidBirthdayExceptionCode = 923;
 const int notSupportedCallFunctionalityExceptionCode = 931;
 const int notSupportedEmailFunctionalityExceptionCode = 932;
+const int socketExceptionCode = 801;
+const int unknownCatchedExceptionCode = 899;
+const int informationlessExceptionCode = 999;
 
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
