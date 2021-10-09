@@ -77,7 +77,7 @@ class CustomAlertDialog extends StatelessWidget {
               child: TextButton(
                 onPressed: onCancel,
                 child: Text(
-                  onCancelText ?? 'BUTTON_CANCEL'.tr(),
+                  onCancelText ?? 'BUTTON_CANCEL'.tr().toUpperCase(),
                   style: theme.textTheme.headline6!.copyWith(
                     fontSize: 20,
                     color: color ?? theme.colorScheme.background,
@@ -96,7 +96,7 @@ class CustomAlertDialog extends StatelessWidget {
               child: TextButton(
                 onPressed: onAccept,
                 child: Text(
-                  onAcceptText ?? 'BUTTON_OK'.tr(),
+                  onAcceptText ?? 'BUTTON_OK'.tr().toUpperCase(),
                   style: theme.textTheme.headline6!.copyWith(
                     fontSize: 20,
                     color: color ?? theme.colorScheme.background,

@@ -35,9 +35,9 @@ class _TimePickerState extends State<TimePicker> {
       context: context,
       initialTime: widget.time,
       initialEntryMode: TimePickerEntryMode.dial,
-      confirmText: 'BUTTON_OK'.tr(),
-      cancelText: 'BUTTON_CANCEL'.tr(),
-      helpText: 'TIME_PICKER_HELP'.tr(),
+      confirmText: 'BUTTON_OK'.tr().toUpperCase(),
+      cancelText: 'BUTTON_CANCEL'.tr().toUpperCase(),
+      helpText: 'TIME_PICKER_HELP'.tr().toUpperCase(),
     );
     if (newTime != null) {
       widget.onChanged(newTime);

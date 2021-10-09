@@ -72,9 +72,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var leftColumnWidth = width * 0.3;
     final confirmDialog = CustomAlertDialog(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr(),
+      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
       onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr(),
+      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
     if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
@@ -270,8 +270,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit
-                                ? 'RESERVATION_BUTTON_SAVE'.tr()
-                                : 'RESERVATION_BUTTON_SEND'.tr()),
+                                ? 'BUTTON_SAVE'.tr()
+                                : 'BUTTON_SEND'.tr()),
                           ),
                         )
                       ],

@@ -139,21 +139,21 @@ class _JanitorListViewState extends State<JanitorListView> {
         onPressed: () => SZIKAppState.authManager.user!.id == 'u904'
             ? _onEditJanitorPressed(task)
             : _onEditPressed(task),
-        child: Text('JANITOR_BUTTON_EDIT'.tr()),
+        child: Text('BUTTON_EDIT'.tr()),
       ));
     }
     if (task.status == TaskStatus.approved ||
         task.status == TaskStatus.awaiting_approval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onFeedbackPressed(task),
-        child: Text('JANITOR_BUTTON_FEEDBACK'.tr()),
+        child: Text('BUTTON_FEEDBACK'.tr()),
       ));
     }
     if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
         task.status == TaskStatus.awaiting_approval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
-        child: Text('JANITOR_BUTTON_APPROVE'.tr()),
+        child: Text('BUTTON_APPROVE'.tr()),
       ));
     }
 
