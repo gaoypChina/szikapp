@@ -40,9 +40,9 @@ class _DatePickerState extends State<DatePicker> {
       initialDate: widget.date,
       firstDate: DateTime.now().subtract(kDatePickerDifference),
       lastDate: DateTime.now().add(kDatePickerDifference),
-      confirmText: 'BUTTON_OK'.tr(),
-      cancelText: 'BUTTON_CANCEL'.tr(),
-      helpText: 'DATE_PICKER_HELP'.tr(),
+      confirmText: 'BUTTON_OK'.tr().toUpperCase(),
+      cancelText: 'BUTTON_CANCEL'.tr().toUpperCase(),
+      helpText: 'DATE_PICKER_HELP'.tr().toUpperCase(),
     );
     if (newDate != null) {
       widget.onChanged(newDate);
