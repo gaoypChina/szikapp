@@ -128,7 +128,6 @@ ThemeData szikThemeData = ThemeData(
   //selectedRowColor: null,
   //unselectedWidgetColor: null,
   //disabledColor: null,
-  buttonColor: szikHippieBlue,
   //buttonTheme: null,
   //toggleButtonsTheme: null,
   //secondaryHeaderColor: null,
