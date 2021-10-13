@@ -91,6 +91,7 @@
         "BUTTON_CANCEL": "MÉGSE",
         "BUTTON_YES": "igen",
         "BUTTON_NO": "nem",
+        "BUTTON_DISMISS": "MELLŐZÉS",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "VÁLASSZ DÁTUMOT",
         "TIME_PICKER_HELP": "VÁLASSZ IDŐPONTOT",

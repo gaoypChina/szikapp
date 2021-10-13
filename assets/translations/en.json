@@ -91,6 +91,7 @@
         "BUTTON_CANCEL": "CANCEL",
         "BUTTON_YES": "yes",
         "BUTTON_NO": "no",
+        "BUTTON_DISMISS": "DISMISS",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "SELECT A DATE",
         "TIME_PICKER_HELP": "SELECT TIME",
