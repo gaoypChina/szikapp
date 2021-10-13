@@ -1,62 +1,80 @@
+const int authExceptionCode = 910;
+const int ioNotModifiedExceptionCode = 304;
+const int notValidPhoneExceptionCode = 921;
+const int nonHungarianPhoneExceptionCode = 922;
+const int notValidBirthdayExceptionCode = 923;
+const int notSupportedCallFunctionalityExceptionCode = 931;
+const int notSupportedEmailFunctionalityExceptionCode = 932;
+const int socketExceptionCode = 801;
+const int unknownCatchedExceptionCode = 899;
+const int informationlessExceptionCode = 999;
+
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
+  ///Hibakód
+  int code;
+
   ///Hibaüzenet
   String message;
 
-  BaseException(this.message);
+  BaseException(this.code, this.message);
 
   @override
   String toString() => 'Exception: $message\n';
 }
 
 class AuthException extends BaseException {
-  AuthException(message) : super(message);
+  AuthException(message) : super(authExceptionCode, message);
 }
 
 class IOException extends BaseException {
-  IOException(message) : super(message);
+  IOException(code, message) : super(code, message);
 }
 
 class IOServerException extends IOException {
-  IOServerException(message) : super(message);
+  IOServerException(code, message) : super(code, message);
 }
 
 class IOClientException extends IOException {
-  IOClientException(message) : super(message);
+  IOClientException(code, message) : super(code, message);
 }
 
 class IONotModifiedException extends IOException {
-  IONotModifiedException(message) : super(message);
+  IONotModifiedException(message) : super(ioNotModifiedExceptionCode, message);
 }
 
 class IOUnknownException extends IOException {
-  IOUnknownException(message) : super(message);
+  IOUnknownException(code, message) : super(code, message);
 }
 
 class ValidationException extends BaseException {
-  ValidationException(message) : super(message);
+  ValidationException(code, message) : super(code, message);
 }
 
 class NotValidPhoneException extends ValidationException {
-  NotValidPhoneException(message) : super(message);
+  NotValidPhoneException(message) : super(notValidPhoneExceptionCode, message);
 }
 
 class NonHungarianPhoneException extends ValidationException {
-  NonHungarianPhoneException(message) : super(message);
+  NonHungarianPhoneException(message)
+      : super(nonHungarianPhoneExceptionCode, message);
 }
 
 class NotValidBirthdayException extends ValidationException {
-  NotValidBirthdayException(message) : super(message);
+  NotValidBirthdayException(message)
+      : super(notValidBirthdayExceptionCode, message);
 }
 
 class FunctionalityException extends BaseException {
-  FunctionalityException(message) : super(message);
+  FunctionalityException(code, message) : super(code, message);
 }
 
 class NotSupportedCallFunctionalityException extends FunctionalityException {
-  NotSupportedCallFunctionalityException(message) : super(message);
+  NotSupportedCallFunctionalityException(message)
+      : super(notSupportedCallFunctionalityExceptionCode, message);
 }
 
 class NotSupportedEmailFunctionalityException extends FunctionalityException {
-  NotSupportedEmailFunctionalityException(message) : super(message);
+  NotSupportedEmailFunctionalityException(message)
+      : super(notSupportedEmailFunctionalityExceptionCode, message);
 }
