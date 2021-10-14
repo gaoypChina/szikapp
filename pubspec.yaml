@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.0.1+13
+version: 0.0.1+14
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
@@ -37,7 +37,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  firebase_dynamic_links: ^2.0.10
   build_runner: ^2.1.2
   json_serializable: ^5.0.0
   flutter_native_splash: ^1.2.3
