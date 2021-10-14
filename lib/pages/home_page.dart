@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
@@ -99,6 +100,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQuery.of(context).platformBrightness == Brightness.light
+        ? SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).colorScheme.primary,
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.light,
+            //systemStatusBarContrastEnforced: , //Not sure if needed
+          ))
+        : SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).colorScheme.primary,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.dark,
+            //systemStatusBarContrastEnforced: ,  //Not sure if needed
+          ));
     return FutureBuilder<bool>(
       future: SZIKAppState.initializeFlutterFire(),
       builder: (context, snapshot) {
@@ -107,41 +121,45 @@ class _HomePageState extends State<HomePage> {
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
           return snapshot.data!
-              ? Scaffold(
-                  body: PersistentTabView(
-                    context,
-                    controller: _controller,
-                    screens: _buildScreens(),
-                    items: _navBarItems(),
-                    confineInSafeArea: false,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    handleAndroidBackButtonPress: true,
-                    resizeToAvoidBottomInset: true,
-                    stateManagement: true,
-                    navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-                        ? 0.0
-                        : kBottomNavigationBarHeight,
-                    hideNavigationBarWhenKeyboardShows: true,
-                    margin: const EdgeInsets.all(0.0),
-                    popActionScreens: PopActionScreensType.all,
-                    bottomScreenMargin: 0.0,
-                    onWillPop: _onPop,
-                    decoration: NavBarDecoration(
-                      colorBehindNavBar: Theme.of(context).colorScheme.primary,
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(15)),
+              ? SafeArea(
+                  child: Scaffold(
+                    body: PersistentTabView(
+                      context,
+                      controller: _controller,
+                      screens: _buildScreens(),
+                      items: _navBarItems(),
+                      confineInSafeArea: false,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      handleAndroidBackButtonPress: true,
+                      resizeToAvoidBottomInset: true,
+                      stateManagement: true,
+                      navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
+                          ? 0.0
+                          : kBottomNavigationBarHeight,
+                      hideNavigationBarWhenKeyboardShows: true,
+                      margin: const EdgeInsets.all(0.0),
+                      popActionScreens: PopActionScreensType.all,
+                      bottomScreenMargin: 0.0,
+                      onWillPop: _onPop,
+                      decoration: NavBarDecoration(
+                        colorBehindNavBar:
+                            Theme.of(context).colorScheme.primary,
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(15)),
+                      ),
+                      popAllScreensOnTapOfSelectedTab: true,
+                      itemAnimationProperties: const ItemAnimationProperties(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.ease,
+                      ),
+                      screenTransitionAnimation:
+                          const ScreenTransitionAnimation(
+                        animateTabTransition: true,
+                        curve: Curves.ease,
+                        duration: Duration(milliseconds: 200),
+                      ),
+                      navBarStyle: NavBarStyle.style1,
                     ),
-                    popAllScreensOnTapOfSelectedTab: true,
-                    itemAnimationProperties: const ItemAnimationProperties(
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.ease,
-                    ),
-                    screenTransitionAnimation: const ScreenTransitionAnimation(
-                      animateTabTransition: true,
-                      curve: Curves.ease,
-                      duration: Duration(milliseconds: 200),
-                    ),
-                    navBarStyle: NavBarStyle.style1,
                   ),
                 )
               : const SignInPage();

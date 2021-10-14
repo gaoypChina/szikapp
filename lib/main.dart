@@ -176,7 +176,10 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   Widget build(BuildContext context) {
     //Teljes képernyős mód bekapcsolása
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top],
+    );
     return MaterialApp(
       title: 'APP_NAME'.tr(),
       initialRoute: HomePage.route,
@@ -186,6 +189,7 @@ class SZIKAppState extends State<SZIKApp> {
       locale: context.locale,
       navigatorObservers: <NavigatorObserver>[observer],
       theme: szikThemeData,
+      debugShowCheckedModeBanner: false,
     );
   }
 
