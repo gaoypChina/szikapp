@@ -137,7 +137,7 @@ class SZIKAppState extends State<SZIKApp> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      SZIKAppState.analytics.logEvent(name: 'PACKAGE_ERROR');
+      await SZIKAppState.analytics.logEvent(name: 'PACKAGE_ERROR');
       return;
     }
 
