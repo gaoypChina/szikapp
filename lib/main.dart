@@ -188,7 +188,8 @@ class SZIKAppState extends State<SZIKApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       navigatorObservers: <NavigatorObserver>[observer],
-      theme: szikThemeData,
+      theme: szikLightThemeData,
+      darkTheme: szikDarkThemeData,
       debugShowCheckedModeBanner: false,
     );
   }

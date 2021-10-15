@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:szikapp/ui/themes.dart';
 import 'package:szikapp/ui/widgets/date_picker.dart';
 import 'package:szikapp/ui/widgets/time_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -146,6 +147,10 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: DatePicker(
                             date: start,
                             onChanged: _onDateChanged,
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.light
+                                ? szikTarawera
+                                : szikMalibu,
                           ),
                         ),
                       ],

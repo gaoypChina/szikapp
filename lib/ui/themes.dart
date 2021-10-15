@@ -1,40 +1,24 @@
 import 'package:flutter/material.dart';
-import '../models/tasks.dart';
+export 'dark_theme.dart';
+export 'light_theme.dart';
 
-const Color szikHippieBlue = Color(0xff59a3b0);
-const Color szikHippieBlueLight = Color(0xe359a3b0);
-const Color szikTarawera = Color(0xff094757);
-const Color szikMonarch = Color(0xff990e35);
-const Color szikShiraz = Color(0xffb7113d);
+///Light theme színek
+const Color szikLavenderBlush = Color(0xfffefafb);
 const Color szikAmour = Color(0xfffefbfc);
+const Color szikMonarch = Color(0xff990e35);
+const Color szikTarawera = Color(0xff094757);
+const Color szikShiraz = Color(0xffbb1141);
+
+///Dark theme színek
+const Color szikDaintree = Color(0xff002b36);
+const Color szikEden = Color(0xff0d3d48);
+const Color szikSilver = Color(0xffbdbdbd);
+const Color szikMalibu = Color(0xff41dfff);
+const Color szikSilverChalice = Color(0xffb1b1b1);
+
+///Közös színek
+const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikGunSmoke = Color(0xff888989);
-
-const szikColorScheme = ColorScheme(
-  primary: szikHippieBlue,
-  primaryVariant: szikTarawera,
-  secondary: szikMonarch,
-  secondaryVariant: szikGunSmoke,
-  surface: szikHippieBlueLight,
-  background: szikAmour,
-  error: Color(0xffc80000),
-  onPrimary: szikAmour,
-  onSecondary: szikAmour,
-  onSurface: szikTarawera,
-  onBackground: szikTarawera,
-  onError: szikAmour,
-  brightness: Brightness.light,
-);
-
-///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek.
-final Map<TaskStatus, Color> statusColors = {
-  TaskStatus.created: szikColorScheme.secondary,
-  TaskStatus.sent: szikColorScheme.secondary,
-  TaskStatus.in_progress: szikColorScheme.secondary,
-  TaskStatus.irresolvable: szikColorScheme.secondaryVariant,
-  TaskStatus.refused: szikColorScheme.secondary,
-  TaskStatus.awaiting_approval: szikColorScheme.primaryVariant,
-  TaskStatus.approved: szikColorScheme.primaryVariant,
-};
 
 TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
@@ -104,121 +88,4 @@ TextTheme szikTextTheme = const TextTheme(
   ///For medium emphasis text thats a little smaller than subtitle1.
   ///Montserrat, 14 pt
   subtitle2: TextStyle(fontFamily: 'Montserrat', fontSize: 14),
-);
-
-ThemeData szikThemeData = ThemeData(
-  brightness: Brightness.light,
-  //visualDensity: null,
-  //primarySwatch: null,
-  primaryColor: szikHippieBlue,
-  primaryColorBrightness: Brightness.light,
-  primaryColorLight: szikHippieBlueLight,
-  primaryColorDark: szikTarawera,
-  //canvasColor: null,
-  //shadowColor: null,
-  scaffoldBackgroundColor: szikAmour,
-  bottomAppBarColor: szikHippieBlue,
-  //cardColor: null,
-  dividerColor: szikTarawera,
-  //focusColor: null,
-  //hoverColor: null,
-  //highlightColor: null,
-  //splashColor: null,
-  //splashFactory: null,
-  //selectedRowColor: null,
-  //unselectedWidgetColor: null,
-  //disabledColor: null,
-  //buttonTheme: null,
-  //toggleButtonsTheme: null,
-  //secondaryHeaderColor: null,
-  backgroundColor: szikAmour,
-  //dialogBackgroundColor: null,
-  //indicatorColor: null,
-  //hintColor: null,
-  errorColor: const Color(0xffe80000),
-  //toggleableActiveColor: null,
-  //fontFamily: null,
-  textTheme: szikTextTheme,
-  //primaryTextTheme: null,
-  //inputDecorationTheme: null,
-  //iconTheme: null,
-  //primaryIconTheme: null,
-  //sliderTheme: null,
-  //tabBarTheme: null,
-  //tooltipTheme: null,
-  //cardTheme: null,
-  //chipTheme: null,
-  //platform: null,
-  //materialTapTargetSize: null,
-  //applyElevationOverlayColor: null,
-  //pageTransitionsTheme: null,
-  //appBarTheme: null,
-  //scrollbarTheme: null,
-  //bottomAppBarTheme: null,
-  colorScheme: szikColorScheme,
-  //dialogTheme: null,
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      foregroundColor: szikAmour,
-      backgroundColor: szikMonarch,
-      elevation: 10,
-      splashColor: szikShiraz),
-  //navigationRailTheme: null,
-  //typography: null,
-  //cupertinoOverrideTheme: null,
-  //snackBarTheme: null,
-  //bottomSheetTheme: null,
-  //popupMenuTheme: null,
-  //bannerTheme: null,
-  //dividerTheme: null,
-  //buttonBarTheme: null,
-  //bottomNavigationBarTheme: null,
-  timePickerTheme: TimePickerThemeData(
-    backgroundColor: szikAmour,
-    dayPeriodColor: szikHippieBlue,
-    dayPeriodTextColor: szikAmour,
-    dialBackgroundColor: szikTarawera,
-    dialHandColor: szikHippieBlue,
-    dialTextColor: szikAmour,
-    entryModeIconColor: szikGunSmoke,
-    hourMinuteColor: szikHippieBlue,
-    hourMinuteTextColor: szikAmour,
-    hourMinuteTextStyle: szikTextTheme.bodyText1!
-        .copyWith(fontSize: 46, fontStyle: FontStyle.normal),
-    hourMinuteShape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(10),
-      ),
-    ),
-    helpTextStyle: szikTextTheme.bodyText1!.copyWith(
-        fontSize: 14, fontStyle: FontStyle.normal, color: szikGunSmoke),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(10),
-      ),
-    ),
-  ),
-  //textButtonTheme: null,
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      primary: szikColorScheme.primary,
-      onPrimary: szikColorScheme.background,
-      shape: StadiumBorder(
-        side: BorderSide(color: szikColorScheme.primary),
-      ),
-    ),
-  ),
-  outlinedButtonTheme: OutlinedButtonThemeData(
-    style: OutlinedButton.styleFrom(
-      primary: szikColorScheme.background,
-      backgroundColor: szikColorScheme.background.withOpacity(0.2),
-      shape: StadiumBorder(
-        side: BorderSide(color: szikColorScheme.background),
-      ),
-    ),
-  ),
-  //textSelectionTheme: null,
-  //dataTableTheme: null,
-  //checkboxTheme: null,
-  //radioTheme: null,
-  //switchTheme: null,
 );
