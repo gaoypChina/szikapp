@@ -84,17 +84,18 @@ class ErrorHandler {
 
   static Widget _buildInset(
       BuildContext context, ErrorInformation errorInformation) {
+    var theme = Theme.of(context);
     return Container(
       key: const Key("ErrorBanner"),
-      color: Colors.white,
+      color: theme.colorScheme.background,
       child: SafeArea(
         child: Align(
           alignment: const AlignmentDirectional(0, 0),
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.5,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.background,
             ),
             child: Align(
               alignment: const AlignmentDirectional(0, 0),
@@ -107,8 +108,7 @@ class ErrorHandler {
                     Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                        padding: const EdgeInsetsDirectional.only(top: 30),
                         child: Image.asset(
                           'assets/pictures/no_network_grey.png',
                           width: MediaQuery.of(context).size.width * 0.5,
@@ -118,28 +118,21 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                      padding: const EdgeInsetsDirectional.only(top: 20),
                       child: Text(
                         errorInformation.errorMessage,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: const Color(0xFFE6E6E6),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: theme.textTheme.bodyText1!
+                            .copyWith(color: theme.colorScheme.primary),
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                      padding: const EdgeInsetsDirectional.only(top: 20),
                       child: Text(
                         errorInformation.errorSolution,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: const Color(0xFFAFAFAF),
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: theme.textTheme.bodyText1!
+                            .copyWith(color: theme.colorScheme.primaryVariant),
                       ),
                     )
                   ],
