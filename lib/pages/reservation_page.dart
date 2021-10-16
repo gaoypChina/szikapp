@@ -50,8 +50,7 @@ class _ReservationPageState extends State<ReservationPage> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
-              child: ListView(
-                //scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
@@ -90,8 +89,7 @@ class _ReservationPageState extends State<ReservationPage> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
-              child: ListView(
-                //scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
@@ -133,7 +131,6 @@ class _ReservationPageState extends State<ReservationPage> {
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
               child: Row(
-                //scrollDirection: Axis.horizontal,
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
