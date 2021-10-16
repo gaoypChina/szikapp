@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
 import 'exceptions.dart';
 
 class ErrorInformation {
@@ -84,7 +85,7 @@ class ErrorHandler {
       BuildContext context, ErrorInformation errorInformation) {
     var theme = Theme.of(context);
     return Container(
-      key: const Key("ErrorBanner"),
+      key: const Key('ErrorBanner'),
       color: theme.colorScheme.background,
       child: SafeArea(
         child: Align(
@@ -163,7 +164,7 @@ class ErrorHandler {
       content: Text(errorInformation.errorMessage),
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
-        label: "BUTTON_DISMISS".tr(),
+        label: 'BUTTON_DISMISS'.tr(),
         onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
       ),
     );

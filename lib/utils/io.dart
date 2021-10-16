@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:szikapp/models/goodtoknow.dart';
 
 import '../main.dart';
 import '../models/cleaning_exchange.dart';
 import '../models/cleaning_period.dart';
+import '../models/goodtoknow.dart';
 import '../models/group.dart';
 import '../models/permission.dart';
 import '../models/preferences.dart';
