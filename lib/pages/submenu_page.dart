@@ -111,7 +111,6 @@ class _SubMenuPageState extends State<SubMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
