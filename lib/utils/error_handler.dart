@@ -8,8 +8,6 @@ class ErrorInformation {
   late int errorCode;
   late String errorMessage;
   late String errorSolution;
-  bool isSolvableByRefresh = true;
-  bool isSolvableByReturn = true;
 
   ErrorInformation.fromCode(this.errorCode) {
     if (errorCode > 100 && errorCode < 600) {
