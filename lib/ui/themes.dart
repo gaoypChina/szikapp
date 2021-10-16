@@ -3,8 +3,8 @@ export 'dark_theme.dart';
 export 'light_theme.dart';
 
 ///Light theme színek
-const Color szikLavenderBlush = Color(0xfffefafb);
 const Color szikAmour = Color(0xfffefbfc);
+const Color szikLavenderBlush = Color(0xfffefafb);
 const Color szikMonarch = Color(0xff990e35);
 const Color szikTarawera = Color(0xff094757);
 const Color szikShiraz = Color(0xffbb1141);

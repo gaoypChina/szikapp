@@ -154,7 +154,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                   borderRadius: BorderRadius.circular(25),
                                   color: Theme.of(context)
                                       .colorScheme
-                                      .background
+                                      .surface
                                       .withOpacity(0.7),
                                 ),
                                 child: Column(

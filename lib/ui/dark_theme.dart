@@ -18,7 +18,7 @@ const szikDarkColorScheme = ColorScheme(
   primaryVariant: szikMalibu,
   secondary: szikSilver,
   secondaryVariant: szikGunSmoke,
-  surface: szikHippieBlue,
+  surface: szikEden,
   background: szikEden,
   error: Color(0xffc80000),
   onPrimary: szikEden,
