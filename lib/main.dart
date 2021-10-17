@@ -214,7 +214,6 @@ class SZIKAppState extends State<SZIKApp> {
       case JanitorPage.route:
         return const JanitorPage();
       case ProfilePage.route:
-        return const ProfilePage();
       case ProfilePage.shortRoute:
         return const ProfilePage();
       case ReservationPage.route:

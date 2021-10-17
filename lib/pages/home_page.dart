@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/progress_screen.dart';
+import '../utils/error_handler.dart';
+import '../utils/exceptions.dart';
 import 'feed_page.dart';
 import 'menu_page.dart';
 import 'settings_page.dart';
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late PersistentTabController _controller;
+  bool hasDynamicLinkError = false;
 
   @override
   void initState() {
@@ -102,7 +105,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-      final Uri? deepLink = dynamicLink?.link;
+      final deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
         pushNewScreen(
@@ -113,13 +116,11 @@ class _HomePageState extends State<HomePage> {
         );
       }
     }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
+      hasDynamicLinkError = true;
     });
 
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data?.link;
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final deepLink = data?.link;
 
     if (deepLink != null) {
       pushNewScreen(
@@ -139,6 +140,14 @@ class _HomePageState extends State<HomePage> {
           return const ProgressScreen();
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
+          if (hasDynamicLinkError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              ErrorHandler.buildSnackbar(
+                context,
+                errorCode: dynamicLinkExceptionCode,
+              ),
+            );
+          }
           return snapshot.data!
               ? Scaffold(
                   body: PersistentTabView(
