@@ -190,6 +190,7 @@ class SZIKAppState extends State<SZIKApp> {
       navigatorObservers: <NavigatorObserver>[observer],
       theme: szikLightThemeData,
       darkTheme: szikDarkThemeData,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
     );
   }

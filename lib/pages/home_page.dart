@@ -29,6 +29,12 @@ class _HomePageState extends State<HomePage> {
     _controller = PersistentTabController(initialIndex: 1);
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   List<Widget> _buildScreens() {
     return [
       const FeedPage(),
@@ -100,19 +106,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQuery.of(context).platformBrightness == Brightness.light
-        ? SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            statusBarColor: Theme.of(context).colorScheme.primary,
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.light,
-            //systemStatusBarContrastEnforced: , //Not sure if needed
-          ))
-        : SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            statusBarColor: Theme.of(context).colorScheme.primary,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.dark,
-            //systemStatusBarContrastEnforced: ,  //Not sure if needed
-          ));
     return FutureBuilder<bool>(
       future: SZIKAppState.initializeFlutterFire(),
       builder: (context, snapshot) {
