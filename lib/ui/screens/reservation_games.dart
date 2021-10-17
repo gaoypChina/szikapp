@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../../models/resource.dart';
-import '../../pages/reservation_page.dart';
 import '../../utils/io.dart';
 import 'error_screen.dart';
+import 'reservation_new_edit.dart';
 
 class ReservationGamesListArguments {
   String title;
@@ -74,8 +74,10 @@ class _ReservationGamesListScreenState
                                 elevation: 5,
                                 color: Theme.of(context).colorScheme.background,
                                 child: GestureDetector(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed(ReservationPage.route),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                      ReservationNewEditScreen.route,
+                                      arguments: ReservationNewEditArguments(
+                                          placeID: 'p201', isEdit: false)),
                                   child: Container(
                                     margin: const EdgeInsets.all(10),
                                     child: Image.asset(

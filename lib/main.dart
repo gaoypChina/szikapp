@@ -54,7 +54,8 @@ void main() async {
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('hu')],
       path: 'assets/translations',
-      fallbackLocale: const Locale('hu'),
+      fallbackLocale: const Locale('en'),
+      useFallbackTranslations: true,
       child: const SZIKApp(),
       useOnlyLangCode: true,
     ),
@@ -136,7 +137,8 @@ class SZIKAppState extends State<SZIKApp> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      SZIKAppState.analytics.logEvent(name: 'PACKAGE_ERROR');
+      await SZIKAppState.analytics
+          .logEvent(name: 'PACKAGE_ERROR', parameters: {'error': e.toString()});
       return;
     }
 

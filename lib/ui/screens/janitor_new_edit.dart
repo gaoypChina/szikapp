@@ -66,9 +66,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     var theme = Theme.of(context);
     final confirmDialog = CustomAlertDialog(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr(),
+      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
       onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr(),
+      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
     if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
@@ -268,8 +268,8 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit
-                                ? 'JANITOR_BUTTON_SAVE'.tr()
-                                : 'JANITOR_BUTTON_SEND'.tr()),
+                                ? 'BUTTON_SAVE'.tr()
+                                : 'BUTTON_SEND'.tr()),
                           ),
                         )
                       ],
