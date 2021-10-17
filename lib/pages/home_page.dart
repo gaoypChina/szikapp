@@ -105,11 +105,6 @@ class _HomePageState extends State<HomePage> {
       final Uri? deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
-        if (deepLink.path == '/me') {
-          pushNewScreen(context,
-              screen: SZIKAppState.getDestination(
-                  const RouteSettings(name: '/profile')));
-        }
         pushNewScreen(
           context,
           screen:
@@ -127,11 +122,6 @@ class _HomePageState extends State<HomePage> {
     final Uri? deepLink = data?.link;
 
     if (deepLink != null) {
-      if (deepLink.path == '/me') {
-        pushNewScreen(context,
-            screen: SZIKAppState.getDestination(
-                const RouteSettings(name: '/profile')));
-      }
       pushNewScreen(
         context,
         screen: SZIKAppState.getDestination(RouteSettings(name: deepLink.path)),
