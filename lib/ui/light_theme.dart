@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/tasks.dart';
 import 'themes.dart';
-
-///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek light módban.
-final Map<TaskStatus, Color> taskStatusLightColors = {
-  TaskStatus.created: szikLightColorScheme.secondary,
-  TaskStatus.sent: szikLightColorScheme.secondary,
-  TaskStatus.in_progress: szikLightColorScheme.secondary,
-  TaskStatus.irresolvable: szikLightColorScheme.secondaryVariant,
-  TaskStatus.refused: szikLightColorScheme.secondary,
-  TaskStatus.awaiting_approval: szikLightColorScheme.primaryVariant,
-  TaskStatus.approved: szikLightColorScheme.primaryVariant,
-};
 
 const szikLightColorScheme = ColorScheme(
   primary: szikHippieBlue,

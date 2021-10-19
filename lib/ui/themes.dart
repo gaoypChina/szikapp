@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/tasks.dart';
 export 'dark_theme.dart';
 export 'light_theme.dart';
 
@@ -19,6 +20,17 @@ const Color szikSilverChalice = Color(0xffb1b1b1);
 ///Közös színek
 const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikGunSmoke = Color(0xff888989);
+
+///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek.
+const Map<TaskStatus, Color> taskStatusColors = {
+  TaskStatus.created: Color(0xffa00a34),
+  TaskStatus.sent: Color(0xffa00a34),
+  TaskStatus.in_progress: Color(0xffffbf1b),
+  TaskStatus.irresolvable: Color(0xffa00a34),
+  TaskStatus.refused: Color(0xffa00a34),
+  TaskStatus.awaiting_approval: Color(0xff278230),
+  TaskStatus.approved: Color(0xff278230),
+};
 
 TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.

@@ -278,15 +278,9 @@ class _JanitorListViewState extends State<JanitorListView> {
                               color: theme.colorScheme.background,
                             ),
                             headerBackgroundColor:
-                                MediaQuery.of(context).platformBrightness ==
-                                        Brightness.light
-                                    ? taskStatusLightColors[item.status]!
-                                    : taskStatusDarkColors[item.status]!,
+                                taskStatusColors[item.status]!,
                             contentBackgroundColor:
-                                MediaQuery.of(context).platformBrightness ==
-                                        Brightness.light
-                                    ? taskStatusLightColors[item.status]!
-                                    : taskStatusDarkColors[item.status]!,
+                                taskStatusColors[item.status]!,
                             leftIcon: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.3,
                               child: Text(
