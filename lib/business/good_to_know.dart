@@ -45,7 +45,7 @@ class Goodtoknow {
     return true;
   }
 
-  void refresh() async {
+  Future<void> refresh() async {
     var io = IO();
     posts = await io.getGoodToKnow();
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../ui/screens/error_screen.dart';
 import 'contacts_page.dart';
+import 'documents_page.dart';
 import 'janitor_page.dart';
 import 'reservation_page.dart';
 
@@ -33,7 +34,7 @@ final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
     picture: 'assets/icons/book_light_72.png',
-    route: ErrorScreen.route,
+    route: DocumentsPage.route,
   ),
 ];
 
