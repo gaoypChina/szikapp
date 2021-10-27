@@ -11,7 +11,7 @@ class SearchBar extends StatelessWidget {
     Key? key,
     required this.onChanged,
     this.validator,
-    required this.onToggleFilterExpandable,
+    this.onToggleFilterExpandable,
     required this.placeholder,
     this.searchBarIconSize = 30.0,
   }) : super(key: key);

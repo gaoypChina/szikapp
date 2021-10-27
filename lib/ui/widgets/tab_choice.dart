@@ -18,6 +18,9 @@ class TabChoice extends StatefulWidget {
   ///A körülfogó keret színe
   final Color? wrapColor;
 
+  ///A címek betűinek színe
+  final Color? fontColor;
+
   ///Kiválasztott lap nélküli működés engedélyezése
   final bool allowNoneSelected;
 
@@ -27,6 +30,7 @@ class TabChoice extends StatefulWidget {
     required this.onChanged,
     this.choiceColor,
     this.wrapColor,
+    this.fontColor,
     this.allowNoneSelected = false,
   }) : super(key: key);
 
@@ -54,7 +58,8 @@ class _TabChoiceState extends State<TabChoice> {
           3,
           (index) {
             return ChoiceChip(
-              label: Text(widget.labels[index]),
+              label: Text(widget.labels[index],
+                  style: TextStyle(color: widget.fontColor)),
               selected: _value == index,
               onSelected: (selected) {
                 var newValue = index; //selected ? index : null;

@@ -103,5 +103,10 @@
         "BIRTHDAY_NOT_FOUND": "Birthday not found",
     "FEED": null,
         "FEED_GREETINGS": "Hello {}",
-        "FEED_NOTIFICATIONS": "Notifications"
+        "FEED_NOTIFICATIONS": "Notifications",
+    "DOCUMENTS": null,
+        "DOCUMENTS_FAVORITES": "Favorites",
+        "DOCUMENTS_IZEBBEK" : "...",
+        "DOCUMENTS_IZEK" : "...",
+        "DOCUMENTS_PINNED" : "Pinned"
 }
