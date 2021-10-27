@@ -1,13 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/ui/themes.dart';
-import 'package:szikapp/ui/widgets/date_picker.dart';
-import 'package:szikapp/ui/widgets/time_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../business/reservation.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
+import '../themes.dart';
 import '../widgets/alert_dialog.dart';
 import '../widgets/date_picker.dart';
 import '../widgets/time_picker.dart';
