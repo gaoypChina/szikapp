@@ -19,31 +19,31 @@ class GoodToKnowManager {
     var io = IO();
     await io.postGoodToKnow(item);
 
-    posts.add(item);
+    _posts.add(item);
 
     return true;
   }
 
   Future<bool> editItem(GoodToKnow item) async {
-    if (!posts.contains(item)) return false;
+    if (!_posts.contains(item)) return false;
 
     var io = IO();
     var parameter = {'id': item.uid};
     await io.putGoodToKnow(item, parameter);
 
-    posts.removeWhere((element) => element.uid == item.uid);
-    posts.add(item);
+    _posts.removeWhere((element) => element.uid == item.uid);
+    _posts.add(item);
     return true;
   }
 
   Future<bool> deleteItem(GoodToKnow item) async {
-    if (!posts.contains(item)) return false;
+    if (!_posts.contains(item)) return false;
 
     var io = IO();
     var parameter = {'id': item.uid};
     await io.deleteGoodToKnow(parameter, item.lastUpdate);
 
-    posts.remove(item);
+    _posts.remove(item);
 
     return true;
   }
