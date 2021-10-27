@@ -3,10 +3,18 @@ import '../utils/types.dart';
 
 part 'goodtoknow.g.dart';
 
+enum GoodToKnowCategory {
+  @JsonValue('document')
+  document,
+  @JsonValue('pinned_post')
+  pinned_post,
+}
+
 @JsonSerializable()
 class GoodToKnow {
   final String uid;
   String title;
+  GoodToKnowCategory category;
   String? description;
   @JsonKey(name: 'key_value_pairs')
   KeyValuePairs? keyValuePairs;
@@ -16,6 +24,7 @@ class GoodToKnow {
   GoodToKnow({
     required this.uid,
     required this.title,
+    required this.category,
     this.description,
     this.keyValuePairs,
     required this.lastUpdate,

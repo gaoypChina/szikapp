@@ -55,7 +55,7 @@ class _TabChoiceState extends State<TabChoice> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List<Widget>.generate(
-          3,
+          widget.labels.length,
           (index) {
             return ChoiceChip(
               label: Text(widget.labels[index],

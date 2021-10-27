@@ -1,16 +1,19 @@
 import '../models/goodtoknow.dart';
 import '../utils/io.dart';
 
-class Goodtoknow {
-  late List<GoodToKnow> posts;
+class GoodToKnowManager {
+  late List<GoodToKnow> _posts;
 
-  static final Goodtoknow _instance = Goodtoknow._privateConstructor();
+  static final GoodToKnowManager _instance =
+      GoodToKnowManager._privateConstructor();
 
-  factory Goodtoknow() => _instance;
+  factory GoodToKnowManager() => _instance;
 
-  Goodtoknow._privateConstructor() {
-    posts = [];
+  GoodToKnowManager._privateConstructor() {
+    _posts = [];
   }
+
+  List<GoodToKnow> get posts => List.unmodifiable(_posts);
 
   Future<bool> addItem(GoodToKnow item) async {
     var io = IO();
@@ -45,8 +48,26 @@ class Goodtoknow {
     return true;
   }
 
+  List<GoodToKnow> search(String text) {
+    if (text == '') {
+      return posts;
+    } else {
+      var results = <GoodToKnow>[];
+      for (var item in _posts) {
+        if (item.title.contains(text)) {
+          results.add(item);
+        }
+      }
+      return results;
+    }
+  }
+
+  List<GoodToKnow> filter(GoodToKnowCategory category) {
+    return _posts.where((element) => element.category == category).toList();
+  }
+
   Future<void> refresh() async {
     var io = IO();
-    posts = await io.getGoodToKnow();
+    _posts = await io.getGoodToKnow();
   }
 }

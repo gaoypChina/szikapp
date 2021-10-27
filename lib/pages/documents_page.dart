@@ -2,10 +2,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/models/goodtoknow.dart';
 
-import '../business/good_to_know.dart';
+import '../business/good_to_know_manager.dart';
 import '../main.dart';
+import '../models/goodtoknow.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/widgets/search_bar.dart';
 import '../ui/widgets/tab_choice.dart';
@@ -20,29 +20,21 @@ class DocumentsPage extends StatefulWidget {
 }
 
 class _DocumentsPageState extends State<DocumentsPage> {
-  late final Goodtoknow goodToKnowManager;
-  late List<GoodToKnow> items = [
-    GoodToKnow(
-        uid: 'Sdsf', title: 'bhsiodfhafdhsug', lastUpdate: DateTime.now()),
-    GoodToKnow(
-        uid: 'Sdsf', title: 'afhajrtjartjartjr', lastUpdate: DateTime.now()),
-    GoodToKnow(
-        uid: 'Sdsf', title: 'sríerjtktzluzlseaeh', lastUpdate: DateTime.now())
-  ];
+  late final GoodToKnowManager goodToKnowManager;
+  late List<GoodToKnow> items;
 
   @override
   void initState() {
     super.initState();
-    goodToKnowManager = Goodtoknow();
-    //items = goodToKnowManager.posts;
+    goodToKnowManager = GoodToKnowManager();
+    items = goodToKnowManager.posts;
   }
 
-//függvények
   void _onSearchFieldChanged(String query) {
-    /*var newItems = goodToKnowManager.search(query);
+    var newItems = goodToKnowManager.search(query);
     setState(() {
       items = newItems;
-    });*/
+    });
   }
 
   String? _validateTextField(value) {
@@ -52,27 +44,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     return null;
   }
 
-  void _onTabChanged(int? newValue) {
-    /*List<JanitorTask> newItems;
-    switch (newValue) {
-      case 2:
-        var ownID = SZIKAppState.authManager.user!.id;
-        newItems = janitor.filter(involvedID: ownID);
-        break;
-      case 1:
-        newItems = janitor.filter(statuses: [
-          TaskStatus.sent,
-          TaskStatus.in_progress,
-          TaskStatus.awaiting_approval
-        ]);
-        break;
-      default:
-        newItems = janitor.filter();
-    }
-    setState(() {
-      items = newItems;
-    });*/
-  }
+  void _onTabChanged(int? newValue) {}
 
   @override
   Widget build(BuildContext context) {
