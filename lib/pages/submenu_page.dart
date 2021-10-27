@@ -31,11 +31,6 @@ final List<SubMenuButton> subMenuDataListItems = [
     route: ContactsPage.route,
   ),
   SubMenuButton(
-    name: 'SUBMENU_DATA_PINNED'.tr(),
-    picture: 'assets/icons/pin_light_72.png',
-    route: ErrorScreen.route,
-  ),
-  SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
     picture: 'assets/icons/book_light_72.png',
     route: ErrorScreen.route,

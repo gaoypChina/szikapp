@@ -9,6 +9,8 @@ import '../../business/reservation.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
 import '../widgets/alert_dialog.dart';
+import '../widgets/date_picker.dart';
+import '../widgets/time_picker.dart';
 
 class ReservationNewEditArguments {
   TimetableTask? task;
@@ -323,7 +325,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   }
 
   void _onDescriptionChanged(String? description) {
-    this.description = description;
+    description = description;
   }
 
   void _onNewSent() {

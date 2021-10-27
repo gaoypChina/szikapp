@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String route = '/profile';
+  static const String shortRoute = '/me';
 
   const ProfilePage({Key key = const Key('ProfilePage')}) : super(key: key);
 

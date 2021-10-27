@@ -63,7 +63,7 @@ class _DatePickerState extends State<DatePicker> {
       child: GestureDetector(
         onTap: _selectDate,
         child: Text(
-          DateFormat("yyyy. mm. dd.").format(widget.date),
+          DateFormat('yyyy. MM. dd.').format(widget.date),
           style: Theme.of(context).textTheme.button!.copyWith(
               color: widget.color,
               fontSize: widget.fontSize,

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -6,6 +7,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 import '../ui/screens/progress_screen.dart';
+import '../utils/error_handler.dart';
+import '../utils/exceptions.dart';
 import 'feed_page.dart';
 import 'menu_page.dart';
 import 'settings_page.dart';
@@ -21,10 +24,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late PersistentTabController _controller;
+  bool hasDynamicLinkError = false;
 
   @override
   void initState() {
     super.initState();
+    initDynamicLinks();
 
     _controller = PersistentTabController(initialIndex: 1);
   }
@@ -124,6 +129,35 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
+  Future<void> initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+      final deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        pushNewScreen(
+          context,
+          screen:
+              SZIKAppState.getDestination(RouteSettings(name: deepLink.path)),
+          withNavBar: true,
+        );
+      }
+    }, onError: (OnLinkErrorException e) async {
+      hasDynamicLinkError = true;
+    });
+
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final deepLink = data?.link;
+
+    if (deepLink != null) {
+      pushNewScreen(
+        context,
+        screen: SZIKAppState.getDestination(RouteSettings(name: deepLink.path)),
+        withNavBar: true,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -134,6 +168,14 @@ class _HomePageState extends State<HomePage> {
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
           setNotificationBarTheme();
+          if (hasDynamicLinkError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              ErrorHandler.buildSnackbar(
+                context,
+                errorCode: dynamicLinkExceptionCode,
+              ),
+            );
+          }
           return snapshot.data!
               ? SafeArea(
                   child: Scaffold(

@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:szikapp/ui/screens/reservation_new_edit.dart';
 
 import '../../main.dart';
 import '../../models/resource.dart';
 import '../../utils/io.dart';
 import 'error_screen.dart';
+import 'reservation_new_edit.dart';
 
 class ReservationGamesListArguments {
   String title;
@@ -77,7 +77,7 @@ class _ReservationGamesListScreenState
                                   onTap: () => Navigator.of(context).pushNamed(
                                       ReservationNewEditScreen.route,
                                       arguments: ReservationNewEditArguments(
-                                          placeID: "p201", isEdit: false)),
+                                          placeID: 'p201', isEdit: false)),
                                   child: Container(
                                     margin: const EdgeInsets.all(10),
                                     child: Image.asset(
