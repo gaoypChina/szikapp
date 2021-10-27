@@ -43,6 +43,26 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+  void setNotificationBarTheme() {
+    MediaQuery.of(context).platformBrightness == Brightness.light
+        ? SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).colorScheme.primary,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light,
+              //systemStatusBarContrastEnforced: , //Not sure if needed
+            ),
+          )
+        : SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).colorScheme.primary,
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.dark,
+              //systemStatusBarContrastEnforced: ,  //Not sure if needed
+            ),
+          );
+  }
+
   List<PersistentBottomNavBarItem> _navBarItems() {
     return [
       PersistentBottomNavBarItem(
@@ -113,6 +133,7 @@ class _HomePageState extends State<HomePage> {
           return const ProgressScreen();
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
+          setNotificationBarTheme();
           return snapshot.data!
               ? SafeArea(
                   child: Scaffold(
