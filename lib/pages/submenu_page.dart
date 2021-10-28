@@ -106,7 +106,6 @@ class _SubMenuPageState extends State<SubMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -149,7 +148,7 @@ class _SubMenuPageState extends State<SubMenuPage> {
                                   borderRadius: BorderRadius.circular(25),
                                   color: Theme.of(context)
                                       .colorScheme
-                                      .background
+                                      .surface
                                       .withOpacity(0.7),
                                 ),
                                 child: Column(

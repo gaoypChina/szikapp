@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../../business/reservation.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
+import '../themes.dart';
 import '../widgets/alert_dialog.dart';
 import '../widgets/date_picker.dart';
 import '../widgets/time_picker.dart';
@@ -146,6 +147,10 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: DatePicker(
                             date: start,
                             onChanged: _onDateChanged,
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.light
+                                ? szikTarawera
+                                : szikMalibu,
                           ),
                         ),
                       ],

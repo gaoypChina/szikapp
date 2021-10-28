@@ -50,8 +50,7 @@ class _ReservationPageState extends State<ReservationPage> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
@@ -90,8 +89,7 @@ class _ReservationPageState extends State<ReservationPage> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
@@ -132,8 +130,7 @@ class _ReservationPageState extends State<ReservationPage> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(25)),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.all(width * 0.08),
@@ -145,16 +142,15 @@ class _ReservationPageState extends State<ReservationPage> {
                   Container(
                     margin: EdgeInsets.fromLTRB(
                         0, width * 0.08, width * 0.08, width * 0.08),
-                    child: Center(
-                        child: Text('RESERVATION_MODE_BOARDGAME'.tr(),
-                            style: szikTextTheme.headline2!.copyWith(
-                                fontSize: 20,
-                                fontStyle: FontStyle.normal,
-                                decoration: TextDecoration.none,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryVariant))),
-                  )
+                    child: Text(
+                      'RESERVATION_MODE_BOARDGAME'.tr(),
+                      style: szikTextTheme.headline2!.copyWith(
+                          fontSize: 20,
+                          fontStyle: FontStyle.normal,
+                          decoration: TextDecoration.none,
+                          color: Theme.of(context).colorScheme.primaryVariant),
+                    ),
+                  ),
                 ],
               ),
             ),

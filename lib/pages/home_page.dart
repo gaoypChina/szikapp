@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
@@ -33,12 +34,38 @@ class _HomePageState extends State<HomePage> {
     _controller = PersistentTabController(initialIndex: 1);
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   List<Widget> _buildScreens() {
     return [
       const FeedPage(),
       const MenuPage(),
       const SettingsPage(),
     ];
+  }
+
+  void setNotificationBarTheme() {
+    MediaQuery.of(context).platformBrightness == Brightness.light
+        ? SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).colorScheme.primary,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light,
+              //systemStatusBarContrastEnforced: , //Not sure if needed
+            ),
+          )
+        : SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).colorScheme.primary,
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.dark,
+              //systemStatusBarContrastEnforced: ,  //Not sure if needed
+            ),
+          );
   }
 
   List<PersistentBottomNavBarItem> _navBarItems() {
@@ -140,6 +167,7 @@ class _HomePageState extends State<HomePage> {
           return const ProgressScreen();
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
+          setNotificationBarTheme();
           if (hasDynamicLinkError) {
             ScaffoldMessenger.of(context).showSnackBar(
               ErrorHandler.buildSnackbar(
@@ -149,41 +177,45 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return snapshot.data!
-              ? Scaffold(
-                  body: PersistentTabView(
-                    context,
-                    controller: _controller,
-                    screens: _buildScreens(),
-                    items: _navBarItems(),
-                    confineInSafeArea: false,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    handleAndroidBackButtonPress: true,
-                    resizeToAvoidBottomInset: true,
-                    stateManagement: true,
-                    navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-                        ? 0.0
-                        : kBottomNavigationBarHeight,
-                    hideNavigationBarWhenKeyboardShows: true,
-                    margin: const EdgeInsets.all(0.0),
-                    popActionScreens: PopActionScreensType.all,
-                    bottomScreenMargin: 0.0,
-                    onWillPop: _onPop,
-                    decoration: NavBarDecoration(
-                      colorBehindNavBar: Theme.of(context).colorScheme.primary,
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(15)),
+              ? SafeArea(
+                  child: Scaffold(
+                    body: PersistentTabView(
+                      context,
+                      controller: _controller,
+                      screens: _buildScreens(),
+                      items: _navBarItems(),
+                      confineInSafeArea: false,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      handleAndroidBackButtonPress: true,
+                      resizeToAvoidBottomInset: true,
+                      stateManagement: true,
+                      navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
+                          ? 0.0
+                          : kBottomNavigationBarHeight,
+                      hideNavigationBarWhenKeyboardShows: true,
+                      margin: const EdgeInsets.all(0.0),
+                      popActionScreens: PopActionScreensType.all,
+                      bottomScreenMargin: 0.0,
+                      onWillPop: _onPop,
+                      decoration: NavBarDecoration(
+                        colorBehindNavBar:
+                            Theme.of(context).colorScheme.primary,
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(15)),
+                      ),
+                      popAllScreensOnTapOfSelectedTab: true,
+                      itemAnimationProperties: const ItemAnimationProperties(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.ease,
+                      ),
+                      screenTransitionAnimation:
+                          const ScreenTransitionAnimation(
+                        animateTabTransition: true,
+                        curve: Curves.ease,
+                        duration: Duration(milliseconds: 200),
+                      ),
+                      navBarStyle: NavBarStyle.style1,
                     ),
-                    popAllScreensOnTapOfSelectedTab: true,
-                    itemAnimationProperties: const ItemAnimationProperties(
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.ease,
-                    ),
-                    screenTransitionAnimation: const ScreenTransitionAnimation(
-                      animateTabTransition: true,
-                      curve: Curves.ease,
-                      duration: Duration(milliseconds: 200),
-                    ),
-                    navBarStyle: NavBarStyle.style1,
                   ),
                 )
               : const SignInPage();
