@@ -10,6 +10,7 @@ import '../main.dart';
 import '../models/group.dart';
 import '../models/user_data.dart';
 import '../ui/screens/error_screen.dart';
+import '../ui/widgets/search_bar.dart';
 import '../ui/widgets/searchable_options.dart';
 import '../utils/exceptions.dart';
 
@@ -160,66 +161,17 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var searchBarIconSize = 30.0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            decoration: BoxDecoration(
-                color: theme.colorScheme.background,
-                border: Border.all(color: theme.colorScheme.primary, width: 2),
-                borderRadius: BorderRadius.circular(30)),
-            margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: searchBarIconSize,
-                  height: searchBarIconSize,
-                  margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: ColorFiltered(
-                    child: Image.asset('assets/icons/search_light_72.png'),
-                    colorFilter: ColorFilter.mode(
-                        theme.colorScheme.primary, BlendMode.srcIn),
-                  ),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    validator: _validateTextField,
-                    autofocus: false,
-                    style: theme.textTheme.headline3!.copyWith(
-                      fontSize: 14,
-                      color: theme.colorScheme.primary,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'PLACEHOLDER_SEARCH'.tr(),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                    ),
-                    onChanged: _onSearchFieldChanged,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _onToggleFilterExpandable,
-                  child: Container(
-                    width: searchBarIconSize,
-                    height: searchBarIconSize,
-                    margin: const EdgeInsets.only(right: 8),
-                    child: ColorFiltered(
-                      child: Image.asset('assets/icons/sliders_light_72.png'),
-                      colorFilter: ColorFilter.mode(
-                          theme.colorScheme.primary, BlendMode.srcIn),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          SearchBar(
+            onChanged: _onSearchFieldChanged,
+            validator: _validateTextField,
+            onToggleFilterExpandable: _onToggleFilterExpandable,
+            placeholder: 'PLACEHOLDER_SEARCH'.tr(),
           ),
           AnimatedContainer(
             duration: const Duration(seconds: 1),

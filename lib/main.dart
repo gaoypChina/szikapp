@@ -16,6 +16,7 @@ import 'models/group.dart';
 import 'models/resource.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
+import 'pages/documents_page.dart';
 import 'pages/feed_page.dart';
 import 'pages/home_page.dart';
 import 'pages/janitor_page.dart';
@@ -222,6 +223,8 @@ class SZIKAppState extends State<SZIKApp> {
       case ProfilePage.route:
       case ProfilePage.shortRoute:
         return const ProfilePage();
+      case DocumentsPage.route:
+        return const DocumentsPage();
       case ReservationPage.route:
         return const ReservationPage();
       case SettingsPage.route:

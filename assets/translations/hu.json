@@ -103,5 +103,10 @@
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
     "FEED": null,
         "FEED_GREETINGS": "Szia {}",
-        "FEED_NOTIFICATIONS": "Értesítéseid"
+        "FEED_NOTIFICATIONS": "Értesítéseid",
+    "DOCUMENTS": null,
+        "DOCUMENTS_OFFICIAL" : "Dokumentumok",
+        "DOCUMENTS_PINNED" : "Pinned",
+    "LABELS": null,
+        "LABEL_FAVOURITES": "Favourites"
 }
