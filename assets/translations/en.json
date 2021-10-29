@@ -105,8 +105,8 @@
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
     "DOCUMENTS": null,
-        "DOCUMENTS_FAVORITES": "Favorites",
-        "DOCUMENTS_IZEBBEK" : "...",
-        "DOCUMENTS_IZEK" : "...",
-        "DOCUMENTS_PINNED" : "Pinned"
+        "DOCUMENTS_OFFICIAL" : "Documents",
+        "DOCUMENTS_PINNED" : "Pinned",
+    "LABELS": null,
+        "LABEL_FAVOURITES": "Favourites"
 }

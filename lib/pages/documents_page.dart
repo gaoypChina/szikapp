@@ -89,7 +89,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                               color: theme.colorScheme.secondary,
                             ),
                             Text(
-                              'DOCUMENTS_FAVORITES'.tr(),
+                              'LABEL_FAVORITES'.tr(),
                               style:
                                   TextStyle(color: theme.colorScheme.secondary),
                             ),
@@ -112,8 +112,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                     wrapColor: theme.colorScheme.background,
                     fontColor: theme.colorScheme.background,
                     labels: [
-                      'DOCUMENTS_IZEBBEK'.tr(),
-                      'DOCUMENTS_IZEBBEK'.tr(),
+                      'DOCUMENTS_OFFICIAL'.tr(),
                       'DOCUMENTS_PINNED'.tr(),
                     ],
                     onChanged: _onTabChanged,

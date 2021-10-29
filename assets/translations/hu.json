@@ -105,8 +105,8 @@
         "FEED_GREETINGS": "Szia {}",
         "FEED_NOTIFICATIONS": "Értesítéseid",
     "DOCUMENTS": null,
-        "DOCUMENTS_FAVORITES": "Kedvencek",
-        "DOCUMENTS_IZEBBEK" : "Izébbek",
-        "DOCUMENTS_IZEK" : "Izék",
-        "DOCUMENTS_PINNED" : "Pinned"
+        "DOCUMENTS_OFFICIAL" : "Dokumentumok",
+        "DOCUMENTS_PINNED" : "Pinned",
+    "LABELS": null,
+        "LABEL_FAVOURITES": "Favourites"
 }
