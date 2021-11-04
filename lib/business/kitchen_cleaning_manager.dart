@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../models/cleaning_exchange.dart';
 import '../models/cleaning_period.dart';
 import '../models/tasks.dart';
@@ -5,27 +7,25 @@ import '../utils/io.dart';
 
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
 ///háttérosztály.
-class KitchenCleaning {
+class KitchenCleaningManager extends ChangeNotifier {
   ///Konyhatakarítási feladatok listája
-  late List<CleaningTask> cleaningTasks;
+  List<CleaningTask> cleaningTasks = [];
 
   ///Konyhatakarítás-cserék listája
-  late List<CleaningExchange> cleaningExchanges;
+  List<CleaningExchange> cleaningExchanges = [];
 
   ///Konyhatakarítási periódusok listája
-  late List<CleaningPeriod> cleaningPeriods;
+  List<CleaningPeriod> cleaningPeriods = [];
 
   ///Singleton osztálypéldány
-  static final KitchenCleaning _instance =
-      KitchenCleaning._privateConstructor();
+  static final KitchenCleaningManager _instance =
+      KitchenCleaningManager._privateConstructor();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory KitchenCleaning() => _instance;
+  factory KitchenCleaningManager() => _instance;
 
   ///Privát kontruktor, ami inicializálja a [cleaningPeriods] paramétert.
-  KitchenCleaning._privateConstructor() {
-    cleaningPeriods = [];
-  }
+  KitchenCleaningManager._privateConstructor();
 
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző

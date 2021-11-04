@@ -1,13 +1,16 @@
+import 'package:flutter/material.dart';
+
 ///Naptár funkció logikai működését megvalósító singleton háttérosztály.
-class Calendar {
+class CalendarManager extends ChangeNotifier {
   ///Singleton osztálypéldány
-  static final Calendar _instance = Calendar._privateConstructor();
+  static final CalendarManager _instance =
+      CalendarManager._privateConstructor();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory Calendar() => _instance;
+  factory CalendarManager() => _instance;
 
   ///Privát konstruktor
-  Calendar._privateConstructor() {
+  CalendarManager._privateConstructor() {
     refresh();
   }
 

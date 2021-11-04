@@ -1,74 +1,106 @@
+import 'package:flutter/material.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
 ///Gondnoki kérések funkció logikai működését megvalósító singleton
 ///háttérosztály.
-class Janitor {
+class JanitorManager extends ChangeNotifier {
   ///Kéréslista
-  late List<JanitorTask> tasks;
+  List<JanitorTask> _tasks = [];
+  bool _createNewTask = false;
+  bool _editTask = false;
+  bool _adminEditTask = false;
 
   ///Singleton osztálypéldány
-  static final Janitor _instance = Janitor._privateConstructor();
+  static final JanitorManager _instance = JanitorManager._privateConstructor();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory Janitor() => _instance;
+  factory JanitorManager() => _instance;
 
   ///Privát konstruktor, ami inicializálja a [tasks] változót.
-  Janitor._privateConstructor() {
+  JanitorManager._privateConstructor() {
     refresh();
+  }
+
+  List<JanitorTask> get tasks => List.unmodifiable(_tasks);
+  bool get isCreatingNewTask => _createNewTask;
+  bool get isEditingTask => _editTask;
+  bool get isAdminEditingTask => _adminEditTask;
+
+  void createNewTask() {
+    _createNewTask = true;
+    notifyListeners();
+  }
+
+  void editTask() {
+    _editTask = true;
+    notifyListeners();
+  }
+
+  void adminEditTask() {
+    _adminEditTask = true;
+    notifyListeners();
   }
 
   ///Státusz szerkesztése. A függvény megváltoztatja a feladat státuszát a
   ///megadott státuszra, mely validitásának ellenőrzése szerver oldalon
   ///történik.
-  Future<bool> editStatus(TaskStatus status, JanitorTask task) async {
+  Future<bool> updateStatus(TaskStatus status, JanitorTask task) async {
     var io = IO();
     var parameter = {'id': task.uid};
     await io.patchJanitor(status, parameter, task.lastUpdate);
 
-    tasks.firstWhere((element) => element.uid == task.uid).status = status;
-
+    _tasks.firstWhere((element) => element.uid == task.uid).status = status;
+    _editTask = false;
+    _adminEditTask = false;
+    notifyListeners();
     return true;
   }
 
   ///Új feladat hozzáadása. A függvény feltölti a szerverre az új feladatot,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
   Future<bool> addTask(JanitorTask task) async {
-    if (tasks.contains(task)) return false;
+    if (_tasks.contains(task)) return false;
 
     var io = IO();
     await io.postJanitor(task);
 
-    tasks.add(task);
-
+    _tasks.add(task);
+    _createNewTask = false;
+    notifyListeners();
     return true;
   }
 
   ///Feladat szerkesztése. A függvény feltölti a szerverre a módosított
   ///feladatot, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
   ///a listán.
-  Future<bool> editTask(JanitorTask task) async {
+  Future<bool> updateTask(JanitorTask task) async {
     var io = IO();
     var parameter = {'id': task.uid};
     await io.putJanitor(task, parameter);
 
-    tasks.removeWhere((element) => element.uid == task.uid);
-    tasks.add(task);
-
+    _tasks.removeWhere((element) => element.uid == task.uid);
+    _tasks.add(task);
+    _editTask = false;
+    _adminEditTask = false;
+    notifyListeners();
     return true;
   }
 
   ///Feladat törlése. A függvény törli a szerverről a feladatot,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deleteTask(JanitorTask task) async {
-    if (!tasks.contains(task)) return true;
+    if (!_tasks.contains(task)) return true;
 
     var io = IO();
     var parameter = {'id': task.uid};
     await io.deleteJanitor(parameter, task.lastUpdate);
 
-    tasks.remove(task);
-
+    _tasks.remove(task);
+    _editTask = false;
+    _adminEditTask = false;
+    notifyListeners();
     return true;
   }
 
@@ -82,7 +114,7 @@ class Janitor {
     var parameter = {'from': from.toIso8601String()};
 
     var io = IO();
-    tasks = await io.getJanitor(parameter);
+    _tasks = await io.getJanitor(parameter);
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a feladatlistát.
@@ -95,18 +127,18 @@ class Janitor {
     if (placeIDs.isEmpty && statuses.isEmpty && involvedID.isEmpty) {
       return tasks;
     }
-    var filteredJanitorTasks = <JanitorTask>[];
+    var results = <JanitorTask>[];
 
     //Filter by all options that are specified
     for (var task in tasks) {
       if (involvedID.isNotEmpty && task.involvedIDs!.contains(involvedID)) {
-        filteredJanitorTasks.add(task);
+        results.add(task);
       } else if (statuses.isNotEmpty && statuses.contains(task.status)) {
-        filteredJanitorTasks.add(task);
+        results.add(task);
       } else if (placeIDs.isNotEmpty && placeIDs.contains(task.placeID)) {
-        filteredJanitorTasks.add(task);
+        results.add(task);
       }
     }
-    return filteredJanitorTasks;
+    return results;
   }
 }

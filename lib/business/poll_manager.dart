@@ -1,19 +1,58 @@
+import 'package:flutter/material.dart';
+
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
-class Poll {
+class PollManager extends ChangeNotifier {
   ///Szavazások listája
-  late List<PollTask> polls;
+  List<PollTask> _polls = [];
+  bool _createNewPoll = false;
+  bool _editPoll = false;
+  bool _vote = false;
+  bool _viewPollResults = false;
 
   ///Singleton osztálypéldány
-  static final Poll _instance = Poll._privateConstructor();
+  static final PollManager _instance = PollManager._privateConstructor();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory Poll() => _instance;
+  factory PollManager() => _instance;
 
   ///Privát konstruktor
-  Poll._privateConstructor();
+  PollManager._privateConstructor() {
+    refresh();
+  }
+
+  List<PollTask> get polls => List.unmodifiable(_polls);
+  bool get isCreatingNewPoll => _createNewPoll;
+  bool get isEditingPoll => _editPoll;
+  bool get isVoting => _vote;
+  bool get isViewingPollResults => _viewPollResults;
+
+  void createNewPoll() {
+    _createNewPoll = true;
+    notifyListeners();
+  }
+
+  void editPoll() {
+    _editPoll = true;
+    notifyListeners();
+  }
+
+  void vote() {
+    _vote = true;
+    notifyListeners();
+  }
+
+  void viewPollResults() {
+    _viewPollResults = true;
+    notifyListeners();
+  }
+
+  void closePollResults() {
+    _viewPollResults = false;
+    notifyListeners();
+  }
 
   ///Új szavazás hozzáadása. A függvény feltölti a szerverre az új szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
@@ -21,36 +60,39 @@ class Poll {
     var io = IO();
     await io.postPoll(poll);
 
-    polls.add(poll);
-
+    _polls.add(poll);
+    _createNewPoll = false;
+    notifyListeners();
     return true;
   }
 
   ///Szavazás szerkesztése. A függvény feltölti a szerverre a módosított
   ///szavazást, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
   ///a listán.
-  Future<bool> editPoll(PollTask poll) async {
+  Future<bool> updatePoll(PollTask poll) async {
     var io = IO();
     var parameter = {'id': poll.uid};
     await io.patchPoll(poll, parameter);
 
-    polls.removeWhere((element) => element.uid == poll.uid);
-    polls.add(poll);
-
+    _polls.removeWhere((element) => element.uid == poll.uid);
+    _polls.add(poll);
+    _editPoll = false;
+    notifyListeners();
     return true;
   }
 
   ///Szavazás törlése. A függvény törli a szerverről a szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deletePoll(PollTask poll) async {
-    if (!polls.contains(poll)) return true;
+    if (!_polls.contains(poll)) return true;
 
     var io = IO();
     var parameter = {'id': poll.uid};
     await io.deletePoll(parameter, poll.lastUpdate);
 
-    polls.remove(poll);
-
+    _polls.remove(poll);
+    _editPoll = false;
+    notifyListeners();
     return true;
   }
 
@@ -64,7 +106,8 @@ class Poll {
     await io.putPoll(vote, param);
 
     poll.answers.add(vote);
-
+    _vote = false;
+    notifyListeners();
     return true;
   }
 
@@ -134,6 +177,6 @@ class Poll {
     if (involved != null) parameter['involved'] = involved;
 
     var io = IO();
-    polls = await io.getPoll(parameter);
+    _polls = await io.getPoll(parameter);
   }
 }

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../business/reservation.dart';
+import '../../business/reservation_manager.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
 import '../themes.dart';
@@ -43,7 +43,7 @@ class ReservationNewEditScreen extends StatefulWidget {
 
 class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final Reservation reservation;
+  late final ReservationManager reservation;
   String? description;
   String? title;
   late List<String> organizerIDs;
@@ -54,7 +54,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   @override
   void initState() {
     super.initState();
-    reservation = Reservation();
+    reservation = ReservationManager();
     start = widget.isEdit ? widget.task!.start : DateTime.now();
     end = widget.isEdit ? widget.task!.end : DateTime.now();
   }
@@ -354,7 +354,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       task.description = description;
       task.start = start;
       task.end = end;
-      reservation.editReservation(task);
+      reservation.updateReservation(task);
       SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
       Navigator.of(context).pop(true);
     }

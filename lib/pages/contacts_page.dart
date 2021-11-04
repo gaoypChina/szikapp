@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../business/contacts.dart';
+import '../business/contacts_manager.dart';
 import '../main.dart';
 import '../models/group.dart';
 import '../models/user_data.dart';
@@ -32,7 +32,7 @@ class ContactsPage extends StatefulWidget {
 ///A [ContactsPage] képernyő állapota. Tartalmazza a [Contacts] signleton
 ///egy példányát.
 class _ContactsPageState extends State<ContactsPage> {
-  late Contacts contacts;
+  late ContactsManager contacts;
 
   ///Létrehozza a [Contacts] singleton egy példányát és betölti a
   ///csoportadatokat a csoportok szerint való szűréshez, amennyiben ez
@@ -40,7 +40,7 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   void initState() {
     super.initState();
-    contacts = Contacts();
+    contacts = ContactsManager();
     if (SZIKAppState.groups.isEmpty) SZIKAppState.loadEarlyData();
   }
 
@@ -79,7 +79,7 @@ class ContactsListView extends StatefulWidget {
 ///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
 ///[Contacts] singletont.
 class _ContactsListViewState extends State<ContactsListView> {
-  late Contacts contacts;
+  late ContactsManager contacts;
 
   ///Megjelenített kontaktok
   late List<UserData> items;
@@ -95,7 +95,7 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   void initState() {
     super.initState();
-    contacts = Contacts();
+    contacts = ContactsManager();
     items = contacts.contacts;
   }
 

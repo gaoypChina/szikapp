@@ -7,20 +7,21 @@ import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 ///Telefonkönyv funkció logikai működését megvalósító singleton háttérosztály.
-class Contacts {
+class ContactsManager {
   ///Kontaktok listája
-  late List<UserData> contacts;
+  List<UserData> _contacts = [];
 
   ///Singleton osztálypéldány
-  static final Contacts _instance = Contacts._privateConstructor();
+  static final ContactsManager _instance =
+      ContactsManager._privateConstructor();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory Contacts() => _instance;
+  factory ContactsManager() => _instance;
 
   ///Privát konstruktor, ami inicializálja a [contacts] változót.
-  Contacts._privateConstructor() {
-    contacts = <UserData>[];
-  }
+  ContactsManager._privateConstructor();
+
+  List<UserData> get contacts => List.unmodifiable(_contacts);
 
   ///Keresés. A függvény a megadott szöveg alapján keres egyezéseket a
   ///kontaktlista név, ímélcím, telefonszám, születésnap mezőiben. Ha a
@@ -98,7 +99,7 @@ class Contacts {
     var io = IO();
 
     if (contacts.isEmpty || forceRefresh) {
-      contacts = await io.getContacts();
+      _contacts = await io.getContacts();
     }
   }
 }

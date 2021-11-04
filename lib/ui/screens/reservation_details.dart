@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../business/reservation.dart';
+import '../../business/reservation_manager.dart';
 import 'error_screen.dart';
 
 class ReservationDetailsArguments {
@@ -22,12 +22,12 @@ class ReservationDetailsScreen extends StatefulWidget {
 }
 
 class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
-  late final Reservation reservation;
+  late final ReservationManager reservation;
 
   @override
   void initState() {
     super.initState();
-    reservation = Reservation();
+    reservation = ReservationManager();
   }
 
   @override

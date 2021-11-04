@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Feedback;
 import 'package:uuid/uuid.dart';
 
-import '../../business/janitor.dart';
+import '../../business/janitor_manager.dart';
 import '../../main.dart';
 import '../../models/resource.dart';
 import '../../models/tasks.dart';
@@ -41,7 +41,7 @@ class JanitorNewEditScreen extends StatefulWidget {
 
 class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final Janitor janitor;
+  late final JanitorManager janitor;
   String? placeID;
   String? title;
   String? description;
@@ -50,7 +50,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   @override
   void initState() {
     super.initState();
-    janitor = Janitor();
+    janitor = JanitorManager();
     if (SZIKAppState.places.isNotEmpty) placeID = SZIKAppState.places.first.id;
     if (widget.isFeedback) {
       title = widget.task!.name;
@@ -340,7 +340,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
             ))
           : task.description = description;
       task.placeID = placeID!;
-      janitor.editTask(task);
+      janitor.updateTask(task);
       SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
       Navigator.of(context).pop(true);
     }

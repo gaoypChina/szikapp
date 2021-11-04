@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../business/janitor.dart';
+import '../../business/janitor_manager.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
 import '../widgets/alert_dialog.dart';
@@ -27,14 +27,14 @@ class JanitorEditAdminScreen extends StatefulWidget {
 
 class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final Janitor janitor;
+  late final JanitorManager janitor;
   TaskStatus? status;
   String? answer;
 
   @override
   void initState() {
     super.initState();
-    janitor = Janitor();
+    janitor = JanitorManager();
     status = widget.task.status;
   }
 
@@ -65,7 +65,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       var task = widget.task;
       task.status = status!;
       task.answer = answer;
-      janitor.editTask(task);
+      janitor.updateTask(task);
       SZIKAppState.analytics.logEvent(name: 'edit_admin_sent_janitor_task');
       Navigator.of(context).pop(true);
     }

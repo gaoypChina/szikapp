@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../business/janitor.dart';
+import '../business/janitor_manager.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../ui/screens/error_screen.dart';
@@ -21,12 +21,12 @@ class JanitorPage extends StatefulWidget {
 }
 
 class _JanitorPageState extends State<JanitorPage> {
-  late final Janitor janitor;
+  late final JanitorManager janitor;
 
   @override
   void initState() {
     super.initState();
-    janitor = Janitor();
+    janitor = JanitorManager();
     if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
   }
 
@@ -62,13 +62,13 @@ class JanitorListView extends StatefulWidget {
 }
 
 class _JanitorListViewState extends State<JanitorListView> {
-  late Janitor janitor;
+  late JanitorManager janitor;
   late List<JanitorTask> items;
 
   @override
   void initState() {
     super.initState();
-    janitor = Janitor();
+    janitor = JanitorManager();
     items = janitor.tasks;
   }
 
@@ -125,7 +125,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   void _onApprovePressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval) {
       SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
-      janitor.editStatus(TaskStatus.approved, task);
+      janitor.updateStatus(TaskStatus.approved, task);
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../business/reservation.dart';
+import '../business/reservation_manager.dart';
 import '../ui/screens/reservation_games.dart';
 import '../ui/screens/reservation_places_map.dart';
 import '../ui/themes.dart';
@@ -17,12 +17,12 @@ class ReservationPage extends StatefulWidget {
 }
 
 class _ReservationPageState extends State<ReservationPage> {
-  late final Reservation reservation;
+  late final ReservationManager reservation;
 
   @override
   void initState() {
     super.initState();
-    reservation = Reservation();
+    reservation = ReservationManager();
   }
 
   @override

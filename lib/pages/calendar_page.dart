@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../business/calendar.dart';
+import '../business/calendar_manager.dart';
 import '../main.dart';
 import '../ui/screens/error_screen.dart';
 
@@ -16,12 +16,12 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  late final Calendar calendar;
+  late final CalendarManager calendar;
 
   @override
   void initState() {
     super.initState();
-    calendar = Calendar();
+    calendar = CalendarManager();
   }
 
   @override
