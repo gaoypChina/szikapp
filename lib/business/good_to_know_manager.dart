@@ -10,7 +10,7 @@ class GoodToKnowManager {
   factory GoodToKnowManager() => _instance;
 
   GoodToKnowManager._privateConstructor() {
-    _posts = [];
+    refresh();
   }
 
   List<GoodToKnow> get posts => List.unmodifiable(_posts);

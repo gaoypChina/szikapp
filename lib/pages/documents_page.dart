@@ -46,6 +46,29 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   void _onTabChanged(int? newValue) {}
 
+  Widget _buildListItem(BuildContext context, int index) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 2.0), //(x,y)
+            blurRadius: 3.0,
+          ),
+        ],
+      ),
+      child: Text(
+        items[index].title,
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
@@ -66,19 +89,21 @@ class _DocumentsPageState extends State<DocumentsPage> {
           var theme = Theme.of(context);
           return Scaffold(
             body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 //keresősáv
-
                 SearchBar(
                   onChanged: _onSearchFieldChanged,
                   validator: _validateTextField,
                   placeholder: 'PLACEHOLDER_SEARCH'.tr(),
                 ),
-
                 //kedvencek
                 Container(
                   margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
@@ -89,9 +114,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
                               color: theme.colorScheme.secondary,
                             ),
                             Text(
-                              'LABEL_FAVORITES'.tr(),
-                              style:
-                                  TextStyle(color: theme.colorScheme.secondary),
+                              'LABEL_FAVOURITES'.tr(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
                             ),
                           ],
                         ),
@@ -119,27 +149,12 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   ),
                 ),
                 //lapok listája
-                ...items
-                    .map(
-                      (item) => Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0.0, 2.0), //(x,y)
-                              blurRadius: 3.0,
-                            ),
-                          ],
-                        ),
-                        child: Text(item.title),
-                      ),
-                    )
-                    .toList()
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: _buildListItem,
+                    itemCount: items.length,
+                  ),
+                ),
               ],
             ),
           );
