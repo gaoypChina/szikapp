@@ -105,8 +105,9 @@
         "FEED_GREETINGS": "Szia {}",
         "FEED_NOTIFICATIONS": "Értesítéseid",
     "DOCUMENTS": null,
-        "DOCUMENTS_OFFICIAL" : "Dokumentumok",
+        "DOCUMENTS_OFFICIAL" : "Egyéb",
         "DOCUMENTS_PINNED" : "Pinned",
+        "DOCUMENTS_ALL" : "Összes",
     "LABELS": null,
-        "LABEL_FAVOURITES": "Favourites"
+        "LABEL_FAVOURITES": "Kedvencek"
 }

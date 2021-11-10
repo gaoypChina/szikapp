@@ -105,8 +105,9 @@
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
     "DOCUMENTS": null,
-        "DOCUMENTS_OFFICIAL" : "Documents",
+        "DOCUMENTS_OFFICIAL" : "Other",
         "DOCUMENTS_PINNED" : "Pinned",
+        "DOCUMENTS_ALL" : "All",
     "LABELS": null,
         "LABEL_FAVOURITES": "Favourites"
 }
