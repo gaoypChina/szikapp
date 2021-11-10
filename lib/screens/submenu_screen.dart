@@ -81,21 +81,28 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   ),
 ];
 
-class SubMenuScreen extends StatefulWidget {
+class SubMenuScreen extends StatelessWidget {
   final List<SubMenuButton> listItems;
   final String title;
   static const String route = '/submenu';
 
-  const SubMenuScreen(
-      {Key key = const Key('SubMenuScreen'),
-      required this.listItems,
-      required this.title})
-      : super(key: key);
-  @override
-  _SubMenuScreenState createState() => _SubMenuScreenState();
-}
+  static MaterialPage page({
+    required List<SubMenuButton> items,
+    required String title,
+  }) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: SubMenuScreen(listItems: items, title: title),
+    );
+  }
 
-class _SubMenuScreenState extends State<SubMenuScreen> {
+  const SubMenuScreen({
+    Key key = const Key('SubMenuScreen'),
+    required this.listItems,
+    required this.title,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +119,7 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
               Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  widget.title.toUpperCase(),
+                  title.toUpperCase(),
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                         color: Theme.of(context).colorScheme.secondary,
                         fontSize: 25,
@@ -127,7 +134,7 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
                       : 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  children: widget.listItems
+                  children: listItems
                       .map((item) => Card(
                             color: Colors.transparent,
                             elevation: 0,

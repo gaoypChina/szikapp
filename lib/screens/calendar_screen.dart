@@ -9,6 +9,14 @@ import 'error_screen.dart';
 class CalendarScreen extends StatefulWidget {
   static const String route = '/calendar';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: CalendarScreen(),
+    );
+  }
+
   const CalendarScreen({Key? key}) : super(key: key);
 
   @override

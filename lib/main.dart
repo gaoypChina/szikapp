@@ -110,10 +110,9 @@ class SZIKAppState extends State<SZIKApp> {
           .initializeFirebase();
       var result = await authManager.signInSilently();
       return result;
-    } on Exception {
+    } on Exception catch (e) {
       // Set `firebaseError` state to true if Firebase initialization fails
-      Provider.of<SzikAppStateManager>(context, listen: false)
-          .setFirebaseError();
+      Provider.of<SzikAppStateManager>(context, listen: false).setError(e);
       return false;
     }
   }

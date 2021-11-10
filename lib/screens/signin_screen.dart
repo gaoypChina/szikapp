@@ -13,7 +13,16 @@ import 'error_screen.dart';
 class SignInScreen extends StatefulWidget {
   static const String route = '/signin';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: SignInScreen(),
+    );
+  }
+
   const SignInScreen({Key key = const Key('SignInScreen')}) : super(key: key);
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }

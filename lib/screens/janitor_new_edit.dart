@@ -9,20 +9,20 @@ import '../main.dart';
 import '../models/resource.dart';
 import '../models/tasks.dart';
 
-class JanitorNewEditArguments {
-  bool isEdit;
-  bool isFeedback;
-  JanitorTask? task;
-
-  JanitorNewEditArguments({
-    this.isEdit = false,
-    this.isFeedback = false,
-    this.task,
-  });
-}
-
 class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
+
+  static MaterialPage page({
+    required JanitorTask task,
+    required bool isEdit,
+    required bool isFeedback,
+  }) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: JanitorNewEditScreen(task: task),
+    );
+  }
 
   final bool isEdit;
   final bool isFeedback;

@@ -1,29 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../business/reservation_manager.dart';
 import '../ui/themes.dart';
 import 'reservation_games.dart';
 import 'reservation_places_map.dart';
 
-class ReservationScreen extends StatefulWidget {
+class ReservationScreen extends StatelessWidget {
   static const String route = '/reservation';
 
   const ReservationScreen({Key key = const Key('ReservationScreen')})
       : super(key: key);
-
-  @override
-  _ReservationScreenState createState() => _ReservationScreenState();
-}
-
-class _ReservationScreenState extends State<ReservationScreen> {
-  late final ReservationManager reservation;
-
-  @override
-  void initState() {
-    super.initState();
-    reservation = ReservationManager();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -11,8 +11,10 @@ import 'reservation_new_edit.dart';
 class ReservationGamesListScreen extends StatefulWidget {
   static const String route = '/reservation/games';
   final String title;
-  const ReservationGamesListScreen({Key? key, required this.title})
-      : super(key: key);
+  const ReservationGamesListScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _ReservationGamesListScreenState createState() =>

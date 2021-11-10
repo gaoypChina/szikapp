@@ -13,6 +13,22 @@ import '../ui/themes.dart';
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
 
+  static MaterialPage page({
+    required String placeID,
+    TimetableTask? task,
+    bool isEdit = false,
+  }) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: ReservationNewEditScreen(
+        placeID: placeID,
+        task: task,
+        isEdit: isEdit,
+      ),
+    );
+  }
+
   final TimetableTask? task;
   final String placeID;
   final bool isEdit;

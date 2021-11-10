@@ -12,29 +12,17 @@ import 'error_screen.dart';
 import 'janitor_edit_admin.dart';
 import 'janitor_new_edit.dart';
 
-class JanitorScreen extends StatefulWidget {
+class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
 
-  const JanitorScreen({Key? key}) : super(key: key);
+  final JanitorManager manager;
 
-  @override
-  _JanitorScreenState createState() => _JanitorScreenState();
-}
-
-class _JanitorScreenState extends State<JanitorScreen> {
-  late final JanitorManager janitor;
-
-  @override
-  void initState() {
-    super.initState();
-    janitor = JanitorManager();
-    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
-  }
+  const JanitorScreen({Key? key, required this.manager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: janitor.refresh(),
+      future: manager.refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
@@ -48,47 +36,36 @@ class _JanitorScreenState extends State<JanitorScreen> {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return const JanitorListView();
+          return JanitorListView(
+            manager: manager,
+          );
         }
       },
     );
   }
 }
 
-class JanitorListView extends StatefulWidget {
-  const JanitorListView({Key? key}) : super(key: key);
+class JanitorListView extends StatelessWidget {
+  final JanitorManager manager;
 
-  @override
-  _JanitorListViewState createState() => _JanitorListViewState();
-}
-
-class _JanitorListViewState extends State<JanitorListView> {
-  late JanitorManager janitor;
-  late List<JanitorTask> items;
-
-  @override
-  void initState() {
-    super.initState();
-    janitor = JanitorManager();
-    items = janitor.tasks;
-  }
+  const JanitorListView({Key? key, required this.manager}) : super(key: key);
 
   void _onTabChanged(int? newValue) {
     List<JanitorTask> newItems;
     switch (newValue) {
       case 2:
         var ownID = SZIKAppState.authManager.user!.id;
-        newItems = janitor.filter(involvedID: ownID);
+        newItems = manager.filter(involvedID: ownID);
         break;
       case 1:
-        newItems = janitor.filter(statuses: [
+        newItems = manager.filter(statuses: [
           TaskStatus.sent,
           TaskStatus.in_progress,
           TaskStatus.awaiting_approval
         ]);
         break;
       default:
-        newItems = janitor.filter();
+        newItems = manager.filter();
     }
     setState(() {
       items = newItems;
@@ -126,7 +103,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   void _onApprovePressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval) {
       SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
-      janitor.updateStatus(TaskStatus.approved, task);
+      manager.updateStatus(TaskStatus.approved, task);
     }
   }
 
@@ -162,12 +139,12 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   Future<void> _onManualRefresh() async {
-    janitor.refresh();
-    items = janitor.tasks;
+    manager.refresh();
+    items = manager.tasks;
     setState(() {});
   }
 
-  Widget _buildFeedbackList(JanitorTask task) {
+  Widget _buildFeedbackList(BuildContext context, JanitorTask task) {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
     return SZIKAppState.authManager.user!.id == 'u904' &&
@@ -523,7 +500,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ],
                                         ),
                                       ),
-                                _buildFeedbackList(item),
+                                _buildFeedbackList(context, item),
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 8),
                                   child: Row(

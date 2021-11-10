@@ -13,6 +13,14 @@ import 'error_screen.dart';
 class DocumentsScreen extends StatefulWidget {
   static const String route = '/documents';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: DocumentsScreen(),
+    );
+  }
+
   const DocumentsScreen({Key? key}) : super(key: key);
 
   @override

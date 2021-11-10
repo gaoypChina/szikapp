@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 
-class ErrorScreenArguments {
-  Object error;
-
-  ErrorScreenArguments({required this.error});
-}
-
 class ErrorScreen extends StatefulWidget {
   static const String route = '/error';
+
+  static MaterialPage page({required Object error}) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: ErrorScreen(error: error),
+    );
+  }
+
   final Object error;
   const ErrorScreen({Key key = const Key('ErrorScreen'), required this.error})
       : super(key: key);

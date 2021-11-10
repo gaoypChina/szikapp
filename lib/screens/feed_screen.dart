@@ -19,6 +19,14 @@ class FeedListItem {
 class FeedScreen extends StatefulWidget {
   static const String route = '/feed';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: FeedScreen(),
+    );
+  }
+
   const FeedScreen({Key key = const Key('FeedScreen')}) : super(key: key);
 
   @override

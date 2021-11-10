@@ -23,6 +23,14 @@ class ContactsScreen extends StatefulWidget {
   ///Navigátor útvonal a képernyőhöz
   static const String route = '/contacts';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: ContactsScreen(),
+    );
+  }
+
   const ContactsScreen({Key key = const Key('ContactsScreen')})
       : super(key: key);
 

@@ -7,14 +7,16 @@ import '../components/searchable_options.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 
-class JanitorEditAdminArguments {
-  JanitorTask task;
-
-  JanitorEditAdminArguments({required this.task});
-}
-
 class JanitorEditAdminScreen extends StatefulWidget {
   static const String route = '/janitor/adminedit';
+
+  static MaterialPage page({required JanitorTask task}) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: JanitorEditAdminScreen(task: task),
+    );
+  }
 
   final JanitorTask task;
 

@@ -16,6 +16,15 @@ import 'signin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/';
+
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: HomeScreen(),
+    );
+  }
+
   const HomeScreen({Key key = const Key('HomeScreen')}) : super(key: key);
 
   @override

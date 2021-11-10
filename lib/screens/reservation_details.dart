@@ -2,14 +2,34 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../business/reservation_manager.dart';
+import '../models/tasks.dart';
 import 'error_screen.dart';
 
 class ReservationDetailsScreen extends StatefulWidget {
   static const String route = '/reservation/details';
 
+  static MaterialPage page({
+    required String title,
+    required TimetableTask task,
+  }) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: ReservationDetailsScreen(
+        title: title,
+        task: task,
+      ),
+    );
+  }
+
   final String title;
-  const ReservationDetailsScreen({Key? key, required this.title})
-      : super(key: key);
+  final TimetableTask task;
+
+  const ReservationDetailsScreen({
+    Key? key,
+    required this.title,
+    required this.task,
+  }) : super(key: key);
 
   @override
   _ReservationDetailsScreenState createState() =>

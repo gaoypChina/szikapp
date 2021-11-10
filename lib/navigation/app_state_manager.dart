@@ -9,12 +9,14 @@ class SzikAppTab {
 class SzikAppStateManager extends ChangeNotifier {
   bool _loggedIn = false;
   bool _firebaseInitialized = false;
-  bool _firebaseError = false;
+  bool _hasError = false;
+  Object? _error;
   int _selectedTab = SzikAppTab.feed;
 
   bool get isLoggedIn => _loggedIn;
   bool get isFirebaseInitialized => _firebaseInitialized;
-  bool get hasFirebaseError => _firebaseError;
+  bool get hasError => _hasError;
+  Object? get error => _error;
   int get selectedTab => _selectedTab;
 
   void login() {
@@ -33,8 +35,9 @@ class SzikAppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setFirebaseError() {
-    _firebaseError = true;
+  void setError(Object error) {
+    _hasError = true;
+    _error = error;
     notifyListeners();
   }
 
