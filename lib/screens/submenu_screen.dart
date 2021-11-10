@@ -2,25 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../ui/screens/error_screen.dart';
-import 'contacts_page.dart';
-import 'documents_page.dart';
-import 'janitor_page.dart';
-import 'reservation_page.dart';
-
-class SubMenuArguments {
-  List<SubMenuButton> items;
-  String title;
-
-  SubMenuArguments({required this.items, required this.title});
-}
+import 'contacts_screen.dart';
+import 'documents_screen.dart';
+import 'error_screen.dart';
+import 'janitor_screen.dart';
+import 'reservation_screen.dart';
 
 class SubMenuButton {
   final String picture;
   final String name;
   final String route;
 
-  /// Konstruktor
   SubMenuButton(
       {required this.picture, required this.name, required this.route});
 }
@@ -29,12 +21,12 @@ final List<SubMenuButton> subMenuDataListItems = [
   SubMenuButton(
     name: 'SUBMENU_DATA_CONTACTS'.tr(),
     picture: 'assets/icons/users_light_72.png',
-    route: ContactsPage.route,
+    route: ContactsScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
     picture: 'assets/icons/book_light_72.png',
-    route: DocumentsPage.route,
+    route: DocumentsScreen.route,
   ),
 ];
 
@@ -65,12 +57,12 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
     picture: 'assets/icons/hourglass_light_72.png',
-    route: ReservationPage.route,
+    route: ReservationScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
     picture: 'assets/icons/wrench_light_72.png',
-    route: JanitorPage.route,
+    route: JanitorScreen.route,
   ),
   SubMenuButton(
     name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
@@ -89,21 +81,21 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   ),
 ];
 
-class SubMenuPage extends StatefulWidget {
+class SubMenuScreen extends StatefulWidget {
   final List<SubMenuButton> listItems;
   final String title;
   static const String route = '/submenu';
 
-  const SubMenuPage(
-      {Key key = const Key('SubMenuPage'),
+  const SubMenuScreen(
+      {Key key = const Key('SubMenuScreen'),
       required this.listItems,
       required this.title})
       : super(key: key);
   @override
-  _SubMenuPageState createState() => _SubMenuPageState();
+  _SubMenuScreenState createState() => _SubMenuScreenState();
 }
 
-class _SubMenuPageState extends State<SubMenuPage> {
+class _SubMenuScreenState extends State<SubMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -8,18 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../main.dart';
-import '../ui/screens/error_screen.dart';
-import 'home_page.dart';
+import 'error_screen.dart';
 
-class SignInPage extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   static const String route = '/signin';
 
-  const SignInPage({Key key = const Key('SignInPage')}) : super(key: key);
+  const SignInScreen({Key key = const Key('SignInScreen')}) : super(key: key);
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInScreenState extends State<SignInScreen> {
   bool _started = false;
   bool _logoStarted = false;
 

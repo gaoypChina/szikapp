@@ -2,25 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../business/reservation_manager.dart';
-import '../../main.dart';
-import '../../models/tasks.dart';
-import '../themes.dart';
-import '../widgets/alert_dialog.dart';
-import '../widgets/date_picker.dart';
-import '../widgets/time_picker.dart';
-
-class ReservationNewEditArguments {
-  TimetableTask? task;
-  bool isEdit;
-  String placeID;
-
-  ReservationNewEditArguments({
-    this.task,
-    this.isEdit = false,
-    required this.placeID,
-  });
-}
+import '../business/reservation_manager.dart';
+import '../components/alert_dialog.dart';
+import '../components/date_picker.dart';
+import '../components/time_picker.dart';
+import '../main.dart';
+import '../models/tasks.dart';
+import '../ui/themes.dart';
 
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';

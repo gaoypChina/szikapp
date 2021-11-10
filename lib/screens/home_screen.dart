@@ -5,24 +5,24 @@ import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
-import '../ui/screens/error_screen.dart';
-import '../ui/screens/progress_screen.dart';
 import '../utils/error_handler.dart';
 import '../utils/exceptions.dart';
-import 'feed_page.dart';
-import 'menu_page.dart';
-import 'settings_page.dart';
-import 'signin_page.dart';
+import 'error_screen.dart';
+import 'feed_screen.dart';
+import 'menu_screen.dart';
+import 'progress_screen.dart';
+import 'settings_screen.dart';
+import 'signin_screen.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   static const String route = '/';
-  const HomePage({Key key = const Key('HomePage')}) : super(key: key);
+  const HomeScreen({Key key = const Key('HomeScreen')}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   late PersistentTabController _controller;
   bool hasDynamicLinkError = false;
 
@@ -42,9 +42,9 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      const FeedPage(),
-      const MenuPage(),
-      const SettingsPage(),
+      const FeedScreen(),
+      const MenuScreen(),
+      const SettingsScreen(),
     ];
   }
 
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: const RouteAndNavigatorSettings(
-          initialRoute: FeedPage.route,
+          initialRoute: FeedScreen.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
       ),
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: const RouteAndNavigatorSettings(
-          initialRoute: MenuPage.route,
+          initialRoute: MenuScreen.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
       ),
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             Theme.of(context).colorScheme.background.withOpacity(0.9),
         inactiveColorSecondary: Colors.purple,
         routeAndNavigatorSettings: const RouteAndNavigatorSettings(
-          initialRoute: SettingsPage.route,
+          initialRoute: SettingsScreen.route,
           onGenerateRoute: SZIKAppState.onGenerateRoute,
         ),
       ),
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 )
-              : const SignInPage();
+              : const SignInScreen();
         } else if (snapshot.hasError) {
           return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {

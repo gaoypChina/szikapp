@@ -1,15 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import '../ui/themes.dart';
 
-import '../themes.dart';
+///A [DatePicker] widgetben kiválasztható legkorábbi és legkésőbbi dátum
+///különbsége az aktuális időponttól.
+const kDatePickerDifference = Duration(days: 730);
 
-///Személyre szabott időpontválasztó widget.
-class TimePicker extends StatefulWidget {
-  ///A megváltozott időpont jelzésére szolgáló callback
-  final ValueChanged<TimeOfDay> onChanged;
+///Személyre szabott dátumválasztó widget.
+class DatePicker extends StatefulWidget {
+  ///A megváltozott dátum jelzésére szolgáló callback
+  final ValueChanged<DateTime> onChanged;
 
-  ///Eredeti időpont
-  final TimeOfDay time;
+  ///Eredeti dátum
+  final DateTime date;
 
   ///Szöveg színe
   final Color color;
@@ -17,30 +20,31 @@ class TimePicker extends StatefulWidget {
   ///Szöveg mérete
   final double fontSize;
 
-  const TimePicker(
+  const DatePicker(
       {Key? key,
-      required this.time,
+      required this.date,
       required this.onChanged,
       this.color = szikTarawera,
       this.fontSize = 14})
       : super(key: key);
 
   @override
-  _TimePickerState createState() => _TimePickerState();
+  _DatePickerState createState() => _DatePickerState();
 }
 
-class _TimePickerState extends State<TimePicker> {
-  void _selectTime() async {
-    final newTime = await showTimePicker(
+class _DatePickerState extends State<DatePicker> {
+  void _selectDate() async {
+    final newDate = await showDatePicker(
       context: context,
-      initialTime: widget.time,
-      initialEntryMode: TimePickerEntryMode.dial,
+      initialDate: widget.date,
+      firstDate: DateTime.now().subtract(kDatePickerDifference),
+      lastDate: DateTime.now().add(kDatePickerDifference),
       confirmText: 'BUTTON_OK'.tr().toUpperCase(),
       cancelText: 'BUTTON_CANCEL'.tr().toUpperCase(),
-      helpText: 'TIME_PICKER_HELP'.tr().toUpperCase(),
+      helpText: 'DATE_PICKER_HELP'.tr().toUpperCase(),
     );
-    if (newTime != null) {
-      widget.onChanged(newTime);
+    if (newDate != null) {
+      widget.onChanged(newDate);
     }
   }
 
@@ -56,9 +60,9 @@ class _TimePickerState extends State<TimePicker> {
       ),
       padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
       child: GestureDetector(
-        onTap: _selectTime,
+        onTap: _selectDate,
         child: Text(
-          widget.time.format(context),
+          DateFormat('yyyy. MM. dd.').format(widget.date),
           style: Theme.of(context).textTheme.button!.copyWith(
               color: widget.color,
               fontSize: widget.fontSize,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../pages/reservation_page.dart';
-import '../themes.dart';
+
+import '../ui/themes.dart';
+import 'reservation_screen.dart';
 
 class ReservationPlacesMapScreen extends StatelessWidget {
   static const String route = '/reservation/places';
@@ -27,7 +28,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                       child: MyText(
                     title: 'Terasz',
@@ -38,7 +39,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Szemináriumi\nszoba',
@@ -50,7 +51,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Hencsergő',
@@ -74,7 +75,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                       child: MyText(
                     title: 'Párbeszéd\nterme',
@@ -85,7 +86,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Folyóirat\nolvasó',
@@ -97,7 +98,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Kápolna',
@@ -109,7 +110,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Akvárium',
@@ -121,7 +122,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'TV szoba',
@@ -145,7 +146,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                       child: MyText(
                     title: 'Nagy terasz',
@@ -156,7 +157,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Szalon',
@@ -188,7 +189,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                       child: MyText(
                     title: 'Könyvtár',
@@ -199,7 +200,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: 'Zeneszoba',
@@ -244,7 +245,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.of(context).pushNamed(ReservationPage.route),
+                      Navigator.of(context).pushNamed(ReservationScreen.route),
                   child: const Center(
                     child: MyText(
                       title: '-1 Közösségi tér',

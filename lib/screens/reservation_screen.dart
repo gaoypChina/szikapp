@@ -2,21 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../business/reservation_manager.dart';
-import '../ui/screens/reservation_games.dart';
-import '../ui/screens/reservation_places_map.dart';
 import '../ui/themes.dart';
+import 'reservation_games.dart';
+import 'reservation_places_map.dart';
 
-class ReservationPage extends StatefulWidget {
+class ReservationScreen extends StatefulWidget {
   static const String route = '/reservation';
 
-  const ReservationPage({Key key = const Key('ReservationPage')})
+  const ReservationScreen({Key key = const Key('ReservationScreen')})
       : super(key: key);
 
   @override
-  _ReservationPageState createState() => _ReservationPageState();
+  _ReservationScreenState createState() => _ReservationScreenState();
 }
 
-class _ReservationPageState extends State<ReservationPage> {
+class _ReservationScreenState extends State<ReservationScreen> {
   late final ReservationManager reservation;
 
   @override
@@ -81,7 +81,7 @@ class _ReservationPageState extends State<ReservationPage> {
           // Zoom foglalás
           GestureDetector(
             onTap: () {
-              _onPressed(ReservationPage.route);
+              _onPressed(ReservationScreen.route);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),

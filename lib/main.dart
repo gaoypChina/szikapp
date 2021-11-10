@@ -24,25 +24,6 @@ import 'models/resource.dart';
 import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
 import 'navigation/app_state_manager.dart';
-import 'pages/calendar_page.dart';
-import 'pages/contacts_page.dart';
-import 'pages/documents_page.dart';
-import 'pages/feed_page.dart';
-import 'pages/home_page.dart';
-import 'pages/janitor_page.dart';
-import 'pages/menu_page.dart';
-import 'pages/profile_page.dart';
-import 'pages/reservation_page.dart';
-import 'pages/settings_page.dart';
-import 'pages/signin_page.dart';
-import 'pages/submenu_page.dart';
-import 'ui/screens/error_screen.dart';
-import 'ui/screens/janitor_edit_admin.dart';
-import 'ui/screens/janitor_new_edit.dart';
-import 'ui/screens/reservation_details.dart';
-import 'ui/screens/reservation_games.dart';
-import 'ui/screens/reservation_new_edit.dart';
-import 'ui/screens/reservation_places_map.dart';
 import 'ui/themes.dart';
 import 'utils/auth.dart';
 import 'utils/io.dart';
@@ -108,11 +89,11 @@ class SZIKAppState extends State<SZIKApp> {
   late Auth authManager;
 
   ///A kollégiumban megtalálható helyek [Place] listája
-  late List<Place> places;
+  List<Place> places = [];
 
   ///A felhasználói csoportok [Group] listája, melyek meghatározzák a tagjaik
   ///jogosultságait.
-  late List<Group> groups;
+  List<Group> groups = [];
 
   ///Kezdeti Firebase setup és a felhasználó csendes bejelentkeztetésének
   ///megkísérlése. Beállítja a [firebaseInitialized] és a [firebaseError]
@@ -125,12 +106,14 @@ class SZIKAppState extends State<SZIKApp> {
       // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
-      firebaseInitialized = true;
+      Provider.of<SzikAppStateManager>(context, listen: false)
+          .initializeFirebase();
       var result = await authManager.signInSilently();
       return result;
     } on Exception {
       // Set `firebaseError` state to true if Firebase initialization fails
-      firebaseError = true;
+      Provider.of<SzikAppStateManager>(context, listen: false)
+          .setFirebaseError();
       return false;
     }
   }
@@ -231,101 +214,8 @@ class SZIKAppState extends State<SZIKApp> {
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         routeInformationParser: appRouteParser,
+        backButtonDispatcher: RootBackButtonDispatcher(),
       ),
-    );
-  }
-
-  ///Segédfüggvény. A megadott [RouteSettings] paraméter alapján létrehozza
-  ///azt az oldalt, ahová az útvonal mutat. Kezeli a célpont megnyitásához
-  ///szükséges paramétereket is.
-  static Widget getDestination(RouteSettings settings) {
-    switch (settings.name) {
-      case HomePage.route:
-        return const HomePage();
-      case MenuPage.route:
-        return const MenuPage();
-      case FeedPage.route:
-        return const FeedPage();
-      case SubMenuPage.route:
-        final args = settings.arguments as SubMenuArguments;
-        return SubMenuPage(
-          listItems: args.items,
-          title: args.title,
-        );
-      case CalendarPage.route:
-        return const CalendarPage();
-      case ContactsPage.route:
-        return const ContactsPage();
-      case JanitorPage.route:
-        return const JanitorPage();
-      case ProfilePage.route:
-      case ProfilePage.shortRoute:
-        return const ProfilePage();
-      case DocumentsPage.route:
-        return const DocumentsPage();
-      case ReservationPage.route:
-        return const ReservationPage();
-      case SettingsPage.route:
-        return const SettingsPage();
-      case SignInPage.route:
-        return const SignInPage();
-      case ReservationDetailsScreen.route:
-        final args = settings.arguments as ReservationDetailsArguments;
-        return ReservationDetailsScreen(
-          title: args.title,
-        );
-      case ReservationGamesListScreen.route:
-        final args = settings.arguments as ReservationGamesListArguments;
-        return ReservationGamesListScreen(
-          title: args.title,
-        );
-      case ReservationNewEditScreen.route:
-        final args = settings.arguments as ReservationNewEditArguments;
-        return ReservationNewEditScreen(
-          task: args.task,
-          isEdit: args.isEdit,
-          placeID: args.placeID,
-        );
-      case ReservationPlacesMapScreen.route:
-        return const ReservationPlacesMapScreen();
-      case JanitorNewEditScreen.route:
-        final args = settings.arguments as JanitorNewEditArguments;
-        return JanitorNewEditScreen(
-          isEdit: args.isEdit,
-          isFeedback: args.isFeedback,
-          task: args.task,
-        );
-      case JanitorEditAdminScreen.route:
-        final args = settings.arguments as JanitorEditAdminArguments;
-        return JanitorEditAdminScreen(task: args.task);
-      case ErrorScreen.route:
-        ErrorScreenArguments args;
-        if (settings.arguments == null) {
-          args = ErrorScreenArguments(error: 'ERROR_NOT_IMPLEMENTED'.tr());
-        } else {
-          args = settings.arguments as ErrorScreenArguments;
-        }
-        return ErrorScreen(
-          error: args.error,
-        );
-      default:
-        throw Exception(
-            'ERROR_NAVIGATOR_MESSAGE'.tr(args: [settings.name ?? '']));
-    }
-  }
-
-  ///Navigációs függvény, ami a megadott [RouteSettings] adatok alapján
-  ///konstruál egy végrehajtandó navigációs lépést, utat.
-  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-    late Widget page;
-
-    page = getDestination(settings);
-
-    return MaterialPageRoute<dynamic>(
-      builder: (context) {
-        return page;
-      },
-      settings: settings,
     );
   }
 }

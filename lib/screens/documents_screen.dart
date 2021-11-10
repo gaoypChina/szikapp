@@ -4,22 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../business/good_to_know_manager.dart';
+import '../components/search_bar.dart';
+import '../components/tab_choice.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
-import '../ui/screens/error_screen.dart';
-import '../ui/widgets/search_bar.dart';
-import '../ui/widgets/tab_choice.dart';
+import 'error_screen.dart';
 
-class DocumentsPage extends StatefulWidget {
+class DocumentsScreen extends StatefulWidget {
   static const String route = '/documents';
 
-  const DocumentsPage({Key? key}) : super(key: key);
+  const DocumentsScreen({Key? key}) : super(key: key);
 
   @override
-  _DocumentsPageState createState() => _DocumentsPageState();
+  _DocumentsScreenState createState() => _DocumentsScreenState();
 }
 
-class _DocumentsPageState extends State<DocumentsPage> {
+class _DocumentsScreenState extends State<DocumentsScreen> {
   late final GoodToKnowManager goodToKnowManager;
   late List<GoodToKnow> items;
 

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
-import 'profile_page.dart';
+import 'profile_screen.dart';
 
 class FeedListItem {
   String title;
@@ -16,16 +16,16 @@ class FeedListItem {
   });
 }
 
-class FeedPage extends StatefulWidget {
+class FeedScreen extends StatefulWidget {
   static const String route = '/feed';
 
-  const FeedPage({Key key = const Key('FeedPage')}) : super(key: key);
+  const FeedScreen({Key key = const Key('FeedScreen')}) : super(key: key);
 
   @override
-  _FeedPageState createState() => _FeedPageState();
+  _FeedScreenState createState() => _FeedScreenState();
 }
 
-class _FeedPageState extends State<FeedPage> {
+class _FeedScreenState extends State<FeedScreen> {
   late List<FeedListItem> feedItems;
 
   @override
@@ -34,7 +34,7 @@ class _FeedPageState extends State<FeedPage> {
     feedItems = <FeedListItem>[
       FeedListItem(
         title: 'Notification',
-        route: ProfilePage.route,
+        route: ProfileScreen.route,
         iconPath: 'assets/icons/profile_light_72.png',
       )
     ];
@@ -63,7 +63,7 @@ class _FeedPageState extends State<FeedPage> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed(ProfilePage.route),
+              onTap: () => Navigator.of(context).pushNamed(ProfileScreen.route),
               child: Row(
                 children: [
                   Expanded(

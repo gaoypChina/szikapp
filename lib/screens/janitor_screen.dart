@@ -4,23 +4,24 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../business/janitor_manager.dart';
+import '../components/tab_choice.dart';
 import '../main.dart';
 import '../models/tasks.dart';
-import '../ui/screens/error_screen.dart';
-import '../ui/screens/janitor_edit_admin.dart';
-import '../ui/screens/janitor_new_edit.dart';
 import '../ui/themes.dart';
-import '../ui/widgets/tab_choice.dart';
+import 'error_screen.dart';
+import 'janitor_edit_admin.dart';
+import 'janitor_new_edit.dart';
 
-class JanitorPage extends StatefulWidget {
+class JanitorScreen extends StatefulWidget {
   static const String route = '/janitor';
-  const JanitorPage({Key? key}) : super(key: key);
+
+  const JanitorScreen({Key? key}) : super(key: key);
 
   @override
-  _JanitorPageState createState() => _JanitorPageState();
+  _JanitorScreenState createState() => _JanitorScreenState();
 }
 
-class _JanitorPageState extends State<JanitorPage> {
+class _JanitorScreenState extends State<JanitorScreen> {
   late final JanitorManager janitor;
 
   @override

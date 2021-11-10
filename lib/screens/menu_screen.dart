@@ -2,14 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../pages/settings_page.dart';
-import '../pages/submenu_page.dart';
-import 'calendar_page.dart';
+import 'settings_screen.dart';
+import 'submenu_screen.dart';
 
-class MenuPage extends StatelessWidget {
+class MenuScreen extends StatelessWidget {
   static const String route = '/menu';
 
-  const MenuPage({Key key = const Key('MenuPage')}) : super(key: key);
+  const MenuScreen({Key key = const Key('MenuScreen')}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class MenuPage extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
-              SubMenuPage.route,
+              SubMenuScreen.route,
               arguments: SubMenuArguments(
                 items: subMenuDataListItems,
                 title: 'SUBMENU_DATA_TITLE'.tr(),
@@ -89,7 +88,7 @@ class MenuPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
-              SubMenuPage.route,
+              SubMenuScreen.route,
               arguments: SubMenuArguments(
                 items: subMenuCommunityListItems,
                 title: 'SUBMENU_COMMUNITY_TITLE'.tr(),
@@ -153,7 +152,7 @@ class MenuPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
-              SubMenuPage.route,
+              SubMenuScreen.route,
               arguments: SubMenuArguments(
                 items: subMenuEverydayListItems,
                 title: 'SUBMENU_EVERYDAY_TITLE'.tr(),
@@ -274,7 +273,7 @@ class MenuPage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(SettingsPage.route),
+            onTap: () => Navigator.of(context).pushNamed(SettingsScreen.route),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 4),

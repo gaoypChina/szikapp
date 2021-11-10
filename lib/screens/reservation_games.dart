@@ -2,17 +2,11 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-import '../../models/resource.dart';
-import '../../utils/io.dart';
+import '../main.dart';
+import '../models/resource.dart';
+import '../utils/io.dart';
 import 'error_screen.dart';
 import 'reservation_new_edit.dart';
-
-class ReservationGamesListArguments {
-  String title;
-
-  ReservationGamesListArguments({required this.title});
-}
 
 class ReservationGamesListScreen extends StatefulWidget {
   static const String route = '/reservation/games';

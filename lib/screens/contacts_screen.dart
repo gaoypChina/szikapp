@@ -6,32 +6,33 @@ import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
+import '../components/search_bar.dart';
+import '../components/searchable_options.dart';
 import '../main.dart';
 import '../models/group.dart';
 import '../models/user_data.dart';
-import '../ui/screens/error_screen.dart';
-import '../ui/widgets/search_bar.dart';
-import '../ui/widgets/searchable_options.dart';
 import '../utils/exceptions.dart';
+import 'error_screen.dart';
 
 ///Telefonkönyv képernyő.
-///Állapota a privát [_ContactsPageState].
+///Állapota a privát [_ContactsScreenState].
 ///Adatszinkronizáció alatt egy `FutureBuilder` segítségével töltőképernyőt
 ///jelenít meg; majd ennek végeztével buildeli az adatokat ténylegesen
 ///tartalmazó [ContactsListView] widgetet.
-class ContactsPage extends StatefulWidget {
+class ContactsScreen extends StatefulWidget {
   ///Navigátor útvonal a képernyőhöz
   static const String route = '/contacts';
 
-  const ContactsPage({Key key = const Key('ContactsPage')}) : super(key: key);
+  const ContactsScreen({Key key = const Key('ContactsScreen')})
+      : super(key: key);
 
   @override
-  _ContactsPageState createState() => _ContactsPageState();
+  _ContactsScreenState createState() => _ContactsScreenState();
 }
 
-///A [ContactsPage] képernyő állapota. Tartalmazza a [Contacts] signleton
+///A [ContactsScreen] képernyő állapota. Tartalmazza a [Contacts] signleton
 ///egy példányát.
-class _ContactsPageState extends State<ContactsPage> {
+class _ContactsScreenState extends State<ContactsScreen> {
   late ContactsManager contacts;
 
   ///Létrehozza a [Contacts] singleton egy példányát és betölti a

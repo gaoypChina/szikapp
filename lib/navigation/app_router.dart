@@ -68,5 +68,5 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   }
 
   @override
-  Future<void> setNewRoutePath(SzikAppLink newLink) async {}
+  Future<void> setNewRoutePath(SzikAppLink configuration) async {}
 }

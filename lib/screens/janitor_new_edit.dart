@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Feedback;
 import 'package:uuid/uuid.dart';
 
-import '../../business/janitor_manager.dart';
-import '../../main.dart';
-import '../../models/resource.dart';
-import '../../models/tasks.dart';
-import '../widgets/alert_dialog.dart';
-import '../widgets/searchable_options.dart';
+import '../business/janitor_manager.dart';
+import '../components/alert_dialog.dart';
+import '../components/searchable_options.dart';
+import '../main.dart';
+import '../models/resource.dart';
+import '../models/tasks.dart';
 
 class JanitorNewEditArguments {
   bool isEdit;

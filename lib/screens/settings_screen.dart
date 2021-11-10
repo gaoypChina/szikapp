@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   static const String route = '/settings';
 
-  const SettingsPage({Key key = const Key('SettingsPage')}) : super(key: key);
+  const SettingsScreen({Key key = const Key('SettingsScreen')})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
