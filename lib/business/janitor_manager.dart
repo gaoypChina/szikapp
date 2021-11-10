@@ -19,9 +19,7 @@ class JanitorManager extends ChangeNotifier {
   factory JanitorManager() => _instance;
 
   ///Privát konstruktor, ami inicializálja a [tasks] változót.
-  JanitorManager._privateConstructor() {
-    refresh();
-  }
+  JanitorManager._privateConstructor();
 
   List<JanitorTask> get tasks => List.unmodifiable(_tasks);
   bool get isCreatingNewTask => _createNewTask;

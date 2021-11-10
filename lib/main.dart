@@ -11,9 +11,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import 'business/calendar_manager.dart';
+import 'business/good_to_know_manager.dart';
+import 'business/janitor_manager.dart';
+import 'business/kitchen_cleaning_manager.dart';
+import 'business/poll_manager.dart';
+import 'business/reservation_manager.dart';
 import 'models/group.dart';
 import 'models/resource.dart';
+import 'navigation/app_route_parser.dart';
+import 'navigation/app_router.dart';
+import 'navigation/app_state_manager.dart';
 import 'pages/calendar_page.dart';
 import 'pages/contacts_page.dart';
 import 'pages/documents_page.dart';
@@ -76,39 +86,47 @@ class SZIKApp extends StatefulWidget {
 ///az adatokat, amelyekre bármikor és funkciótól függetlenül szükség lehet
 ///a futás során.
 class SZIKAppState extends State<SZIKApp> {
-  static bool firebaseInitialized = false;
-  static bool firebaseError = false;
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  final _appStateManager = SzikAppStateManager();
+  final _calendarManager = CalendarManager();
+  final _goodToKnowManager = GoodToKnowManager();
+  final _janitorManager = JanitorManager();
+  final _kitchenCleaningManager = KitchenCleaningManager();
+  final _pollManager = PollManager();
+  final _reservationManager = ReservationManager();
+
+  late SzikAppRouter _appRouter;
+  final appRouteParser = SzikAppRouteParser();
+
+  static final analytics = FirebaseAnalytics();
+  static final observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   static ConnectivityResult connectionStatus = ConnectivityResult.none;
-  final Connectivity _connectivity = Connectivity();
+  final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   ///[Auth] singleton, ami menedzseli a bejelentkezett felhasználót
-  static late Auth authManager;
+  late Auth authManager;
 
   ///A kollégiumban megtalálható helyek [Place] listája
-  static late List<Place> places;
+  late List<Place> places;
 
   ///A felhasználói csoportok [Group] listája, melyek meghatározzák a tagjaik
   ///jogosultságait.
-  static late List<Group> groups;
+  late List<Group> groups;
 
   ///Kezdeti Firebase setup és a felhasználó csendes bejelentkeztetésének
   ///megkísérlése. Beállítja a [firebaseInitialized] és a [firebaseError]
   ///flageket, ha szükséges. Sikeres csendes bejelenkeztetés esetén Igaz,
   ///sikertelen bejelentkeztetés vagy egyéb hiba esetén Hamis értékkel tér
   ///vissza.
-  static Future<bool> initializeFlutterFire() async {
+  Future<bool> initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
       // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
       authManager = Auth();
       firebaseInitialized = true;
-      var result = await SZIKAppState.authManager.signInSilently();
+      var result = await authManager.signInSilently();
       return result;
     } on Exception {
       // Set `firebaseError` state to true if Firebase initialization fails
@@ -119,7 +137,7 @@ class SZIKAppState extends State<SZIKApp> {
 
   ///A háttérben letölti azokat az adatokat, melyekre bármelyik funkciónak
   ///szüksége lehet.
-  static void loadEarlyData() async {
+  void loadEarlyData() async {
     try {
       var io = IO();
       places = await io.getPlace();
@@ -160,13 +178,23 @@ class SZIKAppState extends State<SZIKApp> {
 
   @override
   void initState() {
-    super.initState();
     _initConnectivity();
 
     ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
     ///frissíti a [connectionStatus] paraméter értékét.
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
+    _appRouter = SzikAppRouter(
+        appStateManager: _appStateManager,
+        calendarManager: _calendarManager,
+        goodToKnowManager: _goodToKnowManager,
+        janitorManager: _janitorManager,
+        kitchenCleaningManager: _kitchenCleaningManager,
+        pollManager: _pollManager,
+        reservationManager: _reservationManager);
+
+    super.initState();
   }
 
   @override
@@ -182,18 +210,28 @@ class SZIKAppState extends State<SZIKApp> {
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.top],
     );
-    return MaterialApp(
-      title: 'APP_NAME'.tr(),
-      initialRoute: HomePage.route,
-      onGenerateRoute: onGenerateRoute,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      navigatorObservers: <NavigatorObserver>[observer],
-      theme: szikLightThemeData,
-      darkTheme: szikDarkThemeData,
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => _appStateManager),
+        ChangeNotifierProvider(create: (context) => _calendarManager),
+        ChangeNotifierProvider(create: (context) => _goodToKnowManager),
+        ChangeNotifierProvider(create: (context) => _janitorManager),
+        ChangeNotifierProvider(create: (context) => _kitchenCleaningManager),
+        ChangeNotifierProvider(create: (context) => _pollManager),
+        ChangeNotifierProvider(create: (context) => _reservationManager),
+      ],
+      child: MaterialApp.router(
+        title: 'APP_NAME'.tr(),
+        routerDelegate: _appRouter,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: szikLightThemeData,
+        darkTheme: szikDarkThemeData,
+        themeMode: ThemeMode.system,
+        debugShowCheckedModeBanner: false,
+        routeInformationParser: appRouteParser,
+      ),
     );
   }
 

@@ -18,9 +18,7 @@ class ReservationManager extends ChangeNotifier {
   factory ReservationManager() => _instance;
 
   ///Privát konstruktor, ami inicializálja a [reservations] változót.
-  ReservationManager._privateConstructor() {
-    refresh();
-  }
+  ReservationManager._privateConstructor();
 
   List<TimetableTask> get reservations => List.unmodifiable(_reservations);
   bool get isCreatingNewReservation => _createNewReservation;

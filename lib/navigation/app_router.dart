@@ -5,9 +5,10 @@ import '../business/janitor_manager.dart';
 import '../business/kitchen_cleaning_manager.dart';
 import '../business/poll_manager.dart';
 import '../business/reservation_manager.dart';
+import 'app_link.dart';
 import 'app_state_manager.dart';
 
-class SzikAppRouter extends RouterDelegate
+class SzikAppRouter extends RouterDelegate<SzikAppLink>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
   final GlobalKey<NavigatorState> navigatorKey;
@@ -67,5 +68,5 @@ class SzikAppRouter extends RouterDelegate
   }
 
   @override
-  Future<void> setNewRoutePath(configuration) async {}
+  Future<void> setNewRoutePath(SzikAppLink newLink) async {}
 }

@@ -19,9 +19,7 @@ class PollManager extends ChangeNotifier {
   factory PollManager() => _instance;
 
   ///Privát konstruktor
-  PollManager._privateConstructor() {
-    refresh();
-  }
+  PollManager._privateConstructor();
 
   List<PollTask> get polls => List.unmodifiable(_polls);
   bool get isCreatingNewPoll => _createNewPoll;
