@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
 import '../business/janitor_manager.dart';
 import '../business/kitchen_cleaning_manager.dart';
 import '../business/poll_manager.dart';
 import '../business/reservation_manager.dart';
+import '../utils/auth_manager.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
 
@@ -13,6 +15,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   @override
   final GlobalKey<NavigatorState> navigatorKey;
   final SzikAppStateManager appStateManager;
+  final AuthManager authManager;
   final CalendarManager calendarManager;
   final GoodToKnowManager goodToKnowManager;
   final JanitorManager janitorManager;
@@ -22,6 +25,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
 
   SzikAppRouter({
     required this.appStateManager,
+    required this.authManager,
     required this.calendarManager,
     required this.goodToKnowManager,
     required this.janitorManager,
@@ -30,6 +34,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     required this.reservationManager,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
+    authManager.addListener(notifyListeners);
     calendarManager.addListener(notifyListeners);
     goodToKnowManager.addListener(notifyListeners);
     janitorManager.addListener(notifyListeners);
@@ -50,6 +55,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   @override
   void dispose() {
     appStateManager.removeListener(notifyListeners);
+    authManager.removeListener(notifyListeners);
     calendarManager.removeListener(notifyListeners);
     goodToKnowManager.removeListener(notifyListeners);
     janitorManager.removeListener(notifyListeners);

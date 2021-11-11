@@ -1,23 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'exceptions.dart';
 
 import 'io.dart';
 import 'user.dart' as szikapp_user;
 
-/// Az [Auth] osztály felelős a Firebase és a saját API autentikáció
+/// Az [AuthManager] osztály felelős a Firebase és a saját API autentikáció
 /// összekapcsolásáért. Menedzseli a bejelentkeztetett felhasználót és adatait.
-class Auth {
+class AuthManager extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   szikapp_user.User? _user;
+  bool _signedIn = false;
 
   /// Singleton osztálypéldány
-  static final Auth _instance = Auth._privateConstructor();
+  static final AuthManager _instance = AuthManager._privateConstructor();
 
-  /// Publikus konstruktor, ami visszaadja az egyetlen [Auth] példányt
-  factory Auth() => _instance;
+  /// Publikus konstruktor, ami visszaadja az egyetlen [AuthManager] példányt
+  factory AuthManager() => _instance;
   // Privát konstruktor
-  Auth._privateConstructor();
+  AuthManager._privateConstructor();
 
   /// Az aktuálisan bejelentkezett felhasználó saját adatstruktúrája
   szikapp_user.User? get user => _user;
@@ -28,7 +30,7 @@ class Auth {
   /// Az aktuálisan bejelentkezett Firebase (Google) fiók
   User? get firebaseUser => _auth.currentUser;
 
-  bool get isSignedIn => user != null && _auth.currentUser != null;
+  bool get isSignedIn => _signedIn;
 
   /// Belső autentikáció segédfüggvény, ami a Google saját metódusával
   /// autentikálja a felhasználót
@@ -52,11 +54,14 @@ class Auth {
   /// Csendes bejelentkezés. A függvény autentikál a saját APInk felé,
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
-  Future<bool> signInSilently() async {
-    if (isSignedIn) {
-      return true;
+  Future<void> signInSilently() async {
+    if (_signedIn) {
+      notifyListeners();
+      return;
     } else if (_auth.currentUser == null) {
-      return false;
+      _signedIn = false;
+      notifyListeners();
+      return;
     }
     try {
       var io = IO();
@@ -67,8 +72,10 @@ class Auth {
           : '../assets/default.png';
       _user = szikapp_user.User(
           Uri.parse(profilePicture ?? '../assets/default.png'), userData);
-      return true;
+      _signedIn = true;
+      notifyListeners();
     } on Exception catch (e) {
+      _signedIn = false;
       throw AuthException(e.toString());
     }
   }
@@ -76,8 +83,11 @@ class Auth {
   /// Bejelentkezés. A függvény a Google autentikáció segítségével
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
-  Future<bool> signIn() async {
-    if (isSignedIn) return true;
+  Future<void> signIn() async {
+    if (_signedIn) {
+      notifyListeners();
+      return;
+    }
     try {
       await _signInWithGoogle();
       var io = IO();
@@ -88,8 +98,10 @@ class Auth {
           : '../assets/default.png';
       _user = szikapp_user.User(
           Uri.parse(profilePicture ?? '../assets/default.png'), userData);
-      return true;
+      _signedIn = true;
+      notifyListeners();
     } on Exception catch (e) {
+      _signedIn = false;
       throw AuthException(e.toString());
     }
   }
@@ -97,11 +109,12 @@ class Auth {
   /// Kijelentkezés. A függvény kijelentkezteti az aktuális Firebase fiókot
   /// használó felhasználót, majd megsemmisíti a belső [szikapp_user.User]
   /// adatstruktúrát.
-  Future<bool> signOut() async {
+  Future<void> signOut() async {
     try {
       await _auth.signOut();
       _user = null;
-      return true;
+      _signedIn = false;
+      notifyListeners();
     } on Exception catch (e) {
       throw AuthException(e.toString());
     }

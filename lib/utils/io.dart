@@ -66,9 +66,7 @@ class IO {
   final http.Client client = http.Client();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory IO() {
-    return _instance;
-  }
+  factory IO() => _instance;
 
   //Metódusok
 

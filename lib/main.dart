@@ -25,7 +25,7 @@ import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
 import 'navigation/app_state_manager.dart';
 import 'ui/themes.dart';
-import 'utils/auth.dart';
+import 'utils/auth_manager.dart';
 import 'utils/io.dart';
 
 ///Program belépési pont. Futtatja az applikációt a megfelelő kontextus,
@@ -68,6 +68,7 @@ class SZIKApp extends StatefulWidget {
 ///a futás során.
 class SZIKAppState extends State<SZIKApp> {
   final _appStateManager = SzikAppStateManager();
+  final _authManager = AuthManager();
   final _calendarManager = CalendarManager();
   final _goodToKnowManager = GoodToKnowManager();
   final _janitorManager = JanitorManager();
@@ -85,9 +86,6 @@ class SZIKAppState extends State<SZIKApp> {
   final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  ///[Auth] singleton, ami menedzseli a bejelentkezett felhasználót
-  late Auth authManager;
-
   ///A kollégiumban megtalálható helyek [Place] listája
   List<Place> places = [];
 
@@ -100,20 +98,17 @@ class SZIKAppState extends State<SZIKApp> {
   ///flageket, ha szükséges. Sikeres csendes bejelenkeztetés esetén Igaz,
   ///sikertelen bejelentkeztetés vagy egyéb hiba esetén Hamis értékkel tér
   ///vissza.
-  Future<bool> initializeFlutterFire() async {
+  Future<void> initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
       // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
-      authManager = Auth();
       Provider.of<SzikAppStateManager>(context, listen: false)
           .initializeFirebase();
-      var result = await authManager.signInSilently();
-      return result;
+      await Provider.of<AuthManager>(context, listen: false).signInSilently();
     } on Exception catch (e) {
       // Set `firebaseError` state to true if Firebase initialization fails
       Provider.of<SzikAppStateManager>(context, listen: false).setError(e);
-      return false;
     }
   }
 
@@ -169,6 +164,7 @@ class SZIKAppState extends State<SZIKApp> {
 
     _appRouter = SzikAppRouter(
         appStateManager: _appStateManager,
+        authManager: _authManager,
         calendarManager: _calendarManager,
         goodToKnowManager: _goodToKnowManager,
         janitorManager: _janitorManager,
@@ -195,6 +191,7 @@ class SZIKAppState extends State<SZIKApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => _appStateManager),
+        ChangeNotifierProvider(create: (context) => _authManager),
         ChangeNotifierProvider(create: (context) => _calendarManager),
         ChangeNotifierProvider(create: (context) => _goodToKnowManager),
         ChangeNotifierProvider(create: (context) => _janitorManager),
