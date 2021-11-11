@@ -73,6 +73,28 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     return true;
   }
 
+  SzikAppLink getCurrentPath() {
+    if (!authManager.isSignedIn) {
+      return SzikAppLink(location: SzikAppLink.kSignInPath);
+    } else {
+      return SzikAppLink(
+        location: SzikAppLink.kHomePath,
+        currentTab: appStateManager.selectedTab,
+      );
+    }
+  }
+
   @override
-  Future<void> setNewRoutePath(SzikAppLink configuration) async {}
+  SzikAppLink get currentConfiguration => getCurrentPath();
+
+  @override
+  Future<void> setNewRoutePath(SzikAppLink configuration) async {
+    switch (configuration.location) {
+      case SzikAppLink.kHomePath:
+        appStateManager.selectTab(configuration.currentTab ?? SzikAppTab.feed);
+        break;
+      default:
+        break;
+    }
+  }
 }
