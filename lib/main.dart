@@ -19,8 +19,6 @@ import 'business/janitor_manager.dart';
 import 'business/kitchen_cleaning_manager.dart';
 import 'business/poll_manager.dart';
 import 'business/reservation_manager.dart';
-import 'models/group.dart';
-import 'models/resource.dart';
 import 'navigation/app_route_parser.dart';
 import 'navigation/app_router.dart';
 import 'navigation/app_state_manager.dart';
@@ -86,43 +84,18 @@ class SZIKAppState extends State<SZIKApp> {
   final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  ///A kollégiumban megtalálható helyek [Place] listája
-  List<Place> places = [];
-
-  ///A felhasználói csoportok [Group] listája, melyek meghatározzák a tagjaik
-  ///jogosultságait.
-  List<Group> groups = [];
-
-  ///Kezdeti Firebase setup és a felhasználó csendes bejelentkeztetésének
-  ///megkísérlése. Beállítja a [firebaseInitialized] és a [firebaseError]
-  ///flageket, ha szükséges. Sikeres csendes bejelenkeztetés esetén Igaz,
-  ///sikertelen bejelentkeztetés vagy egyéb hiba esetén Hamis értékkel tér
-  ///vissza.
-  Future<void> initializeFlutterFire() async {
+  ///Kezdeti Firebase setup. Beállítja a [firebaseInitialized] és a [firebaseError]
+  ///flageket, ha szükséges.
+  Future<void> _initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and
       // set `firebaseInitialized` state to true
       await Firebase.initializeApp();
       Provider.of<SzikAppStateManager>(context, listen: false)
           .initializeFirebase();
-      await Provider.of<AuthManager>(context, listen: false).signInSilently();
     } on Exception catch (e) {
       // Set `firebaseError` state to true if Firebase initialization fails
       Provider.of<SzikAppStateManager>(context, listen: false).setError(e);
-    }
-  }
-
-  ///A háttérben letölti azokat az adatokat, melyekre bármelyik funkciónak
-  ///szüksége lehet.
-  void loadEarlyData() async {
-    try {
-      var io = IO();
-      places = await io.getPlace();
-      groups = await io.getGroup();
-    } on Exception {
-      places = <Place>[];
-      groups = <Group>[];
-      //print('Error loading early data');
     }
   }
 
@@ -156,6 +129,7 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     _initConnectivity();
+    _initializeFlutterFire();
 
     ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
     ///frissíti a [connectionStatus] paraméter értékét.
@@ -171,6 +145,8 @@ class SZIKAppState extends State<SZIKApp> {
         kitchenCleaningManager: _kitchenCleaningManager,
         pollManager: _pollManager,
         reservationManager: _reservationManager);
+
+    _appStateManager.loadEarlyData();
 
     super.initState();
   }

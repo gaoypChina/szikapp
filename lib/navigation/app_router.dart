@@ -6,6 +6,8 @@ import '../business/janitor_manager.dart';
 import '../business/kitchen_cleaning_manager.dart';
 import '../business/poll_manager.dart';
 import '../business/reservation_manager.dart';
+import '../screens/home_screen.dart';
+import '../screens/signin_screen.dart';
 import '../utils/auth_manager.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
@@ -47,7 +49,13 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      pages: const [],
+      pages: [
+        if (!authManager.isSignedIn) ...[
+          SignInScreen.page(),
+        ] else ...[
+          HomeScreen.page(appStateManager.selectedTab),
+        ]
+      ],
       onPopPage: _handlePopPage,
     );
   }
