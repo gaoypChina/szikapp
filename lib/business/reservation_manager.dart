@@ -7,6 +7,7 @@ import '../utils/io.dart';
 class ReservationManager extends ChangeNotifier {
   ///Foglalások listája
   List<TimetableTask> _reservations = [];
+  int _selectedIndex = -1;
   bool _createNewReservation = false;
   bool _editReservation = false;
 
@@ -21,6 +22,9 @@ class ReservationManager extends ChangeNotifier {
   ReservationManager._privateConstructor();
 
   List<TimetableTask> get reservations => List.unmodifiable(_reservations);
+  int get selectedIndex => _selectedIndex;
+  TimetableTask? get selectedTask =>
+      selectedIndex != -1 ? _reservations[selectedIndex] : null;
   bool get isCreatingNewReservation => _createNewReservation;
   bool get isEditingReservation => _editReservation;
 
@@ -31,6 +35,13 @@ class ReservationManager extends ChangeNotifier {
 
   void editReservation() {
     _editReservation = true;
+    notifyListeners();
+  }
+
+  void setSelectedReservationTask(String uid) {
+    final index = _reservations.indexWhere((element) => element.uid == uid);
+    _selectedIndex = index;
+    _createNewReservation = false;
     notifyListeners();
   }
 
@@ -57,6 +68,7 @@ class ReservationManager extends ChangeNotifier {
     _reservations.removeWhere((element) => element.uid == task.uid);
     _reservations.add(task);
     _editReservation = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -72,6 +84,7 @@ class ReservationManager extends ChangeNotifier {
 
     _reservations.remove(task);
     _editReservation = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }

@@ -8,6 +8,7 @@ import '../utils/io.dart';
 class JanitorManager extends ChangeNotifier {
   ///Kéréslista
   List<JanitorTask> _tasks = [];
+  int _selectedIndex = -1;
   bool _createNewTask = false;
   bool _editTask = false;
   bool _adminEditTask = false;
@@ -22,6 +23,10 @@ class JanitorManager extends ChangeNotifier {
   JanitorManager._privateConstructor();
 
   List<JanitorTask> get tasks => List.unmodifiable(_tasks);
+
+  int get selectedIndex => _selectedIndex;
+  JanitorTask? get selectedTask =>
+      selectedIndex != -1 ? _tasks[selectedIndex] : null;
   bool get isCreatingNewTask => _createNewTask;
   bool get isEditingTask => _editTask;
   bool get isAdminEditingTask => _adminEditTask;
@@ -41,6 +46,13 @@ class JanitorManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSelectedJanitorTask(String uid) {
+    final index = _tasks.indexWhere((element) => element.uid == uid);
+    _selectedIndex = index;
+    _createNewTask = false;
+    notifyListeners();
+  }
+
   ///Státusz szerkesztése. A függvény megváltoztatja a feladat státuszát a
   ///megadott státuszra, mely validitásának ellenőrzése szerver oldalon
   ///történik.
@@ -52,6 +64,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.firstWhere((element) => element.uid == task.uid).status = status;
     _editTask = false;
     _adminEditTask = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -82,6 +95,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.add(task);
     _editTask = false;
     _adminEditTask = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -98,6 +112,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.remove(task);
     _editTask = false;
     _adminEditTask = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }

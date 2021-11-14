@@ -9,13 +9,13 @@ import '../utils/io.dart';
 ///háttérosztály.
 class KitchenCleaningManager extends ChangeNotifier {
   ///Konyhatakarítási feladatok listája
-  List<CleaningTask> cleaningTasks = [];
+  List<CleaningTask> _cleaningTasks = [];
 
   ///Konyhatakarítás-cserék listája
-  List<CleaningExchange> cleaningExchanges = [];
+  List<CleaningExchange> _cleaningExchanges = [];
 
   ///Konyhatakarítási periódusok listája
-  List<CleaningPeriod> cleaningPeriods = [];
+  List<CleaningPeriod> _cleaningPeriods = [];
 
   ///Singleton osztálypéldány
   static final KitchenCleaningManager _instance =
@@ -27,14 +27,18 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Privát kontruktor, ami inicializálja a [cleaningPeriods] paramétert.
   KitchenCleaningManager._privateConstructor();
 
+  List<CleaningTask> get tasks => List.unmodifiable(_cleaningTasks);
+  List<CleaningExchange> get exchanges => List.unmodifiable(_cleaningExchanges);
+  List<CleaningPeriod> get periods => List.unmodifiable(_cleaningPeriods);
+
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
   void refreshTasks({DateTime? start, DateTime? end}) async {
-    if (cleaningPeriods.isEmpty) refreshPeriods();
+    if (_cleaningPeriods.isEmpty) refreshPeriods();
 
     start ??= DateTime.now().subtract(const Duration(days: 1));
-    end ??= cleaningPeriods.last.end;
+    end ??= _cleaningPeriods.last.end;
 
     var parameter = {
       'start': start.toIso8601String(),
@@ -42,7 +46,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     };
 
     var io = IO();
-    cleaningTasks = await io.getCleaning(parameter);
+    _cleaningTasks = await io.getCleaning(parameter);
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
@@ -51,7 +55,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   void refreshExchanges({bool approved = false}) async {
     var io = IO();
     var parameter = {'approved': approved.toString()};
-    cleaningExchanges = await io.getCleaningExchange(parameter);
+    _cleaningExchanges = await io.getCleaningExchange(parameter);
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb konyhatakarítási
@@ -67,7 +71,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     };
 
     var io = IO();
-    cleaningPeriods = await io.getCleaningPeriod(parameter);
+    _cleaningPeriods = await io.getCleaningPeriod(parameter);
   }
 
   ///Elmaradt konyhatakarítás jelentése.
@@ -76,8 +80,8 @@ class KitchenCleaningManager extends ChangeNotifier {
     task.status = TaskStatus.refused;
     var parameter = {'id': task.uid};
     await io.putCleaning(task, parameter);
-    cleaningTasks.removeWhere((element) => element.uid == task.uid);
-    cleaningTasks.add(task);
+    _cleaningTasks.removeWhere((element) => element.uid == task.uid);
+    _cleaningTasks.add(task);
     return true;
   }
 
@@ -87,7 +91,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> createCleaningPeriod(CleaningPeriod period) async {
     var io = IO();
     await io.postCleaningPeriod(period);
-    cleaningPeriods.add(period);
+    _cleaningPeriods.add(period);
     return true;
   }
 
@@ -98,8 +102,8 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': period.uid};
     await io.patchCleaningPeriod(period, parameter);
-    cleaningPeriods.removeWhere((element) => element.uid == period.uid);
-    cleaningPeriods.add(period);
+    _cleaningPeriods.removeWhere((element) => element.uid == period.uid);
+    _cleaningPeriods.add(period);
     return true;
   }
 
@@ -110,8 +114,8 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': task.uid};
     await io.putCleaning(task, parameter);
-    cleaningTasks.removeWhere((element) => element.uid == task.uid);
-    cleaningTasks.add(task);
+    _cleaningTasks.removeWhere((element) => element.uid == task.uid);
+    _cleaningTasks.add(task);
     return true;
   }
 
@@ -120,7 +124,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> createCleaningExchangeOccasion(CleaningExchange exchange) async {
     var io = IO();
     await io.postCleaningExchange(exchange);
-    cleaningExchanges.add(exchange);
+    _cleaningExchanges.add(exchange);
     return true;
   }
 

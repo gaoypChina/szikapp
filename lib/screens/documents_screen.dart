@@ -35,7 +35,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   void initState() {
     super.initState();
     goodToKnowManager = GoodToKnowManager();
-    items = goodToKnowManager.posts;
+    items = goodToKnowManager.items;
   }
 
   void _onSearchFieldChanged(String query) {

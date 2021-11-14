@@ -7,6 +7,7 @@ import '../utils/io.dart';
 class PollManager extends ChangeNotifier {
   ///Szavazások listája
   List<PollTask> _polls = [];
+  int _selectedIndex = -1;
   bool _createNewPoll = false;
   bool _editPoll = false;
   bool _vote = false;
@@ -22,6 +23,10 @@ class PollManager extends ChangeNotifier {
   PollManager._privateConstructor();
 
   List<PollTask> get polls => List.unmodifiable(_polls);
+
+  int get selectedIndex => _selectedIndex;
+  PollTask? get selectedPoll =>
+      selectedIndex != -1 ? _polls[selectedIndex] : null;
   bool get isCreatingNewPoll => _createNewPoll;
   bool get isEditingPoll => _editPoll;
   bool get isVoting => _vote;
@@ -39,6 +44,13 @@ class PollManager extends ChangeNotifier {
 
   void vote() {
     _vote = true;
+    notifyListeners();
+  }
+
+  void setSelectedPollTask(String uid) {
+    final index = _polls.indexWhere((element) => element.uid == uid);
+    _selectedIndex = index;
+    _createNewPoll = false;
     notifyListeners();
   }
 
@@ -75,6 +87,7 @@ class PollManager extends ChangeNotifier {
     _polls.removeWhere((element) => element.uid == poll.uid);
     _polls.add(poll);
     _editPoll = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -90,6 +103,7 @@ class PollManager extends ChangeNotifier {
 
     _polls.remove(poll);
     _editPoll = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -105,6 +119,7 @@ class PollManager extends ChangeNotifier {
 
     poll.answers.add(vote);
     _vote = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
