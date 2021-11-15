@@ -10,11 +10,22 @@ class SzikAppTab {
   static const int settings = 2;
 }
 
+class SzikAppFeature {
+  static const int none = -1;
+  static const int calendar = 0;
+  static const int contacts = 1;
+  static const int janitor = 2;
+  static const int profile = 3;
+  static const int reservation = 4;
+  static const int settings = 5;
+}
+
 class SzikAppStateManager extends ChangeNotifier {
   bool _firebaseInitialized = false;
   bool _hasError = false;
   Object? _error;
   int _selectedTab = SzikAppTab.feed;
+  int _selectedFeature = -1;
 
   ///A kollégiumban megtalálható helyek [Place] listája
   List<Place> _places = [];
@@ -27,6 +38,7 @@ class SzikAppStateManager extends ChangeNotifier {
   bool get hasError => _hasError;
   Object? get error => _error;
   int get selectedTab => _selectedTab;
+  int get selectedFeature => _selectedFeature;
 
   List<Place> get places => _places;
   List<Group> get groups => _groups;
@@ -63,6 +75,16 @@ class SzikAppStateManager extends ChangeNotifier {
 
   void selectTab(int index) {
     _selectedTab = index;
+    notifyListeners();
+  }
+
+  void selectFeature(int feature) {
+    _selectedFeature = feature;
+    notifyListeners();
+  }
+
+  void unselectFeature() {
+    _selectedFeature = -1;
     notifyListeners();
   }
 }

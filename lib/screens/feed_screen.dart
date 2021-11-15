@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../main.dart';
+import '../navigation/app_state_manager.dart';
+import '../utils/auth_manager.dart';
 import 'profile_screen.dart';
 
 class FeedListItem {
@@ -51,8 +53,13 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var showName = SZIKAppState.authManager.user!.nick ??
-        SZIKAppState.authManager.user!.name.split(' ').last;
+    var showName =
+        Provider.of<AuthManager>(context, listen: false).user!.nick ??
+            Provider.of<AuthManager>(context, listen: false)
+                .user!
+                .name
+                .split(' ')
+                .last;
     return Container(
       padding:
           const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
@@ -71,7 +78,9 @@ class _FeedScreenState extends State<FeedScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed(ProfileScreen.route),
+              onTap: () =>
+                  Provider.of<SzikAppStateManager>(context, listen: false)
+                      .viewProfile(),
               child: Row(
                 children: [
                   Expanded(
@@ -86,7 +95,10 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   CircleAvatar(
                     foregroundImage: NetworkImage(
-                      SZIKAppState.authManager.user!.profilePicture.toString(),
+                      Provider.of<AuthManager>(context, listen: false)
+                          .user!
+                          .profilePicture
+                          .toString(),
                     ),
                   )
                 ],

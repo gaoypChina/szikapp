@@ -13,8 +13,11 @@ class SubMenuButton {
   final String name;
   final String route;
 
-  SubMenuButton(
-      {required this.picture, required this.name, required this.route});
+  SubMenuButton({
+    required this.picture,
+    required this.name,
+    required this.route,
+  });
 }
 
 final List<SubMenuButton> subMenuDataListItems = [
@@ -80,6 +83,16 @@ final List<SubMenuButton> subMenuEverydayListItems = [
     route: ErrorScreen.route,
   ),
 ];
+
+class SubMenuArguments {
+  final List<SubMenuButton> listItems;
+  final String title;
+
+  SubMenuArguments({
+    required this.title,
+    required this.listItems,
+  });
+}
 
 class SubMenuScreen extends StatelessWidget {
   final List<SubMenuButton> listItems;

@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
@@ -11,6 +12,7 @@ import '../components/searchable_options.dart';
 import '../main.dart';
 import '../models/group.dart';
 import '../models/user_data.dart';
+import '../navigation/app_state_manager.dart';
 import '../utils/exceptions.dart';
 import 'error_screen.dart';
 
@@ -41,7 +43,7 @@ class ContactsScreen extends StatefulWidget {
 ///A [ContactsScreen] képernyő állapota. Tartalmazza a [Contacts] signleton
 ///egy példányát.
 class _ContactsScreenState extends State<ContactsScreen> {
-  late ContactsManager contacts;
+  late ContactsManager manager;
 
   ///Létrehozza a [Contacts] singleton egy példányát és betölti a
   ///csoportadatokat a csoportok szerint való szűréshez, amennyiben ez
@@ -49,14 +51,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
   @override
   void initState() {
     super.initState();
-    contacts = ContactsManager();
-    if (SZIKAppState.groups.isEmpty) SZIKAppState.loadEarlyData();
+    manager = ContactsManager();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: contacts.refresh(),
+      future: manager.refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ContactsListViewShimmer();
@@ -69,7 +70,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return const ContactsListView();
+          return ContactsListView(
+            manager: manager,
+          );
         }
       },
     );
@@ -79,7 +82,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
 ///A kontaktlistát és funkcionalitásait megjelenítő widget.
 ///Állapota a privát [_ContactsListViewState].
 class ContactsListView extends StatefulWidget {
-  const ContactsListView({Key? key}) : super(key: key);
+  final ContactsManager manager;
+
+  const ContactsListView({Key? key, required this.manager}) : super(key: key);
 
   @override
   _ContactsListViewState createState() => _ContactsListViewState();
@@ -88,8 +93,6 @@ class ContactsListView extends StatefulWidget {
 ///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
 ///[Contacts] singletont.
 class _ContactsListViewState extends State<ContactsListView> {
-  late ContactsManager contacts;
-
   ///Megjelenített kontaktok
   late List<UserData> items;
 
@@ -104,14 +107,12 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   void initState() {
     super.initState();
-    contacts = ContactsManager();
-    items = contacts.contacts;
   }
 
   ///A keresőmező tartalmának változásakor végigkeresi a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onSearchFieldChanged(String query) {
-    var newItems = contacts.search(query);
+    var newItems = widget.manager.search(query);
     setState(() {
       items = newItems;
     });
@@ -132,7 +133,7 @@ class _ContactsListViewState extends State<ContactsListView> {
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onFilterChanged(Group? group) {
-    var newItems = contacts.filter(group!.id);
+    var newItems = widget.manager.filter(group!.id);
     SZIKAppState.analytics.logSearch(searchTerm: group.name);
     setState(() {
       items = newItems;
@@ -206,7 +207,10 @@ class _ContactsListViewState extends State<ContactsListView> {
                       ? Container()
                       : Expanded(
                           child: SearchableOptions<Group>(
-                            items: SZIKAppState.groups,
+                            items: Provider.of<SzikAppStateManager>(
+                              context,
+                              listen: false,
+                            ).groups,
                             onItemChanged: _onFilterChanged,
                             selectedItem: null,
                             compare: (i, s) => i.isEqual(s),
@@ -227,7 +231,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                     ),
                   )
                 : RefreshIndicator(
-                    onRefresh: () => contacts.refresh(forceRefresh: true),
+                    onRefresh: () => widget.manager.refresh(forceRefresh: true),
                     child: Accordion(
                       headerBorderRadius: 0,
                       headerBackgroundColor: theme.colorScheme.background,
@@ -280,7 +284,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                                             'country': item.phone!.padLeft(5)
                                           },
                                         );
-                                        contacts.makePhoneCall(item.phone!);
+                                        widget.manager
+                                            .makePhoneCall(item.phone!);
                                       } on NotSupportedCallFunctionalityException catch (e) {
                                         _showSnackBar(e.message);
                                       }
@@ -322,7 +327,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                                           'domain': item.email.split('@').last
                                         },
                                       );
-                                      contacts.makeEmail(item.email);
+                                      widget.manager.makeEmail(item.email);
                                     } on NotSupportedEmailFunctionalityException catch (e) {
                                       _showSnackBar(e.message);
                                     }

@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../business/good_to_know_manager.dart';
 import '../components/search_bar.dart';
@@ -28,18 +29,17 @@ class DocumentsScreen extends StatefulWidget {
 }
 
 class _DocumentsScreenState extends State<DocumentsScreen> {
-  late final GoodToKnowManager goodToKnowManager;
   late List<GoodToKnow> items;
 
   @override
   void initState() {
     super.initState();
-    goodToKnowManager = GoodToKnowManager();
-    items = goodToKnowManager.items;
+    items = Provider.of<GoodToKnowManager>(context, listen: false).items;
   }
 
   void _onSearchFieldChanged(String query) {
-    var newItems = goodToKnowManager.search(query);
+    var newItems =
+        Provider.of<GoodToKnowManager>(context, listen: false).search(query);
     setState(() {
       items = newItems;
     });
@@ -57,7 +57,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: goodToKnowManager.refresh(),
+      future: Provider.of<GoodToKnowManager>(context, listen: false).refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer

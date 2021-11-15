@@ -27,7 +27,7 @@ class MenuScreen extends StatelessWidget {
             onTap: () => Navigator.of(context).pushNamed(
               SubMenuScreen.route,
               arguments: SubMenuArguments(
-                items: subMenuDataListItems,
+                listItems: subMenuDataListItems,
                 title: 'SUBMENU_DATA_TITLE'.tr(),
               ),
             ),
@@ -90,7 +90,7 @@ class MenuScreen extends StatelessWidget {
             onTap: () => Navigator.of(context).pushNamed(
               SubMenuScreen.route,
               arguments: SubMenuArguments(
-                items: subMenuCommunityListItems,
+                listItems: subMenuCommunityListItems,
                 title: 'SUBMENU_COMMUNITY_TITLE'.tr(),
               ),
             ),
@@ -154,7 +154,7 @@ class MenuScreen extends StatelessWidget {
             onTap: () => Navigator.of(context).pushNamed(
               SubMenuScreen.route,
               arguments: SubMenuArguments(
-                items: subMenuEverydayListItems,
+                listItems: subMenuEverydayListItems,
                 title: 'SUBMENU_EVERYDAY_TITLE'.tr(),
               ),
             ),

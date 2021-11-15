@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../business/calendar_manager.dart';
 import '../main.dart';
@@ -24,18 +25,15 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  late final CalendarManager calendar;
-
   @override
   void initState() {
     super.initState();
-    calendar = CalendarManager();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: calendar.refresh(),
+      future: Provider.of<CalendarManager>(context, listen: false).refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
