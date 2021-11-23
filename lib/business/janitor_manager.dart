@@ -12,6 +12,7 @@ class JanitorManager extends ChangeNotifier {
   bool _createNewTask = false;
   bool _editTask = false;
   bool _adminEditTask = false;
+  bool _feedbackTask = false;
 
   ///Singleton osztálypéldány
   static final JanitorManager _instance = JanitorManager._privateConstructor();
@@ -30,19 +31,28 @@ class JanitorManager extends ChangeNotifier {
   bool get isCreatingNewTask => _createNewTask;
   bool get isEditingTask => _editTask;
   bool get isAdminEditingTask => _adminEditTask;
+  bool get isGivingFeedback => _feedbackTask;
 
   void createNewTask() {
     _createNewTask = true;
     notifyListeners();
   }
 
-  void editTask() {
+  void editTask(int index) {
     _editTask = true;
+    _selectedIndex = index;
     notifyListeners();
   }
 
-  void adminEditTask() {
+  void adminEditTask(int index) {
+    _selectedIndex = index;
     _adminEditTask = true;
+    notifyListeners();
+  }
+
+  void feedbackTask(int index) {
+    _selectedIndex = index;
+    _feedbackTask = true;
     notifyListeners();
   }
 
@@ -95,6 +105,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.add(task);
     _editTask = false;
     _adminEditTask = false;
+    _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;
@@ -112,6 +123,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.remove(task);
     _editTask = false;
     _adminEditTask = false;
+    _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;

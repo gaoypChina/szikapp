@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/resource.dart';
 
 import '../models/tasks.dart';
 import '../utils/io.dart';
@@ -7,7 +8,10 @@ import '../utils/io.dart';
 class ReservationManager extends ChangeNotifier {
   ///Foglalások listája
   List<TimetableTask> _reservations = [];
+  List<Boardgame> _games = [];
   int _selectedIndex = -1;
+  int _selectedGame = -1;
+  int _selectedPlace = -1;
   bool _createNewReservation = false;
   bool _editReservation = false;
 
@@ -22,19 +26,34 @@ class ReservationManager extends ChangeNotifier {
   ReservationManager._privateConstructor();
 
   List<TimetableTask> get reservations => List.unmodifiable(_reservations);
+  List<Boardgame> get games => List.unmodifiable(_games);
   int get selectedIndex => _selectedIndex;
+  int get selectedGameIndex => _selectedGame;
+  int get selectedPlaceIndex => _selectedPlace;
   TimetableTask? get selectedTask =>
       selectedIndex != -1 ? _reservations[selectedIndex] : null;
   bool get isCreatingNewReservation => _createNewReservation;
   bool get isEditingReservation => _editReservation;
 
-  void createNewReservation() {
+  void createNewReservation({
+    int gameIndex = -1,
+    int placeIndex = -1,
+  }) {
     _createNewReservation = true;
+    _selectedPlace = placeIndex;
+    _selectedGame = gameIndex;
     notifyListeners();
   }
 
-  void editReservation() {
+  void editReservation(
+    int index, {
+    int gameIndex = -1,
+    int placeIndex = -1,
+  }) {
     _editReservation = true;
+    _selectedIndex = index;
+    _selectedPlace = placeIndex;
+    _selectedGame = gameIndex;
     notifyListeners();
   }
 
@@ -104,6 +123,11 @@ class ReservationManager extends ChangeNotifier {
 
     var io = IO();
     _reservations = await io.getReservation(parameter);
+  }
+
+  Future<void> refreshGames() async {
+    var io = IO();
+    _games = await io.getBoardgame();
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a foglaláslistát.

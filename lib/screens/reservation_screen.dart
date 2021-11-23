@@ -28,7 +28,7 @@ class ReservationScreen extends StatelessWidget {
           // Teremfoglalás
           GestureDetector(
             onTap: () {
-              _onPressed(ReservationPlacesMapScreen.route);
+              Navigator.of(context).pushNamed(ReservationPlacesMapScreen.route);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
@@ -67,7 +67,7 @@ class ReservationScreen extends StatelessWidget {
           // Zoom foglalás
           GestureDetector(
             onTap: () {
-              _onPressed(ReservationScreen.route);
+              Navigator.of(context).pushNamed(ReservationScreen.route);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
@@ -106,9 +106,6 @@ class ReservationScreen extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
               ReservationGamesListScreen.route,
-              arguments: ReservationGamesListArguments(
-                title: 'RESERVATION_TITLE_BOARDGAME_LIST'.tr(),
-              ),
             ),
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
@@ -150,9 +147,5 @@ class ReservationScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _onPressed(String route) {
-    Navigator.of(context).pushNamed(route);
   }
 }

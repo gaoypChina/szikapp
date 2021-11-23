@@ -2,15 +2,16 @@ import 'package:accordion/accordion.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../business/janitor_manager.dart';
 import '../components/tab_choice.dart';
 import '../main.dart';
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
+import '../utils/auth_manager.dart';
 import 'error_screen.dart';
-import 'janitor_edit_admin.dart';
-import 'janitor_new_edit.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
@@ -36,25 +37,36 @@ class JanitorScreen extends StatelessWidget {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return JanitorListView(
-            manager: manager,
-          );
+          return const JanitorListView();
         }
       },
     );
   }
 }
 
-class JanitorListView extends StatelessWidget {
-  final JanitorManager manager;
+class JanitorListView extends StatefulWidget {
+  const JanitorListView({Key? key}) : super(key: key);
 
-  const JanitorListView({Key? key, required this.manager}) : super(key: key);
+  @override
+  State<JanitorListView> createState() => _JanitorListViewState();
+}
+
+class _JanitorListViewState extends State<JanitorListView> {
+  List<JanitorTask> items = [];
+  late final JanitorManager manager;
+
+  @override
+  void initState() {
+    super.initState();
+    manager = Provider.of<JanitorManager>(context, listen: false);
+    items = manager.tasks;
+  }
 
   void _onTabChanged(int? newValue) {
     List<JanitorTask> newItems;
     switch (newValue) {
       case 2:
-        var ownID = SZIKAppState.authManager.user!.id;
+        var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
         newItems = manager.filter(involvedID: ownID);
         break;
       case 1:
@@ -74,29 +86,27 @@ class JanitorListView extends StatelessWidget {
 
   void _onCreateTask() {
     SZIKAppState.analytics.logEvent(name: 'create_open_janitor_task');
-    Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
-        arguments: JanitorNewEditArguments(isEdit: false));
+    manager.createNewTask();
   }
 
   void _onEditPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
-    Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
-        arguments: JanitorNewEditArguments(isEdit: true, task: task));
+    var index = manager.tasks.indexOf(task);
+    manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
-    Navigator.of(context).pushNamed(JanitorEditAdminScreen.route,
-        arguments: JanitorEditAdminArguments(task: task));
+    var index = manager.tasks.indexOf(task);
+    manager.adminEditTask(index);
   }
 
   void _onFeedbackPressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
-      Navigator.of(context).pushNamed(JanitorNewEditScreen.route,
-          arguments: JanitorNewEditArguments(
-              isEdit: true, isFeedback: true, task: task));
+      var index = manager.tasks.indexOf(task);
+      manager.feedbackTask(index);
     }
   }
 
@@ -109,12 +119,13 @@ class JanitorListView extends StatelessWidget {
 
   List<Widget> _buildActionButtons(JanitorTask task) {
     var buttons = <Widget>[];
-    if ((task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
+    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    if ((task.involvedIDs!.contains(userID) &&
             (task.status == TaskStatus.sent ||
                 task.status == TaskStatus.in_progress)) ||
-        SZIKAppState.authManager.user!.id == 'u904') {
+        userID == 'u904') {
       buttons.add(OutlinedButton(
-        onPressed: () => SZIKAppState.authManager.user!.id == 'u904'
+        onPressed: () => userID == 'u904'
             ? _onEditJanitorPressed(task)
             : _onEditPressed(task),
         child: Text('BUTTON_EDIT'.tr()),
@@ -127,7 +138,7 @@ class JanitorListView extends StatelessWidget {
         child: Text('BUTTON_FEEDBACK'.tr()),
       ));
     }
-    if (task.involvedIDs!.contains(SZIKAppState.authManager.user!.id) &&
+    if (task.involvedIDs!.contains(userID) &&
         task.status == TaskStatus.awaiting_approval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
@@ -140,14 +151,16 @@ class JanitorListView extends StatelessWidget {
 
   Future<void> _onManualRefresh() async {
     manager.refresh();
-    items = manager.tasks;
-    setState(() {});
+    setState(() {
+      items = manager.tasks;
+    });
   }
 
   Widget _buildFeedbackList(BuildContext context, JanitorTask task) {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
-    return SZIKAppState.authManager.user!.id == 'u904' &&
+    return Provider.of<AuthManager>(context, listen: false).user!.id ==
+                'u904' &&
             task.feedback!.isNotEmpty
         ? Container(
             margin: const EdgeInsets.only(bottom: 8),
@@ -262,7 +275,9 @@ class JanitorListView extends StatelessWidget {
                             leftIcon: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.3,
                               child: Text(
-                                SZIKAppState.places
+                                Provider.of<SzikAppStateManager>(context,
+                                        listen: false)
+                                    .places
                                     .firstWhere(
                                         (element) => element.id == item.placeID)
                                     .name,

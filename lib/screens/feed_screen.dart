@@ -58,8 +58,7 @@ class _FeedScreenState extends State<FeedScreen> {
             Provider.of<AuthManager>(context, listen: false)
                 .user!
                 .name
-                .split(' ')
-                .last;
+                .split(' ')[1];
     return Container(
       padding:
           const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
@@ -80,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
             child: GestureDetector(
               onTap: () =>
                   Provider.of<SzikAppStateManager>(context, listen: false)
-                      .viewProfile(),
+                      .selectFeature(SzikAppFeature.profile),
               child: Row(
                 children: [
                   Expanded(

@@ -1,27 +1,46 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../business/janitor_manager.dart';
 import '../components/alert_dialog.dart';
 import '../components/searchable_options.dart';
 import '../main.dart';
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
 
 class JanitorEditAdminScreen extends StatefulWidget {
   static const String route = '/janitor/adminedit';
 
-  static MaterialPage page({required JanitorTask task}) {
+  static MaterialPage page({
+    required JanitorTask item,
+    int index = -1,
+    required Function(JanitorTask, int) onDelete,
+    required Function(JanitorTask, int) onUpdate,
+  }) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: JanitorEditAdminScreen(task: task),
+      child: JanitorEditAdminScreen(
+        originalItem: item,
+        index: index,
+        onDelete: onDelete,
+        onUpdate: onUpdate,
+      ),
     );
   }
 
-  final JanitorTask task;
+  final Function(JanitorTask, int) onDelete;
+  final Function(JanitorTask, int) onUpdate;
+  final JanitorTask originalItem;
+  final int index;
 
-  const JanitorEditAdminScreen({Key? key, required this.task})
-      : super(key: key);
+  const JanitorEditAdminScreen({
+    Key? key,
+    required this.onDelete,
+    required this.onUpdate,
+    required this.originalItem,
+    this.index = -1,
+  }) : super(key: key);
 
   @override
   _JanitorEditAdminScreenState createState() => _JanitorEditAdminScreenState();
@@ -29,15 +48,14 @@ class JanitorEditAdminScreen extends StatefulWidget {
 
 class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final JanitorManager janitor;
   TaskStatus? status;
-  String? answer;
+  String answer = '';
 
   @override
   void initState() {
     super.initState();
-    janitor = JanitorManager();
-    status = widget.task.status;
+
+    status = widget.originalItem.status;
   }
 
   String? _validateTextField(value) {
@@ -48,10 +66,9 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   }
 
   void _onAcceptDelete() {
-    janitor.deleteTask(widget.task);
     SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    widget.onDelete(widget.originalItem, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context).pop(true);
   }
 
   void _onStatusChanged(TaskStatus? newStatus) {
@@ -64,12 +81,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
 
   void _onEditSent() {
     if (_formKey.currentState!.validate()) {
-      var task = widget.task;
-      task.status = status!;
-      task.answer = answer;
-      janitor.updateTask(task);
+      var newItem = widget.originalItem;
+      newItem.status = status!;
+      newItem.answer = answer;
       SZIKAppState.analytics.logEvent(name: 'edit_admin_sent_janitor_task');
-      Navigator.of(context).pop(true);
+      widget.onUpdate(newItem, widget.index);
     }
   }
 
@@ -85,7 +101,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -136,7 +151,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               borderRadius: BorderRadius.circular(20)),
                           padding: const EdgeInsets.all(10),
                           child: Text(
-                            '${widget.task.start.year}. ${widget.task.start.month}. ${widget.task.start.day}.  ${widget.task.start.hour}:${widget.task.start.minute}',
+                            '${widget.originalItem.start.year}. ${widget.originalItem.start.month}. ${widget.originalItem.start.day}.  ${widget.originalItem.start.hour}:${widget.originalItem.start.minute}',
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
@@ -170,9 +185,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               borderRadius: BorderRadius.circular(20)),
                           padding: const EdgeInsets.all(10),
                           child: Text(
-                            SZIKAppState.places
+                            Provider.of<SzikAppStateManager>(context,
+                                    listen: false)
+                                .places
                                 .firstWhere((element) =>
-                                    element.id == widget.task.placeID)
+                                    element.id == widget.originalItem.placeID)
                                 .name,
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
@@ -207,7 +224,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               borderRadius: BorderRadius.circular(20)),
                           padding: const EdgeInsets.all(10),
                           child: Text(
-                            widget.task.name,
+                            widget.originalItem.name,
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
@@ -242,7 +259,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               borderRadius: BorderRadius.circular(20)),
                           padding: const EdgeInsets.all(10),
                           child: Text(
-                            widget.task.description ??
+                            widget.originalItem.description ??
                                 'PLACEHOLDER_NOT_PROVIDED'.tr(),
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
@@ -279,7 +296,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               Expanded(
                                 child: SearchableOptions<TaskStatus>(
                                   items: TaskStatus.values,
-                                  selectedItem: widget.task.status,
+                                  selectedItem: widget.originalItem.status,
                                   onItemChanged: _onStatusChanged,
                                   compare: (i, s) => i.isEqual(s),
                                 ),
@@ -305,7 +322,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextFormField(
-                                  initialValue: widget.task.answer,
+                                  initialValue: widget.originalItem.answer,
                                   validator: _validateTextField,
                                   style: theme.textTheme.headline3!.copyWith(
                                     fontSize: 14,

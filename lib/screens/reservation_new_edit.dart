@@ -1,44 +1,60 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../business/reservation_manager.dart';
 import '../components/alert_dialog.dart';
 import '../components/date_picker.dart';
 import '../components/time_picker.dart';
 import '../main.dart';
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
+import '../utils/auth_manager.dart';
 
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
 
   static MaterialPage page({
-    required String placeID,
-    TimetableTask? task,
-    bool isEdit = false,
+    required TimetableTask? originalItem,
+    required int placeIndex,
+    int index = -1,
+    required Function(TimetableTask) onCreate,
+    required Function(TimetableTask, int) onUpdate,
+    required Function(TimetableTask, int) onDelete,
   }) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
       child: ReservationNewEditScreen(
-        placeID: placeID,
-        task: task,
-        isEdit: isEdit,
+        originalItem: originalItem,
+        index: index,
+        placeIndex: placeIndex,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+        onDelete: onDelete,
       ),
     );
   }
 
-  final TimetableTask? task;
-  final String placeID;
+  final int placeIndex;
   final bool isEdit;
+  final TimetableTask? originalItem;
+  final int index;
+  final Function(TimetableTask) onCreate;
+  final Function(TimetableTask, int) onDelete;
+  final Function(TimetableTask, int) onUpdate;
 
   const ReservationNewEditScreen({
     Key? key,
-    this.task,
-    this.isEdit = false,
-    required this.placeID,
-  }) : super(key: key);
+    this.originalItem,
+    this.index = -1,
+    required this.placeIndex,
+    required this.onCreate,
+    required this.onUpdate,
+    required this.onDelete,
+  })  : isEdit = (originalItem != null),
+        super(key: key);
 
   @override
   _ReservationNewEditScreenState createState() =>
@@ -47,7 +63,6 @@ class ReservationNewEditScreen extends StatefulWidget {
 
 class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final ReservationManager reservation;
   String? description;
   String? title;
   late List<String> organizerIDs;
@@ -58,16 +73,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   @override
   void initState() {
     super.initState();
-    reservation = ReservationManager();
-    start = widget.isEdit ? widget.task!.start : DateTime.now();
-    end = widget.isEdit ? widget.task!.end : DateTime.now();
-  }
-
-  void _onAcceptDelete() {
-    reservation.deleteReservation(widget.task!);
-    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
-    Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context).pop(true);
+    start = widget.isEdit ? widget.originalItem!.start : DateTime.now();
+    end = widget.isEdit ? widget.originalItem!.end : DateTime.now();
   }
 
   @override
@@ -82,7 +89,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
+    var placeID = Provider.of<SzikAppStateManager>(context, listen: false)
+        .places[widget.placeIndex]
+        .id;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -100,8 +109,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
               margin: const EdgeInsets.only(bottom: 15),
               child: Text(
-                SZIKAppState.places
-                    .firstWhere((element) => element.id == widget.placeID)
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .places
+                    .firstWhere((element) => element.id == placeID)
                     .name,
                 style: theme.textTheme.headline2!.copyWith(
                   color: theme.colorScheme.primaryVariant,
@@ -224,8 +234,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           flex: 1,
                           child: TextFormField(
                             validator: _validateTextField,
-                            initialValue:
-                                widget.isEdit ? widget.task!.description : null,
+                            initialValue: widget.isEdit
+                                ? widget.originalItem!.description
+                                : null,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primaryVariant,
@@ -339,28 +350,41 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
         start: start,
         end: end,
         type: TaskType.timetable,
-        involved: <String>[SZIKAppState.authManager.user!.id],
+        involved: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id
+        ],
         lastUpdate: DateTime.now(),
         description: description,
-        organizerIDs: <String>[SZIKAppState.authManager.user!.id],
-        resourceIDs: <String>[widget.placeID],
+        organizerIDs: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id
+        ],
+        resourceIDs: <String>[
+          Provider.of<SzikAppStateManager>(context, listen: false)
+              .places[widget.placeIndex]
+              .id
+        ],
       );
-      reservation.addReservation(task);
       SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
-      Navigator.of(context).pop(true);
+      widget.onCreate(task);
     }
   }
 
   void _onEditSent() {
     if (_formKey.currentState!.validate()) {
-      var task = widget.task;
+      var task = widget.originalItem;
       task!.name = title!;
       task.description = description;
       task.start = start;
       task.end = end;
-      reservation.updateReservation(task);
+
       SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
-      Navigator.of(context).pop(true);
+      widget.onUpdate(task, widget.index);
     }
+  }
+
+  void _onAcceptDelete() {
+    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
+    widget.onDelete(widget.originalItem!, widget.index);
+    Navigator.of(context, rootNavigator: true).pop();
   }
 }

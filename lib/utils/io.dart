@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../main.dart';
 import '../models/cleaning_exchange.dart';
 import '../models/cleaning_period.dart';
 import '../models/goodtoknow.dart';
@@ -14,6 +13,7 @@ import '../models/resource.dart';
 import '../models/tasks.dart';
 import '../models/user_data.dart';
 import '../utils/types.dart';
+import 'auth_manager.dart';
 import 'exceptions.dart';
 
 ///Az alapértelmezett [HttpClient] specifikus implementációja.
@@ -57,6 +57,8 @@ class IO {
   final _boardgameEndpoint = '/boardgame';
   final _goodToKnowEndpoint = '/goodtoknow';
 
+  AuthManager? authManager;
+
   ///Singleton példány
   static final IO _instance = IO._privateContructor();
 
@@ -66,7 +68,10 @@ class IO {
   final http.Client client = http.Client();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory IO() => _instance;
+  factory IO([AuthManager? authManager]) {
+    _instance.authManager = authManager;
+    return _instance;
+  }
 
   //Metódusok
 
@@ -864,9 +869,12 @@ class IO {
 
   ///Autentikáció header-ök szerver oldali hitelesítéshez.
   Future<KeyValuePairs> _commonHeaders() async {
+    if (authManager == null) {
+      throw IOClientException(900, 'Authorized user not found.');
+    }
     return {
-      'User': SZIKAppState.authManager.firebaseUser?.email ?? '',
-      'AuthToken': await SZIKAppState.authManager.getAuthToken(),
+      'User': authManager!.firebaseUser?.email ?? '',
+      'AuthToken': await authManager!.getAuthToken(),
     };
   }
 

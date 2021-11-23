@@ -1,46 +1,31 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../business/reservation_manager.dart';
 
 import '../main.dart';
-import '../models/resource.dart';
-import '../utils/io.dart';
 import 'error_screen.dart';
-import 'reservation_new_edit.dart';
 
-class ReservationGamesListScreen extends StatefulWidget {
+class ReservationGamesListScreen extends StatelessWidget {
   static const String route = '/reservation/games';
-  final String title;
+
   const ReservationGamesListScreen({
     Key? key,
-    required this.title,
   }) : super(key: key);
 
   @override
-  _ReservationGamesListScreenState createState() =>
-      _ReservationGamesListScreenState();
-}
-
-class _ReservationGamesListScreenState
-    extends State<ReservationGamesListScreen> {
-  late final IO io;
-
-  @override
-  void initState() {
-    super.initState();
-    io = IO();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Boardgame>>(
-      future: io.getBoardgame(),
+    return FutureBuilder<void>(
+      future: Provider.of<ReservationManager>(context, listen: false)
+          .refreshGames(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
           return const Scaffold();
         } else if (snapshot.hasData) {
-          var boardgames = snapshot.data;
+          var boardgames =
+              Provider.of<ReservationManager>(context, listen: false).games;
           return Scaffold(
             body: Container(
               decoration: BoxDecoration(
@@ -51,7 +36,7 @@ class _ReservationGamesListScreenState
               child: Column(
                 children: [
                   Text(
-                    widget.title,
+                    'RESERVATION_TITLE_BOARDGAME_LIST'.tr(),
                     style: Theme.of(context).textTheme.headline2!.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                         ),
@@ -65,15 +50,16 @@ class _ReservationGamesListScreenState
                           : 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      children: boardgames!
+                      children: boardgames
                           .map((item) => Card(
                                 elevation: 5,
                                 color: Theme.of(context).colorScheme.background,
                                 child: GestureDetector(
-                                  onTap: () => Navigator.of(context).pushNamed(
-                                      ReservationNewEditScreen.route,
-                                      arguments: ReservationNewEditArguments(
-                                          placeID: 'p201', isEdit: false)),
+                                  onTap: () => Provider.of<ReservationManager>(
+                                          context,
+                                          listen: false)
+                                      .createNewReservation(
+                                          gameIndex: boardgames.indexOf(item)),
                                   child: Container(
                                     margin: const EdgeInsets.all(10),
                                     child: Image.asset(

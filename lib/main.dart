@@ -147,6 +147,7 @@ class SZIKAppState extends State<SZIKApp> {
         reservationManager: _reservationManager);
 
     _appStateManager.loadEarlyData();
+    IO(_authManager);
 
     super.initState();
   }

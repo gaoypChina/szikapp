@@ -1,39 +1,59 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Feedback;
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../business/janitor_manager.dart';
 import '../components/alert_dialog.dart';
 import '../components/searchable_options.dart';
 import '../main.dart';
 import '../models/resource.dart';
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
+import '../utils/auth_manager.dart';
 
 class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
 
   static MaterialPage page({
-    required JanitorTask task,
-    required bool isEdit,
-    required bool isFeedback,
+    required JanitorTask? originalItem,
+    bool isFeedback = false,
+    int index = -1,
+    required Function(JanitorTask) onCreate,
+    required Function(JanitorTask, int) onUpdate,
+    required Function(JanitorTask, int) onDelete,
   }) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: JanitorNewEditScreen(task: task),
+      child: JanitorNewEditScreen(
+        originalItem: originalItem,
+        isFeedback: isFeedback,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+        onDelete: onDelete,
+      ),
     );
   }
 
   final bool isEdit;
   final bool isFeedback;
-  final JanitorTask? task;
+  final JanitorTask? originalItem;
+  final int index;
+  final Function(JanitorTask) onCreate;
+  final Function(JanitorTask, int) onDelete;
+  final Function(JanitorTask, int) onUpdate;
 
   const JanitorNewEditScreen({
     Key? key,
-    this.isEdit = false,
     this.isFeedback = false,
-    this.task,
-  }) : super(key: key);
+    this.originalItem,
+    this.index = -1,
+    required this.onCreate,
+    required this.onUpdate,
+    required this.onDelete,
+  })  : isEdit = (originalItem != null),
+        super(key: key);
 
   @override
   _JanitorNewEditScreenState createState() => _JanitorNewEditScreenState();
@@ -41,7 +61,7 @@ class JanitorNewEditScreen extends StatefulWidget {
 
 class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final JanitorManager janitor;
+  late final List<Place> places;
   String? placeID;
   String? title;
   String? description;
@@ -50,12 +70,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   @override
   void initState() {
     super.initState();
-    janitor = JanitorManager();
-    if (SZIKAppState.places.isNotEmpty) placeID = SZIKAppState.places.first.id;
+    places = Provider.of<SzikAppStateManager>(context, listen: false).places;
+    placeID = places.first.id;
     if (widget.isFeedback) {
-      title = widget.task!.name;
-      description = widget.task!.description;
-      placeID = widget.task!.placeID;
+      title = widget.originalItem!.name;
+      description = widget.originalItem!.description;
+      placeID = widget.originalItem!.placeID;
     }
   }
 
@@ -71,7 +91,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    if (SZIKAppState.places.isEmpty) SZIKAppState.loadEarlyData();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -137,11 +156,11 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                         ),
                         Expanded(
                           child: SearchableOptions<Place>(
-                            items: SZIKAppState.places,
+                            items: places,
                             selectedItem: widget.isEdit
-                                ? SZIKAppState.places.firstWhere((element) =>
-                                    element.id == widget.task!.placeID)
-                                : SZIKAppState.places.first,
+                                ? places.firstWhere((element) =>
+                                    element.id == widget.originalItem!.placeID)
+                                : places.first,
                             onItemChanged: _onPlaceChanged,
                             compare: (i, s) => i.isEqual(s),
                           ),
@@ -167,8 +186,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           flex: 1,
                           child: TextFormField(
                             readOnly: widget.isFeedback,
-                            initialValue:
-                                widget.isEdit ? widget.task!.name : null,
+                            initialValue: widget.isEdit || widget.isFeedback
+                                ? widget.originalItem!.name
+                                : null,
                             validator: _validateTextField,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
@@ -213,7 +233,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           flex: 1,
                           child: TextFormField(
                             initialValue: (widget.isEdit && !widget.isFeedback)
-                                ? widget.task!.description
+                                ? widget.originalItem!.description
                                 : null,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
@@ -319,37 +339,39 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           lastUpdate: DateTime.now(),
           placeID: placeID!,
           //Gondnok ID !!
-          involved: <String>[SZIKAppState.authManager.user!.id, 'u904'],
+          involved: <String>[
+            Provider.of<AuthManager>(context, listen: false).user!.id,
+            'u904'
+          ],
           status: TaskStatus.created);
       task.status = TaskStatus.sent;
-      janitor.addTask(task);
+
       SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
-      Navigator.of(context).pop(true);
+      widget.onCreate(task);
     }
   }
 
   void _onEditSent() {
     if (_formKey.currentState!.validate()) {
-      var task = widget.task;
+      var task = widget.originalItem;
       task!.name = title!;
       widget.isFeedback
           ? task.feedback!.add(Feedback(
-              user: SZIKAppState.authManager.user!.id,
+              user: Provider.of<AuthManager>(context, listen: false).user!.id,
               message: feedback ?? '',
               timestamp: DateTime.now(),
             ))
           : task.description = description;
       task.placeID = placeID!;
-      janitor.updateTask(task);
+
       SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
-      Navigator.of(context).pop(true);
+      widget.onUpdate(task, widget.index);
     }
   }
 
   void _onAcceptDelete() {
-    janitor.deleteTask(widget.task!);
     SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    widget.onDelete(widget.originalItem!, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
-    Navigator.of(context).pop(true);
   }
 }
