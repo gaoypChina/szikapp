@@ -89,7 +89,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                               color: theme.colorScheme.secondary,
                             ),
                             Text(
-                              'LABEL_FAVORITES'.tr(),
+                              'LABEL_FAVOURITES'.tr(),
                               style:
                                   TextStyle(color: theme.colorScheme.secondary),
                             ),
