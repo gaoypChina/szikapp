@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../navigation/app_state_manager.dart';
 
-import 'settings_screen.dart';
 import 'submenu_screen.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -53,12 +54,6 @@ class MenuScreen extends StatelessWidget {
                             .withOpacity(0.5),
                       ),
                       child: Container(
-                        /*
-                        child: Icon(
-                          Icons.face,
-                          size: fifth * 0.5,
-                        ),
-                        */
                         margin: EdgeInsets.all(fifth * 0.05),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -126,12 +121,6 @@ class MenuScreen extends StatelessWidget {
                             .withOpacity(0.5),
                       ),
                       child: Container(
-                        /*
-                        child: Icon(
-                          Icons.face,
-                          size: fifth * 0.5,
-                        ),
-                        */
                         margin: EdgeInsets.all(fifth * 0.05),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -181,12 +170,6 @@ class MenuScreen extends StatelessWidget {
                             .withOpacity(0.5),
                       ),
                       child: Container(
-                        /*
-                        child: Icon(
-                          Icons.face,
-                          size: fifth * 0.5,
-                        ),
-                        */
                         margin: EdgeInsets.all(fifth * 0.05),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -215,7 +198,9 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(CalendarPage.route),
+            onTap: () =>
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .selectFeature(SzikAppFeature.calendar),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 3),
@@ -248,12 +233,6 @@ class MenuScreen extends StatelessWidget {
                             .withOpacity(0.5),
                       ),
                       child: Container(
-                        /*
-                        child: Icon(
-                          Icons.face,
-                          size: fifth * 0.5,
-                        ),
-                        */
                         margin: EdgeInsets.all(fifth * 0.05),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -273,7 +252,9 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(SettingsScreen.route),
+            onTap: () =>
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .selectFeature(SzikAppFeature.settings),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 4),
@@ -297,12 +278,6 @@ class MenuScreen extends StatelessWidget {
                             .withOpacity(0.5),
                       ),
                       child: Container(
-                        /*
-                        child: Icon(
-                          Icons.face,
-                          size: fifth * 0.5,
-                        ),
-                        */
                         margin: EdgeInsets.all(fifth * 0.05),
                         decoration: const BoxDecoration(
                           image: DecorationImage(

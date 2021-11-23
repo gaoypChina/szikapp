@@ -14,10 +14,12 @@ class SzikAppFeature {
   static const int none = -1;
   static const int calendar = 0;
   static const int contacts = 1;
-  static const int janitor = 2;
-  static const int profile = 3;
-  static const int reservation = 4;
-  static const int settings = 5;
+  static const int documents = 2;
+  static const int janitor = 3;
+  static const int profile = 4;
+  static const int reservation = 5;
+  static const int settings = 6;
+  static const int error = 99;
 }
 
 class SzikAppStateManager extends ChangeNotifier {
