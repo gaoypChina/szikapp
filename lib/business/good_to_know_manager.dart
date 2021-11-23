@@ -2,7 +2,7 @@ import '../models/goodtoknow.dart';
 import '../utils/io.dart';
 
 class GoodToKnowManager {
-  late List<GoodToKnow> _posts;
+  List<GoodToKnow> _posts = [];
 
   static final GoodToKnowManager _instance =
       GoodToKnowManager._privateConstructor();
