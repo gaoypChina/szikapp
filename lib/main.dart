@@ -32,6 +32,7 @@ void main() async {
   HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/Montserrat/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
@@ -84,21 +85,6 @@ class SZIKAppState extends State<SZIKApp> {
   final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  ///Kezdeti Firebase setup. Beállítja a [firebaseInitialized] és a [firebaseError]
-  ///flageket, ha szükséges.
-  Future<void> _initializeFlutterFire() async {
-    try {
-      // Wait for Firebase to initialize and
-      // set `firebaseInitialized` state to true
-      await Firebase.initializeApp();
-      Provider.of<SzikAppStateManager>(context, listen: false)
-          .initializeFirebase();
-    } on Exception catch (e) {
-      // Set `firebaseError` state to true if Firebase initialization fails
-      Provider.of<SzikAppStateManager>(context, listen: false).setError(e);
-    }
-  }
-
   ///Kezdeti internetkapcsolat-figyelő bővítmény setup.
   Future<void> _initConnectivity() async {
     late ConnectivityResult result;
@@ -129,7 +115,8 @@ class SZIKAppState extends State<SZIKApp> {
   @override
   void initState() {
     _initConnectivity();
-    _initializeFlutterFire();
+    IO(manager: _authManager);
+    //_initializeFlutterFire();
 
     ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
     ///frissíti a [connectionStatus] paraméter értékét.
@@ -147,7 +134,6 @@ class SZIKAppState extends State<SZIKApp> {
         reservationManager: _reservationManager);
 
     _appStateManager.loadEarlyData();
-    IO(_authManager);
 
     super.initState();
   }

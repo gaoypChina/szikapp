@@ -20,15 +20,18 @@ class SzikAppLink {
   static const String kSubMenuPath = '/submenu';
 
   static const String kTabParam = 'tab';
+  static const String kFeatureParam = 'feature';
   static const String kIdParam = 'id';
 
   String? location;
   int? currentTab;
+  int? currentFeature;
   String? itemId;
 
   SzikAppLink({
     this.location,
     this.currentTab,
+    this.currentFeature,
     this.itemId,
   });
 
@@ -38,13 +41,15 @@ class SzikAppLink {
     final uri = Uri.parse(location);
     final params = uri.queryParameters;
 
-    final currentTab = int.tryParse(params[SzikAppLink.kTabParam] ?? '');
+    final currentTab = int.tryParse(params[kTabParam] ?? '');
+    final currentFeature = int.tryParse(params[kFeatureParam] ?? '');
 
-    final itemId = params[SzikAppLink.kIdParam];
+    final itemId = params[kIdParam];
 
     final link = SzikAppLink(
       location: uri.path,
       currentTab: currentTab,
+      currentFeature: currentFeature,
       itemId: itemId,
     );
 

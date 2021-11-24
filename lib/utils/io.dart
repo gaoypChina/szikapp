@@ -57,7 +57,7 @@ class IO {
   final _boardgameEndpoint = '/boardgame';
   final _goodToKnowEndpoint = '/goodtoknow';
 
-  AuthManager? authManager;
+  static AuthManager? authManager;
 
   ///Singleton példány
   static final IO _instance = IO._privateContructor();
@@ -68,8 +68,8 @@ class IO {
   final http.Client client = http.Client();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory IO([AuthManager? authManager]) {
-    _instance.authManager = authManager;
+  factory IO({AuthManager? manager}) {
+    authManager ??= manager;
     return _instance;
   }
 
