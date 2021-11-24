@@ -1,0 +1,60 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
+
+class SzikBottomNavigationBar extends StatelessWidget {
+  final int selectedTab;
+  const SzikBottomNavigationBar({
+    Key? key,
+    required this.selectedTab,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    return BottomNavigationBar(
+      selectedItemColor: theme.colorScheme.onPrimary,
+      backgroundColor: theme.colorScheme.primary,
+      enableFeedback: true,
+      currentIndex: selectedTab,
+      onTap: (index) {
+        Provider.of<SzikAppStateManager>(context, listen: false)
+            .selectTab(index);
+      },
+      items: [
+        BottomNavigationBarItem(
+          icon: ColorFiltered(
+            child: Image.asset(
+              'assets/icons/feed_light_72.png',
+              width: kIconSizeNormal,
+            ),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+          label: 'MENU_FEED'.tr(),
+        ),
+        BottomNavigationBarItem(
+          icon: ColorFiltered(
+            child: Image.asset(
+              'assets/icons/cedar_light_72.png',
+              width: kIconSizeNormal,
+            ),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+          label: 'MENU_HOME'.tr(),
+        ),
+        BottomNavigationBarItem(
+          icon: ColorFiltered(
+            child: Image.asset(
+              'assets/icons/gear_light_72.png',
+              width: kIconSizeNormal,
+            ),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+          label: 'MENU_SETTINGS'.tr(),
+        )
+      ],
+    );
+  }
+}

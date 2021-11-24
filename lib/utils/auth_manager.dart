@@ -64,7 +64,7 @@ class AuthManager extends ChangeNotifier {
       return;
     }
     try {
-      var io = IO();
+      var io = IO(manager: _instance);
 
       var userData = await io.getUser();
       var profilePicture = userData.name != 'Guest'
@@ -90,7 +90,7 @@ class AuthManager extends ChangeNotifier {
     }
     try {
       await _signInWithGoogle();
-      var io = IO();
+      var io = IO(manager: _instance);
 
       var userData = await io.getUser();
       var profilePicture = userData.name != 'Guest'

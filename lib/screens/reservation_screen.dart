@@ -28,7 +28,12 @@ class ReservationScreen extends StatelessWidget {
           // Teremfoglalás
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(ReservationPlacesMapScreen.route);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReservationPlacesMapScreen(),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
@@ -67,7 +72,12 @@ class ReservationScreen extends StatelessWidget {
           // Zoom foglalás
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(ReservationScreen.route);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReservationScreen(),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
@@ -104,9 +114,14 @@ class ReservationScreen extends StatelessWidget {
           ),
           // Társas foglalás
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              ReservationGamesListScreen.route,
-            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReservationScreen(),
+                ),
+              );
+            },
             child: Container(
               margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
               height: height * 0.15,

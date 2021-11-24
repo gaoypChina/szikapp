@@ -25,11 +25,13 @@ class MenuScreen extends StatelessWidget {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              SubMenuScreen.route,
-              arguments: SubMenuArguments(
-                listItems: subMenuDataListItems,
-                title: 'SUBMENU_DATA_TITLE'.tr(),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubMenuScreen(
+                  listItems: subMenuDataListItems,
+                  title: 'SUBMENU_DATA_TITLE'.tr(),
+                ),
               ),
             ),
             child: SizedBox(
@@ -82,11 +84,13 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              SubMenuScreen.route,
-              arguments: SubMenuArguments(
-                listItems: subMenuCommunityListItems,
-                title: 'SUBMENU_COMMUNITY_TITLE'.tr(),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubMenuScreen(
+                  listItems: subMenuCommunityListItems,
+                  title: 'SUBMENU_COMMUNITY_TITLE'.tr(),
+                ),
               ),
             ),
             child: Container(
@@ -140,11 +144,13 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              SubMenuScreen.route,
-              arguments: SubMenuArguments(
-                listItems: subMenuEverydayListItems,
-                title: 'SUBMENU_EVERYDAY_TITLE'.tr(),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubMenuScreen(
+                  listItems: subMenuEverydayListItems,
+                  title: 'SUBMENU_EVERYDAY_TITLE'.tr(),
+                ),
               ),
             ),
             child: Container(

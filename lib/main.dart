@@ -163,7 +163,7 @@ class SZIKAppState extends State<SZIKApp> {
         ChangeNotifierProvider(create: (context) => _reservationManager),
       ],
       child: MaterialApp.router(
-        title: 'APP_NAME'.tr(),
+        title: 'SzikApp',
         routerDelegate: _appRouter,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

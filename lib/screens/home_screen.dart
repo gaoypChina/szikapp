@@ -1,9 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../components/bottom_navigation_bar.dart';
+import '../components/curve_shape_border.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 import 'feed_screen.dart';
 import 'menu_screen.dart';
 import 'settings_screen.dart';
@@ -63,51 +65,43 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer<SzikAppStateManager>(
       builder: (context, appStateManager, child) {
-        var theme = Theme.of(context);
         return SafeArea(
           child: Scaffold(
-            //appBar: ,
+            /*appBar: buildAppBar(
+              context: context,
+              appBarTitle: '',
+            ),*/
             body: IndexedStack(
               index: widget.currentTab,
               children: pages,
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              selectedItemColor: theme.colorScheme.onPrimary,
-              currentIndex: widget.currentTab,
-              onTap: (index) {
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectTab(index);
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: ColorFiltered(
-                    child: Image.asset('assets/icons/feed_light_72.png'),
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                  label: 'MENU_FEED'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: ColorFiltered(
-                    child: Image.asset('assets/icons/cedar_light_72.png'),
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                  label: 'MENU_HOME'.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: ColorFiltered(
-                    child: Image.asset('assets/icons/gear_light_72.png'),
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                  label: 'MENU_SETTINGS'.tr(),
-                )
-              ],
+            bottomNavigationBar: SzikBottomNavigationBar(
+              selectedTab: widget.currentTab,
             ),
           ),
         );
       },
     );
   }
+}
+
+PreferredSizeWidget buildAppBar({
+  required BuildContext context,
+  required String appBarTitle,
+  void Function()? onPressed,
+}) {
+  return AppBar(
+    shape: const CurveShapeBorder(kCurveHeight),
+    title: Text(
+      appBarTitle.toUpperCase(),
+      style: Theme.of(context).textTheme.headline2,
+    ),
+    leading: IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        Icons.arrow_back,
+        color: Theme.of(context).colorScheme.background,
+      ),
+    ),
+  );
 }

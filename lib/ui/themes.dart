@@ -3,6 +3,13 @@ import '../models/tasks.dart';
 export 'dark_theme.dart';
 export 'light_theme.dart';
 
+///Méretek
+const double kIconSizeSmall = 20;
+const double kIconSizeNormal = 24;
+const double kIconsSizeLarge = 32;
+
+const double kCurveHeight = 12;
+
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
 const Color szikLavenderBlush = Color(0xfffefafb);
