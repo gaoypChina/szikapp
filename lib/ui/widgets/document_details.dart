@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../models/goodtoknow.dart';
 
-class DocumentDetails extends StatefulWidget {
+class DocumentDetails extends StatelessWidget {
   final GoodToKnow? document;
 
   const DocumentDetails({
@@ -9,11 +10,6 @@ class DocumentDetails extends StatefulWidget {
     this.document,
   }) : super(key: key);
 
-  @override
-  _DocumentDetailsState createState() => _DocumentDetailsState();
-}
-
-class _DocumentDetailsState extends State<DocumentDetails> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -28,23 +24,43 @@ class _DocumentDetailsState extends State<DocumentDetails> {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(widget.document?.title ?? '',
-                    style: theme.textTheme.headline5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    document?.title ?? '',
+                    style: theme.textTheme.headline5,
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: theme.colorScheme.secondary,
+                  ),
+                ],
               ),
               Divider(
                 thickness: 2,
                 color: theme.colorScheme.secondary,
               ),
-              Text(widget.document?.description ?? '',
-                  style: theme.textTheme.headline6),
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Text(
-                  'Utolsó módosítás: ${widget.document?.lastUpdate}',
-                  style: theme.textTheme.headline6,
+              Text(
+                document?.description ?? '',
+                style: theme.textTheme.bodyText1,
+              ),
+              const Spacer(),
+              Text(
+                'LABEL_LAST_MODIFIED'.tr(
+                  args: [
+                    DateFormat('yyyy.MM.dd. hh:mm:ss')
+                        .format(document?.lastUpdate ?? DateTime.now())
+                  ],
+                ),
+                style: theme.textTheme.caption,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => {},
+                  child: Text('BUTTON_OPEN'.tr()),
                 ),
               )
             ],
