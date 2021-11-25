@@ -2,7 +2,7 @@ import '../models/goodtoknow.dart';
 import '../utils/io.dart';
 
 class GoodToKnowManager {
-  late List<GoodToKnow> _posts;
+  List<GoodToKnow> _posts = [];
 
   static final GoodToKnowManager _instance =
       GoodToKnowManager._privateConstructor();
@@ -10,7 +10,7 @@ class GoodToKnowManager {
   factory GoodToKnowManager() => _instance;
 
   GoodToKnowManager._privateConstructor() {
-    _posts = [];
+    refresh();
   }
 
   List<GoodToKnow> get posts => List.unmodifiable(_posts);
@@ -54,7 +54,7 @@ class GoodToKnowManager {
     } else {
       var results = <GoodToKnow>[];
       for (var item in _posts) {
-        if (item.title.contains(text)) {
+        if (item.title.toLowerCase().contains(text.toLowerCase())) {
           results.add(item);
         }
       }

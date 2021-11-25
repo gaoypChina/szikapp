@@ -93,6 +93,7 @@
         "BUTTON_SAVE": "Save",
         "BUTTON_FEEDBACK": "Feedback",
         "BUTTON_APPROVE": "Approve",
+        "BUTTON_OPEN": "Open",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Select date",
         "TIME_PICKER_HELP": "Select time",
@@ -105,8 +106,10 @@
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
     "DOCUMENTS": null,
-        "DOCUMENTS_OFFICIAL" : "Documents",
+        "DOCUMENTS_OFFICIAL" : "Document",
         "DOCUMENTS_PINNED" : "Pinned",
+        "DOCUMENTS_ALL" : "All",
     "LABELS": null,
-        "LABEL_FAVOURITES": "Favourites"
+        "LABEL_FAVOURITES": "Favourites",
+        "LABEL_LAST_MODIFIED": "Last modified: {}"
 }
