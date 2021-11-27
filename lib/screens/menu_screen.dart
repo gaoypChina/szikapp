@@ -25,15 +25,9 @@ class MenuScreen extends StatelessWidget {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SubMenuScreen(
-                  listItems: subMenuDataListItems,
-                  title: 'SUBMENU_DATA_TITLE'.tr(),
-                ),
-              ),
-            ),
+            onTap: () =>
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .selectSubMenu(SzikAppSubMenu.data),
             child: SizedBox(
               height: fifth,
               child: Row(
@@ -84,15 +78,9 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SubMenuScreen(
-                  listItems: subMenuCommunityListItems,
-                  title: 'SUBMENU_COMMUNITY_TITLE'.tr(),
-                ),
-              ),
-            ),
+            onTap: () =>
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .selectSubMenu(SzikAppSubMenu.community),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth),
@@ -144,15 +132,9 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SubMenuScreen(
-                  listItems: subMenuEverydayListItems,
-                  title: 'SUBMENU_EVERYDAY_TITLE'.tr(),
-                ),
-              ),
-            ),
+            onTap: () =>
+                Provider.of<SzikAppStateManager>(context, listen: false)
+                    .selectSubMenu(SzikAppSubMenu.everyday),
             child: Container(
               height: fifth,
               margin: EdgeInsets.only(top: fifth * 2),

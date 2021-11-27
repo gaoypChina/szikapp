@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/components/bottom_navigation_bar.dart';
+import '../components/bottom_navigation_bar.dart';
 import '../navigation/app_state_manager.dart';
 
 class SubMenuButton {
@@ -81,36 +81,35 @@ final List<SubMenuButton> subMenuEverydayListItems = [
   ),
 ];
 
-class SubMenuArguments {
-  final List<SubMenuButton> listItems;
-  final String title;
+final List<List<SubMenuButton>> subMenus = [
+  subMenuDataListItems,
+  subMenuCommunityListItems,
+  subMenuEverydayListItems,
+];
 
-  SubMenuArguments({
-    required this.title,
-    required this.listItems,
-  });
-}
+final List<String> subMenuTitles = [
+  'SUBMENU_DATA_TITLE'.tr(),
+  'SUBMENU_COMMUNITY_TITLE'.tr(),
+  'SUBMENU_EVERYDAY_TITLE'.tr(),
+];
 
 class SubMenuScreen extends StatelessWidget {
-  final List<SubMenuButton> listItems;
-  final String title;
+  final int selectedSubMenu;
   static const String route = '/submenu';
 
-  static MaterialPage page({
-    required List<SubMenuButton> items,
-    required String title,
-  }) {
+  static MaterialPage page({required int selectedSubMenu}) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: SubMenuScreen(listItems: items, title: title),
+      child: SubMenuScreen(
+        selectedSubMenu: selectedSubMenu,
+      ),
     );
   }
 
   const SubMenuScreen({
     Key key = const Key('SubMenuScreen'),
-    required this.listItems,
-    required this.title,
+    required this.selectedSubMenu,
   }) : super(key: key);
 
   @override
@@ -130,7 +129,7 @@ class SubMenuScreen extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    title.toUpperCase(),
+                    subMenuTitles[selectedSubMenu].toUpperCase(),
                     style: Theme.of(context).textTheme.headline2!.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                           fontSize: 25,
@@ -145,7 +144,7 @@ class SubMenuScreen extends StatelessWidget {
                         : 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    children: listItems
+                    children: subMenus[selectedSubMenu]
                         .map((item) => Card(
                               color: Colors.transparent,
                               elevation: 0,

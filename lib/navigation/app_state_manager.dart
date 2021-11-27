@@ -10,6 +10,13 @@ class SzikAppTab {
   static const int settings = 2;
 }
 
+class SzikAppSubMenu {
+  static const int none = -1;
+  static const int data = 0;
+  static const int community = 1;
+  static const int everyday = 2;
+}
+
 class SzikAppFeature {
   static const int none = -1;
   static const int calendar = 0;
@@ -27,7 +34,8 @@ class SzikAppStateManager extends ChangeNotifier {
   bool _hasError = false;
   Object? _error;
   int _selectedTab = SzikAppTab.feed;
-  int _selectedFeature = -1;
+  int _selectedFeature = SzikAppFeature.none;
+  int _selectedSubMenu = SzikAppSubMenu.none;
 
   ///A kollégiumban megtalálható helyek [Place] listája
   List<Place> _places = [];
@@ -40,6 +48,7 @@ class SzikAppStateManager extends ChangeNotifier {
   bool get hasError => _hasError;
   Object? get error => _error;
   int get selectedTab => _selectedTab;
+  int get selectedSubMenu => _selectedSubMenu;
   int get selectedFeature => _selectedFeature;
 
   List<Place> get places => _places;
@@ -77,6 +86,16 @@ class SzikAppStateManager extends ChangeNotifier {
 
   void selectTab(int index) {
     _selectedTab = index;
+    notifyListeners();
+  }
+
+  void selectSubMenu(int index) {
+    _selectedSubMenu = index;
+    notifyListeners();
+  }
+
+  void unselectSubMenu() {
+    _selectedSubMenu = SzikAppSubMenu.none;
     notifyListeners();
   }
 

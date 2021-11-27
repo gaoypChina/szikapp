@@ -20,17 +20,20 @@ class SzikAppLink {
   static const String kSubMenuPath = '/submenu';
 
   static const String kTabParam = 'tab';
+  static const String kSubMenuParam = 'submenu';
   static const String kFeatureParam = 'feature';
   static const String kIdParam = 'id';
 
   String? location;
   int? currentTab;
+  int? currentSubMenu;
   int? currentFeature;
   String? itemId;
 
   SzikAppLink({
     this.location,
     this.currentTab,
+    this.currentSubMenu,
     this.currentFeature,
     this.itemId,
   });
@@ -42,6 +45,7 @@ class SzikAppLink {
     final params = uri.queryParameters;
 
     final currentTab = int.tryParse(params[kTabParam] ?? '');
+    final currentSubMenu = int.tryParse(params[kSubMenuParam] ?? '');
     final currentFeature = int.tryParse(params[kFeatureParam] ?? '');
 
     final itemId = params[kIdParam];
@@ -49,6 +53,7 @@ class SzikAppLink {
     final link = SzikAppLink(
       location: uri.path,
       currentTab: currentTab,
+      currentSubMenu: currentSubMenu,
       currentFeature: currentFeature,
       itemId: itemId,
     );
@@ -119,10 +124,10 @@ class SzikAppLink {
       case kSignInPath:
         return kSignInPath;
       case kSubMenuPath:
-        var loc = '$kSignInPath?';
+        var loc = '$kSubMenuPath?';
         loc += addKeyValPair(
-          key: kTabParam,
-          value: currentTab.toString(),
+          key: kSubMenuParam,
+          value: currentSubMenu.toString(),
         );
         return Uri.encodeFull(loc);
       default:

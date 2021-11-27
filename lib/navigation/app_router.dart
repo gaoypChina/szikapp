@@ -8,6 +8,7 @@ import '../business/poll_manager.dart';
 import '../business/reservation_manager.dart';
 import '../screens/home_screen.dart';
 import '../screens/signin_screen.dart';
+import '../screens/submenu_screen.dart';
 import '../utils/auth_manager.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
@@ -54,6 +55,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           SignInScreen.page(),
         ] else ...[
           HomeScreen.page(appStateManager.selectedTab),
+          if (appStateManager.selectedSubMenu != SzikAppSubMenu.none)
+            SubMenuScreen.page(
+                selectedSubMenu: appStateManager.selectedSubMenu),
         ]
       ],
       onPopPage: _handlePopPage,
@@ -76,6 +80,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   bool _handlePopPage(Route<dynamic> route, result) {
     if (!route.didPop(result)) {
       return false;
+    }
+    if (route.settings.name == SzikAppLink.kHomePath) {
+      authManager.signOut();
+    }
+    if (route.settings.name == SzikAppLink.kSubMenuPath) {
+      appStateManager.unselectSubMenu();
     }
 
     return true;
@@ -100,6 +110,10 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     switch (configuration.location) {
       case SzikAppLink.kHomePath:
         appStateManager.selectTab(configuration.currentTab ?? SzikAppTab.feed);
+        break;
+      case SzikAppLink.kSubMenuPath:
+        appStateManager
+            .selectSubMenu(configuration.currentSubMenu ?? SzikAppSubMenu.data);
         break;
       default:
         break;
