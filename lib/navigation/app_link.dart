@@ -70,15 +70,40 @@ class SzikAppLink {
 
     switch (location) {
       case kCalendarPath:
-        return kCalendarPath;
+        var loc = '$kCalendarPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kContactsPath:
-        return kContactsPath;
+        var loc = '$kContactsPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kDocumentsPath:
-        return kDocumentsPath;
+        var loc = '$kDocumentsPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kErrorPath:
-        return kErrorPath;
+        var loc = '$kErrorPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kFeedPath:
-        return kFeedPath;
+        var loc = '$kFeedPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kJanitorEditAdminPath:
         var loc = '$kJanitorEditAdminPath?';
         loc += addKeyValPair(
@@ -94,11 +119,21 @@ class SzikAppLink {
         );
         return Uri.encodeFull(loc);
       case kJanitorPath:
-        return kJanitorPath;
+        var loc = '$kJanitorPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kMenuPath:
         return kMenuPath;
       case kProfilePath:
-        return kProfilePath;
+        var loc = '$kProfilePath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kReservationDetailsPath:
         var loc = '$kReservationDetailsPath?';
         loc += addKeyValPair(
@@ -116,11 +151,26 @@ class SzikAppLink {
         );
         return Uri.encodeFull(loc);
       case kReservationPath:
-        return kReservationPath;
+        var loc = '$kReservationPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kSettingsPath:
-        return kSettingsPath;
+        var loc = '$kSettingsPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kShortProfilePath:
-        return kShortProfilePath;
+        var loc = '$kProfilePath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kSignInPath:
         return kSignInPath;
       case kSubMenuPath:

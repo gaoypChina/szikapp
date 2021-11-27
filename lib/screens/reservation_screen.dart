@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/themes.dart';
-import 'reservation_games.dart';
 import 'reservation_places_map.dart';
 
 class ReservationScreen extends StatelessWidget {

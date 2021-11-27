@@ -56,7 +56,6 @@ class AuthManager extends ChangeNotifier {
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<void> signInSilently() async {
     if (_signedIn) {
-      notifyListeners();
       return;
     } else if (_auth.currentUser == null) {
       _signedIn = false;

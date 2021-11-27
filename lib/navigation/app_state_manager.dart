@@ -86,6 +86,7 @@ class SzikAppStateManager extends ChangeNotifier {
 
   void selectTab(int index) {
     _selectedTab = index;
+    _selectedSubMenu = SzikAppSubMenu.none;
     notifyListeners();
   }
 

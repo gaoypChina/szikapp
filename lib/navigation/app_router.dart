@@ -94,6 +94,11 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   SzikAppLink getCurrentPath() {
     if (!authManager.isSignedIn) {
       return SzikAppLink(location: SzikAppLink.kSignInPath);
+    } else if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
+      return SzikAppLink(
+        location: SzikAppLink.kSubMenuPath,
+        currentSubMenu: appStateManager.selectedSubMenu,
+      );
     } else {
       return SzikAppLink(
         location: SzikAppLink.kHomePath,

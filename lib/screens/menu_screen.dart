@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../navigation/app_state_manager.dart';
 
-import 'submenu_screen.dart';
-
 class MenuScreen extends StatelessWidget {
   static const String route = '/menu';
 
