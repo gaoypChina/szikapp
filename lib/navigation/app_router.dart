@@ -6,7 +6,15 @@ import '../business/janitor_manager.dart';
 import '../business/kitchen_cleaning_manager.dart';
 import '../business/poll_manager.dart';
 import '../business/reservation_manager.dart';
+import '../screens/calendar_screen.dart';
+import '../screens/contacts_screen.dart';
+import '../screens/documents_screen.dart';
+import '../screens/error_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/janitor_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/reservation_screen.dart';
+import '../screens/settings_screen.dart';
 import '../screens/signin_screen.dart';
 import '../screens/submenu_screen.dart';
 import '../utils/auth_manager.dart';
@@ -58,6 +66,22 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedSubMenu != SzikAppSubMenu.none)
             SubMenuScreen.page(
                 selectedSubMenu: appStateManager.selectedSubMenu),
+          if (appStateManager.selectedFeature == SzikAppFeature.calendar)
+            CalendarScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.contacts)
+            ContactsScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.documents)
+            DocumentsScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.error)
+            ErrorScreen.page(error: appStateManager.error ?? ''),
+          if (appStateManager.selectedFeature == SzikAppFeature.janitor)
+            JanitorScreen.page(manager: janitorManager),
+          if (appStateManager.selectedFeature == SzikAppFeature.profile)
+            ProfileScreen.page(user: authManager.user!),
+          if (appStateManager.selectedFeature == SzikAppFeature.reservation)
+            ReservationScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.settings)
+            SettingsScreen.page(),
         ]
       ],
       onPopPage: _handlePopPage,
@@ -87,6 +111,16 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kSubMenuPath) {
       appStateManager.unselectSubMenu();
     }
+    if (route.settings.name == SzikAppLink.kCalendarPath ||
+        route.settings.name == SzikAppLink.kContactsPath ||
+        route.settings.name == SzikAppLink.kDocumentsPath ||
+        route.settings.name == SzikAppLink.kErrorPath ||
+        route.settings.name == SzikAppLink.kJanitorPath ||
+        route.settings.name == SzikAppLink.kProfilePath ||
+        route.settings.name == SzikAppLink.kReservationPath ||
+        route.settings.name == SzikAppLink.kSettingsPath) {
+      appStateManager.unselectFeature();
+    }
 
     return true;
   }
@@ -98,6 +132,55 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
       return SzikAppLink(
         location: SzikAppLink.kSubMenuPath,
         currentSubMenu: appStateManager.selectedSubMenu,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.calendar) {
+      return SzikAppLink(
+        location: SzikAppLink.kCalendarPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.contacts) {
+      return SzikAppLink(
+        location: SzikAppLink.kContactsPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.documents) {
+      return SzikAppLink(
+        location: SzikAppLink.kDocumentsPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.error) {
+      return SzikAppLink(
+        location: SzikAppLink.kErrorPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.janitor) {
+      return SzikAppLink(
+        location: SzikAppLink.kJanitorPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.profile) {
+      return SzikAppLink(
+        location: SzikAppLink.kProfilePath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.reservation) {
+      return SzikAppLink(
+        location: SzikAppLink.kReservationPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.settings) {
+      return SzikAppLink(
+        location: SzikAppLink.kSettingsPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
       );
     } else {
       return SzikAppLink(

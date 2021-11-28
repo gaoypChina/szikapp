@@ -7,6 +7,14 @@ import 'reservation_places_map.dart';
 class ReservationScreen extends StatelessWidget {
   static const String route = '/reservation';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: ReservationScreen(),
+    );
+  }
+
   const ReservationScreen({Key key = const Key('ReservationScreen')})
       : super(key: key);
 

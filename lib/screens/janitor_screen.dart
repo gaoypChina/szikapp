@@ -16,6 +16,14 @@ import 'error_screen.dart';
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
 
+  static MaterialPage page({required JanitorManager manager}) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: JanitorScreen(manager: manager),
+    );
+  }
+
   final JanitorManager manager;
 
   const JanitorScreen({Key? key, required this.manager}) : super(key: key);
