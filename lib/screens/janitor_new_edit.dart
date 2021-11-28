@@ -15,7 +15,7 @@ class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
 
   static MaterialPage page({
-    required JanitorTask? originalItem,
+    JanitorTask? originalItem,
     bool isFeedback = false,
     int index = -1,
     required Function(JanitorTask) onCreate,

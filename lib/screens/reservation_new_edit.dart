@@ -16,7 +16,7 @@ class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
 
   static MaterialPage page({
-    required TimetableTask? originalItem,
+    TimetableTask? originalItem,
     required int placeIndex,
     int index = -1,
     required Function(TimetableTask) onCreate,

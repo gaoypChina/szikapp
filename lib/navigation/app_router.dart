@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:szikapp/screens/reservation_games.dart';
+import 'package:szikapp/screens/reservation_new_edit.dart';
+import 'package:szikapp/screens/reservation_places_map.dart';
 
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
@@ -11,6 +14,8 @@ import '../screens/contacts_screen.dart';
 import '../screens/documents_screen.dart';
 import '../screens/error_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/janitor_edit_admin.dart';
+import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_screen.dart';
@@ -82,7 +87,73 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.settings)
             SettingsScreen.page(),
-        ]
+          if (janitorManager.isCreatingNewTask)
+            JanitorNewEditScreen.page(
+              onCreate: (item) {
+                janitorManager.addTask(item);
+              },
+              onUpdate: (item, index) {},
+              onDelete: (item, index) {},
+            ),
+          if (janitorManager.isEditingTask)
+            JanitorNewEditScreen.page(
+              originalItem: janitorManager.selectedTask,
+              onCreate: (_) {},
+              onUpdate: (item, index) {
+                janitorManager.updateTask(item);
+              },
+              onDelete: (item, index) {
+                janitorManager.deleteTask(item);
+              },
+            ),
+          if (janitorManager.isGivingFeedback)
+            JanitorNewEditScreen.page(
+              originalItem: janitorManager.selectedTask,
+              isFeedback: true,
+              onCreate: (_) {},
+              onUpdate: (item, index) {
+                janitorManager.updateStatus(item.status, item);
+              },
+              onDelete: (item, index) {
+                janitorManager.deleteTask(item);
+              },
+            ),
+          if (janitorManager.isAdminEditingTask)
+            JanitorEditAdminScreen.page(
+              item: janitorManager.selectedTask!,
+              onDelete: (item, index) {
+                janitorManager.deleteTask(item);
+              },
+              onUpdate: (item, index) {
+                janitorManager.updateTask(item);
+              },
+            ),
+          if (reservationManager.selectedMode == ReservationMode.place)
+            ReservationPlacesMapScreen.page(),
+          if (reservationManager.selectedMode == ReservationMode.boardgame)
+            ReservationGamesListScreen.page(),
+          if (reservationManager.isCreatingNewReservation)
+            ReservationNewEditScreen.page(
+              placeIndex: reservationManager.selectedPlaceIndex,
+              onCreate: (item) {
+                reservationManager.addReservation(item);
+              },
+              onUpdate: (item, index) {},
+              onDelete: (item, index) {},
+            ),
+          if (reservationManager.isEditingReservation)
+            ReservationNewEditScreen.page(
+              placeIndex: reservationManager.selectedPlaceIndex,
+              originalItem: reservationManager.selectedTask,
+              onCreate: (_) {},
+              onUpdate: (item, index) {
+                reservationManager.updateReservation(item);
+              },
+              onDelete: (item, index) {
+                reservationManager.deleteReservation(item);
+              },
+            ),
+        ],
       ],
       onPopPage: _handlePopPage,
     );

@@ -4,6 +4,13 @@ import '../models/resource.dart';
 import '../models/tasks.dart';
 import '../utils/io.dart';
 
+class ReservationMode {
+  static const int none = -1;
+  static const int place = 0;
+  static const int zoom = 1;
+  static const int boardgame = 2;
+}
+
 ///Foglalás funkció logikai működését megvalósító singleton háttérosztály.
 class ReservationManager extends ChangeNotifier {
   ///Foglalások listája
@@ -12,6 +19,7 @@ class ReservationManager extends ChangeNotifier {
   int _selectedIndex = -1;
   int _selectedGame = -1;
   int _selectedPlace = -1;
+  int _selectedMode = ReservationMode.none;
   bool _createNewReservation = false;
   bool _editReservation = false;
 
@@ -30,6 +38,7 @@ class ReservationManager extends ChangeNotifier {
   int get selectedIndex => _selectedIndex;
   int get selectedGameIndex => _selectedGame;
   int get selectedPlaceIndex => _selectedPlace;
+  int get selectedMode => _selectedMode;
   TimetableTask? get selectedTask =>
       selectedIndex != -1 ? _reservations[selectedIndex] : null;
   bool get isCreatingNewReservation => _createNewReservation;
@@ -54,6 +63,16 @@ class ReservationManager extends ChangeNotifier {
     _selectedIndex = index;
     _selectedPlace = placeIndex;
     _selectedGame = gameIndex;
+    notifyListeners();
+  }
+
+  void selectMode(int mode) {
+    _selectedMode = mode;
+    notifyListeners();
+  }
+
+  void unselectMode() {
+    _selectedMode = ReservationMode.none;
     notifyListeners();
   }
 

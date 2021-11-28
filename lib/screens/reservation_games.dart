@@ -10,6 +10,14 @@ import 'error_screen.dart';
 class ReservationGamesListScreen extends StatelessWidget {
   static const String route = '/reservation/games';
 
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: route,
+      key: ValueKey(route),
+      child: ReservationGamesListScreen(),
+    );
+  }
+
   const ReservationGamesListScreen({
     Key? key,
   }) : super(key: key);
