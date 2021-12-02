@@ -54,6 +54,23 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectGame(int index) {
+    _selectedGame = index;
+    notifyListeners();
+  }
+
+  void selectPlace(int index) {
+    _selectedPlace = index;
+    notifyListeners();
+  }
+
+  void performBackButtonPressed() {
+    _selectedIndex = -1;
+    _createNewReservation = false;
+    _editReservation = false;
+    notifyListeners();
+  }
+
   void editReservation(
     int index, {
     int gameIndex = -1,

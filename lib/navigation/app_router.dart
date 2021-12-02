@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/screens/reservation_games.dart';
-import 'package:szikapp/screens/reservation_new_edit.dart';
-import 'package:szikapp/screens/reservation_places_map.dart';
+import 'package:szikapp/screens/reservation_details.dart';
 
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
@@ -18,6 +16,9 @@ import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/reservation_games.dart';
+import '../screens/reservation_new_edit.dart';
+import '../screens/reservation_places_map.dart';
 import '../screens/reservation_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/signin_screen.dart';
@@ -132,6 +133,10 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationPlacesMapScreen.page(),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
             ReservationGamesListScreen.page(),
+          if (reservationManager.selectedPlaceIndex != -1 ||
+              reservationManager.selectedGameIndex != -1 ||
+              reservationManager.selectedMode == ReservationMode.zoom)
+            ReservationDetailsScreen.page(manager: reservationManager),
           if (reservationManager.isCreatingNewReservation)
             ReservationNewEditScreen.page(
               placeIndex: reservationManager.selectedPlaceIndex,
@@ -192,7 +197,27 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kSettingsPath) {
       appStateManager.unselectFeature();
     }
-
+    if (route.settings.name == SzikAppLink.kJanitorNewEditPath ||
+        route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
+      janitorManager.performBackButtonPressed();
+    }
+    if (route.settings.name == SzikAppLink.kReservationNewEditPath) {
+      reservationManager.performBackButtonPressed();
+    }
+    if (route.settings.name == SzikAppLink.kReservationGamesListPath ||
+        route.settings.name == SzikAppLink.kReservationPlacesMapPath ||
+        (route.settings.name == SzikAppLink.kReservationDetailsPath &&
+            reservationManager.selectedMode == ReservationMode.zoom)) {
+      reservationManager.unselectMode();
+    }
+    if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
+        reservationManager.selectedMode == ReservationMode.boardgame) {
+      reservationManager.selectGame(-1);
+    }
+    if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
+        reservationManager.selectedMode == ReservationMode.place) {
+      reservationManager.selectPlace(-1);
+    }
     return true;
   }
 
@@ -273,6 +298,30 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
       case SzikAppLink.kSubMenuPath:
         appStateManager
             .selectSubMenu(configuration.currentSubMenu ?? SzikAppSubMenu.data);
+        break;
+      case SzikAppLink.kCalendarPath:
+        appStateManager.selectFeature(SzikAppFeature.calendar);
+        break;
+      case SzikAppLink.kContactsPath:
+        appStateManager.selectFeature(SzikAppFeature.contacts);
+        break;
+      case SzikAppLink.kDocumentsPath:
+        appStateManager.selectFeature(SzikAppFeature.documents);
+        break;
+      case SzikAppLink.kErrorPath:
+        appStateManager.selectFeature(SzikAppFeature.error);
+        break;
+      case SzikAppLink.kJanitorPath:
+        appStateManager.selectFeature(SzikAppFeature.janitor);
+        break;
+      case SzikAppLink.kProfilePath:
+        appStateManager.selectFeature(SzikAppFeature.profile);
+        break;
+      case SzikAppLink.kReservationPath:
+        appStateManager.selectFeature(SzikAppFeature.reservation);
+        break;
+      case SzikAppLink.kSettingsPath:
+        appStateManager.selectFeature(SzikAppFeature.settings);
         break;
       default:
         break;

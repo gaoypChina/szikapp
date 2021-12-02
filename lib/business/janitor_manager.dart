@@ -38,6 +38,15 @@ class JanitorManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void performBackButtonPressed() {
+    _selectedIndex = -1;
+    _createNewTask = false;
+    _editTask = true;
+    _adminEditTask = false;
+    _feedbackTask = false;
+    notifyListeners();
+  }
+
   void editTask(int index) {
     _editTask = true;
     _selectedIndex = index;
@@ -60,6 +69,9 @@ class JanitorManager extends ChangeNotifier {
     final index = _tasks.indexWhere((element) => element.uid == uid);
     _selectedIndex = index;
     _createNewTask = false;
+    _editTask = true;
+    _adminEditTask = false;
+    _feedbackTask = false;
     notifyListeners();
   }
 
@@ -74,6 +86,7 @@ class JanitorManager extends ChangeNotifier {
     _tasks.firstWhere((element) => element.uid == task.uid).status = status;
     _editTask = false;
     _adminEditTask = false;
+    _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;

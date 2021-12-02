@@ -12,6 +12,7 @@ class SzikAppLink {
   static const String kProfilePath = '/profile';
   static const String kShortProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
+  static const String kReservationPlacesMapPath = '/reservation/places';
   static const String kReservationGamesListPath = '/reservation/games';
   static const String kReservationNewEditPath = '/reservation/newedit';
   static const String kReservationPath = '/reservation';

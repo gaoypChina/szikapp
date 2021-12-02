@@ -3,30 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 
-import '../models/tasks.dart';
 import 'error_screen.dart';
 
 class ReservationDetailsScreen extends StatelessWidget {
   static const String route = '/reservation/details';
 
-  static MaterialPage page({
-    required String title,
-    required TimetableTask task,
-  }) {
+  static MaterialPage page({required ReservationManager manager}) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
       child: ReservationDetailsScreen(
-        title: title,
+        manager: manager,
       ),
     );
   }
 
-  final String title;
+  final ReservationManager manager;
 
   const ReservationDetailsScreen({
     Key? key,
-    required this.title,
+    required this.manager,
   }) : super(key: key);
 
   @override
