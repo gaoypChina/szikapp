@@ -108,5 +108,12 @@
         "DOCUMENTS_OFFICIAL" : "Dokumentumok",
         "DOCUMENTS_PINNED" : "Pinned",
     "LABELS": null,
-        "LABEL_FAVOURITES": "Favourites"
+        "LABEL_FAVOURITES": "Favourites",
+    "PROFILE": null,
+        "PROFILE_NAME": "Név",
+        "PROFILE_NICKNAME": "Becenév",
+        "PROFILE_EMAIL": "E-mail cím",
+        "PROFILE_BIRTHDAY": "Születésnap",
+        "PROFILE_PHONENUMBER": "Telefonszám",
+        "PROFILE_GROUPS": "Csoportok"
 }
