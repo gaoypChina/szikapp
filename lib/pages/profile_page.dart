@@ -4,11 +4,21 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 import '../ui/widgets/profile_fields.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   static const String route = '/profile';
   static const String shortRoute = '/me';
 
   const ProfilePage({Key key = const Key('ProfilePage')}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+  String? nick;
+  DateTime? birthday;
+  String? phone;
 
   String buildGroupNamesFromIDs(List<String> ids) {
     var result = '';
@@ -17,6 +27,14 @@ class ProfilePage extends StatelessWidget {
           SZIKAppState.groups.firstWhere((element) => element.id == item).name;
     }
     return result;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    nick = SZIKAppState.authManager.user!.nick;
+    birthday = SZIKAppState.authManager.user!.birthday;
+    phone = SZIKAppState.authManager.user!.phone;
   }
 
   @override
@@ -38,6 +56,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Form(
+              key: _formKey,
               child: Column(
                 children: [
                   ProfileTextField(
@@ -52,7 +71,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ProfileTextField(
                     label: 'PROFILE_NICKNAME'.tr(),
-                    initialValue: SZIKAppState.authManager.user!.nick,
+                    initialValue: nick,
                   ),
                   Divider(
                     height: 1,
@@ -71,10 +90,8 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ProfileTextField(
                     label: 'PROFILE_BIRTHDAY'.tr(),
-                    initialValue: SZIKAppState.authManager.user!.birthday !=
-                            null
-                        ? DateFormat('yyyy. MM. dd.')
-                            .format(SZIKAppState.authManager.user!.birthday!)
+                    initialValue: birthday != null
+                        ? DateFormat('yyyy. MM. dd.').format(birthday!)
                         : null,
                   ),
                   Divider(
@@ -84,7 +101,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ProfileTextField(
                     label: 'PROFILE_PHONENUMBER'.tr(),
-                    initialValue: SZIKAppState.authManager.user!.phone,
+                    initialValue: phone,
                   ),
                   Divider(
                     height: 1,

@@ -115,7 +115,7 @@
     "PROFILE": null,
         "PROFILE_NAME": "Név",
         "PROFILE_NICKNAME": "Becenév",
-        "PROFILE_EMAIL": "E-mail cím",
+        "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Születésnap",
         "PROFILE_PHONENUMBER": "Telefonszám",
         "PROFILE_GROUPS": "Csoportok"

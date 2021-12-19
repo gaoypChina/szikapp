@@ -115,8 +115,8 @@
     "PROFILE": null,
         "PROFILE_NAME": "Name",
         "PROFILE_NICKNAME": "Nickname",
-        "PROFILE_EMAIL": "E-mail adress",
+        "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Birthday",
-        "PROFILE_PHONENUMBER": "Phone number",
+        "PROFILE_PHONENUMBER": "Phone",
         "PROFILE_GROUPS": "Groups"
 }
