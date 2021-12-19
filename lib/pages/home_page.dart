@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
           return const ProgressScreen();
         } else if (snapshot.hasData) {
           if (SZIKAppState.authManager.isSignedIn) SZIKAppState.loadEarlyData();
-          setNotificationBarTheme();
+          //setNotificationBarTheme();
           if (hasDynamicLinkError) {
             ScaffoldMessenger.of(context).showSnackBar(
               ErrorHandler.buildSnackbar(
