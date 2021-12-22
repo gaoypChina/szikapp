@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 import '../ui/widgets/profile_fields.dart';
+import '../utils/exceptions.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String route = '/profile';
@@ -16,6 +17,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  bool changed = false;
   String? nick;
   DateTime? birthday;
   String? phone;
@@ -27,6 +29,58 @@ class _ProfilePageState extends State<ProfilePage> {
           SZIKAppState.groups.firstWhere((element) => element.id == item).name;
     }
     return result;
+  }
+
+  void _onNickChanged(String newValue) {
+    SZIKAppState.authManager.user!.nick = newValue;
+    setState(() {
+      nick = newValue;
+      changed = true;
+    });
+  }
+
+  void _onPhoneChanged(String newValue) {
+    try {
+      SZIKAppState.authManager.user!.phone = newValue;
+      setState(() {
+        phone = newValue;
+        changed = true;
+      });
+    } on NonHungarianPhoneException {
+      setState(() {
+        phone = newValue;
+        changed = true;
+      });
+    }
+  }
+
+  void _onBirthdayChanged(String newValue) {
+    try {
+      var parsed = newValue.split('. ');
+      if (parsed.length == 3) {
+        var date = DateTime(
+          int.parse(parsed.first),
+          int.parse(parsed[1]),
+          int.parse(parsed.last),
+        );
+        SZIKAppState.authManager.user!.birthday = date;
+        setState(() {
+          birthday = date;
+          changed = true;
+        });
+      }
+    } on NotValidBirthdayException {
+      return;
+    }
+  }
+
+  void _onSend() {
+    if (_formKey.currentState!.validate()) {
+      SZIKAppState.authManager.updateUser();
+      setState(() {
+        changed = false;
+      });
+    }
   }
 
   @override
@@ -72,6 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ProfileTextField(
                     label: 'PROFILE_NICKNAME'.tr(),
                     initialValue: nick,
+                    onChanged: _onNickChanged,
                   ),
                   Divider(
                     height: 1,
@@ -93,6 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     initialValue: birthday != null
                         ? DateFormat('yyyy. MM. dd.').format(birthday!)
                         : null,
+                    onChanged: _onBirthdayChanged,
                   ),
                   Divider(
                     height: 1,
@@ -102,6 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ProfileTextField(
                     label: 'PROFILE_PHONENUMBER'.tr(),
                     initialValue: phone,
+                    onChanged: _onPhoneChanged,
                   ),
                   Divider(
                     height: 1,
@@ -122,6 +179,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
+            changed
+                ? Center(
+                    child: ElevatedButton(
+                      child: Text('BUTTON_SEND'.tr()),
+                      onPressed: _onSend,
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

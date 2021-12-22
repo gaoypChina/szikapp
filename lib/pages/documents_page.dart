@@ -1,7 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../business/good_to_know_manager.dart';
@@ -47,7 +45,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return DocumentsList();
+          return const DocumentsList();
         }
       },
     );

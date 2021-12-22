@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../models/user_data.dart';
 import 'exceptions.dart';
 
 import 'io.dart';
@@ -114,5 +115,13 @@ class Auth {
   /// újragenerálja a tokent.
   Future<String> getAuthToken({bool forceRefresh = false}) async {
     return _auth.currentUser!.getIdToken(forceRefresh);
+  }
+
+  Future<void> updateUser() async {
+    if (user != null) {
+      var io = IO();
+      var data = UserData.fromUser(user!);
+      await io.putUser(data);
+    }
   }
 }
