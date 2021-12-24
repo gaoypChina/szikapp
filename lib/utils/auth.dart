@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../models/user_data.dart';
 import 'exceptions.dart';
 
 import 'io.dart';
@@ -114,5 +115,30 @@ class Auth {
   /// újragenerálja a tokent.
   Future<String> getAuthToken({bool forceRefresh = false}) async {
     return _auth.currentUser!.getIdToken(forceRefresh);
+  }
+
+  Future<bool> pushUserUpdate() async {
+    if (isSignedIn) {
+      var io = IO();
+      var data = UserData.fromUser(user!);
+      await io.putUser(data);
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> pullUserUpdate() async {
+    if (isSignedIn) {
+      var io = IO();
+
+      var userData = await io.getUser();
+      var profilePicture = userData.name != 'Guest'
+          ? _auth.currentUser!.photoURL
+          : '../assets/default.png';
+      _user = szikapp_user.User(
+          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      return true;
+    }
+    return false;
   }
 }

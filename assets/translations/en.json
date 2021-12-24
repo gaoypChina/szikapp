@@ -111,5 +111,12 @@
         "DOCUMENTS_ALL" : "All",
     "LABELS": null,
         "LABEL_FAVOURITES": "Favourites",
-        "LABEL_LAST_MODIFIED": "Last modified: {}"
+        "LABEL_LAST_MODIFIED": "Last modified: {}",
+    "PROFILE": null,
+        "PROFILE_NAME": "Name",
+        "PROFILE_NICKNAME": "Nickname",
+        "PROFILE_EMAIL": "E-mail",
+        "PROFILE_BIRTHDAY": "Birthday",
+        "PROFILE_PHONENUMBER": "Phone",
+        "PROFILE_GROUPS": "Groups"
 }

@@ -80,7 +80,7 @@ class _FeedPageState extends State<FeedPage> {
                     foregroundImage: NetworkImage(
                       SZIKAppState.authManager.user!.profilePicture.toString(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
