@@ -117,11 +117,28 @@ class Auth {
     return _auth.currentUser!.getIdToken(forceRefresh);
   }
 
-  Future<void> updateUser() async {
-    if (user != null) {
+  Future<bool> pushUserUpdate() async {
+    if (isSignedIn) {
       var io = IO();
       var data = UserData.fromUser(user!);
       await io.putUser(data);
+      return true;
     }
+    return false;
+  }
+
+  Future<bool> pullUserUpdate() async {
+    if (isSignedIn) {
+      var io = IO();
+
+      var userData = await io.getUser();
+      var profilePicture = userData.name != 'Guest'
+          ? _auth.currentUser!.photoURL
+          : '../assets/default.png';
+      _user = szikapp_user.User(
+          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      return true;
+    }
+    return false;
   }
 }

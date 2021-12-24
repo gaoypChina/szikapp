@@ -18,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   bool changed = false;
+  bool error = false;
   String? nick;
   DateTime? birthday;
   String? phone;
@@ -32,7 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _onNickChanged(String newValue) {
-    SZIKAppState.authManager.user!.nick = newValue;
     setState(() {
       nick = newValue;
       changed = true;
@@ -40,45 +40,46 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _onPhoneChanged(String newValue) {
-    try {
-      SZIKAppState.authManager.user!.phone = newValue;
-      setState(() {
-        phone = newValue;
-        changed = true;
-      });
-    } on NonHungarianPhoneException {
-      setState(() {
-        phone = newValue;
-        changed = true;
-      });
-    }
+    setState(() {
+      phone = newValue;
+      changed = true;
+    });
   }
 
   void _onBirthdayChanged(String newValue) {
-    try {
-      var parsed = newValue.split('. ');
-      if (parsed.length == 3) {
-        var date = DateTime(
-          int.parse(parsed.first),
-          int.parse(parsed[1]),
-          int.parse(parsed.last),
-        );
-        SZIKAppState.authManager.user!.birthday = date;
-        setState(() {
-          birthday = date;
-          changed = true;
-        });
-      }
-    } on NotValidBirthdayException {
-      return;
+    var parsed = newValue.split('.');
+    if (parsed.length == 4) {
+      var date = DateTime(
+        int.parse(parsed.first.trim()),
+        int.parse(parsed[1].trim()),
+        int.parse(parsed[2].trim()),
+      );
+      setState(() {
+        birthday = date;
+        changed = true;
+      });
     }
   }
 
   void _onSend() {
-    if (_formKey.currentState!.validate()) {
-      SZIKAppState.authManager.updateUser();
+    try {
+      if (_formKey.currentState!.validate()) {
+        SZIKAppState.authManager.user!.nick = nick;
+        SZIKAppState.authManager.user!.phone = phone;
+        SZIKAppState.authManager.user!.birthday = birthday;
+        SZIKAppState.authManager.pushUserUpdate();
+        setState(() {
+          changed = false;
+        });
+        SZIKAppState.authManager.pullUserUpdate();
+      }
+    } on NotValidPhoneException {
       setState(() {
-        changed = false;
+        error = true;
+      });
+    } on NotValidBirthdayException {
+      setState(() {
+        error = true;
       });
     }
   }
