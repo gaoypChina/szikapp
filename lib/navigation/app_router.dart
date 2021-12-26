@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/screens/reservation_details.dart';
 
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
@@ -16,6 +15,7 @@ import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/reservation_details.dart';
 import '../screens/reservation_games.dart';
 import '../screens/reservation_new_edit.dart';
 import '../screens/reservation_places_map.dart';
