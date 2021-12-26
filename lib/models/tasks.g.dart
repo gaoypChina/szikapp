@@ -11,7 +11,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       involvedIDs: (json['involved_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -30,32 +30,6 @@ Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'last_update': instance.lastUpdate.toIso8601String(),
     };
 
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
-
 const _$TaskTypeEnumMap = {
   TaskType.agenda: 'agenda',
   TaskType.janitor: 'janitor',
@@ -71,7 +45,7 @@ AgendaTask _$AgendaTaskFromJson(Map<String, dynamic> json) => AgendaTask(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       organizerIDs: (json['organizer_ids'] as List<dynamic>)
@@ -100,7 +74,7 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       organizerIDs: (json['organizer_ids'] as List<dynamic>)
@@ -132,14 +106,14 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) => JanitorTask(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       feedback: (json['feedback'] as List<dynamic>?)
           ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
           .toList(),
       placeID: json['place_id'] as String,
-      status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
+      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
       answer: json['answer'] as String?,
     )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
         ?.map((e) => e as String)
@@ -188,13 +162,13 @@ CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) => CleaningTask(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       feedback: (json['feedback'] as List<dynamic>?)
           ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: _$enumDecode(_$TaskStatusEnumMap, json['status']),
+      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
     )..involvedIDs = (json['involved_ids'] as List<dynamic>?)
         ?.map((e) => e as String)
         .toList();
@@ -218,7 +192,7 @@ BookloanTask _$BookloanTaskFromJson(Map<String, dynamic> json) => BookloanTask(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       bookID: json['book_id'] as String,
@@ -244,7 +218,7 @@ PollTask _$PollTaskFromJson(Map<String, dynamic> json) => PollTask(
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
-      type: _$enumDecode(_$TaskTypeEnumMap, json['type']),
+      type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
       question: json['question'] as String,

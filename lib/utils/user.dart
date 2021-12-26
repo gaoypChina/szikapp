@@ -14,8 +14,8 @@ import 'io.dart';
 class User {
   late final String id;
   late String name;
-  late String email;
-  late Uri profilePicture;
+  late final String email;
+  late final Uri profilePicture;
   String? nick;
   DateTime? _birthday;
   String? _phone;

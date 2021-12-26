@@ -99,7 +99,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           .profilePicture
                           .toString(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

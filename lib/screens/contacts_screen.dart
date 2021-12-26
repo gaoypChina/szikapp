@@ -184,7 +184,7 @@ class _ContactsListViewState extends State<ContactsListView> {
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
           ),
           AnimatedContainer(
-            duration: const Duration(seconds: 1),
+            duration: const Duration(milliseconds: 500),
             margin: EdgeInsets.fromLTRB(20, filterExpandableHeight / 16, 20, 0),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             height: filterExpandableHeight,

@@ -83,7 +83,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.janitor)
             JanitorScreen.page(manager: janitorManager),
           if (appStateManager.selectedFeature == SzikAppFeature.profile)
-            ProfileScreen.page(user: authManager.user!),
+            ProfileScreen.page(manager: authManager),
           if (appStateManager.selectedFeature == SzikAppFeature.reservation)
             ReservationScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.settings)

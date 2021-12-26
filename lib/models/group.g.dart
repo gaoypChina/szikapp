@@ -16,7 +16,7 @@ Group _$GroupFromJson(Map<String, dynamic> json) => Group(
           .toList(),
       maxMemberCount: json['max_member_count'] as int? ?? 999,
       permissions: (json['permissions'] as List<dynamic>?)
-          ?.map((e) => _$enumDecode(_$PermissionEnumMap, e))
+          ?.map((e) => $enumDecode(_$PermissionEnumMap, e))
           .toList(),
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
@@ -32,32 +32,6 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
           instance.permissions?.map((e) => _$PermissionEnumMap[e]).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
     };
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
 
 const _$PermissionEnumMap = {
   Permission.pollView: 'pollView',

@@ -93,6 +93,7 @@
         "BUTTON_SAVE": "Mentés",
         "BUTTON_FEEDBACK": "Visszajelzés",
         "BUTTON_APPROVE": "Jóváhagyás",
+        "BUTTON_OPEN": "Megnyitás",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Válassz dátumot",
         "TIME_PICKER_HELP": "Válassz időpontot",
@@ -105,8 +106,17 @@
         "FEED_GREETINGS": "Szia {}",
         "FEED_NOTIFICATIONS": "Értesítéseid",
     "DOCUMENTS": null,
-        "DOCUMENTS_OFFICIAL" : "Dokumentumok",
+        "DOCUMENTS_OFFICIAL" : "Doksi",
         "DOCUMENTS_PINNED" : "Pinned",
+        "DOCUMENTS_ALL" : "Összes",
     "LABELS": null,
-        "LABEL_FAVOURITES": "Favourites"
+        "LABEL_FAVOURITES": "Kedvencek",
+        "LABEL_LAST_MODIFIED": "Utolsó módosítás: {}",
+    "PROFILE": null,
+        "PROFILE_NAME": "Név",
+        "PROFILE_NICKNAME": "Becenév",
+        "PROFILE_EMAIL": "E-mail",
+        "PROFILE_BIRTHDAY": "Születésnap",
+        "PROFILE_PHONENUMBER": "Telefonszám",
+        "PROFILE_GROUPS": "Csoportok"
 }

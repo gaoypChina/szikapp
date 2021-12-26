@@ -91,7 +91,7 @@ class GoodToKnowManager extends ChangeNotifier {
     } else {
       var results = <GoodToKnow>[];
       for (var item in _posts) {
-        if (item.title.contains(text)) {
+        if (item.title.toLowerCase().contains(text.toLowerCase())) {
           results.add(item);
         }
       }

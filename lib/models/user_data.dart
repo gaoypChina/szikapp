@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import '../utils/types.dart';
+import '../utils/user.dart';
 import 'preferences.dart';
 
 part 'user_data.g.dart';
@@ -53,6 +55,20 @@ class UserData {
     if (groupIDs!.isNotEmpty) {
       groupIDs!.clear();
     }
+  }
+
+  factory UserData.fromUser(User user) {
+    return UserData(
+      id: user.id,
+      name: user.name,
+      nick: user.nick,
+      email: user.email,
+      phone: user.phone,
+      secondaryPhone: user.secondaryPhone,
+      birthday: user.birthday,
+      groupIDs: user.groupIDs,
+      lastUpdate: user.lastUpdate,
+    );
   }
 
   Json toJson() => _$UserDataToJson(this);

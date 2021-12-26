@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -75,11 +74,12 @@ class SZIKAppState extends State<SZIKApp> {
   final _pollManager = PollManager();
   final _reservationManager = ReservationManager();
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   late SzikAppRouter _appRouter;
   final appRouteParser = SzikAppRouteParser();
-
-  static final analytics = FirebaseAnalytics();
-  static final observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   static ConnectivityResult connectionStatus = ConnectivityResult.none;
   final _connectivity = Connectivity();
