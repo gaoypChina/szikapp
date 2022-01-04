@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../components/bottom_navigation_bar.dart';
-import '../components/curve_shape_border.dart';
 import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
 import 'feed_screen.dart';
 import 'menu_screen.dart';
 import 'settings_screen.dart';
@@ -62,15 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<SzikAppStateManager>(
       builder: (context, appStateManager, child) {
         return SafeArea(
           child: Scaffold(
-            /*appBar: buildAppBar(
-              context: context,
-              appBarTitle: '',
-            ),*/
             body: IndexedStack(
               index: widget.currentTab,
               children: pages,
@@ -83,25 +83,4 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
-
-PreferredSizeWidget buildAppBar({
-  required BuildContext context,
-  required String appBarTitle,
-  void Function()? onPressed,
-}) {
-  return AppBar(
-    shape: const CurveShapeBorder(kCurveHeight),
-    title: Text(
-      appBarTitle.toUpperCase(),
-      style: Theme.of(context).textTheme.headline2,
-    ),
-    leading: IconButton(
-      onPressed: onPressed,
-      icon: Icon(
-        Icons.arrow_back,
-        color: Theme.of(context).colorScheme.background,
-      ),
-    ),
-  );
 }

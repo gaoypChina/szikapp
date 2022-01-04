@@ -56,7 +56,7 @@ class AuthManager extends ChangeNotifier {
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<void> signInSilently() async {
-    if (_signedIn) {
+    if (isSignedIn) {
       return;
     } else if (_auth.currentUser == null) {
       _signedIn = false;
@@ -84,8 +84,7 @@ class AuthManager extends ChangeNotifier {
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<void> signIn() async {
-    if (_signedIn) {
-      notifyListeners();
+    if (isSignedIn) {
       return;
     }
     try {

@@ -113,6 +113,7 @@
         "LABEL_FAVOURITES": "Kedvencek",
         "LABEL_LAST_MODIFIED": "Utolsó módosítás: {}",
     "PROFILE": null,
+        "PROFILE_TITLE": "Szik profil",
         "PROFILE_NAME": "Név",
         "PROFILE_NICKNAME": "Becenév",
         "PROFILE_EMAIL": "E-mail",

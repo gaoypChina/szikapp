@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
+import '../components/bottom_navigation_bar.dart';
 import '../components/search_bar.dart';
 import '../components/searchable_options.dart';
 import '../main.dart';
@@ -94,7 +95,7 @@ class ContactsListView extends StatefulWidget {
 ///[Contacts] singletont.
 class _ContactsListViewState extends State<ContactsListView> {
   ///Megjelenített kontaktok
-  late List<UserData> items;
+  List<UserData> items = [];
 
   ///Szűrőmező aktuális magassága
   double filterExpandableHeight = 0;
@@ -106,6 +107,7 @@ class _ContactsListViewState extends State<ContactsListView> {
   ///adatbázisban szereplő kontaktot.
   @override
   void initState() {
+    items = widget.manager.contacts;
     super.initState();
   }
 
@@ -479,6 +481,10 @@ class ContactsListViewShimmer extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: SzikBottomNavigationBar(
+        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
+            .selectedTab,
       ),
     );
   }

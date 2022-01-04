@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/app_bar.dart';
+import '../components/bottom_navigation_bar.dart';
 import '../components/profile_fields.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/auth_manager.dart';
@@ -114,6 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: buildAppBar(context: context, appBarTitle: 'PROFILE_TITLE'.tr()),
       body: Container(
         color: Theme.of(context).colorScheme.background,
         padding: const EdgeInsets.all(20),
@@ -208,6 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : Container(),
           ],
         ),
+      ),
+      bottomNavigationBar: SzikBottomNavigationBar(
+        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
+            .selectedTab,
       ),
     );
   }

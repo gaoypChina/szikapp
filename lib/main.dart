@@ -133,8 +133,6 @@ class SZIKAppState extends State<SZIKApp> {
         pollManager: _pollManager,
         reservationManager: _reservationManager);
 
-    _appStateManager.loadEarlyData();
-
     super.initState();
   }
 
