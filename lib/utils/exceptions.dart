@@ -8,6 +8,7 @@ const int notSupportedEmailFunctionalityExceptionCode = 932;
 const int routeExceptionCode = 941;
 const int dynamicLinkExceptionCode = 942;
 const int socketExceptionCode = 801;
+const int notImplementedExceptionCode = 802;
 const int unknownCatchedExceptionCode = 899;
 const int informationlessExceptionCode = 999;
 
@@ -23,6 +24,11 @@ class BaseException implements Exception {
 
   @override
   String toString() => 'Exception: $message\n';
+}
+
+class NotImplementedException extends BaseException {
+  NotImplementedException(message)
+      : super(notImplementedExceptionCode, message);
 }
 
 class AuthException extends BaseException {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:szikapp/utils/exceptions.dart';
 
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
@@ -79,7 +80,10 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
             DocumentsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.error)
-            ErrorScreen.page(error: appStateManager.error ?? ''),
+            ErrorScreen.page(
+              error: appStateManager.error ??
+                  NotImplementedException('Not implemented.'),
+            ),
           if (appStateManager.selectedFeature == SzikAppFeature.janitor)
             JanitorScreen.page(manager: janitorManager),
           if (appStateManager.selectedFeature == SzikAppFeature.profile)

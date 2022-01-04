@@ -214,9 +214,9 @@ class SubMenuScreen extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: SzikBottomNavigationBar(
-            selectedTab:
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectedTab),
+          selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
+              .selectedTab,
+        ),
       ),
     );
   }
