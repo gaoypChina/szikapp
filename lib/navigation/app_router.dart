@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/utils/exceptions.dart';
 
 import '../business/calendar_manager.dart';
 import '../business/good_to_know_manager.dart';
@@ -25,6 +24,7 @@ import '../screens/settings_screen.dart';
 import '../screens/signin_screen.dart';
 import '../screens/submenu_screen.dart';
 import '../utils/auth_manager.dart';
+import '../utils/exceptions.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
 

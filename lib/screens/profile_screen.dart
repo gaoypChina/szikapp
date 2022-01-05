@@ -119,10 +119,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: buildAppBar(context: context, appBarTitle: 'PROFILE_TITLE'.tr()),
       body: Container(
         color: Theme.of(context).colorScheme.background,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
           children: [
             Container(
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 40,
