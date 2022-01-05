@@ -159,8 +159,11 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                         ),
                         Expanded(
                           child: DatePicker(
-                            date: start,
+                            initialDate: start,
+                            startDate: DateTime.now(),
                             onChanged: _onDateChanged,
+                            readonly:
+                                widget.isEdit & start.isBefore(DateTime.now()),
                             color: MediaQuery.of(context).platformBrightness ==
                                     Brightness.light
                                 ? szikTarawera
