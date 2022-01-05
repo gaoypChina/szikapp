@@ -138,7 +138,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationDetailsScreen.page(manager: reservationManager),
           if (reservationManager.isCreatingNewReservation)
             ReservationNewEditScreen.page(
-              placeIndex: reservationManager.selectedPlaceIndex,
+              manager: reservationManager,
               onCreate: (item) {
                 reservationManager.addReservation(item);
               },
@@ -147,7 +147,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (reservationManager.isEditingReservation)
             ReservationNewEditScreen.page(
-              placeIndex: reservationManager.selectedPlaceIndex,
+              manager: reservationManager,
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {

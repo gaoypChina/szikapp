@@ -41,6 +41,8 @@ class ReservationManager extends ChangeNotifier {
   int get selectedMode => _selectedMode;
   TimetableTask? get selectedTask =>
       selectedIndex != -1 ? _reservations[selectedIndex] : null;
+  Boardgame? get selectedGame =>
+      selectedIndex != -1 ? _games[selectedGameIndex] : null;
   bool get isCreatingNewReservation => _createNewReservation;
   bool get isEditingReservation => _editReservation;
 
@@ -149,7 +151,7 @@ class ReservationManager extends ChangeNotifier {
   ///Azonban a [start] és az [end] paraméterek megadásával ez a periódus
   ///módosítható.
   Future<void> refresh({DateTime? start, DateTime? end}) async {
-    start ??= DateTime.now();
+    start ??= DateTime.now().subtract(const Duration(days: 1));
     end ??= DateTime.now().add(const Duration(days: 7));
 
     var parameter = {

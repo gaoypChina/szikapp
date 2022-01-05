@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/janitor_manager.dart';
-import '../components/tab_choice.dart';
+import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
@@ -158,7 +158,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   Future<void> _onManualRefresh() async {
-    manager.refresh();
+    await manager.refresh();
     setState(() {
       items = manager.tasks;
     });
@@ -195,16 +195,18 @@ class _JanitorListViewState extends State<JanitorListView> {
                         borderRadius: BorderRadius.circular(20)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: task.feedback!.map((item) {
-                        return Text(
-                          '${item.timestamp.month}. ${item.timestamp.day}: ${item.message}',
-                          style: theme.textTheme.subtitle1!.copyWith(
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w600,
-                            color: theme.colorScheme.background,
-                          ),
-                        );
-                      }).toList(),
+                      children: task.feedback!.map(
+                        (item) {
+                          return Text(
+                            '${item.timestamp.month}. ${item.timestamp.day}: ${item.message}',
+                            style: theme.textTheme.subtitle1!.copyWith(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.background,
+                            ),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 ),
@@ -217,25 +219,17 @@ class _JanitorListViewState extends State<JanitorListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Container(
-      padding:
-          const EdgeInsets.fromLTRB(10, 30, 10, kBottomNavigationBarHeight),
-      color: theme.colorScheme.background,
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: buildAppBar(
+        context: context,
+        appBarTitle: 'JANITOR_TITLE'.tr(),
+      ),
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+        color: theme.colorScheme.background,
+        child: Column(
           children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  'JANITOR_TITLE'.tr().toUpperCase(),
-                  style: theme.textTheme.headline2!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-            ),
             TabChoice(
               labels: [
                 'JANITOR_TAB_ALL'.tr(),
@@ -541,12 +535,16 @@ class _JanitorListViewState extends State<JanitorListView> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _onCreateTask,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints.expand(width: 36, height: 36),
-            child: Image.asset('assets/icons/plus_light_72.png'),
-          ),
+      ),
+      bottomNavigationBar: SzikBottomNavigationBar(
+        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
+            .selectedTab,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onCreateTask,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints.expand(width: 36, height: 36),
+          child: Image.asset('assets/icons/plus_light_72.png'),
         ),
       ),
     );
