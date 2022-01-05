@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 
-import '../components/bottom_navigation_bar.dart';
+import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 

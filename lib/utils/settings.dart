@@ -37,9 +37,9 @@ class Settings {
   }
 
   ///Lekéri az alkalmazás színtémát.
-  Theme get theme {
+  SzikAppTheme get theme {
     var value = _preferences.getString('theme');
-    return Theme.values
+    return SzikAppTheme.values
         .firstWhere((element) => element.toShortString() == value);
   }
 
@@ -82,7 +82,7 @@ class Settings {
   }
 
   ///Elmenti a témabeállításokat.
-  set theme(Theme theme) {
+  set theme(SzikAppTheme theme) {
     _preferences.setString('theme', theme.toShortString());
   }
 

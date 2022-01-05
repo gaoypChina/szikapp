@@ -7,13 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
-import '../components/app_bar.dart';
-import '../components/bottom_navigation_bar.dart';
-import '../components/search_bar.dart';
-import '../components/searchable_options.dart';
+import '../components/components.dart';
 import '../main.dart';
-import '../models/group.dart';
-import '../models/user_data.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/exceptions.dart';
 import 'error_screen.dart';

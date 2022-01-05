@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../components/alert_dialog.dart';
-import '../components/date_picker.dart';
-import '../components/time_picker.dart';
+import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/group.dart';
-import '../models/resource.dart';
+import '../models/models.dart';
 import '../utils/io.dart';
 
 class SzikAppTab {

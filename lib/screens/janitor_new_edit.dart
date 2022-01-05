@@ -3,11 +3,9 @@ import 'package:flutter/material.dart' hide Feedback;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../components/alert_dialog.dart';
-import '../components/searchable_options.dart';
+import '../components/components.dart';
 import '../main.dart';
-import '../models/resource.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/auth_manager.dart';
 

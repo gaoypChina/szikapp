@@ -2,13 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/components/app_bar.dart';
 
-import '../business/good_to_know_manager.dart';
-import '../components/bottom_navigation_bar.dart';
-import '../components/document_details.dart';
-import '../components/search_bar.dart';
-import '../components/tab_choice.dart';
+import '../business/business.dart';
+import '../components/components.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
 import '../navigation/app_state_manager.dart';
