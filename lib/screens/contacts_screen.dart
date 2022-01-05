@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
+import '../components/app_bar.dart';
 import '../components/bottom_navigation_bar.dart';
 import '../components/search_bar.dart';
 import '../components/searchable_options.dart';
@@ -174,7 +175,11 @@ class _ContactsListViewState extends State<ContactsListView> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
+      appBar: buildAppBar(
+        context: context,
+        appBarTitle: 'CONTACTS_TITLE'.tr(),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -224,7 +229,7 @@ class _ContactsListViewState extends State<ContactsListView> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Expanded(
             child: items.isEmpty
                 ? Center(
@@ -404,6 +409,10 @@ class _ContactsListViewState extends State<ContactsListView> {
           ),
         ],
       ),
+      bottomNavigationBar: SzikBottomNavigationBar(
+        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
+            .selectedTab,
+      ),
     );
   }
 }
@@ -416,7 +425,11 @@ class ContactsListViewShimmer extends StatelessWidget {
     var theme = Theme.of(context);
     var searchBarIconSize = 30.0;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
+      appBar: buildAppBar(
+        context: context,
+        appBarTitle: 'CONTACTS_TITLE'.tr(),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
