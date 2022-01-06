@@ -3,6 +3,7 @@ library components;
 
 export 'alert_dialog.dart';
 export 'app_bar.dart';
+export 'app_scaffold.dart';
 export 'bottom_navigation_bar.dart';
 export 'date_picker.dart';
 export 'document_details.dart';

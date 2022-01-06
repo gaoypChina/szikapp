@@ -114,7 +114,8 @@ class SubMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: SzikAppScaffold(
+        withAppBar: false,
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -212,10 +213,6 @@ class SubMenuScreen extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        bottomNavigationBar: SzikBottomNavigationBar(
-          selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-              .selectedTab,
         ),
       ),
     );

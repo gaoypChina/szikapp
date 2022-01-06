@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../components/components.dart';
 import '../main.dart';
 
 class ErrorScreen extends StatefulWidget {
@@ -34,7 +37,8 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SzikAppScaffold(
+      appBarTitle: 'ERROR_TITLE'.tr(),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(

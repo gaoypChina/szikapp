@@ -218,12 +218,9 @@ class _JanitorListViewState extends State<JanitorListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(
-        context: context,
-        appBarTitle: 'JANITOR_TITLE'.tr(),
-      ),
+      appBarTitle: 'JANITOR_TITLE'.tr(),
       body: Container(
         padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
         color: theme.colorScheme.background,
@@ -534,10 +531,6 @@ class _JanitorListViewState extends State<JanitorListView> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onCreateTask,

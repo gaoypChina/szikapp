@@ -89,14 +89,11 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(
-        context: context,
-        appBarTitle: widget.isEdit
-            ? 'JANITOR_TITLE_EDIT'.tr()
-            : 'JANITOR_TITLE_CREATE'.tr(),
-      ),
+      appBarTitle: widget.isEdit
+          ? 'JANITOR_TITLE_EDIT'.tr()
+          : 'JANITOR_TITLE_CREATE'.tr(),
       body: Container(
         color: theme.colorScheme.background,
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -288,10 +285,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

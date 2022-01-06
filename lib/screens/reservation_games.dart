@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../navigation/navigation.dart';
 import 'error_screen.dart';
 
 class ReservationGamesListScreen extends StatelessWidget {
@@ -44,12 +43,9 @@ class ReservationGamesListScreen extends StatelessWidget {
         } else {
           var boardgames =
               Provider.of<ReservationManager>(context, listen: false).games;
-          return Scaffold(
+          return SzikAppScaffold(
             resizeToAvoidBottomInset: true,
-            appBar: buildAppBar(
-              context: context,
-              appBarTitle: 'RESERVATION_TITLE_BOARDGAME_LIST'.tr(),
-            ),
+            appBarTitle: 'RESERVATION_TITLE_BOARDGAME_LIST'.tr(),
             body: Column(
               children: [
                 Expanded(
@@ -84,11 +80,6 @@ class ReservationGamesListScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-            bottomNavigationBar: SzikBottomNavigationBar(
-              selectedTab:
-                  Provider.of<SzikAppStateManager>(context, listen: false)
-                      .selectedTab,
             ),
           );
         }

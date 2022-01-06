@@ -2,6 +2,7 @@
     "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "Magyar",
     "ERROR": null,
+        "ERROR_TITLE": "Hiba",
         "ERROR_UNKNOWN": "Ismeretlen hiba.",
         "ERROR_NO_INTERNET": "Nincs internet. Ellenőrizd a kapcsolatot.",
         "ERROR_NAVIGATOR_MESSAGE": "Ismeretlen út: {}",
@@ -125,5 +126,7 @@
     "CALENDAR": null,
         "CALENDAR_TITLE": "Naptár",
         "CALENDAR_HELP_TEXT": "Jelenleg az Agenda nem elérhető itt.",
-        "CALENDAR_LINK_TEXT": "Add hozzá a Google Naptáradhoz"
+        "CALENDAR_LINK_TEXT": "Add hozzá a Google Naptáradhoz",
+    "SETTINGS": null,
+        "SETTINGS_TITLE": "Beállítások"
 }

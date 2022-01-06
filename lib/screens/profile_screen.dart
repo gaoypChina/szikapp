@@ -112,9 +112,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(context: context, appBarTitle: 'PROFILE_TITLE'.tr()),
+      appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
         color: Theme.of(context).colorScheme.background,
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -210,10 +210,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : Container(),
           ],
         ),
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

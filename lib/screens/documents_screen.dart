@@ -145,11 +145,8 @@ class _DocumentsListState extends State<DocumentsList> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
-      appBar: buildAppBar(
-        context: context,
-        appBarTitle: 'DOCUMENTS_TITLE'.tr(),
-      ),
+    return SzikAppScaffold(
+      appBarTitle: 'DOCUMENTS_TITLE'.tr(),
       body: Stack(
         children: [
           Column(
@@ -245,10 +242,6 @@ class _DocumentsListState extends State<DocumentsList> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

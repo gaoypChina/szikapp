@@ -1,13 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/link.dart';
 
 import '../business/calendar_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../navigation/navigation.dart';
 import 'error_screen.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -49,11 +47,8 @@ class CalendarScreen extends StatelessWidget {
           }
           return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
         } else {
-          return Scaffold(
-            appBar: buildAppBar(
-              context: context,
-              appBarTitle: 'CALENDAR_TITLE'.tr(),
-            ),
+          return SzikAppScaffold(
+            appBarTitle: 'CALENDAR_TITLE'.tr(),
             body: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -88,11 +83,6 @@ class CalendarScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            bottomNavigationBar: SzikBottomNavigationBar(
-              selectedTab:
-                  Provider.of<SzikAppStateManager>(context, listen: false)
-                      .selectedTab,
             ),
           );
         }

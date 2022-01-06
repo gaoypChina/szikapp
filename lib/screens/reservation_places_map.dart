@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/components.dart';
 
 import '../ui/themes.dart';
 import 'reservation_screen.dart';
@@ -18,278 +19,280 @@ class ReservationPlacesMapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 120,
-          ),
-          // 5. emelet ------------------------------------------------
-          SizedBox(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
+    return SzikAppScaffold(
+      body: Container(
+        decoration: const BoxDecoration(color: Colors.white),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 120,
+            ),
+            // 5. emelet ------------------------------------------------
+            SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                        child: MyText(
+                      title: 'Terasz',
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
                       child: MyText(
-                    title: 'Terasz',
-                  )),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Szemináriumi\nszoba',
+                        title: 'Szemináriumi\nszoba',
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Hencsergő',
-                    ),
+                  const SizedBox(
+                    width: 30,
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // 4. emelet ------------------------------------------------
-          SizedBox(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
                       child: MyText(
-                    title: 'Párbeszéd\nterme',
-                  )),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Folyóirat\nolvasó',
+                        title: 'Hencsergő',
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Kápolna',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Akvárium',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'TV szoba',
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // 3. emelet ------------------------------------------------
-          SizedBox(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
+            const SizedBox(
+              height: 30,
+            ),
+            // 4. emelet ------------------------------------------------
+            SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                        child: MyText(
+                      title: 'Párbeszéd\nterme',
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
                       child: MyText(
-                    title: 'Nagy terasz',
-                  )),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Szalon',
+                        title: 'Folyóirat\nolvasó',
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Center(
-                  child: MyText(
-                    title: 'Konyha\nnem foglalható',
+                  const SizedBox(
+                    width: 10,
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // Földszint ----------------------------------------------
-          SizedBox(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
                       child: MyText(
-                    title: 'Könyvtár',
+                        title: 'Kápolna',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                      child: MyText(
+                        title: 'Akvárium',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                      child: MyText(
+                        title: 'TV szoba',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            // 3. emelet ------------------------------------------------
+            SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                        child: MyText(
+                      title: 'Nagy terasz',
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                      child: MyText(
+                        title: 'Szalon',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Center(
+                    child: MyText(
+                      title: 'Konyha\nnem foglalható',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            // Földszint ----------------------------------------------
+            SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                        child: MyText(
+                      title: 'Könyvtár',
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                      child: MyText(
+                        title: 'Zeneszoba',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            // -1. emelet ------------------------------------------------
+            SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Center(
+                      child: MyText(
+                    title: 'Kondi terem\nnem foglalható',
                   )),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: 'Zeneszoba',
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Center(
+                    child: Text(
+                      'Horánszky\n18',
+                      textAlign: TextAlign.center,
+                      style: szikTextTheme.headline2!.copyWith(
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          decoration: TextDecoration.none,
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // -1. emelet ------------------------------------------------
-          SizedBox(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Center(
-                    child: MyText(
-                  title: 'Kondi terem\nnem foglalható',
-                )),
-                const SizedBox(
-                  width: 10,
-                ),
-                Center(
-                  child: Text(
-                    'Horánszky\n18',
-                    textAlign: TextAlign.center,
-                    style: szikTextTheme.headline2!.copyWith(
-                        fontSize: 15,
-                        fontStyle: FontStyle.normal,
-                        decoration: TextDecoration.none,
-                        color: Theme.of(context).colorScheme.secondary),
+                  const SizedBox(
+                    width: 10,
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReservationScreen())),
-                  child: const Center(
-                    child: MyText(
-                      title: '-1 Közösségi tér',
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReservationScreen())),
+                    child: const Center(
+                      child: MyText(
+                        title: '-1 Közösségi tér',
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

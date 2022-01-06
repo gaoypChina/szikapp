@@ -95,7 +95,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
       resourceIDs.add(widget.manager.selectedGame!.id);
     }
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,

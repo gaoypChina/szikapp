@@ -170,12 +170,9 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(
-        context: context,
-        appBarTitle: 'CONTACTS_TITLE'.tr(),
-      ),
+      appBarTitle: 'CONTACTS_TITLE'.tr(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -405,10 +402,6 @@ class _ContactsListViewState extends State<ContactsListView> {
           ),
         ],
       ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
-      ),
     );
   }
 }
@@ -435,8 +428,9 @@ class ContactsListViewShimmer extends StatelessWidget {
             highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
             child: Container(
               decoration: BoxDecoration(
-                  color: theme.colorScheme.background,
-                  borderRadius: BorderRadius.circular(30)),
+                color: theme.colorScheme.background,
+                borderRadius: BorderRadius.circular(30),
+              ),
               margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               padding: const EdgeInsets.all(8),
               child: Row(
@@ -480,7 +474,9 @@ class ContactsListViewShimmer extends StatelessWidget {
                           height: theme.textTheme.headline3!.fontSize! * 1.5,
                           width: theme.textTheme.headline3!.fontSize! * 10,
                           decoration: BoxDecoration(
-                              color: theme.colorScheme.secondaryVariant),
+                            color: theme.colorScheme.secondaryVariant,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
                       ),
                     ],

@@ -2,6 +2,7 @@
     "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "English",
     "ERROR": null,
+        "ERROR_TITLE": "Error",
         "ERROR_UNKNOWN": "Unknown error.",
         "ERROR_NO_INTERNET": "No internet. Please check the connection.",
         "ERROR_NAVIGATOR_MESSAGE": "Unknown route: {}",
@@ -125,5 +126,7 @@
     "CALENDAR": null,
         "CALENDAR_TITLE": "Calendar",
         "CALENDAR_HELP_TEXT": "At this moment the Agenda is not available here.",
-        "CALENDAR_LINK_TEXT": "Get Agenda in Google Calendar"
+        "CALENDAR_LINK_TEXT": "Get Agenda in Google Calendar",
+        "SETTINGS": null,
+            "SETTINGS_TITLE": "Settings"
 }
