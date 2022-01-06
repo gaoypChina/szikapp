@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'business/business.dart';
 import 'navigation/navigation.dart';
 import 'ui/themes.dart';
-import 'utils/auth_manager.dart';
 import 'utils/io.dart';
 
 ///Program belépési pont. Futtatja az applikációt a megfelelő kontextus,

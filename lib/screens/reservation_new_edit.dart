@@ -6,10 +6,9 @@ import 'package:uuid/uuid.dart';
 import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
-import '../utils/auth_manager.dart';
 
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
@@ -81,7 +80,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var theme = Theme.of(context);
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
-    var selectedPlace;
+    Place? selectedPlace;
     final confirmDialog = CustomAlertDialog(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
       onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
@@ -115,7 +114,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
               child: Text(
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .places
-                    .firstWhere((element) => element.id == selectedPlace.id)
+                    .firstWhere((element) => element.id == selectedPlace!.id)
                     .name,
                 style: theme.textTheme.headline2!.copyWith(
                   color: theme.colorScheme.primaryVariant,

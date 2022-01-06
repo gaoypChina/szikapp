@@ -4,13 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/janitor_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
-import '../utils/auth_manager.dart';
 import 'error_screen.dart';
 
 class JanitorScreen extends StatelessWidget {

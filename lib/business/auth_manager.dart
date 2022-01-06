@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../models/user_data.dart';
-import 'exceptions.dart';
 
-import 'io.dart';
-import 'user.dart' as szikapp_user;
+import '../models/user.dart' as szikapp_user;
+import '../models/user_data.dart';
+import '../utils/exceptions.dart';
+import '../utils/io.dart';
 
 /// Az [AuthManager] osztály felelős a Firebase és a saját API autentikáció
 /// összekapcsolásáért. Menedzseli a bejelentkeztetett felhasználót és adatait.

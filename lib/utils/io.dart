@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../business/auth_manager.dart';
 import '../models/models.dart';
-import '../utils/types.dart';
-import 'auth_manager.dart';
 import 'exceptions.dart';
+import 'types.dart';
 
 ///Az alapértelmezett [HttpClient] specifikus implementációja.
 ///Hozzáad egy callback-et a klienshez, hogy el lehessen fogadni az önaláírt

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart' hide Feedback;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../business/auth_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/auth_manager.dart';
 
 class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';

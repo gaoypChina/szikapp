@@ -1,6 +1,7 @@
 ///SzikApp - collection of business logic
 library business;
 
+export 'auth_manager.dart';
 export 'calendar_manager.dart';
 export 'contacts_manager.dart';
 export 'good_to_know_manager.dart';

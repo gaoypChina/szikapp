@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/types.dart';
-import '../utils/user.dart';
 import 'preferences.dart';
+import 'user.dart';
 
 part 'user_data.g.dart';
 

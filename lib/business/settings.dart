@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/preferences.dart';
-import 'io.dart';
+import '../utils/io.dart';
 
 ///Felhasználói beállításokat implementáló osztály. Specifikus interfészt
 ///biztosít a [SharedPreferences] lokális perzisztens adattárolóhoz.
