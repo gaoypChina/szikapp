@@ -69,7 +69,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             SubMenuScreen.page(
                 selectedSubMenu: appStateManager.selectedSubMenu),
           if (appStateManager.selectedFeature == SzikAppFeature.calendar)
-            CalendarScreen.page(),
+            CalendarScreen.page(manager: calendarManager),
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)

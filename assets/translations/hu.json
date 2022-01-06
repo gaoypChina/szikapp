@@ -121,5 +121,9 @@
         "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Születésnap",
         "PROFILE_PHONENUMBER": "Telefonszám",
-        "PROFILE_GROUPS": "Csoportok"
+        "PROFILE_GROUPS": "Csoportok",
+    "CALENDAR": null,
+        "CALENDAR_TITLE": "Naptár",
+        "CALENDAR_HELP_TEXT": "Jelenleg az Agenda nem elérhető itt.",
+        "CALENDAR_LINK_TEXT": "Add hozzá a Google Naptáradhoz"
 }

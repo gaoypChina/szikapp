@@ -47,6 +47,8 @@
 		<array>
 			<string>tel</string>
 			<string>mailto</string>
+			<string>https</string>
+            <string>http</string>
 		</array>
 		<key>CFBundleLocalizations</key>
 		<array>

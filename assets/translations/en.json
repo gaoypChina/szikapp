@@ -121,5 +121,9 @@
         "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Birthday",
         "PROFILE_PHONENUMBER": "Phone",
-        "PROFILE_GROUPS": "Groups"
+        "PROFILE_GROUPS": "Groups",
+    "CALENDAR": null,
+        "CALENDAR_TITLE": "Calendar",
+        "CALENDAR_HELP_TEXT": "At this moment the Agenda is not available here.",
+        "CALENDAR_LINK_TEXT": "Get Agenda in Google Calendar"
 }
