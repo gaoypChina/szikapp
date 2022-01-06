@@ -10,8 +10,11 @@ PreferredSizeWidget buildAppBar({
   required BuildContext context,
   required String appBarTitle,
   double elevation = 0.0,
-  void Function()? onLeadingPressed,
 }) {
+  void onLeadingPressed() {
+    Router.of(context).routerDelegate.popRoute();
+  }
+
   void onPressed() {
     Provider.of<SzikAppStateManager>(context, listen: false)
         .selectFeature(SzikAppFeature.profile);

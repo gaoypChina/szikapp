@@ -7,7 +7,6 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
-import '../navigation/app_state_manager.dart';
 import 'error_screen.dart';
 
 class DocumentsScreen extends StatelessWidget {
