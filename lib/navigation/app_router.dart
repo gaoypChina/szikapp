@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/utils/exceptions.dart';
 
-import '../business/calendar_manager.dart';
-import '../business/good_to_know_manager.dart';
-import '../business/janitor_manager.dart';
-import '../business/kitchen_cleaning_manager.dart';
-import '../business/poll_manager.dart';
-import '../business/reservation_manager.dart';
+import '../business/business.dart';
 import '../screens/calendar_screen.dart';
 import '../screens/contacts_screen.dart';
 import '../screens/documents_screen.dart';
@@ -24,7 +18,7 @@ import '../screens/reservation_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/signin_screen.dart';
 import '../screens/submenu_screen.dart';
-import '../utils/auth_manager.dart';
+import '../utils/exceptions.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
 
@@ -74,7 +68,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             SubMenuScreen.page(
                 selectedSubMenu: appStateManager.selectedSubMenu),
           if (appStateManager.selectedFeature == SzikAppFeature.calendar)
-            CalendarScreen.page(),
+            CalendarScreen.page(manager: calendarManager),
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
@@ -143,7 +137,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationDetailsScreen.page(manager: reservationManager),
           if (reservationManager.isCreatingNewReservation)
             ReservationNewEditScreen.page(
-              placeIndex: reservationManager.selectedPlaceIndex,
+              manager: reservationManager,
               onCreate: (item) {
                 reservationManager.addReservation(item);
               },
@@ -152,7 +146,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (reservationManager.isEditingReservation)
             ReservationNewEditScreen.page(
-              placeIndex: reservationManager.selectedPlaceIndex,
+              manager: reservationManager,
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {

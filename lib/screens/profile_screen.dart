@@ -2,11 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/app_bar.dart';
-import '../components/bottom_navigation_bar.dart';
-import '../components/profile_fields.dart';
+import '../business/auth_manager.dart';
+import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/auth_manager.dart';
 import '../utils/exceptions.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -114,15 +112,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(context: context, appBarTitle: 'PROFILE_TITLE'.tr()),
+      appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
         color: Theme.of(context).colorScheme.background,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
           children: [
             Container(
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 40,
@@ -211,10 +210,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : Container(),
           ],
         ),
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

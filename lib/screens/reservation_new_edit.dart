@@ -3,21 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../components/alert_dialog.dart';
-import '../components/date_picker.dart';
-import '../components/time_picker.dart';
+import '../business/business.dart';
+import '../components/components.dart';
 import '../main.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
-import '../utils/auth_manager.dart';
 
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
 
   static MaterialPage page({
     TimetableTask? originalItem,
-    required int placeIndex,
+    required ReservationManager manager,
     int index = -1,
     required Function(TimetableTask) onCreate,
     required Function(TimetableTask, int) onUpdate,
@@ -29,7 +27,7 @@ class ReservationNewEditScreen extends StatefulWidget {
       child: ReservationNewEditScreen(
         originalItem: originalItem,
         index: index,
-        placeIndex: placeIndex,
+        manager: manager,
         onCreate: onCreate,
         onUpdate: onUpdate,
         onDelete: onDelete,
@@ -37,7 +35,7 @@ class ReservationNewEditScreen extends StatefulWidget {
     );
   }
 
-  final int placeIndex;
+  final ReservationManager manager;
   final bool isEdit;
   final TimetableTask? originalItem;
   final int index;
@@ -49,7 +47,7 @@ class ReservationNewEditScreen extends StatefulWidget {
     Key? key,
     this.originalItem,
     this.index = -1,
-    required this.placeIndex,
+    required this.manager,
     required this.onCreate,
     required this.onUpdate,
     required this.onDelete,
@@ -65,8 +63,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String? description;
   String? title;
-  late List<String> organizerIDs;
-  late List<String> resourceIDs;
+  List<String> organizerIDs = [];
+  List<String> resourceIDs = [];
   late DateTime start;
   late DateTime end;
 
@@ -82,6 +80,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var theme = Theme.of(context);
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
+    Place? selectedPlace;
     final confirmDialog = CustomAlertDialog(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
       onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
@@ -89,10 +88,14 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    var placeID = Provider.of<SzikAppStateManager>(context, listen: false)
-        .places[widget.placeIndex]
-        .id;
-    return Scaffold(
+    if (widget.manager.selectedMode == ReservationMode.place) {
+      selectedPlace = Provider.of<SzikAppStateManager>(context, listen: false)
+          .places[widget.manager.selectedPlaceIndex];
+      resourceIDs.add(selectedPlace.id);
+    } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
+      resourceIDs.add(widget.manager.selectedGame!.id);
+    }
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
@@ -111,7 +114,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
               child: Text(
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .places
-                    .firstWhere((element) => element.id == placeID)
+                    .firstWhere((element) => element.id == selectedPlace!.id)
                     .name,
                 style: theme.textTheme.headline2!.copyWith(
                   color: theme.colorScheme.primaryVariant,
@@ -348,7 +351,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = TimetableTask(
-        uid: uuid.v4(),
+        uid: uuid.v4().toUpperCase(),
         name: title!,
         start: start,
         end: end,
@@ -361,11 +364,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
         organizerIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
-        resourceIDs: <String>[
-          Provider.of<SzikAppStateManager>(context, listen: false)
-              .places[widget.placeIndex]
-              .id
-        ],
+        resourceIDs: resourceIDs,
       );
       SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
       widget.onCreate(task);

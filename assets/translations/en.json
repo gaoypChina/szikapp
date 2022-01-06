@@ -2,6 +2,7 @@
     "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "English",
     "ERROR": null,
+        "ERROR_TITLE": "Error",
         "ERROR_UNKNOWN": "Unknown error.",
         "ERROR_NO_INTERNET": "No internet. Please check the connection.",
         "ERROR_NAVIGATOR_MESSAGE": "Unknown route: {}",
@@ -99,6 +100,7 @@
         "TIME_PICKER_HELP": "Select time",
         "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?",
     "CONTACTS": null,
+        "CONTACTS_TITLE": "Contacts",
         "CONTACTS_FILTER_GROUP": "Group",
         "PHONE_NOT_FOUND": "Phone number not found",
         "BIRTHDAY_NOT_FOUND": "Birthday not found",
@@ -106,6 +108,7 @@
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
     "DOCUMENTS": null,
+        "DOCUMENTS_TITLE": "Dokumentumok",
         "DOCUMENTS_OFFICIAL" : "Document",
         "DOCUMENTS_PINNED" : "Pinned",
         "DOCUMENTS_ALL" : "All",
@@ -119,5 +122,11 @@
         "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Birthday",
         "PROFILE_PHONENUMBER": "Phone",
-        "PROFILE_GROUPS": "Groups"
+        "PROFILE_GROUPS": "Groups",
+    "CALENDAR": null,
+        "CALENDAR_TITLE": "Calendar",
+        "CALENDAR_HELP_TEXT": "At this moment the Agenda is not available here.",
+        "CALENDAR_LINK_TEXT": "Get Agenda in Google Calendar",
+        "SETTINGS": null,
+            "SETTINGS_TITLE": "Settings"
 }

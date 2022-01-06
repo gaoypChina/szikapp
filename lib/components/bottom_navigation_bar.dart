@@ -11,6 +11,16 @@ class SzikBottomNavigationBar extends StatelessWidget {
     required this.selectedTab,
   }) : super(key: key);
 
+  Color _getSelectionColor(
+    int selectedTab,
+    int currentIndex,
+    Color defaultColor,
+  ) {
+    return selectedTab == currentIndex
+        ? defaultColor
+        : defaultColor.withOpacity(0.7);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -19,6 +29,7 @@ class SzikBottomNavigationBar extends StatelessWidget {
       backgroundColor: theme.colorScheme.primary,
       enableFeedback: true,
       currentIndex: selectedTab,
+      showUnselectedLabels: false,
       onTap: (index) {
         Provider.of<SzikAppStateManager>(context, listen: false)
             .selectTab(index);
@@ -30,7 +41,10 @@ class SzikBottomNavigationBar extends StatelessWidget {
               'assets/icons/feed_light_72.png',
               width: kIconSizeNormal,
             ),
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              _getSelectionColor(selectedTab, 0, Colors.white),
+              BlendMode.srcIn,
+            ),
           ),
           label: 'MENU_FEED'.tr(),
         ),
@@ -40,7 +54,10 @@ class SzikBottomNavigationBar extends StatelessWidget {
               'assets/icons/cedar_light_72.png',
               width: kIconSizeNormal,
             ),
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              _getSelectionColor(selectedTab, 1, Colors.white),
+              BlendMode.srcIn,
+            ),
           ),
           label: 'MENU_HOME'.tr(),
         ),
@@ -50,7 +67,10 @@ class SzikBottomNavigationBar extends StatelessWidget {
               'assets/icons/gear_light_72.png',
               width: kIconSizeNormal,
             ),
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              _getSelectionColor(selectedTab, 2, Colors.white),
+              BlendMode.srcIn,
+            ),
           ),
           label: 'MENU_SETTINGS'.tr(),
         )

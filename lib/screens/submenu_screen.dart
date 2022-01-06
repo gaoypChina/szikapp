@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../components/bottom_navigation_bar.dart';
+import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
 
 class SubMenuButton {
@@ -114,7 +114,8 @@ class SubMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: SzikAppScaffold(
+        withAppBar: false,
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -212,10 +213,6 @@ class SubMenuScreen extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        bottomNavigationBar: SzikBottomNavigationBar(
-          selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-              .selectedTab,
         ),
       ),
     );

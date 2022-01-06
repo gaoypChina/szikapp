@@ -3,13 +3,11 @@ import 'package:flutter/material.dart' hide Feedback;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../components/alert_dialog.dart';
-import '../components/searchable_options.dart';
+import '../business/auth_manager.dart';
+import '../components/components.dart';
 import '../main.dart';
-import '../models/resource.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/auth_manager.dart';
 
 class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
@@ -91,37 +89,24 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    return Scaffold(
+    return SzikAppScaffold(
       resizeToAvoidBottomInset: true,
+      appBarTitle: widget.isEdit
+          ? 'JANITOR_TITLE_EDIT'.tr()
+          : 'JANITOR_TITLE_CREATE'.tr(),
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: ListView(
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //Picture
             Container(
-              width: width * 0.7,
-              height: width * 0.7,
+              margin: const EdgeInsets.only(top: 15, bottom: 10),
+              width: width * 0.5,
+              height: width * 0.5,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/pictures/gyuri_800.png'),
                     fit: BoxFit.contain),
-              ),
-            ),
-            //Title
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 5),
-              child: Text(
-                widget.isEdit
-                    ? 'JANITOR_TITLE_EDIT'.tr().toUpperCase()
-                    : 'JANITOR_TITLE_CREATE'.tr().toUpperCase(),
-                style: theme.textTheme.headline1!.copyWith(
-                  color: theme.colorScheme.secondary,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                ),
               ),
             ),
             Divider(
@@ -298,9 +283,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: kBottomNavigationBarHeight,
-            )
           ],
         ),
       ),
@@ -319,18 +301,18 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   }
 
   void _onTitleChanged(String? title) {
-    this.title = title ?? '';
+    this.title = title!;
   }
 
   void _onDescriptionChanged(String? text) {
-    widget.isFeedback ? feedback = text ?? '' : description = text ?? '';
+    widget.isFeedback ? feedback = text! : description = text!;
   }
 
   void _onNewSent() {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = JanitorTask(
-          uid: uuid.v4(),
+          uid: uuid.v4().toUpperCase(),
           name: title!,
           description: description,
           start: DateTime.now(),

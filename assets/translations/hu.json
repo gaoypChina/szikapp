@@ -2,6 +2,7 @@
     "APP_NAME": "SzikApp",
     "LANGUAGE_STRING": "Magyar",
     "ERROR": null,
+        "ERROR_TITLE": "Hiba",
         "ERROR_UNKNOWN": "Ismeretlen hiba.",
         "ERROR_NO_INTERNET": "Nincs internet. Ellenőrizd a kapcsolatot.",
         "ERROR_NAVIGATOR_MESSAGE": "Ismeretlen út: {}",
@@ -99,6 +100,7 @@
         "TIME_PICKER_HELP": "Válassz időpontot",
         "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
     "CONTACTS": null,
+        "CONTACTS_TITLE": "Kontaktok",
         "CONTACTS_FILTER_GROUP": "Csoport",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
@@ -106,6 +108,7 @@
         "FEED_GREETINGS": "Szia {}",
         "FEED_NOTIFICATIONS": "Értesítéseid",
     "DOCUMENTS": null,
+        "DOCUMENTS_TITLE": "Dokumentumok",
         "DOCUMENTS_OFFICIAL" : "Doksi",
         "DOCUMENTS_PINNED" : "Pinned",
         "DOCUMENTS_ALL" : "Összes",
@@ -119,5 +122,11 @@
         "PROFILE_EMAIL": "E-mail",
         "PROFILE_BIRTHDAY": "Születésnap",
         "PROFILE_PHONENUMBER": "Telefonszám",
-        "PROFILE_GROUPS": "Csoportok"
+        "PROFILE_GROUPS": "Csoportok",
+    "CALENDAR": null,
+        "CALENDAR_TITLE": "Naptár",
+        "CALENDAR_HELP_TEXT": "Jelenleg az Agenda nem elérhető itt.",
+        "CALENDAR_LINK_TEXT": "Add hozzá a Google Naptáradhoz",
+    "SETTINGS": null,
+        "SETTINGS_TITLE": "Beállítások"
 }

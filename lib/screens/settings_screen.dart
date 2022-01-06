@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../components/app_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String route = '/settings';
@@ -16,8 +19,11 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings'),
+    return Center(
+      child: SzikAppScaffold(
+        withNavigationBar: false,
+        appBarTitle: 'SETTINGS_TITLE'.tr(),
+      ),
     );
   }
 }

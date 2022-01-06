@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/group.dart';
-import '../models/resource.dart';
+import '../models/models.dart';
 import '../utils/io.dart';
 
 class SzikAppTab {
@@ -87,6 +86,7 @@ class SzikAppStateManager extends ChangeNotifier {
   void selectTab(int index) {
     _selectedTab = index;
     _selectedSubMenu = SzikAppSubMenu.none;
+    _selectedFeature = SzikAppFeature.none;
     notifyListeners();
   }
 
@@ -106,7 +106,7 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void unselectFeature() {
-    _selectedFeature = -1;
+    _selectedFeature = SzikAppFeature.none;
     notifyListeners();
   }
 }

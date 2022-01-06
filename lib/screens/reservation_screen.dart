@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 
-import '../components/bottom_navigation_bar.dart';
-import '../navigation/app_state_manager.dart';
+import '../components/components.dart';
 import '../ui/themes.dart';
 
 class ReservationScreen extends StatelessWidget {
@@ -25,7 +24,8 @@ class ReservationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return SzikAppScaffold(
+      withAppBar: false,
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -160,10 +160,6 @@ class ReservationScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

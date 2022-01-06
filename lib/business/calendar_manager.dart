@@ -46,5 +46,6 @@ class CalendarManager extends ChangeNotifier {
 
   Future<void> refresh() async {
     _events = [];
+    return;
   }
 }

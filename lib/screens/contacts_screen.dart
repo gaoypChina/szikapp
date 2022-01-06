@@ -7,12 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
-import '../components/bottom_navigation_bar.dart';
-import '../components/search_bar.dart';
-import '../components/searchable_options.dart';
+import '../components/components.dart';
 import '../main.dart';
-import '../models/group.dart';
-import '../models/user_data.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/exceptions.dart';
 import 'error_screen.dart';
@@ -173,8 +170,9 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
+    return SzikAppScaffold(
+      resizeToAvoidBottomInset: true,
+      appBarTitle: 'CONTACTS_TITLE'.tr(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -224,7 +222,7 @@ class _ContactsListViewState extends State<ContactsListView> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Expanded(
             child: items.isEmpty
                 ? Center(
@@ -416,7 +414,11 @@ class ContactsListViewShimmer extends StatelessWidget {
     var theme = Theme.of(context);
     var searchBarIconSize = 30.0;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
+      appBar: buildAppBar(
+        context: context,
+        appBarTitle: 'CONTACTS_TITLE'.tr(),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -426,8 +428,9 @@ class ContactsListViewShimmer extends StatelessWidget {
             highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
             child: Container(
               decoration: BoxDecoration(
-                  color: theme.colorScheme.background,
-                  borderRadius: BorderRadius.circular(30)),
+                color: theme.colorScheme.background,
+                borderRadius: BorderRadius.circular(30),
+              ),
               margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               padding: const EdgeInsets.all(8),
               child: Row(
@@ -471,7 +474,9 @@ class ContactsListViewShimmer extends StatelessWidget {
                           height: theme.textTheme.headline3!.fontSize! * 1.5,
                           width: theme.textTheme.headline3!.fontSize! * 10,
                           decoration: BoxDecoration(
-                              color: theme.colorScheme.secondaryVariant),
+                            color: theme.colorScheme.secondaryVariant,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
                       ),
                     ],

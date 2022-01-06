@@ -3,18 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../models/cleaning_exchange.dart';
-import '../models/cleaning_period.dart';
-import '../models/goodtoknow.dart';
-import '../models/group.dart';
-import '../models/permission.dart';
-import '../models/preferences.dart';
-import '../models/resource.dart';
-import '../models/tasks.dart';
-import '../models/user_data.dart';
-import '../utils/types.dart';
-import 'auth_manager.dart';
+import '../business/auth_manager.dart';
+import '../models/models.dart';
 import 'exceptions.dart';
+import 'types.dart';
 
 ///Az alapértelmezett [HttpClient] specifikus implementációja.
 ///Hozzáad egy callback-et a klienshez, hogy el lehessen fogadni az önaláírt

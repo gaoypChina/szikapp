@@ -1,11 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../models/cleaning_exchange.dart';
-import '../models/permission.dart';
-import '../models/tasks.dart';
-import '../models/user_data.dart';
-import 'exceptions.dart';
-import 'io.dart';
+import '../utils/exceptions.dart';
+import '../utils/io.dart';
+import 'models.dart';
 
 ///Az applikáció aktuális felhasználóját megtestesítő osztály.
 ///Az autentikáció során jön létre és a kijelentkezésig megőrzi a felhasználó

@@ -8,7 +8,7 @@ const double kIconSizeSmall = 20;
 const double kIconSizeNormal = 24;
 const double kIconsSizeLarge = 32;
 
-const double kCurveHeight = 12;
+const double kCurveHeight = 8;
 
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);

@@ -41,7 +41,7 @@ class JanitorManager extends ChangeNotifier {
   void performBackButtonPressed() {
     _selectedIndex = -1;
     _createNewTask = false;
-    _editTask = true;
+    _editTask = false;
     _adminEditTask = false;
     _feedbackTask = false;
     notifyListeners();

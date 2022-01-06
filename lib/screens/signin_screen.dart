@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 
+import '../business/auth_manager.dart';
 import '../main.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/auth_manager.dart';
 import '../utils/exceptions.dart';
 import 'progress_screen.dart';
 
