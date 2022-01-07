@@ -132,8 +132,8 @@ class _ContactsListViewState extends State<ContactsListView> {
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onFilterChanged(Group? group) {
-    var newItems = widget.manager.filter(group!.id);
-    SZIKAppState.analytics.logSearch(searchTerm: group.name);
+    var newItems = widget.manager.filter(group?.id ?? '');
+    SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
       items = newItems;
     });
