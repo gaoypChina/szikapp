@@ -6,7 +6,14 @@ export 'light_theme.dart';
 ///Méretek
 const double kIconSizeSmall = 20;
 const double kIconSizeNormal = 24;
-const double kIconsSizeLarge = 32;
+const double kIconSizeLarge = 32;
+const double kIconSizeXLarge = 48;
+
+const double kPaddingNormal = 10;
+
+const double kBorderRadiusSmall = 10;
+const double kBorderRadiusNormal = 20;
+const double kBorderRadiusLarge = 30;
 
 const double kCurveHeight = 8;
 

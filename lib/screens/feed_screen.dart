@@ -1,22 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:szikapp/components/birthday_bar.dart';
 
 import '../business/auth_manager.dart';
-import '../navigation/app_state_manager.dart';
-import 'profile_screen.dart';
-
-class FeedListItem {
-  String title;
-  String route;
-  String iconPath;
-
-  FeedListItem({
-    required this.title,
-    required this.route,
-    required this.iconPath,
-  });
-}
+import '../components/wrapped_icon.dart';
+import '../models/notification.dart';
+import '../navigation/navigation.dart';
 
 class FeedScreen extends StatefulWidget {
   static const String route = '/feed';
@@ -36,19 +26,28 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  late List<FeedListItem> feedItems;
+  List<SzikAppNotification> notifications = [];
 
   @override
   void initState() {
     super.initState();
-    feedItems = <FeedListItem>[
-      FeedListItem(
-        title: 'Notification',
-        route: ProfileScreen.route,
-        iconPath: 'assets/icons/profile_light_72.png',
-      )
+    notifications = [
+      SzikAppNotification(
+        title: 'Belló konyhatakát cserélne veled',
+        route: SzikAppLink(),
+      ),
+      SzikAppNotification(
+        title: 'Sikeresen lefoglaltad a Catant',
+        route: SzikAppLink(),
+      ),
+      SzikAppNotification(
+        title: 'Gyuri kicserélte az égőt a szobádban',
+        route: SzikAppLink(),
+      ),
     ];
   }
+
+  void _onClearAllNotificationsPressed() {}
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +69,9 @@ class _FeedScreenState extends State<FeedScreen> {
       child: ListView(
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
             decoration: BoxDecoration(
-              color: theme.colorScheme.background.withOpacity(0.65),
+              color: theme.colorScheme.background,
               borderRadius: BorderRadius.circular(20),
             ),
             child: GestureDetector(
@@ -104,23 +102,71 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: BirthdayBar(),
+          ),
           Container(
+            margin: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WrappedIcon(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIcon(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIcon(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIcon(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              'FEED_NOTIFICATIONS'.tr(),
-              style: theme.textTheme.headline2!.copyWith(
-                fontSize: 20,
-                color: theme.colorScheme.background,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  'FEED_NOTIFICATIONS'.tr(),
+                  style: theme.textTheme.headline2!.copyWith(
+                    fontSize: 20,
+                    color: theme.colorScheme.background,
+                  ),
+                ),
+                Expanded(
+                  child: IconButton(
+                    onPressed: _onClearAllNotificationsPressed,
+                    icon: Icon(
+                      Icons.cancel_outlined,
+                      color: theme.colorScheme.background,
+                    ),
+                    alignment: Alignment.centerRight,
+                  ),
+                ),
+              ],
             ),
           ),
           Column(
-            children: feedItems.map<Container>((item) {
+            children: notifications.map<Container>((item) {
               return Container(
                 margin: const EdgeInsets.only(top: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.background.withOpacity(0.65),
+                  color: theme.colorScheme.background,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(

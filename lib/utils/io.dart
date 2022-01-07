@@ -41,6 +41,7 @@ class IO {
   final _groupEndpoint = '/group';
   final _placeEndpoint = '/place';
   final _contactsEndpoint = '/contacts';
+  final _birthdayEndpoint = '/birthday';
   final _pollEndpoint = '/poll';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
@@ -423,6 +424,25 @@ class IO {
   ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
   Future<List<UserData>> getContacts([KeyValuePairs? parameters]) async {
     var uri = '$_vmDev$_contactsEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <UserData>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var users = parsed['results'];
+      users.forEach((item) {
+        answer.add(UserData.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
+  Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
+    var uri = '$_vmDev$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
