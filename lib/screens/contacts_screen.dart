@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:szikapp/utils/types.dart';
 
 import '../business/contacts_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/exceptions.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 ///Telefonkönyv képernyő.

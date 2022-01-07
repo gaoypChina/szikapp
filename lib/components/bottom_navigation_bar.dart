@@ -42,7 +42,8 @@ class SzikBottomNavigationBar extends StatelessWidget {
               width: kIconSizeNormal,
             ),
             colorFilter: ColorFilter.mode(
-              _getSelectionColor(selectedTab, 0, Colors.white),
+              _getSelectionColor(
+                  selectedTab, 0, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
             ),
           ),
@@ -55,7 +56,8 @@ class SzikBottomNavigationBar extends StatelessWidget {
               width: kIconSizeNormal,
             ),
             colorFilter: ColorFilter.mode(
-              _getSelectionColor(selectedTab, 1, Colors.white),
+              _getSelectionColor(
+                  selectedTab, 1, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
             ),
           ),
@@ -68,7 +70,8 @@ class SzikBottomNavigationBar extends StatelessWidget {
               width: kIconSizeNormal,
             ),
             colorFilter: ColorFilter.mode(
-              _getSelectionColor(selectedTab, 2, Colors.white),
+              _getSelectionColor(
+                  selectedTab, 2, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
             ),
           ),

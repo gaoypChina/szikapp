@@ -122,13 +122,13 @@ class _DocumentsListState extends State<DocumentsList> {
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey,
-              offset: Offset(0.0, 2.0), //(x,y)
+              color: Theme.of(context).colorScheme.secondaryVariant,
+              offset: const Offset(0.0, 2.0), //(x,y)
               blurRadius: 3.0,
             ),
           ],
