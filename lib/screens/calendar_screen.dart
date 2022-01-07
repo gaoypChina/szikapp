@@ -6,6 +6,7 @@ import 'package:url_launcher/link.dart';
 import '../business/calendar_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -39,13 +40,15 @@ class CalendarScreen extends StatelessWidget {
           //Shrimmer
           return const Scaffold();
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return SzikAppScaffold(
             appBarTitle: 'CALENDAR_TITLE'.tr(),

@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 import '../business/auth_manager.dart';
 import '../main.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/exceptions.dart';
+import '../utils/utils.dart';
+import 'error_screen.dart';
 import 'progress_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -60,9 +61,15 @@ class _SignInScreenState extends State<SignInScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ProgressScreen();
         } else if (snapshot.hasError) {
-          Provider.of<SzikAppStateManager>(context, listen: false)
-              .setError(snapshot.error ?? '');
-          return Container();
+          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
+          }
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           var queryData = MediaQuery.of(context);
           var devicePixelRatio = queryData.devicePixelRatio;

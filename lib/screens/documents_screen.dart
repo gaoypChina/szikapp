@@ -7,6 +7,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 class DocumentsScreen extends StatelessWidget {
@@ -31,13 +32,15 @@ class DocumentsScreen extends StatelessWidget {
           //Shrimmer
           return const Scaffold();
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return DocumentsList(
             manager: Provider.of<GoodToKnowManager>(context, listen: false),

@@ -11,7 +11,7 @@ import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/exceptions.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 ///Telefonkönyv képernyő.
@@ -60,13 +60,15 @@ class _ContactsScreenState extends State<ContactsScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ContactsListViewShimmer();
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return ContactsListView(
             manager: manager,

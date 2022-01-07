@@ -1,16 +1,17 @@
-const int authExceptionCode = 910;
+const int authExceptionCode = 610;
 const int ioNotModifiedExceptionCode = 304;
 const int notValidPhoneExceptionCode = 921;
 const int nonHungarianPhoneExceptionCode = 922;
 const int notValidBirthdayExceptionCode = 923;
 const int notSupportedCallFunctionalityExceptionCode = 931;
 const int notSupportedEmailFunctionalityExceptionCode = 932;
-const int routeExceptionCode = 941;
-const int dynamicLinkExceptionCode = 942;
-const int socketExceptionCode = 801;
-const int notImplementedExceptionCode = 802;
-const int unknownCatchedExceptionCode = 899;
-const int informationlessExceptionCode = 999;
+const int routeExceptionCode = 710;
+const int dynamicLinkExceptionCode = 720;
+const int socketExceptionCode = 810;
+const int notImplementedExceptionCode = 730;
+const int noConnectionExceptionCode = 820;
+const int unknownCatchedExceptionCode = 1000;
+const int informationlessExceptionCode = 1010;
 
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
@@ -49,6 +50,10 @@ class IOClientException extends IOException {
 
 class IONotModifiedException extends IOException {
   IONotModifiedException(message) : super(ioNotModifiedExceptionCode, message);
+}
+
+class NoConnectionException extends IOException {
+  NoConnectionException(message) : super(noConnectionExceptionCode, message);
 }
 
 class IOUnknownException extends IOException {

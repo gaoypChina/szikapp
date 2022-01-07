@@ -14,6 +14,15 @@ class ErrorInformation {
     if (errorCode > 100 && errorCode < 600) {
       errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
       errorSolution = 'ERROR_HTTP_SOLUTION'.tr();
+    } else if (errorCode >= 600 && errorCode < 700) {
+      errorMessage = 'ERROR_AUTH_MESSAGE'.tr();
+      errorSolution = 'ERROR_AUTH_SOLUTION'.tr();
+    } else if (errorCode >= 700 && errorCode < 800) {
+      errorMessage = 'ERROR_SZIKAPP_MESSAGE'.tr();
+      errorSolution = 'ERROR_SZIKAPP_SOLUTION'.tr();
+    } else if (errorCode >= 800 && errorCode < 900) {
+      errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
+      errorSolution = 'ERROR_SOCKET_SOLUTION'.tr();
     } else if (errorCode >= 900 && errorCode < 1000) {
       errorMessage = 'ERROR_SZIKAPP_MESSAGE'.tr();
       errorSolution = 'ERROR_SZIKAPP_SOLUTION'.tr();
@@ -42,13 +51,19 @@ class ErrorInformation {
 }
 
 class ErrorHandler {
-  static MaterialBanner buildBanner(BuildContext context,
-      {int? errorCode, Exception? exception}) {
+  static MaterialBanner buildBanner(
+    BuildContext context, {
+    int? errorCode,
+    Exception? exception,
+    ErrorInformation? information,
+  }) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
       errorInformation = ErrorInformation.fromCode(errorCode);
     } else if (exception != null) {
       errorInformation = ErrorInformation.fromException(exception);
+    } else if (information != null) {
+      errorInformation = information;
     } else {
       errorInformation = ErrorInformation.unknown();
     }
@@ -92,7 +107,7 @@ class ErrorHandler {
           alignment: const AlignmentDirectional(0, 0),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
             ),
@@ -117,7 +132,15 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 20),
+                      padding: const EdgeInsetsDirectional.only(top: 10),
+                      child: Text(
+                        '#${errorInformation.errorCode}',
+                        style: theme.textTheme.caption,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(top: 5),
                       child: Text(
                         errorInformation.errorMessage,
                         textAlign: TextAlign.center,
@@ -126,7 +149,7 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 20),
+                      padding: const EdgeInsetsDirectional.only(top: 10),
                       child: Text(
                         errorInformation.errorSolution,
                         textAlign: TextAlign.center,
