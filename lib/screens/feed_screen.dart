@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:szikapp/ui/themes.dart';
 
 import '../business/auth_manager.dart';
 import '../components/components.dart';
+import '../components/notification_card.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
 
@@ -58,8 +60,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 .name
                 .split(' ')[1];
     return Container(
-      padding:
-          const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/pictures/background_1.jpg'),
@@ -71,7 +72,7 @@ class _FeedScreenState extends State<FeedScreen> {
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
             ),
             child: GestureDetector(
               onTap: () =>
@@ -160,39 +161,8 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           Column(
-            children: notifications.map<Container>((item) {
-              return Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.background,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 20,
-                      height: 20,
-                      margin: const EdgeInsets.only(right: 5),
-                      child: ColorFiltered(
-                        child: Image.asset(item.iconPath),
-                        colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primary, BlendMode.srcIn),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Text(
-                        item.title,
-                        style: theme.textTheme.bodyText1!.copyWith(
-                          fontSize: 14,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+            children: notifications.map<NotificationCard>((item) {
+              return NotificationCard(data: item);
             }).toList(),
           )
         ],

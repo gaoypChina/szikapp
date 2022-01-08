@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:szikapp/ui/themes.dart';
 
 import '../business/contacts_manager.dart';
 import '../components/components.dart';
@@ -191,8 +192,9 @@ class _ContactsListViewState extends State<ContactsListView> {
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             height: filterExpandableHeight,
             decoration: BoxDecoration(
-                border: Border.all(color: theme.colorScheme.primary, width: 2),
-                borderRadius: BorderRadius.circular(20)),
+              border: Border.all(color: theme.colorScheme.primary, width: 2),
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints.expand(),
               child: Row(
@@ -270,7 +272,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                             width: MediaQuery.of(context).size.width - 40,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadiusNormal),
                               color: theme.colorScheme.primaryVariant
                                   .withOpacity(0.15),
                             ),

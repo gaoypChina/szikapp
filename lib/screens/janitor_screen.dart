@@ -191,10 +191,11 @@ class _JanitorListViewState extends State<JanitorListView> {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                            color: theme.colorScheme.background, width: 1),
-                        borderRadius: BorderRadius.circular(20)),
+                      color: Colors.transparent,
+                      border: Border.all(
+                          color: theme.colorScheme.background, width: 1),
+                      borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: task.feedback!.map(
@@ -250,7 +251,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                         headerPadding: const EdgeInsets.all(20),
                         headerBackgroundColor: theme.colorScheme.background,
                         contentBackgroundColor: theme.colorScheme.background,
-                        headerBorderRadius: 20,
+                        headerBorderRadius: kBorderRadiusNormal,
                         rightIcon: ColorFiltered(
                           child: Image.asset('assets/icons/down_light_72.png',
                               height: theme.textTheme.headline3!.fontSize),
@@ -324,7 +325,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.name,
                                             style: theme.textTheme.subtitle1!
@@ -366,7 +368,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.description ?? '',
                                             style: theme.textTheme.subtitle1!
@@ -408,7 +411,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
                                             style: theme.textTheme.subtitle1!
@@ -450,7 +454,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.status.toShortString(),
                                             style: theme.textTheme.subtitle1!

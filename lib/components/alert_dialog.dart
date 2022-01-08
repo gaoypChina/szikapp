@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import '../ui/themes.dart';
 
 ///Személyre szabott [AlertDialog] widget.
 ///Két standard akciót támogat (elfogadás és elutasítás), lehetséges
@@ -62,7 +63,7 @@ class CustomAlertDialog extends StatelessWidget {
       backgroundColor:
           backgroundColor ?? theme.colorScheme.secondary.withOpacity(0.8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(kBorderRadiusNormal),
       ),
       actions: [
         Row(
@@ -72,7 +73,7 @@ class CustomAlertDialog extends StatelessWidget {
               decoration: BoxDecoration(
                   border:
                       Border.all(color: color ?? theme.colorScheme.background),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(kBorderRadiusNormal)),
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onCancel,
@@ -91,7 +92,7 @@ class CustomAlertDialog extends StatelessWidget {
                       theme.colorScheme.background.withOpacity(0.5),
                   border:
                       Border.all(color: color ?? theme.colorScheme.background),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(kBorderRadiusNormal)),
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onAccept,

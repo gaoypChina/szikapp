@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:szikapp/ui/themes.dart';
 
 import '../components/components.dart';
 import '../main.dart';
@@ -112,7 +113,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
             Container(
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
               alignment: Alignment.center,
               margin: const EdgeInsets.only(bottom: 5),
@@ -146,9 +147,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: theme.colorScheme.primary),
-                              borderRadius: BorderRadius.circular(20)),
+                            border:
+                                Border.all(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                          ),
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             '${widget.originalItem.start.year}. ${widget.originalItem.start.month}. ${widget.originalItem.start.day}.  ${widget.originalItem.start.hour}:${widget.originalItem.start.minute}',
@@ -180,9 +183,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: theme.colorScheme.primary),
-                              borderRadius: BorderRadius.circular(20)),
+                            border:
+                                Border.all(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                          ),
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             Provider.of<SzikAppStateManager>(context,
@@ -219,9 +224,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: theme.colorScheme.primary),
-                              borderRadius: BorderRadius.circular(20)),
+                            border:
+                                Border.all(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                          ),
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             widget.originalItem.name,
@@ -254,9 +261,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         flex: 1,
                         child: Container(
                           decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: theme.colorScheme.primary),
-                              borderRadius: BorderRadius.circular(20)),
+                            border:
+                                Border.all(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                          ),
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             widget.originalItem.description ??

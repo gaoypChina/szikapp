@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:szikapp/ui/themes.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
@@ -127,7 +128,9 @@ class _DocumentsListState extends State<DocumentsList> {
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
