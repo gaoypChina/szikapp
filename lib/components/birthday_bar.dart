@@ -11,7 +11,7 @@ class BirthdayBar extends StatelessWidget {
   final IO io;
 
   final Map<int, String> dayToIdiom = {
-    0: 'CALENDAR:TODAY'.tr(),
+    0: 'CALENDAR_TODAY'.tr(),
     1: 'CALENDAR_TOMORROW'.tr(),
     2: 'CALENDAR_DAY_AFTER_TOMORROW'.tr(),
   };

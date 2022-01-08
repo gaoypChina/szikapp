@@ -69,15 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer<SzikAppStateManager>(
       builder: (context, appStateManager, child) {
-        return SafeArea(
-          child: Scaffold(
-            body: IndexedStack(
+        return Scaffold(
+          body: SafeArea(
+            child: IndexedStack(
               index: widget.currentTab,
               children: pages,
             ),
-            bottomNavigationBar: SzikBottomNavigationBar(
-              selectedTab: widget.currentTab,
-            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          bottomNavigationBar: SzikBottomNavigationBar(
+            selectedTab: widget.currentTab,
           ),
         );
       },

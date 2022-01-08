@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/components/birthday_bar.dart';
 
 import '../business/auth_manager.dart';
+import '../components/birthday_bar.dart';
 import '../components/wrapped_icon.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
