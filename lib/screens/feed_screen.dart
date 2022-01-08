@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/auth_manager.dart';
-import '../components/birthday_bar.dart';
-import '../components/wrapped_icon.dart';
+import '../components/components.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
 
@@ -112,22 +111,22 @@ class _FeedScreenState extends State<FeedScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                WrappedIcon(
+                WrappedIconButton(
                   assetPath: 'assets/icons/bell_light_72.png',
                   color: theme.colorScheme.primaryVariant,
                   backgroundColor: theme.colorScheme.background,
                 ),
-                WrappedIcon(
+                WrappedIconButton(
                   assetPath: 'assets/icons/bell_light_72.png',
                   color: theme.colorScheme.primaryVariant,
                   backgroundColor: theme.colorScheme.background,
                 ),
-                WrappedIcon(
+                WrappedIconButton(
                   assetPath: 'assets/icons/bell_light_72.png',
                   color: theme.colorScheme.primaryVariant,
                   backgroundColor: theme.colorScheme.background,
                 ),
-                WrappedIcon(
+                WrappedIconButton(
                   assetPath: 'assets/icons/bell_light_72.png',
                   color: theme.colorScheme.primaryVariant,
                   backgroundColor: theme.colorScheme.background,

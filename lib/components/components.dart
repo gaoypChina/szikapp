@@ -13,3 +13,5 @@ export 'search_bar.dart';
 export 'searchable_options.dart';
 export 'tab_choice.dart';
 export 'time_picker.dart';
+export 'wrapped_icon.dart';
+export 'wrapped_icon_button.dart';
