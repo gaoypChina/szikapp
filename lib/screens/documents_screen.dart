@@ -2,12 +2,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/ui/themes.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
+import '../ui/themes.dart';
 import '../utils/utils.dart';
 import 'error_screen.dart';
 

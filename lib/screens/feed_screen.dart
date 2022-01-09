@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/ui/themes.dart';
 
 import '../business/auth_manager.dart';
 import '../components/components.dart';
 import '../components/notification_card.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
+import '../ui/themes.dart';
 
 class FeedScreen extends StatefulWidget {
   static const String route = '/feed';

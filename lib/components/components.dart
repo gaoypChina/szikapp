@@ -11,6 +11,8 @@ export 'document_details.dart';
 export 'profile_fields.dart';
 export 'search_bar.dart';
 export 'searchable_options.dart';
+export 'shimmers/contacts_shimmer.dart';
+export 'shimmers/rounded_box_shimmer.dart';
 export 'tab_choice.dart';
 export 'time_picker.dart';
 export 'wrapped_icon.dart';

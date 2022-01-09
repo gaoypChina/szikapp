@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/ui/themes.dart';
 
 import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 
 class JanitorEditAdminScreen extends StatefulWidget {
   static const String route = '/janitor/adminedit';

@@ -16,6 +16,9 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
       notifications: (json['notifications'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as bool),
       ),
+      feedShortcuts: (json['feed_shortcuts'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       dataLite: json['data_lite'] as bool? ?? false,
       leftMenuOption: json['left_menu_option'] as String?,
       rightMenuOption: json['right_menu_option'] as String?,
@@ -28,6 +31,7 @@ Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
       'language': _$LanguageEnumMap[instance.language],
       'theme': _$SzikAppThemeEnumMap[instance.theme],
       'notifications': instance.notifications,
+      'feed_shortcuts': instance.feedShortcuts,
       'left_menu_option': instance.leftMenuOption,
       'right_menu_option': instance.rightMenuOption,
       'data_lite': instance.dataLite,

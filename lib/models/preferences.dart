@@ -69,6 +69,8 @@ class Preferences {
   Language language;
   SzikAppTheme theme;
   Map<String, bool>? notifications;
+  @JsonKey(name: 'feed_shortcuts')
+  List<String>? feedShortcuts;
   @JsonKey(name: 'left_menu_option')
   String? leftMenuOption;
   @JsonKey(name: 'right_menu_option')
@@ -83,11 +85,13 @@ class Preferences {
       this.language = Language.hu,
       this.theme = SzikAppTheme.defaultTheme,
       this.notifications,
+      this.feedShortcuts,
       this.dataLite = false,
       this.leftMenuOption,
       this.rightMenuOption,
       required this.lastUpdate}) {
     notifications ??= <String, bool>{};
+    feedShortcuts ??= <String>[];
   }
 
   Json toJson() => _$PreferencesToJson(this);

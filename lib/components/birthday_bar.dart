@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'package:shimmer/shimmer.dart';
-
 import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
+import 'shimmers/rounded_box_shimmer.dart';
 
 class BirthdayBar extends StatelessWidget {
   final IO io;
@@ -27,18 +26,7 @@ class BirthdayBar extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           var theme = Theme.of(context);
-          return Shimmer.fromColors(
-            baseColor: theme.colorScheme.background.withOpacity(0.2),
-            highlightColor: theme.colorScheme.background.withOpacity(0.5),
-            child: Container(
-              height: kIconSizeXLarge,
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                color: Theme.of(context).colorScheme.background,
-              ),
-            ),
-          );
+          return const RoundedBoxShimmer();
         } else if (snapshot.hasData) {}
         var birthdayUser = snapshot.data!.first;
         var daysToBirthday = DateTime(
