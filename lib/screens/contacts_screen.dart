@@ -58,7 +58,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
       future: manager.refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ContactsListViewShimmer();
+          return const ListScreenShimmer();
         } else if (snapshot.hasError) {
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(

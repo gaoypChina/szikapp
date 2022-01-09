@@ -32,7 +32,9 @@ class ReservationGamesListScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return const Scaffold();
+          return const ListScreenShimmer(
+            type: ShimmerListType.square,
+          );
         } else if (snapshot.hasError) {
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(

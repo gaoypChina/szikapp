@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
-import 'shimmers/rounded_box_shimmer.dart';
+import 'shimmers/card_shimmer.dart';
 
 class BirthdayBar extends StatelessWidget {
   final IO io;
@@ -25,8 +25,7 @@ class BirthdayBar extends StatelessWidget {
       future: io.getBirthdays(),
       builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          var theme = Theme.of(context);
-          return const RoundedBoxShimmer();
+          return const CardShimmer();
         } else if (snapshot.hasData) {}
         var birthdayUser = snapshot.data!.first;
         var daysToBirthday = DateTime(

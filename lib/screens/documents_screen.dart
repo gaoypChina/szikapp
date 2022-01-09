@@ -31,7 +31,9 @@ class DocumentsScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return const Scaffold();
+          return const ListScreenShimmer(
+            type: ShimmerListType.card,
+          );
         } else if (snapshot.hasError) {
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
