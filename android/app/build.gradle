@@ -47,8 +47,8 @@ android {
 
     defaultConfig {
         applicationId "com.szik.szikapp"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 23
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
