@@ -23,8 +23,8 @@ class WrappedIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: iconSize + padding,
-        height: iconSize + padding,
+        width: iconSize + padding * 2,
+        height: iconSize + padding * 2,
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius),

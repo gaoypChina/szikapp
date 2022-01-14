@@ -109,7 +109,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            //Title
             Container(
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.15),
@@ -193,8 +192,10 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             Provider.of<SzikAppStateManager>(context,
                                     listen: false)
                                 .places
-                                .firstWhere((element) =>
-                                    element.id == widget.originalItem.placeID)
+                                .firstWhere(
+                                  (element) =>
+                                      element.id == widget.originalItem.placeID,
+                                )
                                 .name,
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
@@ -323,8 +324,9 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                 child: Text(
                                   'JANITOR_LABEL_ANSWER'.tr(),
                                   style: theme.textTheme.headline3!.copyWith(
-                                      fontSize: 14,
-                                      color: theme.colorScheme.secondary),
+                                    fontSize: 14,
+                                    color: theme.colorScheme.secondary,
+                                  ),
                                   textAlign: TextAlign.end,
                                 ),
                               ),
@@ -382,26 +384,29 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                     ),
                                     onPressed: () {
                                       showDialog<void>(
-                                          context: context,
-                                          builder: (context) => confirmDialog);
+                                        context: context,
+                                        builder: (context) => confirmDialog,
+                                      );
                                     },
                                   )),
                               Expanded(
                                 flex: 1,
                                 child: ElevatedButton(
                                   onPressed: _onEditSent,
-                                  child: Text('BUTTON_SEND'.tr()),
+                                  child: Text(
+                                    'BUTTON_SEND'.tr(),
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

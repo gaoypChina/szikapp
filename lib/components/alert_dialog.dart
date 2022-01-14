@@ -71,9 +71,10 @@ class CustomAlertDialog extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  border:
-                      Border.all(color: color ?? theme.colorScheme.background),
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal)),
+                border:
+                    Border.all(color: color ?? theme.colorScheme.background),
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              ),
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onCancel,
@@ -88,11 +89,12 @@ class CustomAlertDialog extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: color?.withOpacity(0.5) ??
-                      theme.colorScheme.background.withOpacity(0.5),
-                  border:
-                      Border.all(color: color ?? theme.colorScheme.background),
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal)),
+                color: color?.withOpacity(0.5) ??
+                    theme.colorScheme.background.withOpacity(0.5),
+                border:
+                    Border.all(color: color ?? theme.colorScheme.background),
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              ),
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextButton(
                 onPressed: onAccept,

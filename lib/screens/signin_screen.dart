@@ -72,18 +72,16 @@ class _SignInScreenState extends State<SignInScreen> {
           return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           var queryData = MediaQuery.of(context);
-          var devicePixelRatio = queryData.devicePixelRatio;
           return Stack(
             children: [
               Container(
-                // Háttérkép
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/pictures/background_1.jpg'),
-                        fit: BoxFit.cover)),
+                  image: DecorationImage(
+                      image: AssetImage('assets/pictures/background_1.jpg'),
+                      fit: BoxFit.cover),
+                ),
               ),
               AnimatedOpacity(
-                // Háttérszín (animált)
                 duration: const Duration(seconds: 2),
                 opacity: _started ? 0.5 : 1,
                 child: Container(
@@ -91,7 +89,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               AnimatedContainer(
-                // Sign_In_Button (animated)
                 duration: const Duration(seconds: 2),
                 curve: Curves.easeInOutQuad,
                 child: Center(
@@ -99,19 +96,20 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                          flex: 1,
-                          child: AnimatedAlign(
-                            duration: const Duration(seconds: 2),
-                            curve: Curves.easeInOutQuad,
-                            alignment: _logoStarted
-                                ? const FractionalOffset(0.5, 0.4)
-                                : Alignment.center,
-                            child: Image.asset(
-                              'assets/pictures/logo_white_800.png',
-                              width: min(800 / devicePixelRatio,
-                                  queryData.size.height / 3),
-                            ),
-                          )),
+                        flex: 1,
+                        child: AnimatedAlign(
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.easeInOutQuad,
+                          alignment: _logoStarted
+                              ? const FractionalOffset(0.5, 0.4)
+                              : Alignment.center,
+                          child: Image.asset(
+                            'assets/pictures/logo_white_800.png',
+                            width: min(800 / queryData.devicePixelRatio,
+                                queryData.size.height / 3),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

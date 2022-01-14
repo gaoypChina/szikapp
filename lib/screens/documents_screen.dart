@@ -30,7 +30,6 @@ class DocumentsScreen extends StatelessWidget {
       future: Provider.of<GoodToKnowManager>(context, listen: false).refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          //Shrimmer
           return const ListScreenShimmer(
             type: ShimmerListType.card,
           );
@@ -67,7 +66,7 @@ class DocumentsList extends StatefulWidget {
 }
 
 class _DocumentsListState extends State<DocumentsList> {
-  late List<GoodToKnow> items;
+  List<GoodToKnow> items = [];
   bool infoWidgetVisible = false;
   int index = 0;
 
@@ -128,15 +127,15 @@ class _DocumentsListState extends State<DocumentsList> {
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadiusNormal),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey,
-              offset: Offset(0.0, 2.0), //(x,y)
+              color: Theme.of(context).colorScheme.secondaryVariant,
+              offset: const Offset(0.0, 2.0),
               blurRadius: 3.0,
             ),
           ],
@@ -160,13 +159,11 @@ class _DocumentsListState extends State<DocumentsList> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //keresősáv
               SearchBar(
                 onChanged: _onSearchFieldChanged,
                 validator: _validateTextField,
                 placeholder: 'PLACEHOLDER_SEARCH'.tr(),
               ),
-              //kedvencek
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
                 child: Column(
@@ -187,9 +184,9 @@ class _DocumentsListState extends State<DocumentsList> {
                                 .textTheme
                                 .headline3!
                                 .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                           ),
                         ],
                       ),
@@ -197,12 +194,10 @@ class _DocumentsListState extends State<DocumentsList> {
                     Divider(
                       thickness: 2,
                       color: theme.colorScheme.secondary,
-                    )
+                    ),
                   ],
                 ),
               ),
-              //kedvenc doksik felsorolása
-              //lapválasztó
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 child: TabChoice(
@@ -217,7 +212,6 @@ class _DocumentsListState extends State<DocumentsList> {
                   onChanged: _onTabChanged,
                 ),
               ),
-              //lapok listája
               Expanded(
                 child: ListView.builder(
                   itemBuilder: _buildListItem,
@@ -226,8 +220,6 @@ class _DocumentsListState extends State<DocumentsList> {
               ),
             ],
           ),
-
-          //Info widget
           Visibility(
             visible: infoWidgetVisible,
             child: Stack(
@@ -242,9 +234,9 @@ class _DocumentsListState extends State<DocumentsList> {
                     ),
                   ),
                 ),
-                //Tényleges infowidget a szürke háttér előtt
                 DocumentDetails(
-                    document: (items.length <= index) ? null : items[index])
+                  document: (items.length <= index) ? null : items[index],
+                )
               ],
             ),
           ),

@@ -14,12 +14,6 @@ class _ProgressScreenState extends State<ProgressScreen>
   late AnimationController animationController;
 
   @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
     animationController =
@@ -28,15 +22,21 @@ class _ProgressScreenState extends State<ProgressScreen>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var queryData = MediaQuery.of(context);
-    var devicePixelRatio = queryData.devicePixelRatio;
     return Stack(
       children: [
         Container(
-            decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-        )),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
         Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,17 +45,23 @@ class _ProgressScreenState extends State<ProgressScreen>
                 flex: 1,
                 child: Image.asset(
                   'assets/pictures/logo_white_800.png',
-                  width: min(800 / devicePixelRatio, queryData.size.height / 3),
+                  width: min(
+                    800 / queryData.devicePixelRatio,
+                    queryData.size.height / 3,
+                  ),
                 ),
               ),
               LinearProgressIndicator(
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                valueColor: animationController.drive(ColorTween(
+                valueColor: animationController.drive(
+                  ColorTween(
                     begin: Theme.of(context).colorScheme.onPrimary,
                     end: Theme.of(context)
                         .colorScheme
                         .onPrimary
-                        .withOpacity(0.25))),
+                        .withOpacity(0.25),
+                  ),
+                ),
               )
             ],
           ),

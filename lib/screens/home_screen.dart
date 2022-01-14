@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          bottomNavigationBar: SzikBottomNavigationBar(
+          bottomNavigationBar: SzikAppBottomNavigationBar(
             selectedTab: widget.currentTab,
           ),
         );

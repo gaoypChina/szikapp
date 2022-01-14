@@ -63,24 +63,27 @@ class ReservationGamesListScreen extends StatelessWidget {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     children: boardgames
-                        .map((item) => Card(
-                              elevation: 5,
-                              color: Theme.of(context).colorScheme.background,
-                              child: GestureDetector(
-                                onTap: () => Provider.of<ReservationManager>(
-                                        context,
-                                        listen: false)
-                                    .createNewReservation(
-                                        gameIndex: boardgames.indexOf(item)),
-                                child: Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/pictures/${item.iconLink}',
-                                    fit: BoxFit.contain,
-                                  ),
+                        .map(
+                          (item) => Card(
+                            elevation: 5,
+                            color: Theme.of(context).colorScheme.background,
+                            child: GestureDetector(
+                              onTap: () => Provider.of<ReservationManager>(
+                                      context,
+                                      listen: false)
+                                  .createNewReservation(
+                                gameIndex: boardgames.indexOf(item),
+                              ),
+                              child: Container(
+                                margin: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/pictures/${item.iconLink}',
+                                  fit: BoxFit.contain,
                                 ),
                               ),
-                            ))
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),

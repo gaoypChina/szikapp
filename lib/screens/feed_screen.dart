@@ -53,18 +53,15 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var showName =
-        Provider.of<AuthManager>(context, listen: false).user!.nick ??
-            Provider.of<AuthManager>(context, listen: false)
-                .user!
-                .name
-                .split(' ')[1];
+    var shownName =
+        Provider.of<AuthManager>(context, listen: false).user!.showableName;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/pictures/background_1.jpg'),
-            fit: BoxFit.cover),
+          image: AssetImage('assets/pictures/background_1.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
       child: ListView(
         children: [
@@ -82,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FEED_GREETINGS'.tr(args: [showName]),
+                      'FEED_GREETINGS'.tr(args: [shownName]),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -161,10 +158,12 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           Column(
-            children: notifications.map<NotificationCard>((item) {
-              return NotificationCard(data: item);
-            }).toList(),
-          )
+            children: notifications.map<NotificationCard>(
+              (item) {
+                return NotificationCard(data: item);
+              },
+            ).toList(),
+          ),
         ],
       ),
     );

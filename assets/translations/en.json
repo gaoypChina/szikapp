@@ -74,7 +74,7 @@
         "JANITOR_LABEL_START": "Sent",
         "JANITOR_LABEL_ANSWER": "Answer",
         "JANITOR_LABEL_FEEDBACK": "Feedback",
-        "CONTACTS": null,
+    "CONTACTS": null,
         "CONTACTS_TITLE": "Contacts",
         "CONTACTS_FILTER_GROUP": "Group",
         "PHONE_NOT_FOUND": "Phone number not found",

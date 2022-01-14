@@ -28,15 +28,14 @@ class ReservationScreen extends StatelessWidget {
       withAppBar: false,
       body: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/pictures/background_1.jpg'),
-                fit: BoxFit.cover)),
+          image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Container(),
-            ),
-            // Teremfoglalás
             GestureDetector(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
@@ -45,8 +44,9 @@ class ReservationScreen extends StatelessWidget {
                 margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
                 height: height * 0.15,
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(25)),
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                ),
                 child: Row(
                   children: [
                     Container(
@@ -60,23 +60,21 @@ class ReservationScreen extends StatelessWidget {
                       margin: EdgeInsets.fromLTRB(
                           0, width * 0.08, width * 0.08, width * 0.08),
                       child: Center(
-                          child: Text('RESERVATION_MODE_PLACE'.tr(),
-                              style: szikTextTheme.headline2!.copyWith(
-                                  fontSize: 20,
-                                  fontStyle: FontStyle.normal,
-                                  decoration: TextDecoration.none,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary))),
+                        child: Text(
+                          'RESERVATION_MODE_PLACE'.tr(),
+                          style: szikTextTheme.headline2!.copyWith(
+                            fontSize: 20,
+                            fontStyle: FontStyle.normal,
+                            decoration: TextDecoration.none,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
               ),
             ),
-            Expanded(
-              child: Container(),
-            ),
-            // Zoom foglalás
             GestureDetector(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
@@ -85,8 +83,9 @@ class ReservationScreen extends StatelessWidget {
                 margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
                 height: height * 0.15,
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(25)),
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                ),
                 child: Row(
                   children: [
                     Container(
@@ -100,22 +99,21 @@ class ReservationScreen extends StatelessWidget {
                       margin: EdgeInsets.fromLTRB(
                           0, width * 0.08, width * 0.08, width * 0.08),
                       child: Center(
-                          child: Text('RESERVATION_MODE_ZOOM'.tr(),
-                              style: szikTextTheme.headline2!.copyWith(
-                                  fontSize: 20,
-                                  fontStyle: FontStyle.normal,
-                                  decoration: TextDecoration.none,
-                                  color:
-                                      Theme.of(context).colorScheme.primary))),
+                        child: Text(
+                          'RESERVATION_MODE_ZOOM'.tr(),
+                          style: szikTextTheme.headline2!.copyWith(
+                            fontSize: 20,
+                            fontStyle: FontStyle.normal,
+                            decoration: TextDecoration.none,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
               ),
             ),
-            Expanded(
-              child: Container(),
-            ),
-            // Társas foglalás
             GestureDetector(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
@@ -124,8 +122,9 @@ class ReservationScreen extends StatelessWidget {
                 margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
                 height: height * 0.15,
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(25)),
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                ),
                 child: Row(
                   children: [
                     Container(
@@ -141,23 +140,17 @@ class ReservationScreen extends StatelessWidget {
                       child: Text(
                         'RESERVATION_MODE_BOARDGAME'.tr(),
                         style: szikTextTheme.headline2!.copyWith(
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            color:
-                                Theme.of(context).colorScheme.primaryVariant),
+                          fontSize: 20,
+                          fontStyle: FontStyle.normal,
+                          decoration: TextDecoration.none,
+                          color: Theme.of(context).colorScheme.primaryVariant,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Expanded(
-              child: Container(),
-            ),
-            const SizedBox(
-              height: kBottomNavigationBarHeight,
-            )
           ],
         ),
       ),

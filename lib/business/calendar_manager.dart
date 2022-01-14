@@ -41,6 +41,7 @@ class CalendarManager extends ChangeNotifier {
     final index = _events.indexWhere((element) => element.uid == uid);
     _selectedIndex = index;
     _createNewEvent = false;
+    _editEvent = true;
     notifyListeners();
   }
 

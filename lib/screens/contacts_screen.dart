@@ -229,9 +229,7 @@ class _ContactsListViewState extends State<ContactsListView> {
           Expanded(
             child: items.isEmpty
                 ? Center(
-                    child: Text(
-                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
-                    ),
+                    child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
                   )
                 : RefreshIndicator(
                     onRefresh: () => widget.manager.refresh(forceRefresh: true),
@@ -240,8 +238,6 @@ class _ContactsListViewState extends State<ContactsListView> {
                       headerBackgroundColor: theme.colorScheme.background,
                       contentBackgroundColor: theme.colorScheme.background,
                       headerPadding: const EdgeInsets.all(20),
-                      //contentHorizontalPadding: 20,
-                      //contentBorderRadius: 10,
                       headerTextStyle: theme.textTheme.headline3!.copyWith(
                         color: theme.colorScheme.secondary,
                       ),
@@ -251,66 +247,146 @@ class _ContactsListViewState extends State<ContactsListView> {
                         colorFilter: ColorFilter.mode(
                             theme.colorScheme.primaryVariant, BlendMode.srcIn),
                       ),
-                      children: items.map<AccordionSection>((item) {
-                        var names = item.name.split(' ');
-                        var initials = '${names[0][0]}${names[1][0]}';
-                        return AccordionSection(
-                          headerText: item.name,
-                          leftIcon: CircleAvatar(
-                            radius: theme.textTheme.headline3!.fontSize! * 1.5,
-                            backgroundColor: theme.colorScheme.primaryVariant,
-                            child: Text(
-                              initials,
-                              style: theme.textTheme.headline4!.copyWith(
-                                color: theme.colorScheme.background,
-                                fontStyle: FontStyle.normal,
+                      children: items.map<AccordionSection>(
+                        (item) {
+                          var names = item.name.split(' ');
+                          var initials = '${names[0][0]}${names[1][0]}';
+                          return AccordionSection(
+                            headerText: item.name,
+                            leftIcon: CircleAvatar(
+                              radius:
+                                  theme.textTheme.headline3!.fontSize! * 1.5,
+                              backgroundColor: theme.colorScheme.primaryVariant,
+                              child: Text(
+                                initials,
+                                style: theme.textTheme.headline4!.copyWith(
+                                  color: theme.colorScheme.background,
+                                  fontStyle: FontStyle.normal,
+                                ),
                               ),
                             ),
-                          ),
-                          content: Container(
-                            width: MediaQuery.of(context).size.width - 40,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadiusNormal),
-                              color: theme.colorScheme.primaryVariant
-                                  .withOpacity(0.15),
-                            ),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (item.phone != null) {
+                            content: Container(
+                              width: MediaQuery.of(context).size.width - 40,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusNormal),
+                                color: theme.colorScheme.primaryVariant
+                                    .withOpacity(0.15),
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (item.phone != null) {
+                                        try {
+                                          SZIKAppState.analytics.logEvent(
+                                            name: 'phone_call',
+                                            parameters: <String, dynamic>{
+                                              'country': item.phone!.padLeft(5)
+                                            },
+                                          );
+                                          widget.manager
+                                              .makePhoneCall(item.phone!);
+                                        } on NotSupportedCallFunctionalityException catch (e) {
+                                          _showSnackBar(e.message);
+                                        }
+                                      }
+                                    },
+                                    onLongPress: () => _copyToClipBoard(
+                                        item.phone, 'MESSAGE_CLIPBOARD'.tr()),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                                          style: theme.textTheme.bodyText1
+                                              ?.copyWith(
+                                            color: theme
+                                                .colorScheme.primaryVariant,
+                                          ),
+                                        ),
+                                        ColorFiltered(
+                                          child: Image.asset(
+                                            'assets/icons/phone_light_72.png',
+                                            height: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                          ),
+                                          colorFilter: ColorFilter.mode(
+                                              theme.colorScheme.primaryVariant,
+                                              BlendMode.srcIn),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
                                       try {
                                         SZIKAppState.analytics.logEvent(
-                                          name: 'phone_call',
+                                          name: 'make_email',
                                           parameters: <String, dynamic>{
-                                            'country': item.phone!.padLeft(5)
+                                            'domain': item.email.split('@').last
                                           },
                                         );
-                                        widget.manager
-                                            .makePhoneCall(item.phone!);
-                                      } on NotSupportedCallFunctionalityException catch (e) {
+                                        widget.manager.makeEmail(item.email);
+                                      } on NotSupportedEmailFunctionalityException catch (e) {
                                         _showSnackBar(e.message);
                                       }
-                                    }
-                                  },
-                                  onLongPress: () => _copyToClipBoard(
-                                      item.phone, 'MESSAGE_CLIPBOARD'.tr()),
-                                  child: Row(
+                                    },
+                                    onLongPress: () => _copyToClipBoard(
+                                        item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Text(
+                                            item.email,
+                                            style: theme.textTheme.bodyText1
+                                                ?.copyWith(
+                                                    color: theme.colorScheme
+                                                        .primaryVariant),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        ColorFiltered(
+                                          child: Image.asset(
+                                            'assets/icons/at_light_72.png',
+                                            height: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                          ),
+                                          colorFilter: ColorFilter.mode(
+                                              theme.colorScheme.primaryVariant,
+                                              BlendMode.srcIn),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        item.phone ?? 'PHONE_NOT_FOUND'.tr(),
-                                        style: theme.textTheme.bodyText1
-                                            ?.copyWith(
-                                                color: theme.colorScheme
-                                                    .primaryVariant),
+                                        item.birthday != null
+                                            ? DateFormat('yyyy. MM. dd.')
+                                                .format(item.birthday!)
+                                            : 'BIRTHDAY_NOT_FOUND'.tr(),
+                                        style:
+                                            theme.textTheme.bodyText1?.copyWith(
+                                          color:
+                                              theme.colorScheme.primaryVariant,
+                                        ),
                                       ),
                                       ColorFiltered(
                                         child: Image.asset(
-                                          'assets/icons/phone_light_72.png',
+                                          'assets/icons/gift_light_72.png',
                                           height: theme.textTheme.bodyText1!
                                                   .fontSize! *
                                               1.5,
@@ -321,86 +397,12 @@ class _ContactsListViewState extends State<ContactsListView> {
                                       ),
                                     ],
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    try {
-                                      SZIKAppState.analytics.logEvent(
-                                        name: 'make_email',
-                                        parameters: <String, dynamic>{
-                                          'domain': item.email.split('@').last
-                                        },
-                                      );
-                                      widget.manager.makeEmail(item.email);
-                                    } on NotSupportedEmailFunctionalityException catch (e) {
-                                      _showSnackBar(e.message);
-                                    }
-                                  },
-                                  onLongPress: () => _copyToClipBoard(
-                                      item.email, 'MESSAGE_CLIPBOARD'.tr()),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.7,
-                                        child: Text(
-                                          item.email,
-                                          style: theme.textTheme.bodyText1
-                                              ?.copyWith(
-                                                  color: theme.colorScheme
-                                                      .primaryVariant),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      ColorFiltered(
-                                        child: Image.asset(
-                                          'assets/icons/at_light_72.png',
-                                          height: theme.textTheme.bodyText1!
-                                                  .fontSize! *
-                                              1.5,
-                                        ),
-                                        colorFilter: ColorFilter.mode(
-                                            theme.colorScheme.primaryVariant,
-                                            BlendMode.srcIn),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item.birthday != null
-                                          ? DateFormat('yyyy. MM. dd.')
-                                              .format(item.birthday!)
-                                          : 'BIRTHDAY_NOT_FOUND'.tr(),
-                                      style: theme.textTheme.bodyText1
-                                          ?.copyWith(
-                                              color: theme
-                                                  .colorScheme.primaryVariant),
-                                    ),
-                                    ColorFiltered(
-                                      child: Image.asset(
-                                        'assets/icons/gift_light_72.png',
-                                        height: theme.textTheme.bodyText1!
-                                                .fontSize! *
-                                            1.5,
-                                      ),
-                                      colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.primaryVariant,
-                                          BlendMode.srcIn),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
           ),

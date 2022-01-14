@@ -8,8 +8,7 @@ import '../navigation/app_state_manager.dart';
 import '../utils/exceptions.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const String route = '/profile';
-  static const String shortRoute = '/me';
+  static const String route = '/me';
 
   final AuthManager manager;
 

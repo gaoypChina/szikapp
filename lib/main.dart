@@ -108,7 +108,6 @@ class SZIKAppState extends State<SZIKApp> {
   void initState() {
     _initConnectivity();
     IO(manager: _authManager);
-    //_initializeFlutterFire();
 
     ///Kapcsolati státusz figyelő feliratkozás. Amint a státusz megváltozik
     ///frissíti a [connectionStatus] paraméter értékét.
@@ -116,14 +115,15 @@ class SZIKAppState extends State<SZIKApp> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
     _appRouter = SzikAppRouter(
-        appStateManager: _appStateManager,
-        authManager: _authManager,
-        calendarManager: _calendarManager,
-        goodToKnowManager: _goodToKnowManager,
-        janitorManager: _janitorManager,
-        kitchenCleaningManager: _kitchenCleaningManager,
-        pollManager: _pollManager,
-        reservationManager: _reservationManager);
+      appStateManager: _appStateManager,
+      authManager: _authManager,
+      calendarManager: _calendarManager,
+      goodToKnowManager: _goodToKnowManager,
+      janitorManager: _janitorManager,
+      kitchenCleaningManager: _kitchenCleaningManager,
+      pollManager: _pollManager,
+      reservationManager: _reservationManager,
+    );
 
     super.initState();
   }

@@ -51,9 +51,18 @@ class ReservationManager extends ChangeNotifier {
     int placeIndex = -1,
   }) {
     _createNewReservation = true;
+    _editReservation = false;
     _selectedPlace = placeIndex;
     _selectedGame = gameIndex;
     notifyListeners();
+  }
+
+  void createNewPlaceReservation(int placeIndex) {
+    createNewReservation(placeIndex: placeIndex);
+  }
+
+  void createNewGameReservation(int gameIndex) {
+    createNewReservation(gameIndex: gameIndex);
   }
 
   void selectGame(int index) {
@@ -66,23 +75,25 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void performBackButtonPressed() {
-    _selectedIndex = -1;
-    _createNewReservation = false;
-    _editReservation = false;
-    notifyListeners();
-  }
-
   void editReservation(
     int index, {
     int gameIndex = -1,
     int placeIndex = -1,
   }) {
+    _createNewReservation = false;
     _editReservation = true;
     _selectedIndex = index;
     _selectedPlace = placeIndex;
     _selectedGame = gameIndex;
     notifyListeners();
+  }
+
+  void editPlaceReservation(int index, int placeIndex) {
+    editReservation(index, placeIndex: placeIndex);
+  }
+
+  void editGameReservation(int index, int gameIndex) {
+    editReservation(index, gameIndex: gameIndex);
   }
 
   void selectMode(int mode) {
@@ -99,6 +110,16 @@ class ReservationManager extends ChangeNotifier {
     final index = _reservations.indexWhere((element) => element.uid == uid);
     _selectedIndex = index;
     _createNewReservation = false;
+    _editReservation = true;
+    notifyListeners();
+  }
+
+  void performBackButtonPressed() {
+    _selectedIndex = -1;
+    _selectedPlace = -1;
+    _selectedGame = -1;
+    _createNewReservation = false;
+    _editReservation = false;
     notifyListeners();
   }
 
@@ -110,6 +131,8 @@ class ReservationManager extends ChangeNotifier {
 
     _reservations.add(task);
     _createNewReservation = false;
+    _editReservation = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -124,6 +147,7 @@ class ReservationManager extends ChangeNotifier {
 
     _reservations.removeWhere((element) => element.uid == task.uid);
     _reservations.add(task);
+    _createNewReservation = false;
     _editReservation = false;
     _selectedIndex = -1;
     notifyListeners();
@@ -140,6 +164,7 @@ class ReservationManager extends ChangeNotifier {
     await io.deleteReservation(parameter, task.lastUpdate);
 
     _reservations.remove(task);
+    _createNewReservation = false;
     _editReservation = false;
     _selectedIndex = -1;
     notifyListeners();
@@ -197,6 +222,6 @@ class ReservationManager extends ChangeNotifier {
         }
       }
     }
-    return results;
+    return List.unmodifiable(results);
   }
 }

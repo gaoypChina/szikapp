@@ -74,7 +74,7 @@
         "JANITOR_LABEL_START": "Beküldve",
         "JANITOR_LABEL_ANSWER": "Válasz",
         "JANITOR_LABEL_FEEDBACK": "Visszajelzés",
-        "CONTACTS": null,
+    "CONTACTS": null,
         "CONTACTS_TITLE": "Kontaktok",
         "CONTACTS_FILTER_GROUP": "Csoport",
         "PHONE_NOT_FOUND": "Telefonszám nem található",

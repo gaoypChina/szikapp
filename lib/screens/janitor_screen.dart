@@ -60,7 +60,7 @@ class JanitorListView extends StatefulWidget {
   const JanitorListView({Key? key}) : super(key: key);
 
   @override
-  State<JanitorListView> createState() => _JanitorListViewState();
+  _JanitorListViewState createState() => _JanitorListViewState();
 }
 
 class _JanitorListViewState extends State<JanitorListView> {

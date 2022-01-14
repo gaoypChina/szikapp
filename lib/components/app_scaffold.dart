@@ -42,7 +42,7 @@ class SzikAppScaffold extends StatelessWidget {
       body: SafeArea(child: body ?? Container()),
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: withNavigationBar
-          ? SzikBottomNavigationBar(
+          ? SzikAppBottomNavigationBar(
               selectedTab:
                   Provider.of<SzikAppStateManager>(context, listen: false)
                       .selectedTab,
