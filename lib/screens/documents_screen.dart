@@ -128,7 +128,7 @@ class _DocumentsListState extends State<DocumentsList> {
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadiusNormal),
           ),

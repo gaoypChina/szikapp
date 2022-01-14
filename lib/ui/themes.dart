@@ -21,7 +21,7 @@ const double kCurveHeight = 8;
 
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
-const Color szikLavenderBlush = Color(0xfffefafb);
+const Color szikLavenderBlush = Color(0xfffffafb);
 const Color szikMonarch = Color(0xff990e35);
 const Color szikTarawera = Color(0xff094757);
 const Color szikShiraz = Color(0xffbb1141);
