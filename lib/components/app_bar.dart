@@ -24,10 +24,11 @@ PreferredSizeWidget buildAppBar({
     elevation: elevation,
     centerTitle: true,
     shape: const CurveShapeBorder(kCurveHeight),
+    backgroundColor: Theme.of(context).colorScheme.primary,
     title: Text(
       appBarTitle,
       style: Theme.of(context).textTheme.headline2!.copyWith(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 14,
           ),
     ),
@@ -35,7 +36,7 @@ PreferredSizeWidget buildAppBar({
       onPressed: _onLeadingPressed,
       icon: Icon(
         Icons.arrow_back,
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
     ),
     actions: [

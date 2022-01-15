@@ -8,11 +8,20 @@ const kDatePickerDifference = Duration(days: 730);
 
 ///Személyre szabott dátumválasztó widget.
 class DatePicker extends StatefulWidget {
+  ///Dátum szerkesztés engedélyezés
+  final bool readonly;
+
   ///A megváltozott dátum jelzésére szolgáló callback
   final ValueChanged<DateTime> onChanged;
 
   ///Eredeti dátum
-  final DateTime date;
+  final DateTime? initialDate;
+
+  ///Választható dátumintervallum eleje
+  final DateTime? startDate;
+
+  ///Választható dátumintervallum vége
+  final DateTime? endDate;
 
   ///Szöveg színe
   final Color color;
@@ -22,8 +31,11 @@ class DatePicker extends StatefulWidget {
 
   const DatePicker(
       {Key? key,
-      required this.date,
       required this.onChanged,
+      this.readonly = false,
+      this.initialDate,
+      this.startDate,
+      this.endDate,
       this.color = szikTarawera,
       this.fontSize = 14})
       : super(key: key);
@@ -36,9 +48,10 @@ class _DatePickerState extends State<DatePicker> {
   void _selectDate() async {
     final newDate = await showDatePicker(
       context: context,
-      initialDate: widget.date,
-      firstDate: DateTime.now().subtract(kDatePickerDifference),
-      lastDate: DateTime.now().add(kDatePickerDifference),
+      initialDate: widget.initialDate ?? DateTime.now(),
+      firstDate:
+          widget.startDate ?? DateTime.now().subtract(kDatePickerDifference),
+      lastDate: widget.endDate ?? DateTime.now().add(kDatePickerDifference),
       confirmText: 'BUTTON_OK'.tr().toUpperCase(),
       cancelText: 'BUTTON_CANCEL'.tr().toUpperCase(),
       helpText: 'DATE_PICKER_HELP'.tr().toUpperCase(),
@@ -60,11 +73,14 @@ class _DatePickerState extends State<DatePicker> {
       ),
       padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
       child: GestureDetector(
-        onTap: _selectDate,
+        onTap: widget.readonly ? null : _selectDate,
         child: Text(
-          DateFormat('yyyy. MM. dd.').format(widget.date),
+          DateFormat('yyyy. MM. dd.')
+              .format(widget.initialDate ?? DateTime.now()),
           style: Theme.of(context).textTheme.button!.copyWith(
-              color: widget.color,
+              color: widget.readonly
+                  ? Theme.of(context).colorScheme.secondaryVariant
+                  : widget.color,
               fontSize: widget.fontSize,
               fontStyle: FontStyle.italic),
         ),

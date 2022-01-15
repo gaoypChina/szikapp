@@ -134,8 +134,8 @@ class _ContactsListViewState extends State<ContactsListView> {
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onFilterChanged(Group? group) {
-    var newItems = widget.manager.filter(group!.id);
-    SZIKAppState.analytics.logSearch(searchTerm: group.name);
+    var newItems = widget.manager.filter(group?.id ?? '');
+    SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
       items = newItems;
     });
@@ -299,14 +299,6 @@ class _ContactsListViewState extends State<ContactsListView> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
-                                          style: theme.textTheme.bodyText1
-                                              ?.copyWith(
-                                            color: theme
-                                                .colorScheme.primaryVariant,
-                                          ),
-                                        ),
                                         ColorFiltered(
                                           child: Image.asset(
                                             'assets/icons/phone_light_72.png',
@@ -317,6 +309,14 @@ class _ContactsListViewState extends State<ContactsListView> {
                                           colorFilter: ColorFilter.mode(
                                               theme.colorScheme.primaryVariant,
                                               BlendMode.srcIn),
+                                        ),
+                                        Text(
+                                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                                          style: theme.textTheme.bodyText1
+                                              ?.copyWith(
+                                            color: theme
+                                                .colorScheme.primaryVariant,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -337,53 +337,47 @@ class _ContactsListViewState extends State<ContactsListView> {
                                     },
                                     onLongPress: () => _copyToClipBoard(
                                         item.email, 'MESSAGE_CLIPBOARD'.tr()),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
-                                          child: Text(
-                                            item.email,
-                                            style: theme.textTheme.bodyText1
-                                                ?.copyWith(
-                                                    color: theme.colorScheme
-                                                        .primaryVariant),
-                                            overflow: TextOverflow.ellipsis,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 4),
+                                            child: ColorFiltered(
+                                              child: Image.asset(
+                                                'assets/icons/at_light_72.png',
+                                                height: theme.textTheme
+                                                        .bodyText1!.fontSize! *
+                                                    1.5,
+                                              ),
+                                              colorFilter: ColorFilter.mode(
+                                                  theme.colorScheme
+                                                      .primaryVariant,
+                                                  BlendMode.srcIn),
+                                            ),
                                           ),
-                                        ),
-                                        ColorFiltered(
-                                          child: Image.asset(
-                                            'assets/icons/at_light_72.png',
-                                            height: theme.textTheme.bodyText1!
-                                                    .fontSize! *
-                                                1.5,
+                                          Flexible(
+                                            child: Text(
+                                              item.email.useCorrectEllipsis(),
+                                              style: theme.textTheme.bodyText1
+                                                  ?.copyWith(
+                                                      color: theme.colorScheme
+                                                          .primaryVariant),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
-                                          colorFilter: ColorFilter.mode(
-                                              theme.colorScheme.primaryVariant,
-                                              BlendMode.srcIn),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        item.birthday != null
-                                            ? DateFormat('yyyy. MM. dd.')
-                                                .format(item.birthday!)
-                                            : 'BIRTHDAY_NOT_FOUND'.tr(),
-                                        style:
-                                            theme.textTheme.bodyText1?.copyWith(
-                                          color:
-                                              theme.colorScheme.primaryVariant,
-                                        ),
-                                      ),
                                       ColorFiltered(
                                         child: Image.asset(
                                           'assets/icons/gift_light_72.png',
@@ -394,6 +388,17 @@ class _ContactsListViewState extends State<ContactsListView> {
                                         colorFilter: ColorFilter.mode(
                                             theme.colorScheme.primaryVariant,
                                             BlendMode.srcIn),
+                                      ),
+                                      Text(
+                                        item.birthday != null
+                                            ? DateFormat('yyyy. MM. dd.')
+                                                .format(item.birthday!)
+                                            : 'BIRTHDAY_NOT_FOUND'.tr(),
+                                        style:
+                                            theme.textTheme.bodyText1?.copyWith(
+                                          color:
+                                              theme.colorScheme.primaryVariant,
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -25,7 +25,7 @@ class ReservationScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return SzikAppScaffold(
-      withAppBar: false,
+      appBarTitle: 'RESERVATION_TITLE'.tr(),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

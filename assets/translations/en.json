@@ -49,6 +49,7 @@
         "SUBMENU_EVERYDAY_POLL": "Polls",
         "SUBMENU_EVERYDAY_BOOKLOAN": "Book loan",
     "RESERVATION": null,
+        "RESERVATION_TITLE": "Reservations",
         "RESERVATION_LABEL_DATE": "Date",
         "RESERVATION_LABEL_TIME_FROM": "Start",
         "RESERVATION_LABEL_TIME_TO": "End",
