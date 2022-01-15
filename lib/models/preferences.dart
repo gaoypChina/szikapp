@@ -44,17 +44,17 @@ extension LanguageExtensions on Language {
 }
 
 ///Témabeállításokat tartalmazó típus.
-enum Theme {
+enum SzikAppTheme {
   @JsonValue('default')
   defaultTheme,
 }
 
-extension ThemeExtensions on Theme {
+extension ThemeExtensions on SzikAppTheme {
   String toShortString() {
     return toString().split('.').last;
   }
 
-  bool isEqual(Theme? other) {
+  bool isEqual(SzikAppTheme? other) {
     if (other == null) return false;
     return index == other.index;
   }
@@ -67,8 +67,10 @@ class Preferences {
   @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
   Language language;
-  Theme theme;
+  SzikAppTheme theme;
   Map<String, bool>? notifications;
+  @JsonKey(name: 'feed_shortcuts')
+  List<String>? feedShortcuts;
   @JsonKey(name: 'left_menu_option')
   String? leftMenuOption;
   @JsonKey(name: 'right_menu_option')
@@ -81,13 +83,15 @@ class Preferences {
   Preferences(
       {this.darkMode = DarkMode.system,
       this.language = Language.hu,
-      this.theme = Theme.defaultTheme,
+      this.theme = SzikAppTheme.defaultTheme,
       this.notifications,
+      this.feedShortcuts,
       this.dataLite = false,
       this.leftMenuOption,
       this.rightMenuOption,
       required this.lastUpdate}) {
     notifications ??= <String, bool>{};
+    feedShortcuts ??= <String>[];
   }
 
   Json toJson() => _$PreferencesToJson(this);

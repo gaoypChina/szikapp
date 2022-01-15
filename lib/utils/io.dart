@@ -3,18 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../main.dart';
-import '../models/cleaning_exchange.dart';
-import '../models/cleaning_period.dart';
-import '../models/goodtoknow.dart';
-import '../models/group.dart';
-import '../models/permission.dart';
-import '../models/preferences.dart';
-import '../models/resource.dart';
-import '../models/tasks.dart';
-import '../models/user_data.dart';
-import '../utils/types.dart';
+import '../business/auth_manager.dart';
+import '../models/models.dart';
 import 'exceptions.dart';
+import 'types.dart';
 
 ///Az alapértelmezett [HttpClient] specifikus implementációja.
 ///Hozzáad egy callback-et a klienshez, hogy el lehessen fogadni az önaláírt
@@ -49,6 +41,7 @@ class IO {
   final _groupEndpoint = '/group';
   final _placeEndpoint = '/place';
   final _contactsEndpoint = '/contacts';
+  final _birthdayEndpoint = '/birthday';
   final _pollEndpoint = '/poll';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
@@ -56,6 +49,8 @@ class IO {
   final _janitorEndpoint = '/janitor';
   final _boardgameEndpoint = '/boardgame';
   final _goodToKnowEndpoint = '/goodtoknow';
+
+  static AuthManager? authManager;
 
   ///Singleton példány
   static final IO _instance = IO._privateContructor();
@@ -66,7 +61,8 @@ class IO {
   final http.Client client = http.Client();
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
-  factory IO() {
+  factory IO({AuthManager? manager}) {
+    authManager ??= manager;
     return _instance;
   }
 
@@ -428,6 +424,25 @@ class IO {
   ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
   Future<List<UserData>> getContacts([KeyValuePairs? parameters]) async {
     var uri = '$_vmDev$_contactsEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <UserData>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var users = parsed['results'];
+      users.forEach((item) {
+        answer.add(UserData.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
+  Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
+    var uri = '$_vmDev$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
@@ -866,9 +881,12 @@ class IO {
 
   ///Autentikáció header-ök szerver oldali hitelesítéshez.
   Future<KeyValuePairs> _commonHeaders() async {
+    if (authManager == null) {
+      throw IOClientException(900, 'Authorized user not found.');
+    }
     return {
-      'User': SZIKAppState.authManager.firebaseUser?.email ?? '',
-      'AuthToken': await SZIKAppState.authManager.getAuthToken(),
+      'User': authManager!.firebaseUser?.email ?? '',
+      'AuthToken': await authManager!.getAuthToken(),
     };
   }
 

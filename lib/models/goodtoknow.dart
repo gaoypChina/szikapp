@@ -12,6 +12,8 @@ enum GoodToKnowCategory {
 
 @JsonSerializable()
 class GoodToKnow {
+  static const String urlKey = 'url';
+
   final String uid;
   String title;
   GoodToKnowCategory category;
