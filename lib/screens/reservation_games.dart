@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 class ReservationGamesListScreen extends StatelessWidget {
@@ -31,15 +32,19 @@ class ReservationGamesListScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return const Scaffold();
+          return const ListScreenShimmer(
+            type: ShimmerListType.square,
+          );
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           var boardgames =
               Provider.of<ReservationManager>(context, listen: false).games;
@@ -58,24 +63,27 @@ class ReservationGamesListScreen extends StatelessWidget {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     children: boardgames
-                        .map((item) => Card(
-                              elevation: 5,
-                              color: Theme.of(context).colorScheme.background,
-                              child: GestureDetector(
-                                onTap: () => Provider.of<ReservationManager>(
-                                        context,
-                                        listen: false)
-                                    .createNewReservation(
-                                        gameIndex: boardgames.indexOf(item)),
-                                child: Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/pictures/${item.iconLink}',
-                                    fit: BoxFit.contain,
-                                  ),
+                        .map(
+                          (item) => Card(
+                            elevation: 5,
+                            color: Theme.of(context).colorScheme.background,
+                            child: GestureDetector(
+                              onTap: () => Provider.of<ReservationManager>(
+                                      context,
+                                      listen: false)
+                                  .createNewReservation(
+                                gameIndex: boardgames.indexOf(item),
+                              ),
+                              child: Container(
+                                margin: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/pictures/${item.iconLink}',
+                                  fit: BoxFit.contain,
                                 ),
                               ),
-                            ))
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),

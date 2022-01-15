@@ -34,28 +34,47 @@ class PollManager extends ChangeNotifier {
 
   void createNewPoll() {
     _createNewPoll = true;
+    _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
+    _selectedIndex = -1;
     notifyListeners();
   }
 
-  void editPoll() {
+  void editPoll(int index) {
+    _createNewPoll = false;
     _editPoll = true;
+    _vote = false;
+    _viewPollResults = false;
+    _selectedIndex = index;
     notifyListeners();
   }
 
-  void vote() {
+  void vote(int index) {
+    _createNewPoll = false;
+    _editPoll = false;
     _vote = true;
+    _viewPollResults = false;
+    _selectedIndex = index;
     notifyListeners();
   }
 
   void setSelectedPollTask(String uid) {
     final index = _polls.indexWhere((element) => element.uid == uid);
-    _selectedIndex = index;
     _createNewPoll = false;
+    _editPoll = true;
+    _vote = false;
+    _viewPollResults = false;
+    _selectedIndex = index;
     notifyListeners();
   }
 
-  void viewPollResults() {
+  void viewPollResults(int index) {
+    _createNewPoll = false;
+    _editPoll = false;
+    _vote = false;
     _viewPollResults = true;
+    _selectedIndex = index;
     notifyListeners();
   }
 
@@ -72,6 +91,10 @@ class PollManager extends ChangeNotifier {
 
     _polls.add(poll);
     _createNewPoll = false;
+    _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -86,7 +109,10 @@ class PollManager extends ChangeNotifier {
 
     _polls.removeWhere((element) => element.uid == poll.uid);
     _polls.add(poll);
+    _createNewPoll = false;
     _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;
@@ -102,7 +128,10 @@ class PollManager extends ChangeNotifier {
     await io.deletePoll(parameter, poll.lastUpdate);
 
     _polls.remove(poll);
+    _createNewPoll = false;
     _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;
@@ -118,7 +147,10 @@ class PollManager extends ChangeNotifier {
     await io.putPoll(vote, param);
 
     poll.answers.add(vote);
+    _createNewPoll = false;
+    _editPoll = false;
     _vote = false;
+    _viewPollResults = false;
     _selectedIndex = -1;
     notifyListeners();
     return true;
@@ -179,7 +211,7 @@ class PollManager extends ChangeNotifier {
         if (vote.voterID == userID) results.add(poll);
       }
     }
-    return results;
+    return List.unmodifiable(results);
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.

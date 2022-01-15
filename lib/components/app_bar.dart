@@ -11,11 +11,11 @@ PreferredSizeWidget buildAppBar({
   required String appBarTitle,
   double elevation = 0.0,
 }) {
-  void onLeadingPressed() {
+  void _onLeadingPressed() {
     Router.of(context).routerDelegate.popRoute();
   }
 
-  void onPressed() {
+  void _onTrailingPressed() {
     Provider.of<SzikAppStateManager>(context, listen: false)
         .selectFeature(SzikAppFeature.profile);
   }
@@ -33,7 +33,7 @@ PreferredSizeWidget buildAppBar({
           ),
     ),
     leading: IconButton(
-      onPressed: onLeadingPressed,
+      onPressed: _onLeadingPressed,
       icon: Icon(
         Icons.arrow_back,
         color: Theme.of(context).colorScheme.onPrimary,
@@ -41,7 +41,7 @@ PreferredSizeWidget buildAppBar({
     ),
     actions: [
       IconButton(
-        onPressed: onPressed,
+        onPressed: _onTrailingPressed,
         icon: CircleAvatar(
           foregroundImage: NetworkImage(
             Provider.of<AuthManager>(context, listen: false)

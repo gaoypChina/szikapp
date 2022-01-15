@@ -7,17 +7,28 @@ import '../main.dart';
 class ErrorScreen extends StatefulWidget {
   static const String route = '/error';
 
-  static MaterialPage page({required Object error}) {
+  static MaterialPage page({
+    Object? error,
+    Widget? errorInset,
+  }) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: ErrorScreen(error: error),
+      child: ErrorScreen(
+        error: error,
+        errorInset: errorInset,
+      ),
     );
   }
 
-  final Object error;
-  const ErrorScreen({Key key = const Key('ErrorScreen'), required this.error})
-      : super(key: key);
+  final Object? error;
+  final Widget? errorInset;
+
+  const ErrorScreen({
+    Key key = const Key('ErrorScreen'),
+    this.error,
+    this.errorInset,
+  }) : super(key: key);
 
   @override
   _ErrorScreenState createState() => _ErrorScreenState();
@@ -35,6 +46,18 @@ class _ErrorScreenState extends State<ErrorScreen> {
     );
   }
 
+  Widget _buildErrorContent() {
+    return widget.errorInset ??
+        Text(
+          widget.error.toString(),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.error,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SzikAppScaffold(
@@ -42,14 +65,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
-          child: Text(
-            widget.error.toString(),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.error,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: _buildErrorContent(),
         ),
       ),
     );

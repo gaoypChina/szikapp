@@ -4,13 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../business/contacts_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 import '../utils/utils.dart';
 import 'error_screen.dart';
 
@@ -58,15 +58,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
       future: manager.refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ContactsListViewShimmer();
+          return const ListScreenShimmer();
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return ContactsListView(
             manager: manager,
@@ -189,8 +191,9 @@ class _ContactsListViewState extends State<ContactsListView> {
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             height: filterExpandableHeight,
             decoration: BoxDecoration(
-                border: Border.all(color: theme.colorScheme.primary, width: 2),
-                borderRadius: BorderRadius.circular(20)),
+              border: Border.all(color: theme.colorScheme.primary, width: 2),
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints.expand(),
               child: Row(
@@ -226,9 +229,7 @@ class _ContactsListViewState extends State<ContactsListView> {
           Expanded(
             child: items.isEmpty
                 ? Center(
-                    child: Text(
-                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
-                    ),
+                    child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
                   )
                 : RefreshIndicator(
                     onRefresh: () => widget.manager.refresh(forceRefresh: true),
@@ -237,8 +238,6 @@ class _ContactsListViewState extends State<ContactsListView> {
                       headerBackgroundColor: theme.colorScheme.background,
                       contentBackgroundColor: theme.colorScheme.background,
                       headerPadding: const EdgeInsets.all(20),
-                      //contentHorizontalPadding: 20,
-                      //contentBorderRadius: 10,
                       headerTextStyle: theme.textTheme.headline3!.copyWith(
                         color: theme.colorScheme.secondary,
                       ),
@@ -248,58 +247,140 @@ class _ContactsListViewState extends State<ContactsListView> {
                         colorFilter: ColorFilter.mode(
                             theme.colorScheme.primaryVariant, BlendMode.srcIn),
                       ),
-                      children: items.map<AccordionSection>((item) {
-                        var names = item.name.split(' ');
-                        var initials = '${names[0][0]}${names[1][0]}';
-                        return AccordionSection(
-                          headerText: item.name,
-                          leftIcon: CircleAvatar(
-                            radius: theme.textTheme.headline3!.fontSize! * 1.5,
-                            backgroundColor: theme.colorScheme.primaryVariant,
-                            child: Text(
-                              initials,
-                              style: theme.textTheme.headline4!.copyWith(
-                                color: theme.colorScheme.background,
-                                fontStyle: FontStyle.normal,
+                      children: items.map<AccordionSection>(
+                        (item) {
+                          var names = item.name.split(' ');
+                          var initials = '${names[0][0]}${names[1][0]}';
+                          return AccordionSection(
+                            headerText: item.name,
+                            leftIcon: CircleAvatar(
+                              radius:
+                                  theme.textTheme.headline3!.fontSize! * 1.5,
+                              backgroundColor: theme.colorScheme.primaryVariant,
+                              child: Text(
+                                initials,
+                                style: theme.textTheme.headline4!.copyWith(
+                                  color: theme.colorScheme.background,
+                                  fontStyle: FontStyle.normal,
+                                ),
                               ),
                             ),
-                          ),
-                          content: Container(
-                            width: MediaQuery.of(context).size.width - 40,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: theme.colorScheme.primaryVariant
-                                  .withOpacity(0.15),
-                            ),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (item.phone != null) {
+                            content: Container(
+                              width: MediaQuery.of(context).size.width - 40,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusNormal),
+                                color: theme.colorScheme.primaryVariant
+                                    .withOpacity(0.15),
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (item.phone != null) {
+                                        try {
+                                          SZIKAppState.analytics.logEvent(
+                                            name: 'phone_call',
+                                            parameters: <String, dynamic>{
+                                              'country': item.phone!.padLeft(5)
+                                            },
+                                          );
+                                          widget.manager
+                                              .makePhoneCall(item.phone!);
+                                        } on NotSupportedCallFunctionalityException catch (e) {
+                                          _showSnackBar(e.message);
+                                        }
+                                      }
+                                    },
+                                    onLongPress: () => _copyToClipBoard(
+                                        item.phone, 'MESSAGE_CLIPBOARD'.tr()),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ColorFiltered(
+                                          child: Image.asset(
+                                            'assets/icons/phone_light_72.png',
+                                            height: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                          ),
+                                          colorFilter: ColorFilter.mode(
+                                              theme.colorScheme.primaryVariant,
+                                              BlendMode.srcIn),
+                                        ),
+                                        Text(
+                                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                                          style: theme.textTheme.bodyText1
+                                              ?.copyWith(
+                                            color: theme
+                                                .colorScheme.primaryVariant,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
                                       try {
                                         SZIKAppState.analytics.logEvent(
-                                          name: 'phone_call',
+                                          name: 'make_email',
                                           parameters: <String, dynamic>{
-                                            'country': item.phone!.padLeft(5)
+                                            'domain': item.email.split('@').last
                                           },
                                         );
-                                        widget.manager
-                                            .makePhoneCall(item.phone!);
-                                      } on NotSupportedCallFunctionalityException catch (e) {
+                                        widget.manager.makeEmail(item.email);
+                                      } on NotSupportedEmailFunctionalityException catch (e) {
                                         _showSnackBar(e.message);
                                       }
-                                    }
-                                  },
-                                  onLongPress: () => _copyToClipBoard(
-                                      item.phone, 'MESSAGE_CLIPBOARD'.tr()),
-                                  child: Row(
+                                    },
+                                    onLongPress: () => _copyToClipBoard(
+                                        item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 4),
+                                            child: ColorFiltered(
+                                              child: Image.asset(
+                                                'assets/icons/at_light_72.png',
+                                                height: theme.textTheme
+                                                        .bodyText1!.fontSize! *
+                                                    1.5,
+                                              ),
+                                              colorFilter: ColorFilter.mode(
+                                                  theme.colorScheme
+                                                      .primaryVariant,
+                                                  BlendMode.srcIn),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              item.email.useCorrectEllipsis(),
+                                              style: theme.textTheme.bodyText1
+                                                  ?.copyWith(
+                                                      color: theme.colorScheme
+                                                          .primaryVariant),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       ColorFiltered(
                                         child: Image.asset(
-                                          'assets/icons/phone_light_72.png',
+                                          'assets/icons/gift_light_72.png',
                                           height: theme.textTheme.bodyText1!
                                                   .fontSize! *
                                               1.5,
@@ -309,193 +390,28 @@ class _ContactsListViewState extends State<ContactsListView> {
                                             BlendMode.srcIn),
                                       ),
                                       Text(
-                                        item.phone ?? 'PHONE_NOT_FOUND'.tr(),
-                                        style: theme.textTheme.bodyText1
-                                            ?.copyWith(
-                                                color: theme.colorScheme
-                                                    .primaryVariant),
+                                        item.birthday != null
+                                            ? DateFormat('yyyy. MM. dd.')
+                                                .format(item.birthday!)
+                                            : 'BIRTHDAY_NOT_FOUND'.tr(),
+                                        style:
+                                            theme.textTheme.bodyText1?.copyWith(
+                                          color:
+                                              theme.colorScheme.primaryVariant,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    try {
-                                      SZIKAppState.analytics.logEvent(
-                                        name: 'make_email',
-                                        parameters: <String, dynamic>{
-                                          'domain': item.email.split('@').last
-                                        },
-                                      );
-                                      widget.manager.makeEmail(item.email);
-                                    } on NotSupportedEmailFunctionalityException catch (e) {
-                                      _showSnackBar(e.message);
-                                    }
-                                  },
-                                  onLongPress: () => _copyToClipBoard(
-                                      item.email, 'MESSAGE_CLIPBOARD'.tr()),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 4),
-                                          child: ColorFiltered(
-                                            child: Image.asset(
-                                              'assets/icons/at_light_72.png',
-                                              height: theme.textTheme.bodyText1!
-                                                      .fontSize! *
-                                                  1.5,
-                                            ),
-                                            colorFilter: ColorFilter.mode(
-                                                theme
-                                                    .colorScheme.primaryVariant,
-                                                BlendMode.srcIn),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            item.email.useCorrectEllipsis(),
-                                            style: theme.textTheme.bodyText1
-                                                ?.copyWith(
-                                                    color: theme.colorScheme
-                                                        .primaryVariant),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ColorFiltered(
-                                      child: Image.asset(
-                                        'assets/icons/gift_light_72.png',
-                                        height: theme.textTheme.bodyText1!
-                                                .fontSize! *
-                                            1.5,
-                                      ),
-                                      colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.primaryVariant,
-                                          BlendMode.srcIn),
-                                    ),
-                                    Text(
-                                      item.birthday != null
-                                          ? DateFormat('yyyy. MM. dd.')
-                                              .format(item.birthday!)
-                                          : 'BIRTHDAY_NOT_FOUND'.tr(),
-                                      style: theme.textTheme.bodyText1
-                                          ?.copyWith(
-                                              color: theme
-                                                  .colorScheme.primaryVariant),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ContactsListViewShimmer extends StatelessWidget {
-  const ContactsListViewShimmer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var searchBarIconSize = 30.0;
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: buildAppBar(
-        context: context,
-        appBarTitle: 'CONTACTS_TITLE'.tr(),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Shimmer.fromColors(
-            baseColor: theme.colorScheme.secondaryVariant.withOpacity(0.2),
-            highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
-            child: Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.background,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: searchBarIconSize,
-                    height: searchBarIconSize,
-                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: List.generate(
-                10,
-                (index) => Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Shimmer.fromColors(
-                        baseColor:
-                            theme.colorScheme.secondaryVariant.withOpacity(0.2),
-                        highlightColor:
-                            theme.colorScheme.secondaryVariant.withOpacity(0.5),
-                        child: CircleAvatar(
-                          radius: theme.textTheme.headline3!.fontSize! * 1.5,
-                          backgroundColor: theme.colorScheme.primaryVariant,
-                        ),
-                      ),
-                      Shimmer.fromColors(
-                        baseColor:
-                            theme.colorScheme.secondaryVariant.withOpacity(0.2),
-                        highlightColor:
-                            theme.colorScheme.secondaryVariant.withOpacity(0.5),
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          height: theme.textTheme.headline3!.fontSize! * 1.5,
-                          width: theme.textTheme.headline3!.fontSize! * 10,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.secondaryVariant,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: SzikBottomNavigationBar(
-        selectedTab: Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectedTab,
       ),
     );
   }

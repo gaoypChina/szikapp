@@ -39,6 +39,7 @@ class GoodToKnowManager extends ChangeNotifier {
     final index = _posts.indexWhere((element) => element.uid == uid);
     _selectedIndex = index;
     _createNewItem = false;
+    _editItem = true;
     notifyListeners();
   }
 
@@ -100,7 +101,9 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   List<GoodToKnow> filter(GoodToKnowCategory category) {
-    return _posts.where((element) => element.category == category).toList();
+    return List.unmodifiable(
+      _posts.where((element) => element.category == category).toList(),
+    );
   }
 
   Future<void> refresh() async {

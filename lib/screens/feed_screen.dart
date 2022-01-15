@@ -3,20 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/auth_manager.dart';
-import '../navigation/app_state_manager.dart';
-import 'profile_screen.dart';
-
-class FeedListItem {
-  String title;
-  String route;
-  String iconPath;
-
-  FeedListItem({
-    required this.title,
-    required this.route,
-    required this.iconPath,
-  });
-}
+import '../components/components.dart';
+import '../components/notification_card.dart';
+import '../models/notification.dart';
+import '../navigation/navigation.dart';
+import '../ui/themes.dart';
 
 class FeedScreen extends StatefulWidget {
   static const String route = '/feed';
@@ -36,45 +27,49 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  late List<FeedListItem> feedItems;
+  List<SzikAppNotification> notifications = [];
 
   @override
   void initState() {
     super.initState();
-    feedItems = <FeedListItem>[
-      FeedListItem(
-        title: 'Notification',
-        route: ProfileScreen.route,
-        iconPath: 'assets/icons/profile_light_72.png',
-      )
+    notifications = [
+      SzikAppNotification(
+        title: 'Belló konyhatakát cserélne veled',
+        route: SzikAppLink(),
+      ),
+      SzikAppNotification(
+        title: 'Sikeresen lefoglaltad a Catant',
+        route: SzikAppLink(),
+      ),
+      SzikAppNotification(
+        title: 'Gyuri kicserélte az égőt a szobádban',
+        route: SzikAppLink(),
+      ),
     ];
   }
+
+  void _onClearAllNotificationsPressed() {}
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var showName =
-        Provider.of<AuthManager>(context, listen: false).user!.nick ??
-            Provider.of<AuthManager>(context, listen: false)
-                .user!
-                .name
-                .split(' ')[1];
+    var shownName =
+        Provider.of<AuthManager>(context, listen: false).user!.showableName;
     return Container(
-      padding:
-          const EdgeInsets.fromLTRB(20, 30, 20, kBottomNavigationBarHeight),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/pictures/background_1.jpg'),
-            fit: BoxFit.cover),
+          image: AssetImage('assets/pictures/background_1.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
       child: ListView(
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
             decoration: BoxDecoration(
-              color: theme.colorScheme.background.withOpacity(0.65),
-              borderRadius: BorderRadius.circular(20),
+              color: theme.colorScheme.background,
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
             ),
             child: GestureDetector(
               onTap: () =>
@@ -84,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FEED_GREETINGS'.tr(args: [showName]),
+                      'FEED_GREETINGS'.tr(args: [shownName]),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -104,52 +99,71 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: BirthdayBar(),
+          ),
           Container(
+            margin: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WrappedIconButton(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIconButton(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIconButton(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+                WrappedIconButton(
+                  assetPath: 'assets/icons/bell_light_72.png',
+                  color: theme.colorScheme.primaryVariant,
+                  backgroundColor: theme.colorScheme.background,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              'FEED_NOTIFICATIONS'.tr(),
-              style: theme.textTheme.headline2!.copyWith(
-                fontSize: 20,
-                color: theme.colorScheme.background,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  'FEED_NOTIFICATIONS'.tr(),
+                  style: theme.textTheme.headline2!.copyWith(
+                    fontSize: 20,
+                    color: theme.colorScheme.background,
+                  ),
+                ),
+                Expanded(
+                  child: IconButton(
+                    onPressed: _onClearAllNotificationsPressed,
+                    icon: Icon(
+                      Icons.cancel_outlined,
+                      color: theme.colorScheme.background,
+                    ),
+                    alignment: Alignment.centerRight,
+                  ),
+                ),
+              ],
             ),
           ),
           Column(
-            children: feedItems.map<Container>((item) {
-              return Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.background.withOpacity(0.65),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 20,
-                      height: 20,
-                      margin: const EdgeInsets.only(right: 5),
-                      child: ColorFiltered(
-                        child: Image.asset(item.iconPath),
-                        colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primary, BlendMode.srcIn),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Text(
-                        item.title,
-                        style: theme.textTheme.bodyText1!.copyWith(
-                          fontSize: 14,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          )
+            children: notifications.map<NotificationCard>(
+              (item) {
+                return NotificationCard(data: item);
+              },
+            ).toList(),
+          ),
         ],
       ),
     );

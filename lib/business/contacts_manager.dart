@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/user_data.dart';
+import '../models/models.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
@@ -10,6 +10,7 @@ import '../utils/io.dart';
 class ContactsManager {
   ///Kontaktok listája
   List<UserData> _contacts = [];
+  List<Group> _groups = [];
 
   ///Singleton osztálypéldány
   static final ContactsManager _instance =
@@ -22,6 +23,9 @@ class ContactsManager {
   ContactsManager._privateConstructor();
 
   List<UserData> get contacts => List.unmodifiable(_contacts);
+  List<Group> get groups => List.unmodifiable(_groups);
+
+  set groups(List<Group> groups) => _groups = groups;
 
   ///Keresés. A függvény a megadott szöveg alapján keres egyezéseket a
   ///kontaktlista név, ímélcím, telefonszám, születésnap mezőiben. Ha a

@@ -59,7 +59,7 @@ class JanitorNewEditScreen extends StatefulWidget {
 
 class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final List<Place> places;
+  List<Place> places = [];
   String? placeID;
   String? title;
   String? description;

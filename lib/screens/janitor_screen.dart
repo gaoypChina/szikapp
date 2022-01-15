@@ -10,6 +10,7 @@ import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 class JanitorScreen extends StatelessWidget {
@@ -34,15 +35,19 @@ class JanitorScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //Shrimmer
-          return const Scaffold();
+          return const ListScreenShimmer(
+            type: ShimmerListType.card,
+          );
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return const JanitorListView();
         }
@@ -55,7 +60,7 @@ class JanitorListView extends StatefulWidget {
   const JanitorListView({Key? key}) : super(key: key);
 
   @override
-  State<JanitorListView> createState() => _JanitorListViewState();
+  _JanitorListViewState createState() => _JanitorListViewState();
 }
 
 class _JanitorListViewState extends State<JanitorListView> {
@@ -188,10 +193,11 @@ class _JanitorListViewState extends State<JanitorListView> {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                            color: theme.colorScheme.background, width: 1),
-                        borderRadius: BorderRadius.circular(20)),
+                      color: Colors.transparent,
+                      border: Border.all(
+                          color: theme.colorScheme.background, width: 1),
+                      borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: task.feedback!.map(
@@ -247,7 +253,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                         headerPadding: const EdgeInsets.all(20),
                         headerBackgroundColor: theme.colorScheme.background,
                         contentBackgroundColor: theme.colorScheme.background,
-                        headerBorderRadius: 20,
+                        headerBorderRadius: kBorderRadiusNormal,
                         rightIcon: ColorFiltered(
                           child: Image.asset('assets/icons/down_light_72.png',
                               height: theme.textTheme.headline3!.fontSize),
@@ -321,7 +327,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.name,
                                             style: theme.textTheme.subtitle1!
@@ -363,7 +370,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.description ?? '',
                                             style: theme.textTheme.subtitle1!
@@ -405,7 +413,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
                                             style: theme.textTheme.subtitle1!
@@ -447,7 +456,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                       .colorScheme.background,
                                                   width: 1),
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                                  BorderRadius.circular(
+                                                      kBorderRadiusNormal)),
                                           child: Text(
                                             item.status.toShortString(),
                                             style: theme.textTheme.subtitle1!

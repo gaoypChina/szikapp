@@ -106,7 +106,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
             Container(
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

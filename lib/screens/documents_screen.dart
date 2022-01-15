@@ -7,6 +7,8 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/goodtoknow.dart';
+import '../ui/themes.dart';
+import '../utils/utils.dart';
 import 'error_screen.dart';
 
 class DocumentsScreen extends StatelessWidget {
@@ -28,16 +30,19 @@ class DocumentsScreen extends StatelessWidget {
       future: Provider.of<GoodToKnowManager>(context, listen: false).refresh(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          //Shrimmer
-          return const Scaffold();
+          return const ListScreenShimmer(
+            type: ShimmerListType.card,
+          );
         } else if (snapshot.hasError) {
-          Object? message;
           if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            message = 'ERROR_NO_INTERNET'.tr();
-          } else {
-            message = snapshot.error;
+            return ErrorScreen(
+              errorInset: ErrorHandler.buildInset(
+                context,
+                errorCode: noConnectionExceptionCode,
+              ),
+            );
           }
-          return ErrorScreen(error: message ?? 'ERROR_UNKNOWN'.tr());
+          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
         } else {
           return DocumentsList(
             manager: Provider.of<GoodToKnowManager>(context, listen: false),
@@ -61,7 +66,7 @@ class DocumentsList extends StatefulWidget {
 }
 
 class _DocumentsListState extends State<DocumentsList> {
-  late List<GoodToKnow> items;
+  List<GoodToKnow> items = [];
   bool infoWidgetVisible = false;
   int index = 0;
 
@@ -124,11 +129,13 @@ class _DocumentsListState extends State<DocumentsList> {
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
           boxShadow: [
             BoxShadow(
               color: Theme.of(context).colorScheme.secondaryVariant,
-              offset: const Offset(0.0, 2.0), //(x,y)
+              offset: const Offset(0.0, 2.0),
               blurRadius: 3.0,
             ),
           ],
@@ -152,13 +159,11 @@ class _DocumentsListState extends State<DocumentsList> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //keresősáv
               SearchBar(
                 onChanged: _onSearchFieldChanged,
                 validator: _validateTextField,
                 placeholder: 'PLACEHOLDER_SEARCH'.tr(),
               ),
-              //kedvencek
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
                 child: Column(
@@ -179,9 +184,9 @@ class _DocumentsListState extends State<DocumentsList> {
                                 .textTheme
                                 .headline3!
                                 .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                           ),
                         ],
                       ),
@@ -189,12 +194,10 @@ class _DocumentsListState extends State<DocumentsList> {
                     Divider(
                       thickness: 2,
                       color: theme.colorScheme.secondary,
-                    )
+                    ),
                   ],
                 ),
               ),
-              //kedvenc doksik felsorolása
-              //lapválasztó
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 child: TabChoice(
@@ -209,7 +212,6 @@ class _DocumentsListState extends State<DocumentsList> {
                   onChanged: _onTabChanged,
                 ),
               ),
-              //lapok listája
               Expanded(
                 child: ListView.builder(
                   itemBuilder: _buildListItem,
@@ -218,8 +220,6 @@ class _DocumentsListState extends State<DocumentsList> {
               ),
             ],
           ),
-
-          //Info widget
           Visibility(
             visible: infoWidgetVisible,
             child: Stack(
@@ -234,9 +234,9 @@ class _DocumentsListState extends State<DocumentsList> {
                     ),
                   ),
                 ),
-                //Tényleges infowidget a szürke háttér előtt
                 DocumentDetails(
-                    document: (items.length <= index) ? null : items[index])
+                  document: (items.length <= index) ? null : items[index],
+                )
               ],
             ),
           ),

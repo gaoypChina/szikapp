@@ -35,6 +35,9 @@ class JanitorManager extends ChangeNotifier {
 
   void createNewTask() {
     _createNewTask = true;
+    _editTask = false;
+    _adminEditTask = false;
+    _feedbackTask = false;
     notifyListeners();
   }
 
@@ -50,18 +53,27 @@ class JanitorManager extends ChangeNotifier {
   void editTask(int index) {
     _editTask = true;
     _selectedIndex = index;
+    _createNewTask = false;
+    _adminEditTask = false;
+    _feedbackTask = false;
     notifyListeners();
   }
 
   void adminEditTask(int index) {
     _selectedIndex = index;
     _adminEditTask = true;
+    _createNewTask = false;
+    _editTask = false;
+    _feedbackTask = false;
     notifyListeners();
   }
 
   void feedbackTask(int index) {
     _selectedIndex = index;
     _feedbackTask = true;
+    _createNewTask = false;
+    _editTask = false;
+    _adminEditTask = false;
     notifyListeners();
   }
 
@@ -84,6 +96,7 @@ class JanitorManager extends ChangeNotifier {
     await io.patchJanitor(status, parameter, task.lastUpdate);
 
     _tasks.firstWhere((element) => element.uid == task.uid).status = status;
+    _createNewTask = false;
     _editTask = false;
     _adminEditTask = false;
     _feedbackTask = false;
@@ -102,6 +115,10 @@ class JanitorManager extends ChangeNotifier {
 
     _tasks.add(task);
     _createNewTask = false;
+    _editTask = false;
+    _adminEditTask = false;
+    _feedbackTask = false;
+    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -116,6 +133,7 @@ class JanitorManager extends ChangeNotifier {
 
     _tasks.removeWhere((element) => element.uid == task.uid);
     _tasks.add(task);
+    _createNewTask = false;
     _editTask = false;
     _adminEditTask = false;
     _feedbackTask = false;
@@ -134,6 +152,7 @@ class JanitorManager extends ChangeNotifier {
     await io.deleteJanitor(parameter, task.lastUpdate);
 
     _tasks.remove(task);
+    _createNewTask = false;
     _editTask = false;
     _adminEditTask = false;
     _feedbackTask = false;
@@ -177,6 +196,6 @@ class JanitorManager extends ChangeNotifier {
         results.add(task);
       }
     }
-    return results;
+    return List.unmodifiable(results);
   }
 }
