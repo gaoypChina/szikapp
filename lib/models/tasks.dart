@@ -41,9 +41,9 @@ enum TaskStatus {
   @JsonValue('irresolvable')
   irresolvable,
   @JsonValue('in_progress')
-  in_progress,
+  inProgress,
   @JsonValue('awaiting_approval')
-  awaiting_approval,
+  awaitingApproval,
   @JsonValue('refused')
   refused,
   @JsonValue('approved')

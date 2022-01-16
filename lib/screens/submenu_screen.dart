@@ -113,7 +113,7 @@ class SubMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       withAppBar: false,
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(

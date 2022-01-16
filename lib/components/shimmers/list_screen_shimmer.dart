@@ -19,7 +19,7 @@ class ListScreenShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       appBarTitle: 'PLACEHOLDER_LOADING'.tr(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

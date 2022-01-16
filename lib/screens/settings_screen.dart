@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       withNavigationBar: false,
       appBarTitle: 'SETTINGS_TITLE'.tr(),
     );

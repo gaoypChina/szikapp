@@ -28,7 +28,7 @@ class ReservationGamesListScreen extends StatelessWidget {
       future: Provider.of<ReservationManager>(context, listen: false)
           .refreshGames(),
       shimmer: const ListScreenShimmer(type: ShimmerListType.square),
-      child: SzikAppScaffold(
+      child: CustomScaffold(
         resizeToAvoidBottomInset: true,
         appBarTitle: 'RESERVATION_TITLE_BOARDGAME_LIST'.tr(),
         body: Column(

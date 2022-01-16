@@ -78,7 +78,7 @@ class _DocumentsListViewState extends State<DocumentsListView> {
         newItems = widget.manager.filter(GoodToKnowCategory.document);
         break;
       case 1:
-        newItems = widget.manager.filter(GoodToKnowCategory.pinned_post);
+        newItems = widget.manager.filter(GoodToKnowCategory.pinnedPost);
         break;
       default:
         newItems = widget.manager.items;
@@ -132,7 +132,7 @@ class _DocumentsListViewState extends State<DocumentsListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return SzikAppScaffold(
+    return CustomScaffold(
       appBarTitle: 'DOCUMENTS_TITLE'.tr(),
       body: Stack(
         children: [

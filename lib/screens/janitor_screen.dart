@@ -1,5 +1,4 @@
 import 'package:accordion/accordion.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +9,6 @@ import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
-import '../utils/utils.dart';
-import 'error_screen.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
@@ -69,8 +66,8 @@ class _JanitorListViewState extends State<JanitorListView> {
       case 1:
         newItems = widget.manager.filter(statuses: [
           TaskStatus.sent,
-          TaskStatus.in_progress,
-          TaskStatus.awaiting_approval
+          TaskStatus.inProgress,
+          TaskStatus.awaitingApproval
         ]);
         break;
       default:
@@ -99,7 +96,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   void _onFeedbackPressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaiting_approval ||
+    if (task.status == TaskStatus.awaitingApproval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
       var index = widget.manager.tasks.indexOf(task);
@@ -108,7 +105,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   void _onApprovePressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaiting_approval) {
+    if (task.status == TaskStatus.awaitingApproval) {
       SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
       widget.manager.updateStatus(TaskStatus.approved, task);
     }
@@ -119,7 +116,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     if ((task.involvedIDs!.contains(userID) &&
             (task.status == TaskStatus.sent ||
-                task.status == TaskStatus.in_progress)) ||
+                task.status == TaskStatus.inProgress)) ||
         userID == 'u904') {
       buttons.add(OutlinedButton(
         onPressed: () => userID == 'u904'
@@ -129,14 +126,14 @@ class _JanitorListViewState extends State<JanitorListView> {
       ));
     }
     if (task.status == TaskStatus.approved ||
-        task.status == TaskStatus.awaiting_approval) {
+        task.status == TaskStatus.awaitingApproval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onFeedbackPressed(task),
         child: Text('BUTTON_FEEDBACK'.tr()),
       ));
     }
     if (task.involvedIDs!.contains(userID) &&
-        task.status == TaskStatus.awaiting_approval) {
+        task.status == TaskStatus.awaitingApproval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
         child: Text('BUTTON_APPROVE'.tr()),
@@ -209,7 +206,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE'.tr(),
       body: Container(

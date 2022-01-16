@@ -27,21 +27,21 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  List<SzikAppNotification> notifications = [];
+  List<CustomNotification> notifications = [];
 
   @override
   void initState() {
     super.initState();
     notifications = [
-      SzikAppNotification(
+      CustomNotification(
         title: 'Belló konyhatakát cserélne veled',
         route: SzikAppLink(),
       ),
-      SzikAppNotification(
+      CustomNotification(
         title: 'Sikeresen lefoglaltad a Catant',
         route: SzikAppLink(),
       ),
-      SzikAppNotification(
+      CustomNotification(
         title: 'Gyuri kicserélte az égőt a szobádban',
         route: SzikAppLink(),
       ),

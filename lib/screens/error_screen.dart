@@ -60,7 +60,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       appBarTitle: 'ERROR_TITLE'.tr(),
       body: Padding(
         padding: const EdgeInsets.all(20),

@@ -101,7 +101,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE_EDIT'.tr(),
       body: Container(

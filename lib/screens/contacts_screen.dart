@@ -153,7 +153,7 @@ class _ContactsListViewState extends State<ContactsListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'CONTACTS_TITLE'.tr(),
       body: Column(

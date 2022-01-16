@@ -4,7 +4,7 @@ import '../models/notification.dart';
 import '../ui/themes.dart';
 
 class NotificationCard extends StatelessWidget {
-  final SzikAppNotification data;
+  final CustomNotification data;
 
   const NotificationCard({
     Key? key,

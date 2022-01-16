@@ -29,5 +29,5 @@ Map<String, dynamic> _$GoodToKnowToJson(GoodToKnow instance) =>
 
 const _$GoodToKnowCategoryEnumMap = {
   GoodToKnowCategory.document: 'document',
-  GoodToKnowCategory.pinned_post: 'pinned_post',
+  GoodToKnowCategory.pinnedPost: 'pinned_post',
 };

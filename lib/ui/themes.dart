@@ -41,10 +41,10 @@ const Color szikGunSmoke = Color(0xff888989);
 const Map<TaskStatus, Color> taskStatusColors = {
   TaskStatus.created: Color(0xffa00a34),
   TaskStatus.sent: Color(0xffa00a34),
-  TaskStatus.in_progress: Color(0xffffbf1b),
+  TaskStatus.inProgress: Color(0xffffbf1b),
   TaskStatus.irresolvable: Color(0xffa00a34),
   TaskStatus.refused: Color(0xffa00a34),
-  TaskStatus.awaiting_approval: Color(0xff278230),
+  TaskStatus.awaitingApproval: Color(0xff278230),
   TaskStatus.approved: Color(0xff278230),
 };
 

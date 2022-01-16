@@ -27,7 +27,7 @@ class ReservationDetailsScreen extends StatelessWidget {
     return CustomFutureBuilder<void>(
       future: Provider.of<ReservationManager>(context, listen: false).refresh(),
       shimmer: const ListScreenShimmer(),
-      child: const SzikAppScaffold(),
+      child: const CustomScaffold(),
     );
   }
 }

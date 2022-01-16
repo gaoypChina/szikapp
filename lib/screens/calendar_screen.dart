@@ -32,7 +32,7 @@ class CalendarScreen extends StatelessWidget {
     return CustomFutureBuilder<void>(
       future: manager.refresh(),
       shimmer: const ListScreenShimmer(),
-      child: SzikAppScaffold(
+      child: CustomScaffold(
         appBarTitle: 'CALENDAR_TITLE'.tr(),
         body: Center(
           child: Column(

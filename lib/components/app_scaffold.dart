@@ -4,7 +4,7 @@ import '../navigation/navigation.dart';
 import 'app_bar.dart';
 import 'bottom_navigation_bar.dart';
 
-class SzikAppScaffold extends StatelessWidget {
+class CustomScaffold extends StatelessWidget {
   final String? appBarTitle;
   final Widget? body;
   final Widget? floatingActionButton;
@@ -16,7 +16,7 @@ class SzikAppScaffold extends StatelessWidget {
   final bool withNavigationBar;
 
   ///Shiny Scaffold with optional [BottomNavigationBar] and [AppBar].
-  const SzikAppScaffold({
+  const CustomScaffold({
     Key? key,
     this.appBarTitle,
     this.body,
@@ -34,7 +34,7 @@ class SzikAppScaffold extends StatelessWidget {
     return Scaffold(
       key: key,
       appBar: withAppBar
-          ? buildAppBar(
+          ? buildCustomAppBar(
               context: context,
               appBarTitle: appBarTitle ?? '',
             )
@@ -42,7 +42,7 @@ class SzikAppScaffold extends StatelessWidget {
       body: SafeArea(child: body ?? Container()),
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: withNavigationBar
-          ? SzikAppBottomNavigationBar(
+          ? CustomBottomNavigationBar(
               selectedTab:
                   Provider.of<SzikAppStateManager>(context, listen: false)
                       .selectedTab,

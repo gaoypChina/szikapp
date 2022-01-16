@@ -139,8 +139,8 @@ const _$TaskStatusEnumMap = {
   TaskStatus.created: 'created',
   TaskStatus.sent: 'sent',
   TaskStatus.irresolvable: 'irresolvable',
-  TaskStatus.in_progress: 'in_progress',
-  TaskStatus.awaiting_approval: 'awaiting_approval',
+  TaskStatus.inProgress: 'in_progress',
+  TaskStatus.awaitingApproval: 'awaiting_approval',
   TaskStatus.refused: 'refused',
   TaskStatus.approved: 'approved',
 };
