@@ -9,6 +9,7 @@ enum Permission {
   pollResultsView,
   pollResultsExport,
 
+  cleaningView,
   cleaningTaskView,
   cleaningPeriodCreate,
   cleaningPeriodEdit,
@@ -19,6 +20,7 @@ enum Permission {
   cleaningExchangeAccept,
   cleaningExchangeReject,
 
+  janitorView,
   janitorTaskView,
   janitorTaskCreate,
   janitorTaskEdit,
@@ -28,22 +30,43 @@ enum Permission {
   reservationView,
   reservationPlaceCreate,
   reservationZoomCreate,
+  reservationBoardgameCreate,
   reservationEdit,
 
   contactsView,
   contactsCreate,
   contactsEdit,
 
+  documentsView,
+  documentsCreate,
+  documentsEdit,
+
+  helpMeView,
+
+  beerWithMeView,
+
+  spiritualView,
+
+  formsView,
+
+  bookLoanView,
+
+  profileView,
+  profileEdit,
   userCreate,
   userEdit,
   userGroupsModify,
 
+  groupView,
   groupCreate,
   groupEdit,
   groupPermissionsModify,
 
+  resourceView,
   resourceCreate,
   resourceEdit,
+
+  admin,
 }
 
 extension PermissionToString on Permission {
