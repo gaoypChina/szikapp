@@ -1,71 +1,52 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
-import '../main.dart';
 import '../models/goodtoknow.dart';
 import '../ui/themes.dart';
-import '../utils/utils.dart';
-import 'error_screen.dart';
 
 class DocumentsScreen extends StatelessWidget {
   static const String route = '/documents';
 
-  static MaterialPage page() {
-    return const MaterialPage(
-      name: route,
-      key: ValueKey(route),
-      child: DocumentsScreen(),
-    );
-  }
-
-  const DocumentsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: Provider.of<GoodToKnowManager>(context, listen: false).refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ListScreenShimmer(
-            type: ShimmerListType.card,
-          );
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return DocumentsList(
-            manager: Provider.of<GoodToKnowManager>(context, listen: false),
-          );
-        }
-      },
-    );
-  }
-}
-
-class DocumentsList extends StatefulWidget {
   final GoodToKnowManager manager;
 
-  const DocumentsList({
+  static MaterialPage page({required GoodToKnowManager manager}) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: DocumentsScreen(manager: manager),
+    );
+  }
+
+  const DocumentsScreen({
     Key? key,
     required this.manager,
   }) : super(key: key);
 
   @override
-  _DocumentsListState createState() => _DocumentsListState();
+  Widget build(BuildContext context) {
+    return CustomFutureBuilder<void>(
+      future: manager.refresh(),
+      shimmer: const ListScreenShimmer(),
+      child: DocumentsListView(manager: manager),
+    );
+  }
 }
 
-class _DocumentsListState extends State<DocumentsList> {
+class DocumentsListView extends StatefulWidget {
+  final GoodToKnowManager manager;
+
+  const DocumentsListView({
+    Key? key,
+    required this.manager,
+  }) : super(key: key);
+
+  @override
+  _DocumentsListViewState createState() => _DocumentsListViewState();
+}
+
+class _DocumentsListViewState extends State<DocumentsListView> {
   List<GoodToKnow> items = [];
   bool infoWidgetVisible = false;
   int index = 0;

@@ -8,6 +8,7 @@ export 'birthday_bar.dart';
 export 'bottom_navigation_bar.dart';
 export 'date_picker.dart';
 export 'document_details.dart';
+export 'future_builder.dart';
 export 'profile_fields.dart';
 export 'search_bar.dart';
 export 'searchable_options.dart';

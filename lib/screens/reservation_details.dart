@@ -1,13 +1,8 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
-import '../main.dart';
-import '../utils/utils.dart';
-import 'error_screen.dart';
 
 class ReservationDetailsScreen extends StatelessWidget {
   static const String route = '/reservation/details';
@@ -16,9 +11,7 @@ class ReservationDetailsScreen extends StatelessWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: ReservationDetailsScreen(
-        manager: manager,
-      ),
+      child: ReservationDetailsScreen(manager: manager),
     );
   }
 
@@ -31,28 +24,10 @@ class ReservationDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    return CustomFutureBuilder<void>(
       future: Provider.of<ReservationManager>(context, listen: false).refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          //Shrimmer
-          return const Scaffold();
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return const SzikAppScaffold(
-              //Ide
-              );
-        }
-      },
+      shimmer: const ListScreenShimmer(),
+      child: const SzikAppScaffold(),
     );
   }
 }

@@ -16,38 +16,47 @@ class ProfileTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: Theme.of(context)
-                .textTheme
-                .headline3!
-                .copyWith(color: Theme.of(context).colorScheme.primary),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: TextFormField(
-                initialValue: initialValue,
-                onChanged: onChanged,
-                readOnly: readOnly,
-                textAlign: TextAlign.end,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3!
+                    .copyWith(color: Theme.of(context).colorScheme.primary),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextFormField(
+                    initialValue: initialValue,
+                    onChanged: onChanged,
+                    readOnly: readOnly,
+                    textAlign: TextAlign.end,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Divider(
+          height: 1,
+          thickness: 2,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ],
     );
   }
 }

@@ -26,42 +26,52 @@ class BirthdayBar extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CardShimmer();
-        } else if (snapshot.hasData) {}
-        var birthdayUser = snapshot.data!.first;
-        var daysToBirthday = DateTime(
-          DateTime.now().year,
-          birthdayUser.birthday!.month,
-          birthdayUser.birthday!.day,
-        ).difference(DateTime.now()).inDays;
-        var showName = birthdayUser.nick ?? birthdayUser.name.split(' ')[1];
-        return Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            color: Theme.of(context).colorScheme.background,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.cake_outlined),
-              Text(
-                'FEED_BIRTHDAY'.tr(
-                  args: [
-                    showName,
-                    dayToIdiom[daysToBirthday] ??
-                        'FEED_BIRTHDAY_DAYS'.tr(
-                          args: [
-                            daysToBirthday.toString(),
-                          ],
-                        ),
-                  ],
+        } else if (snapshot.hasData) {
+          var birthdayUser = snapshot.data!.first;
+          var daysToBirthday = DateTime(
+            DateTime.now().year,
+            birthdayUser.birthday!.month,
+            birthdayUser.birthday!.day,
+          ).difference(DateTime.now()).inDays;
+          var showName = birthdayUser.nick ?? birthdayUser.name.split(' ')[1];
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: Theme.of(context).colorScheme.background,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(Icons.cake_outlined),
+                Text(
+                  'FEED_BIRTHDAY'.tr(
+                    args: [
+                      showName,
+                      dayToIdiom[daysToBirthday] ??
+                          'FEED_BIRTHDAY_DAYS'.tr(
+                            args: [
+                              daysToBirthday.toString(),
+                            ],
+                          ),
+                    ],
+                  ),
+                  style: Theme.of(context).textTheme.caption,
                 ),
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        } else {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: Theme.of(context).colorScheme.background,
+            ),
+            child: Text('BIRTHDAY_BAR_ERROR'.tr()),
+          );
+        }
       },
     );
   }

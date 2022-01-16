@@ -138,30 +138,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     initialValue: widget.manager.user!.name,
                     readOnly: true,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_NICKNAME'.tr(),
                     initialValue: nick,
                     onChanged: _onNickChanged,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_EMAIL'.tr(),
                     initialValue: widget.manager.user!.email,
                     readOnly: true,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_BIRTHDAY'.tr(),
@@ -170,31 +155,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         : null,
                     onChanged: _onBirthdayChanged,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_PHONENUMBER'.tr(),
                     initialValue: phone,
                     onChanged: _onPhoneChanged,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
                     initialValue: buildGroupNamesFromIDs(
                         widget.manager.user!.groupIDs ?? []),
                     readOnly: true,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ],
               ),

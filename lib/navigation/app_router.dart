@@ -72,7 +72,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
-            DocumentsScreen.page(),
+            DocumentsScreen.page(manager: goodToKnowManager),
           if (appStateManager.selectedFeature == SzikAppFeature.error)
             ErrorScreen.page(
               error: appStateManager.error ??

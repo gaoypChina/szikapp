@@ -137,5 +137,6 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Válassz dátumot",
         "TIME_PICKER_HELP": "Válassz időpontot",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
+        "BIRTHDAY_BAR_ERROR": "Net hiba: Kérdezd meg a szobatársad:("
 }

@@ -30,34 +30,21 @@ class JanitorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    return CustomFutureBuilder<void>(
       future: manager.refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          //Shrimmer
-          return const ListScreenShimmer(
-            type: ShimmerListType.card,
-          );
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return const JanitorListView();
-        }
-      },
+      shimmer: const ListScreenShimmer(),
+      child: JanitorListView(manager: manager),
     );
   }
 }
 
 class JanitorListView extends StatefulWidget {
-  const JanitorListView({Key? key}) : super(key: key);
+  final JanitorManager manager;
+
+  const JanitorListView({
+    Key? key,
+    required this.manager,
+  }) : super(key: key);
 
   @override
   _JanitorListViewState createState() => _JanitorListViewState();
@@ -65,13 +52,11 @@ class JanitorListView extends StatefulWidget {
 
 class _JanitorListViewState extends State<JanitorListView> {
   List<JanitorTask> items = [];
-  late final JanitorManager manager;
 
   @override
   void initState() {
     super.initState();
-    manager = Provider.of<JanitorManager>(context, listen: false);
-    items = manager.tasks;
+    items = widget.manager.tasks;
   }
 
   void _onTabChanged(int? newValue) {
@@ -79,17 +64,17 @@ class _JanitorListViewState extends State<JanitorListView> {
     switch (newValue) {
       case 2:
         var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
-        newItems = manager.filter(involvedID: ownID);
+        newItems = widget.manager.filter(involvedID: ownID);
         break;
       case 1:
-        newItems = manager.filter(statuses: [
+        newItems = widget.manager.filter(statuses: [
           TaskStatus.sent,
           TaskStatus.in_progress,
           TaskStatus.awaiting_approval
         ]);
         break;
       default:
-        newItems = manager.filter();
+        newItems = widget.manager.filter();
     }
     setState(() {
       items = newItems;
@@ -98,34 +83,34 @@ class _JanitorListViewState extends State<JanitorListView> {
 
   void _onCreateTask() {
     SZIKAppState.analytics.logEvent(name: 'create_open_janitor_task');
-    manager.createNewTask();
+    widget.manager.createNewTask();
   }
 
   void _onEditPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
-    var index = manager.tasks.indexOf(task);
-    manager.editTask(index);
+    var index = widget.manager.tasks.indexOf(task);
+    widget.manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
-    var index = manager.tasks.indexOf(task);
-    manager.adminEditTask(index);
+    var index = widget.manager.tasks.indexOf(task);
+    widget.manager.adminEditTask(index);
   }
 
   void _onFeedbackPressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
-      var index = manager.tasks.indexOf(task);
-      manager.feedbackTask(index);
+      var index = widget.manager.tasks.indexOf(task);
+      widget.manager.feedbackTask(index);
     }
   }
 
   void _onApprovePressed(JanitorTask task) {
     if (task.status == TaskStatus.awaiting_approval) {
       SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
-      manager.updateStatus(TaskStatus.approved, task);
+      widget.manager.updateStatus(TaskStatus.approved, task);
     }
   }
 
@@ -162,9 +147,9 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   Future<void> _onManualRefresh() async {
-    await manager.refresh();
+    await widget.manager.refresh();
     setState(() {
-      items = manager.tasks;
+      items = widget.manager.tasks;
     });
   }
 

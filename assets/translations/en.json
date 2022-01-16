@@ -137,5 +137,6 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Select date",
         "TIME_PICKER_HELP": "Select time",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?",
+        "BIRTHDAY_BAR_ERROR": "Net error: Please ask your roommate:("
 }

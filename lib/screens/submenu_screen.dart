@@ -145,68 +145,67 @@ class SubMenuScreen extends StatelessWidget {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   children: subMenus[selectedSubMenu]
-                      .map((item) => Card(
-                            color: Colors.transparent,
-                            elevation: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                Provider.of<SzikAppStateManager>(context,
-                                        listen: false)
-                                    .selectFeature(item.feature);
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surface
-                                      .withOpacity(0.7),
-                                ),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(
-                                      height: 25,
+                      .map(
+                        (item) => Card(
+                          color: Colors.transparent,
+                          elevation: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              Provider.of<SzikAppStateManager>(context,
+                                      listen: false)
+                                  .selectFeature(item.feature);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surface
+                                    .withOpacity(0.7),
+                              ),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                  SizedBox(
+                                    height: 55,
+                                    width: 55,
+                                    child: ColorFiltered(
+                                      child: Image.asset(item.picture),
+                                      colorFilter: ColorFilter.mode(
+                                          Theme.of(context).colorScheme.primary,
+                                          BlendMode.srcIn),
                                     ),
-                                    SizedBox(
-                                      height: 55,
-                                      width: 55,
-                                      child: ColorFiltered(
-                                        child: Image.asset(item.picture),
-                                        colorFilter: ColorFilter.mode(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            BlendMode.srcIn),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        item.name,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3!
+                                            .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontSize: 16,
+                                            ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          item.name,
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline3!
-                                              .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                fontSize: 16,
-                                              ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:accordion/accordion.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +11,6 @@ import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
-import 'error_screen.dart';
 
 ///Telefonkönyv képernyő.
 ///Állapota a privát [_ContactsScreenState].
@@ -54,27 +52,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    return CustomFutureBuilder<void>(
       future: manager.refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ListScreenShimmer();
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return ContactsListView(
-            manager: manager,
-          );
-        }
-      },
+      shimmer: const ListScreenShimmer(),
+      child: ContactsListView(manager: manager),
     );
   }
 }
