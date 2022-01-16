@@ -28,11 +28,18 @@ class BirthdayBar extends StatelessWidget {
           return const CardShimmer();
         } else if (snapshot.hasData) {}
         var birthdayUser = snapshot.data!.first;
+        var now = DateTime.now();
         var daysToBirthday = DateTime(
-          DateTime.now().year,
+          now.year,
           birthdayUser.birthday!.month,
           birthdayUser.birthday!.day,
-        ).difference(DateTime.now()).inDays;
+        )
+            .difference(DateTime(
+              now.year,
+              now.month,
+              now.day,
+            ))
+            .inDays;
         var showName = birthdayUser.nick ?? birthdayUser.name.split(' ')[1];
         return Container(
           padding: const EdgeInsets.all(10),
