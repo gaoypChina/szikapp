@@ -12,6 +12,7 @@ const double kIconSizeXLarge = 48;
 const double kPaddingSmall = 5;
 const double kPaddingNormal = 10;
 const double kPaddingLarge = 20;
+const double kPaddingXLarge = 30;
 
 const double kBorderRadiusSmall = 10;
 const double kBorderRadiusNormal = 20;
