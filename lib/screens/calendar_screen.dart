@@ -4,6 +4,7 @@ import 'package:url_launcher/link.dart';
 
 import '../business/calendar_manager.dart';
 import '../components/components.dart';
+import '../ui/themes.dart';
 
 class CalendarScreen extends StatelessWidget {
   static const String route = '/calendar';
@@ -40,6 +41,15 @@ class CalendarScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(
+                margin: const EdgeInsets.all(kPaddingNormal),
+                width: kIconSizeXLarge,
+                height: kIconSizeXLarge,
+                child: Image.asset(
+                  'assets/icons/calendar_light_72.png',
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               Text(
                 'CALENDAR_HELP_TEXT'.tr(),
                 style: Theme.of(context).textTheme.headline2,
