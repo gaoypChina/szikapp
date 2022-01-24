@@ -71,6 +71,10 @@ class User {
   }
 
   String get showableName => nick ?? name.split(' ')[1];
+  String get initials {
+    var splitted = name.split(' ');
+    return '${splitted[0][0]}${splitted[1][0]}';
+  }
 
   ///Konstruktor, ami a szerverről érkező [UserData] és a Firebase által
   ///biztosított [profilePicture] alapján létrehozza a felhasználót.

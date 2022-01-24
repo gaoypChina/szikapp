@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/auth_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
-import '../components/notification_card.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
@@ -28,6 +27,7 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   List<CustomNotification> notifications = [];
+  List<int> feedShortcuts = [];
 
   @override
   void initState() {
@@ -46,6 +46,7 @@ class _FeedScreenState extends State<FeedScreen> {
         route: SzikAppLink(),
       ),
     ];
+    feedShortcuts = Settings.instance.feedShortcuts ?? [];
   }
 
   void _onClearAllNotificationsPressed() {}
@@ -108,28 +109,18 @@ class _FeedScreenState extends State<FeedScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-              ],
+              children: feedShortcuts.map<WrappedIconButton>(
+                (item) {
+                  return WrappedIconButton(
+                    assetPath: 'assets/icons/bell_light_72.png',
+                    color: theme.colorScheme.primaryVariant,
+                    backgroundColor: theme.colorScheme.background,
+                    onTap: () =>
+                        Provider.of<SzikAppStateManager>(context, listen: false)
+                            .selectFeature(item),
+                  );
+                },
+              ).toList(),
             ),
           ),
           Container(

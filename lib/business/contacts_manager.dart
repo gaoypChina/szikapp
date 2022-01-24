@@ -22,7 +22,11 @@ class ContactsManager {
   ///Privát konstruktor, ami inicializálja a [contacts] változót.
   ContactsManager._privateConstructor();
 
+  ///A felhasználó kontaktjainak listája.
   List<UserData> get contacts => List.unmodifiable(_contacts);
+
+  ///A szervezetbeli csoportok listája. Tartalmazza azokat a csoportokat
+  ///is, melyeknek a felhasználó egyébként nem tagja.
   List<Group> get groups => List.unmodifiable(_groups);
 
   set groups(List<Group> groups) => _groups = groups;
@@ -58,9 +62,29 @@ class ContactsManager {
     }
   }
 
+  ///Keresés a csoportok között. A függvény a megadott szöveg alapján keres
+  ///egyezéseket a csoportlista név és ímélcím mezőiben.
+  ///Ha a megadott keresőkifejezés üres, a teljes listával tér vissza.
+  List<Group> findGroup(String text) {
+    if (text == '') {
+      return groups;
+    } else {
+      var results = <Group>[];
+      for (var item in groups) {
+        if (item.name.toLowerCase().contains(text.toLowerCase())) {
+          results.add(item);
+        } else if (item.email != null &&
+            item.email!.contains(text.toLowerCase())) {
+          results.add(item);
+        }
+      }
+      return results;
+    }
+  }
+
   ///Szűrés. A függvény a megadott csoport azonosító alapján visszaadja a
   ///csoport tagjait. Ha az azonosító üres, a teljes listával tér vissza.
-  List<UserData> filter(String groupID) {
+  List<UserData> findMembers(String groupID) {
     if (groupID == '') {
       return contacts;
     } else {
@@ -96,14 +120,17 @@ class ContactsManager {
     }
   }
 
-  ///Frissítés. A függvény lekéri a szerverről a legfrissebb kontaktlistát. Ha
-  ///a [forceRefresh] paraméter Igaz értékű vagy a kontaklista üres, a frissítés
-  ///mindenképp megtörténik.
+  ///Frissítés. A függvény lekéri a szerverről a legfrissebb kontakt- és
+  ///csoportlistát. Ha a [forceRefresh] paraméter Igaz értékű vagy a
+  ///kontakt- vagy a csoportlista üres, a frissítés mindenképp megtörténik.
   Future<void> refresh({bool forceRefresh = false}) async {
     var io = IO();
 
-    if (contacts.isEmpty || forceRefresh) {
+    if (_contacts.isEmpty || forceRefresh) {
       _contacts = await io.getContacts();
+    }
+    if (_groups.isEmpty || forceRefresh) {
+      _groups = await io.getGroup();
     }
   }
 }

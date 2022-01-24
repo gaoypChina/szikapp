@@ -70,7 +70,7 @@ class Preferences {
   SzikAppTheme theme;
   Map<String, bool>? notifications;
   @JsonKey(name: 'feed_shortcuts')
-  List<String>? feedShortcuts;
+  List<int>? feedShortcuts;
   @JsonKey(name: 'left_menu_option')
   String? leftMenuOption;
   @JsonKey(name: 'right_menu_option')
@@ -91,7 +91,7 @@ class Preferences {
       this.rightMenuOption,
       required this.lastUpdate}) {
     notifications ??= <String, bool>{};
-    feedShortcuts ??= <String>[];
+    feedShortcuts ??= <int>[];
   }
 
   Json toJson() => _$PreferencesToJson(this);

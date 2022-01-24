@@ -33,7 +33,6 @@ class BirthdayBar extends StatelessWidget {
             birthdayUser.birthday!.month,
             birthdayUser.birthday!.day,
           ).difference(DateTime.now()).inDays;
-          var showName = birthdayUser.nick ?? birthdayUser.name.split(' ')[1];
           return Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -48,7 +47,7 @@ class BirthdayBar extends StatelessWidget {
                 Text(
                   'FEED_BIRTHDAY'.tr(
                     args: [
-                      showName,
+                      birthdayUser.showableName,
                       dayToIdiom[daysToBirthday] ??
                           'FEED_BIRTHDAY_DAYS'.tr(
                             args: [

@@ -2,13 +2,11 @@ import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import '../business/contacts_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
-import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 
@@ -73,52 +71,84 @@ class ContactsListView extends StatefulWidget {
 
 ///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
 ///[Contacts] singletont.
-class _ContactsListViewState extends State<ContactsListView> {
+class _ContactsListViewState extends State<ContactsListView>
+    with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
+  late AnimationController _filterToggleController;
+  late Animation<double> _heightFactor;
+
   ///Megjelenített kontaktok
-  List<UserData> items = [];
+  List<UserData> _items = [];
+  List<Group> _groups = [];
 
-  ///Szűrőmező aktuális magassága
-  double filterExpandableHeight = 0;
-
-  ///Szűrőmező maximális magassága
-  final double kFilterExpandableHeight = 80;
+  bool _filterIsExpanded = false;
+  int _selectedTab = 0;
 
   ///Létrehozásnál lekéri a [Contacts] singletont és megjeleníti az összes
   ///adatbázisban szereplő kontaktot.
   @override
   void initState() {
-    items = widget.manager.contacts;
+    _items = widget.manager.contacts;
+    _groups = widget.manager.groups;
+    _filterToggleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _heightFactor = _filterToggleController.drive(_easeInTween);
+    if (_filterIsExpanded) _filterToggleController.value = 1.0;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _filterToggleController.dispose();
+    super.dispose();
   }
 
   ///A keresőmező tartalmának változásakor végigkeresi a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onSearchFieldChanged(String query) {
-    var newItems = widget.manager.search(query);
-    setState(() {
-      items = newItems;
-    });
+    if (_selectedTab == 0) {
+      var newItems = widget.manager.search(query);
+      setState(() {
+        _items = newItems;
+      });
+    } else {
+      var newItems = widget.manager.findGroup(query);
+      setState(() {
+        _groups = newItems;
+      });
+    }
   }
 
   ///A szűrés gomb megnyomásakor megjeleníti / eltünteti a szűrőmezőt a
   ///mező magasságának változtatásával.
   void _onToggleFilterExpandable() {
-    filterExpandableHeight == 0
-        ? setState(() {
-            filterExpandableHeight = kFilterExpandableHeight;
-          })
-        : setState(() {
-            filterExpandableHeight = 0;
-          });
+    setState(() {
+      _filterIsExpanded = !_filterIsExpanded;
+      if (_filterIsExpanded) {
+        _filterToggleController.forward();
+      } else {
+        _filterToggleController.reverse();
+      }
+    });
+  }
+
+  void _onTabChanged(int? newTab) {
+    setState(() {
+      _selectedTab = newTab ?? 0;
+    });
   }
 
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
-  void _onFilterChanged(Group? group) {
-    var newItems = widget.manager.filter(group?.id ?? '');
+  void _onMembersTapped(Group? group) {
+    var newItems = widget.manager.findMembers(group?.id ?? '');
     SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
-      items = newItems;
+      _items = newItems;
+      _selectedTab = 0;
     });
   }
 
@@ -166,49 +196,23 @@ class _ContactsListViewState extends State<ContactsListView> {
             onToggleFilterExpandable: _onToggleFilterExpandable,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
           ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            margin: EdgeInsets.fromLTRB(20, filterExpandableHeight / 16, 20, 0),
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            height: filterExpandableHeight,
-            decoration: BoxDecoration(
-              border: Border.all(color: theme.colorScheme.primary, width: 2),
-              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints.expand(),
-              child: Row(
-                children: [
-                  Container(
-                    child: Text(
-                      'CONTACTS_FILTER_GROUP'.tr(),
-                      style: theme.textTheme.caption!
-                          .copyWith(fontSize: 14, fontStyle: FontStyle.normal),
-                    ),
-                    margin: const EdgeInsets.only(right: 5),
-                  ),
-                  filterExpandableHeight == 0
-                      ? Container()
-                      : Expanded(
-                          child: SearchableOptions<Group>(
-                            items: Provider.of<SzikAppStateManager>(
-                              context,
-                              listen: false,
-                            ).groups,
-                            onItemChanged: _onFilterChanged,
-                            selectedItem: null,
-                            compare: (i, s) => i.isEqual(s),
-                            showClearButton: true,
-                            nullValidated: false,
-                          ),
-                        ),
+          SizeTransition(
+            sizeFactor: _heightFactor,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(
+                  kPaddingLarge, kPaddingSmall, kPaddingLarge, 0),
+              child: TabChoice(
+                labels: [
+                  'CONTACTS_TITLE'.tr(),
+                  'GROUPS_TITLE'.tr(),
                 ],
+                onChanged: _onTabChanged,
               ),
             ),
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: items.isEmpty
+            child: _items.isEmpty
                 ? Center(
                     child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
                   )
@@ -228,10 +232,8 @@ class _ContactsListViewState extends State<ContactsListView> {
                         colorFilter: ColorFilter.mode(
                             theme.colorScheme.primaryVariant, BlendMode.srcIn),
                       ),
-                      children: items.map<AccordionSection>(
+                      children: _items.map<AccordionSection>(
                         (item) {
-                          var names = item.name.split(' ');
-                          var initials = '${names[0][0]}${names[1][0]}';
                           return AccordionSection(
                             headerText: item.name,
                             leftIcon: CircleAvatar(
@@ -239,7 +241,7 @@ class _ContactsListViewState extends State<ContactsListView> {
                                   theme.textTheme.headline3!.fontSize! * 1.5,
                               backgroundColor: theme.colorScheme.primaryVariant,
                               child: Text(
-                                initials,
+                                item.initials,
                                 style: theme.textTheme.headline4!.copyWith(
                                   color: theme.colorScheme.background,
                                   fontStyle: FontStyle.normal,
