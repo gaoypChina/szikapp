@@ -16,9 +16,7 @@ class Settings {
   static Settings get instance => _instance;
 
   ///Rejtett konstruktor, ami inicializálja a [_preferences] adattár példányt.
-  Settings._privateConstructor() {
-    _initialize();
-  }
+  Settings._privateConstructor();
 
   ///Lekéri az első futtatást jelző flaget.
   bool get firstRun => _preferences.getBool('firstRun') ?? true;
@@ -171,7 +169,8 @@ class Settings {
   ///Inicializálja a lokális adattárat menedzselő paramétert.
   ///Mivel disk olvasást tartalmaz nem szabad `await`tel hívni
   ///teljesítményérzékeny környezetben.
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
+    await loadPreferences();
   }
 }

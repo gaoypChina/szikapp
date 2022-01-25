@@ -1,7 +1,7 @@
-import 'package:accordion/accordion.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toggle_list/toggle_list.dart';
 
 import '../business/contacts_manager.dart';
 import '../components/components.dart';
@@ -218,34 +218,43 @@ class _ContactsListViewState extends State<ContactsListView>
                   )
                 : RefreshIndicator(
                     onRefresh: () => widget.manager.refresh(forceRefresh: true),
-                    child: Accordion(
-                      headerBorderRadius: 0,
-                      headerBackgroundColor: theme.colorScheme.background,
-                      contentBackgroundColor: theme.colorScheme.background,
-                      headerPadding: const EdgeInsets.all(20),
-                      headerTextStyle: theme.textTheme.headline3!.copyWith(
-                        color: theme.colorScheme.secondary,
+                    child: ToggleList(
+                      trailing: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: ColorFiltered(
+                          child: Image.asset('assets/icons/down_light_72.png',
+                              height: theme.textTheme.headline3!.fontSize),
+                          colorFilter: ColorFilter.mode(
+                              theme.colorScheme.primaryVariant,
+                              BlendMode.srcIn),
+                        ),
                       ),
-                      rightIcon: ColorFiltered(
-                        child: Image.asset('assets/icons/down_light_72.png',
-                            height: theme.textTheme.headline3!.fontSize),
-                        colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primaryVariant, BlendMode.srcIn),
-                      ),
-                      children: _items.map<AccordionSection>(
+                      children: _items.map<ToggleListItem>(
                         (item) {
-                          return AccordionSection(
-                            headerText: item.name,
-                            leftIcon: CircleAvatar(
-                              radius:
-                                  theme.textTheme.headline3!.fontSize! * 1.5,
-                              backgroundColor: theme.colorScheme.primaryVariant,
-                              child: Text(
-                                item.initials,
-                                style: theme.textTheme.headline4!.copyWith(
-                                  color: theme.colorScheme.background,
-                                  fontStyle: FontStyle.normal,
+                          return ToggleListItem(
+                            leading: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: CircleAvatar(
+                                radius:
+                                    theme.textTheme.headline3!.fontSize! * 1.5,
+                                backgroundColor:
+                                    theme.colorScheme.primaryVariant,
+                                child: Text(
+                                  item.initials,
+                                  style: theme.textTheme.headline4!.copyWith(
+                                    color: theme.colorScheme.background,
+                                    fontStyle: FontStyle.normal,
+                                  ),
                                 ),
+                              ),
+                            ),
+                            title: Text(
+                              item.name,
+                              textAlign: TextAlign.start,
+                              style: theme.textTheme.headline3!.copyWith(
+                                color: theme.colorScheme.secondary,
                               ),
                             ),
                             content: Container(

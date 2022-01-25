@@ -84,7 +84,7 @@
     "FEED": null,
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
-        "FEED_BIRTHDAY": "{} will have a birthday {}",
+        "FEED_BIRTHDAY": "{} is having birthday {}",
         "FEED_BIRTHDAY_DAYS": "in {} days",
     "DOCUMENTS": null,
         "DOCUMENTS_TITLE": "Dokumentumok",

@@ -440,7 +440,7 @@ class IO {
     throw _handleErrors(response);
   }
 
-  ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
+  ///Lekéri a három legközelebbi születésű felhasználó adatait.
   Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
     var uri = '$_vmDev$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
