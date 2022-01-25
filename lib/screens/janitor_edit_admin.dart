@@ -109,23 +109,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              ),
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 5),
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: Text(
-                'JANITOR_TITLE_EDIT_ADMIN'.tr(),
-                style: theme.textTheme.headline2!.copyWith(
-                  color: theme.colorScheme.primaryVariant,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            //Fields
             Flex(
               direction: Axis.vertical,
               children: [
@@ -378,8 +361,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       child: Image.asset(
                                           'assets/icons/trash_light_72.png'),
                                       colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.secondaryVariant
-                                              .withOpacity(0.7),
+                                          theme.colorScheme.secondaryVariant,
                                           BlendMode.srcIn),
                                     ),
                                     onPressed: () {

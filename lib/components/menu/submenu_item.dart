@@ -37,7 +37,7 @@ class SubMenuItem extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.7),
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Column(
             children: [

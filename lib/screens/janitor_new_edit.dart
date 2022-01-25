@@ -256,8 +256,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                     child: Image.asset(
                                         'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryVariant
-                                            .withOpacity(0.7),
+                                        theme.colorScheme.secondaryVariant,
                                         BlendMode.srcIn),
                                   ),
                                   onPressed: () {

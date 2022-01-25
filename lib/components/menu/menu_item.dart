@@ -40,7 +40,7 @@ class MenuItem extends StatelessWidget {
           height: height * 0.5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.primary,
           ),
           child: Container(
             margin: EdgeInsets.all(height * 0.05),

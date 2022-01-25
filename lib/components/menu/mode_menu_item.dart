@@ -23,7 +23,7 @@ class ModeMenuItem extends StatelessWidget {
         margin: const EdgeInsets.fromLTRB(kPaddingXLarge, 0, kPaddingXLarge, 0),
         height: 90,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.7),
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
         ),
         child: Row(
