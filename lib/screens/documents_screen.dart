@@ -194,10 +194,17 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: _buildListItem,
-                  itemCount: items.length,
-                ),
+                child: items.isEmpty
+                    ? Center(
+                        child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () => widget.manager.refresh(),
+                        child: ListView.builder(
+                          itemBuilder: _buildListItem,
+                          itemCount: items.length,
+                        ),
+                      ),
               ),
             ],
           ),

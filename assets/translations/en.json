@@ -120,6 +120,7 @@
         "PLACEHOLDER_SEARCH": "Search",
         "PLACEHOLDER_ANSWER": "Answer",
         "PLACEHOLDER_EMPTY_SEARCH_RESULTS": "No results found.",
+        "PLACEHOLDER_NOTIFICATIONS_EMPTY": "You don't have notifications.",
         "PLACEHOLDER_TITLE": "Title",
         "PLACEHOLDER_NOT_PROVIDED": "Not provided.",
         "PLACEHOLDER_LOADING": "Loading...",

@@ -64,7 +64,8 @@ class _FeedScreenState extends State<FeedScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
@@ -148,12 +149,28 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          Column(
-            children: notifications.map<NotificationCard>(
-              (item) {
-                return NotificationCard(data: item);
-              },
-            ).toList(),
+          Expanded(
+            child: notifications.isEmpty
+                ? Center(
+                    child: Text(
+                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                      style: theme.textTheme.headline2!.copyWith(
+                        fontSize: 16,
+                        color: theme.colorScheme.background,
+                      ),
+                    ),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () async {},
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: notifications.map<NotificationCard>(
+                        (item) {
+                          return NotificationCard(data: item);
+                        },
+                      ).toList(),
+                    ),
+                  ),
           ),
         ],
       ),

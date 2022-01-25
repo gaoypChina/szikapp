@@ -120,6 +120,7 @@
         "PLACEHOLDER_SEARCH": "Keresés",
         "PLACEHOLDER_ANSWER": "Válasz",
         "PLACEHOLDER_EMPTY_SEARCH_RESULTS": "Nincs találat.",
+        "PLACEHOLDER_NOTIFICATIONS_EMPTY": "Nincsenek értesítéseid.",
         "PLACEHOLDER_TITLE": "Megnevezés",
         "PLACEHOLDER_NOT_PROVIDED": "Nincs megadva.",
         "PLACEHOLDER_LOADING": "Adatok betöltése...",
