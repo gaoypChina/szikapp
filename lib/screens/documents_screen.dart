@@ -48,7 +48,6 @@ class DocumentsListView extends StatefulWidget {
 
 class _DocumentsListViewState extends State<DocumentsListView> {
   List<GoodToKnow> items = [];
-  bool infoWidgetVisible = false;
   int index = 0;
 
   @override
@@ -89,20 +88,20 @@ class _DocumentsListViewState extends State<DocumentsListView> {
     });
   }
 
-  void _hideInfoWidget() {
-    setState(() {
-      infoWidgetVisible = false;
-      index = 0;
-    });
-  }
-
   Widget _buildListItem(BuildContext context, int pindex) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          infoWidgetVisible = true;
           index = pindex;
         });
+        showDialog(
+          context: context,
+          builder: (context) {
+            return DocumentDetails(
+              document: (items.length <= index) ? null : items[index],
+            );
+          },
+        );
       },
       child: Container(
         width: double.infinity,
@@ -207,26 +206,6 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                       ),
               ),
             ],
-          ),
-          Visibility(
-            visible: infoWidgetVisible,
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: _hideInfoWidget,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    decoration: const BoxDecoration(
-                      color: Color(0xab000000),
-                    ),
-                  ),
-                ),
-                DocumentDetails(
-                  document: (items.length <= index) ? null : items[index],
-                )
-              ],
-            ),
           ),
         ],
       ),
