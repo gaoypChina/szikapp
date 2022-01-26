@@ -60,8 +60,6 @@ class AuthManager extends ChangeNotifier {
     if (isSignedIn) {
       return;
     } else if (_auth.currentUser == null) {
-      _signedIn = false;
-      notifyListeners();
       return;
     }
     try {
