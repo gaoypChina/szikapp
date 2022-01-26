@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.0.2+74
+version: 0.0.2+79
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
@@ -47,14 +47,7 @@ flutter_native_splash:
   # flutter clean && flutter pub get
   # flutter pub run flutter_native_splash:create
   color: "#59A3B0"
-  image: assets/pictures/logo_white_800.png
-  android: true
-  ios: true
-  # Dark mode
-  color_dark: "#444444"
-  image_dark: "assets/pictures/logo_white_800.png"
   
-
 flutter:
   uses-material-design: true
   assets:
