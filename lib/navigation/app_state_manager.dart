@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/models.dart';
 import '../utils/io.dart';
+import 'navigation.dart';
 
 class SzikAppTab {
   static const int feed = 0;
@@ -35,6 +36,8 @@ class SzikAppStateManager extends ChangeNotifier {
   int _selectedTab = SzikAppTab.feed;
   int _selectedFeature = SzikAppFeature.none;
   int _selectedSubMenu = SzikAppSubMenu.none;
+
+  SzikAppLink? _lastMenuLink;
 
   ///A kollégiumban megtalálható helyek [Place] listája
   List<Place> _places = [];
@@ -84,9 +87,22 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectTab(int index) {
-    _selectedTab = index;
-    _selectedSubMenu = SzikAppSubMenu.none;
-    _selectedFeature = SzikAppFeature.none;
+    if (_selectedTab != SzikAppTab.menu && index == SzikAppTab.menu) {
+      _selectedTab = SzikAppTab.menu;
+      _selectedSubMenu = _lastMenuLink?.currentSubMenu ?? SzikAppSubMenu.none;
+      _selectedFeature = _lastMenuLink?.currentFeature ?? SzikAppFeature.none;
+    } else {
+      if (_selectedTab == SzikAppTab.menu && index != SzikAppTab.menu) {
+        _lastMenuLink = SzikAppLink(
+          currentTab: _selectedTab,
+          currentSubMenu: selectedSubMenu,
+          currentFeature: _selectedFeature,
+        );
+      }
+      _selectedTab = index;
+      _selectedSubMenu = SzikAppSubMenu.none;
+      _selectedFeature = SzikAppFeature.none;
+    }
     notifyListeners();
   }
 
