@@ -230,181 +230,291 @@ class _ContactsListViewState extends State<ContactsListView>
                               BlendMode.srcIn),
                         ),
                       ),
-                      children: _items.map<ToggleListItem>(
-                        (item) {
-                          return ToggleListItem(
-                            leading: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              child: CircleAvatar(
-                                radius:
-                                    theme.textTheme.headline3!.fontSize! * 1.5,
-                                backgroundColor:
-                                    theme.colorScheme.primaryVariant,
-                                child: Text(
-                                  item.initials,
-                                  style: theme.textTheme.headline4!.copyWith(
-                                    color: theme.colorScheme.background,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            title: Text(
-                              item.name,
-                              textAlign: TextAlign.start,
-                              style: theme.textTheme.headline3!.copyWith(
-                                color: theme.colorScheme.secondary,
-                              ),
-                            ),
-                            content: Container(
-                              width: MediaQuery.of(context).size.width - 40,
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(kBorderRadiusNormal),
-                                color: theme.colorScheme.primaryVariant
-                                    .withOpacity(0.15),
-                              ),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (item.phone != null) {
-                                        try {
-                                          SZIKAppState.analytics.logEvent(
-                                            name: 'phone_call',
-                                            parameters: <String, dynamic>{
-                                              'country': item.phone!.padLeft(5)
-                                            },
-                                          );
-                                          widget.manager
-                                              .makePhoneCall(item.phone!);
-                                        } on NotSupportedCallFunctionalityException catch (e) {
-                                          _showSnackBar(e.message);
-                                        }
-                                      }
-                                    },
-                                    onLongPress: () => _copyToClipBoard(
-                                        item.phone, 'MESSAGE_CLIPBOARD'.tr()),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ColorFiltered(
-                                          child: Image.asset(
-                                            'assets/icons/phone_light_72.png',
-                                            height: theme.textTheme.bodyText1!
-                                                    .fontSize! *
-                                                1.5,
-                                          ),
-                                          colorFilter: ColorFilter.mode(
-                                              theme.colorScheme.primaryVariant,
-                                              BlendMode.srcIn),
-                                        ),
-                                        Text(
-                                          item.phone ?? 'PHONE_NOT_FOUND'.tr(),
-                                          style: theme.textTheme.bodyText1
-                                              ?.copyWith(
-                                            color: theme
-                                                .colorScheme.primaryVariant,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      try {
-                                        SZIKAppState.analytics.logEvent(
-                                          name: 'make_email',
-                                          parameters: <String, dynamic>{
-                                            'domain': item.email.split('@').last
-                                          },
-                                        );
-                                        widget.manager.makeEmail(item.email);
-                                      } on NotSupportedEmailFunctionalityException catch (e) {
-                                        _showSnackBar(e.message);
-                                      }
-                                    },
-                                    onLongPress: () => _copyToClipBoard(
-                                        item.email, 'MESSAGE_CLIPBOARD'.tr()),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 4),
-                                            child: ColorFiltered(
-                                              child: Image.asset(
-                                                'assets/icons/at_light_72.png',
-                                                height: theme.textTheme
-                                                        .bodyText1!.fontSize! *
-                                                    1.5,
-                                              ),
-                                              colorFilter: ColorFilter.mode(
-                                                  theme.colorScheme
-                                                      .primaryVariant,
-                                                  BlendMode.srcIn),
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              item.email.useCorrectEllipsis(),
-                                              style: theme.textTheme.bodyText1
-                                                  ?.copyWith(
-                                                      color: theme.colorScheme
-                                                          .primaryVariant),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ColorFiltered(
-                                        child: Image.asset(
-                                          'assets/icons/gift_light_72.png',
-                                          height: theme.textTheme.bodyText1!
-                                                  .fontSize! *
-                                              1.5,
-                                        ),
-                                        colorFilter: ColorFilter.mode(
-                                            theme.colorScheme.primaryVariant,
-                                            BlendMode.srcIn),
-                                      ),
-                                      Text(
-                                        item.birthday != null
-                                            ? DateFormat('yyyy. MM. dd.')
-                                                .format(item.birthday!)
-                                            : 'BIRTHDAY_NOT_FOUND'.tr(),
-                                        style:
-                                            theme.textTheme.bodyText1?.copyWith(
-                                          color:
-                                              theme.colorScheme.primaryVariant,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ).toList(),
+                      children: _selectedTab == 0
+                          ? _buildPeopleView()
+                          : _buildGroupsView(),
                     ),
                   ),
           ),
         ],
       ),
     );
+  }
+
+  List<ToggleListItem> _buildPeopleView() {
+    var theme = Theme.of(context);
+    return _items.map<ToggleListItem>(
+      (item) {
+        return ToggleListItem(
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: CircleAvatar(
+              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              backgroundColor: theme.colorScheme.primaryVariant,
+              child: Text(
+                item.initials,
+                style: theme.textTheme.headline4!.copyWith(
+                  color: theme.colorScheme.background,
+                  fontStyle: FontStyle.normal,
+                ),
+              ),
+            ),
+          ),
+          title: Text(
+            item.name,
+            textAlign: TextAlign.start,
+            style: theme.textTheme.headline3!.copyWith(
+              color: theme.colorScheme.secondary,
+            ),
+          ),
+          content: Container(
+            width: MediaQuery.of(context).size.width - 40,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: theme.colorScheme.primaryVariant.withOpacity(0.15),
+            ),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (item.phone != null) {
+                      try {
+                        SZIKAppState.analytics.logEvent(
+                          name: 'phone_call',
+                          parameters: <String, dynamic>{
+                            'country': item.phone!.padLeft(5)
+                          },
+                        );
+                        widget.manager.makePhoneCall(item.phone!);
+                      } on NotSupportedCallFunctionalityException catch (e) {
+                        _showSnackBar(e.message);
+                      }
+                    }
+                  },
+                  onLongPress: () =>
+                      _copyToClipBoard(item.phone, 'MESSAGE_CLIPBOARD'.tr()),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ColorFiltered(
+                        child: Image.asset(
+                          'assets/icons/phone_light_72.png',
+                          height: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                        ),
+                        colorFilter: ColorFilter.mode(
+                            theme.colorScheme.primaryVariant, BlendMode.srcIn),
+                      ),
+                      Text(
+                        item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                        style: theme.textTheme.bodyText1?.copyWith(
+                          color: theme.colorScheme.primaryVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    try {
+                      SZIKAppState.analytics.logEvent(
+                        name: 'make_email',
+                        parameters: <String, dynamic>{
+                          'domain': item.email.split('@').last
+                        },
+                      );
+                      widget.manager.makeEmail(item.email);
+                    } on NotSupportedEmailFunctionalityException catch (e) {
+                      _showSnackBar(e.message);
+                    }
+                  },
+                  onLongPress: () =>
+                      _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: ColorFiltered(
+                            child: Image.asset(
+                              'assets/icons/at_light_72.png',
+                              height:
+                                  theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            ),
+                            colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primaryVariant,
+                                BlendMode.srcIn),
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            item.email.useCorrectEllipsis(),
+                            style: theme.textTheme.bodyText1?.copyWith(
+                                color: theme.colorScheme.primaryVariant),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ColorFiltered(
+                      child: Image.asset(
+                        'assets/icons/gift_light_72.png',
+                        height: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                      ),
+                      colorFilter: ColorFilter.mode(
+                          theme.colorScheme.primaryVariant, BlendMode.srcIn),
+                    ),
+                    Text(
+                      item.birthday != null
+                          ? DateFormat('yyyy. MM. dd.').format(item.birthday!)
+                          : 'BIRTHDAY_NOT_FOUND'.tr(),
+                      style: theme.textTheme.bodyText1?.copyWith(
+                        color: theme.colorScheme.primaryVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ).toList();
+  }
+
+  List<ToggleListItem> _buildGroupsView() {
+    var theme = Theme.of(context);
+    return _groups.map<ToggleListItem>(
+      (item) {
+        var members = <UserData>[];
+        item.memberIDs?.forEach(
+          (memberID) => members.add(
+            _items.where((element) => element.id == memberID).first,
+          ),
+        );
+        return ToggleListItem(
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: CircleAvatar(
+              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              backgroundColor: theme.colorScheme.primaryVariant,
+              child: Text(
+                item.initials,
+                style: theme.textTheme.headline4!.copyWith(
+                  color: theme.colorScheme.background,
+                  fontStyle: FontStyle.normal,
+                ),
+              ),
+            ),
+          ),
+          title: Text(
+            item.name,
+            textAlign: TextAlign.start,
+            style: theme.textTheme.headline3!.copyWith(
+              color: theme.colorScheme.secondary,
+            ),
+          ),
+          content: Container(
+            width: MediaQuery.of(context).size.width - 40,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: theme.colorScheme.primaryVariant.withOpacity(0.15),
+            ),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (item.email != null) {
+                      try {
+                        SZIKAppState.analytics.logEvent(
+                          name: 'make_email',
+                          parameters: <String, dynamic>{
+                            'domain': item.email!.split('@').last
+                          },
+                        );
+                        widget.manager.makeEmail(item.email!);
+                      } on NotSupportedEmailFunctionalityException catch (e) {
+                        _showSnackBar(e.message);
+                      }
+                    }
+                  },
+                  onLongPress: () =>
+                      _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: ColorFiltered(
+                            child: Image.asset(
+                              'assets/icons/at_light_72.png',
+                              height:
+                                  theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            ),
+                            colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primaryVariant,
+                                BlendMode.srcIn),
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            item.email?.useCorrectEllipsis() ??
+                                'EMAIL_NOT_FOUND'.tr(),
+                            style: theme.textTheme.bodyText1?.copyWith(
+                                color: theme.colorScheme.primaryVariant),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _onMembersTapped(item),
+                  child: Column(
+                    children: members.map(
+                      (item) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ColorFiltered(
+                              child: Image.asset(
+                                'assets/icons/user_light_72.png',
+                                height:
+                                    theme.textTheme.bodyText1!.fontSize! * 1.5,
+                              ),
+                              colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primaryVariant,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            Text(
+                              item.name,
+                              style: theme.textTheme.bodyText1?.copyWith(
+                                color: theme.colorScheme.primaryVariant,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ).toList();
   }
 }

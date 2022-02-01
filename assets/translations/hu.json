@@ -79,6 +79,7 @@
         "CONTACTS_TITLE": "Kontaktok",
         "GROUPS_TITLE": "Csoportok",
         "CONTACTS_FILTER_GROUP": "Csoport",
+        "EMAIL_NOT_FOUND": "Emailcím nem található",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
     "FEED": null,
