@@ -5,6 +5,7 @@ class ProfileTextField extends StatelessWidget {
   final String? initialValue;
   final bool readOnly;
   final void Function(String)? onChanged;
+  final TextEditingController? controller;
 
   const ProfileTextField({
     Key? key,
@@ -12,6 +13,7 @@ class ProfileTextField extends StatelessWidget {
     this.initialValue,
     this.onChanged,
     this.readOnly = false,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class ProfileTextField extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: TextFormField(
                     initialValue: initialValue,
+                    controller: controller,
                     onChanged: onChanged,
                     readOnly: readOnly,
                     textAlign: TextAlign.end,

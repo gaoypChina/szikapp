@@ -6,6 +6,7 @@ import '../ui/themes.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedTab;
+
   const CustomBottomNavigationBar({
     Key? key,
     required this.selectedTab,
