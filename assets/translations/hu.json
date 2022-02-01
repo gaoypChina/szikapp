@@ -27,6 +27,7 @@
         "ERROR_UNKNOWN_EXCEPTION_SOLUTION": "Kérlek próbáld újraindítani az alkalmazást.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
+        "SIGN_OUT_LABEL": "Kilépés",
     "MENU": null,
         "MENU_HOME": "Menü",
         "MENU_CONTACTS": "Kontaktok",

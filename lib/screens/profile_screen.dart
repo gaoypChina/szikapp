@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../business/auth_manager.dart';
 import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 import '../utils/exceptions.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -101,6 +102,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void _onCancel() {
+    setState(() {
+      nick = widget.manager.user!.nick;
+      birthday = widget.manager.user!.birthday;
+      phone = widget.manager.user!.phone;
+      changed = false;
+    });
+  }
+
+  List<Widget> _buildActionButtons(bool changed) {
+    return changed
+        ? [
+            IconButton(
+              icon: const Icon(
+                Icons.done,
+                size: kIconSizeNormal,
+              ),
+              onPressed: _onSend,
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.cancel_outlined,
+                size: kIconSizeNormal,
+              ),
+              onPressed: _onCancel,
+            )
+          ]
+        : [];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -128,6 +159,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   widget.manager.user!.profilePicture.toString(),
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ..._buildActionButtons(changed),
+                ElevatedButton.icon(
+                  onPressed: () =>
+                      Provider.of<AuthManager>(context, listen: false)
+                          .signOut(),
+                  icon: ColorFiltered(
+                    child: Image.asset(
+                      'assets/icons/user_light_72.png',
+                      height: kIconSizeSmall,
+                    ),
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.surface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: Text('SIGN_OUT_LABEL'.tr()),
+                ),
+              ],
             ),
             Form(
               key: _formKey,
@@ -169,14 +222,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            changed
-                ? Center(
-                    child: ElevatedButton(
-                      child: Text('BUTTON_SEND'.tr()),
-                      onPressed: _onSend,
-                    ),
-                  )
-                : Container(),
           ],
         ),
       ),
