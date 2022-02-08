@@ -54,7 +54,7 @@ class ReservationScreen extends StatelessWidget {
                       .selectMode(ReservationMode.boardgame),
               leadingAssetPath: 'assets/icons/dicefive_light_72.png',
               title: 'RESERVATION_MODE_BOARDGAME'.tr(),
-              color: Theme.of(context).colorScheme.primaryVariant,
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           ],
         ),

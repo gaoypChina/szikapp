@@ -79,7 +79,7 @@ class _DatePickerState extends State<DatePicker> {
               .format(widget.initialDate ?? DateTime.now()),
           style: Theme.of(context).textTheme.button!.copyWith(
               color: widget.readonly
-                  ? Theme.of(context).colorScheme.secondaryVariant
+                  ? Theme.of(context).colorScheme.secondaryContainer
                   : widget.color,
               fontSize: widget.fontSize,
               fontStyle: FontStyle.italic),

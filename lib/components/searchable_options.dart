@@ -83,7 +83,7 @@ class SearchableOptions<T> extends StatelessWidget {
       ),
       searchBoxStyle: Theme.of(context).textTheme.headline3!.copyWith(
             fontSize: 14,
-            color: Theme.of(context).colorScheme.primaryVariant,
+            color: Theme.of(context).colorScheme.primaryContainer,
             fontStyle: FontStyle.italic,
           ),
       popupShape: OutlineInputBorder(

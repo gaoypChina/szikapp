@@ -140,7 +140,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                           ),
                         ),
@@ -183,7 +183,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                           ),
                         ),
@@ -219,7 +219,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                           ),
                         ),
@@ -257,7 +257,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             style: theme.textTheme.headline6!.copyWith(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                           ),
                         ),
@@ -320,7 +320,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                   validator: _validateTextField,
                                   style: theme.textTheme.headline3!.copyWith(
                                     fontSize: 14,
-                                    color: theme.colorScheme.primaryVariant,
+                                    color: theme.colorScheme.primaryContainer,
                                     fontStyle: FontStyle.italic,
                                   ),
                                   decoration: InputDecoration(
@@ -361,7 +361,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       child: Image.asset(
                                           'assets/icons/trash_light_72.png'),
                                       colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.secondaryVariant,
+                                          theme.colorScheme.secondaryContainer,
                                           BlendMode.srcIn),
                                     ),
                                     onPressed: () {

@@ -3,9 +3,9 @@ import 'themes.dart';
 
 const szikLightColorScheme = ColorScheme(
   primary: szikHippieBlue,
-  primaryVariant: szikTarawera,
+  primaryContainer: szikTarawera,
   secondary: szikMonarch,
-  secondaryVariant: szikGunSmoke,
+  secondaryContainer: szikGunSmoke,
   surface: szikLavenderBlush,
   background: szikAmour,
   error: Color(0xffc80000),
@@ -22,7 +22,6 @@ ThemeData szikLightThemeData = ThemeData(
   //visualDensity: null,
   //primarySwatch: null,
   primaryColor: szikHippieBlue,
-  primaryColorBrightness: Brightness.light,
   primaryColorLight: null,
   primaryColorDark: szikTarawera,
   //canvasColor: null,

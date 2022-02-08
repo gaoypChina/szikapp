@@ -114,7 +114,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 (item) {
                   return WrappedIconButton(
                     assetPath: 'assets/icons/bell_light_72.png',
-                    color: theme.colorScheme.primaryVariant,
+                    color: theme.colorScheme.primaryContainer,
                     backgroundColor: theme.colorScheme.background,
                     onTap: () =>
                         Provider.of<SzikAppStateManager>(context, listen: false)

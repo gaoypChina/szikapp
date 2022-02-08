@@ -13,22 +13,24 @@ class TileShimmer extends StatelessWidget {
       child: Row(
         children: [
           Shimmer.fromColors(
-            baseColor: theme.colorScheme.secondaryVariant.withOpacity(0.2),
-            highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
+            baseColor: theme.colorScheme.secondaryContainer.withOpacity(0.2),
+            highlightColor:
+                theme.colorScheme.secondaryContainer.withOpacity(0.5),
             child: CircleAvatar(
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
-              backgroundColor: theme.colorScheme.primaryVariant,
+              backgroundColor: theme.colorScheme.primaryContainer,
             ),
           ),
           Shimmer.fromColors(
-            baseColor: theme.colorScheme.secondaryVariant.withOpacity(0.2),
-            highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
+            baseColor: theme.colorScheme.secondaryContainer.withOpacity(0.2),
+            highlightColor:
+                theme.colorScheme.secondaryContainer.withOpacity(0.5),
             child: Container(
               margin: const EdgeInsets.all(20),
               height: theme.textTheme.headline3!.fontSize! * 1.5,
               width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(
-                color: theme.colorScheme.secondaryVariant,
+                color: theme.colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(kBorderRadiusLarge),
               ),
             ),

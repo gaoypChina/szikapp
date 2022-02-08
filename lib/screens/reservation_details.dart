@@ -98,7 +98,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               child: Text(
                 'RESERVATION_TITLE_CREATE'.tr(),
                 style: theme.textTheme.headline2!.copyWith(
-                  color: theme.colorScheme.primaryVariant,
+                  color: theme.colorScheme.primaryContainer,
                   fontSize: 24,
                 ),
               ),

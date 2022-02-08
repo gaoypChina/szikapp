@@ -50,7 +50,7 @@ class _TabChoiceState extends State<TabChoice> {
     return Container(
       decoration: BoxDecoration(
           color: widget.wrapColor ??
-              theme.colorScheme.secondaryVariant.withOpacity(0.1),
+              theme.colorScheme.secondaryContainer.withOpacity(0.1),
           borderRadius: BorderRadius.circular(30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -74,7 +74,7 @@ class _TabChoiceState extends State<TabChoice> {
               disabledColor: Colors.transparent,
               labelStyle: theme.textTheme.headline3!.copyWith(
                 fontSize: 14,
-                color: theme.colorScheme.primaryVariant,
+                color: theme.colorScheme.primaryContainer,
               ),
             );
           },

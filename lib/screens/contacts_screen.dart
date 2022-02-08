@@ -226,7 +226,7 @@ class _ContactsListViewState extends State<ContactsListView>
                           child: Image.asset('assets/icons/down_light_72.png',
                               height: theme.textTheme.headline3!.fontSize),
                           colorFilter: ColorFilter.mode(
-                              theme.colorScheme.primaryVariant,
+                              theme.colorScheme.primaryContainer,
                               BlendMode.srcIn),
                         ),
                       ),
@@ -250,7 +250,7 @@ class _ContactsListViewState extends State<ContactsListView>
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: CircleAvatar(
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
-              backgroundColor: theme.colorScheme.primaryVariant,
+              backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
                 item.initials,
                 style: theme.textTheme.headline4!.copyWith(
@@ -272,7 +272,7 @@ class _ContactsListViewState extends State<ContactsListView>
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: theme.colorScheme.primaryVariant.withOpacity(0.15),
+              color: theme.colorScheme.primaryContainer.withOpacity(0.15),
             ),
             child: Column(
               children: [
@@ -303,12 +303,13 @@ class _ContactsListViewState extends State<ContactsListView>
                           height: theme.textTheme.bodyText1!.fontSize! * 1.5,
                         ),
                         colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primaryVariant, BlendMode.srcIn),
+                            theme.colorScheme.primaryContainer,
+                            BlendMode.srcIn),
                       ),
                       Text(
                         item.phone ?? 'PHONE_NOT_FOUND'.tr(),
                         style: theme.textTheme.bodyText1?.copyWith(
-                          color: theme.colorScheme.primaryVariant,
+                          color: theme.colorScheme.primaryContainer,
                         ),
                       ),
                     ],
@@ -344,7 +345,7 @@ class _ContactsListViewState extends State<ContactsListView>
                                   theme.textTheme.bodyText1!.fontSize! * 1.5,
                             ),
                             colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryVariant,
+                                theme.colorScheme.primaryContainer,
                                 BlendMode.srcIn),
                           ),
                         ),
@@ -352,7 +353,7 @@ class _ContactsListViewState extends State<ContactsListView>
                           child: Text(
                             item.email.useCorrectEllipsis(),
                             style: theme.textTheme.bodyText1?.copyWith(
-                                color: theme.colorScheme.primaryVariant),
+                                color: theme.colorScheme.primaryContainer),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -369,14 +370,14 @@ class _ContactsListViewState extends State<ContactsListView>
                         height: theme.textTheme.bodyText1!.fontSize! * 1.5,
                       ),
                       colorFilter: ColorFilter.mode(
-                          theme.colorScheme.primaryVariant, BlendMode.srcIn),
+                          theme.colorScheme.primaryContainer, BlendMode.srcIn),
                     ),
                     Text(
                       item.birthday != null
                           ? DateFormat('yyyy. MM. dd.').format(item.birthday!)
                           : 'BIRTHDAY_NOT_FOUND'.tr(),
                       style: theme.textTheme.bodyText1?.copyWith(
-                        color: theme.colorScheme.primaryVariant,
+                        color: theme.colorScheme.primaryContainer,
                       ),
                     ),
                   ],
@@ -404,7 +405,7 @@ class _ContactsListViewState extends State<ContactsListView>
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: CircleAvatar(
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
-              backgroundColor: theme.colorScheme.primaryVariant,
+              backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
                 item.initials,
                 style: theme.textTheme.headline4!.copyWith(
@@ -426,7 +427,7 @@ class _ContactsListViewState extends State<ContactsListView>
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: theme.colorScheme.primaryVariant.withOpacity(0.15),
+              color: theme.colorScheme.primaryContainer.withOpacity(0.15),
             ),
             child: Column(
               children: [
@@ -462,7 +463,7 @@ class _ContactsListViewState extends State<ContactsListView>
                                   theme.textTheme.bodyText1!.fontSize! * 1.5,
                             ),
                             colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryVariant,
+                                theme.colorScheme.primaryContainer,
                                 BlendMode.srcIn),
                           ),
                         ),
@@ -471,7 +472,7 @@ class _ContactsListViewState extends State<ContactsListView>
                             item.email?.useCorrectEllipsis() ??
                                 'EMAIL_NOT_FOUND'.tr(),
                             style: theme.textTheme.bodyText1?.copyWith(
-                                color: theme.colorScheme.primaryVariant),
+                                color: theme.colorScheme.primaryContainer),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -494,14 +495,14 @@ class _ContactsListViewState extends State<ContactsListView>
                                     theme.textTheme.bodyText1!.fontSize! * 1.5,
                               ),
                               colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryVariant,
+                                theme.colorScheme.primaryContainer,
                                 BlendMode.srcIn,
                               ),
                             ),
                             Text(
                               item.name,
                               style: theme.textTheme.bodyText1?.copyWith(
-                                color: theme.colorScheme.primaryVariant,
+                                color: theme.colorScheme.primaryContainer,
                               ),
                             ),
                           ],

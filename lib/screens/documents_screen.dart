@@ -114,7 +114,7 @@ class _DocumentsListViewState extends State<DocumentsListView> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.secondaryVariant,
+              color: Theme.of(context).colorScheme.secondaryContainer,
               offset: const Offset(0.0, 2.0),
               blurRadius: 3.0,
             ),

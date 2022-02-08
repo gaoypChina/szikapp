@@ -38,7 +38,7 @@ class NotificationCard extends StatelessWidget {
               data.title,
               style: theme.textTheme.bodyText1!.copyWith(
                 fontSize: 14,
-                color: theme.colorScheme.primaryVariant,
+                color: theme.colorScheme.primaryContainer,
               ),
             ),
             onTap: () {

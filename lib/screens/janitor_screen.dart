@@ -310,7 +310,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
                                               color: theme
-                                                  .colorScheme.primaryVariant,
+                                                  .colorScheme.primaryContainer,
                                             ),
                                           ),
                                         ),
@@ -321,7 +321,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
                                             color: theme
-                                                .colorScheme.primaryVariant,
+                                                .colorScheme.primaryContainer,
                                           ),
                                         ),
                                       ],

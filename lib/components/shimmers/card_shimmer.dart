@@ -9,8 +9,8 @@ class CardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Shimmer.fromColors(
-      baseColor: theme.colorScheme.secondaryVariant.withOpacity(0.2),
-      highlightColor: theme.colorScheme.secondaryVariant.withOpacity(0.5),
+      baseColor: theme.colorScheme.secondaryContainer.withOpacity(0.2),
+      highlightColor: theme.colorScheme.secondaryContainer.withOpacity(0.5),
       child: Container(
         margin: const EdgeInsets.all(20),
         height: 72,
