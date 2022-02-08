@@ -30,11 +30,20 @@ class BirthdayBar extends StatelessWidget {
           var birthdayUsers = <UserData>[];
           birthdayUsers.add(snapshot.data!.first);
           var birthdayNames = birthdayUsers.first.showableName;
+          var now = DateTime.now();
           var daysToBirthday = DateTime(
-            DateTime.now().year,
+            now.year,
             birthdayUsers.first.birthday!.month,
             birthdayUsers.first.birthday!.day,
-          ).difference(DateTime.now()).inDays;
+          )
+              .difference(
+                DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                ),
+              )
+              .inDays;
           for (var element in snapshot.data!) {
             if (element.id != birthdayUsers.first.id) {
               var daysToBirthdayElement = DateTime(
