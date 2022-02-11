@@ -19,7 +19,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(

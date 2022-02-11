@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../business/auth_manager.dart';
 import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 import '../utils/exceptions.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -101,6 +102,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void _onCancel() {
+    setState(() {
+      nick = widget.manager.user!.nick;
+      birthday = widget.manager.user!.birthday;
+      phone = widget.manager.user!.phone;
+      changed = false;
+    });
+  }
+
+  List<Widget> _buildActionButtons(bool changed) {
+    return changed
+        ? [
+            IconButton(
+              icon: const Icon(
+                Icons.done,
+                size: kIconSizeNormal,
+              ),
+              onPressed: _onSend,
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.cancel_outlined,
+                size: kIconSizeNormal,
+              ),
+              onPressed: _onCancel,
+            )
+          ]
+        : [];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -111,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
@@ -129,6 +160,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ..._buildActionButtons(changed),
+                ElevatedButton.icon(
+                  onPressed: () =>
+                      Provider.of<AuthManager>(context, listen: false)
+                          .signOut(),
+                  icon: ColorFiltered(
+                    child: Image.asset(
+                      'assets/icons/user_light_72.png',
+                      height: kIconSizeSmall,
+                    ),
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.surface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: Text('SIGN_OUT_LABEL'.tr()),
+                ),
+              ],
+            ),
             Form(
               key: _formKey,
               child: Column(
@@ -138,30 +191,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     initialValue: widget.manager.user!.name,
                     readOnly: true,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_NICKNAME'.tr(),
                     initialValue: nick,
                     onChanged: _onNickChanged,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_EMAIL'.tr(),
                     initialValue: widget.manager.user!.email,
                     readOnly: true,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_BIRTHDAY'.tr(),
@@ -170,20 +208,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         : null,
                     onChanged: _onBirthdayChanged,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                   ProfileTextField(
                     label: 'PROFILE_PHONENUMBER'.tr(),
                     initialValue: phone,
                     onChanged: _onPhoneChanged,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
@@ -191,22 +219,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         widget.manager.user!.groupIDs ?? []),
                     readOnly: true,
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 2,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
                 ],
               ),
             ),
-            changed
-                ? Center(
-                    child: ElevatedButton(
-                      child: Text('BUTTON_SEND'.tr()),
-                      onPressed: _onSend,
-                    ),
-                  )
-                : Container(),
           ],
         ),
       ),

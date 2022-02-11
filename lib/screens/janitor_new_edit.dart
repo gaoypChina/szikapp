@@ -89,7 +89,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
       onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
     );
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: widget.isEdit
           ? 'JANITOR_TITLE_EDIT'.tr()
@@ -168,7 +168,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             readOnly: widget.isFeedback,
                             initialValue: widget.isEdit || widget.isFeedback
@@ -177,7 +176,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                             validator: _validateTextField,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                               fontStyle: FontStyle.italic,
                             ),
                             decoration: InputDecoration(
@@ -215,14 +214,13 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             initialValue: (widget.isEdit && !widget.isFeedback)
                                 ? widget.originalItem!.description
                                 : null,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                               fontStyle: FontStyle.italic,
                             ),
                             decoration: InputDecoration(
@@ -256,8 +254,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                     child: Image.asset(
                                         'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryVariant
-                                            .withOpacity(0.7),
+                                        theme.colorScheme.secondaryContainer,
                                         BlendMode.srcIn),
                                   ),
                                   onPressed: () {
@@ -269,7 +266,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                               : Container(),
                         ),
                         Expanded(
-                          flex: 1,
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit

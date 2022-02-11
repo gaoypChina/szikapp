@@ -34,6 +34,8 @@ class Group {
     permissions ??= <Permission>[];
   }
 
+  String get initials => name.substring(0, 2);
+
   void addMember(String userID) {
     if (!memberIDs!.contains(userID) && memberIDs!.length < maxMemberCount) {
       memberIDs!.add(userID);

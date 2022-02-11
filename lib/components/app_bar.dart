@@ -6,7 +6,7 @@ import '../ui/themes.dart';
 
 import 'curve_shape_border.dart';
 
-PreferredSizeWidget buildAppBar({
+PreferredSizeWidget buildCustomAppBar({
   required BuildContext context,
   required String appBarTitle,
   double elevation = 0.0,

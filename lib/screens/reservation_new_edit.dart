@@ -95,7 +95,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
       resourceIDs.add(widget.manager.selectedGame!.id);
     }
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
@@ -117,7 +117,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     .firstWhere((element) => element.id == selectedPlace!.id)
                     .name,
                 style: theme.textTheme.headline2!.copyWith(
-                  color: theme.colorScheme.primaryVariant,
+                  color: theme.colorScheme.primaryContainer,
                   fontSize: 24,
                 ),
               ),
@@ -237,7 +237,6 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             validator: _validateTextField,
                             initialValue: widget.isEdit
@@ -245,7 +244,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                                 : null,
                             style: theme.textTheme.headline3!.copyWith(
                               fontSize: 14,
-                              color: theme.colorScheme.primaryVariant,
+                              color: theme.colorScheme.primaryContainer,
                               fontStyle: FontStyle.italic,
                             ),
                             decoration: InputDecoration(
@@ -279,7 +278,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                                     child: Image.asset(
                                         'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryVariant
+                                        theme.colorScheme.secondaryContainer
                                             .withOpacity(0.7),
                                         BlendMode.srcIn),
                                   ),
@@ -292,7 +291,6 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                               : Container(),
                         ),
                         Expanded(
-                          flex: 1,
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit
@@ -319,6 +317,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     if (value == null || value.isEmpty) {
       return 'ERROR_EMPTY_FIELD'.tr();
     }
+    return null;
   }
 
   void _onDateChanged(DateTime? date) {

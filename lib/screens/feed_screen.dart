@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/auth_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
-import '../components/notification_card.dart';
 import '../models/notification.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
@@ -27,25 +26,27 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  List<SzikAppNotification> notifications = [];
+  List<CustomNotification> notifications = [];
+  List<int> feedShortcuts = [];
 
   @override
   void initState() {
     super.initState();
     notifications = [
-      SzikAppNotification(
+      CustomNotification(
         title: 'Belló konyhatakát cserélne veled',
         route: SzikAppLink(),
       ),
-      SzikAppNotification(
+      CustomNotification(
         title: 'Sikeresen lefoglaltad a Catant',
         route: SzikAppLink(),
       ),
-      SzikAppNotification(
+      CustomNotification(
         title: 'Gyuri kicserélte az égőt a szobádban',
         route: SzikAppLink(),
       ),
     ];
+    feedShortcuts = Settings.instance.feedShortcuts ?? [];
   }
 
   void _onClearAllNotificationsPressed() {}
@@ -63,7 +64,8 @@ class _FeedScreenState extends State<FeedScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
@@ -108,28 +110,18 @@ class _FeedScreenState extends State<FeedScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-                WrappedIconButton(
-                  assetPath: 'assets/icons/bell_light_72.png',
-                  color: theme.colorScheme.primaryVariant,
-                  backgroundColor: theme.colorScheme.background,
-                ),
-              ],
+              children: feedShortcuts.map<WrappedIconButton>(
+                (item) {
+                  return WrappedIconButton(
+                    assetPath: 'assets/icons/bell_light_72.png',
+                    color: theme.colorScheme.primaryContainer,
+                    backgroundColor: theme.colorScheme.background,
+                    onTap: () =>
+                        Provider.of<SzikAppStateManager>(context, listen: false)
+                            .selectFeature(item),
+                  );
+                },
+              ).toList(),
             ),
           ),
           Container(
@@ -157,12 +149,28 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          Column(
-            children: notifications.map<NotificationCard>(
-              (item) {
-                return NotificationCard(data: item);
-              },
-            ).toList(),
+          Expanded(
+            child: notifications.isEmpty
+                ? Center(
+                    child: Text(
+                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                      style: theme.textTheme.headline2!.copyWith(
+                        fontSize: 16,
+                        color: theme.colorScheme.background,
+                      ),
+                    ),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () async {},
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: notifications.map<NotificationCard>(
+                        (item) {
+                          return NotificationCard(data: item);
+                        },
+                      ).toList(),
+                    ),
+                  ),
           ),
         ],
       ),

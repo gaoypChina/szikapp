@@ -72,7 +72,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
-            DocumentsScreen.page(),
+            DocumentsScreen.page(manager: goodToKnowManager),
           if (appStateManager.selectedFeature == SzikAppFeature.error)
             ErrorScreen.page(
               error: appStateManager.error ??
@@ -130,7 +130,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (reservationManager.selectedMode == ReservationMode.place)
             ReservationPlacesMapScreen.page(),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
-            ReservationGamesListScreen.page(),
+            ReservationGamesListScreen.page(manager: reservationManager),
           if (reservationManager.selectedPlaceIndex != -1 ||
               reservationManager.selectedGameIndex != -1 ||
               reservationManager.selectedMode == ReservationMode.zoom)

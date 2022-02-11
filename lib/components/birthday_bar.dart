@@ -26,49 +26,76 @@ class BirthdayBar extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CardShimmer();
-        } else if (snapshot.hasData) {}
-        var birthdayUser = snapshot.data!.first;
-        var now = DateTime.now();
-        var daysToBirthday = DateTime(
-          now.year,
-          birthdayUser.birthday!.month,
-          birthdayUser.birthday!.day,
-        )
-            .difference(DateTime(
-              now.year,
-              now.month,
-              now.day,
-            ))
-            .inDays;
-        var showName = birthdayUser.nick ?? birthdayUser.name.split(' ')[1];
-        return Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            color: Theme.of(context).colorScheme.background,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.cake_outlined),
-              Text(
-                'FEED_BIRTHDAY'.tr(
-                  args: [
-                    showName,
-                    dayToIdiom[daysToBirthday] ??
-                        'FEED_BIRTHDAY_DAYS'.tr(
-                          args: [
-                            daysToBirthday.toString(),
-                          ],
-                        ),
-                  ],
+        } else if (snapshot.hasData) {
+          var birthdayUsers = <UserData>[];
+          birthdayUsers.add(snapshot.data!.first);
+          var birthdayNames = birthdayUsers.first.showableName;
+          var now = DateTime.now();
+          var daysToBirthday = DateTime(
+            now.year,
+            birthdayUsers.first.birthday!.month,
+            birthdayUsers.first.birthday!.day,
+          )
+              .difference(
+                DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
                 ),
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
-          ),
-        );
+              )
+              .inDays;
+          for (var element in snapshot.data!) {
+            if (element.id != birthdayUsers.first.id) {
+              var daysToBirthdayElement = DateTime(
+                DateTime.now().year,
+                element.birthday!.month,
+                element.birthday!.day,
+              ).difference(DateTime.now()).inDays;
+              if (daysToBirthdayElement == daysToBirthday) {
+                birthdayUsers.add(element);
+                birthdayNames += ',${element.showableName}';
+              }
+            }
+          }
+
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: Theme.of(context).colorScheme.background,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(Icons.cake_outlined),
+                Text(
+                  'FEED_BIRTHDAY'.tr(
+                    args: [
+                      birthdayNames,
+                      dayToIdiom[daysToBirthday] ??
+                          'FEED_BIRTHDAY_DAYS'.tr(
+                            args: [
+                              daysToBirthday.toString(),
+                            ],
+                          ),
+                    ],
+                  ),
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              color: Theme.of(context).colorScheme.background,
+            ),
+            child: Text('BIRTHDAY_BAR_ERROR'.tr()),
+          );
+        }
       },
     );
   }

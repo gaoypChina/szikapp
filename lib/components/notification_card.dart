@@ -4,7 +4,7 @@ import '../models/notification.dart';
 import '../ui/themes.dart';
 
 class NotificationCard extends StatelessWidget {
-  final SzikAppNotification data;
+  final CustomNotification data;
 
   const NotificationCard({
     Key? key,
@@ -38,7 +38,7 @@ class NotificationCard extends StatelessWidget {
               data.title,
               style: theme.textTheme.bodyText1!.copyWith(
                 fontSize: 14,
-                color: theme.colorScheme.primaryVariant,
+                color: theme.colorScheme.primaryContainer,
               ),
             ),
             onTap: () {

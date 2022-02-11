@@ -1,73 +1,53 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
-import '../main.dart';
 import '../models/goodtoknow.dart';
 import '../ui/themes.dart';
-import '../utils/utils.dart';
-import 'error_screen.dart';
 
 class DocumentsScreen extends StatelessWidget {
   static const String route = '/documents';
 
-  static MaterialPage page() {
-    return const MaterialPage(
-      name: route,
-      key: ValueKey(route),
-      child: DocumentsScreen(),
-    );
-  }
-
-  const DocumentsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: Provider.of<GoodToKnowManager>(context, listen: false).refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ListScreenShimmer(
-            type: ShimmerListType.card,
-          );
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return DocumentsList(
-            manager: Provider.of<GoodToKnowManager>(context, listen: false),
-          );
-        }
-      },
-    );
-  }
-}
-
-class DocumentsList extends StatefulWidget {
   final GoodToKnowManager manager;
 
-  const DocumentsList({
+  static MaterialPage page({required GoodToKnowManager manager}) {
+    return MaterialPage(
+      name: route,
+      key: const ValueKey(route),
+      child: DocumentsScreen(manager: manager),
+    );
+  }
+
+  const DocumentsScreen({
     Key? key,
     required this.manager,
   }) : super(key: key);
 
   @override
-  _DocumentsListState createState() => _DocumentsListState();
+  Widget build(BuildContext context) {
+    return CustomFutureBuilder<void>(
+      future: manager.refresh(),
+      shimmer: const ListScreenShimmer(),
+      child: DocumentsListView(manager: manager),
+    );
+  }
 }
 
-class _DocumentsListState extends State<DocumentsList> {
+class DocumentsListView extends StatefulWidget {
+  final GoodToKnowManager manager;
+
+  const DocumentsListView({
+    Key? key,
+    required this.manager,
+  }) : super(key: key);
+
+  @override
+  _DocumentsListViewState createState() => _DocumentsListViewState();
+}
+
+class _DocumentsListViewState extends State<DocumentsListView> {
   List<GoodToKnow> items = [];
-  bool infoWidgetVisible = false;
   int index = 0;
 
   @override
@@ -97,7 +77,7 @@ class _DocumentsListState extends State<DocumentsList> {
         newItems = widget.manager.filter(GoodToKnowCategory.document);
         break;
       case 1:
-        newItems = widget.manager.filter(GoodToKnowCategory.pinned_post);
+        newItems = widget.manager.filter(GoodToKnowCategory.pinnedPost);
         break;
       default:
         newItems = widget.manager.items;
@@ -108,20 +88,20 @@ class _DocumentsListState extends State<DocumentsList> {
     });
   }
 
-  void _hideInfoWidget() {
-    setState(() {
-      infoWidgetVisible = false;
-      index = 0;
-    });
-  }
-
   Widget _buildListItem(BuildContext context, int pindex) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          infoWidgetVisible = true;
           index = pindex;
         });
+        showDialog(
+          context: context,
+          builder: (context) {
+            return DocumentDetails(
+              document: (items.length <= index) ? null : items[index],
+            );
+          },
+        );
       },
       child: Container(
         width: double.infinity,
@@ -134,7 +114,7 @@ class _DocumentsListState extends State<DocumentsList> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.secondaryVariant,
+              color: Theme.of(context).colorScheme.secondaryContainer,
               offset: const Offset(0.0, 2.0),
               blurRadius: 3.0,
             ),
@@ -151,7 +131,7 @@ class _DocumentsListState extends State<DocumentsList> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return SzikAppScaffold(
+    return CustomScaffold(
       appBarTitle: 'DOCUMENTS_TITLE'.tr(),
       body: Stack(
         children: [
@@ -213,32 +193,19 @@ class _DocumentsListState extends State<DocumentsList> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: _buildListItem,
-                  itemCount: items.length,
-                ),
+                child: items.isEmpty
+                    ? Center(
+                        child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () => widget.manager.refresh(),
+                        child: ListView.builder(
+                          itemBuilder: _buildListItem,
+                          itemCount: items.length,
+                        ),
+                      ),
               ),
             ],
-          ),
-          Visibility(
-            visible: infoWidgetVisible,
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: _hideInfoWidget,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    decoration: const BoxDecoration(
-                      color: Color(0xab000000),
-                    ),
-                  ),
-                ),
-                DocumentDetails(
-                  document: (items.length <= index) ? null : items[index],
-                )
-              ],
-            ),
           ),
         ],
       ),

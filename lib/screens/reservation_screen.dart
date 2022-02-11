@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 
 import '../components/components.dart';
-import '../ui/themes.dart';
 
 class ReservationScreen extends StatelessWidget {
   static const String route = '/reservation';
@@ -22,9 +21,7 @@ class ReservationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-    return SzikAppScaffold(
+    return CustomScaffold(
       appBarTitle: 'RESERVATION_TITLE'.tr(),
       body: Container(
         decoration: const BoxDecoration(
@@ -36,120 +33,28 @@ class ReservationScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            GestureDetector(
+            ModeMenuItem(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.place),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
-                height: height * 0.15,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(width * 0.08),
-                      child: Image.asset(
-                        'assets/icons/armchair_light_72.png',
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0, width * 0.08, width * 0.08, width * 0.08),
-                      child: Center(
-                        child: Text(
-                          'RESERVATION_MODE_PLACE'.tr(),
-                          style: szikTextTheme.headline2!.copyWith(
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              leadingAssetPath: 'assets/icons/armchair_light_72.png',
+              title: 'RESERVATION_MODE_PLACE'.tr(),
             ),
-            GestureDetector(
+            ModeMenuItem(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.zoom),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
-                height: height * 0.15,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(width * 0.08),
-                      child: Image.asset(
-                        'assets/icons/chalkboard_teacher_light_72.png',
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0, width * 0.08, width * 0.08, width * 0.08),
-                      child: Center(
-                        child: Text(
-                          'RESERVATION_MODE_ZOOM'.tr(),
-                          style: szikTextTheme.headline2!.copyWith(
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              leadingAssetPath: 'assets/icons/chalkboard_teacher_light_72.png',
+              title: 'RESERVATION_MODE_ZOOM'.tr(),
+              color: Theme.of(context).colorScheme.primary,
             ),
-            GestureDetector(
+            ModeMenuItem(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.boardgame),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(width * 0.08, 0, width * 0.08, 0),
-                height: height * 0.15,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(width * 0.08),
-                      child: Image.asset(
-                        'assets/icons/dicefive_light_72.png',
-                        color: Theme.of(context).colorScheme.primaryVariant,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0, width * 0.08, width * 0.08, width * 0.08),
-                      child: Text(
-                        'RESERVATION_MODE_BOARDGAME'.tr(),
-                        style: szikTextTheme.headline2!.copyWith(
-                          fontSize: 20,
-                          fontStyle: FontStyle.normal,
-                          decoration: TextDecoration.none,
-                          color: Theme.of(context).colorScheme.primaryVariant,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              leadingAssetPath: 'assets/icons/dicefive_light_72.png',
+              title: 'RESERVATION_MODE_BOARDGAME'.tr(),
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           ],
         ),

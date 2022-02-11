@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../business/business.dart';
 import '../components/bottom_navigation_bar.dart';
 import '../navigation/app_state_manager.dart';
 import 'feed_screen.dart';
@@ -63,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
+    Settings.instance.initialize();
   }
 
   @override
@@ -77,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          bottomNavigationBar: SzikAppBottomNavigationBar(
+          bottomNavigationBar: CustomBottomNavigationBar(
             selectedTab: widget.currentTab,
           ),
         );

@@ -1,8 +1,7 @@
-import 'package:accordion/accordion.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toggle_list/toggle_list.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
@@ -10,8 +9,6 @@ import '../main.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
-import '../utils/utils.dart';
-import 'error_screen.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
@@ -30,34 +27,21 @@ class JanitorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    return CustomFutureBuilder<void>(
       future: manager.refresh(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          //Shrimmer
-          return const ListScreenShimmer(
-            type: ShimmerListType.card,
-          );
-        } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
-            return ErrorScreen(
-              errorInset: ErrorHandler.buildInset(
-                context,
-                errorCode: noConnectionExceptionCode,
-              ),
-            );
-          }
-          return ErrorScreen(error: snapshot.error ?? 'ERROR_UNKNOWN'.tr());
-        } else {
-          return const JanitorListView();
-        }
-      },
+      shimmer: const ListScreenShimmer(),
+      child: JanitorListView(manager: manager),
     );
   }
 }
 
 class JanitorListView extends StatefulWidget {
-  const JanitorListView({Key? key}) : super(key: key);
+  final JanitorManager manager;
+
+  const JanitorListView({
+    Key? key,
+    required this.manager,
+  }) : super(key: key);
 
   @override
   _JanitorListViewState createState() => _JanitorListViewState();
@@ -65,13 +49,11 @@ class JanitorListView extends StatefulWidget {
 
 class _JanitorListViewState extends State<JanitorListView> {
   List<JanitorTask> items = [];
-  late final JanitorManager manager;
 
   @override
   void initState() {
     super.initState();
-    manager = Provider.of<JanitorManager>(context, listen: false);
-    items = manager.tasks;
+    items = widget.manager.tasks;
   }
 
   void _onTabChanged(int? newValue) {
@@ -79,17 +61,17 @@ class _JanitorListViewState extends State<JanitorListView> {
     switch (newValue) {
       case 2:
         var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
-        newItems = manager.filter(involvedID: ownID);
+        newItems = widget.manager.filter(involvedID: ownID);
         break;
       case 1:
-        newItems = manager.filter(statuses: [
+        newItems = widget.manager.filter(statuses: [
           TaskStatus.sent,
-          TaskStatus.in_progress,
-          TaskStatus.awaiting_approval
+          TaskStatus.inProgress,
+          TaskStatus.awaitingApproval
         ]);
         break;
       default:
-        newItems = manager.filter();
+        newItems = widget.manager.filter();
     }
     setState(() {
       items = newItems;
@@ -98,34 +80,34 @@ class _JanitorListViewState extends State<JanitorListView> {
 
   void _onCreateTask() {
     SZIKAppState.analytics.logEvent(name: 'create_open_janitor_task');
-    manager.createNewTask();
+    widget.manager.createNewTask();
   }
 
   void _onEditPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
-    var index = manager.tasks.indexOf(task);
-    manager.editTask(index);
+    var index = widget.manager.tasks.indexOf(task);
+    widget.manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
-    var index = manager.tasks.indexOf(task);
-    manager.adminEditTask(index);
+    var index = widget.manager.tasks.indexOf(task);
+    widget.manager.adminEditTask(index);
   }
 
   void _onFeedbackPressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaiting_approval ||
+    if (task.status == TaskStatus.awaitingApproval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
-      var index = manager.tasks.indexOf(task);
-      manager.feedbackTask(index);
+      var index = widget.manager.tasks.indexOf(task);
+      widget.manager.feedbackTask(index);
     }
   }
 
   void _onApprovePressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaiting_approval) {
+    if (task.status == TaskStatus.awaitingApproval) {
       SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
-      manager.updateStatus(TaskStatus.approved, task);
+      widget.manager.updateStatus(TaskStatus.approved, task);
     }
   }
 
@@ -134,7 +116,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     if ((task.involvedIDs!.contains(userID) &&
             (task.status == TaskStatus.sent ||
-                task.status == TaskStatus.in_progress)) ||
+                task.status == TaskStatus.inProgress)) ||
         userID == 'u904') {
       buttons.add(OutlinedButton(
         onPressed: () => userID == 'u904'
@@ -144,14 +126,14 @@ class _JanitorListViewState extends State<JanitorListView> {
       ));
     }
     if (task.status == TaskStatus.approved ||
-        task.status == TaskStatus.awaiting_approval) {
+        task.status == TaskStatus.awaitingApproval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onFeedbackPressed(task),
         child: Text('BUTTON_FEEDBACK'.tr()),
       ));
     }
     if (task.involvedIDs!.contains(userID) &&
-        task.status == TaskStatus.awaiting_approval) {
+        task.status == TaskStatus.awaitingApproval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
         child: Text('BUTTON_APPROVE'.tr()),
@@ -162,9 +144,9 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   Future<void> _onManualRefresh() async {
-    await manager.refresh();
+    await widget.manager.refresh();
     setState(() {
-      items = manager.tasks;
+      items = widget.manager.tasks;
     });
   }
 
@@ -224,12 +206,18 @@ class _JanitorListViewState extends State<JanitorListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return SzikAppScaffold(
+    return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE'.tr(),
       body: Container(
         padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-        color: theme.colorScheme.background,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+            opacity: 0.5,
+          ),
+        ),
         child: Column(
           children: [
             TabChoice(
@@ -249,293 +237,365 @@ class _JanitorListViewState extends State<JanitorListView> {
                     )
                   : RefreshIndicator(
                       onRefresh: _onManualRefresh,
-                      child: Accordion(
-                        headerPadding: const EdgeInsets.all(20),
-                        headerBackgroundColor: theme.colorScheme.background,
-                        contentBackgroundColor: theme.colorScheme.background,
-                        headerBorderRadius: kBorderRadiusNormal,
-                        rightIcon: ColorFiltered(
-                          child: Image.asset('assets/icons/down_light_72.png',
-                              height: theme.textTheme.headline3!.fontSize),
-                          colorFilter: ColorFilter.mode(
-                              theme.colorScheme.background, BlendMode.srcIn),
-                        ),
-                        children: items.map<AccordionSection>((item) {
-                          var leftColumnWidth =
-                              MediaQuery.of(context).size.width * 0.25;
-                          return AccordionSection(
-                            headerText:
-                                '${item.start.month}. ${item.start.day}.',
-                            headerTextStyle:
-                                theme.textTheme.bodyText1!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: theme.colorScheme.background,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: ToggleList(
+                          divider: const SizedBox(
+                            height: 10,
+                          ),
+                          trailing: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ColorFiltered(
+                              child: Image.asset(
+                                  'assets/icons/down_light_72.png',
+                                  height: theme.textTheme.headline3!.fontSize),
+                              colorFilter: ColorFilter.mode(
+                                  theme.colorScheme.primary, BlendMode.srcIn),
                             ),
-                            headerBackgroundColor:
-                                taskStatusColors[item.status]!,
-                            contentBackgroundColor:
-                                taskStatusColors[item.status]!,
-                            leftIcon: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              child: Text(
-                                Provider.of<SzikAppStateManager>(context,
-                                        listen: false)
-                                    .places
-                                    .firstWhere(
-                                        (element) => element.id == item.placeID)
-                                    .name,
-                                style: theme.textTheme.bodyText1!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: theme.colorScheme.background,
+                          ),
+                          children: items.map<ToggleListItem>((item) {
+                            var leftColumnWidth =
+                                MediaQuery.of(context).size.width * 0.25;
+                            return ToggleListItem(
+                              headerDecoration: BoxDecoration(
+                                color: theme.colorScheme.surface,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                              ),
+                              expandedHeaderDecoration: BoxDecoration(
+                                color: taskStatusColors[item.status]!,
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(20),
                                 ),
                               ),
-                            ),
-                            content: Flex(
-                              direction: Axis.vertical,
-                              children: [
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: theme.colorScheme.background,
-                                ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 20, 0, 8),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: leftColumnWidth,
-                                        child: Text(
-                                          'JANITOR_LABEL_TITLE'.tr(),
-                                          style: theme.textTheme.bodyText1!
-                                              .copyWith(
-                                            fontSize: 14,
-                                            color: theme.colorScheme.background,
+                              title: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: taskStatusColors[item.status]!,
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                            left: Radius.circular(20),
                                           ),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      kBorderRadiusNormal)),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
                                           child: Text(
-                                            item.name,
-                                            style: theme.textTheme.subtitle1!
+                                            Provider.of<SzikAppStateManager>(
+                                                    context,
+                                                    listen: false)
+                                                .places
+                                                .firstWhere((element) =>
+                                                    element.id == item.placeID)
+                                                .name,
+                                            style: theme.textTheme.bodyText1!
                                                 .copyWith(
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.w600,
-                                              color:
-                                                  theme.colorScheme.background,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              color: theme
+                                                  .colorScheme.primaryContainer,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: leftColumnWidth,
-                                        child: Text(
-                                          'JANITOR_LABEL_DESCRIPTION'.tr(),
+                                        Text(
+                                          '${item.start.month}. ${item.start.day}.',
                                           style: theme.textTheme.bodyText1!
                                               .copyWith(
+                                            fontWeight: FontWeight.bold,
                                             fontSize: 14,
-                                            color: theme.colorScheme.background,
+                                            color: theme
+                                                .colorScheme.primaryContainer,
                                           ),
-                                          textAlign: TextAlign.center,
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      kBorderRadiusNormal)),
-                                          child: Text(
-                                            item.description ?? '',
-                                            style: theme.textTheme.subtitle1!
-                                                .copyWith(
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.w600,
-                                              color:
-                                                  theme.colorScheme.background,
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              content: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(20),
+                                  ),
+                                  color: taskStatusColors[item.status]!,
+                                ),
+                                child: Flex(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Divider(
+                                      height: 1,
+                                      thickness: 1,
+                                      color: theme.colorScheme.background,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 20, 0, 8),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: leftColumnWidth,
+                                            child: Text(
+                                              'JANITOR_LABEL_TITLE'.tr(),
+                                              style: theme.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 14,
+                                                color: theme
+                                                    .colorScheme.background,
+                                              ),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: leftColumnWidth,
-                                        child: Text(
-                                          'JANITOR_LABEL_START'.tr(),
-                                          style: theme.textTheme.bodyText1!
-                                              .copyWith(
-                                            fontSize: 14,
-                                            color: theme.colorScheme.background,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      kBorderRadiusNormal)),
-                                          child: Text(
-                                            '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
-                                            style: theme.textTheme.subtitle1!
-                                                .copyWith(
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.w600,
-                                              color:
-                                                  theme.colorScheme.background,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: leftColumnWidth,
-                                        child: Text(
-                                          'JANITOR_LABEL_STATUS'.tr(),
-                                          style: theme.textTheme.bodyText1!
-                                              .copyWith(
-                                            fontSize: 14,
-                                            color: theme.colorScheme.background,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      kBorderRadiusNormal)),
-                                          child: Text(
-                                            item.status.toShortString(),
-                                            style: theme.textTheme.subtitle1!
-                                                .copyWith(
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.w600,
-                                              color:
-                                                  theme.colorScheme.background,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                item.answer == null
-                                    ? Container()
-                                    : Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: leftColumnWidth,
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          kBorderRadiusNormal)),
                                               child: Text(
-                                                'JANITOR_LABEL_ANSWER'.tr(),
+                                                item.name,
                                                 style: theme
-                                                    .textTheme.bodyText1!
+                                                    .textTheme.subtitle1!
                                                     .copyWith(
-                                                  fontSize: 14,
+                                                  fontStyle: FontStyle.italic,
+                                                  fontWeight: FontWeight.w600,
                                                   color: theme
                                                       .colorScheme.background,
                                                 ),
-                                                textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.transparent,
-                                                    border: Border.all(
-                                                        color: theme.colorScheme
-                                                            .background,
-                                                        width: 1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                child: Text(
-                                                  item.answer!,
-                                                  style: theme
-                                                      .textTheme.subtitle1!
-                                                      .copyWith(
-                                                    fontStyle: FontStyle.italic,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: theme
-                                                        .colorScheme.background,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: leftColumnWidth,
+                                            child: Text(
+                                              'JANITOR_LABEL_DESCRIPTION'.tr(),
+                                              style: theme.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 14,
+                                                color: theme
+                                                    .colorScheme.background,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          kBorderRadiusNormal)),
+                                              child: Text(
+                                                item.description ?? '',
+                                                style: theme
+                                                    .textTheme.subtitle1!
+                                                    .copyWith(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: leftColumnWidth,
+                                            child: Text(
+                                              'JANITOR_LABEL_START'.tr(),
+                                              style: theme.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 14,
+                                                color: theme
+                                                    .colorScheme.background,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          kBorderRadiusNormal)),
+                                              child: Text(
+                                                '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
+                                                style: theme
+                                                    .textTheme.subtitle1!
+                                                    .copyWith(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: leftColumnWidth,
+                                            child: Text(
+                                              'JANITOR_LABEL_STATUS'.tr(),
+                                              style: theme.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 14,
+                                                color: theme
+                                                    .colorScheme.background,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          kBorderRadiusNormal)),
+                                              child: Text(
+                                                item.status.toShortString(),
+                                                style: theme
+                                                    .textTheme.subtitle1!
+                                                    .copyWith(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    item.answer == null
+                                        ? Container()
+                                        : Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: leftColumnWidth,
+                                                  child: Text(
+                                                    'JANITOR_LABEL_ANSWER'.tr(),
+                                                    style: theme
+                                                        .textTheme.bodyText1!
+                                                        .copyWith(
+                                                      fontSize: 14,
+                                                      color: theme.colorScheme
+                                                          .background,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                              ),
+                                                Expanded(
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Colors.transparent,
+                                                        border: Border.all(
+                                                            color: theme
+                                                                .colorScheme
+                                                                .background,
+                                                            width: 1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20)),
+                                                    child: Text(
+                                                      item.answer!,
+                                                      style: theme
+                                                          .textTheme.subtitle1!
+                                                          .copyWith(
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: theme.colorScheme
+                                                            .background,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                    _buildFeedbackList(context, item),
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: _buildActionButtons(item),
                                       ),
-                                _buildFeedbackList(context, item),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: _buildActionButtons(item),
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
             ),

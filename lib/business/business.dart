@@ -10,3 +10,4 @@ export 'kitchen_cleaning_manager.dart';
 export 'notification_manager.dart';
 export 'poll_manager.dart';
 export 'reservation_manager.dart';
+export 'settings.dart';

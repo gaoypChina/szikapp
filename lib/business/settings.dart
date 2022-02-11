@@ -13,11 +13,10 @@ class Settings {
 
   ///Publikus konstruktor, ami visszatér a singleton példánnyal.
   factory Settings() => _instance;
+  static Settings get instance => _instance;
 
   ///Rejtett konstruktor, ami inicializálja a [_preferences] adattár példányt.
-  Settings._privateConstructor() {
-    _initialize();
-  }
+  Settings._privateConstructor();
 
   ///Lekéri az első futtatást jelző flaget.
   bool get firstRun => _preferences.getBool('firstRun') ?? true;
@@ -47,7 +46,7 @@ class Settings {
   bool get dataLite => _preferences.getBool('dataLite') ?? false;
 
   ///Lekéri a felhasználó értesítés beállításait.
-  Map<String, bool>? get notifications {
+  Map<String, bool>? get notificationSettings {
     var enabled = _preferences.getStringList('enabled') ?? [];
     var disabled = _preferences.getStringList('disabled') ?? [];
     var result = <String, bool>{};
@@ -60,6 +59,16 @@ class Settings {
     }
 
     return result;
+  }
+
+  List<int>? get feedShortcuts {
+    var shortcutsStrings = _preferences.getStringList('feedShortcuts') ?? [];
+    var shortcuts = <int>[];
+    for (var item in shortcutsStrings) {
+      var parsedItem = int.tryParse(item);
+      if (parsedItem != null) shortcuts.add(parsedItem);
+    }
+    return shortcuts;
   }
 
   ///Lekéri a bal oldali navigációs gomb beállítását.
@@ -92,7 +101,7 @@ class Settings {
   }
 
   ///Elmenti a felhasználó értesítés beállításait.
-  set notifications(Map<String, bool>? notifications) {
+  set notificationSettings(Map<String, bool>? notifications) {
     var enabled = <String>[];
     var disabled = <String>[];
 
@@ -102,6 +111,14 @@ class Settings {
 
     _preferences.setStringList('disabled', disabled);
     _preferences.setStringList('enabled', enabled);
+  }
+
+  set feedShortcuts(List<int>? shortcuts) {
+    var shortcutsStrings = <String>[];
+    for (var item in shortcuts ?? []) {
+      shortcutsStrings.add('$item');
+    }
+    _preferences.setStringList('feedShortcuts', shortcutsStrings);
   }
 
   ///Elmenti a bal oldali navigációs gomb beállításait.
@@ -125,7 +142,8 @@ class Settings {
     theme = serverPreferences.theme;
     language = serverPreferences.language;
     dataLite = serverPreferences.dataLite;
-    notifications = serverPreferences.notifications;
+    notificationSettings = serverPreferences.notifications;
+    feedShortcuts = serverPreferences.feedShortcuts;
     leftMenuOption = serverPreferences.leftMenuOption;
     rightMenuOption = serverPreferences.rightMenuOption;
     return true;
@@ -138,7 +156,8 @@ class Settings {
       ..language = language
       ..theme = theme
       ..dataLite = dataLite
-      ..notifications = notifications
+      ..notifications = notificationSettings
+      ..feedShortcuts = feedShortcuts
       ..leftMenuOption = leftMenuOption
       ..rightMenuOption = rightMenuOption;
 
@@ -150,7 +169,8 @@ class Settings {
   ///Inicializálja a lokális adattárat menedzselő paramétert.
   ///Mivel disk olvasást tartalmaz nem szabad `await`tel hívni
   ///teljesítményérzékeny környezetben.
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
+    await loadPreferences();
   }
 }

@@ -153,8 +153,8 @@ class ErrorHandler {
                       child: Text(
                         errorInformation.errorSolution,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyText1!
-                            .copyWith(color: theme.colorScheme.primaryVariant),
+                        style: theme.textTheme.bodyText1!.copyWith(
+                            color: theme.colorScheme.primaryContainer),
                       ),
                     )
                   ],

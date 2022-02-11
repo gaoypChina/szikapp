@@ -31,6 +31,7 @@ class AuthManager extends ChangeNotifier {
   /// Az aktuálisan bejelentkezett Firebase (Google) fiók
   User? get firebaseUser => _auth.currentUser;
 
+  ///Indicates whether there is an authenticated user.
   bool get isSignedIn => _signedIn;
 
   /// Belső autentikáció segédfüggvény, ami a Google saját metódusával
@@ -59,8 +60,6 @@ class AuthManager extends ChangeNotifier {
     if (isSignedIn) {
       return;
     } else if (_auth.currentUser == null) {
-      _signedIn = false;
-      notifyListeners();
       return;
     }
     try {
@@ -128,6 +127,7 @@ class AuthManager extends ChangeNotifier {
     return _auth.currentUser!.getIdToken(forceRefresh);
   }
 
+  ///Synchronizes local updates on the user profile.
   Future<bool> pushUserUpdate() async {
     if (isSignedIn) {
       var io = IO();
@@ -138,6 +138,7 @@ class AuthManager extends ChangeNotifier {
     return false;
   }
 
+  ///Synchronizes remote updates on the user profile.
   Future<bool> pullUserUpdate() async {
     if (isSignedIn) {
       var io = IO();

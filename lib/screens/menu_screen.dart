@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../components/menu/menu_item.dart';
 import '../navigation/app_state_manager.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -17,278 +18,56 @@ class MenuScreen extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/pictures/background_1.jpg'),
-            fit: BoxFit.cover),
+          image: AssetImage('assets/pictures/background_1.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: Stack(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GestureDetector(
+          MenuItem(
+            name: 'SUBMENU_DATA_TITLE'.tr(),
+            picture: 'assets/icons/bookopen_light_72.png',
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.data),
-            child: SizedBox(
-              height: fifth,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                  Center(
-                    child: Container(
-                      width: fifth * 0.5,
-                      height: fifth * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/icons/bookopen_light_72.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Text(
-                        'SUBMENU_DATA_TITLE'.tr(),
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            height: fifth,
+            reversed: true,
           ),
-          GestureDetector(
+          MenuItem(
+            name: 'SUBMENU_COMMUNITY_TITLE'.tr(),
+            picture: 'assets/icons/smiley_light_72.png',
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.community),
-            child: Container(
-              height: fifth,
-              margin: EdgeInsets.only(top: fifth),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Text(
-                        'SUBMENU_COMMUNITY_TITLE'.tr(),
-                        textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      width: fifth * 0.5,
-                      height: fifth * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image:
-                                AssetImage('assets/icons/smiley_light_72.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                ],
-              ),
-            ),
+            height: fifth,
           ),
-          GestureDetector(
+          MenuItem(
+            name: 'SUBMENU_EVERYDAY_TITLE'.tr(),
+            picture: 'assets/icons/house_light_72.png',
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.everyday),
-            child: Container(
-              height: fifth,
-              margin: EdgeInsets.only(top: fifth * 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                  Center(
-                    child: Container(
-                      width: fifth * 0.5,
-                      height: fifth * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image:
-                                AssetImage('assets/icons/house_light_72.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Text(
-                        'SUBMENU_EVERYDAY_TITLE'.tr(),
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            height: fifth,
+            reversed: true,
           ),
-          GestureDetector(
+          MenuItem(
+            name: 'MENU_CALENDAR'.tr(),
+            picture: 'assets/icons/calendar_light_72.png',
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectFeature(SzikAppFeature.calendar),
-            child: Container(
-              height: fifth,
-              margin: EdgeInsets.only(top: fifth * 3),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Text(
-                        'MENU_CALENDAR'.tr(),
-                        textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      width: fifth * 0.5,
-                      height: fifth * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/icons/calendar_light_72.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                ],
-              ),
-            ),
+            height: fifth,
           ),
-          GestureDetector(
+          MenuItem(
+            name: 'MENU_SETTINGS'.tr(),
+            picture: 'assets/icons/gear_light_72.png',
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectFeature(SzikAppFeature.settings),
-            child: Container(
-              height: fifth,
-              margin: EdgeInsets.only(top: fifth * 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                  Center(
-                    child: Container(
-                      width: fifth * 0.5,
-                      height: fifth * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(fifth * 0.1),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.5),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(fifth * 0.05),
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/icons/gear_light_72.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Text(
-                        'MENU_SETTINGS'.tr(),
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: fifth * 0.1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            height: fifth,
+            reversed: true,
           ),
         ],
       ),

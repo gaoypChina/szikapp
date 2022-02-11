@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
-class SzikAppBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedTab;
-  const SzikAppBottomNavigationBar({
+
+  const CustomBottomNavigationBar({
     Key? key,
     required this.selectedTab,
   }) : super(key: key);

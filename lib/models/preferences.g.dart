@@ -17,7 +17,7 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
         (k, e) => MapEntry(k, e as bool),
       ),
       feedShortcuts: (json['feed_shortcuts'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => e as int)
           .toList(),
       dataLite: json['data_lite'] as bool? ?? false,
       leftMenuOption: json['left_menu_option'] as String?,

@@ -27,6 +27,7 @@
         "ERROR_UNKNOWN_EXCEPTION_SOLUTION": "Kérlek próbáld újraindítani az alkalmazást.",
     "SIGN_IN": null,
         "SIGN_IN_BUTTON": "Belépés Google fiókkal",
+        "SIGN_OUT_LABEL": "Kilépés",
     "MENU": null,
         "MENU_HOME": "Menü",
         "MENU_CONTACTS": "Kontaktok",
@@ -77,7 +78,9 @@
         "JANITOR_LABEL_FEEDBACK": "Visszajelzés",
     "CONTACTS": null,
         "CONTACTS_TITLE": "Kontaktok",
+        "GROUPS_TITLE": "Csoportok",
         "CONTACTS_FILTER_GROUP": "Csoport",
+        "EMAIL_NOT_FOUND": "Emailcím nem található",
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
     "FEED": null,
@@ -119,6 +122,7 @@
         "PLACEHOLDER_SEARCH": "Keresés",
         "PLACEHOLDER_ANSWER": "Válasz",
         "PLACEHOLDER_EMPTY_SEARCH_RESULTS": "Nincs találat.",
+        "PLACEHOLDER_NOTIFICATIONS_EMPTY": "Nincsenek értesítéseid.",
         "PLACEHOLDER_TITLE": "Megnevezés",
         "PLACEHOLDER_NOT_PROVIDED": "Nincs megadva.",
         "PLACEHOLDER_LOADING": "Adatok betöltése...",
@@ -137,5 +141,6 @@
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Válassz dátumot",
         "TIME_PICKER_HELP": "Válassz időpontot",
-        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?"
+        "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
+        "BIRTHDAY_BAR_ERROR": "Net hiba: Kérdezd meg a szobatársad:("
 }

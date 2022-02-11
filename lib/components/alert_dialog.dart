@@ -60,8 +60,7 @@ class CustomAlertDialog extends StatelessWidget {
         fontStyle: FontStyle.normal,
         color: color ?? theme.colorScheme.background,
       ),
-      backgroundColor:
-          backgroundColor ?? theme.colorScheme.secondary.withOpacity(0.8),
+      backgroundColor: backgroundColor ?? theme.colorScheme.secondary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadiusNormal),
       ),

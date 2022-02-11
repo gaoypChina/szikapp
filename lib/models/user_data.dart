@@ -39,6 +39,12 @@ class UserData {
     groupIDs ??= <String>[];
   }
 
+  String get showableName => nick ?? name.split(' ')[1];
+  String get initials {
+    var splitted = name.split(' ');
+    return '${splitted[0][0]}${splitted[1][0]}';
+  }
+
   void addGroup(String groupID) {
     if (!groupIDs!.contains(groupID)) {
       groupIDs!.add(groupID);
