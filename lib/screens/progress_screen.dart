@@ -42,7 +42,6 @@ class _ProgressScreenState extends State<ProgressScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                flex: 1,
                 child: Image.asset(
                   'assets/pictures/logo_white_800.png',
                   width: min(

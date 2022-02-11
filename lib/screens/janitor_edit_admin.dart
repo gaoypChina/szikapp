@@ -242,7 +242,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                         ),
                       ),
                       Expanded(
-                        flex: 1,
                         child: Container(
                           decoration: BoxDecoration(
                             border:
@@ -314,7 +313,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
                                 child: TextFormField(
                                   initialValue: widget.originalItem.answer,
                                   validator: _validateTextField,
@@ -372,7 +370,6 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                     },
                                   )),
                               Expanded(
-                                flex: 1,
                                 child: ElevatedButton(
                                   onPressed: _onEditSent,
                                   child: Text(

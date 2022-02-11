@@ -168,7 +168,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             readOnly: widget.isFeedback,
                             initialValue: widget.isEdit || widget.isFeedback
@@ -215,7 +214,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             initialValue: (widget.isEdit && !widget.isFeedback)
                                 ? widget.originalItem!.description
@@ -268,7 +266,6 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                               : Container(),
                         ),
                         Expanded(
-                          flex: 1,
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit

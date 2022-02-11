@@ -237,7 +237,6 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextFormField(
                             validator: _validateTextField,
                             initialValue: widget.isEdit
@@ -292,7 +291,6 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                               : Container(),
                         ),
                         Expanded(
-                          flex: 1,
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
                             child: Text(widget.isEdit

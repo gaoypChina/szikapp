@@ -84,7 +84,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 1,
                     child: AnimatedAlign(
                       duration: const Duration(seconds: 2),
                       curve: Curves.easeInOutQuad,

@@ -22,7 +22,6 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var children = <Widget>[
       Expanded(
-        flex: 1,
         child: Container(
           child: Text(
             name,
@@ -53,7 +52,6 @@ class MenuItem extends StatelessWidget {
         ),
       ),
       Expanded(
-        flex: 1,
         child: Container(),
       ),
     ];
