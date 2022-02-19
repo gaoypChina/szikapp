@@ -58,7 +58,7 @@ final List<SubMenuItemData> subMenuEverydayListItems = [
   SubMenuItemData(
     name: 'SUBMENU_EVERYDAY_POLL'.tr(),
     picture: 'assets/icons/handpalm_light_72.png',
-    feature: SzikAppFeature.error,
+    feature: SzikAppFeature.poll,
   ),
   SubMenuItemData(
     name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),

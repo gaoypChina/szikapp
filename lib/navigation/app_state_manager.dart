@@ -23,9 +23,10 @@ class SzikAppFeature {
   static const int contacts = 1;
   static const int documents = 2;
   static const int janitor = 3;
-  static const int profile = 4;
-  static const int reservation = 5;
-  static const int settings = 6;
+  static const int poll = 4;
+  static const int profile = 5;
+  static const int reservation = 6;
+  static const int settings = 7;
   static const int error = 99;
 }
 
