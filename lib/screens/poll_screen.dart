@@ -8,7 +8,6 @@ import '../business/auth_manager.dart';
 import '../business/poll_manager.dart';
 import '../components/components.dart';
 import '../models/models.dart';
-import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
 class PollScreen extends StatelessWidget {
@@ -114,12 +113,13 @@ class _PollTileViewState extends State<PollTileView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                              child: Text(
-                            poll.question,
-                            style: theme.textTheme.subtitle1?.copyWith(
-                              color: theme.colorScheme.surface,
+                            child: Text(
+                              poll.question,
+                              style: theme.textTheme.subtitle1?.copyWith(
+                                color: theme.colorScheme.surface,
+                              ),
                             ),
-                          )),
+                          ),
                           Text(
                             _calculateTime(poll.end),
                             style: theme.textTheme.subtitle1?.copyWith(

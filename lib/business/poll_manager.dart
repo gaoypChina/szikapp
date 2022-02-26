@@ -244,9 +244,7 @@ class PollManager extends ChangeNotifier {
     if (issuer != null) parameter['issuer'] = issuer;
     if (involved != null) parameter['involved'] = involved;
 
-    try {
-      var io = IO();
-      _polls = await io.getPoll(parameter);
-    } on IONotModifiedException {}
+    var io = IO();
+    _polls = await io.getPoll(parameter);
   }
 }
