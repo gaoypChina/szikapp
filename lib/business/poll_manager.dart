@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:szikapp/utils/exceptions.dart';
 
 import '../models/tasks.dart';
 import '../utils/io.dart';
@@ -221,7 +222,9 @@ class PollManager extends ChangeNotifier {
     if (issuer != null) parameter['issuer'] = issuer;
     if (involved != null) parameter['involved'] = involved;
 
-    var io = IO();
-    _polls = await io.getPoll(parameter);
+    try {
+      var io = IO();
+      _polls = await io.getPoll(parameter);
+    } on IONotModifiedException {}
   }
 }
