@@ -20,8 +20,31 @@ class SearchBar extends StatefulWidget {
   State<SearchBar> createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends State<SearchBar>
+    with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
+  late AnimationController _filterToggleController;
+  late Animation<double> _heightFactor;
+
   bool _isFilterExpanded = false;
+
+  @override
+  void initState() {
+    _filterToggleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _heightFactor = _filterToggleController.drive(_easeInTween);
+    if (_isFilterExpanded) _filterToggleController.value = 1.0;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _filterToggleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +94,14 @@ class _SearchBarState extends State<SearchBar> {
               ),
               if (widget.filter != null)
                 GestureDetector(
-                  onTap: () =>
-                      setState(() => _isFilterExpanded = !_isFilterExpanded),
+                  onTap: () => setState(
+                    () {
+                      _isFilterExpanded = !_isFilterExpanded;
+                      _isFilterExpanded
+                          ? _filterToggleController.forward()
+                          : _filterToggleController.reverse();
+                    },
+                  ),
                   child: Container(
                     width: widget.searchBarIconSize,
                     height: widget.searchBarIconSize,
@@ -89,7 +118,10 @@ class _SearchBarState extends State<SearchBar> {
             ],
           ),
         ),
-        if (_isFilterExpanded) widget.filter!,
+        SizeTransition(
+          sizeFactor: _heightFactor,
+          child: widget.filter,
+        ),
       ],
     );
   }
