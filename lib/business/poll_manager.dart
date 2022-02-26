@@ -205,14 +205,37 @@ class PollManager extends ChangeNotifier {
     return results;
   }
 
-  List<PollTask> filter(String userID) {
+  List<PollTask> filter({required String userID, bool? isLive}) {
     var results = <PollTask>[];
+
+    //userID-ra mindenképp szűrünk
     for (var poll in polls) {
       for (var vote in poll.answers) {
         if (vote.voterID == userID) results.add(poll);
       }
     }
-    return List.unmodifiable(results);
+
+    //ha isLive-ra nem szűrünk
+    if (isLive == null) {
+      return List.unmodifiable(results);
+    }
+
+    //élő szavazásokat szűrjük ki: ha aktívak még
+    if (isLive) {
+      for (var poll in polls) {
+        if (poll.isLive) results.add(poll);
+      }
+      return List.unmodifiable(results);
+    }
+
+    //lejárt szavazások: nem aktívak vagy a határidejük lejárt
+    else {
+      for (var poll in polls) {
+        var negDif = poll.end.difference(DateTime.now()).isNegative;
+        if (!poll.isLive || negDif) results.add(poll);
+      }
+      return List.unmodifiable(results);
+    }
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
