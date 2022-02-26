@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:szikapp/utils/exceptions.dart';
 
 import '../models/tasks.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
 class PollManager extends ChangeNotifier {
