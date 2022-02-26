@@ -84,6 +84,7 @@
         "PHONE_NOT_FOUND": "Telefonszám nem található",
         "BIRTHDAY_NOT_FOUND": "Születésnap nem található",
     "POLL": null,
+        "POLL_TITLE": "Szavazás",
         "POLL_TAB_ACTIVE": "Aktív",
         "POLL_TAB_EXPIRED": "Lejárt",
         "POLL_NO_TIME_LEFT": "Lejárt",

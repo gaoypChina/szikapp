@@ -35,6 +35,7 @@
         "MENU_SETTINGS": "Settings",
         "MENU_FEED": "Feed",
     "POLL": null,
+        "POLL_TITLE": "Poll",
         "POLL_TAB_ACTIVE": "Active",
         "POLL_TAB_EXPIRED": "Expired",
         "POLL_NO_TIME_LEFT": "Expired",

@@ -62,6 +62,7 @@ class _PollTileViewState extends State<PollTileView> {
     var theme = Theme.of(context);
 
     return CustomScaffold(
+      appBarTitle: 'POLL_TITLE'.tr(),
       floatingActionButton: FloatingActionButton(
         onPressed: _onCreatePoll,
         child: ConstrainedBox(
@@ -71,9 +72,12 @@ class _PollTileViewState extends State<PollTileView> {
       ),
       body: Column(
         children: [
-          TabChoice(
-            labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
-            onChanged: _onTabChanged,
+          Container(
+            margin: const EdgeInsets.only(top: 30),
+            child: TabChoice(
+              labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
+              onChanged: _onTabChanged,
+            ),
           ),
           Expanded(
             child: GridView.count(
