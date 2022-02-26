@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import '../ui/themes.dart';
 
 class CustomSlider extends StatefulWidget {
+  ///A csúszka címe
   final Text titleText;
+
+  ///Minimális érték
   final double min;
+
+  ///Maximális érték
   final double max;
+
+  ///Kezdeti érték (min és max között kell, hogy legyen)
+  final double? initValue;
 
   CustomSlider({
     Key? key,
     required this.titleText,
+    this.initValue,
     this.min = 0,
     this.max = 100,
   }) : super(key: key);
@@ -21,7 +30,7 @@ class _CustomSliderState extends State<CustomSlider> {
   late double _sliderValue;
   @override
   void initState() {
-    _sliderValue = widget.max;
+    _sliderValue = widget.initValue ?? widget.max;
     super.initState();
   }
 
@@ -46,7 +55,11 @@ class _CustomSliderState extends State<CustomSlider> {
       ),
       child: Column(
         children: [
-          widget.titleText,
+          Align(
+            child: widget.titleText,
+            alignment: Alignment.topLeft,
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
