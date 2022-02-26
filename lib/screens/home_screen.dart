@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
-    Settings.instance.initialize();
+    Settings.instance.loadPreferences();
   }
 
   @override

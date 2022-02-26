@@ -9,5 +9,6 @@ export 'notification.dart';
 export 'permission.dart';
 export 'preferences.dart';
 export 'resource.dart';
+export 'shortcut.dart';
 export 'tasks.dart';
 export 'user_data.dart';
