@@ -12,7 +12,7 @@ import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 
-class PollScreen extends StatefulWidget {
+class PollScreen extends StatelessWidget {
   static const String route = '/poll';
 
   static MaterialPage page({required PollManager manager}) {
@@ -28,33 +28,21 @@ class PollScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PollScreenState createState() => _PollScreenState();
-}
-
-class _PollScreenState extends State<PollScreen> {
-  //late PollManager manager;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
-      future: widget.manager.refresh(),
+      future: manager.refresh(),
       shimmer: const TileShimmer(),
-      child: PollTileView(),
+      child: PollTileView(manager: manager),
     );
   }
 }
 
 class PollTileView extends StatefulWidget {
-  //final PollManager manager;
+  final PollManager manager;
 
   const PollTileView({
     Key? key,
-    /*required this.manager*/
+    required this.manager,
   }) : super(key: key);
 
   @override
@@ -69,11 +57,16 @@ class _PollTileViewState extends State<PollTileView> {
   //PollTask(uid: '0', name: 'Szav1', start: , end: end, type: type, lastUpdate: lastUpdate, question: question, answerOptions: answerOptions, answers: answers, issuerIDs: issuerIDs)
 
   List<PollTask> _polls = [];
+/*
+    PollTask(uid : '0', name : 'Szav1', start : DateTime.utc(2020, 2, 17) , end : DateTime.utc(2020, 2, 18), type : TaskType.poll, lastUpdate : DateTime.utc(2020, 2, 17), question : 'Szavazás 1', answerOptions : ['1. opció','2. opció'], answers: [], issuerIDs : ['u999']),
+    PollTask(uid : '1', name : 'Szav2', start : DateTime.utc(2020, 2, 20) , end : DateTime.utc(2020, 2, 23), type : TaskType.poll, lastUpdate : DateTime.utc(2020, 2, 17), question : 'Szavazás 1', answerOptions : ['1. opció','2. opció'], answers: [], issuerIDs : ['u999']),
+*/
+
   bool _isActivePolls = true;
 
   @override
   void initState() {
-    // _polls = widget.manager.polls;
+    _polls = widget.manager.polls;
     super.initState();
   }
 
@@ -82,30 +75,78 @@ class _PollTileViewState extends State<PollTileView> {
     var theme = Theme.of(context);
 
     return CustomScaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onCreatePoll,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints.expand(width: 36, height: 36),
+          child: Image.asset('assets/icons/plus_light_72.png'),
+        ),
+      ),
       body: Column(
         children: [
           TabChoice(
             labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
-            onChanged: (tab) => setState(() {
-              (tab == 0) ? _isActivePolls = true : _isActivePolls = false;
-            }),
+            onChanged: _onTabChanged,
           ),
-          GridView.count(
-            crossAxisCount: 2,
-            children: _polls.map<Expanded>((poll) {
-              return Expanded(
-                child: Column(
-                  children: [
-                    Expanded(child: Text(poll.question)),
-                    Text('POLL_DAYS_LEFT'.tr(
-                        args: [(poll.end.day - DateTime.now().day).toString()]))
-                  ],
-                ),
-              );
-            }).toList(),
+          Expanded(
+            child: GridView.count(
+              padding: const EdgeInsets.fromLTRB(
+                  kPaddingNormal, kPaddingLarge, kPaddingNormal, 0),
+              crossAxisCount:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? 4
+                      : 2,
+              crossAxisSpacing: kPaddingNormal,
+              mainAxisSpacing: kPaddingNormal,
+              children: _polls.map<Container>((poll) {
+                var difference = poll.end.difference(DateTime.now()).inDays;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                    color: poll.isLive
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.secondaryContainer,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(kBorderRadiusNormal),
+                    child: Column(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          poll.question,
+                          style: theme.textTheme.subtitle1?.copyWith(
+                            color: theme.colorScheme.surface,
+                          ),
+                        )),
+                        Text(
+                          'POLL_DAYS_LEFT'.tr(
+                            args: [
+                              (poll.end.difference(DateTime.now()).inDays)
+                                  .toString()
+                            ],
+                          ),
+                          style: theme.textTheme.subtitle1?.copyWith(
+                            color: theme.colorScheme.primaryContainer,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
           )
         ],
       ),
     );
   }
+
+  void _onTabChanged(int? tab) {
+    setState(() {
+      (tab == 0) ? _isActivePolls = true : _isActivePolls = false;
+    });
+  }
+
+  void _onCreatePoll() {}
 }
