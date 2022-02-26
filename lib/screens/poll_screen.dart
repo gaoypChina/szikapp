@@ -111,6 +111,7 @@ class _PollTileViewState extends State<PollTileView> {
                     child: Padding(
                       padding: const EdgeInsets.all(kBorderRadiusNormal),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                               child: Text(
