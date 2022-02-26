@@ -9,6 +9,7 @@ import '../screens/home_screen.dart';
 import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
+import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_details.dart';
 import '../screens/reservation_games.dart';
