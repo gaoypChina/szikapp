@@ -1,7 +1,7 @@
 # Secrets
 android/app/google-services.json
 android/key.properties
-lib/utils/config.dart
+lib/config.dart
 *.jks
 # Miscellaneous
 *.lock

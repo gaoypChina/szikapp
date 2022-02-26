@@ -17,7 +17,7 @@ class CustomSlider extends StatefulWidget {
   ///A csúszka változásakor visszatér a gomb aktuális értékével
   final ValueChanged<double> onChanged;
 
-  CustomSlider({
+  const CustomSlider({
     Key? key,
     required this.titleText,
     this.initValue,
@@ -31,7 +31,8 @@ class CustomSlider extends StatefulWidget {
 }
 
 class _CustomSliderState extends State<CustomSlider> {
-  late double _sliderValue;
+  double _sliderValue = 0.0;
+
   @override
   void initState() {
     _sliderValue = widget.initValue ?? widget.max;
@@ -63,11 +64,11 @@ class _CustomSliderState extends State<CustomSlider> {
             child: widget.titleText,
             alignment: Alignment.topLeft,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
+              const Icon(
                 Icons.volume_mute,
                 size: kIconSizeLarge,
               ),
@@ -83,7 +84,7 @@ class _CustomSliderState extends State<CustomSlider> {
                   widget.onChanged(_sliderValue);
                 },
               ),
-              Icon(
+              const Icon(
                 Icons.volume_up,
                 size: kIconSizeLarge,
               ),

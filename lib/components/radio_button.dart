@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
 
 class CustomRadio extends StatefulWidget {
   ///A gombok neveinek listája
@@ -28,6 +27,7 @@ class CustomRadio extends StatefulWidget {
 
 class _CustomRadioState extends State<CustomRadio> {
   late String _radioValue;
+
   @override
   void initState() {
     _radioValue = widget.titles[widget.initValue];
@@ -43,17 +43,18 @@ class _CustomRadioState extends State<CustomRadio> {
           trailing: Transform.scale(
             scale: 1.2,
             child: Radio(
-                value: title,
-                activeColor: Theme.of(context).colorScheme.primary,
-                groupValue: _radioValue,
-                onChanged: (String? value) {
-                  setState(() {
-                    _radioValue = value ?? '';
-                  });
-                  widget.onChanged(_radioValue);
-                }),
+              value: title,
+              activeColor: Theme.of(context).colorScheme.primary,
+              groupValue: _radioValue,
+              onChanged: (String? value) {
+                setState(() {
+                  _radioValue = value ?? '';
+                });
+                widget.onChanged(_radioValue);
+              },
+            ),
           ),
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(0),
         );
       }).toList(),
     );

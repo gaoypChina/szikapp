@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
 
 class CustomSwitch extends StatefulWidget {
-  ///A gomb szövege
+  /// A gomb szövege
   final Text titleText;
 
-  ///A kezdeti érték az oldal betöltésekor
+  /// A kezdeti érték az oldal betöltésekor
   final bool initValue;
 
-  ///A gomb változásakor visszatér a gomb aktuális értékével
+  /// A gomb változásakor visszatér a gomb aktuális értékével
   final ValueChanged<bool> onChanged;
 
-  ///A gomb engedélyezése/letiltása
+  /// A gomb engedélyezése/letiltása
   final bool enabled;
 
   const CustomSwitch(
@@ -43,16 +42,17 @@ class _CustomSwitchState extends State<CustomSwitch> {
           children: [
             widget.titleText,
             Switch(
-                value: _switchState,
-                activeColor: Theme.of(context).colorScheme.primary,
-                onChanged: widget.enabled
-                    ? (bool value) {
-                        setState(() {
-                          _switchState = !_switchState;
-                        });
-                        widget.onChanged(_switchState);
-                      }
-                    : null)
+              value: _switchState,
+              activeColor: Theme.of(context).colorScheme.primary,
+              onChanged: widget.enabled
+                  ? (bool value) {
+                      setState(() {
+                        _switchState = !_switchState;
+                      });
+                      widget.onChanged(_switchState);
+                    }
+                  : null,
+            )
           ],
         ),
       ],
