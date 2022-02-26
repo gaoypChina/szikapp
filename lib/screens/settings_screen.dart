@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../components/app_scaffold.dart';
 import '../components/components.dart';
-import '../components/radio_button.dart';
-import '../components/slider.dart';
-import '../components/switch.dart';
 import '../ui/themes.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -166,6 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               .headline6!
                               .copyWith(
                                   color: Theme.of(context).colorScheme.primary),
+                          onChanged: (String value) {},
                         )
                       ],
                     ),
@@ -173,13 +171,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   //Hangerő
                   CustomSlider(
-                      titleText: Text('SETTINGS_VOLUME'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.primary))),
+                    titleText: Text('SETTINGS_VOLUME'.tr(),
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).colorScheme.primary)),
+                    onChanged: (double value) {},
+                  ),
                   //Értesítések
                   Container(
                     width: double.infinity,
@@ -227,6 +223,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               });
                             })
                       ],
+                    ),
+                  ),
+                  //Shortcutok
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(kBorderRadiusNormal),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          offset: const Offset(0.0, 2.0),
+                          blurRadius: 3.0,
+                        ),
+                      ],
+                    ),
+                    child: CustomCheckbox(
+                      title: Text('SETTINGS_SHORTCUTS'.tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
+                      titles: const [
+                        "Alfa",
+                        "Béta",
+                        "Gamma",
+                        "Delta",
+                        "Epszilon",
+                        "Théta",
+                        "Ordó",
+                        "Omega"
+                      ],
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Theme.of(context).colorScheme.primary),
+                      onChanged: (List<bool> value) {},
                     ),
                   ),
                 ],

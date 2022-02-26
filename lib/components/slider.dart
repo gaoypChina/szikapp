@@ -14,12 +14,16 @@ class CustomSlider extends StatefulWidget {
   ///Kezdeti érték (min és max között kell, hogy legyen)
   final double? initValue;
 
+  ///A csúszka változásakor visszatér a gomb aktuális értékével
+  final ValueChanged<double> onChanged;
+
   CustomSlider({
     Key? key,
     required this.titleText,
     this.initValue,
     this.min = 0,
     this.max = 100,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -76,6 +80,7 @@ class _CustomSliderState extends State<CustomSlider> {
                   setState(() {
                     _sliderValue = value;
                   });
+                  widget.onChanged(_sliderValue);
                 },
               ),
               Icon(

@@ -120,6 +120,7 @@
         "SETTINGS_DARKMODE": "Dark mode",
         "SETTINGS_NOTIFICATIONS": "Notifications",
         "SETTINGS_APP_NOTIFICATIONS": "App notifications",
+        "SETTINGS_SHORTCUTS": "Shortcuts",
     "LANGUAGES": null,
         "LANGUAGES_HU": "Hungarian",
         "LANGUAGES_ENG":"English",

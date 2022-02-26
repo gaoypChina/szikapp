@@ -11,11 +11,15 @@ class CustomRadio extends StatefulWidget {
   ///Annak a gombnak az indexe, ami az oldal generálásakor aktív kell, hogy legyen
   final int initValue;
 
+  ///A gombok változásakor visszatér a rendszer aktuális értékével
+  final ValueChanged<String> onChanged;
+
   const CustomRadio({
     Key? key,
     required this.titles,
     required this.style,
     this.initValue = 0,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -23,10 +27,10 @@ class CustomRadio extends StatefulWidget {
 }
 
 class _CustomRadioState extends State<CustomRadio> {
-  late String radioValue;
+  late String _radioValue;
   @override
   void initState() {
-    radioValue = widget.titles[widget.initValue];
+    _radioValue = widget.titles[widget.initValue];
     super.initState();
   }
 
@@ -41,11 +45,12 @@ class _CustomRadioState extends State<CustomRadio> {
             child: Radio(
                 value: title,
                 activeColor: Theme.of(context).colorScheme.primary,
-                groupValue: radioValue,
+                groupValue: _radioValue,
                 onChanged: (String? value) {
                   setState(() {
-                    radioValue = value ?? '';
+                    _radioValue = value ?? '';
                   });
+                  widget.onChanged(_radioValue);
                 }),
           ),
           contentPadding: EdgeInsets.all(0),
