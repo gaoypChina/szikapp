@@ -119,6 +119,13 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectFeature(int feature) {
+    if (selectedFeature == SzikAppFeature.settings) {
+      _selectedTab = SzikAppTab.settings;
+    } else if (selectedFeature == SzikAppFeature.profile) {
+      _selectedTab = SzikAppTab.feed;
+    } else {
+      _selectedTab = SzikAppTab.menu;
+    }
     _selectedFeature = feature;
     notifyListeners();
   }
