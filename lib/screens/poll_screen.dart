@@ -3,12 +3,15 @@ import 'dart:core';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_list/toggle_list.dart';
 
+import '../business/auth_manager.dart';
 import '../business/poll_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
+import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 
@@ -50,23 +53,11 @@ class PollTileView extends StatefulWidget {
 }
 
 class _PollTileViewState extends State<PollTileView> {
-  DateTime d1 = DateTime.utc(2020, 2, 17);
-  DateTime d2 = DateTime.utc(2020, 2, 18);
-  DateTime d3 = DateTime.utc(2020, 2, 20);
-  DateTime d4 = DateTime.utc(2020, 2, 23);
-  //PollTask(uid: '0', name: 'Szav1', start: , end: end, type: type, lastUpdate: lastUpdate, question: question, answerOptions: answerOptions, answers: answers, issuerIDs: issuerIDs)
-
   List<PollTask> _polls = [];
-/*
-    PollTask(uid : '0', name : 'Szav1', start : DateTime.utc(2020, 2, 17) , end : DateTime.utc(2020, 2, 18), type : TaskType.poll, lastUpdate : DateTime.utc(2020, 2, 17), question : 'Szavazás 1', answerOptions : ['1. opció','2. opció'], answers: [], issuerIDs : ['u999']),
-    PollTask(uid : '1', name : 'Szav2', start : DateTime.utc(2020, 2, 20) , end : DateTime.utc(2020, 2, 23), type : TaskType.poll, lastUpdate : DateTime.utc(2020, 2, 17), question : 'Szavazás 1', answerOptions : ['1. opció','2. opció'], answers: [], issuerIDs : ['u999']),
-*/
-
-  bool _isActivePolls = true;
 
   @override
   void initState() {
-    _polls = widget.manager.polls;
+    _onTabChanged(0);
     super.initState();
   }
 
@@ -143,8 +134,18 @@ class _PollTileViewState extends State<PollTileView> {
   }
 
   void _onTabChanged(int? tab) {
+    List<PollTask> newPolls;
+    if (tab == 0) {
+      newPolls = widget.manager.filter(
+          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
+          isLive: true);
+    } else {
+      newPolls = widget.manager.filter(
+          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
+          isLive: false);
+    }
     setState(() {
-      (tab == 0) ? _isActivePolls = true : _isActivePolls = false;
+      _polls = newPolls;
     });
   }
 
