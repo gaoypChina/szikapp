@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../screens/calendar_screen.dart';
+import '../screens/cleaning_screen.dart';
 import '../screens/contacts_screen.dart';
 import '../screens/documents_screen.dart';
 import '../screens/error_screen.dart';
@@ -9,6 +10,7 @@ import '../screens/home_screen.dart';
 import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
+import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_details.dart';
 import '../screens/reservation_games.dart';
@@ -73,6 +75,10 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
             DocumentsScreen.page(manager: goodToKnowManager),
+          if (appStateManager.selectedFeature == SzikAppFeature.poll)
+            PollScreen.page(manager: pollManager),
+          if (appStateManager.selectedFeature == SzikAppFeature.cleaning)
+            CleaningScreen.page(manager: kitchenCleaningManager),
           if (appStateManager.selectedFeature == SzikAppFeature.error)
             ErrorScreen.page(
               error: appStateManager.error ??
