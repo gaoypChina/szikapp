@@ -28,7 +28,7 @@ class IO {
   ///Dev: https://130.61.246.41
   ///Prod: https://130.61.17.52
   ///Spare: https://130.61.59.166
-  final _vmAddress = 'https://130.61.246.41';
+  final _vmAddress = 'https://130.61.17.52';
 
   //Végpontok nevei
   final _userEndpoint = '/user';

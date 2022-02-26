@@ -23,10 +23,11 @@ class SzikAppFeature {
   static const int contacts = 1;
   static const int documents = 2;
   static const int janitor = 3;
-  static const int poll = 4;
-  static const int profile = 5;
-  static const int reservation = 6;
-  static const int settings = 7;
+  static const int cleaning = 4;
+  static const int poll = 5;
+  static const int profile = 6;
+  static const int reservation = 7;
+  static const int settings = 8;
   static const int error = 99;
 }
 
@@ -118,6 +119,13 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectFeature(int feature) {
+    if (selectedFeature == SzikAppFeature.settings) {
+      _selectedTab = SzikAppTab.settings;
+    } else if (selectedFeature == SzikAppFeature.profile) {
+      _selectedTab = SzikAppTab.feed;
+    } else {
+      _selectedTab = SzikAppTab.menu;
+    }
     _selectedFeature = feature;
     notifyListeners();
   }

@@ -73,16 +73,10 @@ class ContactsListView extends StatefulWidget {
 ///[Contacts] singletont.
 class _ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
-  late AnimationController _filterToggleController;
-  late Animation<double> _heightFactor;
-
   ///Megjelenített kontaktok
   List<UserData> _items = [];
   List<Group> _groups = [];
 
-  bool _filterIsExpanded = false;
   int _selectedTab = 0;
 
   ///Létrehozásnál lekéri a [Contacts] singletont és megjeleníti az összes
@@ -91,19 +85,7 @@ class _ContactsListViewState extends State<ContactsListView>
   void initState() {
     _items = widget.manager.contacts;
     _groups = widget.manager.groups;
-    _filterToggleController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _heightFactor = _filterToggleController.drive(_easeInTween);
-    if (_filterIsExpanded) _filterToggleController.value = 1.0;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _filterToggleController.dispose();
-    super.dispose();
   }
 
   ///A keresőmező tartalmának változásakor végigkeresi a kontaktlistát
@@ -120,19 +102,6 @@ class _ContactsListViewState extends State<ContactsListView>
         _groups = newItems;
       });
     }
-  }
-
-  ///A szűrés gomb megnyomásakor megjeleníti / eltünteti a szűrőmezőt a
-  ///mező magasságának változtatásával.
-  void _onToggleFilterExpandable() {
-    setState(() {
-      _filterIsExpanded = !_filterIsExpanded;
-      if (_filterIsExpanded) {
-        _filterToggleController.forward();
-      } else {
-        _filterToggleController.reverse();
-      }
-    });
   }
 
   void _onTabChanged(int? newTab) {
@@ -193,12 +162,8 @@ class _ContactsListViewState extends State<ContactsListView>
           SearchBar(
             onChanged: _onSearchFieldChanged,
             validator: _validateTextField,
-            onToggleFilterExpandable: _onToggleFilterExpandable,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
-          ),
-          SizeTransition(
-            sizeFactor: _heightFactor,
-            child: Container(
+            filter: Container(
               padding: const EdgeInsets.fromLTRB(
                   kPaddingLarge, kPaddingSmall, kPaddingLarge, 0),
               child: TabChoice(

@@ -175,7 +175,6 @@ class _PollTileViewState extends State<PollTileView> {
 
 class PollWidget extends StatelessWidget {
   const PollWidget({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container();

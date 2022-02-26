@@ -171,6 +171,5 @@ class Settings {
   ///teljesítményérzékeny környezetben.
   Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
-    await loadPreferences();
   }
 }

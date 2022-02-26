@@ -24,6 +24,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
+  await Settings.instance.initialize();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/Montserrat/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);

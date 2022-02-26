@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
-import '../models/notification.dart';
+import '../models/models.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 
@@ -113,7 +113,8 @@ class _FeedScreenState extends State<FeedScreen> {
               children: feedShortcuts.map<WrappedIconButton>(
                 (item) {
                   return WrappedIconButton(
-                    assetPath: 'assets/icons/bell_light_72.png',
+                    assetPath: shortcutData[item]?.assetPath ??
+                        'assets/icons/bell_light_72.png',
                     color: theme.colorScheme.primaryContainer,
                     backgroundColor: theme.colorScheme.background,
                     onTap: () =>

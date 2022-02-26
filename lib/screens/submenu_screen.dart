@@ -38,7 +38,7 @@ final List<SubMenuItemData> subMenuEverydayListItems = [
   SubMenuItemData(
     name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
     picture: 'assets/icons/knife_light_72.png',
-    feature: SzikAppFeature.error,
+    feature: SzikAppFeature.cleaning,
   ),
   SubMenuItemData(
     name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),

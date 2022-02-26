@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../screens/calendar_screen.dart';
+import '../screens/cleaning_screen.dart';
 import '../screens/contacts_screen.dart';
 import '../screens/documents_screen.dart';
 import '../screens/error_screen.dart';
@@ -76,6 +77,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             DocumentsScreen.page(manager: goodToKnowManager),
           if (appStateManager.selectedFeature == SzikAppFeature.poll)
             PollScreen.page(manager: pollManager),
+          if (appStateManager.selectedFeature == SzikAppFeature.cleaning)
+            CleaningScreen.page(manager: kitchenCleaningManager),
           if (appStateManager.selectedFeature == SzikAppFeature.error)
             ErrorScreen.page(
               error: appStateManager.error ??
