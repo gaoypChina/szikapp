@@ -11,19 +11,21 @@ class CustomCheckbox extends StatefulWidget {
   final TextStyle style;
 
   /// Azonos méretű a [titles] listával. A checkboxok állapotát tárolja
-  final List<bool>? initValues;
+  final List<bool> initValues;
 
   /// A checkboxok változásakor visszatér a gomb aktuális értékével
   final ValueChanged<List<bool>> onChanged;
 
-  const CustomCheckbox({
+  CustomCheckbox({
     Key? key,
     required this.title,
     required this.titles,
     required this.style,
-    this.initValues,
+    initValues,
     required this.onChanged,
-  }) : super(key: key);
+  })  : initValues =
+            initValues ?? List.generate(titles.length, (index) => false),
+        super(key: key);
 
   @override
   State<CustomCheckbox> createState() => _CustomCheckboxState();
@@ -34,8 +36,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
 
   @override
   void initState() {
-    _checkboxValues = widget.initValues ??
-        List.generate(widget.titles.length, (index) => false);
+    _checkboxValues = widget.initValues;
     super.initState();
   }
 

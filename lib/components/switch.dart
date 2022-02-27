@@ -13,20 +13,20 @@ class CustomSwitch extends StatefulWidget {
   /// A gomb engedélyezése/letiltása
   final bool enabled;
 
-  const CustomSwitch(
-      {Key? key,
-      required this.titleText,
-      this.initValue = true,
-      required this.onChanged,
-      this.enabled = true})
-      : super(key: key);
+  const CustomSwitch({
+    Key? key,
+    required this.titleText,
+    this.initValue = true,
+    required this.onChanged,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   State<CustomSwitch> createState() => _CustomSwitchState();
 }
 
 class _CustomSwitchState extends State<CustomSwitch> {
-  late bool _switchState;
+  bool _switchState = true;
   @override
   void initState() {
     _switchState = widget.initValue;

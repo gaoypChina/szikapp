@@ -8,7 +8,7 @@ class CustomRadio extends StatefulWidget {
   final TextStyle style;
 
   ///Annak a gombnak az indexe, ami az oldal generálásakor aktív kell, hogy legyen
-  final int initValue;
+  final int initialIndex;
 
   ///A gombok változásakor visszatér a rendszer aktuális értékével
   final ValueChanged<String> onChanged;
@@ -17,7 +17,7 @@ class CustomRadio extends StatefulWidget {
     Key? key,
     required this.titles,
     required this.style,
-    this.initValue = 0,
+    this.initialIndex = 0,
     required this.onChanged,
   }) : super(key: key);
 
@@ -30,7 +30,7 @@ class _CustomRadioState extends State<CustomRadio> {
 
   @override
   void initState() {
-    _radioValue = widget.titles[widget.initValue];
+    _radioValue = widget.titles[widget.initialIndex];
     super.initState();
   }
 
