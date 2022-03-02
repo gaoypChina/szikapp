@@ -185,7 +185,7 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                   wrapColor: theme.colorScheme.background,
                   fontColor: theme.colorScheme.background,
                   labels: [
-                    'DOCUMENTS_ALL.tr'.tr(),
+                    'DOCUMENTS_ALL'.tr(),
                     'DOCUMENTS_PINNED'.tr(),
                     'DOCUMENTS_OFFICIAL'.tr(),
                   ],
