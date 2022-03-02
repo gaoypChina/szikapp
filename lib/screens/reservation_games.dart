@@ -65,8 +65,8 @@ class ReservationGamesList extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => Provider.of<ReservationManager>(context,
                                 listen: false)
-                            .createNewReservation(
-                          gameIndex: manager.games.indexOf(item),
+                            .selectGame(
+                          manager.games.indexOf(item),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(10),
