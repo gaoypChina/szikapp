@@ -20,7 +20,7 @@ class ModeMenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.fromLTRB(kPaddingXLarge, 0, kPaddingXLarge, 0),
+        margin: const EdgeInsets.symmetric(horizontal: kPaddingXLarge),
         height: 90,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,

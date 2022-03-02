@@ -91,7 +91,7 @@ class BirthdayBar extends StatelessWidget {
           );
         } else {
           return Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(kPaddingNormal),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: Theme.of(context).colorScheme.background,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../components/components.dart';
 import '../main.dart';
+import '../ui/themes.dart';
 
 class ErrorScreen extends StatefulWidget {
   static const String route = '/error';
@@ -63,7 +64,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
     return CustomScaffold(
       appBarTitle: 'ERROR_TITLE'.tr(),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(kPaddingLarge),
         child: Center(
           child: _buildErrorContent(),
         ),

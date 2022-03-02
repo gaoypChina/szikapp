@@ -74,7 +74,7 @@ class CustomAlertDialog extends StatelessWidget {
                     Border.all(color: color ?? theme.colorScheme.background),
                 borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
               child: TextButton(
                 onPressed: onCancel,
                 child: Text(
@@ -94,7 +94,12 @@ class CustomAlertDialog extends StatelessWidget {
                     Border.all(color: color ?? theme.colorScheme.background),
                 borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(
+                kPaddingLarge,
+                0,
+                kPaddingLarge,
+                0,
+              ),
               child: TextButton(
                 onPressed: onAccept,
                 child: Text(

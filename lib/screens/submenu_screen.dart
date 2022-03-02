@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../components/components.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 
 final List<SubMenuItemData> subMenuDataListItems = [
   SubMenuItemData(
@@ -106,15 +107,21 @@ class SubMenuScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/pictures/background_1.jpg'),
-              fit: BoxFit.cover),
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Container(
-          margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+          margin: const EdgeInsets.fromLTRB(
+            kPaddingLarge,
+            kPaddingLarge,
+            kPaddingLarge,
+            0,
+          ),
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: kPaddingNormal),
                 child: Text(
                   subMenuTitles[selectedSubMenu].toUpperCase(),
                   style: Theme.of(context).textTheme.headline2!.copyWith(

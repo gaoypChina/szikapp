@@ -163,19 +163,14 @@ class _ContactsListViewState extends State<ContactsListView>
             onChanged: _onSearchFieldChanged,
             validator: _validateTextField,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
-            filter: Container(
-              padding: const EdgeInsets.fromLTRB(
-                  kPaddingLarge, kPaddingSmall, kPaddingLarge, 0),
-              child: TabChoice(
-                labels: [
-                  'CONTACTS_TITLE'.tr(),
-                  'GROUPS_TITLE'.tr(),
-                ],
-                onChanged: _onTabChanged,
-              ),
+            filter: TabChoice(
+              labels: [
+                'CONTACTS_TITLE'.tr(),
+                'GROUPS_TITLE'.tr(),
+              ],
+              onChanged: _onTabChanged,
             ),
           ),
-          const SizedBox(height: 10),
           Expanded(
             child: _items.isEmpty
                 ? Center(
@@ -186,7 +181,9 @@ class _ContactsListViewState extends State<ContactsListView>
                     child: ToggleList(
                       trailing: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: kPaddingNormal,
+                          horizontal: kPaddingLarge,
+                        ),
                         child: ColorFiltered(
                           child: Image.asset('assets/icons/down_light_72.png',
                               height: theme.textTheme.headline3!.fontSize),
@@ -212,7 +209,10 @@ class _ContactsListViewState extends State<ContactsListView>
       (item) {
         return ToggleListItem(
           leading: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(
+              vertical: kPaddingNormal,
+              horizontal: kPaddingLarge,
+            ),
             child: CircleAvatar(
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
@@ -234,7 +234,7 @@ class _ContactsListViewState extends State<ContactsListView>
           ),
           content: Container(
             width: MediaQuery.of(context).size.width - 40,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(kPaddingLarge),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: theme.colorScheme.primaryContainer.withOpacity(0.15),
@@ -297,12 +297,13 @@ class _ContactsListViewState extends State<ContactsListView>
                   onLongPress: () =>
                       _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: kPaddingNormal),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: ColorFiltered(
                             child: Image.asset(
                               'assets/icons/at_light_72.png',
@@ -310,8 +311,9 @@ class _ContactsListViewState extends State<ContactsListView>
                                   theme.textTheme.bodyText1!.fontSize! * 1.5,
                             ),
                             colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryContainer,
-                                BlendMode.srcIn),
+                              theme.colorScheme.primaryContainer,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                         Flexible(
@@ -367,7 +369,10 @@ class _ContactsListViewState extends State<ContactsListView>
         );
         return ToggleListItem(
           leading: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(
+              vertical: kPaddingNormal,
+              horizontal: kPaddingLarge,
+            ),
             child: CircleAvatar(
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
@@ -388,8 +393,8 @@ class _ContactsListViewState extends State<ContactsListView>
             ),
           ),
           content: Container(
-            width: MediaQuery.of(context).size.width - 40,
-            padding: const EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width - 2 * kPaddingLarge,
+            padding: const EdgeInsets.all(kPaddingLarge),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: theme.colorScheme.primaryContainer.withOpacity(0.15),
@@ -415,12 +420,13 @@ class _ContactsListViewState extends State<ContactsListView>
                   onLongPress: () =>
                       _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: kPaddingNormal),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: ColorFiltered(
                             child: Image.asset(
                               'assets/icons/at_light_72.png',

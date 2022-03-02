@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../ui/themes.dart';
 import 'exceptions.dart';
 
 class ErrorInformation {
@@ -114,7 +115,7 @@ class ErrorHandler {
             child: Align(
               alignment: const AlignmentDirectional(0, 0),
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                padding: const EdgeInsets.symmetric(horizontal: kPaddingXLarge),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -122,7 +123,8 @@ class ErrorHandler {
                     Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.only(top: 30),
+                        padding: const EdgeInsetsDirectional.only(
+                            top: kPaddingXLarge),
                         child: Image.asset(
                           'assets/pictures/no_network_grey.png',
                           width: MediaQuery.of(context).size.width * 0.5,
@@ -132,7 +134,8 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 10),
+                      padding:
+                          const EdgeInsetsDirectional.only(top: kPaddingNormal),
                       child: Text(
                         '#${errorInformation.errorCode}',
                         style: theme.textTheme.caption,
@@ -140,7 +143,8 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 5),
+                      padding:
+                          const EdgeInsetsDirectional.only(top: kPaddingSmall),
                       child: Text(
                         errorInformation.errorMessage,
                         textAlign: TextAlign.center,
@@ -149,7 +153,8 @@ class ErrorHandler {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 10),
+                      padding:
+                          const EdgeInsetsDirectional.only(top: kPaddingNormal),
                       child: Text(
                         errorInformation.errorSolution,
                         textAlign: TextAlign.center,

@@ -96,14 +96,14 @@ ThemeData szikLightThemeData = ThemeData(
         .copyWith(fontSize: 46, fontStyle: FontStyle.normal),
     hourMinuteShape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(10),
+        Radius.circular(kBorderRadiusSmall),
       ),
     ),
     helpTextStyle: szikTextTheme.bodyText1!.copyWith(
         fontSize: 14, fontStyle: FontStyle.normal, color: szikGunSmoke),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(10),
+        Radius.circular(kBorderRadiusSmall),
       ),
     ),
   ),

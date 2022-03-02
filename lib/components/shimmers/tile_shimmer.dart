@@ -9,7 +9,7 @@ class TileShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(kPaddingLarge),
       child: Row(
         children: [
           Shimmer.fromColors(
@@ -26,7 +26,7 @@ class TileShimmer extends StatelessWidget {
             highlightColor:
                 theme.colorScheme.secondaryContainer.withOpacity(0.5),
             child: Container(
-              margin: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(kPaddingLarge),
               height: theme.textTheme.headline3!.fontSize! * 1.5,
               width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
+import '../ui/themes.dart';
 
 class ReservationGamesListScreen extends StatelessWidget {
   final ReservationManager manager;
@@ -50,7 +51,12 @@ class ReservationGamesList extends StatelessWidget {
         children: [
           Expanded(
             child: GridView.count(
-              padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+              padding: const EdgeInsets.fromLTRB(
+                kPaddingLarge,
+                kPaddingLarge,
+                kPaddingLarge,
+                0,
+              ),
               crossAxisCount:
                   MediaQuery.of(context).orientation == Orientation.landscape
                       ? 4
@@ -69,7 +75,7 @@ class ReservationGamesList extends StatelessWidget {
                           manager.games.indexOf(item),
                         ),
                         child: Container(
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(kPaddingNormal),
                           child: Image.asset(
                             'assets/pictures/${item.iconLink}',
                             fit: BoxFit.contain,

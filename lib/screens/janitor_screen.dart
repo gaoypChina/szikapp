@@ -157,7 +157,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                 'u904' &&
             task.feedback!.isNotEmpty
         ? Container(
-            margin: const EdgeInsets.only(bottom: 8),
+            margin: const EdgeInsets.only(bottom: kPaddingNormal),
             child: Row(
               children: [
                 SizedBox(
@@ -173,7 +173,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(kPaddingNormal),
                     decoration: BoxDecoration(
                       color: Colors.transparent,
                       border: Border.all(
@@ -210,7 +210,12 @@ class _JanitorListViewState extends State<JanitorListView> {
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE'.tr(),
       body: Container(
-        padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+        padding: const EdgeInsets.fromLTRB(
+          kPaddingNormal,
+          kPaddingLarge,
+          kPaddingNormal,
+          0,
+        ),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/pictures/background_1.jpg'),
@@ -238,13 +243,15 @@ class _JanitorListViewState extends State<JanitorListView> {
                   : RefreshIndicator(
                       onRefresh: _onManualRefresh,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: kPaddingNormal),
                         child: ToggleList(
                           divider: const SizedBox(
                             height: 10,
                           ),
                           trailing: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kPaddingLarge),
                             child: ColorFiltered(
                               child: Image.asset(
                                   'assets/icons/down_light_72.png',
@@ -259,13 +266,14 @@ class _JanitorListViewState extends State<JanitorListView> {
                             return ToggleListItem(
                               headerDecoration: BoxDecoration(
                                 color: theme.colorScheme.surface,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(kBorderRadiusNormal),
+                                ),
                               ),
                               expandedHeaderDecoration: BoxDecoration(
                                 color: taskStatusColors[item.status]!,
                                 borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(20),
+                                  top: Radius.circular(kBorderRadiusNormal),
                                 ),
                               ),
                               title: Stack(
@@ -279,14 +287,16 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           color: taskStatusColors[item.status]!,
                                           borderRadius:
                                               const BorderRadius.horizontal(
-                                            left: Radius.circular(20),
+                                            left: Radius.circular(
+                                                kBorderRadiusNormal),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(20),
+                                    padding:
+                                        const EdgeInsets.all(kPaddingLarge),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -330,10 +340,11 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 ],
                               ),
                               content: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(kPaddingNormal),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.vertical(
-                                    bottom: Radius.circular(20),
+                                    bottom:
+                                        Radius.circular(kBorderRadiusNormal),
                                   ),
                                   color: taskStatusColors[item.status]!,
                                 ),
@@ -346,8 +357,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                       color: theme.colorScheme.background,
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 20, 0, 8),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: kPaddingNormal),
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -365,16 +376,20 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: const EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(
+                                                  kPaddingNormal),
                                               decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                      color: theme.colorScheme
-                                                          .background,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          kBorderRadiusNormal)),
+                                                color: Colors.transparent,
+                                                border: Border.all(
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  kBorderRadiusNormal,
+                                                ),
+                                              ),
                                               child: Text(
                                                 item.name,
                                                 style: theme
@@ -392,7 +407,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
+                                      margin: const EdgeInsets.only(
+                                          bottom: kPaddingNormal),
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -410,16 +426,21 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: const EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(
+                                                kPaddingNormal,
+                                              ),
                                               decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                      color: theme.colorScheme
-                                                          .background,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          kBorderRadiusNormal)),
+                                                color: Colors.transparent,
+                                                border: Border.all(
+                                                  color: theme
+                                                      .colorScheme.background,
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  kBorderRadiusNormal,
+                                                ),
+                                              ),
                                               child: Text(
                                                 item.description ?? '',
                                                 style: theme
@@ -437,7 +458,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
+                                      margin: const EdgeInsets.only(
+                                          bottom: kPaddingNormal),
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -455,7 +477,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: const EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(
+                                                  kPaddingNormal),
                                               decoration: BoxDecoration(
                                                   color: Colors.transparent,
                                                   border: Border.all(
@@ -482,7 +505,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
+                                      margin: const EdgeInsets.only(
+                                          bottom: kPaddingNormal),
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -500,7 +524,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: const EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(
+                                                  kPaddingNormal),
                                               decoration: BoxDecoration(
                                                   color: Colors.transparent,
                                                   border: Border.all(
@@ -530,7 +555,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                         ? Container()
                                         : Container(
                                             margin: const EdgeInsets.only(
-                                                bottom: 8),
+                                                bottom: kPaddingNormal),
                                             child: Row(
                                               children: [
                                                 SizedBox(
@@ -551,7 +576,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                   child: Container(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            10),
+                                                            kPaddingNormal),
                                                     decoration: BoxDecoration(
                                                         color:
                                                             Colors.transparent,
@@ -583,7 +608,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                           ),
                                     _buildFeedbackList(context, item),
                                     Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
+                                      margin: const EdgeInsets.only(
+                                          bottom: kPaddingNormal),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,

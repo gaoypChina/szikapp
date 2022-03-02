@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ui/themes.dart';
+
 ///Személyre szabott lapválasztó widget.
 ///Értékben és dizájnban is visszajelzi a választott lap indexét, de magát
 ///a lapváltást nem hajtja végre, arról a szülő widgetnek kell gondoskodnia.
@@ -49,9 +51,10 @@ class _TabChoiceState extends State<TabChoice> {
     var theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-          color: widget.wrapColor ??
-              theme.colorScheme.secondaryContainer.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(30)),
+        color: widget.wrapColor ??
+            theme.colorScheme.secondaryContainer.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List<Widget>.generate(
@@ -68,7 +71,8 @@ class _TabChoiceState extends State<TabChoice> {
                   _value = newValue;
                 });
               },
-              labelPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              labelPadding:
+                  const EdgeInsets.symmetric(horizontal: kPaddingLarge),
               selectedColor: widget.choiceColor ??
                   theme.colorScheme.primary.withOpacity(0.3),
               disabledColor: Colors.transparent,
