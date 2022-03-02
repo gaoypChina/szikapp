@@ -152,7 +152,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
       floatingActionButton: FloatingActionButton(
         onPressed: _onCreateTask,
         child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(width: 36, height: 36),
+          constraints: const BoxConstraints.expand(
+            width: kIconSizeLarge,
+            height: kIconSizeLarge,
+          ),
           child: Image.asset('assets/icons/plus_light_72.png'),
         ),
       ),
