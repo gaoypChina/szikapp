@@ -132,12 +132,9 @@ class SubMenuScreen extends StatelessWidget {
               ),
               Expanded(
                 child: GridView.count(
-                  crossAxisCount: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? 4
-                      : 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: kPaddingNormal,
+                  mainAxisSpacing: kPaddingNormal,
                   children: subMenus[selectedSubMenu]
                       .map((item) => SubMenuItem(data: item))
                       .toList(),

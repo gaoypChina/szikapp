@@ -57,12 +57,9 @@ class ReservationGamesList extends StatelessWidget {
                 kPaddingLarge,
                 0,
               ),
-              crossAxisCount:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? 4
-                      : 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisCount: 2,
+              crossAxisSpacing: kPaddingNormal,
+              mainAxisSpacing: kPaddingNormal,
               children: manager.games
                   .map(
                     (item) => Card(
