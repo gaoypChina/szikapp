@@ -26,7 +26,7 @@ PreferredSizeWidget buildCustomAppBar({
     shape: const CurveShapeBorder(kCurveHeight),
     backgroundColor: Theme.of(context).colorScheme.primary,
     title: Text(
-      appBarTitle,
+      appBarTitle.toUpperCase(),
       style: Theme.of(context).textTheme.headline2!.copyWith(
             color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 14,

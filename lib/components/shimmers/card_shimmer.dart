@@ -12,7 +12,7 @@ class CardShimmer extends StatelessWidget {
       baseColor: theme.colorScheme.secondaryContainer.withOpacity(0.2),
       highlightColor: theme.colorScheme.secondaryContainer.withOpacity(0.5),
       child: Container(
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(kPaddingLarge),
         height: 72,
         width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(

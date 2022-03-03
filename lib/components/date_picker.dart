@@ -69,9 +69,12 @@ class _DatePickerState extends State<DatePicker> {
             color: Theme.of(context).colorScheme.primary,
             width: 1,
             style: BorderStyle.solid),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(kBorderRadiusSmall),
       ),
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+      padding: const EdgeInsets.symmetric(
+        vertical: kPaddingNormal,
+        horizontal: kPaddingSmall,
+      ),
       child: GestureDetector(
         onTap: widget.readonly ? null : _selectDate,
         child: Text(

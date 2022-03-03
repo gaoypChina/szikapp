@@ -17,7 +17,7 @@ class NotificationCard extends StatelessWidget {
     return Card(
       color: theme.colorScheme.background,
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(kPaddingSmall),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadiusNormal),
       ),
@@ -27,7 +27,7 @@ class NotificationCard extends StatelessWidget {
             leading: Container(
               width: kIconSizeNormal,
               height: kIconSizeNormal,
-              margin: const EdgeInsets.only(right: 5),
+              margin: const EdgeInsets.only(right: kPaddingSmall),
               child: ColorFiltered(
                 child: Image.asset(data.iconPath),
                 colorFilter: ColorFilter.mode(
