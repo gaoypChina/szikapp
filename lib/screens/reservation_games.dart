@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
+import '../ui/themes.dart';
 
 class ReservationGamesListScreen extends StatelessWidget {
   final ReservationManager manager;
@@ -50,13 +51,15 @@ class ReservationGamesList extends StatelessWidget {
         children: [
           Expanded(
             child: GridView.count(
-              padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-              crossAxisCount:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? 4
-                      : 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              padding: const EdgeInsets.fromLTRB(
+                kPaddingLarge,
+                kPaddingLarge,
+                kPaddingLarge,
+                0,
+              ),
+              crossAxisCount: 2,
+              crossAxisSpacing: kPaddingNormal,
+              mainAxisSpacing: kPaddingNormal,
               children: manager.games
                   .map(
                     (item) => Card(
@@ -65,11 +68,11 @@ class ReservationGamesList extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => Provider.of<ReservationManager>(context,
                                 listen: false)
-                            .createNewReservation(
-                          gameIndex: manager.games.indexOf(item),
+                            .selectGame(
+                          manager.games.indexOf(item),
                         ),
                         child: Container(
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(kPaddingNormal),
                           child: Image.asset(
                             'assets/pictures/${item.iconLink}',
                             fit: BoxFit.contain,

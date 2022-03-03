@@ -6,6 +6,7 @@ import '../business/reservation_manager.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
+import '../ui/themes.dart';
 
 const List<TimeOfDay> hours = [
   TimeOfDay(hour: 0, minute: 0),
@@ -84,17 +85,17 @@ class _ReservationDetailsState extends State<ReservationDetails> {
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(kPaddingLarge),
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
               alignment: Alignment.center,
-              margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+              margin: const EdgeInsets.all(kPaddingLarge),
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
               child: Text(
                 'RESERVATION_TITLE_CREATE'.tr(),
                 style: theme.textTheme.headline2!.copyWith(
@@ -121,10 +122,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.only(right: 25),
+                  margin: const EdgeInsets.only(right: kPaddingNormal),
                   height: 40,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(kBorderRadiusNormal),
                   ),
                   child: DatePicker(
                     initialDate: DateTime.now(),
@@ -151,7 +152,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
       floatingActionButton: FloatingActionButton(
         onPressed: _onCreateTask,
         child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(width: 36, height: 36),
+          constraints: const BoxConstraints.expand(
+            width: kIconSizeLarge,
+            height: kIconSizeLarge,
+          ),
           child: Image.asset('assets/icons/plus_light_72.png'),
         ),
       ),

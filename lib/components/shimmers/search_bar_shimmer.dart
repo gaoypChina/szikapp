@@ -16,15 +16,17 @@ class SearchBarShimmer extends StatelessWidget {
           color: theme.colorScheme.background,
           borderRadius: BorderRadius.circular(kBorderRadiusLarge),
         ),
-        margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(kPaddingLarge),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               width: kIconSizeLarge,
               height: kIconSizeLarge,
-              margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              margin: const EdgeInsets.symmetric(
+                horizontal: kPaddingLarge,
+                vertical: kPaddingNormal,
+              ),
             ),
           ],
         ),
