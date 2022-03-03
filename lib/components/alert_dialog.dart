@@ -94,11 +94,8 @@ class CustomAlertDialog extends StatelessWidget {
                     Border.all(color: color ?? theme.colorScheme.background),
                 borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
-              padding: const EdgeInsets.fromLTRB(
-                kPaddingLarge,
-                0,
-                kPaddingLarge,
-                0,
+              padding: const EdgeInsets.symmetric(
+                horizontal: kPaddingLarge,
               ),
               child: TextButton(
                 onPressed: onAccept,

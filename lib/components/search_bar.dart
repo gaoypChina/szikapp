@@ -67,11 +67,8 @@ class _SearchBarState extends State<SearchBar>
                 Container(
                   width: widget.searchBarIconSize,
                   height: widget.searchBarIconSize,
-                  margin: const EdgeInsets.fromLTRB(
-                    kPaddingNormal,
-                    0,
-                    kPaddingNormal,
-                    0,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: kPaddingNormal,
                   ),
                   child: ColorFiltered(
                     child: Image.asset('assets/icons/search_light_72.png'),
