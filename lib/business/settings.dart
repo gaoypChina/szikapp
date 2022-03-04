@@ -24,21 +24,24 @@ class Settings extends ChangeNotifier {
 
   ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
-    var value = _preferences.getString('darkMode');
+    var value =
+        _preferences.getString('darkMode') ?? DarkMode.system.toShortString();
     return DarkMode.values
         .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
-    var value = _preferences.getString('language');
+    var value =
+        _preferences.getString('language') ?? Language.hu.toShortString();
     return Language.values
         .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri az alkalmazás színtémát.
   SzikAppTheme get theme {
-    var value = _preferences.getString('theme');
+    var value = _preferences.getString('theme') ??
+        SzikAppTheme.defaultTheme.toShortString();
     return SzikAppTheme.values
         .firstWhere((element) => element.toShortString() == value);
   }

@@ -27,6 +27,7 @@ class CustomSwitch extends StatefulWidget {
 
 class _CustomSwitchState extends State<CustomSwitch> {
   bool _switchState = true;
+
   @override
   void initState() {
     _switchState = widget.initValue;

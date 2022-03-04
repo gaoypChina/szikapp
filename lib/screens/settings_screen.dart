@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
@@ -24,6 +25,16 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  late bool _isAutomaticDarkModeEnabled;
+  late bool _preferDarkMode;
+
+  @override
+  void initState() {
+    super.initState();
+    _isAutomaticDarkModeEnabled = Settings.instance.darkMode == DarkMode.system;
+    _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
+  }
+
   void _onSearchFieldChanged(String query) {
     /*var newItems = widget.manager.search(query);
     setState(() {
@@ -38,12 +49,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return null;
   }
 
-  bool _isAutomaticDarkModeEnabled = false;
-
   void _onAutomaticThemeChanged(bool switchState) {
     setState(() {
       _isAutomaticDarkModeEnabled = !switchState;
     });
+    if (switchState) {
+      Settings.instance.darkMode = DarkMode.system;
+    } else {
+      Settings.instance.darkMode =
+          _preferDarkMode ? DarkMode.dark : DarkMode.light;
+    }
+  }
+
+  void _onPreferDarkModeChanged(bool preferDarkMode) {
+    setState(() {
+      _preferDarkMode = preferDarkMode;
+    });
+    if (preferDarkMode) {
+      Settings.instance.darkMode = DarkMode.dark;
+    } else {
+      Settings.instance.darkMode = DarkMode.light;
+    }
   }
 
   @override
@@ -105,6 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                         ),
                         onChanged: _onAutomaticThemeChanged,
+                        initValue: _isAutomaticDarkModeEnabled,
                       ),
                       CustomSwitch(
                         titleText: Text(
@@ -116,8 +143,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         : szikGunSmoke,
                                   ),
                         ),
-                        onChanged: (bool value) {},
+                        onChanged: _onPreferDarkModeChanged,
                         enabled: _isAutomaticDarkModeEnabled,
+                        initValue: _preferDarkMode,
                       )
                     ],
                   ),
