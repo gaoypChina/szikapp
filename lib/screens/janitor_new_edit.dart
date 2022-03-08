@@ -316,7 +316,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = JanitorTask(
-          uid: uuid.v4().toUpperCase(),
+          id: uuid.v4().toUpperCase(),
           name: title!,
           description: description,
           start: DateTime.now(),
@@ -325,7 +325,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           lastUpdate: DateTime.now(),
           placeID: placeID!,
           //Gondnok ID !!
-          involved: <String>[
+          participantIDs: <String>[
             Provider.of<AuthManager>(context, listen: false).user!.id,
             'u904'
           ],
@@ -342,12 +342,17 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       var task = widget.originalItem;
       task!.name = title!;
       widget.isFeedback
-          ? task.feedback!.add(Feedback(
-              user: Provider.of<AuthManager>(context, listen: false).user!.id,
-              message: feedback ?? '',
-              timestamp: DateTime.now(),
-            ))
+          ? task.feedback.add(
+              Feedback(
+                id: const Uuid().v4().toUpperCase(),
+                userID:
+                    Provider.of<AuthManager>(context, listen: false).user!.id,
+                message: feedback ?? '',
+                lastUpdate: DateTime.now(),
+              ),
+            )
           : task.description = description;
+
       task.placeID = placeID!;
 
       SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');

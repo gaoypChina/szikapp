@@ -362,11 +362,9 @@ class _ContactsListViewState extends State<ContactsListView>
     return _groups.map<ToggleListItem>(
       (item) {
         var members = <UserData>[];
-        item.memberIDs?.forEach(
-          (memberID) => members.add(
-            _items.where((element) => element.id == memberID).first,
-          ),
-        );
+        for (var memberID in item.memberIDs) {
+          members.add(_items.where((element) => element.id == memberID).first);
+        }
         return ToggleListItem(
           leading: Padding(
             padding: const EdgeInsets.symmetric(

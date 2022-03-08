@@ -9,17 +9,17 @@ import 'models.dart';
 ///adatait a programban. Nem hozható létre önállóan, életciklusát az [Auth]
 ///menedzser osztály kezeli.
 class User {
-  late final String id;
-  late String name;
-  late final String email;
-  late final Uri profilePicture;
+  final String id;
+  final String name;
+  final String email;
+  final Uri profilePicture;
   String? nick;
   DateTime? _birthday;
   String? _phone;
   String? _secondaryPhone;
-  List<String>? groupIDs;
+  List<String> groupIDs;
   List<Permission>? _permissions;
-  late final DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
@@ -78,17 +78,17 @@ class User {
 
   ///Konstruktor, ami a szerverről érkező [UserData] és a Firebase által
   ///biztosított [profilePicture] alapján létrehozza a felhasználót.
-  User(this.profilePicture, UserData userData) {
-    id = userData.id;
-    name = userData.name;
-    email = userData.email;
-    nick = userData.nick;
-    birthday = userData.birthday;
-    phone = userData.phone;
-    secondaryPhone = userData.secondaryPhone;
-    groupIDs = userData.groupIDs;
-    lastUpdate = userData.lastUpdate;
-  }
+  User(this.profilePicture, UserData userData)
+      : id = userData.id,
+        name = userData.name,
+        email = userData.email,
+        nick = userData.nick,
+        _birthday = userData.birthday,
+        _phone = userData.phone,
+        _secondaryPhone = userData.secondaryPhone,
+        groupIDs = userData.groupIDs,
+        _permissions = [],
+        lastUpdate = userData.lastUpdate;
 
   ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
   ///végrehajtására egy adott adaton.
@@ -101,7 +101,7 @@ class User {
         type == Permission.pollResultsExport) {
       if (subject.runtimeType != PollTask) throw TypeError();
       var poll = subject as PollTask;
-      return poll.issuerIDs.contains(id) && _permissions!.contains(type);
+      return poll.managerIDs.contains(id) && _permissions!.contains(type);
     }
 
     if (type == Permission.cleaningExchangeOffer ||
@@ -117,7 +117,8 @@ class User {
         type == Permission.janitorTaskSolutionAccept) {
       if (subject.runtimeType != JanitorTask) throw TypeError();
       var janitor = subject as JanitorTask;
-      return janitor.involvedIDs!.contains(id) && _permissions!.contains(type);
+      return janitor.participantIDs.contains(id) &&
+          _permissions!.contains(type);
     }
 
     if (type == Permission.reservationEdit) {

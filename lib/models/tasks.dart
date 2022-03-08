@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
+import 'interfaces.dart';
 
 part 'tasks.g.dart';
 
@@ -64,68 +65,39 @@ extension TaskStatusExtensions on TaskStatus {
 ///Alapvető feladat adatmodell ősosztály. Szerializálható `JSON` formátumba és
 ///vice versa.
 @JsonSerializable(explicitToJson: true)
-class Task {
-  final String uid;
+class Task implements Identifiable, Cachable {
+  @override
+  @JsonKey(name: 'uid')
+  String id;
   String name;
   DateTime start;
   DateTime end;
   TaskType type;
-  @JsonKey(name: 'involved_ids')
-  List<String>? involvedIDs;
+  @JsonKey(name: 'manager_ids')
+  List<String> managerIDs;
+  @JsonKey(name: 'participant_ids')
+  List<String> participantIDs;
+
   String? description;
+  @override
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
   Task({
-    required this.uid,
+    required this.id,
     required this.name,
     required this.start,
     required this.end,
     required this.type,
-    this.involvedIDs,
+    this.managerIDs = const [],
+    this.participantIDs = const [],
     this.description,
     required this.lastUpdate,
-  }) {
-    involvedIDs ??= <String>[];
-  }
+  });
 
   Json toJson() => _$TaskToJson(this);
 
   factory Task.fromJson(Json json) => _$TaskFromJson(json);
-}
-
-///Agenda eseményt megtestesítő adatmodell osztály. A [Task] osztály
-///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
-@JsonSerializable(explicitToJson: true)
-class AgendaTask extends Task {
-  @JsonKey(name: 'organizer_ids')
-  List<String> organizerIDs;
-
-  AgendaTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.organizerIDs})
-      : super(
-          uid: uid,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          involvedIDs: involved,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
-
-  @override
-  Json toJson() => _$AgendaTaskToJson(this);
-
-  factory AgendaTask.fromJson(Json json) => _$AgendaTaskFromJson(json);
 }
 
 ///Órarendi vagy foglalási eseményt megtestesítő adatmodell osztály. A [Task]
@@ -137,24 +109,26 @@ class TimetableTask extends Task {
   @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
 
-  TimetableTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.organizerIDs,
-      required this.resourceIDs})
-      : super(
-          uid: uid,
+  TimetableTask({
+    required String id,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String> managerIDs = const <String>[],
+    List<String> participantIDs = const <String>[],
+    String? description,
+    required DateTime lastUpdate,
+    required this.organizerIDs,
+    required this.resourceIDs,
+  }) : super(
+          id: id,
           name: name,
           start: start,
           end: end,
           type: type,
-          involvedIDs: involved,
+          managerIDs: managerIDs,
+          participantIDs: participantIDs,
           description: description,
           lastUpdate: lastUpdate,
         );
@@ -169,37 +143,37 @@ class TimetableTask extends Task {
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class JanitorTask extends Task {
-  List<Feedback>? feedback;
+  List<Feedback> feedback;
   @JsonKey(name: 'place_id')
   String placeID;
   TaskStatus status;
   String? answer;
 
   JanitorTask({
-    required String uid,
+    required String id,
     required String name,
     required DateTime start,
     required DateTime end,
     required TaskType type,
-    List<String>? involved,
+    List<String> managerIDs = const [],
+    List<String> participantIDs = const [],
     String? description,
     required DateTime lastUpdate,
-    this.feedback,
+    this.feedback = const [],
     required this.placeID,
     required this.status,
     this.answer,
   }) : super(
-          uid: uid,
+          id: id,
           name: name,
           start: start,
           end: end,
           type: type,
-          involvedIDs: involved,
+          managerIDs: managerIDs,
+          participantIDs: participantIDs,
           description: description,
           lastUpdate: lastUpdate,
-        ) {
-    feedback ??= <Feedback>[];
-  }
+        );
 
   @override
   Json toJson() => _$JanitorTaskToJson(this);
@@ -210,16 +184,22 @@ class JanitorTask extends Task {
 ///Felhasználói visszajelzést megvalósító adatmodell osztály.
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
-class Feedback {
-  @JsonKey(name: 'user')
-  String user;
+class Feedback implements Identifiable, Cachable {
+  @override
+  String id;
+
+  @JsonKey(name: 'user_id')
+  String userID;
   String message;
-  DateTime timestamp;
+  @override
+  @JsonKey(name: 'last_update')
+  final DateTime lastUpdate;
 
   Feedback({
-    required this.user,
+    required this.id,
+    required this.userID,
     required this.message,
-    required this.timestamp,
+    required this.lastUpdate,
   });
 
   Json toJson() => _$FeedbackToJson(this);
@@ -231,32 +211,32 @@ class Feedback {
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
-  List<Feedback>? feedback;
+  List<Feedback> feedback;
   TaskStatus status;
 
-  CleaningTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      this.feedback,
-      required this.status})
-      : super(
-          uid: uid,
+  CleaningTask({
+    required String id,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String> managerIDs = const [],
+    List<String> participantIDs = const [],
+    String? description,
+    required DateTime lastUpdate,
+    this.feedback = const [],
+    required this.status,
+  }) : super(
+          id: id,
           name: name,
           start: start,
           end: end,
           type: type,
-          involvedIDs: involved,
+          managerIDs: managerIDs,
+          participantIDs: participantIDs,
           description: description,
           lastUpdate: lastUpdate,
-        ) {
-    feedback ??= <Feedback>[];
-  }
+        );
 
   @override
   Json toJson() => _$CleaningTaskToJson(this);
@@ -271,23 +251,25 @@ class BookloanTask extends Task {
   @JsonKey(name: 'book_id')
   String bookID;
 
-  BookloanTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.bookID})
-      : super(
-          uid: uid,
+  BookloanTask({
+    required String id,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String> managerIDs = const [],
+    List<String> participantIDs = const [],
+    String? description,
+    required DateTime lastUpdate,
+    required this.bookID,
+  }) : super(
+          id: id,
           name: name,
           start: start,
           end: end,
           type: type,
-          involvedIDs: involved,
+          managerIDs: managerIDs,
+          participantIDs: participantIDs,
           description: description,
           lastUpdate: lastUpdate,
         );
@@ -306,8 +288,6 @@ class PollTask extends Task {
   @JsonKey(name: 'answer_options')
   List<String> answerOptions;
   List<Vote> answers;
-  @JsonKey(name: 'issuer_ids')
-  List<String> issuerIDs;
   @JsonKey(name: 'is_live')
   bool isLive;
   @JsonKey(name: 'is_confidential')
@@ -317,30 +297,31 @@ class PollTask extends Task {
   @JsonKey(name: 'max_selectable_options')
   int maxSelectableOptions;
 
-  PollTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.question,
-      required this.answerOptions,
-      required this.answers,
-      required this.issuerIDs,
-      this.isLive = false,
-      this.isConfidential = false,
-      this.isMultipleChoice = false,
-      this.maxSelectableOptions = 999})
-      : super(
-          uid: uid,
+  PollTask({
+    required String id,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String> managerIDs = const [],
+    List<String> participantIDs = const [],
+    String? description,
+    required DateTime lastUpdate,
+    required this.question,
+    required this.answerOptions,
+    required this.answers,
+    this.isLive = false,
+    this.isConfidential = false,
+    this.isMultipleChoice = false,
+    this.maxSelectableOptions = 999,
+  }) : super(
+          id: id,
           name: name,
           start: start,
           end: end,
           type: type,
-          involvedIDs: involved,
+          managerIDs: managerIDs,
+          participantIDs: participantIDs,
           description: description,
           lastUpdate: lastUpdate,
         );
@@ -354,12 +335,19 @@ class PollTask extends Task {
 ///Egy felhasználó szavazatát megtestesítő adatmodell osztály.
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
-class Vote {
+class Vote implements Cachable {
   @JsonKey(name: 'voter_id')
   String voterID;
   List<String> votes;
+  @override
+  @JsonKey(name: 'last_update')
+  DateTime lastUpdate;
 
-  Vote({required this.voterID, required this.votes});
+  Vote({
+    required this.voterID,
+    required this.votes,
+    required this.lastUpdate,
+  });
 
   Json toJson() => _$VoteToJson(this);
 

@@ -90,9 +90,7 @@ class ContactsManager {
     } else {
       var results = <UserData>[];
       for (var item in contacts) {
-        if (item.groupIDs != null) {
-          if (item.groupIDs!.contains(groupID)) results.add(item);
-        }
+        if (item.groupIDs.contains(groupID)) results.add(item);
       }
       return results;
     }
