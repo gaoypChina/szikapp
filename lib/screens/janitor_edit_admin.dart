@@ -291,7 +291,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                   items: TaskStatus.values,
                                   selectedItem: widget.originalItem.status,
                                   onItemChanged: _onStatusChanged,
-                                  compare: (i, s) => i.isEqual(s),
+                                  compare: (i, s) => i!.isEqual(s),
                                 ),
                               ),
                             ],

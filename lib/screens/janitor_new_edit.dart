@@ -71,7 +71,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     super.initState();
     places = Provider.of<SzikAppStateManager>(context, listen: false).places;
     placeID = places.first.id;
-    if (widget.isFeedback) {
+    if (widget.isFeedback || widget.isEdit) {
       title = widget.originalItem!.name;
       description = widget.originalItem!.description;
       placeID = widget.originalItem!.placeID;
@@ -151,7 +151,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                     element.id == widget.originalItem!.placeID)
                                 : places.first,
                             onItemChanged: _onPlaceChanged,
-                            compare: (i, s) => i.isEqual(s),
+                            compare: (i, s) => i!.isEqual(s),
                           ),
                         ),
                       ],

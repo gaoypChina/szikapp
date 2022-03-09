@@ -339,6 +339,69 @@ class _JanitorListViewState extends State<JanitorListView> {
                                   ),
                                 ],
                               ),
+                              expandedTitle: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: taskStatusColors[item.status]!,
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                            left: Radius.circular(
+                                                kBorderRadiusNormal),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.all(kPaddingLarge),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            Provider.of<SzikAppStateManager>(
+                                                    context,
+                                                    listen: false)
+                                                .places
+                                                .firstWhere((element) =>
+                                                    element.id == item.placeID)
+                                                .name,
+                                            style: theme.textTheme.bodyText1!
+                                                .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              color:
+                                                  theme.colorScheme.onSecondary,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${item.start.month}. ${item.start.day}.',
+                                          style: theme.textTheme.bodyText1!
+                                              .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            color:
+                                                theme.colorScheme.onSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                               content: Container(
                                 padding: const EdgeInsets.all(kPaddingNormal),
                                 decoration: BoxDecoration(
