@@ -157,7 +157,7 @@ class ReservationManager extends ChangeNotifier {
   ///Foglalás törlése. A függvény törli a szerverről a foglalást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deleteReservation(TimetableTask task) async {
-    if (!_reservations.contains(task)) return true;
+    if (!_reservations.any((element) => element.uid == task.uid)) return false;
 
     var io = IO();
     var parameter = {'id': task.uid};
