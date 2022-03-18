@@ -184,7 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomRadioList(
-                        titles: [
+                        labels: [
                           Language.en.toCapitalizedString(),
                           Language.hu.toCapitalizedString(),
                         ],

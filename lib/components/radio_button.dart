@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomRadioList extends StatefulWidget {
   ///A gombok neveinek listája
-  final List<String> titles;
+  final List<String> labels;
 
   ///Annak a gombnak az indexe, ami az oldal generálásakor aktív kell, hogy legyen
   final int initialIndex;
@@ -12,7 +12,7 @@ class CustomRadioList extends StatefulWidget {
 
   const CustomRadioList({
     Key? key,
-    required this.titles,
+    required this.labels,
     this.initialIndex = 0,
     required this.onChanged,
   }) : super(key: key);
@@ -26,14 +26,14 @@ class _CustomRadioListState extends State<CustomRadioList> {
 
   @override
   void initState() {
-    _radioValue = widget.titles[widget.initialIndex];
+    _radioValue = widget.labels[widget.initialIndex];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: widget.titles.map((title) {
+      children: widget.labels.map((title) {
         return ListTile(
           title: Text(title,
               style: Theme.of(context)
