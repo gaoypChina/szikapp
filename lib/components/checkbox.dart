@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
-class CustomCheckbox extends StatefulWidget {
+class CustomCheckboxList extends StatefulWidget {
   /// A widget címe
   final Text title;
 
   /// A checkboxok neveinek listája
-  final List<String> titles;
+  final List<String> checkboxLabels;
 
-  /// A checkboxok szövegeinek formázási stílusa
-  final TextStyle style;
-
-  /// Azonos méretű a [titles] listával. A checkboxok állapotát tárolja
+  /// Azonos méretű a [checkboxLabels] listával. A checkboxok állapotát tárolja
   final List<bool> initValues;
+
+  /// maximum hány checkbox lehet bejelölve egyszerre
+  final int maxEnabled;
 
   /// A checkboxok változásakor visszatér a gomb aktuális értékével
   final ValueChanged<List<bool>> onChanged;
 
-  CustomCheckbox({
+  CustomCheckboxList({
     Key? key,
     required this.title,
-    required this.titles,
-    required this.style,
+    required this.checkboxLabels,
     initValues,
+    required this.maxEnabled,
     required this.onChanged,
-  })  : initValues =
-            initValues ?? List.generate(titles.length, (index) => false),
+  })  : initValues = initValues ??
+            List.generate(checkboxLabels.length, (index) => false),
         super(key: key);
 
   @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
+  State<CustomCheckboxList> createState() => _CustomCheckboxListState();
 }
 
-class _CustomCheckboxState extends State<CustomCheckbox> {
+class _CustomCheckboxListState extends State<CustomCheckboxList> {
   late List<bool> _checkboxValues;
 
   @override
@@ -47,24 +47,24 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
       child: ExpansionTile(
         title: widget.title,
         tilePadding: const EdgeInsets.all(0),
-        children: widget.titles.map((title) {
+        children: widget.checkboxLabels.map((title) {
+          var index = widget.checkboxLabels.indexOf(title);
           return ListTile(
-            title: Text(title, style: widget.style),
+            title: Text(title, style: Theme.of(context).textTheme.bodyText1),
             trailing: Checkbox(
               tristate: false,
               activeColor: Theme.of(context).colorScheme.primary,
-              value: _checkboxValues[widget.titles.indexOf(title)],
-              onChanged:
-                  _checkboxValues.where((item) => item == true).length >= 3 &&
-                          _checkboxValues[widget.titles.indexOf(title)] == false
-                      ? null
-                      : (bool? value) {
-                          setState(() {
-                            _checkboxValues[widget.titles.indexOf(title)] =
-                                value ?? false;
-                          });
-                          widget.onChanged(_checkboxValues);
-                        },
+              value: _checkboxValues[widget.checkboxLabels.indexOf(title)],
+              onChanged: _checkboxValues.where((item) => item == true).length >=
+                          widget.maxEnabled &&
+                      _checkboxValues[index] == false
+                  ? null
+                  : (bool? value) {
+                      setState(() {
+                        _checkboxValues[index] = value ?? false;
+                      });
+                      widget.onChanged(_checkboxValues);
+                    },
             ),
             contentPadding: const EdgeInsets.all(0),
           );

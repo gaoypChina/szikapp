@@ -183,14 +183,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      CustomRadio(
+                      CustomRadioList(
                         titles: [
                           Language.en.toCapitalizedString(),
                           Language.hu.toCapitalizedString(),
                         ],
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
                         onChanged: (String value) {},
                       )
                     ],
@@ -273,13 +270,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-                  child: CustomCheckbox(
+                  child: CustomCheckboxList(
                     title: Text(
                       'SETTINGS_SHORTCUTS'.tr(),
                       style: Theme.of(context).textTheme.headline3!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    titles: const [
+                    checkboxLabels: const [
                       'Alfa',
                       'Béta',
                       'Gamma',
@@ -289,10 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       'Ordó',
                       'Omega'
                     ],
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(color: Theme.of(context).colorScheme.primary),
+                    maxEnabled: 3,
                     onChanged: (List<bool> value) {},
                   ),
                 ),

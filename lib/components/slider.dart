@@ -11,6 +11,12 @@ class CustomSlider extends StatefulWidget {
   ///Maximális érték
   final double max;
 
+  ///Minimális érték ikonja
+  final Widget minIcon;
+
+  ///Maximális érték ikonja
+  final Widget maxIcon;
+
   ///Kezdeti érték (min és max között kell, hogy legyen)
   final double? initValue;
 
@@ -23,6 +29,14 @@ class CustomSlider extends StatefulWidget {
     this.initValue,
     this.min = 0,
     this.max = 100,
+    this.minIcon = const Icon(
+      Icons.volume_mute,
+      size: kIconSizeLarge,
+    ),
+    this.maxIcon = const Icon(
+      Icons.volume_up,
+      size: kIconSizeLarge,
+    ),
     required this.onChanged,
   }) : super(key: key);
 
@@ -68,14 +82,11 @@ class _CustomSliderState extends State<CustomSlider> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.volume_mute,
-                size: kIconSizeLarge,
-              ),
+              widget.minIcon,
               Slider(
                 value: _sliderValue,
-                min: 0,
-                max: 100,
+                min: widget.min,
+                max: widget.max,
                 label: _sliderValue.round().toString(),
                 onChanged: (value) {
                   setState(() {
@@ -84,10 +95,7 @@ class _CustomSliderState extends State<CustomSlider> {
                   widget.onChanged(_sliderValue);
                 },
               ),
-              const Icon(
-                Icons.volume_up,
-                size: kIconSizeLarge,
-              ),
+              widget.maxIcon
             ],
           ),
         ],

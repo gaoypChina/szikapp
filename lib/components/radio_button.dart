@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CustomRadio extends StatefulWidget {
+class CustomRadioList extends StatefulWidget {
   ///A gombok neveinek listája
   final List<String> titles;
-
-  ///A gombok szövegeinek formázási stílusa
-  final TextStyle style;
 
   ///Annak a gombnak az indexe, ami az oldal generálásakor aktív kell, hogy legyen
   final int initialIndex;
@@ -13,19 +10,18 @@ class CustomRadio extends StatefulWidget {
   ///A gombok változásakor visszatér a rendszer aktuális értékével
   final ValueChanged<String> onChanged;
 
-  const CustomRadio({
+  const CustomRadioList({
     Key? key,
     required this.titles,
-    required this.style,
     this.initialIndex = 0,
     required this.onChanged,
   }) : super(key: key);
 
   @override
-  State<CustomRadio> createState() => _CustomRadioState();
+  State<CustomRadioList> createState() => _CustomRadioListState();
 }
 
-class _CustomRadioState extends State<CustomRadio> {
+class _CustomRadioListState extends State<CustomRadioList> {
   late String _radioValue;
 
   @override
@@ -39,7 +35,11 @@ class _CustomRadioState extends State<CustomRadio> {
     return Column(
       children: widget.titles.map((title) {
         return ListTile(
-          title: Text(title, style: widget.style),
+          title: Text(title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: Theme.of(context).colorScheme.primary)),
           trailing: Transform.scale(
             scale: 1.2,
             child: Radio(
