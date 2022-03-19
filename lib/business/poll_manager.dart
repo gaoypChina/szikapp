@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/tasks.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
 class PollManager extends ChangeNotifier {
@@ -204,14 +204,30 @@ class PollManager extends ChangeNotifier {
     return results;
   }
 
-  List<PollTask> filter(String userID) {
+  List<PollTask> filter({required String userID, bool? isLive}) {
     var results = <PollTask>[];
+
+    //userID-ra mindenképp szűrünk
     for (var poll in polls) {
-      for (var vote in poll.answers) {
-        if (vote.voterID == userID) results.add(poll);
-      }
+      if (poll.involvedIDs!.contains(userID)) results.add(poll);
     }
-    return List.unmodifiable(results);
+
+    if (isLive == null) {
+      return results;
+    } else if (isLive) {
+      //élő szavazásokat szűrjük ki: ha aktívak még
+      for (var poll in results) {
+        if (!poll.isLive) results.remove(poll);
+      }
+      return results;
+    } else {
+      //lejárt szavazások: nem aktívak vagy a határidejük lejárt
+      for (var poll in results) {
+        var hasPastDueDate = poll.end.difference(DateTime.now()).isNegative;
+        if (!hasPastDueDate && poll.isLive) results.remove(poll);
+      }
+      return results;
+    }
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
