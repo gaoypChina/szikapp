@@ -209,9 +209,7 @@ class PollManager extends ChangeNotifier {
 
     //userID-ra mindenképp szűrünk
     for (var poll in polls) {
-      for (var vote in poll.answers) {
-        if (vote.voterID == userID) results.add(poll);
-      }
+      if (poll.involvedIDs!.contains(userID)) results.add(poll);
     }
 
     if (isLive == null) {
