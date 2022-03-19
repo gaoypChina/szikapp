@@ -4,7 +4,10 @@ class Shortcut {
   final String assetPath;
   final int feature;
 
-  const Shortcut({required this.assetPath, required this.feature});
+  const Shortcut({
+    required this.assetPath,
+    required this.feature,
+  });
 }
 
 const shortcutData = <int, Shortcut>{

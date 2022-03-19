@@ -12,12 +12,14 @@ Group _$GroupFromJson(Map<String, dynamic> json) => Group(
       description: json['description'] as String?,
       email: json['email'] as String?,
       memberIDs: (json['member_ids'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       maxMemberCount: json['max_member_count'] as int? ?? 999,
       permissions: (json['permissions'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$PermissionEnumMap, e))
-          .toList(),
+              ?.map((e) => $enumDecode(_$PermissionEnumMap, e))
+              .toList() ??
+          const [],
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
@@ -29,7 +31,7 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'member_ids': instance.memberIDs,
       'max_member_count': instance.maxMemberCount,
       'permissions':
-          instance.permissions?.map((e) => _$PermissionEnumMap[e]).toList(),
+          instance.permissions.map((e) => _$PermissionEnumMap[e]).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
     };
 

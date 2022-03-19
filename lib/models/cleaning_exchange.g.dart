@@ -8,7 +8,7 @@ part of 'cleaning_exchange.dart';
 
 CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) =>
     CleaningExchange(
-      uid: json['uid'] as String,
+      id: json['id'] as String,
       taskID: json['task_id'] as String,
       initiatorID: json['initiator_id'] as String,
       replaceTaskID: json['replace_task_id'] as String?,
@@ -22,7 +22,7 @@ CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CleaningExchangeToJson(CleaningExchange instance) =>
     <String, dynamic>{
-      'uid': instance.uid,
+      'id': instance.id,
       'task_id': instance.taskID,
       'initiator_id': instance.initiatorID,
       'replace_task_id': instance.replaceTaskID,

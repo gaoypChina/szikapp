@@ -217,7 +217,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
                     initialValue: buildGroupNamesFromIDs(
-                        widget.manager.user!.groupIDs ?? []),
+                      widget.manager.user!.groupIDs,
+                    ),
                     readOnly: true,
                   ),
                 ],

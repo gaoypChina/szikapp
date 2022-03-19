@@ -59,8 +59,8 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedPollTask(String uid) {
-    final index = _polls.indexWhere((element) => element.uid == uid);
+  void setSelectedPollTask(String id) {
+    final index = _polls.indexWhere((element) => element.id == id);
     _createNewPoll = false;
     _editPoll = true;
     _vote = false;
@@ -104,10 +104,10 @@ class PollManager extends ChangeNotifier {
   ///a listán.
   Future<bool> updatePoll(PollTask poll) async {
     var io = IO();
-    var parameter = {'id': poll.uid};
+    var parameter = {'id': poll.id};
     await io.patchPoll(poll, parameter);
 
-    _polls.removeWhere((element) => element.uid == poll.uid);
+    _polls.removeWhere((element) => element.id == poll.id);
     _polls.add(poll);
     _createNewPoll = false;
     _editPoll = false;
@@ -124,7 +124,7 @@ class PollManager extends ChangeNotifier {
     if (!_polls.any((element) => element.uid == poll.uid)) return false;
 
     var io = IO();
-    var parameter = {'id': poll.uid};
+    var parameter = {'id': poll.id};
     await io.deletePoll(parameter, poll.lastUpdate);
 
     _polls.remove(poll);
@@ -143,7 +143,7 @@ class PollManager extends ChangeNotifier {
     if (poll.answers.contains(vote)) return false;
 
     var io = IO();
-    var param = {'id': poll.uid};
+    var param = {'id': poll.id};
     await io.putPoll(vote, param);
 
     poll.answers.add(vote);
@@ -160,7 +160,7 @@ class PollManager extends ChangeNotifier {
   ///hozza a szavazás eredményeit.
   Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
     var io = IO();
-    var param = {'id': poll.uid};
+    var param = {'id': poll.id};
     var resultTaskList = await io.getPoll(param);
     var resultTask = resultTaskList.first;
 
@@ -232,10 +232,10 @@ class PollManager extends ChangeNotifier {
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
   ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
-  Future<void> refresh({String? issuer, String? involved}) async {
+  Future<void> refresh({String? managerID, String? participantID}) async {
     var parameter = <String, String>{};
-    if (issuer != null) parameter['issuer'] = issuer;
-    if (involved != null) parameter['involved'] = involved;
+    if (managerID != null) parameter['managerid'] = managerID;
+    if (participantID != null) parameter['participantid'] = participantID;
 
     var io = IO();
     _polls = await io.getPoll(parameter);

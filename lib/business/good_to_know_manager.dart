@@ -35,8 +35,8 @@ class GoodToKnowManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedGoodToKnowItem(String uid) {
-    final index = _posts.indexWhere((element) => element.uid == uid);
+  void setSelectedGoodToKnowItem(String id) {
+    final index = _posts.indexWhere((element) => element.id == id);
     _selectedIndex = index;
     _createNewItem = false;
     _editItem = true;
@@ -59,10 +59,10 @@ class GoodToKnowManager extends ChangeNotifier {
     if (!_posts.any((element) => element.uid == item.uid)) return false;
 
     var io = IO();
-    var parameter = {'id': item.uid};
+    var parameter = {'id': item.id};
     await io.putGoodToKnow(item, parameter);
 
-    _posts.removeWhere((element) => element.uid == item.uid);
+    _posts.removeWhere((element) => element.id == item.id);
     _posts.add(item);
     _createNewItem = false;
     _editItem = false;
@@ -75,7 +75,7 @@ class GoodToKnowManager extends ChangeNotifier {
     if (!_posts.any((element) => element.uid == item.uid)) return false;
 
     var io = IO();
-    var parameter = {'id': item.uid};
+    var parameter = {'id': item.id};
     await io.deleteGoodToKnow(parameter, item.lastUpdate);
 
     _posts.remove(item);

@@ -50,7 +50,7 @@ class Settings extends ChangeNotifier {
   bool get dataLite => _preferences.getBool('dataLite') ?? false;
 
   ///Lekéri a felhasználó értesítés beállításait.
-  Map<String, bool>? get notificationSettings {
+  Map<String, bool> get notificationSettings {
     var enabled = _preferences.getStringList('enabled') ?? [];
     var disabled = _preferences.getStringList('disabled') ?? [];
     var result = <String, bool>{};
@@ -65,7 +65,7 @@ class Settings extends ChangeNotifier {
     return result;
   }
 
-  List<int>? get feedShortcuts {
+  List<int> get feedShortcuts {
     var shortcutsStrings = _preferences.getStringList('feedShortcuts') ?? [];
     var shortcuts = <int>[];
     for (var item in shortcutsStrings) {

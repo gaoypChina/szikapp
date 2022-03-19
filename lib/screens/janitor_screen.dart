@@ -61,7 +61,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     switch (newValue) {
       case 2:
         var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
-        newItems = widget.manager.filter(involvedID: ownID);
+        newItems = widget.manager.filter(participantID: ownID);
         break;
       case 1:
         newItems = widget.manager.filter(statuses: [
@@ -114,7 +114,7 @@ class _JanitorListViewState extends State<JanitorListView> {
   List<Widget> _buildActionButtons(JanitorTask task) {
     var buttons = <Widget>[];
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
-    if ((task.involvedIDs!.contains(userID) &&
+    if ((task.participantIDs.contains(userID) &&
             (task.status == TaskStatus.sent ||
                 task.status == TaskStatus.inProgress)) ||
         userID == 'u904') {
@@ -132,7 +132,7 @@ class _JanitorListViewState extends State<JanitorListView> {
         child: Text('BUTTON_FEEDBACK'.tr()),
       ));
     }
-    if (task.involvedIDs!.contains(userID) &&
+    if (task.participantIDs.contains(userID) &&
         task.status == TaskStatus.awaitingApproval) {
       buttons.add(OutlinedButton(
         onPressed: () => _onApprovePressed(task),
@@ -155,7 +155,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
     return Provider.of<AuthManager>(context, listen: false).user!.id ==
                 'u904' &&
-            task.feedback!.isNotEmpty
+            task.feedback.isNotEmpty
         ? Container(
             margin: const EdgeInsets.only(bottom: kPaddingNormal),
             child: Row(
@@ -182,10 +182,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: task.feedback!.map(
+                      children: task.feedback.map(
                         (item) {
                           return Text(
-                            '${item.timestamp.month}. ${item.timestamp.day}: ${item.message}',
+                            '${item.lastUpdate.month}. ${item.lastUpdate.day}: ${item.message}',
                             style: theme.textTheme.subtitle1!.copyWith(
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w600,

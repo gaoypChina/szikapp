@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
+import 'interfaces.dart';
 
 part 'cleaning_period.g.dart';
 
@@ -7,17 +8,19 @@ part 'cleaning_period.g.dart';
 ///összefüggő időszakát reprezentálja. Szerializálható `JSON` formátumba és
 ///vice versa.
 @JsonSerializable()
-class CleaningPeriod {
-  String uid;
+class CleaningPeriod implements Identifiable, Cachable {
+  @override
+  String id;
   DateTime start;
   DateTime end;
   @JsonKey(name: 'is_live')
   bool isLive;
+  @override
   @JsonKey(name: 'last_update')
-  final DateTime lastUpdate;
+  DateTime lastUpdate;
 
   CleaningPeriod({
-    required this.uid,
+    required this.id,
     required this.start,
     required this.end,
     this.isLive = false,

@@ -7,39 +7,42 @@ part of 'resource.dart';
 // **************************************************************************
 
 Resource _$ResourceFromJson(Map<String, dynamic> json) => Resource(
+      id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
 Map<String, dynamic> _$ResourceToJson(Resource instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
     };
 
 Place _$PlaceFromJson(Map<String, dynamic> json) => Place(
-      id: json['id'] as String,
+      id: json['id'],
       name: json['name'] as String,
       description: json['description'] as String?,
       type: json['type'] as String,
       overseerIDs: (json['overseer_ids'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'id': instance.id,
       'type': instance.type,
       'overseer_ids': instance.overseerIDs,
     };
 
 Boardgame _$BoardgameFromJson(Map<String, dynamic> json) => Boardgame(
-      id: json['id'] as String,
+      id: json['id'],
       name: json['name'] as String,
       description: json['description'] as String?,
       iconLink: json['icon_link'] as String,
@@ -47,9 +50,9 @@ Boardgame _$BoardgameFromJson(Map<String, dynamic> json) => Boardgame(
     );
 
 Map<String, dynamic> _$BoardgameToJson(Boardgame instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'id': instance.id,
       'icon_link': instance.iconLink,
     };

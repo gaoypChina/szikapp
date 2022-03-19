@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/types.dart';
+import 'interfaces.dart';
 import 'preferences.dart';
 import 'user.dart';
 
@@ -9,7 +10,8 @@ part 'user_data.g.dart';
 ///Egy felhasználó adatait reprezentáló adatmodell osztály.
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
-class UserData {
+class UserData implements Identifiable, Cachable {
+  @override
   final String id;
   String name;
   String? nick;
@@ -20,7 +22,8 @@ class UserData {
   Preferences? preferences;
   DateTime? birthday;
   @JsonKey(name: 'group_ids')
-  List<String>? groupIDs;
+  List<String> groupIDs;
+  @override
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
@@ -33,11 +36,9 @@ class UserData {
     this.secondaryPhone,
     this.preferences,
     this.birthday,
-    this.groupIDs,
+    this.groupIDs = const [],
     required this.lastUpdate,
-  }) {
-    groupIDs ??= <String>[];
-  }
+  });
 
   String get showableName => nick ?? name.split(' ')[1];
   String get initials {
@@ -46,20 +47,20 @@ class UserData {
   }
 
   void addGroup(String groupID) {
-    if (!groupIDs!.contains(groupID)) {
-      groupIDs!.add(groupID);
+    if (!groupIDs.contains(groupID)) {
+      groupIDs.add(groupID);
     }
   }
 
   void removeGroup(String groupID) {
-    if (groupIDs!.contains(groupID)) {
-      groupIDs!.remove(groupID);
+    if (groupIDs.contains(groupID)) {
+      groupIDs.remove(groupID);
     }
   }
 
   void removeAllGroups() {
-    if (groupIDs!.isNotEmpty) {
-      groupIDs!.clear();
+    if (groupIDs.isNotEmpty) {
+      groupIDs.clear();
     }
   }
 

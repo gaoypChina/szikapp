@@ -1,13 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
+import 'interfaces.dart';
 
 part 'cleaning_exchange.g.dart';
 
 ///Konyhatakarítás-csere adatmodell osztály. Szerializálható `JSON` formátumba
 ///és vice versa.
 @JsonSerializable()
-class CleaningExchange {
-  String uid;
+class CleaningExchange implements Identifiable, Cachable {
+  @override
+  String id;
   @JsonKey(name: 'task_id')
   String taskID;
   @JsonKey(name: 'initiator_id')
@@ -18,11 +20,12 @@ class CleaningExchange {
   String? responderID;
   bool approved;
   List<Map<String, dynamic>>? rejected;
+  @override
   @JsonKey(name: 'last_update')
-  final DateTime lastUpdate;
+  DateTime lastUpdate;
 
   CleaningExchange({
-    required this.uid,
+    required this.id,
     required this.taskID,
     required this.initiatorID,
     this.replaceTaskID,
