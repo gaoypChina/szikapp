@@ -101,17 +101,17 @@ class AgendaTask extends Task {
   @JsonKey(name: 'organizer_ids')
   List<String> organizerIDs;
 
-  AgendaTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.organizerIDs})
-      : super(
+  AgendaTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    required this.organizerIDs,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
@@ -137,18 +137,18 @@ class TimetableTask extends Task {
   @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
 
-  TimetableTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.organizerIDs,
-      required this.resourceIDs})
-      : super(
+  TimetableTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    required this.organizerIDs,
+    required this.resourceIDs,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
@@ -234,18 +234,18 @@ class CleaningTask extends Task {
   List<Feedback>? feedback;
   TaskStatus status;
 
-  CleaningTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      this.feedback,
-      required this.status})
-      : super(
+  CleaningTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    this.feedback,
+    required this.status,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
@@ -271,17 +271,17 @@ class BookloanTask extends Task {
   @JsonKey(name: 'book_id')
   String bookID;
 
-  BookloanTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.bookID})
-      : super(
+  BookloanTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    required this.bookID,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
@@ -306,6 +306,8 @@ class PollTask extends Task {
   @JsonKey(name: 'answer_options')
   List<String> answerOptions;
   List<Vote> answers;
+  @JsonKey(name: 'feedback_on_answer')
+  String? feedbackOnAnswer;
   @JsonKey(name: 'issuer_ids')
   List<String> issuerIDs;
   @JsonKey(name: 'is_live')
@@ -317,24 +319,25 @@ class PollTask extends Task {
   @JsonKey(name: 'max_selectable_options')
   int maxSelectableOptions;
 
-  PollTask(
-      {required String uid,
-      required String name,
-      required DateTime start,
-      required DateTime end,
-      required TaskType type,
-      List<String>? involved,
-      String? description,
-      required DateTime lastUpdate,
-      required this.question,
-      required this.answerOptions,
-      required this.answers,
-      required this.issuerIDs,
-      this.isLive = false,
-      this.isConfidential = false,
-      this.isMultipleChoice = false,
-      this.maxSelectableOptions = 999})
-      : super(
+  PollTask({
+    required String uid,
+    required String name,
+    required DateTime start,
+    required DateTime end,
+    required TaskType type,
+    List<String>? involved,
+    String? description,
+    required DateTime lastUpdate,
+    required this.question,
+    required this.answerOptions,
+    required this.answers,
+    required this.issuerIDs,
+    this.feedbackOnAnswer,
+    this.isLive = false,
+    this.isConfidential = false,
+    this.isMultipleChoice = false,
+    this.maxSelectableOptions = 999,
+  }) : super(
           uid: uid,
           name: name,
           start: start,
