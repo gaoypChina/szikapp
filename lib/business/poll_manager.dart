@@ -214,26 +214,21 @@ class PollManager extends ChangeNotifier {
       }
     }
 
-    //ha isLive-ra nem szűrünk
     if (isLive == null) {
-      return List.unmodifiable(results);
-    }
-
-    //élő szavazásokat szűrjük ki: ha aktívak még
-    if (isLive) {
-      for (var poll in polls) {
-        if (poll.isLive) results.add(poll);
+      return results;
+    } else if (isLive) {
+      //élő szavazásokat szűrjük ki: ha aktívak még
+      for (var poll in results) {
+        if (!poll.isLive) results.remove(poll);
       }
-      return List.unmodifiable(results);
-    }
-
-    //lejárt szavazások: nem aktívak vagy a határidejük lejárt
-    else {
-      for (var poll in polls) {
-        var negDif = poll.end.difference(DateTime.now()).isNegative;
-        if (!poll.isLive || negDif) results.add(poll);
+      return results;
+    } else {
+      //lejárt szavazások: nem aktívak vagy a határidejük lejárt
+      for (var poll in results) {
+        var hasPastDueDate = poll.end.difference(DateTime.now()).isNegative;
+        if (!hasPastDueDate && poll.isLive) results.remove(poll);
       }
-      return List.unmodifiable(results);
+      return results;
     }
   }
 
