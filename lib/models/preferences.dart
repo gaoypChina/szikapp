@@ -38,6 +38,10 @@ extension LanguageExtensions on Language {
     return toString().split('.').last;
   }
 
+  String toCapitalizedString() {
+    return toString().split('.').last.toUpperCase();
+  }
+
   bool isEqual(Language? other) {
     if (other == null) return false;
     return index == other.index;

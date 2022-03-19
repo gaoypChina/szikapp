@@ -288,6 +288,8 @@ class PollTask extends Task {
   @JsonKey(name: 'answer_options')
   List<String> answerOptions;
   List<Vote> answers;
+  @JsonKey(name: 'feedback_on_answer')
+  String? feedbackOnAnswer;
   @JsonKey(name: 'is_live')
   bool isLive;
   @JsonKey(name: 'is_confidential')
@@ -310,6 +312,7 @@ class PollTask extends Task {
     required this.question,
     required this.answerOptions,
     required this.answers,
+    this.feedbackOnAnswer,
     this.isLive = false,
     this.isConfidential = false,
     this.isMultipleChoice = false,

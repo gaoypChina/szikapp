@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/preferences.dart';
 import '../utils/io.dart';
 
 ///Felhasználói beállításokat implementáló osztály. Specifikus interfészt
 ///biztosít a [SharedPreferences] lokális perzisztens adattárolóhoz.
-class Settings {
+class Settings extends ChangeNotifier {
   ///Adattár példány
   late SharedPreferences _preferences;
 
@@ -23,21 +24,24 @@ class Settings {
 
   ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
-    var value = _preferences.getString('darkMode');
+    var value =
+        _preferences.getString('darkMode') ?? DarkMode.system.toShortString();
     return DarkMode.values
         .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
-    var value = _preferences.getString('language');
+    var value =
+        _preferences.getString('language') ?? Language.hu.toShortString();
     return Language.values
         .firstWhere((element) => element.toShortString() == value);
   }
 
   ///Lekéri az alkalmazás színtémát.
   SzikAppTheme get theme {
-    var value = _preferences.getString('theme');
+    var value = _preferences.getString('theme') ??
+        SzikAppTheme.defaultTheme.toShortString();
     return SzikAppTheme.values
         .firstWhere((element) => element.toShortString() == value);
   }
@@ -71,33 +75,33 @@ class Settings {
     return shortcuts;
   }
 
-  ///Lekéri a bal oldali navigációs gomb beállítását.
-  String? get leftMenuOption => _preferences.getString('leftMenuOption');
-
-  ///Lekéri a jobb oldali navigációs gomb beállítását.
-  String? get rightMenuOption => _preferences.getString('rightMenuOption');
-
   ///Elmenti az első futtatást jelző flaget.
   set firstRun(bool isFirstRun) => _preferences.setBool('firstRun', false);
 
   ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
-    _preferences.setString('darkMode', mode.toShortString());
+    _preferences
+        .setString('darkMode', mode.toShortString())
+        .then((_) => notifyListeners());
   }
 
   ///Elmenti a nyelvbeállításokat.
   set language(Language language) {
-    _preferences.setString('language', language.toShortString());
+    _preferences
+        .setString('language', language.toShortString())
+        .then((_) => notifyListeners());
   }
 
   ///Elmenti a témabeállításokat.
   set theme(SzikAppTheme theme) {
-    _preferences.setString('theme', theme.toShortString());
+    _preferences
+        .setString('theme', theme.toShortString())
+        .then((_) => notifyListeners());
   }
 
   ///Elmenti az adattakarékos mód beállításait.
   set dataLite(bool enabled) {
-    _preferences.setBool('dataLite', enabled);
+    _preferences.setBool('dataLite', enabled).then((_) => notifyListeners());
   }
 
   ///Elmenti a felhasználó értesítés beállításait.
@@ -109,8 +113,10 @@ class Settings {
       notifications[key] == true ? enabled.add(key) : disabled.add(key);
     }
 
-    _preferences.setStringList('disabled', disabled);
-    _preferences.setStringList('enabled', enabled);
+    Future.wait([
+      _preferences.setStringList('disabled', disabled),
+      _preferences.setStringList('enabled', enabled)
+    ]).then((_) => notifyListeners());
   }
 
   set feedShortcuts(List<int>? shortcuts) {
@@ -118,19 +124,9 @@ class Settings {
     for (var item in shortcuts ?? []) {
       shortcutsStrings.add('$item');
     }
-    _preferences.setStringList('feedShortcuts', shortcutsStrings);
-  }
-
-  ///Elmenti a bal oldali navigációs gomb beállításait.
-  set leftMenuOption(String? option) {
-    option ??= '';
-    _preferences.setString('leftMenuOption', option);
-  }
-
-  ///Elmenti a bal oldali navigációs gomb beállításait.
-  set rightMenuOption(String? option) {
-    option ??= '';
-    _preferences.setString('rightMenuOption', option);
+    _preferences
+        .setStringList('feedShortcuts', shortcutsStrings)
+        .then((_) => notifyListeners());
   }
 
   ///Letölti és lokálisan tárolja a felhasználó szerveren elmentett
@@ -144,8 +140,6 @@ class Settings {
     dataLite = serverPreferences.dataLite;
     notificationSettings = serverPreferences.notifications;
     feedShortcuts = serverPreferences.feedShortcuts;
-    leftMenuOption = serverPreferences.leftMenuOption;
-    rightMenuOption = serverPreferences.rightMenuOption;
     return true;
   }
 
@@ -157,10 +151,7 @@ class Settings {
       ..theme = theme
       ..dataLite = dataLite
       ..notifications = notificationSettings
-      ..feedShortcuts = feedShortcuts
-      ..leftMenuOption = leftMenuOption
-      ..rightMenuOption = rightMenuOption;
-
+      ..feedShortcuts = feedShortcuts;
     var io = IO();
     await io.putUserPreferences(prefs);
     return true;

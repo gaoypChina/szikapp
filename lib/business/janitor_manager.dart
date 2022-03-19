@@ -108,7 +108,7 @@ class JanitorManager extends ChangeNotifier {
   ///Új feladat hozzáadása. A függvény feltölti a szerverre az új feladatot,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
   Future<bool> addTask(JanitorTask task) async {
-    if (_tasks.contains(task)) return false;
+    if (_tasks.any((element) => element.uid == task.uid)) return false;
 
     var io = IO();
     await io.postJanitor(task);
@@ -127,6 +127,8 @@ class JanitorManager extends ChangeNotifier {
   ///feladatot, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
   ///a listán.
   Future<bool> updateTask(JanitorTask task) async {
+    if (!_tasks.any((element) => element.uid == task.uid)) return false;
+
     var io = IO();
     var parameter = {'id': task.id};
     await io.putJanitor(task, parameter);
@@ -145,7 +147,7 @@ class JanitorManager extends ChangeNotifier {
   ///Feladat törlése. A függvény törli a szerverről a feladatot,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deleteTask(JanitorTask task) async {
-    if (!_tasks.contains(task)) return true;
+    if (!_tasks.any((element) => element.uid == task.uid)) return false;
 
     var io = IO();
     var parameter = {'id': task.id};
