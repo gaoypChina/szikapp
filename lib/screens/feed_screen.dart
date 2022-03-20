@@ -46,7 +46,7 @@ class _FeedScreenState extends State<FeedScreen> {
         route: SzikAppLink(),
       ),
     ];
-    feedShortcuts = Settings.instance.feedShortcuts ?? [];
+    feedShortcuts = Settings.instance.feedShortcuts;
   }
 
   void _onClearAllNotificationsPressed() {}

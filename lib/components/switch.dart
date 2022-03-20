@@ -10,7 +10,7 @@ class CustomSwitch extends StatefulWidget {
   /// A gomb változásakor visszatér a gomb aktuális értékével
   final ValueChanged<bool> onChanged;
 
-  /// A gomb engedélyezése/letiltása
+  /// A gomb engedélyezése/letiltása (True/False)
   final bool enabled;
 
   const CustomSwitch({

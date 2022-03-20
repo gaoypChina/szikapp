@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -27,12 +29,16 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late bool _isAutomaticDarkModeEnabled;
   late bool _preferDarkMode;
+  late Language _preferedLanguage;
+  late List<int> _feedShortcuts;
 
   @override
   void initState() {
     super.initState();
     _isAutomaticDarkModeEnabled = Settings.instance.darkMode == DarkMode.system;
     _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
+    _preferedLanguage = Settings.instance.language;
+    _feedShortcuts = Settings.instance.feedShortcuts;
   }
 
   void _onSearchFieldChanged(String query) {
@@ -70,6 +76,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       Settings.instance.darkMode = DarkMode.light;
     }
+  }
+
+  void _onLanguageChanged(String preferedLanguage) {
+    var language = Language.values.firstWhere(
+        (element) => element.toCapitalizedString() == preferedLanguage);
+    setState(() {
+      _preferedLanguage = language;
+    });
+    Settings.instance.language = language;
+  }
+
+  List<int> _boolListToInt(List<bool> boolList) {
+    var intList = <int>[];
+
+    for (var i = 0; i < boolList.length; i++) {
+      if (boolList[i] == true) {
+        intList.add(i);
+      }
+    }
+    return intList;
+  }
+
+  List<bool> _intListToBool(List<int> intList, int length) {
+    var boolList = List<bool>.filled(length, false);
+
+    for (var index in intList) {
+      boolList[index] = true;
+    }
+    return boolList;
+  }
+
+  void _onFeedShortcutsChanged(List<bool> boolList) {
+    var intList = _boolListToInt(boolList);
+    setState(() {
+      _feedShortcuts = intList;
+    });
+    Settings.instance.feedShortcuts = intList;
   }
 
   @override
@@ -184,16 +227,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomRadioList(
-                        titles: [
+                        radioLabels: [
                           Language.en.toCapitalizedString(),
                           Language.hu.toCapitalizedString(),
                         ],
-                        onChanged: (String value) {},
+                        initValue: _preferedLanguage.toCapitalizedString(),
+                        onChanged: _onLanguageChanged,
                       )
                     ],
                   ),
                 ),
                 //Hangerő
+                /*
                 CustomSlider(
                   titleText: Text(
                     'SETTINGS_VOLUME'.tr(),
@@ -201,8 +246,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                   ),
-                  onChanged: (double value) {},
-                ),
+                  onChanged: _onVolumeChanged,
+                ),*/
                 //Értesítések
                 Container(
                   width: double.infinity,
@@ -276,18 +321,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: Theme.of(context).textTheme.headline3!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    checkboxLabels: const [
-                      'Alfa',
-                      'Béta',
-                      'Gamma',
-                      'Delta',
-                      'Epszilon',
-                      'Théta',
-                      'Ordó',
-                      'Omega'
-                    ],
+                    checkboxLabels:
+                        shortcutData.entries.map((e) => e.value.name).toList(),
                     maxEnabled: 3,
-                    onChanged: (List<bool> value) {},
+                    initValues:
+                        _intListToBool(_feedShortcuts, shortcutData.length),
+                    onChanged: _onFeedShortcutsChanged,
                   ),
                 ),
               ],

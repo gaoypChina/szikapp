@@ -65,8 +65,9 @@ class Settings extends ChangeNotifier {
     return result;
   }
 
-  List<int>? get feedShortcuts {
-    var shortcutsStrings = _preferences.getStringList('feedShortcuts') ?? [];
+  List<int> get feedShortcuts {
+    var shortcutsStrings =
+        _preferences.getStringList('feedShortcuts') ?? ['0', '1', '2'];
     var shortcuts = <int>[];
     for (var item in shortcutsStrings) {
       var parsedItem = int.tryParse(item);
@@ -119,9 +120,9 @@ class Settings extends ChangeNotifier {
     ]).then((_) => notifyListeners());
   }
 
-  set feedShortcuts(List<int>? shortcuts) {
+  set feedShortcuts(List<int> shortcuts) {
     var shortcutsStrings = <String>[];
-    for (var item in shortcuts ?? []) {
+    for (var item in shortcuts) {
       shortcutsStrings.add('$item');
     }
     _preferences
