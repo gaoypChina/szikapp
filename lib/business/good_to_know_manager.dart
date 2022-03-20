@@ -56,7 +56,7 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   Future<bool> updateItem(GoodToKnow item) async {
-    if (!_posts.any((element) => element.uid == item.uid)) return false;
+    if (!_posts.any((element) => element.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};
@@ -72,7 +72,7 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   Future<bool> deleteItem(GoodToKnow item) async {
-    if (!_posts.any((element) => element.uid == item.uid)) return false;
+    if (!_posts.any((element) => element.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};

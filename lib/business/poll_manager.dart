@@ -121,7 +121,7 @@ class PollManager extends ChangeNotifier {
   ///Szavazás törlése. A függvény törli a szerverről a szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deletePoll(PollTask poll) async {
-    if (!_polls.any((element) => element.uid == poll.uid)) return false;
+    if (!_polls.any((element) => element.id == poll.id)) return false;
 
     var io = IO();
     var parameter = {'id': poll.id};
@@ -209,7 +209,7 @@ class PollManager extends ChangeNotifier {
 
     //userID-ra mindenképp szűrünk
     for (var poll in polls) {
-      if (poll.involvedIDs!.contains(userID)) results.add(poll);
+      if (poll.participantIDs.contains(userID)) results.add(poll);
     }
 
     if (isLive == null) {
