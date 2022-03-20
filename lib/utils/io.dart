@@ -33,7 +33,7 @@ class IO {
   //Végpontok nevei
   final _userEndpoint = '/user';
   final _preferencesEndpoint = '/user/preferences';
-  final _permissionsEndpoint = '/user/permissons';
+  final _permissionsEndpoint = '/user/permissions';
   final _groupEndpoint = '/group';
   final _placeEndpoint = '/place';
   final _contactsEndpoint = '/contacts';

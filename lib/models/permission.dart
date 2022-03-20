@@ -51,6 +51,8 @@ enum Permission {
 
   bookLoanView,
 
+  calendarView,
+
   profileView,
   profileEdit,
   userCreate,
