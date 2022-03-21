@@ -73,10 +73,7 @@ class _FeedScreenState extends State<FeedScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: kPaddingLarge,
-              horizontal: kPaddingNormal,
-            ),
+            padding: const EdgeInsets.all(kPaddingLarge),
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
