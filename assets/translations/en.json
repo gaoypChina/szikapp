@@ -97,7 +97,7 @@
         "FEED_BIRTHDAY": "{} is having birthday {}",
         "FEED_BIRTHDAY_DAYS": "in {} days",
     "DOCUMENTS": null,
-        "DOCUMENTS_TITLE": "Dokumentumok",
+        "DOCUMENTS_TITLE": "Documents",
         "DOCUMENTS_OFFICIAL" : "Document",
         "DOCUMENTS_PINNED" : "Pinned",
         "DOCUMENTS_ALL" : "All",
