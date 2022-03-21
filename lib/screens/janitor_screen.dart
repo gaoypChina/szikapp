@@ -260,6 +260,16 @@ class _JanitorListViewState extends State<JanitorListView> {
                                   theme.colorScheme.primary, BlendMode.srcIn),
                             ),
                           ),
+                          trailingExpanded: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kPaddingLarge),
+                            child: ColorFiltered(
+                              child: Image.asset('assets/icons/up_light_72.png',
+                                  height: theme.textTheme.headline3!.fontSize),
+                              colorFilter: ColorFilter.mode(
+                                  theme.colorScheme.surface, BlendMode.srcIn),
+                            ),
+                          ),
                           children: items.map<ToggleListItem>((item) {
                             var leftColumnWidth =
                                 MediaQuery.of(context).size.width * 0.25;
