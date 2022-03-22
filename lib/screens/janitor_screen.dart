@@ -260,16 +260,6 @@ class _JanitorListViewState extends State<JanitorListView> {
                                   theme.colorScheme.primary, BlendMode.srcIn),
                             ),
                           ),
-                          trailingExpanded: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kPaddingLarge),
-                            child: ColorFiltered(
-                              child: Image.asset('assets/icons/up_light_72.png',
-                                  height: theme.textTheme.headline3!.fontSize),
-                              colorFilter: ColorFilter.mode(
-                                  theme.colorScheme.surface, BlendMode.srcIn),
-                            ),
-                          ),
                           children: items.map<ToggleListItem>((item) {
                             var leftColumnWidth =
                                 MediaQuery.of(context).size.width * 0.25;
@@ -281,7 +271,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                 ),
                               ),
                               expandedHeaderDecoration: BoxDecoration(
-                                color: taskStatusColors[item.status]!,
+                                color: theme.colorScheme.surface,
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(kBorderRadiusNormal),
                                 ),
@@ -292,7 +282,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       child: Container(
-                                        width: 20,
+                                        width: kBorderRadiusNormal,
                                         decoration: BoxDecoration(
                                           color: taskStatusColors[item.status]!,
                                           borderRadius:
@@ -305,17 +295,16 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.all(kPaddingLarge),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      kPaddingLarge + kBorderRadiusNormal,
+                                      kPaddingLarge,
+                                      kPaddingLarge,
+                                      kPaddingLarge,
+                                    ),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
                                         Expanded(
                                           child: Text(
                                             Provider.of<SzikAppStateManager>(
@@ -355,12 +344,11 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       child: Container(
-                                        width: 20,
+                                        width: kBorderRadiusNormal,
                                         decoration: BoxDecoration(
                                           color: taskStatusColors[item.status]!,
-                                          borderRadius:
-                                              const BorderRadius.horizontal(
-                                            left: Radius.circular(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(
                                                 kBorderRadiusNormal),
                                           ),
                                         ),
@@ -368,17 +356,16 @@ class _JanitorListViewState extends State<JanitorListView> {
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.all(kPaddingLarge),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      kPaddingLarge + kBorderRadiusNormal,
+                                      kPaddingLarge,
+                                      kPaddingLarge,
+                                      kPaddingLarge,
+                                    ),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
                                         Expanded(
                                           child: Text(
                                             Provider.of<SzikAppStateManager>(
@@ -392,8 +379,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                 .copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-                                              color:
-                                                  theme.colorScheme.onSecondary,
+                                              color: theme
+                                                  .colorScheme.primaryContainer,
                                             ),
                                           ),
                                         ),
@@ -403,8 +390,8 @@ class _JanitorListViewState extends State<JanitorListView> {
                                               .copyWith(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
-                                            color:
-                                                theme.colorScheme.onSecondary,
+                                            color: theme
+                                                .colorScheme.primaryContainer,
                                           ),
                                         ),
                                       ],
@@ -412,285 +399,376 @@ class _JanitorListViewState extends State<JanitorListView> {
                                   ),
                                 ],
                               ),
-                              content: Container(
-                                padding: const EdgeInsets.all(kPaddingNormal),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                    bottom:
-                                        Radius.circular(kBorderRadiusNormal),
+                              content: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: kBorderRadiusNormal,
+                                        decoration: BoxDecoration(
+                                          color: taskStatusColors[item.status]!,
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(
+                                                kBorderRadiusNormal),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  color: taskStatusColors[item.status]!,
-                                ),
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      color: theme.colorScheme.background,
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      left: kBorderRadiusNormal,
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: kPaddingNormal),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: leftColumnWidth,
-                                            child: Text(
-                                              'JANITOR_LABEL_TITLE'.tr(),
-                                              style: theme.textTheme.bodyText1!
-                                                  .copyWith(
-                                                fontSize: 14,
-                                                color: theme
-                                                    .colorScheme.background,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(
-                                                  kPaddingNormal),
-                                              decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  kBorderRadiusNormal,
-                                                ),
-                                              ),
-                                              child: Text(
-                                                item.name,
-                                                style: theme
-                                                    .textTheme.subtitle1!
-                                                    .copyWith(
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.surface,
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(
+                                            kBorderRadiusNormal),
                                       ),
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: kPaddingNormal),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: leftColumnWidth,
-                                            child: Text(
-                                              'JANITOR_LABEL_DESCRIPTION'.tr(),
-                                              style: theme.textTheme.bodyText1!
-                                                  .copyWith(
-                                                fontSize: 14,
-                                                color: theme
-                                                    .colorScheme.background,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(
-                                                kPaddingNormal,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                border: Border.all(
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                  width: 1,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  kBorderRadiusNormal,
-                                                ),
-                                              ),
-                                              child: Text(
-                                                item.description ?? '',
-                                                style: theme
-                                                    .textTheme.subtitle1!
-                                                    .copyWith(
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: kPaddingNormal),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: leftColumnWidth,
-                                            child: Text(
-                                              'JANITOR_LABEL_START'.tr(),
-                                              style: theme.textTheme.bodyText1!
-                                                  .copyWith(
-                                                fontSize: 14,
-                                                color: theme
-                                                    .colorScheme.background,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(
-                                                  kPaddingNormal),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                      color: theme.colorScheme
-                                                          .background,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          kBorderRadiusNormal)),
-                                              child: Text(
-                                                '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
-                                                style: theme
-                                                    .textTheme.subtitle1!
-                                                    .copyWith(
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: kPaddingNormal),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: leftColumnWidth,
-                                            child: Text(
-                                              'JANITOR_LABEL_STATUS'.tr(),
-                                              style: theme.textTheme.bodyText1!
-                                                  .copyWith(
-                                                fontSize: 14,
-                                                color: theme
-                                                    .colorScheme.background,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(
-                                                  kPaddingNormal),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                      color: theme.colorScheme
-                                                          .background,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          kBorderRadiusNormal)),
-                                              child: Text(
-                                                item.status.toShortString(),
-                                                style: theme
-                                                    .textTheme.subtitle1!
-                                                    .copyWith(
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: theme
-                                                      .colorScheme.background,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    item.answer == null
-                                        ? Container()
-                                        : Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: kPaddingNormal),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: leftColumnWidth,
-                                                  child: Text(
-                                                    'JANITOR_LABEL_ANSWER'.tr(),
-                                                    style: theme
-                                                        .textTheme.bodyText1!
-                                                        .copyWith(
-                                                      fontSize: 14,
-                                                      color: theme.colorScheme
-                                                          .background,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(
+                                    child: Column(
+                                      children: [
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: kPaddingNormal,
+                                          endIndent: kPaddingNormal,
+                                          color: theme
+                                              .colorScheme.primaryContainer,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(
+                                              kPaddingNormal),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical:
                                                             kPaddingNormal),
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Colors.transparent,
-                                                        border: Border.all(
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: leftColumnWidth,
+                                                      child: Text(
+                                                        'JANITOR_LABEL_TITLE'
+                                                            .tr(),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          color: theme
+                                                              .colorScheme
+                                                              .primaryContainer,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .all(
+                                                                kPaddingNormal),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors
+                                                              .transparent,
+                                                          border: Border.all(
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                            width: 1,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            kBorderRadiusNormal,
+                                                          ),
+                                                        ),
+                                                        child: Text(
+                                                          item.name,
+                                                          style: theme.textTheme
+                                                              .subtitle1!
+                                                              .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: kPaddingNormal),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: leftColumnWidth,
+                                                      child: Text(
+                                                        'JANITOR_LABEL_DESCRIPTION'
+                                                            .tr(),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          color: theme
+                                                              .colorScheme
+                                                              .primaryContainer,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(
+                                                          kPaddingNormal,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors
+                                                              .transparent,
+                                                          border: Border.all(
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                            width: 1,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            kBorderRadiusNormal,
+                                                          ),
+                                                        ),
+                                                        child: Text(
+                                                          item.description ??
+                                                              '',
+                                                          style: theme.textTheme
+                                                              .subtitle1!
+                                                              .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: kPaddingNormal),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: leftColumnWidth,
+                                                      child: Text(
+                                                        'JANITOR_LABEL_START'
+                                                            .tr(),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          color: theme
+                                                              .colorScheme
+                                                              .primaryContainer,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .all(
+                                                                kPaddingNormal),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            border: Border.all(
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .primaryContainer,
+                                                                width: 1),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        kBorderRadiusNormal)),
+                                                        child: Text(
+                                                          '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
+                                                          style: theme.textTheme
+                                                              .subtitle1!
+                                                              .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: kPaddingNormal),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: leftColumnWidth,
+                                                      child: Text(
+                                                        'JANITOR_LABEL_STATUS'
+                                                            .tr(),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          color: theme
+                                                              .colorScheme
+                                                              .primaryContainer,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .all(
+                                                                kPaddingNormal),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            border: Border.all(
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .primaryContainer,
+                                                                width: 1),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        kBorderRadiusNormal)),
+                                                        child: Text(
+                                                          item.status
+                                                              .toShortString(),
+                                                          style: theme.textTheme
+                                                              .subtitle1!
+                                                              .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .primaryContainer,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        item.answer == null
+                                            ? Container()
+                                            : Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: kPaddingNormal),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: leftColumnWidth,
+                                                      child: Text(
+                                                        'JANITOR_LABEL_ANSWER'
+                                                            .tr(),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                          fontSize: 14,
+                                                          color: theme
+                                                              .colorScheme
+                                                              .background,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .all(
+                                                                kPaddingNormal),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            border: Border.all(
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .background,
+                                                                width: 1),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        child: Text(
+                                                          item.answer!,
+                                                          style: theme.textTheme
+                                                              .subtitle1!
+                                                              .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                             color: theme
                                                                 .colorScheme
                                                                 .background,
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20)),
-                                                    child: Text(
-                                                      item.answer!,
-                                                      style: theme
-                                                          .textTheme.subtitle1!
-                                                          .copyWith(
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: theme.colorScheme
-                                                            .background,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                        _buildFeedbackList(context, item),
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              bottom: kPaddingNormal),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: _buildActionButtons(item),
                                           ),
-                                    _buildFeedbackList(context, item),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: kPaddingNormal),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: _buildActionButtons(item),
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           }).toList(),

@@ -57,8 +57,11 @@ class _CustomSliderState extends State<CustomSlider> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      padding: const EdgeInsets.all(kPaddingLarge),
+      margin: const EdgeInsets.symmetric(
+        vertical: kPaddingSmall,
+        horizontal: kPaddingLarge,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: const BorderRadius.all(
