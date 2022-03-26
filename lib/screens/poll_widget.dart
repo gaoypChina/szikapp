@@ -19,11 +19,15 @@ class _PollWidgetState extends State<PollWidget> {
 
   @override
   void initState() {
-    _selected = widget.poll.answers
-        .firstWhere((element) =>
+    _selected = widget.poll.answers.any((element) =>
             element.voterID ==
             Provider.of<AuthManager>(context, listen: false).user!.id)
-        .votes;
+        ? widget.poll.answers
+            .firstWhere((element) =>
+                element.voterID ==
+                Provider.of<AuthManager>(context, listen: false).user!.id)
+            .votes
+        : [];
     super.initState();
   }
 
@@ -77,7 +81,7 @@ class _PollWidgetState extends State<PollWidget> {
                 thickness: 2,
                 color: theme.colorScheme.secondary,
               ),
-              ..._buildAnswerItems(),
+              Expanded(child: ListView(children: _buildAnswerItems())),
               Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
@@ -163,7 +167,7 @@ class _PollWidgetState extends State<PollWidget> {
           ),
           leading: widget.poll.isMultipleChoice
               ? Checkbox(
-                  value: _selected.contains(item),
+                  value: _selected.isEmpty ? false : _selected.contains(item),
                   activeColor: theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
                     theme.colorScheme.primaryContainer,
@@ -179,7 +183,7 @@ class _PollWidgetState extends State<PollWidget> {
                 )
               : Radio<String>(
                   value: item,
-                  groupValue: _selected.first,
+                  groupValue: _selected.isEmpty ? null : _selected.first,
                   activeColor: theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
                     theme.colorScheme.primaryContainer,
