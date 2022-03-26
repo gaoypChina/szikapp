@@ -28,7 +28,7 @@ class GDPRWidget extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
-                  'ADATKEZELÉSI TÁJÉKOZTATÓ\n\nÖn a SzikApp alkalmazásban a […] négyzet bepipálásával a jelen tájékoztató alapján hozzájárul személyes adatai (név, becenév, születésnap, elektronikus levelezési cím, telefonszám, kollégiumi tisztség, csoportbeli tagság) szervezeten belüli, adatkezelő általi kezeléséhez (azaz: felvételéhez, rögzítéséhez, rendszerezéséhez, tárolásához, felhasználásához, lekérdezéséhez, továbbításához, zárolásához, törléséhez, megsemmisítéséhez, az adat további felhasználásának megakadályozásához). Hozzájárulását bármikor önkéntesen visszavonhatja, azonban ezen cselekmény nem érinti a visszavonás előtti adatkezelés jogszerűségét. A hiányos jelölést az Adatkezelőnek a hozzájárulás megtagadásaként kell értelmeznie.\n\nKik ismerhetik meg az Ön adatait?\nCsertán Tamás, Sárvári Márk\n\nAz adatkezelés alapjául szolgáló jogszabályok:\n- Az Európai Parlament és a Tanács (EU) 2016/679 Rendelete a természetes személyeknek a személyes adatok kezelése tekintetében történő védelméről és az ilyen adatok szabad áramlásáról, valamint a 95/46/EK rendelet hatályon kívül helyezéséről (általános adatvédelmi rendelet)\n- Az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény',
+                  'GDPR_AGREEMENT'.tr(),
                   style: theme.textTheme.overline!.copyWith(
                     color: theme.colorScheme.primary,
                   ),
