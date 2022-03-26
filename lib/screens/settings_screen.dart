@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +5,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String route = '/settings';
@@ -55,11 +54,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return null;
   }
 
-  void _onAutomaticThemeChanged(bool switchState) {
+  void _onAutomaticThemeChanged(bool newValue) {
     setState(() {
-      _isAutomaticDarkModeEnabled = !switchState;
+      _isAutomaticDarkModeEnabled = newValue;
     });
-    if (switchState) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.system;
     } else {
       Settings.instance.darkMode =
@@ -67,11 +66,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _onPreferDarkModeChanged(bool preferDarkMode) {
+  void _onPreferDarkModeChanged(bool newValue) {
     setState(() {
-      _preferDarkMode = preferDarkMode;
+      _preferDarkMode = newValue;
     });
-    if (preferDarkMode) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.dark;
     } else {
       Settings.instance.darkMode = DarkMode.light;
@@ -87,28 +86,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Settings.instance.language = language;
   }
 
-  List<int> _boolListToInt(List<bool> boolList) {
-    var intList = <int>[];
-
-    for (var i = 0; i < boolList.length; i++) {
-      if (boolList[i] == true) {
-        intList.add(i);
-      }
-    }
-    return intList;
-  }
-
-  List<bool> _intListToBool(List<int> intList, int length) {
-    var boolList = List<bool>.filled(length, false);
-
-    for (var index in intList) {
-      boolList[index] = true;
-    }
-    return boolList;
-  }
-
   void _onFeedShortcutsChanged(List<bool> boolList) {
-    var intList = _boolListToInt(boolList);
+    var intList = boolListToInt(boolList);
     setState(() {
       _feedShortcuts = intList;
     });
@@ -187,7 +166,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                         ),
                         onChanged: _onPreferDarkModeChanged,
-                        enabled: _isAutomaticDarkModeEnabled,
+                        enabled: !_isAutomaticDarkModeEnabled,
                         initValue: _preferDarkMode,
                       )
                     ],
@@ -325,7 +304,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         shortcutData.entries.map((e) => e.value.name).toList(),
                     maxEnabled: 3,
                     initValues:
-                        _intListToBool(_feedShortcuts, shortcutData.length),
+                        intListToBool(_feedShortcuts, shortcutData.length),
                     onChanged: _onFeedShortcutsChanged,
                   ),
                 ),

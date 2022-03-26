@@ -20,10 +20,10 @@ class SzikAppSubMenu {
 class SzikAppFeature {
   static const int none = -1;
   static const int calendar = 0;
-  static const int contacts = 1;
-  static const int documents = 2;
-  static const int janitor = 3;
-  static const int cleaning = 4;
+  static const int cleaning = 1;
+  static const int contacts = 2;
+  static const int documents = 3;
+  static const int janitor = 4;
   static const int poll = 5;
   static const int profile = 6;
   static const int reservation = 7;
