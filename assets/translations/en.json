@@ -42,6 +42,7 @@
         "POLL_DAYS_LEFT": "{} days left",
         "POLL_HOURS_LEFT": "{} hours left",
         "POLL_MINUTES_LEFT": "{} minutes left",
+        "POLL_VOTE": "{} vote",
     "SUBMENU": null,
         "SUBMENU_DATA_TITLE": "Data",
         "SUBMENU_DATA_CONTACTS": "Contacts",
