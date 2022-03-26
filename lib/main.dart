@@ -165,18 +165,17 @@ class SZIKAppState extends State<SZIKApp> {
         } else {
           themeMode = ThemeMode.system;
         }
-        Locale locale;
-        if (settings.language == Language.hu) {
-          locale = const Locale('hu');
+        if (settings.language == Language.en) {
+          context.setLocale(const Locale('hu'));
         } else {
-          locale = const Locale('en');
+          context.setLocale(const Locale('en'));
         }
         return MaterialApp.router(
           title: 'SzikApp',
           routerDelegate: _appRouter,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
-          locale: locale,
+          locale: context.locale,
           theme: szikLightThemeData,
           darkTheme: szikDarkThemeData,
           themeMode: themeMode,

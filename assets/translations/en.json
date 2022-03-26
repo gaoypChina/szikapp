@@ -121,6 +121,8 @@
         "CALENDAR_DAY_AFTER_TOMORROW": "the day after tomorrow",
         "CALENDAR_HELP_TEXT": "At this moment the Agenda is not available here.",
         "CALENDAR_LINK_TEXT": "Get Agenda in Google Calendar",
+    "CLEANING": null,
+        "CLEANING_TITLE": "Kitchen cleaning",
     "SETTINGS": null,
         "SETTINGS_TITLE": "Settings",
         "SETTINGS_THEME": "Theme",

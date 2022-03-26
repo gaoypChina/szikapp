@@ -5,6 +5,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String route = '/settings';
@@ -27,12 +28,16 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late bool _isAutomaticDarkModeEnabled;
   late bool _preferDarkMode;
+  late Language _preferedLanguage;
+  late List<int> _feedShortcuts;
 
   @override
   void initState() {
     super.initState();
     _isAutomaticDarkModeEnabled = Settings.instance.darkMode == DarkMode.system;
     _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
+    _preferedLanguage = Settings.instance.language;
+    _feedShortcuts = Settings.instance.feedShortcuts;
   }
 
   void _onSearchFieldChanged(String query) {
@@ -49,11 +54,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return null;
   }
 
-  void _onAutomaticThemeChanged(bool switchState) {
+  void _onAutomaticThemeChanged(bool newValue) {
     setState(() {
-      _isAutomaticDarkModeEnabled = !switchState;
+      _isAutomaticDarkModeEnabled = newValue;
     });
-    if (switchState) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.system;
     } else {
       Settings.instance.darkMode =
@@ -61,15 +66,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _onPreferDarkModeChanged(bool preferDarkMode) {
+  void _onPreferDarkModeChanged(bool newValue) {
     setState(() {
-      _preferDarkMode = preferDarkMode;
+      _preferDarkMode = newValue;
     });
-    if (preferDarkMode) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.dark;
     } else {
       Settings.instance.darkMode = DarkMode.light;
     }
+  }
+
+  void _onLanguageChanged(String preferedLanguage) {
+    var language = Language.values.firstWhere(
+        (element) => element.toCapitalizedString() == preferedLanguage);
+    setState(() {
+      _preferedLanguage = language;
+    });
+    Settings.instance.language = language;
+  }
+
+  void _onFeedShortcutsChanged(List<bool> boolList) {
+    var intList = boolListToInt(boolList);
+    setState(() {
+      _feedShortcuts = intList;
+    });
+    Settings.instance.feedShortcuts = intList;
   }
 
   @override
@@ -147,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                         ),
                         onChanged: _onPreferDarkModeChanged,
-                        enabled: _isAutomaticDarkModeEnabled,
+                        enabled: !_isAutomaticDarkModeEnabled,
                         initValue: _preferDarkMode,
                       )
                     ],
@@ -190,16 +212,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomRadioList(
-                        labels: [
+                        radioLabels: [
                           Language.en.toCapitalizedString(),
                           Language.hu.toCapitalizedString(),
                         ],
-                        onChanged: (String value) {},
+                        initValue: _preferedLanguage.toCapitalizedString(),
+                        onChanged: _onLanguageChanged,
                       )
                     ],
                   ),
                 ),
                 //Hangerő
+                /*
                 CustomSlider(
                   titleText: Text(
                     'SETTINGS_VOLUME'.tr(),
@@ -207,8 +231,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                   ),
-                  onChanged: (double value) {},
-                ),
+                  onChanged: _onVolumeChanged,
+                ),*/
                 //Értesítések
                 Container(
                   width: double.infinity,
@@ -288,18 +312,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: Theme.of(context).textTheme.headline3!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    checkboxLabels: const [
-                      'Alfa',
-                      'Béta',
-                      'Gamma',
-                      'Delta',
-                      'Epszilon',
-                      'Théta',
-                      'Ordó',
-                      'Omega'
-                    ],
+                    checkboxLabels:
+                        shortcutData.entries.map((e) => e.value.name).toList(),
                     maxEnabled: 3,
-                    onChanged: (List<bool> value) {},
+                    initValues:
+                        intListToBool(_feedShortcuts, shortcutData.length),
+                    onChanged: _onFeedShortcutsChanged,
                   ),
                 ),
               ],

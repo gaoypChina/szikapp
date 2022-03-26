@@ -121,6 +121,8 @@
         "CALENDAR_DAY_AFTER_TOMORROW": "holnapután",
         "CALENDAR_HELP_TEXT": "Jelenleg az Agenda nem elérhető itt.",
         "CALENDAR_LINK_TEXT": "Add hozzá a Google Naptáradhoz",
+    "CLEANING": null,
+        "CLEANING_TITLE": "Konyhatakarítás",
     "SETTINGS": null,
         "SETTINGS_TITLE": "Beállítások",
         "SETTINGS_THEME": "Megjelenés",
