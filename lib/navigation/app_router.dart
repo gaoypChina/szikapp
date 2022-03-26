@@ -10,6 +10,7 @@ import '../screens/home_screen.dart';
 import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
+import '../screens/poll_add_screen.dart';
 import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_details.dart';
@@ -133,6 +134,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                 janitorManager.updateTask(item);
               },
             ),
+          if (pollManager.isCreatingNewPoll)
+            PollAddScreen.page(manager: pollManager),
           if (reservationManager.selectedMode == ReservationMode.place)
             ReservationPlacesMapScreen.page(),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
@@ -204,6 +207,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kJanitorNewEditPath ||
         route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
       janitorManager.performBackButtonPressed();
+    }
+    if (route.settings.name == SzikAppLink.kPollNewPath) {
+      pollManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kReservationNewEditPath) {
       reservationManager.performBackButtonPressed();

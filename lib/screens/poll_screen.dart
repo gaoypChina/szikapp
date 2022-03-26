@@ -31,7 +31,7 @@ class PollScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
       future: manager.refresh(),
-      shimmer: const TileShimmer(),
+      shimmer: const ListScreenShimmer(),
       child: PollTileView(manager: manager),
     );
   }
@@ -61,7 +61,6 @@ class _PollTileViewState extends State<PollTileView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
       floatingActionButton: FloatingActionButton(
@@ -157,7 +156,9 @@ class _PollTileViewState extends State<PollTileView> {
     });
   }
 
-  void _onCreatePoll() {}
+  void _onCreatePoll() {
+    widget.manager.createNewPoll();
+  }
 
   String _calculateTime(DateTime date) {
     var difference = date.difference(DateTime.now());

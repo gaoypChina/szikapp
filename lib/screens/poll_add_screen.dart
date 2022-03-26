@@ -11,7 +11,7 @@ import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 
 class PollAddScreen extends StatelessWidget {
-  static const String route = '/poll'; //?
+  static const String route = '/poll/new';
 
   static MaterialPage page({required PollManager manager}) {
     return MaterialPage(
@@ -30,10 +30,8 @@ class PollAddScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomFutureBuilder<void>(
-      future: manager.refresh(),
-      shimmer: const TileShimmer(),
-      child: PollAddView(manager: manager),
+    return PollAddView(
+      manager: manager,
     );
   }
 }
@@ -54,7 +52,6 @@ class _PollAddViewState extends State<PollAddView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
       body: Column(

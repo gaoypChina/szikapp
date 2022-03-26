@@ -83,6 +83,15 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void performBackButtonPressed() {
+    _selectedIndex = -1;
+    _createNewPoll = false;
+    _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
+    notifyListeners();
+  }
+
   ///Új szavazás hozzáadása. A függvény feltölti a szerverre az új szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
   Future<bool> addPoll(PollTask poll) async {
@@ -216,15 +225,19 @@ class PollManager extends ChangeNotifier {
       return results;
     } else if (isLive) {
       //élő szavazásokat szűrjük ki: ha aktívak még
-      for (var poll in results) {
-        if (!poll.isLive) results.remove(poll);
+
+      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
+      for (var i = 0; i < results.length; i++) {
+        if (!results[i].isLive) results.remove(results[i]);
       }
       return results;
     } else {
       //lejárt szavazások: nem aktívak vagy a határidejük lejárt
-      for (var poll in results) {
-        var hasPastDueDate = poll.end.difference(DateTime.now()).isNegative;
-        if (!hasPastDueDate && poll.isLive) results.remove(poll);
+      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
+      for (var i = 0; i < results.length; i++) {
+        var hasPastDueDate =
+            results[i].end.difference(DateTime.now()).isNegative;
+        if (!hasPastDueDate && results[i].isLive) results.remove(results[i]);
       }
       return results;
     }
