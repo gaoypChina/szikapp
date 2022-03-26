@@ -10,6 +10,7 @@ export 'checkbox.dart';
 export 'date_picker.dart';
 export 'document_details.dart';
 export 'future_builder.dart';
+export 'gdpr_widget.dart';
 export 'menu/menu_item.dart';
 export 'menu/mode_menu_item.dart';
 export 'menu/submenu_item.dart';

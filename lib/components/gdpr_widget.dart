@@ -7,9 +7,11 @@ class GDPRWidget extends StatelessWidget {
   final VoidCallback onAgreePressed;
   final VoidCallback onDisagreePressed;
 
-  const GDPRWidget(
-      {Key? key, required this.onAgreePressed, required this.onDisagreePressed})
-      : super(key: key);
+  const GDPRWidget({
+    Key? key,
+    required this.onAgreePressed,
+    required this.onDisagreePressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

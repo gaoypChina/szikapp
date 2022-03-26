@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 
-import '../business/auth_manager.dart';
-import '../business/settings.dart';
+import '../business/business.dart';
 import '../components/components.dart';
-import '../components/gdpr_widget.dart';
 import '../main.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/utils.dart';
@@ -142,12 +140,12 @@ class _SignInScreenState extends State<SignInScreen> {
           context: context,
           builder: (context) {
             return GDPRWidget(
-                onAgreePressed: () {
-                  Provider.of<AuthManager>(context, listen: false).signIn();
-                  Navigator.pop(context);
-                },
-                onDisagreePressed: () => Navigator.pop(context));
-            //Navigator.of(context).pop(rootNavigator: true));
+              onAgreePressed: () {
+                Provider.of<AuthManager>(context, listen: false).signIn();
+                Navigator.pop(context);
+              },
+              onDisagreePressed: () => Navigator.pop(context),
+            );
           },
         );
       } else {
