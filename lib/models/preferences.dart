@@ -86,16 +86,16 @@ class Preferences implements Cachable {
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
-  Preferences(
-      {this.darkMode = DarkMode.system,
-      this.language = Language.hu,
-      this.theme = SzikAppTheme.defaultTheme,
-      this.notifications = const {},
-      this.feedShortcuts = const [0, 1, 2],
-      this.dataLite = false,
-      this.leftMenuOption,
-      this.rightMenuOption,
-      required this.lastUpdate,
+  Preferences({
+    this.darkMode = DarkMode.system,
+    this.language = Language.hu,
+    this.theme = SzikAppTheme.defaultTheme,
+    this.notifications = const {},
+    this.feedShortcuts = const [0, 1, 2],
+    this.dataLite = false,
+    this.leftMenuOption,
+    this.rightMenuOption,
+    required this.lastUpdate,
   });
 
   Json toJson() => _$PreferencesToJson(this);

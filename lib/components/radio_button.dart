@@ -27,7 +27,7 @@ class _CustomRadioListState extends State<CustomRadioList> {
   @override
   void initState() {
     _radioValue = widget.radioLabels.contains(widget.initValue)
-        ? widget.initValue ?? ''
+        ? widget.initValue!
         : widget.radioLabels.first;
     super.initState();
   }
