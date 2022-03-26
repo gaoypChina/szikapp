@@ -109,7 +109,7 @@ class _FeedScreenState extends State<FeedScreen> {
             margin: const EdgeInsets.all(10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: feedShortcuts.map<WrappedIconButton>(
                 (item) {
                   return WrappedIconButton(
