@@ -105,8 +105,11 @@ class _DocumentsListViewState extends State<DocumentsListView> {
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        padding: const EdgeInsets.all(kPaddingLarge),
+        margin: const EdgeInsets.symmetric(
+          vertical: kPaddingSmall,
+          horizontal: kPaddingLarge,
+        ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: const BorderRadius.all(
@@ -144,32 +147,29 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                 validator: _validateTextField,
                 placeholder: 'PLACEHOLDER_SEARCH'.tr(),
               ),
+              /*
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+                margin: const EdgeInsets.all(20, 30, 20, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.favorite,
-                            color: theme.colorScheme.secondary,
-                          ),
-                          Text(
-                            'LABEL_FAVOURITES'.tr(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline3!
-                                .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite,
+                          color: theme.colorScheme.secondary,
+                        ),
+                        Text(
+                          'LABEL_FAVOURITES'.tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                        ),
+                      ],
                     ),
                     Divider(
                       thickness: 2,
@@ -178,19 +178,17 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: TabChoice(
-                  choiceColor: theme.colorScheme.secondary,
-                  wrapColor: theme.colorScheme.background,
-                  fontColor: theme.colorScheme.background,
-                  labels: [
-                    'DOCUMENTS_ALL.tr'.tr(),
-                    'DOCUMENTS_PINNED'.tr(),
-                    'DOCUMENTS_OFFICIAL'.tr(),
-                  ],
-                  onChanged: _onTabChanged,
-                ),
+              */
+              TabChoice(
+                choiceColor: theme.colorScheme.secondary,
+                wrapColor: theme.colorScheme.background,
+                fontColor: theme.colorScheme.background,
+                labels: [
+                  'DOCUMENTS_ALL'.tr(),
+                  'DOCUMENTS_PINNED'.tr(),
+                  'DOCUMENTS_OFFICIAL'.tr(),
+                ],
+                onChanged: _onTabChanged,
               ),
               Expanded(
                 child: items.isEmpty

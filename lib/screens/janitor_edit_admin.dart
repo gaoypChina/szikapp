@@ -106,19 +106,19 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       appBarTitle: 'JANITOR_TITLE_EDIT'.tr(),
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(kPaddingLarge),
         child: ListView(
           children: [
             Flex(
               direction: Axis.vertical,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 15),
+                  margin: const EdgeInsets.only(top: kPaddingLarge),
                   child: Row(
                     children: [
                       Container(
                         width: leftColumnWidth,
-                        margin: const EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: kPaddingNormal),
                         child: Text(
                           'JANITOR_LABEL_START'.tr(),
                           style: theme.textTheme.headline3!.copyWith(
@@ -134,7 +134,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
                           ),
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(kPaddingNormal),
                           child: Text(
                             '${widget.originalItem.start.year}. ${widget.originalItem.start.month}. ${widget.originalItem.start.day}.  ${widget.originalItem.start.hour}:${widget.originalItem.start.minute}',
                             style: theme.textTheme.headline6!.copyWith(
@@ -149,12 +149,12 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: kPaddingNormal),
                   child: Row(
                     children: [
                       Container(
                         width: leftColumnWidth,
-                        margin: const EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: kPaddingNormal),
                         child: Text(
                           'JANITOR_LABEL_PLACE'.tr(),
                           style: theme.textTheme.headline3!.copyWith(
@@ -170,7 +170,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
                           ),
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(kPaddingNormal),
                           child: Text(
                             Provider.of<SzikAppStateManager>(context,
                                     listen: false)
@@ -192,12 +192,12 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: kPaddingNormal),
                   child: Row(
                     children: [
                       Container(
                         width: leftColumnWidth,
-                        margin: const EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: kPaddingNormal),
                         child: Text(
                           'JANITOR_LABEL_TITLE'.tr(),
                           style: theme.textTheme.headline3!.copyWith(
@@ -213,7 +213,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
                           ),
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(kPaddingNormal),
                           child: Text(
                             widget.originalItem.name,
                             style: theme.textTheme.headline6!.copyWith(
@@ -228,12 +228,12 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: kPaddingNormal),
                   child: Row(
                     children: [
                       Container(
                         width: leftColumnWidth,
-                        margin: const EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: kPaddingNormal),
                         child: Text(
                           'JANITOR_LABEL_DESCRIPTION'.tr(),
                           style: theme.textTheme.headline3!.copyWith(
@@ -249,7 +249,7 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
                           ),
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(kPaddingNormal),
                           child: Text(
                             widget.originalItem.description ??
                                 'PLACEHOLDER_NOT_PROVIDED'.tr(),
@@ -265,18 +265,19 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: kPaddingLarge),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: kPaddingLarge),
                           child: Row(
                             children: [
                               Container(
                                 width: leftColumnWidth,
-                                margin: const EdgeInsets.only(right: 10),
+                                margin: const EdgeInsets.only(
+                                    right: kPaddingNormal),
                                 child: Text(
                                   'JANITOR_LABEL_STATUS'.tr(),
                                   style: theme.textTheme.headline3!.copyWith(
@@ -290,19 +291,20 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                   items: TaskStatus.values,
                                   selectedItem: widget.originalItem.status,
                                   onItemChanged: _onStatusChanged,
-                                  compare: (i, s) => i.isEqual(s),
+                                  compare: (i, s) => i!.isEqual(s),
                                 ),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(top: kPaddingNormal),
                           child: Row(
                             children: [
                               Container(
                                 width: leftColumnWidth,
-                                margin: const EdgeInsets.only(right: 10),
+                                margin: const EdgeInsets.only(
+                                    right: kPaddingNormal),
                                 child: Text(
                                   'JANITOR_LABEL_ANSWER'.tr(),
                                   style: theme.textTheme.headline3!.copyWith(
@@ -323,7 +325,8 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                   ),
                                   decoration: InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(
+                                          kBorderRadiusSmall),
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
@@ -332,14 +335,16 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                     ),
                                     hintText: 'PLACEHOLDER_ANSWER'.tr(),
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(
+                                          kBorderRadiusSmall),
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
                                         style: BorderStyle.solid,
                                       ),
                                     ),
-                                    contentPadding: const EdgeInsets.all(5),
+                                    contentPadding:
+                                        const EdgeInsets.all(kPaddingSmall),
                                   ),
                                   onChanged: _onAnswerChanged,
                                 ),
@@ -348,12 +353,13 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(top: kPaddingNormal),
                           child: Row(
                             children: [
                               Container(
                                   width: leftColumnWidth,
-                                  margin: const EdgeInsets.only(right: 10),
+                                  margin: const EdgeInsets.only(
+                                      right: kPaddingNormal),
                                   child: IconButton(
                                     icon: ColorFiltered(
                                       child: Image.asset(

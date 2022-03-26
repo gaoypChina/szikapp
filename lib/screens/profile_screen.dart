@@ -114,19 +114,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<Widget> _buildActionButtons(bool changed) {
     return changed
         ? [
-            IconButton(
+            ElevatedButton.icon(
+              icon: const Icon(
+                Icons.close,
+                size: kIconSizeNormal,
+              ),
+              label: Text('BUTTON_DISMISS'.tr()),
+              onPressed: _onCancel,
+            ),
+            ElevatedButton.icon(
               icon: const Icon(
                 Icons.done,
                 size: kIconSizeNormal,
               ),
+              label: Text('BUTTON_SAVE'.tr()),
               onPressed: _onSend,
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.cancel_outlined,
-                size: kIconSizeNormal,
-              ),
-              onPressed: _onCancel,
             )
           ]
         : [];
@@ -147,11 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
         color: Theme.of(context).colorScheme.background,
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
         child: ListView(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: kPaddingLarge),
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 40,
@@ -163,7 +165,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ..._buildActionButtons(changed),
                 ElevatedButton.icon(
                   onPressed: () =>
                       Provider.of<AuthManager>(context, listen: false)
@@ -216,10 +217,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
                     initialValue: buildGroupNamesFromIDs(
-                        widget.manager.user!.groupIDs ?? []),
+                      widget.manager.user!.groupIDs,
+                    ),
                     readOnly: true,
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              child: Row(
+                children: _buildActionButtons(changed),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
             ),
           ],

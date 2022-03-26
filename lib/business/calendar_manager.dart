@@ -37,8 +37,8 @@ class CalendarManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedGoodToKnowItem(String uid) {
-    final index = _events.indexWhere((element) => element.uid == uid);
+  void setSelectedGoodToKnowItem(String id) {
+    final index = _events.indexWhere((element) => element.id == id);
     _selectedIndex = index;
     _createNewEvent = false;
     _editEvent = true;

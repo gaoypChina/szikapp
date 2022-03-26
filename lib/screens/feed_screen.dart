@@ -58,7 +58,12 @@ class _FeedScreenState extends State<FeedScreen> {
       (Settings settings) => settings.feedShortcuts,
     );
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.fromLTRB(
+        kPaddingLarge,
+        kPaddingLarge,
+        kPaddingLarge,
+        0,
+      ),
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/pictures/background_1.jpg'),
@@ -69,7 +74,7 @@ class _FeedScreenState extends State<FeedScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+            padding: const EdgeInsets.all(kPaddingLarge),
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
@@ -103,11 +108,11 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
             child: BirthdayBar(),
           ),
           Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(kBorderRadiusNormal),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,8 +132,8 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            padding: const EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+            padding: const EdgeInsets.only(left: kPaddingNormal),
             child: Row(
               children: [
                 Text(

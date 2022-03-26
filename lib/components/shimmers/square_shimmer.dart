@@ -15,7 +15,7 @@ class SquareShimmer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(kPaddingNormal),
             height: 150,
             width: 150,
             decoration: BoxDecoration(
@@ -24,7 +24,7 @@ class SquareShimmer extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(kPaddingNormal),
             height: 150,
             width: 150,
             decoration: BoxDecoration(

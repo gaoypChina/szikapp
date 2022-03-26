@@ -106,8 +106,8 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedReservationTask(String uid) {
-    final index = _reservations.indexWhere((element) => element.uid == uid);
+  void setSelectedReservationTask(String id) {
+    final index = _reservations.indexWhere((element) => element.id == id);
     _selectedIndex = index;
     _createNewReservation = false;
     _editReservation = true;
@@ -142,10 +142,10 @@ class ReservationManager extends ChangeNotifier {
   ///a listán.
   Future<bool> updateReservation(TimetableTask task) async {
     var io = IO();
-    var parameter = {'id': task.uid};
+    var parameter = {'id': task.id};
     await io.putReservation(task, parameter);
 
-    _reservations.removeWhere((element) => element.uid == task.uid);
+    _reservations.removeWhere((element) => element.id == task.id);
     _reservations.add(task);
     _createNewReservation = false;
     _editReservation = false;
@@ -157,10 +157,10 @@ class ReservationManager extends ChangeNotifier {
   ///Foglalás törlése. A függvény törli a szerverről a foglalást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deleteReservation(TimetableTask task) async {
-    if (!_reservations.contains(task)) return true;
+    if (!_reservations.any((element) => element.id == task.id)) return false;
 
     var io = IO();
-    var parameter = {'id': task.uid};
+    var parameter = {'id': task.id};
     await io.deleteReservation(parameter, task.lastUpdate);
 
     _reservations.remove(task);

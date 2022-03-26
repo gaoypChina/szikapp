@@ -50,7 +50,7 @@ class Settings extends ChangeNotifier {
   bool get dataLite => _preferences.getBool('dataLite') ?? false;
 
   ///Lekéri a felhasználó értesítés beállításait.
-  Map<String, bool>? get notificationSettings {
+  Map<String, bool> get notificationSettings {
     var enabled = _preferences.getStringList('enabled') ?? [];
     var disabled = _preferences.getStringList('disabled') ?? [];
     var result = <String, bool>{};

@@ -99,7 +99,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(kPaddingLarge),
         child: ListView(
           children: [
             //Title
@@ -109,8 +109,8 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               ),
               alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              margin: const EdgeInsets.only(bottom: 15),
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              margin: const EdgeInsets.only(bottom: kPaddingLarge),
               child: Text(
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .places
@@ -124,7 +124,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 15),
+              margin: const EdgeInsets.only(bottom: kPaddingLarge),
               child: Text(
                 'RESERVATION_TITLE_CREATE'.tr(),
                 style: theme.textTheme.headline1!.copyWith(
@@ -147,12 +147,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 direction: Axis.vertical,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 25),
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_DATE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -177,12 +177,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_TIME_FROM'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -200,12 +200,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_TIME_TO'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -223,12 +223,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_DESCRIPTION'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -250,14 +250,16 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_DESCRIPTION'.tr(),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.all(5),
+                              contentPadding:
+                                  const EdgeInsets.all(kPaddingSmall),
                             ),
                             onChanged: _onDescriptionChanged,
                           ),
@@ -266,12 +268,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
@@ -350,12 +352,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = TimetableTask(
-        uid: uuid.v4().toUpperCase(),
+        id: uuid.v4().toUpperCase(),
         name: title!,
         start: start,
         end: end,
         type: TaskType.timetable,
-        involved: <String>[
+        participantIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
         lastUpdate: DateTime.now(),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ui/themes.dart';
+
 class ProfileTextField extends StatelessWidget {
   final String label;
   final String? initialValue;
@@ -21,7 +23,7 @@ class ProfileTextField extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 15.0),
+          padding: const EdgeInsets.only(top: kPaddingLarge),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -34,7 +36,7 @@ class ProfileTextField extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: kPaddingNormal),
                   child: TextFormField(
                     initialValue: initialValue,
                     controller: controller,

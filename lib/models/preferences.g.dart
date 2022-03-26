@@ -14,8 +14,9 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
       theme: $enumDecodeNullable(_$SzikAppThemeEnumMap, json['theme']) ??
           SzikAppTheme.defaultTheme,
       notifications: (json['notifications'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as bool),
-      ),
+            (k, e) => MapEntry(k, e as bool),
+          ) ??
+          const {},
       feedShortcuts: (json['feed_shortcuts'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??

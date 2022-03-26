@@ -7,8 +7,11 @@ class Shortcut {
   final int feature;
   final String name;
 
-  const Shortcut(
-      {required this.assetPath, required this.feature, required this.name});
+  const Shortcut({
+    required this.assetPath,
+    required this.feature,
+    required this.name,
+  });
 }
 
 Map<int, Shortcut> shortcutData = <int, Shortcut>{

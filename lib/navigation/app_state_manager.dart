@@ -97,7 +97,7 @@ class SzikAppStateManager extends ChangeNotifier {
       if (_selectedTab == SzikAppTab.menu && index != SzikAppTab.menu) {
         _lastMenuLink = SzikAppLink(
           currentTab: _selectedTab,
-          currentSubMenu: selectedSubMenu,
+          currentSubMenu: _selectedSubMenu,
           currentFeature: _selectedFeature,
         );
       }
@@ -119,9 +119,9 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectFeature(int feature) {
-    if (selectedFeature == SzikAppFeature.settings) {
+    if (feature == SzikAppFeature.settings) {
       _selectedTab = SzikAppTab.settings;
-    } else if (selectedFeature == SzikAppFeature.profile) {
+    } else if (feature == SzikAppFeature.profile) {
       _selectedTab = SzikAppTab.feed;
     } else {
       _selectedTab = SzikAppTab.menu;

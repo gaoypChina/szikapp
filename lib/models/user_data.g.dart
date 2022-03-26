@@ -20,8 +20,9 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
           ? null
           : DateTime.parse(json['birthday'] as String),
       groupIDs: (json['group_ids'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 

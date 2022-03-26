@@ -2,6 +2,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../ui/themes.dart';
+
 ///Kereshető lenyíló lista beviteli mező.
 ///A [DropdownSearch] widget személyre szabott változata.
 class SearchableOptions<T> extends StatelessWidget {
@@ -18,7 +20,7 @@ class SearchableOptions<T> extends StatelessWidget {
   final T? selectedItem;
 
   ///Compare függvény a megadott generikus típusra
-  final bool Function(T, T?) compare;
+  final bool Function(T?, T?)? compare;
 
   ///Törlés gomb mutatása
   final bool showClearButton;
@@ -48,30 +50,37 @@ class SearchableOptions<T> extends StatelessWidget {
           : null,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       compareFn: compare,
-      hint: hint,
       mode: Mode.MENU,
-      showSelectedItem: true,
+      showSelectedItems: true,
       showClearButton: showClearButton,
       items: items,
       selectedItem: selectedItem,
       onChanged: onItemChanged,
       showSearchBox: true,
-      searchBoxDecoration: InputDecoration(
-        hintText: 'PLACEHOLDER_SEARCH'.tr(),
-        hintStyle: theme.textTheme.caption,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: theme.colorScheme.primary,
-            width: 2,
-            style: BorderStyle.solid,
+      searchFieldProps: TextFieldProps(
+        style: Theme.of(context).textTheme.headline3!.copyWith(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.primaryContainer,
+              fontStyle: FontStyle.italic,
+            ),
+        decoration: InputDecoration(
+          hintText: 'PLACEHOLDER_SEARCH'.tr(),
+          hintStyle: theme.textTheme.caption,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+            borderSide: BorderSide(
+              color: theme.colorScheme.primary,
+              width: 2,
+              style: BorderStyle.solid,
+            ),
           ),
+          contentPadding: const EdgeInsets.all(kPaddingSmall),
         ),
-        contentPadding: const EdgeInsets.all(5),
       ),
       dropdownSearchDecoration: InputDecoration(
+        hintText: hint,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(kBorderRadiusSmall),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
             width: 2,
@@ -79,15 +88,10 @@ class SearchableOptions<T> extends StatelessWidget {
           ),
           gapPadding: 6,
         ),
-        contentPadding: const EdgeInsets.all(5),
+        contentPadding: const EdgeInsets.all(kPaddingSmall),
       ),
-      searchBoxStyle: Theme.of(context).textTheme.headline3!.copyWith(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primaryContainer,
-            fontStyle: FontStyle.italic,
-          ),
       popupShape: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(kBorderRadiusSmall),
         borderSide: BorderSide(
           color: Theme.of(context).colorScheme.primary,
           width: 2,

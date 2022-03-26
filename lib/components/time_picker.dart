@@ -51,9 +51,12 @@ class _TimePickerState extends State<TimePicker> {
             color: Theme.of(context).colorScheme.primary,
             width: 1,
             style: BorderStyle.solid),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(kBorderRadiusSmall),
       ),
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kPaddingSmall,
+        vertical: kPaddingNormal,
+      ),
       child: GestureDetector(
         onTap: _selectTime,
         child: Text(

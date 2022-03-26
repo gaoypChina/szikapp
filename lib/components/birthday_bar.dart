@@ -53,42 +53,45 @@ class BirthdayBar extends StatelessWidget {
               ).difference(DateTime.now()).inDays;
               if (daysToBirthdayElement == daysToBirthday) {
                 birthdayUsers.add(element);
-                birthdayNames += ',${element.showableName}';
+                birthdayNames += ', ${element.showableName}';
               }
             }
           }
 
           return Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(kPaddingNormal),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: Theme.of(context).colorScheme.background,
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Icon(Icons.cake_outlined),
-                Text(
-                  'FEED_BIRTHDAY'.tr(
-                    args: [
-                      birthdayNames,
-                      dayToIdiom[daysToBirthday] ??
-                          'FEED_BIRTHDAY_DAYS'.tr(
-                            args: [
-                              daysToBirthday.toString(),
-                            ],
-                          ),
-                    ],
+                const Padding(
+                  padding: EdgeInsets.all(kPaddingNormal),
+                  child: Icon(Icons.cake_outlined),
+                ),
+                Expanded(
+                  child: Text(
+                    'FEED_BIRTHDAY'.tr(
+                      args: [
+                        birthdayNames,
+                        dayToIdiom[daysToBirthday] ??
+                            'FEED_BIRTHDAY_DAYS'.tr(
+                              args: [
+                                daysToBirthday.toString(),
+                              ],
+                            ),
+                      ],
+                    ),
+                    style: Theme.of(context).textTheme.caption,
                   ),
-                  style: Theme.of(context).textTheme.caption,
                 ),
               ],
             ),
           );
         } else {
           return Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(kPaddingNormal),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: Theme.of(context).colorScheme.background,

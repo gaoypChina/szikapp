@@ -8,6 +8,7 @@ import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 
 class JanitorNewEditScreen extends StatefulWidget {
   static const String route = '/janitor/newedit';
@@ -70,7 +71,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     super.initState();
     places = Provider.of<SzikAppStateManager>(context, listen: false).places;
     placeID = places.first.id;
-    if (widget.isFeedback) {
+    if (widget.isFeedback || widget.isEdit) {
       title = widget.originalItem!.name;
       description = widget.originalItem!.description;
       placeID = widget.originalItem!.placeID;
@@ -96,11 +97,14 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           : 'JANITOR_TITLE_CREATE'.tr(),
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: const EdgeInsets.symmetric(horizontal: kPaddingNormal),
         child: ListView(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 15, bottom: 10),
+              margin: const EdgeInsets.only(
+                top: kPaddingLarge,
+                bottom: kPaddingNormal,
+              ),
               width: width * 0.5,
               height: width * 0.5,
               decoration: const BoxDecoration(
@@ -126,12 +130,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,*/
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: kPaddingNormal),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'JANITOR_LABEL_PLACE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -147,19 +151,19 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                                     element.id == widget.originalItem!.placeID)
                                 : places.first,
                             onItemChanged: _onPlaceChanged,
-                            compare: (i, s) => i.isEqual(s),
+                            compare: (i, s) => i!.isEqual(s),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: kPaddingNormal),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'JANITOR_LABEL_TITLE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
@@ -182,14 +186,16 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_TITLE'.tr(),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.all(5),
+                              contentPadding:
+                                  const EdgeInsets.all(kPaddingSmall),
                             ),
                             onChanged: _onTitleChanged,
                           ),
@@ -198,12 +204,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: kPaddingNormal),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             widget.isFeedback
                                 ? 'JANITOR_LABEL_FEEDBACK'.tr()
@@ -226,14 +232,16 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_DESCRIPTION'.tr(),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.all(5),
+                              contentPadding:
+                                  const EdgeInsets.all(kPaddingSmall),
                             ),
                             onChanged: _onDescriptionChanged,
                           ),
@@ -242,12 +250,12 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: kPaddingNormal),
                     child: Row(
                       children: [
                         Container(
                           width: leftColumnWidth,
-                          margin: const EdgeInsets.only(right: 10),
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
@@ -308,7 +316,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = JanitorTask(
-          uid: uuid.v4().toUpperCase(),
+          id: uuid.v4().toUpperCase(),
           name: title!,
           description: description,
           start: DateTime.now(),
@@ -317,7 +325,7 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
           lastUpdate: DateTime.now(),
           placeID: placeID!,
           //Gondnok ID !!
-          involved: <String>[
+          participantIDs: <String>[
             Provider.of<AuthManager>(context, listen: false).user!.id,
             'u904'
           ],
@@ -334,12 +342,17 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
       var task = widget.originalItem;
       task!.name = title!;
       widget.isFeedback
-          ? task.feedback!.add(Feedback(
-              user: Provider.of<AuthManager>(context, listen: false).user!.id,
-              message: feedback ?? '',
-              timestamp: DateTime.now(),
-            ))
+          ? task.feedback.add(
+              Feedback(
+                id: const Uuid().v4().toUpperCase(),
+                userID:
+                    Provider.of<AuthManager>(context, listen: false).user!.id,
+                message: feedback ?? '',
+                lastUpdate: DateTime.now(),
+              ),
+            )
           : task.description = description;
+
       task.placeID = placeID!;
 
       SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');

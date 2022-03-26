@@ -27,7 +27,7 @@ class MenuItem extends StatelessWidget {
             name,
             textAlign: reversed ? TextAlign.left : TextAlign.right,
             style: Theme.of(context).textTheme.headline3!.copyWith(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
           ),
           padding: EdgeInsets.symmetric(horizontal: height * 0.1),
@@ -43,9 +43,14 @@ class MenuItem extends StatelessWidget {
           ),
           child: Container(
             margin: EdgeInsets.all(height * 0.05),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(picture),
+            child: ColorFiltered(
+              child: Image.asset(
+                picture,
+                width: kIconSizeNormal,
+              ),
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.onPrimary,
+                BlendMode.srcIn,
               ),
             ),
           ),

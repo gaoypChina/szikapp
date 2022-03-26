@@ -34,7 +34,7 @@ class DocumentDetails extends StatelessWidget {
               const BorderRadius.all(Radius.circular(kBorderRadiusNormal)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(kPaddingLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

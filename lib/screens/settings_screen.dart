@@ -112,8 +112,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //Megjelenés
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  padding: const EdgeInsets.all(kPaddingLarge),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: kPaddingSmall,
+                    horizontal: kPaddingLarge,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: const BorderRadius.all(
@@ -175,8 +178,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //Nyelv
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  padding: const EdgeInsets.all(kPaddingLarge),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: kPaddingSmall,
+                    horizontal: kPaddingLarge,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: const BorderRadius.all(
@@ -230,8 +236,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //Értesítések
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  padding: const EdgeInsets.all(kPaddingLarge),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: kPaddingSmall,
+                    horizontal: kPaddingLarge,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: const BorderRadius.all(
@@ -279,8 +288,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //Shortcutok
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  padding: const EdgeInsets.all(kPaddingLarge),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: kPaddingSmall,
+                    horizontal: kPaddingLarge,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: const BorderRadius.all(
