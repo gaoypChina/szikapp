@@ -32,14 +32,14 @@ class SzikAppFeature {
 }
 
 const Map<int, Permission> featurePermissions = {
-  0: Permission.calendarView,
-  1: Permission.cleaningView,
-  2: Permission.contactsView,
-  3: Permission.documentsView,
-  4: Permission.janitorView,
-  5: Permission.pollView,
-  6: Permission.profileView,
-  7: Permission.reservationView,
+  SzikAppFeature.calendar: Permission.calendarView,
+  SzikAppFeature.cleaning: Permission.cleaningView,
+  SzikAppFeature.contacts: Permission.contactsView,
+  SzikAppFeature.documents: Permission.documentsView,
+  SzikAppFeature.janitor: Permission.janitorView,
+  SzikAppFeature.poll: Permission.pollView,
+  SzikAppFeature.profile: Permission.profileView,
+  SzikAppFeature.reservation: Permission.reservationView,
 };
 
 class SzikAppStateManager extends ChangeNotifier {

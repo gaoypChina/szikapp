@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:szikapp/business/business.dart';
 import '../components/menu/menu_item.dart';
 import '../navigation/app_state_manager.dart';
+import '../navigation/navigation.dart';
 
 class MenuScreen extends StatelessWidget {
   static const String route = '/menu';
@@ -52,14 +54,20 @@ class MenuScreen extends StatelessWidget {
             height: fifth,
             reversed: true,
           ),
-          MenuItem(
-            name: 'MENU_CALENDAR'.tr(),
-            picture: 'assets/icons/calendar_light_72.png',
-            onTap: () =>
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectFeature(SzikAppFeature.calendar),
-            height: fifth,
-          ),
+          Provider.of<AuthManager>(context, listen: false)
+                  .user!
+                  .hasPermissionToAccess(
+                    SzikAppLink(currentFeature: SzikAppFeature.calendar),
+                  )
+              ? MenuItem(
+                  name: 'MENU_CALENDAR'.tr(),
+                  picture: 'assets/icons/calendar_light_72.png',
+                  onTap: () =>
+                      Provider.of<SzikAppStateManager>(context, listen: false)
+                          .selectFeature(SzikAppFeature.calendar),
+                  height: fifth,
+                )
+              : Container(),
           MenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: 'assets/icons/gear_light_72.png',
