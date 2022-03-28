@@ -133,16 +133,11 @@ class SubMenuScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: CustomFutureBuilder(
-                  future: Provider.of<AuthManager>(context, listen: false)
-                      .user!
-                      .refreshPermissions(),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: kPaddingNormal,
-                    mainAxisSpacing: kPaddingNormal,
-                    children: _buildGridItems(context),
-                  ),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: kPaddingNormal,
+                  mainAxisSpacing: kPaddingNormal,
+                  children: _buildGridItems(context),
                 ),
               ),
             ],

@@ -99,6 +99,6 @@ class User {
       return true;
     }
     return _permissions.any((element) =>
-        element.index == featurePermissions[link.currentFeature]!.index);
+        element.index == featurePermissions[link.currentFeature]?.index);
   }
 }
