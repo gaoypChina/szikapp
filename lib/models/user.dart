@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../navigation/navigation.dart';
+import '../utils/utils.dart';
 import 'models.dart';
 
 ///Az applikáció aktuális felhasználóját megtestesítő osztály.
@@ -18,8 +18,20 @@ class User {
   String? _phone;
   String? _secondaryPhone;
   List<String> groupIDs;
-  List<Permission>? _permissions;
+  List<Permission> _permissions;
   final DateTime lastUpdate;
+
+  User(this.profilePicture, UserData userData)
+      : id = userData.id,
+        name = userData.name,
+        email = userData.email,
+        nick = userData.nick,
+        _birthday = userData.birthday,
+        _phone = userData.phone,
+        _secondaryPhone = userData.secondaryPhone,
+        groupIDs = userData.groupIDs,
+        _permissions = [],
+        lastUpdate = userData.lastUpdate;
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
@@ -76,57 +88,17 @@ class User {
     return '${splitted[0][0]}${splitted[1][0]}';
   }
 
-  ///Konstruktor, ami a szerverről érkező [UserData] és a Firebase által
-  ///biztosított [profilePicture] alapján létrehozza a felhasználót.
-  User(this.profilePicture, UserData userData)
-      : id = userData.id,
-        name = userData.name,
-        email = userData.email,
-        nick = userData.nick,
-        _birthday = userData.birthday,
-        _phone = userData.phone,
-        _secondaryPhone = userData.secondaryPhone,
-        groupIDs = userData.groupIDs,
-        _permissions = [],
-        lastUpdate = userData.lastUpdate;
-
-  ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
-  ///végrehajtására egy adott adaton.
-  Future<bool> hasPermission(Permission type, dynamic subject) async {
+  Future<void> refreshPermissions() async {
     var io = IO();
-    _permissions ??= await io.getUserPermissions(null);
+    _permissions = await io.getUserPermissions();
+  }
 
-    if (type == Permission.pollEdit ||
-        type == Permission.pollResultsView ||
-        type == Permission.pollResultsExport) {
-      if (subject.runtimeType != PollTask) throw TypeError();
-      var poll = subject as PollTask;
-      return poll.managerIDs.contains(id) && _permissions!.contains(type);
-    }
-
-    if (type == Permission.cleaningExchangeOffer ||
-        type == Permission.cleaningExchangeAccept ||
-        type == Permission.cleaningExchangeReject) {
-      if (subject.runtimeType != CleaningExchange) throw TypeError();
-      var cleaningex = subject as CleaningExchange;
-      return cleaningex.initiatorID.contains(id) &&
-          _permissions!.contains(type);
-    }
-
-    if (type == Permission.janitorTaskEdit ||
-        type == Permission.janitorTaskSolutionAccept) {
-      if (subject.runtimeType != JanitorTask) throw TypeError();
-      var janitor = subject as JanitorTask;
-      return janitor.participantIDs.contains(id) &&
-          _permissions!.contains(type);
-    }
-
-    if (type == Permission.reservationEdit) {
-      if (subject.runtimeType != TimetableTask) throw TypeError();
-      var task = subject as TimetableTask;
-      return task.organizerIDs.contains(id) && _permissions!.contains(type);
-    }
-
-    return _permissions!.contains(type);
+  //Future<bool> hasPermissionToAccess(SzikAppLink link) async {
+  bool hasPermissionToAccess(SzikAppLink link) {
+    /*if (_permissions.any((element) => element.toShortString() == 'admin')) {
+      return true;
+    }*/
+    return _permissions.any((element) =>
+        element.index == featurePermissions[link.currentFeature]?.index);
   }
 }

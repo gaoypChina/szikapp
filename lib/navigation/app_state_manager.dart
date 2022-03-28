@@ -31,6 +31,17 @@ class SzikAppFeature {
   static const int error = 99;
 }
 
+const Map<int, Permission> featurePermissions = {
+  SzikAppFeature.calendar: Permission.calendarView,
+  SzikAppFeature.cleaning: Permission.cleaningView,
+  SzikAppFeature.contacts: Permission.contactsView,
+  SzikAppFeature.documents: Permission.documentsView,
+  SzikAppFeature.janitor: Permission.janitorView,
+  SzikAppFeature.poll: Permission.pollView,
+  SzikAppFeature.profile: Permission.profileView,
+  SzikAppFeature.reservation: Permission.reservationView,
+};
+
 class SzikAppStateManager extends ChangeNotifier {
   bool _firebaseInitialized = false;
   bool _hasError = false;

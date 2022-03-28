@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../business/auth_manager.dart';
 import '../components/components.dart';
-import '../navigation/app_state_manager.dart';
+import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 
 final List<SubMenuItemData> subMenuDataListItems = [
@@ -135,9 +137,7 @@ class SubMenuScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: kPaddingNormal,
                   mainAxisSpacing: kPaddingNormal,
-                  children: subMenus[selectedSubMenu]
-                      .map((item) => SubMenuItem(data: item))
-                      .toList(),
+                  children: _buildGridItems(context),
                 ),
               ),
             ],
@@ -145,5 +145,18 @@ class SubMenuScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildGridItems(BuildContext context) {
+    var items = <Widget>[];
+    var user = Provider.of<AuthManager>(context, listen: false).user;
+    for (var item in subMenus[selectedSubMenu]) {
+      if (user!.hasPermissionToAccess(
+        SzikAppLink(currentFeature: item.feature),
+      )) {
+        items.add(SubMenuItem(data: item));
+      }
+    }
+    return items;
   }
 }
