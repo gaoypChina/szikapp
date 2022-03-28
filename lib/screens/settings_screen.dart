@@ -10,6 +10,9 @@ import '../utils/utils.dart';
 class SettingsScreen extends StatefulWidget {
   static const String route = '/settings';
 
+  final bool withNavigationBar;
+  final bool withBackButton;
+
   static MaterialPage page() {
     return const MaterialPage(
       name: route,
@@ -18,8 +21,11 @@ class SettingsScreen extends StatefulWidget {
     );
   }
 
-  const SettingsScreen({Key key = const Key('SettingsScreen')})
-      : super(key: key);
+  const SettingsScreen({
+    Key key = const Key('SettingsScreen'),
+    this.withNavigationBar = true,
+    this.withBackButton = true,
+  }) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -97,7 +103,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      withNavigationBar: false,
+      withNavigationBar: widget.withNavigationBar,
+      withBackButton: widget.withBackButton,
       appBarTitle: 'SETTINGS_TITLE'.tr(),
       body: Column(
         children: [

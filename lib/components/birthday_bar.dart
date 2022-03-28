@@ -50,7 +50,15 @@ class BirthdayBar extends StatelessWidget {
                 DateTime.now().year,
                 element.birthday!.month,
                 element.birthday!.day,
-              ).difference(DateTime.now()).inDays;
+              )
+                  .difference(
+                    DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                    ),
+                  )
+                  .inDays;
               if (daysToBirthdayElement == daysToBirthday) {
                 birthdayUsers.add(element);
                 birthdayNames += ', ${element.showableName}';
