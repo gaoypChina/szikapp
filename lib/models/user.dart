@@ -93,38 +93,6 @@ class User {
     _permissions = await io.getUserPermissions();
   }
 
-  ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
-  ///végrehajtására egy adott adaton.
-  Future<bool> hasPermission(Permission type, dynamic subject) async {
-    var io = IO();
-    if (_permissions.isEmpty) _permissions = await io.getUserPermissions(null);
-
-    if (type == Permission.pollEdit ||
-        type == Permission.pollResultsView ||
-        type == Permission.pollResultsExport) {
-      if (subject.runtimeType != PollTask) throw TypeError();
-      var poll = subject as PollTask;
-      return poll.managerIDs.contains(id) && _permissions.contains(type);
-    }
-
-    if (type == Permission.cleaningExchangeOffer ||
-        type == Permission.cleaningExchangeAccept ||
-        type == Permission.cleaningExchangeReject) {
-      if (subject.runtimeType != CleaningExchange) throw TypeError();
-      var cleaningex = subject as CleaningExchange;
-      return cleaningex.initiatorID.contains(id) && _permissions.contains(type);
-    }
-
-    if (type == Permission.janitorTaskEdit ||
-        type == Permission.janitorTaskSolutionAccept) {
-      if (subject.runtimeType != JanitorTask) throw TypeError();
-      var janitor = subject as JanitorTask;
-      return janitor.participantIDs.contains(id) && _permissions.contains(type);
-    }
-
-    return false;
-  }
-
   //Future<bool> hasPermissionToAccess(SzikAppLink link) async {
   bool hasPermissionToAccess(SzikAppLink link) {
     if (_permissions.any((element) => element.toShortString() == 'admin')) {
