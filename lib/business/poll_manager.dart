@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/tasks.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
 class PollManager extends ChangeNotifier {
@@ -59,8 +59,8 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedPollTask(String uid) {
-    final index = _polls.indexWhere((element) => element.uid == uid);
+  void setSelectedPollTask(String id) {
+    final index = _polls.indexWhere((element) => element.id == id);
     _createNewPoll = false;
     _editPoll = true;
     _vote = false;
@@ -104,10 +104,10 @@ class PollManager extends ChangeNotifier {
   ///a listán.
   Future<bool> updatePoll(PollTask poll) async {
     var io = IO();
-    var parameter = {'id': poll.uid};
+    var parameter = {'id': poll.id};
     await io.patchPoll(poll, parameter);
 
-    _polls.removeWhere((element) => element.uid == poll.uid);
+    _polls.removeWhere((element) => element.id == poll.id);
     _polls.add(poll);
     _createNewPoll = false;
     _editPoll = false;
@@ -121,10 +121,10 @@ class PollManager extends ChangeNotifier {
   ///Szavazás törlése. A függvény törli a szerverről a szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deletePoll(PollTask poll) async {
-    if (!_polls.contains(poll)) return true;
+    if (!_polls.any((element) => element.id == poll.id)) return false;
 
     var io = IO();
-    var parameter = {'id': poll.uid};
+    var parameter = {'id': poll.id};
     await io.deletePoll(parameter, poll.lastUpdate);
 
     _polls.remove(poll);
@@ -143,7 +143,7 @@ class PollManager extends ChangeNotifier {
     if (poll.answers.contains(vote)) return false;
 
     var io = IO();
-    var param = {'id': poll.uid};
+    var param = {'id': poll.id};
     await io.putPoll(vote, param);
 
     poll.answers.add(vote);
@@ -160,7 +160,7 @@ class PollManager extends ChangeNotifier {
   ///hozza a szavazás eredményeit.
   Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
     var io = IO();
-    var param = {'id': poll.uid};
+    var param = {'id': poll.id};
     var resultTaskList = await io.getPoll(param);
     var resultTask = resultTaskList.first;
 
@@ -204,22 +204,38 @@ class PollManager extends ChangeNotifier {
     return results;
   }
 
-  List<PollTask> filter(String userID) {
+  List<PollTask> filter({required String userID, bool? isLive}) {
     var results = <PollTask>[];
+
+    //userID-ra mindenképp szűrünk
     for (var poll in polls) {
-      for (var vote in poll.answers) {
-        if (vote.voterID == userID) results.add(poll);
-      }
+      if (poll.participantIDs.contains(userID)) results.add(poll);
     }
-    return List.unmodifiable(results);
+
+    if (isLive == null) {
+      return results;
+    } else if (isLive) {
+      //élő szavazásokat szűrjük ki: ha aktívak még
+      for (var poll in results) {
+        if (!poll.isLive) results.remove(poll);
+      }
+      return results;
+    } else {
+      //lejárt szavazások: nem aktívak vagy a határidejük lejárt
+      for (var poll in results) {
+        var hasPastDueDate = poll.end.difference(DateTime.now()).isNegative;
+        if (!hasPastDueDate && poll.isLive) results.remove(poll);
+      }
+      return results;
+    }
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
   ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
-  Future<void> refresh({String? issuer, String? involved}) async {
+  Future<void> refresh({String? managerID, String? participantID}) async {
     var parameter = <String, String>{};
-    if (issuer != null) parameter['issuer'] = issuer;
-    if (involved != null) parameter['involved'] = involved;
+    if (managerID != null) parameter['managerid'] = managerID;
+    if (participantID != null) parameter['participantid'] = participantID;
 
     var io = IO();
     _polls = await io.getPoll(parameter);

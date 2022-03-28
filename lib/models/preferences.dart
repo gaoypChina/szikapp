@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
+import 'interfaces.dart';
 
 part 'preferences.g.dart';
 
@@ -37,6 +38,10 @@ extension LanguageExtensions on Language {
     return toString().split('.').last;
   }
 
+  String toCapitalizedString() {
+    return toString().split('.').last.toUpperCase();
+  }
+
   bool isEqual(Language? other) {
     if (other == null) return false;
     return index == other.index;
@@ -63,36 +68,35 @@ extension ThemeExtensions on SzikAppTheme {
 ///A felhasználó beállításait tároló adatmodell osztály.
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
-class Preferences {
+class Preferences implements Cachable {
   @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
   Language language;
   SzikAppTheme theme;
-  Map<String, bool>? notifications;
+  Map<String, bool> notifications;
   @JsonKey(name: 'feed_shortcuts')
-  List<int>? feedShortcuts;
+  List<int> feedShortcuts;
   @JsonKey(name: 'left_menu_option')
   String? leftMenuOption;
   @JsonKey(name: 'right_menu_option')
   String? rightMenuOption;
   @JsonKey(name: 'data_lite')
   bool dataLite;
+  @override
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
-  Preferences(
-      {this.darkMode = DarkMode.system,
-      this.language = Language.hu,
-      this.theme = SzikAppTheme.defaultTheme,
-      this.notifications,
-      this.feedShortcuts,
-      this.dataLite = false,
-      this.leftMenuOption,
-      this.rightMenuOption,
-      required this.lastUpdate}) {
-    notifications ??= <String, bool>{};
-    feedShortcuts ??= <int>[];
-  }
+  Preferences({
+    this.darkMode = DarkMode.system,
+    this.language = Language.hu,
+    this.theme = SzikAppTheme.defaultTheme,
+    this.notifications = const {},
+    this.feedShortcuts = const [0, 1, 2],
+    this.dataLite = false,
+    this.leftMenuOption,
+    this.rightMenuOption,
+    required this.lastUpdate,
+  });
 
   Json toJson() => _$PreferencesToJson(this);
 

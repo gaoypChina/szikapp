@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../navigation/app_link.dart';
+import '../navigation/navigation.dart';
 import '../utils/utils.dart';
 import 'models.dart';
 
@@ -9,17 +9,29 @@ import 'models.dart';
 ///adatait a programban. Nem hozható létre önállóan, életciklusát az [Auth]
 ///menedzser osztály kezeli.
 class User {
-  late final String id;
-  late String name;
-  late final String email;
-  late final Uri profilePicture;
+  final String id;
+  final String name;
+  final String email;
+  final Uri profilePicture;
   String? nick;
   DateTime? _birthday;
   String? _phone;
   String? _secondaryPhone;
-  List<String>? groupIDs;
+  List<String> groupIDs;
   List<Permission> _permissions;
-  late final DateTime lastUpdate;
+  final DateTime lastUpdate;
+
+  User(this.profilePicture, UserData userData)
+      : id = userData.id,
+        name = userData.name,
+        email = userData.email,
+        nick = userData.nick,
+        _birthday = userData.birthday,
+        _phone = userData.phone,
+        _secondaryPhone = userData.secondaryPhone,
+        groupIDs = userData.groupIDs,
+        _permissions = [],
+        lastUpdate = userData.lastUpdate;
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
@@ -76,40 +88,48 @@ class User {
     return '${splitted[0][0]}${splitted[1][0]}';
   }
 
-  ///Konstruktor, ami a szerverről érkező [UserData] és a Firebase által
-  ///biztosított [profilePicture] alapján létrehozza a felhasználót.
-  User(this.profilePicture, UserData userData) : _permissions = [] {
-    id = userData.id;
-    name = userData.name;
-    email = userData.email;
-    nick = userData.nick;
-    birthday = userData.birthday;
-    phone = userData.phone;
-    secondaryPhone = userData.secondaryPhone;
-    groupIDs = userData.groupIDs;
-    lastUpdate = userData.lastUpdate;
-  }
-
-  Map<int, Permission> featurePermissions = {
-    0: Permission.calendarView,
-    1: Permission.contactsView,
-    2: Permission.documentsView,
-    3: Permission.janitorView,
-    4: Permission.cleaningView,
-    5: Permission.pollView,
-    6: Permission.profileView,
-    7: Permission.reservationView,
-  };
-
   Future<void> refreshPermissions() async {
     var io = IO();
     _permissions = await io.getUserPermissions();
   }
 
+  ///Eldönti, hogy a felhasználónak van-e jogosultsága egy adott művelet
+  ///végrehajtására egy adott adaton.
+  Future<bool> hasPermission(Permission type, dynamic subject) async {
+    var io = IO();
+    if (_permissions.isEmpty) _permissions = await io.getUserPermissions(null);
+
+    if (type == Permission.pollEdit ||
+        type == Permission.pollResultsView ||
+        type == Permission.pollResultsExport) {
+      if (subject.runtimeType != PollTask) throw TypeError();
+      var poll = subject as PollTask;
+      return poll.managerIDs.contains(id) && _permissions.contains(type);
+    }
+
+    if (type == Permission.cleaningExchangeOffer ||
+        type == Permission.cleaningExchangeAccept ||
+        type == Permission.cleaningExchangeReject) {
+      if (subject.runtimeType != CleaningExchange) throw TypeError();
+      var cleaningex = subject as CleaningExchange;
+      return cleaningex.initiatorID.contains(id) && _permissions.contains(type);
+    }
+
+    if (type == Permission.janitorTaskEdit ||
+        type == Permission.janitorTaskSolutionAccept) {
+      if (subject.runtimeType != JanitorTask) throw TypeError();
+      var janitor = subject as JanitorTask;
+      return janitor.participantIDs.contains(id) && _permissions.contains(type);
+    }
+
+    return false;
+  }
+
   //Future<bool> hasPermissionToAccess(SzikAppLink link) async {
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (_permissions.any((element) => element.index == 53)) return true;
-
+    if (_permissions.any((element) => element.toShortString() == 'admin')) {
+      return true;
+    }
     return _permissions.any((element) =>
         element.index == featurePermissions[link.currentFeature]!.index);
   }

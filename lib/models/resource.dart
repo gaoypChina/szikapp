@@ -1,18 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
+import 'interfaces.dart';
 
 part 'resource.g.dart';
 
 ///Alapvető erőforrást reprezentáló adatmodell ősosztály.
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
-class Resource {
+class Resource implements Identifiable, Cachable {
+  @override
+  final String id;
   final String name;
   String? description;
+  @override
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
   Resource({
+    required this.id,
     required this.name,
     this.description,
     required this.lastUpdate,
@@ -27,19 +32,19 @@ class Resource {
 ///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Place extends Resource {
-  final String id;
   final String type;
   @JsonKey(name: 'overseer_ids')
-  List<String>? overseerIDs;
+  List<String> overseerIDs;
 
-  Place(
-      {required this.id,
-      required String name,
-      String? description,
-      required this.type,
-      this.overseerIDs,
-      required DateTime lastUpdate})
-      : super(
+  Place({
+    required id,
+    required String name,
+    String? description,
+    required this.type,
+    this.overseerIDs = const [],
+    required DateTime lastUpdate,
+  }) : super(
+          id: id,
           name: name,
           description: description,
           lastUpdate: lastUpdate,
@@ -67,17 +72,17 @@ class Place extends Resource {
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Boardgame extends Resource {
-  final String id;
   @JsonKey(name: 'icon_link')
   final String iconLink;
 
-  Boardgame(
-      {required this.id,
-      required String name,
-      String? description,
-      required this.iconLink,
-      required DateTime lastUpdate})
-      : super(
+  Boardgame({
+    required id,
+    required String name,
+    String? description,
+    required this.iconLink,
+    required DateTime lastUpdate,
+  }) : super(
+          id: id,
           name: name,
           description: description,
           lastUpdate: lastUpdate,

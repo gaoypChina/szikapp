@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'business/business.dart';
+import 'models/models.dart';
 import 'navigation/navigation.dart';
 import 'ui/themes.dart';
 import 'utils/io.dart';
@@ -66,6 +67,7 @@ class SZIKAppState extends State<SZIKApp> {
   final _kitchenCleaningManager = KitchenCleaningManager();
   final _pollManager = PollManager();
   final _reservationManager = ReservationManager();
+  final _settings = Settings();
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
@@ -152,20 +154,36 @@ class SZIKAppState extends State<SZIKApp> {
         ChangeNotifierProvider(create: (context) => _kitchenCleaningManager),
         ChangeNotifierProvider(create: (context) => _pollManager),
         ChangeNotifierProvider(create: (context) => _reservationManager),
+        ChangeNotifierProvider(create: (context) => _settings),
       ],
-      child: MaterialApp.router(
-        title: 'SzikApp',
-        routerDelegate: _appRouter,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: szikLightThemeData,
-        darkTheme: szikDarkThemeData,
-        themeMode: ThemeMode.system,
-        debugShowCheckedModeBanner: false,
-        routeInformationParser: appRouteParser,
-        backButtonDispatcher: RootBackButtonDispatcher(),
-      ),
+      child: Consumer<Settings>(builder: (context, settings, child) {
+        ThemeMode themeMode;
+        if (settings.darkMode == DarkMode.dark) {
+          themeMode = ThemeMode.dark;
+        } else if (settings.darkMode == DarkMode.light) {
+          themeMode = ThemeMode.light;
+        } else {
+          themeMode = ThemeMode.system;
+        }
+        if (settings.language == Language.en) {
+          context.setLocale(const Locale('hu'));
+        } else {
+          context.setLocale(const Locale('en'));
+        }
+        return MaterialApp.router(
+          title: 'SzikApp',
+          routerDelegate: _appRouter,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: szikLightThemeData,
+          darkTheme: szikDarkThemeData,
+          themeMode: themeMode,
+          debugShowCheckedModeBanner: false,
+          routeInformationParser: appRouteParser,
+          backButtonDispatcher: RootBackButtonDispatcher(),
+        );
+      }),
     );
   }
 }

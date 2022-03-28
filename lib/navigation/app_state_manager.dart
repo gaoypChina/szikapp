@@ -20,16 +20,27 @@ class SzikAppSubMenu {
 class SzikAppFeature {
   static const int none = -1;
   static const int calendar = 0;
-  static const int contacts = 1;
-  static const int documents = 2;
-  static const int janitor = 3;
-  static const int cleaning = 4;
+  static const int cleaning = 1;
+  static const int contacts = 2;
+  static const int documents = 3;
+  static const int janitor = 4;
   static const int poll = 5;
   static const int profile = 6;
   static const int reservation = 7;
   static const int settings = 8;
   static const int error = 99;
 }
+
+const Map<int, Permission> featurePermissions = {
+  0: Permission.calendarView,
+  1: Permission.cleaningView,
+  2: Permission.contactsView,
+  3: Permission.documentsView,
+  4: Permission.janitorView,
+  5: Permission.pollView,
+  6: Permission.profileView,
+  7: Permission.reservationView,
+};
 
 class SzikAppStateManager extends ChangeNotifier {
   bool _firebaseInitialized = false;
@@ -97,7 +108,7 @@ class SzikAppStateManager extends ChangeNotifier {
       if (_selectedTab == SzikAppTab.menu && index != SzikAppTab.menu) {
         _lastMenuLink = SzikAppLink(
           currentTab: _selectedTab,
-          currentSubMenu: selectedSubMenu,
+          currentSubMenu: _selectedSubMenu,
           currentFeature: _selectedFeature,
         );
       }
@@ -119,9 +130,9 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectFeature(int feature) {
-    if (selectedFeature == SzikAppFeature.settings) {
+    if (feature == SzikAppFeature.settings) {
       _selectedTab = SzikAppTab.settings;
-    } else if (selectedFeature == SzikAppFeature.profile) {
+    } else if (feature == SzikAppFeature.profile) {
       _selectedTab = SzikAppTab.feed;
     } else {
       _selectedTab = SzikAppTab.menu;

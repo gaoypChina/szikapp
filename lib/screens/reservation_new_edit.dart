@@ -352,12 +352,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = TimetableTask(
-        uid: uuid.v4().toUpperCase(),
+        id: uuid.v4().toUpperCase(),
         name: title!,
         start: start,
         end: end,
         type: TaskType.timetable,
-        involved: <String>[
+        participantIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
         lastUpdate: DateTime.now(),

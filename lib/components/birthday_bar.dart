@@ -53,7 +53,7 @@ class BirthdayBar extends StatelessWidget {
               ).difference(DateTime.now()).inDays;
               if (daysToBirthdayElement == daysToBirthday) {
                 birthdayUsers.add(element);
-                birthdayNames += ',${element.showableName}';
+                birthdayNames += ', ${element.showableName}';
               }
             }
           }
