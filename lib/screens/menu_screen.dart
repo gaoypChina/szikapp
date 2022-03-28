@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:szikapp/business/business.dart';
+import '../business/business.dart';
 import '../components/menu/menu_item.dart';
-import '../navigation/app_state_manager.dart';
 import '../navigation/navigation.dart';
 
 class MenuScreen extends StatelessWidget {
