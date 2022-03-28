@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/models.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 import 'navigation.dart';
 
 class SzikAppTab {
@@ -34,7 +34,7 @@ class SzikAppFeature {
 class SzikAppStateManager extends ChangeNotifier {
   bool _firebaseInitialized = false;
   bool _hasError = false;
-  Object? _error;
+  BaseException? _error;
   int _selectedTab = SzikAppTab.feed;
   int _selectedFeature = SzikAppFeature.none;
   int _selectedSubMenu = SzikAppSubMenu.none;
@@ -50,7 +50,7 @@ class SzikAppStateManager extends ChangeNotifier {
 
   bool get isFirebaseInitialized => _firebaseInitialized;
   bool get hasError => _hasError;
-  Object? get error => _error;
+  BaseException? get error => _error;
   int get selectedTab => _selectedTab;
   int get selectedSubMenu => _selectedSubMenu;
   int get selectedFeature => _selectedFeature;
@@ -76,7 +76,7 @@ class SzikAppStateManager extends ChangeNotifier {
     }
   }
 
-  void setError(Object error) {
+  void setError(BaseException error) {
     _hasError = true;
     _error = error;
     notifyListeners();

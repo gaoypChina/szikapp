@@ -133,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void _onPressed() {
     if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
       Provider.of<SzikAppStateManager>(context, listen: false)
-          .setError(AuthException('ERROR_NO_INTERNET'.tr()));
+          .setError(NoConnectionException('ERROR_NO_INTERNET'.tr()));
     } else {
       if (Settings.instance.firstRun) {
         showDialog(

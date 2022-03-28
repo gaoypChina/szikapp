@@ -48,9 +48,10 @@ PreferredSizeWidget buildCustomAppBar({
         icon: CircleAvatar(
           foregroundImage: NetworkImage(
             Provider.of<AuthManager>(context, listen: false)
-                .user!
-                .profilePicture
-                .toString(),
+                    .user
+                    ?.profilePicture
+                    .toString() ??
+                '../assets/default.png',
           ),
         ),
       ),
