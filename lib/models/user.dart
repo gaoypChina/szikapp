@@ -93,12 +93,31 @@ class User {
     _permissions = await io.getUserPermissions();
   }
 
-  //Future<bool> hasPermissionToAccess(SzikAppLink link) async {
   bool hasPermissionToAccess(SzikAppLink link) {
-    /*if (_permissions.any((element) => element.toShortString() == 'admin')) {
+    if (_permissions.any((element) => element.toShortString() == 'admin')) {
       return true;
-    }*/
+    }
     return _permissions.any((element) =>
         element.index == featurePermissions[link.currentFeature]?.index);
+  }
+
+  bool hasPermissionToCreate(Type type) {
+    if (type == PollTask) {
+      return _permissions.contains(Permission.pollCreate);
+    } else {
+      return true;
+    }
+  }
+
+  bool hasPermissionToRead(Task task) {
+    if (task.runtimeType == PollTask) {
+      return task.participantIDs.contains(id);
+    } else {
+      return true;
+    }
+  }
+
+  bool hasPermissionToModify(Task task) {
+    return task.managerIDs.contains(id);
   }
 }

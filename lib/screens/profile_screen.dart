@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  List<Widget> _buildActionButtons(bool changed) {
+  List<Widget> _buildActionButtons() {
     return changed
         ? [
             ElevatedButton.icon(
@@ -227,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
               child: Row(
-                children: _buildActionButtons(changed),
+                children: _buildActionButtons(),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
             ),

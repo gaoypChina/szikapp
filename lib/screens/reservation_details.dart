@@ -2,10 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/reservation_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
 const List<TimeOfDay> hours = [
@@ -68,6 +69,10 @@ class ReservationDetailsScreen extends StatelessWidget {
 class ReservationDetails extends StatefulWidget {
   final ReservationManager manager;
 
+  final pixelsPerMinute = 1.5;
+  final dividerThickness = 1.0;
+  final leftColumnWidth = 80.0;
+
   const ReservationDetails({
     Key? key,
     required this.manager,
@@ -78,61 +83,88 @@ class ReservationDetails extends StatefulWidget {
 }
 
 class _ReservationDetailsState extends State<ReservationDetails> {
+  List<TimetableTask> _reservations = [];
+
+  late DateTime currentDate;
+
+  @override
+  void initState() {
+    super.initState();
+    currentDate = DateTime.now().toLocal();
+    _reservations = widget.manager.filter(
+      DateTime(currentDate.year, currentDate.month, currentDate.day),
+      DateTime(currentDate.year, currentDate.month, currentDate.day, 23, 59),
+      [
+        Provider.of<SzikAppStateManager>(context, listen: false)
+            .places[widget.manager.selectedPlaceIndex]
+            .id
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return CustomScaffold(
+      appBarTitle: 'RESERVATION_MODE_PLACE'.tr(),
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
         padding: const EdgeInsets.all(kPaddingLarge),
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              ),
-              alignment: Alignment.center,
-              margin: const EdgeInsets.all(kPaddingLarge),
-              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
-              child: Text(
-                'RESERVATION_TITLE_CREATE'.tr(),
-                style: theme.textTheme.headline2!.copyWith(
-                  color: theme.colorScheme.primaryContainer,
-                  fontSize: 24,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              child: Center(
+                child: Text(
+                  Provider.of<SzikAppStateManager>(context)
+                      .places[widget.manager.selectedPlaceIndex]
+                      .name
+                      .toUpperCase(),
+                  style: theme.textTheme.headline1!.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 5,
+                  ),
                 ),
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  'RESERVATION_LABEL_DETAILS_DATE'.tr(),
-                  style: theme.textTheme.headline3!.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontSize: 12,
+            Divider(
+              thickness: widget.dividerThickness,
+              color: theme.colorScheme.secondary,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'CONTROL_FILTER'.tr(),
+                    style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-                Divider(
-                  color: theme.colorScheme.secondary,
-                  thickness: 2,
-                  height: 3,
-                  indent: 50,
-                  endIndent: 75,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.only(right: kPaddingNormal),
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                  SizedBox(
+                    width: 70,
+                    height: 1,
+                    child: Container(
+                      color: theme.colorScheme.primary,
+                      margin: const EdgeInsets.only(left: kPaddingNormal),
+                    ),
                   ),
-                  child: DatePicker(
-                    initialDate: DateTime.now(),
+                  DatePicker(
+                    initialDate: currentDate,
                     onChanged: _onDateChanged,
+                    borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+                    color: theme.colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: kPaddingNormal,
+                      horizontal: kPaddingXLarge,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: ListView(
@@ -140,7 +172,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                   Stack(
                     children: [
                       _buildRaster(),
-                      _buildEvents(widget.manager.reservations),
+                      _buildEvents(),
                     ],
                   ),
                 ],
@@ -150,7 +182,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _onCreateTask,
+        onPressed: () => _onCreateTask(widget.manager.selectedPlaceIndex),
         child: ConstrainedBox(
           constraints: const BoxConstraints.expand(
             width: kIconSizeLarge,
@@ -162,66 +194,133 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     );
   }
 
-  void _onDateChanged(DateTime? date) {}
-  void _onCreateTask() {
-    SZIKAppState.analytics.logEvent(name: 'create_open_reservation_task');
+  void _onDateChanged(DateTime? date) {
+    setState(() {
+      currentDate = date ?? DateTime.now().toLocal();
+      _reservations = widget.manager.filter(
+        DateTime(currentDate.year, currentDate.month, currentDate.day),
+        DateTime(currentDate.year, currentDate.month, currentDate.day, 23, 59),
+        [
+          Provider.of<SzikAppStateManager>(context, listen: false)
+              .places[widget.manager.selectedPlaceIndex]
+              .id
+        ],
+      );
+    });
   }
 
-  Widget _buildEvents(List<TimetableTask> reservations) {
+  void _onCreateTask(index) {
+    SZIKAppState.analytics.logEvent(name: 'create_open_reservation_task');
+    widget.manager.createNewPlaceReservation(index);
+  }
+
+  void _onEditTask(int index, int placeIndex) {
+    SZIKAppState.analytics.logEvent(name: 'edit_reservation_task');
+    widget.manager.editPlaceReservation(index, placeIndex);
+  }
+
+  Widget _buildEvents() {
     var theme = Theme.of(context);
-    reservations.sort((a, b) => a.start.compareTo(b.start));
-    return Column(
-      children: reservations
-          .map(
-            (e) => Container(
-              height: ((e.end.minute + e.end.hour * 60) -
-                      (e.start.minute + e.start.hour * 60)) *
-                  30,
-              width: 60,
-              margin: EdgeInsets.only(top: (e.start.minute) * 30),
-              decoration: BoxDecoration(
-                border: Border.all(color: theme.colorScheme.primary),
-              ),
-              child: Column(
+    return Positioned.fill(
+      child: Stack(
+        children: _reservations
+            .map(
+              (e) => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    e.description ?? '',
-                    style: theme.textTheme.headline3!.copyWith(
-                        fontSize: 15, color: theme.colorScheme.primary),
-                  ),
-                  Text(
-                    e.name,
-                    style: theme.textTheme.headline3!.copyWith(
-                        fontSize: 10, color: theme.colorScheme.primary),
+                  SizedBox(width: widget.leftColumnWidth),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: (e.start.hour * 60 + e.start.minute) *
+                            widget.pixelsPerMinute,
+                      ),
+                      InkWell(
+                        onTap: () =>
+                            Provider.of<AuthManager>(context, listen: false)
+                                    .user!
+                                    .hasPermissionToModify(e)
+                                ? _onEditTask(
+                                    Provider.of<ReservationManager>(
+                                      context,
+                                      listen: false,
+                                    ).reservations.indexOf(e),
+                                    widget.manager.selectedPlaceIndex,
+                                  )
+                                : null,
+                        child: Container(
+                          height: (((e.end.minute + e.end.hour * 60) -
+                                  (e.start.minute + e.start.hour * 60)) *
+                              widget.pixelsPerMinute),
+                          width: 200,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 3,
+                              color: theme.colorScheme.primary,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              kBorderRadiusNormal,
+                            ),
+                            color: theme.colorScheme.background,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: kPaddingLarge,
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                e.name,
+                                style: theme.textTheme.caption!.copyWith(
+                                  color: theme.colorScheme.primaryContainer,
+                                ),
+                              ),
+                              Text(
+                                e.description ?? '',
+                                style: theme.textTheme.bodyText1!.copyWith(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 
   Widget _buildRaster() {
     var theme = Theme.of(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: hours
           .map(
-            (e) => Row(
+            (e) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${e.hour}:${e.minute} - ${(e.hour + 1)}:${(e.minute)}',
-                  style: theme.textTheme.headline3!
-                      .copyWith(fontSize: 30, color: theme.colorScheme.primary),
-                  textAlign: TextAlign.start,
+                SizedBox(
+                  width: widget.leftColumnWidth,
+                  height: widget.pixelsPerMinute * 60 - widget.dividerThickness,
+                  child: Center(
+                    child: Text(
+                      e.format(context),
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        color: theme.colorScheme.primaryContainer,
+                      ),
+                    ),
+                  ),
                 ),
-                Divider(
-                  color: theme.colorScheme.secondary,
-                  thickness: 1,
-                  indent: 25,
-                  endIndent: 25,
-                  height: 0.5,
-                ),
+                if (hours.last != e)
+                  Divider(
+                    thickness: widget.dividerThickness,
+                    height: widget.dividerThickness,
+                    color: theme.colorScheme.secondary,
+                  ),
               ],
             ),
           )

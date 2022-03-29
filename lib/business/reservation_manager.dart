@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/resource.dart';
 
 import '../models/tasks.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 class ReservationMode {
   static const int none = -1;
@@ -186,6 +186,7 @@ class ReservationManager extends ChangeNotifier {
 
     var io = IO();
     _reservations = await io.getReservation(parameter);
+    _reservations.sort((a, b) => a.start.compareTo(b.start));
   }
 
   Future<void> refreshGames() async {
@@ -198,26 +199,29 @@ class ReservationManager extends ChangeNotifier {
   List<TimetableTask> filter(
       DateTime startTime, DateTime endTime, List<String> placeIDs) {
     var results = <TimetableTask>[];
+    startTime = startTime.toLocal();
+    endTime = endTime.toLocal();
 
     if (placeIDs.isEmpty) {
       //csak időpontra szűrünk
-      for (var res in reservations) {
-        if (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-            res.end.isAfter(startTime) && res.end.isBefore(endTime)) {
-          results.add(res);
+      for (var reservation in reservations) {
+        if (reservation.start.isAfter(startTime) &&
+                reservation.start.isBefore(endTime) ||
+            reservation.end.isAfter(startTime) &&
+                reservation.end.isBefore(endTime)) {
+          results.add(reservation);
         }
       }
     } else {
       //szobára és időpontra is szűrünk
-      for (var res in reservations) {
-        for (var i in res.resourceIDs) {
+      for (var reservation in reservations) {
+        for (var resourceID in reservation.resourceIDs) {
           //ha van szűrési feltétel az adott foglalás szobájára
           //és az intervallumba is beleesik:
-          if (i.startsWith('p') &&
-              placeIDs.contains(i) &&
-              (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-                  res.end.isAfter(startTime) && res.end.isBefore(endTime))) {
-            results.add(res);
+          if (placeIDs.contains(resourceID) &&
+              (reservation.start.isInInterval(startTime, endTime) ||
+                  reservation.end.isInInterval(startTime, endTime))) {
+            results.add(reservation);
           }
         }
       }
