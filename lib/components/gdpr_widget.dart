@@ -24,7 +24,12 @@ class GDPRWidget extends StatelessWidget {
       ),
       backgroundColor: theme.colorScheme.background,
       child: Padding(
-        padding: const EdgeInsets.all(kPaddingLarge),
+        padding: const EdgeInsets.fromLTRB(
+          kBorderRadiusLarge,
+          kPaddingLarge,
+          kPaddingLarge,
+          kPaddingNormal,
+        ),
         child: Column(
           children: [
             Expanded(
@@ -37,7 +42,8 @@ class GDPRWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 OutlinedButton(
                   onPressed: onDisagreePressed,
