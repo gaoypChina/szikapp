@@ -25,7 +25,7 @@ class GDPRWidget extends StatelessWidget {
       backgroundColor: theme.colorScheme.background,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
-          kBorderRadiusLarge,
+          kPaddingLarge,
           kPaddingLarge,
           kPaddingLarge,
           kPaddingNormal,

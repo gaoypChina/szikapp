@@ -128,7 +128,7 @@ class ErrorHandler {
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             theme.colorScheme.secondaryContainer,
-                            BlendMode.srcIn,
+                            BlendMode.srcATop,
                           ),
                           child: Image.asset(
                             'assets/pictures/no_network_grey.png',
