@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _onNickChanged(String newValue) {
     setState(() {
-      nick = newValue;
+      newValue.isEmpty ? nick = null : nick = newValue;
       changed = true;
     });
   }
