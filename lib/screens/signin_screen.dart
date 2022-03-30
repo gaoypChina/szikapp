@@ -53,9 +53,11 @@ class _SignInWidgetState extends State<SignInWidget> {
   bool _started = false;
 
   void _startAnimation() {
-    setState(() {
-      _started = true;
-    });
+    if (mounted) {
+      setState(() {
+        _started = true;
+      });
+    }
   }
 
   @override
