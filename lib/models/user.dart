@@ -30,7 +30,7 @@ class User {
         _phone = userData.phone,
         _secondaryPhone = userData.secondaryPhone,
         groupIDs = userData.groupIDs,
-        _permissions = [],
+        _permissions = userData.permissions,
         lastUpdate = userData.lastUpdate;
 
   DateTime? get birthday => _birthday;
@@ -93,11 +93,10 @@ class User {
     _permissions = await io.getUserPermissions();
   }
 
-  //Future<bool> hasPermissionToAccess(SzikAppLink link) async {
   bool hasPermissionToAccess(SzikAppLink link) {
-    /*if (_permissions.any((element) => element.toShortString() == 'admin')) {
+    if (_permissions.any((element) => element.toShortString() == 'admin')) {
       return true;
-    }*/
+    }
     return _permissions.any((element) =>
         element.index == featurePermissions[link.currentFeature]?.index);
   }
