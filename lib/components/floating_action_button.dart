@@ -16,7 +16,7 @@ class CustomFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<AuthManager>(context).user;
+    var user = Provider.of<AuthManager>(context, listen: false).user;
     return user!.hasPermissionToCreate(typeToCreate)
         ? FloatingActionButton(
             onPressed: onPressed,

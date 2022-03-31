@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 
 const List<TimeOfDay> hours = [
   TimeOfDay(hour: 0, minute: 0),
@@ -84,29 +85,52 @@ class ReservationDetails extends StatefulWidget {
 
 class _ReservationDetailsState extends State<ReservationDetails> {
   List<TimetableTask> _reservations = [];
-
-  late DateTime currentDate;
+  var _selectedMode = ReservationMode.none;
+  var _resourceID = '';
+  var _currentDate = DateTime.now().toLocal();
 
   @override
   void initState() {
     super.initState();
-    currentDate = DateTime.now().toLocal();
+    _selectedMode = widget.manager.selectedMode;
+    if (_selectedMode == ReservationMode.place) {
+      _resourceID = Provider.of<SzikAppStateManager>(context, listen: false)
+          .places[widget.manager.selectedPlaceIndex]
+          .id;
+    } else if (_selectedMode == ReservationMode.boardgame) {
+      _resourceID = Provider.of<ReservationManager>(context, listen: false)
+          .games[widget.manager.selectedGameIndex]
+          .id;
+    } else {
+      _resourceID = 'ZOOM'; //TODO - Zoom
+    }
     _reservations = widget.manager.filter(
-      DateTime(currentDate.year, currentDate.month, currentDate.day),
-      DateTime(currentDate.year, currentDate.month, currentDate.day, 23, 59),
-      [
-        Provider.of<SzikAppStateManager>(context, listen: false)
-            .places[widget.manager.selectedPlaceIndex]
-            .id
-      ],
+      DateTime(_currentDate.year, _currentDate.month, _currentDate.day),
+      DateTime(_currentDate.year, _currentDate.month, _currentDate.day, 23, 59),
+      [_resourceID],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    String appBarTitle;
+    Resource resource;
+    if (_selectedMode == ReservationMode.place) {
+      appBarTitle = 'RESERVATION_MODE_PLACE'.tr();
+      resource = Provider.of<SzikAppStateManager>(context, listen: false)
+          .places[widget.manager.selectedPlaceIndex];
+    } else if (_selectedMode == ReservationMode.boardgame) {
+      appBarTitle = 'RESERVATION_MODE_BOARDGAME'.tr();
+      resource = Provider.of<ReservationManager>(context, listen: false)
+          .games[widget.manager.selectedGameIndex];
+    } else {
+      appBarTitle = 'RESERVATION_MODE_ZOOM'.tr();
+      //TODO - Zoom
+      resource = Resource(id: '0', name: 'ZOOM', lastUpdate: DateTime.now());
+    }
     return CustomScaffold(
-      appBarTitle: 'RESERVATION_MODE_PLACE'.tr(),
+      appBarTitle: appBarTitle,
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
@@ -117,10 +141,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
               child: Center(
                 child: Text(
-                  Provider.of<SzikAppStateManager>(context)
-                      .places[widget.manager.selectedPlaceIndex]
-                      .name
-                      .toUpperCase(),
+                  resource.name.toUpperCase(),
                   style: theme.textTheme.headline1!.copyWith(
                     color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.normal,
@@ -154,7 +175,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                     ),
                   ),
                   DatePicker(
-                    initialDate: currentDate,
+                    initialDate: _currentDate,
                     onChanged: _onDateChanged,
                     borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                     color: theme.colorScheme.primary,
@@ -182,7 +203,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: () => _onCreateTask(widget.manager.selectedPlaceIndex),
+        onPressed: _onCreateTask,
         typeToCreate: TimetableTask,
       ),
     );
@@ -190,27 +211,46 @@ class _ReservationDetailsState extends State<ReservationDetails> {
 
   void _onDateChanged(DateTime? date) {
     setState(() {
-      currentDate = date ?? DateTime.now().toLocal();
+      _currentDate = date ?? DateTime.now().toLocal();
       _reservations = widget.manager.filter(
-        DateTime(currentDate.year, currentDate.month, currentDate.day),
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 23, 59),
-        [
-          Provider.of<SzikAppStateManager>(context, listen: false)
-              .places[widget.manager.selectedPlaceIndex]
-              .id
-        ],
+        DateTime(_currentDate.year, _currentDate.month, _currentDate.day),
+        DateTime(
+            _currentDate.year, _currentDate.month, _currentDate.day, 23, 59),
+        [_resourceID],
       );
     });
   }
 
-  void _onCreateTask(index) {
+  void _onCreateTask() {
     SZIKAppState.analytics.logEvent(name: 'create_open_reservation_task');
-    widget.manager.createNewPlaceReservation(index);
+    if (_selectedMode == ReservationMode.place) {
+      widget.manager
+          .createNewPlaceReservation(widget.manager.selectedPlaceIndex);
+    } else if (_selectedMode == ReservationMode.boardgame) {
+      widget.manager.createNewGameReservation(widget.manager.selectedGameIndex);
+    } else {
+      //TODO - Zoom fgv
+    }
   }
 
-  void _onEditTask(int index, int placeIndex) {
+  void _onEditTask(int reservationIndex) {
     SZIKAppState.analytics.logEvent(name: 'edit_reservation_task');
-    widget.manager.editPlaceReservation(index, placeIndex);
+    widget.manager.setSelectedReservationTask(
+      widget.manager.reservations[reservationIndex].id,
+    );
+    if (_selectedMode == ReservationMode.place) {
+      widget.manager.editPlaceReservation(
+        widget.manager.selectedIndex,
+        widget.manager.selectedPlaceIndex,
+      );
+    } else if (_selectedMode == ReservationMode.boardgame) {
+      widget.manager.editGameReservation(
+        widget.manager.selectedIndex,
+        widget.manager.selectedGameIndex,
+      );
+    } else {
+      //TODO - Zoom fgv
+    }
   }
 
   Widget _buildEvents() {
@@ -239,7 +279,6 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                       context,
                                       listen: false,
                                     ).reservations.indexOf(e),
-                                    widget.manager.selectedPlaceIndex,
                                   )
                                 : null,
                         child: Container(
@@ -263,15 +302,18 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                           child: Column(
                             children: [
                               Text(
-                                e.name,
+                                e.name.useCorrectEllipsis(),
                                 style: theme.textTheme.caption!.copyWith(
                                   color: theme.colorScheme.primaryContainer,
                                 ),
                               ),
-                              Text(
-                                e.description ?? '',
-                                style: theme.textTheme.bodyText1!.copyWith(
-                                  color: theme.colorScheme.primary,
+                              Flexible(
+                                child: Text(
+                                  e.description ?? '',
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  overflow: TextOverflow.fade,
                                 ),
                               ),
                             ],

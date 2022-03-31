@@ -67,7 +67,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   List<String> resourceIDs = [];
   late DateTime start;
   late DateTime end;
-  late Place selectedPlace;
+  late Resource selectedResource;
 
   String timeFieldError = '';
 
@@ -76,20 +76,30 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     super.initState();
     name = widget.isEdit ? widget.originalItem!.name : null;
     description = widget.isEdit ? widget.originalItem!.description : null;
-    start =
-        widget.isEdit ? widget.originalItem!.start : DateTime.now().roundDown();
+    start = widget.isEdit
+        ? widget.originalItem!.start
+        : DateTime.now()
+            .toUtc()
+            .roundDown()
+            .toLocal()
+            .add(const Duration(hours: 1));
     end = widget.isEdit
         ? widget.originalItem!.end
-        : DateTime.now().roundDown().add(const Duration(hours: 1));
-
-    selectedPlace = Provider.of<SzikAppStateManager>(context, listen: false)
-        .places[widget.manager.selectedPlaceIndex];
+        : DateTime.now()
+            .toUtc()
+            .roundDown()
+            .toLocal()
+            .add(const Duration(hours: 2));
 
     if (widget.manager.selectedMode == ReservationMode.place) {
-      resourceIDs.add(selectedPlace.id);
+      selectedResource =
+          Provider.of<SzikAppStateManager>(context, listen: false)
+              .places[widget.manager.selectedPlaceIndex];
     } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
-      resourceIDs.add(widget.manager.selectedGame!.id);
+      selectedResource = Provider.of<ReservationManager>(context, listen: false)
+          .games[widget.manager.selectedGameIndex];
     }
+    resourceIDs.add(selectedResource.id);
   }
 
   @override
@@ -119,10 +129,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
               padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
               child: Center(
                 child: Text(
-                  Provider.of<SzikAppStateManager>(context)
-                      .places[widget.manager.selectedPlaceIndex]
-                      .name
-                      .toUpperCase(),
+                  selectedResource.name.toUpperCase(),
                   style: theme.textTheme.headline1!.copyWith(
                     color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.normal,
