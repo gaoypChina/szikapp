@@ -42,7 +42,8 @@ class GDPRWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
+            Flex(
+              direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 OutlinedButton(
