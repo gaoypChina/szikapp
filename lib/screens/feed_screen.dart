@@ -52,8 +52,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var shownName =
-        Provider.of<AuthManager>(context, listen: false).user!.showableName;
+    var shownName = Provider.of<AuthManager>(context, listen: false).user!.showableName;
     var _feedShortcuts = context.select(
       (Settings settings) => settings.feedShortcuts,
     );

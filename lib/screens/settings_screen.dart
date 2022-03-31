@@ -46,20 +46,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _feedShortcuts = Settings.instance.feedShortcuts;
   }
 
-  void _onSearchFieldChanged(String query) {
-    /*var newItems = widget.manager.search(query);
-    setState(() {
-      items = newItems;
-    });*/
-  }
-
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
   void _onAutomaticThemeChanged(bool newValue) {
     setState(() {
       _isAutomaticDarkModeEnabled = newValue;
@@ -106,231 +92,208 @@ class _SettingsScreenState extends State<SettingsScreen> {
       withNavigationBar: widget.withNavigationBar,
       withBackButton: widget.withBackButton,
       appBarTitle: 'SETTINGS_TITLE'.tr(),
-      body: Column(
-        children: [
-          SearchBar(
-            onChanged: _onSearchFieldChanged,
-            validator: _validateTextField,
-            placeholder: 'PLACEHOLDER_SEARCH'.tr(),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                //Megjelenés
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_THEME'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_AUTOMATIC'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                        onChanged: _onAutomaticThemeChanged,
-                        initValue: _isAutomaticDarkModeEnabled,
-                      ),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_DARKMODE'.tr(),
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(
-                                    color: _isAutomaticDarkModeEnabled
-                                        ? Theme.of(context).colorScheme.primary
-                                        : szikGunSmoke,
-                                  ),
-                        ),
-                        onChanged: _onPreferDarkModeChanged,
-                        enabled: !_isAutomaticDarkModeEnabled,
-                        initValue: _preferDarkMode,
-                      )
-                    ],
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: kPaddingNormal),
+        child: ListView(
+          children: [
+            //Megjelenés
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
                 ),
-                //Nyelv
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
                   ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_LANGUAGE'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      CustomRadioList(
-                        radioLabels: [
-                          Language.en.toCapitalizedString(),
-                          Language.hu.toCapitalizedString(),
-                        ],
-                        initValue: _preferedLanguage.toCapitalizedString(),
-                        onChanged: _onLanguageChanged,
-                      )
-                    ],
-                  ),
-                ),
-                //Hangerő
-                /*
-                CustomSlider(
-                  titleText: Text(
-                    'SETTINGS_VOLUME'.tr(),
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                  ),
-                  onChanged: _onVolumeChanged,
-                ),*/
-                //Értesítések
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_NOTIFICATIONS'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                        onChanged: (bool switchState) {
-                          setState(() {});
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                //Shortcutok
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: CustomCheckboxList(
-                    title: Text(
-                      'SETTINGS_SHORTCUTS'.tr(),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_THEME'.tr(),
                       style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.primary),
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                     ),
-                    checkboxLabels:
-                        shortcutData.entries.map((e) => e.value.name).toList(),
-                    maxEnabled: 3,
-                    initValues:
-                        intListToBool(_feedShortcuts, shortcutData.length),
-                    onChanged: _onFeedShortcutsChanged,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_AUTOMATIC'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                    onChanged: _onAutomaticThemeChanged,
+                    initValue: _isAutomaticDarkModeEnabled,
+                  ),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_DARKMODE'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: _isAutomaticDarkModeEnabled
+                                ? Theme.of(context).colorScheme.primary
+                                : szikGunSmoke,
+                          ),
+                    ),
+                    onChanged: _onPreferDarkModeChanged,
+                    enabled: !_isAutomaticDarkModeEnabled,
+                    initValue: _preferDarkMode,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+            //Nyelv
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_LANGUAGE'.tr(),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomRadioList(
+                    radioLabels: [
+                      Language.en.toCapitalizedString(),
+                      Language.hu.toCapitalizedString(),
+                    ],
+                    initValue: _preferedLanguage.toCapitalizedString(),
+                    onChanged: _onLanguageChanged,
+                  )
+                ],
+              ),
+            ),
+            //Hangerő
+            /*
+            CustomSlider(
+              titleText: Text(
+                'SETTINGS_VOLUME'.tr(),
+                style: Theme.of(context).textTheme.headline3!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              onChanged: _onVolumeChanged,
+            ),*/
+            //Értesítések
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_NOTIFICATIONS'.tr(),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                  ),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_APP_NOTIFICATIONS'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                    onChanged: (bool switchState) {
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ),
+            //Shortcutok
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: CustomCheckboxList(
+                title: Text(
+                  'SETTINGS_SHORTCUTS'.tr(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
+                checkboxLabels:
+                    shortcutData.entries.map((e) => e.value.name).toList(),
+                maxEnabled: 3,
+                initValues: intListToBool(_feedShortcuts, shortcutData.length),
+                onChanged: _onFeedShortcutsChanged,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

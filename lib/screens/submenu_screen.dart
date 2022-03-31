@@ -8,12 +8,12 @@ import '../ui/themes.dart';
 
 final List<SubMenuItemData> subMenuDataListItems = [
   SubMenuItemData(
-    name: 'SUBMENU_DATA_CONTACTS'.tr(),
+    name: 'CONTACTS_TITLE'.tr(),
     picture: 'assets/icons/users_light_72.png',
     feature: SzikAppFeature.contacts,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_DATA_DOCUMENTS'.tr(),
+    name: 'DOCUMENTS_TITLE'.tr(),
     picture: 'assets/icons/book_light_72.png',
     feature: SzikAppFeature.documents,
   ),
@@ -21,17 +21,17 @@ final List<SubMenuItemData> subMenuDataListItems = [
 
 final List<SubMenuItemData> subMenuCommunityListItems = [
   SubMenuItemData(
-    name: 'SUBMENU_COMMUNITY_HELPME'.tr(),
+    name: 'HELP_ME_TITLE'.tr(),
     picture: 'assets/icons/helpme_light_72.png',
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_COMMUNITY_BEERWITHME'.tr(),
+    name: 'BEER_WITH_ME_TITLE'.tr(),
     picture: 'assets/icons/beer_light_72.png',
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_COMMUNITY_SPIRITUAL'.tr(),
+    name: 'SPIRITUAL_TITLE'.tr(),
     picture: 'assets/icons/fire_light_72.png',
     feature: SzikAppFeature.error,
   ),
@@ -39,32 +39,32 @@ final List<SubMenuItemData> subMenuCommunityListItems = [
 
 final List<SubMenuItemData> subMenuEverydayListItems = [
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_CLEANING'.tr(),
+    name: 'CLEANING_TITLE'.tr(),
     picture: 'assets/icons/knife_light_72.png',
     feature: SzikAppFeature.cleaning,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_RESERVATION'.tr(),
+    name: 'RESERVATION_TITLE'.tr(),
     picture: 'assets/icons/hourglass_light_72.png',
     feature: SzikAppFeature.reservation,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_JANITOR'.tr(),
+    name: 'JANITOR_TITLE'.tr(),
     picture: 'assets/icons/wrench_light_72.png',
     feature: SzikAppFeature.janitor,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_FORMS'.tr(),
+    name: 'FORMS_TITLE'.tr(),
     picture: 'assets/icons/pencil_light_72.png',
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_POLL'.tr(),
+    name: 'POLL_TITLE'.tr(),
     picture: 'assets/icons/handpalm_light_72.png',
     feature: SzikAppFeature.poll,
   ),
   SubMenuItemData(
-    name: 'SUBMENU_EVERYDAY_BOOKLOAN'.tr(),
+    name: 'BOOKRENTAL_TITLE'.tr(),
     picture: 'assets/icons/bank_light_72.png',
     feature: SzikAppFeature.error,
   ),
@@ -104,7 +104,7 @@ class SubMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      withAppBar: false,
+      appBarTitle: subMenuTitles[selectedSubMenu],
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
@@ -120,27 +120,11 @@ class SubMenuScreen extends StatelessWidget {
             kPaddingLarge,
             0,
           ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: kPaddingNormal),
-                child: Text(
-                  subMenuTitles[selectedSubMenu].toUpperCase(),
-                  style: Theme.of(context).textTheme.headline2!.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 25,
-                      ),
-                ),
-              ),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: kPaddingNormal,
-                  mainAxisSpacing: kPaddingNormal,
-                  children: _buildGridItems(context),
-                ),
-              ),
-            ],
+          child: GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: kPaddingNormal,
+            mainAxisSpacing: kPaddingNormal,
+            children: _buildGridItems(context),
           ),
         ),
       ),

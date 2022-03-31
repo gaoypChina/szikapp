@@ -72,7 +72,6 @@ class AuthManager extends ChangeNotifier {
       _user = szikapp_user.User(
           Uri.parse(profilePicture ?? '../assets/default.png'), userData);
       _signedIn = true;
-      _user!.refreshPermissions();
       notifyListeners();
     } on Exception catch (e) {
       _signedIn = false;
@@ -98,7 +97,6 @@ class AuthManager extends ChangeNotifier {
       _user = szikapp_user.User(
           Uri.parse(profilePicture ?? '../assets/default.png'), userData);
       _signedIn = true;
-      _user!.refreshPermissions();
       notifyListeners();
     } on Exception catch (e) {
       _signedIn = false;
