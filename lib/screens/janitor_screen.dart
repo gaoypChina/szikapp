@@ -779,15 +779,9 @@ class _JanitorListViewState extends State<JanitorListView> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: _onCreateTask,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(
-            width: kIconSizeLarge,
-            height: kIconSizeLarge,
-          ),
-          child: Image.asset('assets/icons/plus_light_72.png'),
-        ),
+        typeToCreate: JanitorTask,
       ),
     );
   }
