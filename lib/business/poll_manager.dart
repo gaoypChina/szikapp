@@ -158,11 +158,16 @@ class PollManager extends ChangeNotifier {
 
   ///Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
   ///hozza a szavazás eredményeit.
-  Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
-    var io = IO();
+
+  //Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
+  Map<dynamic, dynamic> getResults(PollTask poll) {
+    /*var io = IO();
     var param = {'id': poll.id};
     var resultTaskList = await io.getPoll(param);
-    var resultTask = resultTaskList.first;
+    
+    */
+    var resultTask = _polls.where((element) => element.id == poll.id).first;
+    //var resultTask = resultTaskList.first;
 
     var results = {};
     if (resultTask.isLive) {
@@ -177,30 +182,29 @@ class PollManager extends ChangeNotifier {
     results['isConfidential'] = resultTask.isConfidential ? true : false;
     results['isMultipleChoice'] = resultTask.isMultipleChoice ? true : false;
 
-    if (resultTask.isMultipleChoice) {
-      for (var answerOption in resultTask.answerOptions) {
-        results[answerOption] = resultTask.isConfidential ? 0 : [];
-      }
-    } else {
-      results['yes'] = resultTask.isConfidential ? 0 : [];
-      results['no'] = resultTask.isConfidential ? 0 : [];
-      results['abstain'] = resultTask.isConfidential ? 0 : [];
+    //TODO
+    results['allVotes'] = 0;
+    for (var answerOption in resultTask.answerOptions) {
+      results[answerOption] = 0; //resultTask.isConfidential ? 0 : [];
     }
 
     for (var vote in resultTask.answers) {
       if (resultTask.isMultipleChoice) {
         for (var option in vote.votes) {
-          resultTask.isConfidential
+          results[option] += 1;
+          results['allVotes'] += 1;
+          /* resultTask.isConfidential
               ? results[option] += 1
-              : results[option].add(vote.voterID);
+              : results[option].add(vote.voterID);*/
         }
       } else {
-        resultTask.isConfidential
+        results[vote.votes.first] += 1;
+        results['allVotes'] += 1;
+        /*resultTask.isConfidential
             ? results[vote.votes.first] += 1
-            : results[vote.votes.first].add(vote.voterID);
+            : results[vote.votes.first].add(vote.voterID);*/
       }
     }
-
     return results;
   }
 

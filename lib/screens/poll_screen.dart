@@ -29,7 +29,7 @@ class PollScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
       future: manager.refresh(),
-      shimmer: const TileShimmer(),
+      shimmer: const ListScreenShimmer(type: ShimmerListType.square),
       child: PollTileView(manager: manager),
     );
   }
@@ -96,9 +96,10 @@ class _PollTileViewState extends State<PollTileView> {
                 return GestureDetector(
                   onTap: () => showDialog(
                     context: context,
-                    builder: (context) {
-                      return PollWidget(poll: poll);
-                    },
+                    builder: (context) => PollWidget(
+                      poll: poll,
+                      manager: widget.manager,
+                    ),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -112,13 +113,19 @@ class _PollTileViewState extends State<PollTileView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                              child: Text(
-                            poll.question,
-                            style: theme.textTheme.subtitle1?.copyWith(
-                              color: theme.colorScheme.surface,
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              poll.question,
+                              style: theme.textTheme.subtitle1?.copyWith(
+                                color: theme.colorScheme.surface,
+                                overflow: TextOverflow.fade,
+                              ),
                             ),
-                          )),
+                          ),
+                          const SizedBox(
+                            height: kPaddingNormal,
+                          ),
                           Text(
                             _calculateTime(poll.end),
                             style: theme.textTheme.subtitle1?.copyWith(

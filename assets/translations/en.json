@@ -80,6 +80,7 @@
         "POLL_DAYS_LEFT": "{} days left",
         "POLL_HOURS_LEFT": "{} hours left",
         "POLL_MINUTES_LEFT": "{} minutes left",
+        "POLL_VOTE": "{} votes",
     "FEED": null,
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
