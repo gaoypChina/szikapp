@@ -56,6 +56,7 @@ class _PollWidgetState extends State<PollWidget> {
 
   Widget _buildOpenPoll() {
     var theme = Theme.of(context);
+    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -87,37 +88,40 @@ class _PollWidgetState extends State<PollWidget> {
                   color: theme.colorScheme.secondary,
                 ),
                 Expanded(child: ListView(children: _buildAnswerItems())),
-                ElevatedButton(
-                  onPressed: (() => widget.manager.addVote(
-                      Vote(
-                        voterID:
-                            Provider.of<AuthManager>(context, listen: false)
-                                .user!
-                                .id,
-                        votes: _selected,
-                        lastUpdate: DateTime.now(),
+                widget.manager.hasVoted(userID: userID, poll: widget.poll)
+                    ? const Text('Már szavaztál')
+                    : ElevatedButton(
+                        onPressed: (() => widget.manager.addVote(
+                            Vote(
+                              voterID: Provider.of<AuthManager>(context,
+                                      listen: false)
+                                  .user!
+                                  .id,
+                              votes: _selected,
+                              lastUpdate: DateTime.now(),
+                            ),
+                            widget.poll)),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                          ),
+                          child: Text('BUTTON_SEND'.tr()),
+                        ),
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.resolveWith<OutlinedBorder>(
+                            (_) {
+                              return RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                      widget.poll)),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      kPaddingNormal,
-                      kBorderRadiusSmall,
-                      kPaddingNormal,
-                      kBorderRadiusSmall,
-                    ),
-                    child: Text('BUTTON_SEND'.tr()),
-                  ),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-                      (_) {
-                        return RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(kBorderRadiusSmall),
-                        );
-                      },
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -169,45 +173,61 @@ class _PollWidgetState extends State<PollWidget> {
 
   List<Widget> _buildAnswerItems() {
     var theme = Theme.of(context);
+    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    var hasVoted = widget.manager.hasVoted(userID: userID, poll: widget.poll);
     return widget.poll.answerOptions.map<ListTile>(
       (item) {
         return ListTile(
           title: Text(
             item,
             style: theme.textTheme.subtitle1!.copyWith(
-              color: theme.colorScheme.primaryContainer,
+              color: hasVoted
+                  ? theme.colorScheme.secondaryContainer
+                  : theme.colorScheme.primaryContainer,
               fontStyle: FontStyle.italic,
             ),
           ),
           leading: widget.poll.isMultipleChoice
               ? Checkbox(
                   value: _selected.isEmpty ? false : _selected.contains(item),
-                  activeColor: theme.colorScheme.primaryContainer,
+                  activeColor: hasVoted
+                      ? theme.colorScheme.secondaryContainer
+                      : theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
-                    theme.colorScheme.primaryContainer,
+                    hasVoted
+                        ? theme.colorScheme.secondaryContainer
+                        : theme.colorScheme.primaryContainer,
                   ),
-                  onChanged: (bool? value) => setState(
-                    () {
-                      var index = _selected.indexOf(item);
-                      (index == -1)
-                          ? _selected.add(item)
-                          : _selected.removeAt(index);
-                    },
-                  ),
+                  onChanged: hasVoted
+                      ? null
+                      : (bool? value) => setState(
+                            () {
+                              var index = _selected.indexOf(item);
+                              (index == -1)
+                                  ? _selected.add(item)
+                                  : _selected.removeAt(index);
+                            },
+                          ),
                 )
               : Radio<String>(
                   value: item,
                   groupValue: _selected.isEmpty ? null : _selected.first,
-                  activeColor: theme.colorScheme.primaryContainer,
+                  activeColor: hasVoted
+                      ? theme.colorScheme.secondaryContainer
+                      : theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
-                    theme.colorScheme.primaryContainer,
+                    hasVoted
+                        ? theme.colorScheme.secondaryContainer
+                        : theme.colorScheme.primaryContainer,
                   ),
-                  onChanged: (String? value) => setState(
-                    () {
-                      _selected.removeWhere((element) => true);
-                      if (value != null) _selected.add(value);
-                    },
-                  ),
+                  onChanged: hasVoted
+                      ? null
+                      : (String? value) => setState(
+                            () {
+                              _selected.removeWhere((element) => true);
+                              if (value != null) _selected.add(value);
+                            },
+                          ),
                 ),
         );
       },

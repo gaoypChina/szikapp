@@ -184,6 +184,7 @@ class PollManager extends ChangeNotifier {
 
     //TODO
     results['allVotes'] = 0;
+
     for (var answerOption in resultTask.answerOptions) {
       results[answerOption] = 0; //resultTask.isConfidential ? 0 : [];
     }
@@ -206,6 +207,10 @@ class PollManager extends ChangeNotifier {
       }
     }
     return results;
+  }
+
+  bool hasVoted({required String userID, required PollTask poll}) {
+    return poll.answers.any((element) => element.voterID == userID);
   }
 
   List<PollTask> filter({required String userID, bool? isLive}) {
