@@ -13,6 +13,7 @@ class CustomScaffold extends StatelessWidget {
   final bool extendBody;
   final bool extendBodyBehindAppBar;
   final bool withAppBar;
+  final bool withBackButton;
   final bool withNavigationBar;
 
   ///Shiny Scaffold with optional [BottomNavigationBar] and [AppBar].
@@ -26,6 +27,7 @@ class CustomScaffold extends StatelessWidget {
     this.extendBody = false,
     this.extendBodyBehindAppBar = false,
     this.withAppBar = true,
+    this.withBackButton = true,
     this.withNavigationBar = true,
   }) : super(key: key);
 
@@ -37,6 +39,7 @@ class CustomScaffold extends StatelessWidget {
           ? buildCustomAppBar(
               context: context,
               appBarTitle: appBarTitle ?? '',
+              withBackButton: withBackButton,
             )
           : null,
       body: SafeArea(child: body ?? Container()),

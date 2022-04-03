@@ -21,7 +21,7 @@ import '../screens/reservation_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/signin_screen.dart';
 import '../screens/submenu_screen.dart';
-import '../utils/exceptions.dart';
+import '../utils/utils.dart';
 import 'app_link.dart';
 import 'app_state_manager.dart';
 
@@ -63,7 +63,14 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     return Navigator(
       key: navigatorKey,
       pages: [
-        if (!authManager.isSignedIn) ...[
+        if (appStateManager.hasError) ...[
+          ErrorScreen.page(
+            errorInset: ErrorHandler.buildInset(
+              context,
+              errorCode: appStateManager.error?.code,
+            ),
+          )
+        ] else if (!authManager.isSignedIn) ...[
           SignInScreen.page(),
         ] else ...[
           HomeScreen.page(appStateManager.selectedTab),

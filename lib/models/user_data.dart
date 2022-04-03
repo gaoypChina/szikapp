@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/types.dart';
 import 'interfaces.dart';
+import 'permission.dart';
 import 'preferences.dart';
 import 'user.dart';
 
@@ -23,6 +24,7 @@ class UserData implements Identifiable, Cachable {
   DateTime? birthday;
   @JsonKey(name: 'group_ids')
   List<String> groupIDs;
+  List<Permission> permissions;
   @override
   @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
@@ -36,6 +38,7 @@ class UserData implements Identifiable, Cachable {
     this.secondaryPhone,
     this.preferences,
     this.birthday,
+    this.permissions = const [],
     this.groupIDs = const [],
     required this.lastUpdate,
   });

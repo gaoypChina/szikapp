@@ -5,9 +5,13 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String route = '/settings';
+
+  final bool withNavigationBar;
+  final bool withBackButton;
 
   static MaterialPage page() {
     return const MaterialPage(
@@ -17,8 +21,11 @@ class SettingsScreen extends StatefulWidget {
     );
   }
 
-  const SettingsScreen({Key key = const Key('SettingsScreen')})
-      : super(key: key);
+  const SettingsScreen({
+    Key key = const Key('SettingsScreen'),
+    this.withNavigationBar = true,
+    this.withBackButton = true,
+  }) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -27,33 +34,23 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late bool _isAutomaticDarkModeEnabled;
   late bool _preferDarkMode;
+  late Language _preferedLanguage;
+  late List<int> _feedShortcuts;
 
   @override
   void initState() {
     super.initState();
     _isAutomaticDarkModeEnabled = Settings.instance.darkMode == DarkMode.system;
     _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
+    _preferedLanguage = Settings.instance.language;
+    _feedShortcuts = Settings.instance.feedShortcuts;
   }
 
-  void _onSearchFieldChanged(String query) {
-    /*var newItems = widget.manager.search(query);
+  void _onAutomaticThemeChanged(bool newValue) {
     setState(() {
-      items = newItems;
-    });*/
-  }
-
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
-  void _onAutomaticThemeChanged(bool switchState) {
-    setState(() {
-      _isAutomaticDarkModeEnabled = !switchState;
+      _isAutomaticDarkModeEnabled = newValue;
     });
-    if (switchState) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.system;
     } else {
       Settings.instance.darkMode =
@@ -61,251 +58,242 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _onPreferDarkModeChanged(bool preferDarkMode) {
+  void _onPreferDarkModeChanged(bool newValue) {
     setState(() {
-      _preferDarkMode = preferDarkMode;
+      _preferDarkMode = newValue;
     });
-    if (preferDarkMode) {
+    if (newValue) {
       Settings.instance.darkMode = DarkMode.dark;
     } else {
       Settings.instance.darkMode = DarkMode.light;
     }
   }
 
+  void _onLanguageChanged(String preferedLanguage) {
+    var language = Language.values.firstWhere(
+        (element) => element.toCapitalizedString() == preferedLanguage);
+    setState(() {
+      _preferedLanguage = language;
+    });
+    Settings.instance.language = language;
+  }
+
+  void _onFeedShortcutsChanged(List<bool> boolList) {
+    var intList = boolListToInt(boolList);
+    setState(() {
+      _feedShortcuts = intList;
+    });
+    Settings.instance.feedShortcuts = intList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      withNavigationBar: false,
+      withNavigationBar: widget.withNavigationBar,
+      withBackButton: widget.withBackButton,
       appBarTitle: 'SETTINGS_TITLE'.tr(),
-      body: Column(
-        children: [
-          SearchBar(
-            onChanged: _onSearchFieldChanged,
-            validator: _validateTextField,
-            placeholder: 'PLACEHOLDER_SEARCH'.tr(),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                //Megjelenés
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_THEME'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_AUTOMATIC'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                        onChanged: _onAutomaticThemeChanged,
-                        initValue: _isAutomaticDarkModeEnabled,
-                      ),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_DARKMODE'.tr(),
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(
-                                    color: _isAutomaticDarkModeEnabled
-                                        ? Theme.of(context).colorScheme.primary
-                                        : szikGunSmoke,
-                                  ),
-                        ),
-                        onChanged: _onPreferDarkModeChanged,
-                        enabled: _isAutomaticDarkModeEnabled,
-                        initValue: _preferDarkMode,
-                      )
-                    ],
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: kPaddingNormal),
+        child: ListView(
+          children: [
+            //Megjelenés
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
                 ),
-                //Nyelv
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
                   ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_LANGUAGE'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      CustomRadioList(
-                        labels: [
-                          Language.en.toCapitalizedString(),
-                          Language.hu.toCapitalizedString(),
-                        ],
-                        onChanged: (String value) {},
-                      )
-                    ],
-                  ),
-                ),
-                //Hangerő
-                CustomSlider(
-                  titleText: Text(
-                    'SETTINGS_VOLUME'.tr(),
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                  ),
-                  onChanged: (double value) {},
-                ),
-                //Értesítések
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'SETTINGS_NOTIFICATIONS'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ),
-                      CustomSwitch(
-                        titleText: Text(
-                          'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                        onChanged: (bool switchState) {
-                          setState(() {});
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                //Shortcutok
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kPaddingLarge),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: kPaddingSmall,
-                    horizontal: kPaddingLarge,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(kBorderRadiusNormal),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        offset: const Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      ),
-                    ],
-                  ),
-                  child: CustomCheckboxList(
-                    title: Text(
-                      'SETTINGS_SHORTCUTS'.tr(),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_THEME'.tr(),
                       style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.primary),
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                     ),
-                    checkboxLabels: const [
-                      'Alfa',
-                      'Béta',
-                      'Gamma',
-                      'Delta',
-                      'Epszilon',
-                      'Théta',
-                      'Ordó',
-                      'Omega'
-                    ],
-                    maxEnabled: 3,
-                    onChanged: (List<bool> value) {},
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_AUTOMATIC'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                    onChanged: _onAutomaticThemeChanged,
+                    initValue: _isAutomaticDarkModeEnabled,
+                  ),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_DARKMODE'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: _isAutomaticDarkModeEnabled
+                                ? Theme.of(context).colorScheme.primary
+                                : szikGunSmoke,
+                          ),
+                    ),
+                    onChanged: _onPreferDarkModeChanged,
+                    enabled: !_isAutomaticDarkModeEnabled,
+                    initValue: _preferDarkMode,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+            //Nyelv
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_LANGUAGE'.tr(),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomRadioList(
+                    radioLabels: [
+                      Language.en.toCapitalizedString(),
+                      Language.hu.toCapitalizedString(),
+                    ],
+                    initValue: _preferedLanguage.toCapitalizedString(),
+                    onChanged: _onLanguageChanged,
+                  )
+                ],
+              ),
+            ),
+            //Hangerő
+            /*
+            CustomSlider(
+              titleText: Text(
+                'SETTINGS_VOLUME'.tr(),
+                style: Theme.of(context).textTheme.headline3!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              onChanged: _onVolumeChanged,
+            ),*/
+            //Értesítések
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_NOTIFICATIONS'.tr(),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                  ),
+                  CustomSwitch(
+                    titleText: Text(
+                      'SETTINGS_APP_NOTIFICATIONS'.tr(),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                    onChanged: (bool switchState) {
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ),
+            //Shortcutok
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: CustomCheckboxList(
+                title: Text(
+                  'SETTINGS_SHORTCUTS'.tr(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
+                checkboxLabels:
+                    shortcutData.entries.map((e) => e.value.name).toList(),
+                maxEnabled: 3,
+                initValues: intListToBool(_feedShortcuts, shortcutData.length),
+                onChanged: _onFeedShortcutsChanged,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -27,7 +27,6 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   List<CustomNotification> notifications = [];
-  List<int> feedShortcuts = [];
 
   @override
   void initState() {
@@ -46,7 +45,6 @@ class _FeedScreenState extends State<FeedScreen> {
         route: SzikAppLink(),
       ),
     ];
-    feedShortcuts = Settings.instance.feedShortcuts;
   }
 
   void _onClearAllNotificationsPressed() {}
@@ -56,6 +54,9 @@ class _FeedScreenState extends State<FeedScreen> {
     var theme = Theme.of(context);
     var shownName =
         Provider.of<AuthManager>(context, listen: false).user!.showableName;
+    var _feedShortcuts = context.select(
+      (Settings settings) => settings.feedShortcuts,
+    );
     return Container(
       padding: const EdgeInsets.fromLTRB(
         kPaddingLarge,
@@ -114,8 +115,8 @@ class _FeedScreenState extends State<FeedScreen> {
             margin: const EdgeInsets.all(kBorderRadiusNormal),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: feedShortcuts.map<WrappedIconButton>(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: _feedShortcuts.map<WrappedIconButton>(
                 (item) {
                   return WrappedIconButton(
                     assetPath: shortcutData[item]?.assetPath ??

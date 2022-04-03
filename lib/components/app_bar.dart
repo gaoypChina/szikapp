@@ -9,6 +9,7 @@ import 'curve_shape_border.dart';
 PreferredSizeWidget buildCustomAppBar({
   required BuildContext context,
   required String appBarTitle,
+  required bool withBackButton,
   double elevation = 0.0,
 }) {
   void _onLeadingPressed() {
@@ -32,22 +33,25 @@ PreferredSizeWidget buildCustomAppBar({
             fontSize: 14,
           ),
     ),
-    leading: IconButton(
-      onPressed: _onLeadingPressed,
-      icon: Icon(
-        Icons.arrow_back,
-        color: Theme.of(context).colorScheme.onPrimary,
-      ),
-    ),
+    leading: withBackButton
+        ? IconButton(
+            onPressed: _onLeadingPressed,
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          )
+        : Container(),
     actions: [
       IconButton(
         onPressed: _onTrailingPressed,
         icon: CircleAvatar(
           foregroundImage: NetworkImage(
             Provider.of<AuthManager>(context, listen: false)
-                .user!
-                .profilePicture
-                .toString(),
+                    .user
+                    ?.profilePicture
+                    .toString() ??
+                '../assets/default.png',
           ),
         ),
       ),

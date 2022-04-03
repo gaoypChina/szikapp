@@ -91,7 +91,7 @@ class Preferences implements Cachable {
     this.language = Language.hu,
     this.theme = SzikAppTheme.defaultTheme,
     this.notifications = const {},
-    this.feedShortcuts = const [],
+    this.feedShortcuts = const [0, 1, 2],
     this.dataLite = false,
     this.leftMenuOption,
     this.rightMenuOption,

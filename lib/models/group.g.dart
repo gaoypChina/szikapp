@@ -36,6 +36,7 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
     };
 
 const _$PermissionEnumMap = {
+  Permission.admin: 'admin',
   Permission.pollView: 'pollView',
   Permission.pollCreate: 'pollCreate',
   Permission.pollEdit: 'pollEdit',
@@ -62,7 +63,7 @@ const _$PermissionEnumMap = {
   Permission.janitorTaskSolutionAccept: 'janitorTaskSolutionAccept',
   Permission.reservationView: 'reservationView',
   Permission.reservationPlaceCreate: 'reservationPlaceCreate',
-  Permission.reservationZoomCreate: 'reservationZoomCreate',
+  Permission.reservationAccountCreate: 'reservationAccountCreate',
   Permission.reservationBoardgameCreate: 'reservationBoardgameCreate',
   Permission.reservationEdit: 'reservationEdit',
   Permission.contactsView: 'contactsView',
@@ -76,6 +77,7 @@ const _$PermissionEnumMap = {
   Permission.spiritualView: 'spiritualView',
   Permission.formsView: 'formsView',
   Permission.bookLoanView: 'bookLoanView',
+  Permission.calendarView: 'calendarView',
   Permission.profileView: 'profileView',
   Permission.profileEdit: 'profileEdit',
   Permission.userCreate: 'userCreate',
@@ -88,5 +90,4 @@ const _$PermissionEnumMap = {
   Permission.resourceView: 'resourceView',
   Permission.resourceCreate: 'resourceCreate',
   Permission.resourceEdit: 'resourceEdit',
-  Permission.admin: 'admin',
 };

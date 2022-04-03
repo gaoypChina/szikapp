@@ -37,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> pages = [
     const FeedScreen(),
     const MenuScreen(),
-    const SettingsScreen(),
+    const SettingsScreen(
+      withNavigationBar: false,
+      withBackButton: false,
+    ),
   ];
 
   void setNotificationBarTheme() {
