@@ -63,7 +63,7 @@ const _$PermissionEnumMap = {
   Permission.janitorTaskSolutionAccept: 'janitorTaskSolutionAccept',
   Permission.reservationView: 'reservationView',
   Permission.reservationPlaceCreate: 'reservationPlaceCreate',
-  Permission.reservationZoomCreate: 'reservationZoomCreate',
+  Permission.reservationAccountCreate: 'reservationAccountCreate',
   Permission.reservationBoardgameCreate: 'reservationBoardgameCreate',
   Permission.reservationEdit: 'reservationEdit',
   Permission.contactsView: 'contactsView',
