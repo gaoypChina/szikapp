@@ -1,5 +1,7 @@
 ///Az applikációban előforduló jogosultságokat reprezentáló enum típus.
 enum Permission {
+  admin,
+
   pollView,
   pollCreate,
   pollEdit,
@@ -51,6 +53,8 @@ enum Permission {
 
   bookLoanView,
 
+  calendarView,
+
   profileView,
   profileEdit,
   userCreate,
@@ -65,8 +69,6 @@ enum Permission {
   resourceView,
   resourceCreate,
   resourceEdit,
-
-  admin,
 }
 
 extension PermissionToString on Permission {

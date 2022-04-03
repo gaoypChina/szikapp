@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/models.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 import 'navigation.dart';
 
 class SzikAppTab {
@@ -20,10 +20,10 @@ class SzikAppSubMenu {
 class SzikAppFeature {
   static const int none = -1;
   static const int calendar = 0;
-  static const int contacts = 1;
-  static const int documents = 2;
-  static const int janitor = 3;
-  static const int cleaning = 4;
+  static const int cleaning = 1;
+  static const int contacts = 2;
+  static const int documents = 3;
+  static const int janitor = 4;
   static const int poll = 5;
   static const int profile = 6;
   static const int reservation = 7;
@@ -31,10 +31,21 @@ class SzikAppFeature {
   static const int error = 99;
 }
 
+const Map<int, Permission> featurePermissions = {
+  SzikAppFeature.calendar: Permission.calendarView,
+  SzikAppFeature.cleaning: Permission.cleaningView,
+  SzikAppFeature.contacts: Permission.contactsView,
+  SzikAppFeature.documents: Permission.documentsView,
+  SzikAppFeature.janitor: Permission.janitorView,
+  SzikAppFeature.poll: Permission.pollView,
+  SzikAppFeature.profile: Permission.profileView,
+  SzikAppFeature.reservation: Permission.reservationView,
+};
+
 class SzikAppStateManager extends ChangeNotifier {
   bool _firebaseInitialized = false;
   bool _hasError = false;
-  Object? _error;
+  BaseException? _error;
   int _selectedTab = SzikAppTab.feed;
   int _selectedFeature = SzikAppFeature.none;
   int _selectedSubMenu = SzikAppSubMenu.none;
@@ -50,7 +61,7 @@ class SzikAppStateManager extends ChangeNotifier {
 
   bool get isFirebaseInitialized => _firebaseInitialized;
   bool get hasError => _hasError;
-  Object? get error => _error;
+  BaseException? get error => _error;
   int get selectedTab => _selectedTab;
   int get selectedSubMenu => _selectedSubMenu;
   int get selectedFeature => _selectedFeature;
@@ -76,7 +87,7 @@ class SzikAppStateManager extends ChangeNotifier {
     }
   }
 
-  void setError(Object error) {
+  void setError(BaseException error) {
     _hasError = true;
     _error = error;
     notifyListeners();
@@ -119,9 +130,10 @@ class SzikAppStateManager extends ChangeNotifier {
   }
 
   void selectFeature(int feature) {
-    if (feature == SzikAppFeature.settings) {
+    /*if (feature == SzikAppFeature.settings) {
       _selectedTab = SzikAppTab.settings;
-    } else if (feature == SzikAppFeature.profile) {
+    } else*/
+    if (feature == SzikAppFeature.profile) {
       _selectedTab = SzikAppTab.feed;
     } else {
       _selectedTab = SzikAppTab.menu;
