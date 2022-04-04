@@ -44,7 +44,7 @@ class ReservationManager extends ChangeNotifier {
   int get selectedAccountIndex => _selectedAccount;
   int get selectedMode => _selectedMode;
   TimetableTask? get selectedTask =>
-      selectedIndex != -1 ? _reservations[selectedIndex] : null;
+      selectedIndex != -1 ? _reservations[_selectedIndex] : null;
   Boardgame? get selectedGame =>
       selectedIndex != -1 ? _games[_selectedGame] : null;
   Account? get selectedAccount =>
