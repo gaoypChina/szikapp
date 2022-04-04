@@ -190,15 +190,18 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  Stack(
-                    children: [
-                      _buildRaster(),
-                      _buildEvents(),
-                    ],
-                  ),
-                ],
+              child: RefreshIndicator(
+                onRefresh: () => widget.manager.refresh(),
+                child: ListView(
+                  children: [
+                    Stack(
+                      children: [
+                        _buildRaster(),
+                        _buildEvents(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
