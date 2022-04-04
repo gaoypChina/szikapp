@@ -30,7 +30,7 @@ class User {
         _phone = userData.phone,
         _secondaryPhone = userData.secondaryPhone,
         groupIDs = userData.groupIDs,
-        _permissions = [],
+        _permissions = userData.permissions,
         lastUpdate = userData.lastUpdate;
 
   DateTime? get birthday => _birthday;

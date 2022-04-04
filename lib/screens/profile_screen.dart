@@ -45,14 +45,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var groups =
         Provider.of<SzikAppStateManager>(context, listen: false).groups;
     for (var item in ids) {
-      result += groups.firstWhere((element) => element.id == item).name;
+      result += '${groups.firstWhere((element) => element.id == item).name}, ';
     }
-    return result;
+    return result.substring(0, result.length - 2);
   }
 
   void _onNickChanged(String newValue) {
     setState(() {
-      nick = newValue;
+      newValue.isEmpty ? nick = null : nick = newValue;
       changed = true;
     });
   }

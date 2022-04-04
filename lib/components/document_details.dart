@@ -41,7 +41,7 @@ class DocumentDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     document?.title ?? '',
                     style: theme.textTheme.headline5,
                   ),
@@ -55,7 +55,7 @@ class DocumentDetails extends StatelessWidget {
                 thickness: 2,
                 color: theme.colorScheme.secondary,
               ),
-              Text(
+              SelectableText(
                 document?.description ?? '',
                 style: theme.textTheme.bodyText1,
               ),
@@ -69,12 +69,14 @@ class DocumentDetails extends StatelessWidget {
                 ),
                 style: theme.textTheme.caption,
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _onPressed,
-                  child: Text('BUTTON_OPEN'.tr()),
-                ),
-              )
+              document!.category == GoodToKnowCategory.document
+                  ? Center(
+                      child: ElevatedButton(
+                        onPressed: _onPressed,
+                        child: Text('BUTTON_OPEN'.tr()),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),

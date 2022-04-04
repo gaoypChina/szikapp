@@ -125,11 +125,17 @@ class ErrorHandler {
                       child: Padding(
                         padding: const EdgeInsetsDirectional.only(
                             top: kPaddingXLarge),
-                        child: Image.asset(
-                          'assets/pictures/no_network_grey.png',
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          fit: BoxFit.scaleDown,
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            theme.colorScheme.secondaryContainer,
+                            BlendMode.srcATop,
+                          ),
+                          child: Image.asset(
+                            'assets/pictures/no_network_grey.png',
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            fit: BoxFit.scaleDown,
+                          ),
                         ),
                       ),
                     ),
