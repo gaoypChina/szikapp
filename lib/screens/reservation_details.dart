@@ -124,7 +124,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .places[widget.manager.selectedPlaceIndex];
     } else if (_selectedMode == ReservationMode.boardgame) {
       appBarTitle = 'RESERVATION_MODE_BOARDGAME'.tr();
-      resource = Provider.of<ReservationManager>(context, listen: false)
+      resource = widget.manager
           .games[widget.manager.selectedGameIndex];
     } else {
       appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
