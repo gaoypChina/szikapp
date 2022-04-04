@@ -8,6 +8,7 @@ export 'birthday_bar.dart';
 export 'bottom_navigation_bar.dart';
 export 'checkbox.dart';
 export 'date_picker.dart';
+export 'dialog.dart';
 export 'document_details.dart';
 export 'future_builder.dart';
 export 'gdpr_widget.dart';
