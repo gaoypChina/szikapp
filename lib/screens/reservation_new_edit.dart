@@ -99,7 +99,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       selectedResource = widget.manager
           .games[widget.manager.selectedGameIndex];
     } else {
-      selectedResource = Provider.of<ReservationManager>(context, listen: false)
+      selectedResource = widget.manager
           .accounts[widget.manager.selectedAccountIndex];
     }
     resourceIDs.add(selectedResource.id);
