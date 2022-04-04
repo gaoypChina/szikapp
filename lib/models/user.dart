@@ -111,7 +111,8 @@ class User {
 
   bool hasPermissionToRead(Task task) {
     if (task.runtimeType == PollTask) {
-      return task.participantIDs.contains(id);
+      return _permissions.contains(Permission.pollView) &&
+          task.participantIDs.contains(id);
     } else {
       return true;
     }

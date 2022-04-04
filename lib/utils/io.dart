@@ -811,8 +811,8 @@ class IO {
     if (response.statusCode == 200) {
       var answer = <Account>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
-      var timetables = parsed['results'];
-      timetables.forEach((item) {
+      var accounts = parsed['results'];
+      accounts.forEach((item) {
         answer.add(Account.fromJson(item));
       });
       return answer;

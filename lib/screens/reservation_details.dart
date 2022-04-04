@@ -124,12 +124,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .places[widget.manager.selectedPlaceIndex];
     } else if (_selectedMode == ReservationMode.boardgame) {
       appBarTitle = 'RESERVATION_MODE_BOARDGAME'.tr();
-      resource = widget.manager
-          .games[widget.manager.selectedGameIndex];
+      resource = widget.manager.games[widget.manager.selectedGameIndex];
     } else {
       appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
-      resource = widget.manager
-          .accounts[widget.manager.selectedAccountIndex];
+      resource = widget.manager.accounts[widget.manager.selectedAccountIndex];
     }
     return CustomScaffold(
       appBarTitle: appBarTitle,
