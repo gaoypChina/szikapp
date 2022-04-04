@@ -128,7 +128,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .games[widget.manager.selectedGameIndex];
     } else {
       appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
-      resource = Provider.of<ReservationManager>(context, listen: false)
+      resource = widget.manager
           .accounts[widget.manager.selectedAccountIndex];
     }
     return CustomScaffold(
