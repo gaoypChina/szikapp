@@ -98,6 +98,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
       selectedResource = Provider.of<ReservationManager>(context, listen: false)
           .games[widget.manager.selectedGameIndex];
+    } else {
+      selectedResource = Provider.of<ReservationManager>(context, listen: false)
+          .accounts[widget.manager.selectedAccountIndex];
     }
     resourceIDs.add(selectedResource.id);
   }

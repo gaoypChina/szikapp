@@ -44,6 +44,7 @@ class IO {
   final _reservationEndpoint = '/reservation';
   final _janitorEndpoint = '/janitor';
   final _boardgameEndpoint = '/boardgame';
+  final _accountEndpoint = '/account';
   final _goodToKnowEndpoint = '/goodtoknow';
 
   static AuthManager? authManager;
@@ -793,6 +794,57 @@ class IO {
   Future<bool> deleteBoardgame(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<List<Account>> getAccount([KeyValuePairs? parameters]) async {
+    var uri = '$_vmAddress$_accountEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <Account>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var timetables = parsed['results'];
+      timetables.forEach((item) {
+        answer.add(Account.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  Future<bool> postAccount(Account data, [KeyValuePairs? parameters]) async {
+    var uri = '$_vmAddress$_accountEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        body: json.encode({'data': data.toJson()}));
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> putAccount(Account data, KeyValuePairs parameters) async {
+    var uri = '$_vmAddress$_boardgameEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        body: json.encode({'data': data.toJson()}));
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  Future<bool> deleteAccount(
+      KeyValuePairs parameters, DateTime lastUpdate) async {
+    var uri = '$_vmAddress$_accountEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});

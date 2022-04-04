@@ -104,3 +104,40 @@ class Boardgame extends Resource {
   @override
   String toString() => name;
 }
+
+@JsonSerializable(explicitToJson: true)
+class Account extends Resource {
+  final String username;
+  final String credential;
+  final String url;
+  Account({
+    required String id,
+    required String name,
+    String? description,
+    required DateTime lastUpdate,
+    required this.username,
+    required this.credential,
+    required this.url,
+  }) : super(
+          id: id,
+          name: name,
+          description: description,
+          lastUpdate: lastUpdate,
+        );
+
+  @override
+  Json toJson() => _$AccountToJson(this);
+
+  factory Account.fromJson(Json json) => _$AccountFromJson(json);
+
+  String accountAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(Account other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
+}

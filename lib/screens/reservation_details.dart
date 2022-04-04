@@ -58,7 +58,7 @@ class ReservationDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
-      future: Provider.of<ReservationManager>(context, listen: false).refresh(),
+      future: manager.refresh(),
       shimmer: const ListScreenShimmer(),
       child: ReservationDetails(
         manager: manager,
@@ -102,7 +102,9 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .games[widget.manager.selectedGameIndex]
           .id;
     } else {
-      _resourceID = 'ZOOM'; //TODO - Zoom
+      _resourceID = Provider.of<ReservationManager>(context, listen: false)
+          .accounts[widget.manager.selectedAccountIndex]
+          .id;
     }
     _reservations = widget.manager.filter(
       DateTime(_currentDate.year, _currentDate.month, _currentDate.day),
@@ -125,9 +127,9 @@ class _ReservationDetailsState extends State<ReservationDetails> {
       resource = Provider.of<ReservationManager>(context, listen: false)
           .games[widget.manager.selectedGameIndex];
     } else {
-      appBarTitle = 'RESERVATION_MODE_ZOOM'.tr();
-      //TODO - Zoom
-      resource = Resource(id: '0', name: 'ZOOM', lastUpdate: DateTime.now());
+      appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
+      resource = Provider.of<ReservationManager>(context, listen: false)
+          .accounts[widget.manager.selectedAccountIndex];
     }
     return CustomScaffold(
       appBarTitle: appBarTitle,
@@ -229,7 +231,8 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     } else if (_selectedMode == ReservationMode.boardgame) {
       widget.manager.createNewGameReservation(widget.manager.selectedGameIndex);
     } else {
-      //TODO - Zoom fgv
+      widget.manager
+          .createNewAccountReservation(widget.manager.selectedAccountIndex);
     }
   }
 
@@ -249,7 +252,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         widget.manager.selectedGameIndex,
       );
     } else {
-      //TODO - Zoom fgv
+      widget.manager.editAccountReservation(
+        widget.manager.selectedIndex,
+        widget.manager.selectedAccountIndex,
+      );
     }
   }
 

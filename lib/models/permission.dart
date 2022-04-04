@@ -31,7 +31,7 @@ enum Permission {
 
   reservationView,
   reservationPlaceCreate,
-  reservationZoomCreate,
+  reservationAccountCreate,
   reservationBoardgameCreate,
   reservationEdit,
 
