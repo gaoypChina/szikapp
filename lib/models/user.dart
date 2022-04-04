@@ -100,4 +100,25 @@ class User {
     return _permissions.any((element) =>
         element.index == featurePermissions[link.currentFeature]?.index);
   }
+
+  bool hasPermissionToCreate(Type type) {
+    if (type == PollTask) {
+      return _permissions.contains(Permission.pollCreate);
+    } else {
+      return true;
+    }
+  }
+
+  bool hasPermissionToRead(Task task) {
+    if (task.runtimeType == PollTask) {
+      return _permissions.contains(Permission.pollView) &&
+          task.participantIDs.contains(id);
+    } else {
+      return true;
+    }
+  }
+
+  bool hasPermissionToModify(Task task) {
+    return task.managerIDs.contains(id);
+  }
 }

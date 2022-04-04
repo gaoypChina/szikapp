@@ -104,8 +104,6 @@ class Task implements Identifiable, Cachable {
 ///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class TimetableTask extends Task {
-  @JsonKey(name: 'organizer_ids')
-  List<String> organizerIDs;
   @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
 
@@ -119,7 +117,6 @@ class TimetableTask extends Task {
     List<String> participantIDs = const <String>[],
     String? description,
     required DateTime lastUpdate,
-    required this.organizerIDs,
     required this.resourceIDs,
   }) : super(
           id: id,

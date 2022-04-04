@@ -43,9 +43,9 @@ class ReservationScreen extends StatelessWidget {
             ModeMenuItem(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
-                      .selectMode(ReservationMode.zoom),
+                      .selectMode(ReservationMode.account),
               leadingAssetPath: 'assets/icons/chalkboard_teacher_light_72.png',
-              title: 'RESERVATION_MODE_ZOOM'.tr(),
+              title: 'RESERVATION_MODE_ACCOUNT'.tr(),
               color: Theme.of(context).colorScheme.primary,
             ),
             ModeMenuItem(
