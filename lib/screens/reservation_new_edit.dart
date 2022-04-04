@@ -96,7 +96,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
           Provider.of<SzikAppStateManager>(context, listen: false)
               .places[widget.manager.selectedPlaceIndex];
     } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
-      selectedResource = Provider.of<ReservationManager>(context, listen: false)
+      selectedResource = widget.manager
           .games[widget.manager.selectedGameIndex];
     } else {
       selectedResource = Provider.of<ReservationManager>(context, listen: false)
