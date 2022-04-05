@@ -173,13 +173,19 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             ),
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_TITLE'.tr(),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
-                                  style: BorderStyle.solid,
                                 ),
                               ),
                               contentPadding:
@@ -214,10 +220,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             onChanged: _onDateChanged,
                             readonly:
                                 widget.isEdit & start.isBefore(DateTime.now()),
-                            color: MediaQuery.of(context).platformBrightness ==
-                                    Brightness.light
-                                ? szikTarawera
-                                : szikMalibu,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                       ],
@@ -321,13 +324,19 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             ),
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_DESCRIPTION'.tr(),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
-                                  style: BorderStyle.solid,
                                 ),
                               ),
                               contentPadding:

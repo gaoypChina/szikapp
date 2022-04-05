@@ -88,6 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return CustomScaffold(
       withNavigationBar: widget.withNavigationBar,
       withBackButton: widget.withBackButton,
@@ -105,13 +106,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 horizontal: kPaddingLarge,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: theme.colorScheme.surface,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: theme.colorScheme.secondaryContainer,
                     offset: const Offset(0.0, 2.0),
                     blurRadius: 3.0,
                   ),
@@ -123,18 +124,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_THEME'.tr(),
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style: theme.textTheme.headline3!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   CustomSwitch(
                     titleText: Text(
                       'SETTINGS_AUTOMATIC'.tr(),
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style: theme.textTheme.headline6!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                     onChanged: _onAutomaticThemeChanged,
                     initValue: _isAutomaticDarkModeEnabled,
@@ -142,11 +143,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   CustomSwitch(
                     titleText: Text(
                       'SETTINGS_DARKMODE'.tr(),
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: _isAutomaticDarkModeEnabled
-                                ? Theme.of(context).colorScheme.primary
-                                : szikGunSmoke,
-                          ),
+                      style: theme.textTheme.headline6!.copyWith(
+                        color: _isAutomaticDarkModeEnabled
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.secondaryContainer,
+                      ),
                     ),
                     onChanged: _onPreferDarkModeChanged,
                     enabled: !_isAutomaticDarkModeEnabled,
@@ -164,13 +165,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 horizontal: kPaddingLarge,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: theme.colorScheme.surface,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: theme.colorScheme.secondaryContainer,
                     offset: const Offset(0.0, 2.0),
                     blurRadius: 3.0,
                   ),
@@ -182,9 +183,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_LANGUAGE'.tr(),
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style: theme.textTheme.headline3!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -204,8 +205,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             CustomSlider(
               titleText: Text(
                 'SETTINGS_VOLUME'.tr(),
-                style: Theme.of(context).textTheme.headline3!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
+                style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
                     ),
               ),
               onChanged: _onVolumeChanged,
@@ -219,13 +220,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 horizontal: kPaddingLarge,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: theme.colorScheme.surface,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: theme.colorScheme.secondaryContainer,
                     offset: const Offset(0.0, 2.0),
                     blurRadius: 3.0,
                   ),
@@ -237,17 +238,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_NOTIFICATIONS'.tr(),
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style: theme.textTheme.headline3!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ),
                   CustomSwitch(
                     titleText: Text(
                       'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style: theme.textTheme.headline6!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                     onChanged: (bool switchState) {
                       setState(() {});
@@ -265,13 +266,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 horizontal: kPaddingLarge,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: theme.colorScheme.surface,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: theme.colorScheme.secondaryContainer,
                     offset: const Offset(0.0, 2.0),
                     blurRadius: 3.0,
                   ),
@@ -280,10 +281,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: CustomCheckboxList(
                 title: Text(
                   'SETTINGS_SHORTCUTS'.tr(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(color: Theme.of(context).colorScheme.primary),
+                  style: theme.textTheme.headline3!
+                      .copyWith(color: theme.colorScheme.primary),
                 ),
                 checkboxLabels:
                     shortcutData.entries.map((e) => e.value.name).toList(),
