@@ -3,7 +3,7 @@ description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.7+147
+version: 0.0.8+148
 
 environment:
   sdk: ">=2.13.0 <3.0.0"

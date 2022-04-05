@@ -29,16 +29,27 @@ class DatePicker extends StatefulWidget {
   ///Szöveg mérete
   final double fontSize;
 
-  const DatePicker(
-      {Key? key,
-      required this.onChanged,
-      this.readonly = false,
-      this.initialDate,
-      this.startDate,
-      this.endDate,
-      this.color = szikTarawera,
-      this.fontSize = 14})
-      : super(key: key);
+  final BorderRadius borderRadius;
+
+  final EdgeInsets padding;
+
+  const DatePicker({
+    Key? key,
+    required this.onChanged,
+    this.readonly = false,
+    this.initialDate,
+    this.startDate,
+    this.endDate,
+    this.color = szikTarawera,
+    this.fontSize = 14,
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(kBorderRadiusSmall),
+    ),
+    this.padding = const EdgeInsets.symmetric(
+      vertical: kPaddingNormal,
+      horizontal: kPaddingSmall,
+    ),
+  }) : super(key: key);
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -66,26 +77,25 @@ class _DatePickerState extends State<DatePicker> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 1,
-            style: BorderStyle.solid),
-        borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+          color: Theme.of(context).colorScheme.primary,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: widget.borderRadius,
       ),
-      padding: const EdgeInsets.symmetric(
-        vertical: kPaddingNormal,
-        horizontal: kPaddingSmall,
-      ),
+      padding: widget.padding,
       child: GestureDetector(
         onTap: widget.readonly ? null : _selectDate,
         child: Text(
           DateFormat('yyyy. MM. dd.')
               .format(widget.initialDate ?? DateTime.now()),
           style: Theme.of(context).textTheme.button!.copyWith(
-              color: widget.readonly
-                  ? Theme.of(context).colorScheme.secondaryContainer
-                  : widget.color,
-              fontSize: widget.fontSize,
-              fontStyle: FontStyle.italic),
+                color: widget.readonly
+                    ? Theme.of(context).colorScheme.secondaryContainer
+                    : widget.color,
+                fontSize: widget.fontSize,
+                fontStyle: FontStyle.italic,
+              ),
         ),
       ),
     );

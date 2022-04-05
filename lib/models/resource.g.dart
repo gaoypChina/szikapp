@@ -56,3 +56,23 @@ Map<String, dynamic> _$BoardgameToJson(Boardgame instance) => <String, dynamic>{
       'last_update': instance.lastUpdate.toIso8601String(),
       'icon_link': instance.iconLink,
     };
+
+Account _$AccountFromJson(Map<String, dynamic> json) => Account(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      lastUpdate: DateTime.parse(json['last_update'] as String),
+      username: json['username'] as String,
+      credential: json['credential'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'last_update': instance.lastUpdate.toIso8601String(),
+      'username': instance.username,
+      'credential': instance.credential,
+      'url': instance.url,
+    };

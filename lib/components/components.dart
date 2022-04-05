@@ -9,6 +9,7 @@ export 'checkbox.dart';
 export 'date_picker.dart';
 export 'dialog.dart';
 export 'document_details.dart';
+export 'floating_action_button.dart';
 export 'future_builder.dart';
 export 'gdpr_widget.dart';
 export 'menu/menu_item.dart';

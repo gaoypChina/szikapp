@@ -63,9 +63,6 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
           const <String>[],
       description: json['description'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
-      organizerIDs: (json['organizer_ids'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
       resourceIDs: (json['resource_ids'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -82,7 +79,6 @@ Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
       'participant_ids': instance.participantIDs,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'organizer_ids': instance.organizerIDs,
       'resource_ids': instance.resourceIDs,
     };
 

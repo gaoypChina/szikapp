@@ -17,3 +17,15 @@ List<bool> intListToBool(List<int> intList, int length) {
   }
   return boolList;
 }
+
+extension CustomDateTimeExtension on DateTime {
+  DateTime roundDown({Duration delta = const Duration(hours: 1)}) {
+    return DateTime.fromMillisecondsSinceEpoch(
+      millisecondsSinceEpoch - millisecondsSinceEpoch % delta.inMilliseconds,
+    ).toUtc();
+  }
+
+  bool isInInterval(DateTime start, DateTime end) {
+    return ((this).isAfter(start) && (this).isBefore(end));
+  }
+}
