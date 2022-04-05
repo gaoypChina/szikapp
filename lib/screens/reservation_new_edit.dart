@@ -109,12 +109,10 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var theme = Theme.of(context);
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
-    final confirmDialog = CustomAlertDialog(
+    final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
-      onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
-      onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: _onAcceptDelete,
     );
 
     return CustomScaffold(
