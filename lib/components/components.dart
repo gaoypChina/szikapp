@@ -1,7 +1,6 @@
 ///SzikApp - collection of useful components
 library components;
 
-export 'alert_dialog.dart';
 export 'app_bar.dart';
 export 'app_scaffold.dart';
 export 'birthday_bar.dart';

@@ -81,12 +81,10 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
     Place? selectedPlace;
-    final confirmDialog = CustomAlertDialog(
+    final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
-      onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
-      onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: _onAcceptDelete,
     );
     if (widget.manager.selectedMode == ReservationMode.place) {
       selectedPlace = Provider.of<SzikAppStateManager>(context, listen: false)
