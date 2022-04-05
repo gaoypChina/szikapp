@@ -468,10 +468,13 @@ class _ContactsListViewState extends State<ContactsListView>
                                 BlendMode.srcIn,
                               ),
                             ),
-                            Text(
-                              item.name,
-                              style: theme.textTheme.bodyText1?.copyWith(
-                                color: theme.colorScheme.primaryContainer,
+                            Flexible(
+                              child: Text(
+                                item.name,
+                                textAlign: TextAlign.end,
+                                style: theme.textTheme.bodyText1?.copyWith(
+                                  color: theme.colorScheme.primaryContainer,
+                                ),
                               ),
                             ),
                           ],
