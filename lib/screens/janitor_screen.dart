@@ -112,32 +112,69 @@ class _JanitorListViewState extends State<JanitorListView> {
   }
 
   List<Widget> _buildActionButtons(JanitorTask task) {
+    var theme = Theme.of(context);
+    var buttonStyle = theme.outlinedButtonTheme.style!.copyWith(
+      foregroundColor: MaterialStateColor.resolveWith(
+          (states) => theme.colorScheme.primaryContainer),
+      side: MaterialStateBorderSide.resolveWith(
+        (states) => BorderSide(color: theme.colorScheme.primaryContainer),
+      ),
+      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+        (Set<MaterialState> states) => RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+        ),
+      ),
+    );
     var buttons = <Widget>[];
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     if ((task.participantIDs.contains(userID) &&
             (task.status == TaskStatus.sent ||
                 task.status == TaskStatus.inProgress)) ||
         userID == 'u904') {
-      buttons.add(OutlinedButton(
-        onPressed: () => userID == 'u904'
-            ? _onEditJanitorPressed(task)
-            : _onEditPressed(task),
-        child: Text('BUTTON_EDIT'.tr()),
-      ));
+      buttons.add(
+        OutlinedButton(
+          onPressed: () => userID == 'u904'
+              ? _onEditJanitorPressed(task)
+              : _onEditPressed(task),
+          child: Text(
+            'BUTTON_EDIT'.tr(),
+            style: theme.textTheme.bodyText1!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+            ),
+          ),
+          style: buttonStyle,
+        ),
+      );
     }
     if (task.status == TaskStatus.approved ||
         task.status == TaskStatus.awaitingApproval) {
-      buttons.add(OutlinedButton(
-        onPressed: () => _onFeedbackPressed(task),
-        child: Text('BUTTON_FEEDBACK'.tr()),
-      ));
+      buttons.add(
+        OutlinedButton(
+          onPressed: () => _onFeedbackPressed(task),
+          child: Text(
+            'BUTTON_FEEDBACK'.tr(),
+            style: theme.textTheme.bodyText1!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+            ),
+          ),
+          style: buttonStyle,
+        ),
+      );
     }
     if (task.participantIDs.contains(userID) &&
         task.status == TaskStatus.awaitingApproval) {
-      buttons.add(OutlinedButton(
-        onPressed: () => _onApprovePressed(task),
-        child: Text('BUTTON_APPROVE'.tr()),
-      ));
+      buttons.add(
+        OutlinedButton(
+          onPressed: () => _onApprovePressed(task),
+          child: Text(
+            'BUTTON_APPROVE'.tr(),
+            style: theme.textTheme.bodyText1!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+            ),
+          ),
+          style: buttonStyle,
+        ),
+      );
     }
 
     return buttons;
