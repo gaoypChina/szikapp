@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../utils/utils.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
@@ -156,56 +156,48 @@ class PollManager extends ChangeNotifier {
     return true;
   }
 
-  ///Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
-  ///hozza a szavazás eredményeit.
+  /// Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
+  /// hozza a szavazás eredményeit.
+  Map<String, dynamic> getResults({
+    required PollTask poll,
+    required List<Group> groups,
+  }) {
+    var voters = <String>{};
+    var results = <String, dynamic>{
+      'allVoteCount': 0,
+    };
 
-  //Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
-  Map<dynamic, dynamic> getResults(PollTask poll) {
-    /*var io = IO();
-    var param = {'id': poll.id};
-    var resultTaskList = await io.getPoll(param);
-    
-    */
-    var resultTask = _polls.where((element) => element.id == poll.id).first;
-    //var resultTask = resultTaskList.first;
-
-    var results = {};
-    if (resultTask.isLive) {
-      if (resultTask.answers.isNotEmpty) results['isLive'] = true;
-    } else {
-      if (resultTask.answers.isEmpty) {
-        results['isNotStarted'] = true;
-      } else {
-        results['isLive'] = false;
-      }
-    }
-    results['isConfidential'] = resultTask.isConfidential ? true : false;
-    results['isMultipleChoice'] = resultTask.isMultipleChoice ? true : false;
-
-    //TODO
-    results['allVotes'] = 0;
-
-    for (var answerOption in resultTask.answerOptions) {
-      results[answerOption] = 0; //resultTask.isConfidential ? 0 : [];
+    for (var answerOption in poll.answerOptions) {
+      results[answerOption] = <String, dynamic>{
+        'voteCount': 0,
+        if (!poll.isConfidential) 'voterIDs': <String>[],
+      };
     }
 
-    for (var vote in resultTask.answers) {
-      if (resultTask.isMultipleChoice) {
-        for (var option in vote.votes) {
-          results[option] += 1;
-          results['allVotes'] += 1;
-          /* resultTask.isConfidential
-              ? results[option] += 1
-              : results[option].add(vote.voterID);*/
+    for (var vote in poll.answers) {
+      voters.add(vote.voterID);
+      for (var answerOption in vote.votes) {
+        results[answerOption]['voteCount'] += 1;
+        if (!poll.isConfidential) {
+          results[answerOption]['voterIDs'].add(vote.voterID);
         }
-      } else {
-        results[vote.votes.first] += 1;
-        results['allVotes'] += 1;
-        /*resultTask.isConfidential
-            ? results[vote.votes.first] += 1
-            : results[vote.votes.first].add(vote.voterID);*/
+        results['allVoteCount'] += 1;
       }
     }
+
+    Set possibleVoters = <String>{};
+    for (var id in poll.participantIDs) {
+      if (id.startsWith('g')) {
+        possibleVoters
+            .addAll(groups.firstWhere((element) => element.id == id).memberIDs);
+      } else {
+        possibleVoters.add(id);
+      }
+    }
+
+    results['allVoterCount'] = voters.length;
+    results['nonVoterIDs'] = possibleVoters.difference(voters);
+
     return results;
   }
 
@@ -218,7 +210,10 @@ class PollManager extends ChangeNotifier {
 
     //userID-ra mindenképp szűrünk
     for (var poll in polls) {
-      if (poll.participantIDs.contains(userID)) results.add(poll);
+      if (poll.managerIDs.contains(userID) ||
+          poll.participantIDs.contains(userID)) {
+        results.add(poll);
+      }
     }
 
     if (isLive == null) {
@@ -253,8 +248,8 @@ class PollManager extends ChangeNotifier {
   ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
   Future<void> refresh({String? managerID, String? participantID}) async {
     var parameter = <String, String>{};
-    if (managerID != null) parameter['managerid'] = managerID;
-    if (participantID != null) parameter['participantid'] = participantID;
+    if (managerID != null) parameter['manager'] = managerID;
+    if (participantID != null) parameter['participant'] = participantID;
 
     var io = IO();
     _polls = await io.getPoll(parameter);

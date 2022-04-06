@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../models/models.dart';
+import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
 class PollWidget extends StatefulWidget {
@@ -132,42 +133,40 @@ class _PollWidgetState extends State<PollWidget> {
 
   Widget _buildClosedPoll() {
     var theme = Theme.of(context);
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            color: theme.colorScheme.secondaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(kBorderRadiusNormal),
-              child: Text(
-                widget.poll.question,
-                style: theme.textTheme.headline2!
-                    .copyWith(color: theme.colorScheme.surface),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          color: theme.colorScheme.secondaryContainer,
+          child: Padding(
+            padding: const EdgeInsets.all(kBorderRadiusNormal),
+            child: Text(
+              widget.poll.question,
+              style: theme.textTheme.headline2!
+                  .copyWith(color: theme.colorScheme.surface),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kPaddingNormal),
+          child: Column(
+            children: [
+              Text(
+                widget.poll.description ?? '',
+                style: theme.textTheme.subtitle1!.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
-            ),
+              Divider(
+                thickness: 2,
+                color: theme.colorScheme.secondary,
+              ),
+              ..._buildClosedAnswerItems(),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(kPaddingNormal),
-            child: Column(
-              children: [
-                Text(
-                  widget.poll.description ?? '',
-                  style: theme.textTheme.subtitle1!.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                Divider(
-                  thickness: 2,
-                  color: theme.colorScheme.secondary,
-                ),
-                ..._buildClosedAnswerItems(),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -236,20 +235,17 @@ class _PollWidgetState extends State<PollWidget> {
 
   List<Widget> _buildClosedAnswerItems() {
     var theme = Theme.of(context);
-    Map results = <String, int>{};
-    //aszinkron függvény lekéréséhez
-    //
-    /*Provider.of<PollManager>(context, listen: false)
-        .getResults(widget.poll)
-        .then((value) => results = value.cast<String, int>());*/
-
-    results = widget.manager.getResults(widget.poll);
+    var results = widget.manager.getResults(
+      poll: widget.poll,
+      groups: Provider.of<SzikAppStateManager>(context).groups,
+    );
 
     return widget.poll.answerOptions.map<Padding>(
       (item) {
-        var votesPercent = results['allVotes'] == 0
+        var votesPercent = results['allVoteCount'] == 0
             ? 0
-            : (results[item] / results['allVotes'] * 100).round();
+            : (results[item]['voteCount'] / results['allVoteCount'] * 100)
+                .round();
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
           child: Row(
@@ -272,7 +268,7 @@ class _PollWidgetState extends State<PollWidget> {
                   ),
                 ),
                 Text(
-                  'POLL_VOTE'.tr(args: [results[item].toString()]),
+                  'POLL_VOTE'.tr(args: [results[item]['voteCount'].toString()]),
                   style: theme.textTheme.subtitle1!.copyWith(
                     color: theme.colorScheme.primaryContainer,
                     fontStyle: FontStyle.italic,
