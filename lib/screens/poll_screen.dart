@@ -28,7 +28,9 @@ class PollScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
-      future: manager.refresh(),
+      future: manager.refresh(
+        userID: Provider.of<AuthManager>(context).user!.id,
+      ),
       shimmer: const ListScreenShimmer(type: ShimmerListType.square),
       child: PollTileView(manager: manager),
     );
@@ -146,18 +148,8 @@ class _PollTileViewState extends State<PollTileView> {
   }
 
   void _onTabChanged(int? tab) {
-    List<PollTask> newPolls;
-    if (tab == 0) {
-      newPolls = widget.manager.filter(
-          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
-          isLive: true);
-    } else {
-      newPolls = widget.manager.filter(
-          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
-          isLive: false);
-    }
     setState(() {
-      _polls = newPolls;
+      _polls = widget.manager.filter(isLive: tab == 0);
     });
   }
 

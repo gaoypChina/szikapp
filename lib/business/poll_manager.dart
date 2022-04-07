@@ -205,51 +205,32 @@ class PollManager extends ChangeNotifier {
     return poll.answers.any((element) => element.voterID == userID);
   }
 
-  List<PollTask> filter({required String userID, bool? isLive}) {
+  List<PollTask> filter({required bool isLive}) {
     var results = <PollTask>[];
 
-    //userID-ra mindenképp szűrünk
-    for (var poll in polls) {
-      if (poll.managerIDs.contains(userID) ||
-          poll.participantIDs.contains(userID)) {
-        results.add(poll);
-      }
-    }
-
-    if (isLive == null) {
-      return results;
-    } else if (isLive) {
-      //élő szavazásokat szűrjük ki: ha aktívak még
-
-      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
-      for (var i = 0; i < results.length; i++) {
-        if (!results[i].isLive) {
-          results.remove(results[i]);
-          i--;
+    if (isLive) {
+      for (var element in polls) {
+        if (element.isLive && element.end.isAfter(DateTime.now())) {
+          results.add(element);
         }
       }
-      return results;
     } else {
-      //lejárt szavazások: nem aktívak vagy a határidejük lejárt
-      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
-      for (var i = 0; i < results.length; i++) {
-        var hasPastDueDate =
-            results[i].end.difference(DateTime.now()).isNegative;
-        if (!hasPastDueDate && results[i].isLive) {
-          results.remove(results[i]);
-          i--;
+      for (var element in polls) {
+        if (!element.isLive || element.end.isBefore(DateTime.now())) {
+          results.add(element);
         }
       }
-      return results;
     }
+    return results;
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
   ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
-  Future<void> refresh({String? managerID, String? participantID}) async {
-    var parameter = <String, String>{};
-    if (managerID != null) parameter['manager'] = managerID;
-    if (participantID != null) parameter['participant'] = participantID;
+  Future<void> refresh({required String userID}) async {
+    var parameter = <String, String>{
+      'manager': userID,
+      'participant': userID,
+    };
 
     var io = IO();
     _polls = await io.getPoll(parameter);
