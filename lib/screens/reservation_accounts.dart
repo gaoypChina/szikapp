@@ -54,131 +54,175 @@ class ReservationAccountList extends StatelessWidget {
         padding: const EdgeInsets.all(kPaddingLarge),
         child: ListView(
           children: manager.accounts
-              .map<Container>(
-                (item) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                    border: Border.all(color: theme.colorScheme.primary),
-                    color: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: GestureDetector(
-                    onTap: () =>
-                        Provider.of<ReservationManager>(context, listen: false)
-                            .selectAccount(
-                      manager.accounts.indexOf(item),
+              .map<Padding>(
+                (item) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+                      border: Border.all(color: theme.colorScheme.primary),
+                      color: Theme.of(context).colorScheme.surface,
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.all(kPaddingNormal),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(kPaddingLarge),
-                            child: Text(
-                              item.name,
-                              style: theme.textTheme.headline3!.copyWith(
-                                color: theme.colorScheme.secondary,
+                    child: GestureDetector(
+                      onTap: () => Provider.of<ReservationManager>(context,
+                              listen: false)
+                          .selectAccount(
+                        manager.accounts.indexOf(item),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(kPaddingNormal),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(kPaddingLarge),
+                              child: Text(
+                                item.name,
+                                style: theme.textTheme.headline3!.copyWith(
+                                  color: theme.colorScheme.secondary,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(kPaddingLarge),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                kBorderRadiusNormal,
+                            Container(
+                              padding: const EdgeInsets.all(kPaddingLarge),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  kBorderRadiusNormal,
+                                ),
+                                color: theme.colorScheme.primaryContainer
+                                    .withOpacity(0.15),
                               ),
-                              color: theme.colorScheme.primaryContainer
-                                  .withOpacity(0.15),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ColorFiltered(
-                                      child: Icon(
-                                        Icons.account_box,
-                                        size: theme.textTheme.bodyText1!
-                                                .fontSize! *
-                                            1.5,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: kPaddingLarge),
+                                        child: ColorFiltered(
+                                          child: Icon(
+                                            Icons.account_box,
+                                            size: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                          ),
+                                          colorFilter: ColorFilter.mode(
+                                              theme
+                                                  .colorScheme.primaryContainer,
+                                              BlendMode.srcIn),
+                                        ),
                                       ),
-                                      colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.primaryContainer,
-                                          BlendMode.srcIn),
-                                    ),
-                                    Text(
-                                      item.username,
-                                      style:
-                                          theme.textTheme.bodyText1?.copyWith(
-                                        color:
+                                      Flexible(
+                                        child: Text(
+                                          item.username,
+                                          style: theme.textTheme.bodyText1
+                                              ?.copyWith(
+                                            color: theme
+                                                .colorScheme.primaryContainer,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: kPaddingLarge),
+                                        child: ColorFiltered(
+                                          child: Icon(
+                                            Icons.password,
+                                            size: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                          ),
+                                          colorFilter: ColorFilter.mode(
                                             theme.colorScheme.primaryContainer,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: kPaddingSmall),
-                                      child: ColorFiltered(
-                                        child: Icon(
-                                          Icons.password,
-                                          size: theme.textTheme.bodyText1!
-                                                  .fontSize! *
-                                              1.5,
-                                        ),
-                                        colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.primaryContainer,
-                                          BlendMode.srcIn,
+                                            BlendMode.srcIn,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        item.credential,
-                                        style: theme.textTheme.bodyText1
-                                            ?.copyWith(
-                                                color: theme.colorScheme
-                                                    .primaryContainer),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    OutlinedButton(
-                                      onPressed: (() => _launchUrl(item.url)),
-                                      child: Text(
-                                        'RESERVATION_ACCOUNT_BUTTON_URL'.tr(),
-                                        style:
-                                            theme.textTheme.overline!.copyWith(
-                                          color: theme.colorScheme.primary,
+                                      Flexible(
+                                        child: Text(
+                                          item.credential,
+                                          style: theme.textTheme.bodyText1
+                                              ?.copyWith(
+                                                  color: theme.colorScheme
+                                                      .primaryContainer),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  if (item.description != null)
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: kPaddingLarge),
+                                          child: ColorFiltered(
+                                            child: Icon(
+                                              Icons.description,
+                                              size: theme.textTheme.bodyText1!
+                                                      .fontSize! *
+                                                  1.5,
+                                            ),
+                                            colorFilter: ColorFilter.mode(
+                                              theme
+                                                  .colorScheme.primaryContainer,
+                                              BlendMode.srcIn,
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            item.description!,
+                                            style: theme.textTheme.caption
+                                                ?.copyWith(
+                                                    color: theme.colorScheme
+                                                        .primaryContainer),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () => manager.selectAccount(
-                                        manager.accounts.indexOf(item),
-                                      ),
-                                      child: Text(
-                                        'RESERVATION_ACCOUNT_BUTTON_LIST'.tr(),
-                                        style:
-                                            theme.textTheme.overline!.copyWith(
-                                          color: theme.colorScheme.surface,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      OutlinedButton(
+                                        onPressed: (() => _launchUrl(item.url)),
+                                        child: Text(
+                                          'RESERVATION_ACCOUNT_BUTTON_URL'.tr(),
+                                          style: theme.textTheme.overline!
+                                              .copyWith(
+                                            color: theme.colorScheme.primary,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      ElevatedButton(
+                                        onPressed: () => manager.selectAccount(
+                                          manager.accounts.indexOf(item),
+                                        ),
+                                        child: Text(
+                                          'RESERVATION_ACCOUNT_BUTTON_LIST'
+                                              .tr(),
+                                          style: theme.textTheme.overline!
+                                              .copyWith(
+                                            color: theme.colorScheme.surface,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
