@@ -201,7 +201,7 @@ class ReservationManager extends ChangeNotifier {
   ///módosítható.
   Future<void> refresh({DateTime? start, DateTime? end}) async {
     start ??= DateTime.now().subtract(const Duration(days: 1));
-    end ??= DateTime.now().add(const Duration(days: 7));
+    end ??= DateTime.now().add(const Duration(days: 1));
 
     var parameter = {
       'start': start.toIso8601String(),
