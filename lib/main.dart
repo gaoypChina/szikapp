@@ -36,12 +36,13 @@ void main() async {
   });
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('hu')],
       path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
+      supportedLocales: const [Locale('hu'), Locale('en')],
       useFallbackTranslations: true,
-      child: const SZIKApp(),
+      fallbackLocale: const Locale('en'),
+      saveLocale: false,
       useOnlyLangCode: true,
+      child: const SZIKApp(),
     ),
   );
 }
@@ -156,34 +157,36 @@ class SZIKAppState extends State<SZIKApp> {
         ChangeNotifierProvider(create: (context) => _reservationManager),
         ChangeNotifierProvider(create: (context) => _settings),
       ],
-      child: Consumer<Settings>(builder: (context, settings, child) {
-        ThemeMode themeMode;
-        if (settings.darkMode == DarkMode.dark) {
-          themeMode = ThemeMode.dark;
-        } else if (settings.darkMode == DarkMode.light) {
-          themeMode = ThemeMode.light;
-        } else {
-          themeMode = ThemeMode.system;
-        }
-        if (settings.language == Language.en) {
-          context.setLocale(const Locale('hu'));
-        } else {
-          context.setLocale(const Locale('en'));
-        }
-        return MaterialApp.router(
-          title: 'SzikApp',
-          routerDelegate: _appRouter,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          theme: szikLightThemeData,
-          darkTheme: szikDarkThemeData,
-          themeMode: themeMode,
-          debugShowCheckedModeBanner: false,
-          routeInformationParser: appRouteParser,
-          backButtonDispatcher: RootBackButtonDispatcher(),
-        );
-      }),
+      child: Consumer<Settings>(
+        builder: (context, settings, child) {
+          ThemeMode themeMode;
+          if (settings.darkMode == DarkMode.dark) {
+            themeMode = ThemeMode.dark;
+          } else if (settings.darkMode == DarkMode.light) {
+            themeMode = ThemeMode.light;
+          } else {
+            themeMode = ThemeMode.system;
+          }
+          if (settings.language == Language.hu) {
+            context.setLocale(const Locale('hu'));
+          } else {
+            context.setLocale(const Locale('en'));
+          }
+          return MaterialApp.router(
+            title: 'SzikApp',
+            routerDelegate: _appRouter,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: szikLightThemeData,
+            darkTheme: szikDarkThemeData,
+            themeMode: themeMode,
+            debugShowCheckedModeBanner: false,
+            routeInformationParser: appRouteParser,
+            backButtonDispatcher: RootBackButtonDispatcher(),
+          );
+        },
+      ),
     );
   }
 }
