@@ -48,7 +48,7 @@
         "RESERVATION_LABEL_TIME_TO": "End",
         "RESERVATION_LABEL_DESCRIPTION": "Details",
         "RESERVATION_MODE_PLACE": "Room",
-        "RESERVATION_MODE_ACCOUNT": "Zoom",
+        "RESERVATION_MODE_ACCOUNT": "Account",
         "RESERVATION_MODE_BOARDGAME": "Boardgame ",
         "RESERVATION_TITLE_BOARDGAME_LIST": "Our boardgames",
         "RESERVATION_TITLE_ACCOUNT_LIST": "Our accounts",
