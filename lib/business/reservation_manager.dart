@@ -129,6 +129,12 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cancelCreatingOrEditing() {
+    _createNewReservation = false;
+    _editReservation = false;
+    notifyListeners();
+  }
+
   void setSelectedReservationTask(String id) {
     final index = _reservations.indexWhere((element) => element.id == id);
     _selectedIndex = index;

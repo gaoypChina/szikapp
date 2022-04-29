@@ -216,7 +216,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
       janitorManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kReservationNewEditPath) {
-      reservationManager.performBackButtonPressed();
+      reservationManager.cancelCreatingOrEditing();
     }
     if (route.settings.name == SzikAppLink.kReservationGamesListPath ||
         route.settings.name == SzikAppLink.kReservationPlacesMapPath ||
