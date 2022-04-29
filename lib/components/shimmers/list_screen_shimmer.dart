@@ -3,49 +3,21 @@ import 'package:flutter/material.dart';
 
 import '../components.dart';
 
-enum ShimmerListType {
-  card,
-  list,
-  square,
-}
-
 class ListScreenShimmer extends StatelessWidget {
   final ShimmerListType type;
+  final bool withSearchbar;
 
   const ListScreenShimmer({
     Key? key,
     this.type = ShimmerListType.card,
+    this.withSearchbar = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: 'PLACEHOLDER_LOADING'.tr(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SearchBarShimmer(),
-          Expanded(
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: List.generate(
-                10,
-                (index) {
-                  switch (type) {
-                    case ShimmerListType.card:
-                      return const CardShimmer();
-                    case ShimmerListType.list:
-                      return const TileShimmer();
-                    case ShimmerListType.square:
-                      return const SquareShimmer();
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: ListShimmer(type: type, withSearchbar: withSearchbar),
     );
   }
 }

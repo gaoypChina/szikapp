@@ -129,6 +129,12 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cancelCreatingOrEditing() {
+    _createNewReservation = false;
+    _editReservation = false;
+    notifyListeners();
+  }
+
   void setSelectedReservationTask(String id) {
     final index = _reservations.indexWhere((element) => element.id == id);
     _selectedIndex = index;
@@ -201,7 +207,7 @@ class ReservationManager extends ChangeNotifier {
   ///módosítható.
   Future<void> refresh({DateTime? start, DateTime? end}) async {
     start ??= DateTime.now().subtract(const Duration(days: 1));
-    end ??= DateTime.now().add(const Duration(days: 7));
+    end ??= DateTime.now().add(const Duration(days: 1));
 
     var parameter = {
       'start': start.toIso8601String(),
