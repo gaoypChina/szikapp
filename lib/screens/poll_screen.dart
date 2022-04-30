@@ -64,12 +64,9 @@ class _PollTileViewState extends State<PollTileView> {
 
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: _onCreatePoll,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(width: 36, height: 36),
-          child: Image.asset('assets/icons/plus_light_72.png'),
-        ),
+        typeToCreate: PollTask,
       ),
       body: Column(
         children: [

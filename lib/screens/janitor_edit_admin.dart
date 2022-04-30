@@ -94,12 +94,10 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
     var theme = Theme.of(context);
-    final confirmDialog = CustomAlertDialog(
+    final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
-      onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
-      onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: _onAcceptDelete,
     );
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
@@ -357,24 +355,25 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                           child: Row(
                             children: [
                               Container(
-                                  width: leftColumnWidth,
-                                  margin: const EdgeInsets.only(
-                                      right: kPaddingNormal),
-                                  child: IconButton(
-                                    icon: ColorFiltered(
-                                      child: Image.asset(
-                                          'assets/icons/trash_light_72.png'),
-                                      colorFilter: ColorFilter.mode(
-                                          theme.colorScheme.secondaryContainer,
-                                          BlendMode.srcIn),
-                                    ),
-                                    onPressed: () {
-                                      showDialog<void>(
-                                        context: context,
-                                        builder: (context) => confirmDialog,
-                                      );
-                                    },
-                                  )),
+                                width: leftColumnWidth,
+                                margin: const EdgeInsets.only(
+                                    right: kPaddingNormal),
+                                child: IconButton(
+                                  icon: ColorFiltered(
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
+                                    colorFilter: ColorFilter.mode(
+                                        theme.colorScheme.secondaryContainer,
+                                        BlendMode.srcIn),
+                                  ),
+                                  onPressed: () {
+                                    showDialog<void>(
+                                      context: context,
+                                      builder: (context) => confirmDialog,
+                                    );
+                                  },
+                                ),
+                              ),
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: _onEditSent,

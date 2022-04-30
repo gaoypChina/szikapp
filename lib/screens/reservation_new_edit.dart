@@ -9,6 +9,7 @@ import '../main.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
+import '../utils/methods.dart';
 
 class ReservationNewEditScreen extends StatefulWidget {
   static const String route = '/reservation/newedit';
@@ -62,17 +63,45 @@ class ReservationNewEditScreen extends StatefulWidget {
 class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String? description;
-  String? title;
-  List<String> organizerIDs = [];
+  String? name;
   List<String> resourceIDs = [];
   late DateTime start;
   late DateTime end;
+  late Resource selectedResource;
+
+  String timeFieldError = '';
 
   @override
   void initState() {
     super.initState();
-    start = widget.isEdit ? widget.originalItem!.start : DateTime.now();
-    end = widget.isEdit ? widget.originalItem!.end : DateTime.now();
+    name = widget.isEdit ? widget.originalItem!.name : null;
+    description = widget.isEdit ? widget.originalItem!.description : null;
+    start = widget.isEdit
+        ? widget.originalItem!.start
+        : DateTime.now()
+            .toUtc()
+            .roundDown()
+            .toLocal()
+            .add(const Duration(hours: 1));
+    end = widget.isEdit
+        ? widget.originalItem!.end
+        : DateTime.now()
+            .toUtc()
+            .roundDown()
+            .toLocal()
+            .add(const Duration(hours: 2));
+
+    if (widget.manager.selectedMode == ReservationMode.place) {
+      selectedResource =
+          Provider.of<SzikAppStateManager>(context, listen: false)
+              .places[widget.manager.selectedPlaceIndex];
+    } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
+      selectedResource = widget.manager.games[widget.manager.selectedGameIndex];
+    } else {
+      selectedResource =
+          widget.manager.accounts[widget.manager.selectedAccountIndex];
+    }
+    resourceIDs.add(selectedResource.id);
   }
 
   @override
@@ -80,67 +109,36 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
     var theme = Theme.of(context);
     var width = MediaQuery.of(context).size.width;
     var leftColumnWidth = width * 0.3;
-    Place? selectedPlace;
-    final confirmDialog = CustomAlertDialog(
+    final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
-      onAcceptText: 'BUTTON_YES'.tr().toLowerCase(),
-      onAccept: _onAcceptDelete,
-      onCancelText: 'BUTTON_NO'.tr().toLowerCase(),
-      onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: _onAcceptDelete,
     );
-    if (widget.manager.selectedMode == ReservationMode.place) {
-      selectedPlace = Provider.of<SzikAppStateManager>(context, listen: false)
-          .places[widget.manager.selectedPlaceIndex];
-      resourceIDs.add(selectedPlace.id);
-    } else if (widget.manager.selectedMode == ReservationMode.boardgame) {
-      resourceIDs.add(widget.manager.selectedGame!.id);
-    }
+
     return CustomScaffold(
+      appBarTitle: widget.isEdit
+          ? 'RESERVATION_TITLE_EDIT'.tr()
+          : 'RESERVATION_TITLE_CREATE'.tr(),
       resizeToAvoidBottomInset: true,
       body: Container(
         color: theme.colorScheme.background,
         padding: const EdgeInsets.all(kPaddingLarge),
         child: ListView(
           children: [
-            //Title
-            Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              ),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
-              margin: const EdgeInsets.only(bottom: kPaddingLarge),
-              child: Text(
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .places
-                    .firstWhere((element) => element.id == selectedPlace!.id)
-                    .name,
-                style: theme.textTheme.headline2!.copyWith(
-                  color: theme.colorScheme.primaryContainer,
-                  fontSize: 24,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              child: Center(
+                child: Text(
+                  selectedResource.name.toUpperCase(),
+                  style: theme.textTheme.headline1!.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 5,
+                  ),
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: kPaddingLarge),
-              child: Text(
-                'RESERVATION_TITLE_CREATE'.tr(),
-                style: theme.textTheme.headline1!.copyWith(
-                  color: theme.colorScheme.secondary,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Divider(
-              color: theme.colorScheme.secondary,
-              thickness: 2,
-              indent: 25,
-              endIndent: 25,
-              height: 1,
-            ),
+            Divider(thickness: 1, color: theme.colorScheme.secondary),
             Form(
               key: _formKey,
               child: Flex(
@@ -154,9 +152,64 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           width: leftColumnWidth,
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
+                            'RESERVATION_LABEL_TITLE'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            validator: _validateTextField,
+                            initialValue: widget.isEdit
+                                ? widget.originalItem!.name
+                                : null,
+                            style: theme.textTheme.headline3!.copyWith(
+                              fontSize: 14,
+                              color: theme.colorScheme.primaryContainer,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'PLACEHOLDER_TITLE'.tr(),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.all(kPaddingSmall),
+                            ),
+                            onChanged: _onTitleChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
+                          child: Text(
                             'RESERVATION_LABEL_DATE'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
-                                fontSize: 14, color: theme.colorScheme.primary),
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -167,10 +220,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             onChanged: _onDateChanged,
                             readonly:
                                 widget.isEdit & start.isBefore(DateTime.now()),
-                            color: MediaQuery.of(context).platformBrightness ==
-                                    Brightness.light
-                                ? szikTarawera
-                                : szikMalibu,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                       ],
@@ -186,7 +236,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: Text(
                             'RESERVATION_LABEL_TIME_FROM'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
-                                fontSize: 14, color: theme.colorScheme.primary),
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -209,7 +261,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: Text(
                             'RESERVATION_LABEL_TIME_TO'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
-                                fontSize: 14, color: theme.colorScheme.primary),
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -222,6 +276,26 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                       ],
                     ),
                   ),
+                  if (timeFieldError.isNotEmpty)
+                    Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(kPaddingSmall),
+                            child: Text(
+                              timeFieldError,
+                              style: theme.textTheme.bodySmall!.copyWith(
+                                color: theme.errorColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   Container(
                     margin: const EdgeInsets.only(top: kPaddingLarge),
                     child: Row(
@@ -232,13 +306,14 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                           child: Text(
                             'RESERVATION_LABEL_DESCRIPTION'.tr(),
                             style: theme.textTheme.headline3!.copyWith(
-                                fontSize: 14, color: theme.colorScheme.primary),
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
                             textAlign: TextAlign.end,
                           ),
                         ),
                         Expanded(
                           child: TextFormField(
-                            validator: _validateTextField,
                             initialValue: widget.isEdit
                                 ? widget.originalItem!.description
                                 : null,
@@ -249,13 +324,19 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                             ),
                             decoration: InputDecoration(
                               hintText: 'PLACEHOLDER_DESCRIPTION'.tr(),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(kBorderRadiusSmall),
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
-                                  style: BorderStyle.solid,
                                 ),
                               ),
                               contentPadding:
@@ -306,9 +387,6 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: kBottomNavigationBarHeight,
-            )
           ],
         ),
       ),
@@ -320,6 +398,17 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       return 'ERROR_EMPTY_FIELD'.tr();
     }
     return null;
+  }
+
+  bool _timeFieldHasErrors() {
+    timeFieldError = '';
+    if (end.isBefore(start)) {
+      setState(() => timeFieldError = 'ERROR_NEGATIVE_DATE'.tr());
+      return true;
+    } else if (end.difference(start) < const Duration(minutes: 15)) {
+      setState(() => timeFieldError = 'ERROR_DURATION_TOO_SHORT'.tr());
+    }
+    return false;
   }
 
   void _onDateChanged(DateTime? date) {
@@ -335,6 +424,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       start = DateTime(start.year, start.month, start.day, startingTime!.hour,
           startingTime.minute);
     });
+    _timeFieldHasErrors();
   }
 
   void _onFinishingTimeChanged(TimeOfDay? endingTime) {
@@ -342,18 +432,27 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       end = DateTime(
           end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
     });
+    _timeFieldHasErrors();
+  }
+
+  void _onTitleChanged(String? name) {
+    setState(() {
+      this.name = name;
+    });
   }
 
   void _onDescriptionChanged(String? description) {
-    description = description;
+    setState(() {
+      this.description = description;
+    });
   }
 
   void _onNewSent() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
       var uuid = const Uuid();
       var task = TimetableTask(
         id: uuid.v4().toUpperCase(),
-        name: title!,
+        name: name!,
         start: start,
         end: end,
         type: TaskType.timetable,
@@ -362,7 +461,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
         ],
         lastUpdate: DateTime.now(),
         description: description,
-        organizerIDs: <String>[
+        managerIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
         resourceIDs: resourceIDs,
@@ -373,9 +472,9 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   }
 
   void _onEditSent() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
       var task = widget.originalItem;
-      task!.name = title!;
+      task!.name = name!;
       task.description = description;
       task.start = start;
       task.end = end;

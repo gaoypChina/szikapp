@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../models/resource.dart';
 
 import '../models/tasks.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 class ReservationMode {
   static const int none = -1;
   static const int place = 0;
-  static const int zoom = 1;
+  static const int account = 1;
   static const int boardgame = 2;
 }
 
@@ -16,9 +16,11 @@ class ReservationManager extends ChangeNotifier {
   ///Foglalások listája
   List<TimetableTask> _reservations = [];
   List<Boardgame> _games = [];
+  List<Account> _accounts = [];
   int _selectedIndex = -1;
   int _selectedGame = -1;
   int _selectedPlace = -1;
+  int _selectedAccount = -1;
   int _selectedMode = ReservationMode.none;
   bool _createNewReservation = false;
   bool _editReservation = false;
@@ -35,25 +37,31 @@ class ReservationManager extends ChangeNotifier {
 
   List<TimetableTask> get reservations => List.unmodifiable(_reservations);
   List<Boardgame> get games => List.unmodifiable(_games);
+  List<Account> get accounts => List.unmodifiable(_accounts);
   int get selectedIndex => _selectedIndex;
   int get selectedGameIndex => _selectedGame;
   int get selectedPlaceIndex => _selectedPlace;
+  int get selectedAccountIndex => _selectedAccount;
   int get selectedMode => _selectedMode;
   TimetableTask? get selectedTask =>
-      selectedIndex != -1 ? _reservations[selectedIndex] : null;
+      selectedIndex != -1 ? _reservations[_selectedIndex] : null;
   Boardgame? get selectedGame =>
-      selectedIndex != -1 ? _games[selectedGameIndex] : null;
+      selectedIndex != -1 ? _games[_selectedGame] : null;
+  Account? get selectedAccount =>
+      selectedIndex != -1 ? _accounts[_selectedAccount] : null;
   bool get isCreatingNewReservation => _createNewReservation;
   bool get isEditingReservation => _editReservation;
 
   void createNewReservation({
     int gameIndex = -1,
     int placeIndex = -1,
+    int accountIndex = -1,
   }) {
     _createNewReservation = true;
     _editReservation = false;
     _selectedPlace = placeIndex;
     _selectedGame = gameIndex;
+    _selectedAccount = accountIndex;
     notifyListeners();
   }
 
@@ -63,6 +71,10 @@ class ReservationManager extends ChangeNotifier {
 
   void createNewGameReservation(int gameIndex) {
     createNewReservation(gameIndex: gameIndex);
+  }
+
+  void createNewAccountReservation(int accountIndex) {
+    createNewReservation(accountIndex: accountIndex);
   }
 
   void selectGame(int index) {
@@ -75,16 +87,23 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectAccount(int index) {
+    _selectedAccount = index;
+    notifyListeners();
+  }
+
   void editReservation(
     int index, {
     int gameIndex = -1,
     int placeIndex = -1,
+    int accountIndex = -1,
   }) {
     _createNewReservation = false;
     _editReservation = true;
     _selectedIndex = index;
     _selectedPlace = placeIndex;
     _selectedGame = gameIndex;
+    _selectedAccount = accountIndex;
     notifyListeners();
   }
 
@@ -96,6 +115,10 @@ class ReservationManager extends ChangeNotifier {
     editReservation(index, gameIndex: gameIndex);
   }
 
+  void editAccountReservation(int index, int accountIndex) {
+    editReservation(index, accountIndex: accountIndex);
+  }
+
   void selectMode(int mode) {
     _selectedMode = mode;
     notifyListeners();
@@ -103,6 +126,12 @@ class ReservationManager extends ChangeNotifier {
 
   void unselectMode() {
     _selectedMode = ReservationMode.none;
+    notifyListeners();
+  }
+
+  void cancelCreatingOrEditing() {
+    _createNewReservation = false;
+    _editReservation = false;
     notifyListeners();
   }
 
@@ -118,6 +147,7 @@ class ReservationManager extends ChangeNotifier {
     _selectedIndex = -1;
     _selectedPlace = -1;
     _selectedGame = -1;
+    _selectedAccount = -1;
     _createNewReservation = false;
     _editReservation = false;
     notifyListeners();
@@ -177,7 +207,7 @@ class ReservationManager extends ChangeNotifier {
   ///módosítható.
   Future<void> refresh({DateTime? start, DateTime? end}) async {
     start ??= DateTime.now().subtract(const Duration(days: 1));
-    end ??= DateTime.now().add(const Duration(days: 7));
+    end ??= DateTime.now().add(const Duration(days: 1));
 
     var parameter = {
       'start': start.toIso8601String(),
@@ -186,6 +216,7 @@ class ReservationManager extends ChangeNotifier {
 
     var io = IO();
     _reservations = await io.getReservation(parameter);
+    _reservations.sort((a, b) => a.start.compareTo(b.start));
   }
 
   Future<void> refreshGames() async {
@@ -193,31 +224,35 @@ class ReservationManager extends ChangeNotifier {
     _games = await io.getBoardgame();
   }
 
+  Future<void> refreshAccounts() async {
+    var io = IO();
+    _accounts = await io.getAccount();
+  }
+
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a foglaláslistát.
   ///Ha minden paraméter üres, a teljes listát adja vissza.
   List<TimetableTask> filter(
-      DateTime startTime, DateTime endTime, List<String> placeIDs) {
+      DateTime startTime, DateTime endTime, List<String> resourceIDs) {
     var results = <TimetableTask>[];
+    startTime = startTime.toLocal();
+    endTime = endTime.toLocal();
 
-    if (placeIDs.isEmpty) {
+    if (resourceIDs.isEmpty) {
       //csak időpontra szűrünk
-      for (var res in reservations) {
-        if (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-            res.end.isAfter(startTime) && res.end.isBefore(endTime)) {
-          results.add(res);
+      for (var reservation in reservations) {
+        if (reservation.start.isInInterval(startTime, endTime) ||
+            reservation.end.isInInterval(startTime, endTime)) {
+          results.add(reservation);
         }
       }
     } else {
       //szobára és időpontra is szűrünk
-      for (var res in reservations) {
-        for (var i in res.resourceIDs) {
-          //ha van szűrési feltétel az adott foglalás szobájára
-          //és az intervallumba is beleesik:
-          if (i.startsWith('p') &&
-              placeIDs.contains(i) &&
-              (res.start.isAfter(startTime) && res.start.isBefore(endTime) ||
-                  res.end.isAfter(startTime) && res.end.isBefore(endTime))) {
-            results.add(res);
+      for (var reservation in reservations) {
+        for (var resourceID in reservation.resourceIDs) {
+          if (resourceIDs.contains(resourceID) &&
+              (reservation.start.isInInterval(startTime, endTime) ||
+                  reservation.end.isInInterval(startTime, endTime))) {
+            results.add(reservation);
           }
         }
       }
