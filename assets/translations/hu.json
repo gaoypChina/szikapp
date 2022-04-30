@@ -101,6 +101,7 @@
         "POLL_MULTIPLE_CHOICE": "Többszörös választás",
         "POLL_MAX_OPTIONS": "Maximálisan választható",
         "POLL_FEEDBACK":"Visszajelző üzenet",
+        "POLL_LIVE": "Élő szavazás",
         "POLL_CREATE":"Létrehozás",
         "POLL_VOTE": "{} szavazat",
         "POLL_HINT_THANKS":"Köszönjuk szavazatodat!",

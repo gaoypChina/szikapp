@@ -152,6 +152,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (pollManager.isEditingPoll)
             PollAddScreen.page(
+              originalItem: pollManager.selectedPoll,
               onCreate: (item) {},
               onUpdate: (item, index) {
                 pollManager.editPoll(index);

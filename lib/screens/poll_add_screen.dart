@@ -74,22 +74,38 @@ class _PollAddScreenState extends State<PollAddScreen> {
 
   @override
   void initState() {
+    var now = DateTime.now();
     startDateTime = widget.isEdit
         ? widget.originalItem!.start
-        : DateTime.now().add(const Duration(days: 1));
+        : DateTime(
+            now.year,
+            now.month,
+            now.day,
+            now.hour,
+            0,
+          );
     endDateTime = widget.isEdit
         ? widget.originalItem!.end
-        : DateTime.now().add(const Duration(days: 8));
+        : DateTime(
+            now.year,
+            now.month,
+            now.day + 7,
+            23,
+            59,
+          );
+    answerOptions = widget.isEdit ? widget.originalItem!.answerOptions : [''];
     isSecret = widget.isEdit ? widget.originalItem!.isConfidential : true;
-    isLive = DateTime.now().isInInterval(startDateTime, endDateTime);
     isMultipleChoice =
         widget.isEdit ? widget.originalItem!.isMultipleChoice : false;
+    isLive = DateTime.now().isInInterval(startDateTime, endDateTime);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var groups =
+        Provider.of<SzikAppStateManager>(context, listen: false).groups;
     final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
       onStrongButtonClick: _onAcceptDelete,
@@ -133,6 +149,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
                     initialValue:
                         widget.isEdit ? widget.originalItem!.name : '',
                     validator: _validateTextField,
+                    readOnly: widget.isEdit,
                     style: theme.textTheme.subtitle1?.copyWith(
                       color: theme.colorScheme.surface,
                       fontWeight: FontWeight.bold,
@@ -157,6 +174,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
                         initialValue:
                             widget.isEdit ? widget.originalItem!.question : '',
                         validator: _validateTextField,
+                        readOnly: widget.isEdit,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius:
@@ -195,7 +213,6 @@ class _PollAddScreenState extends State<PollAddScreen> {
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
-
                       ...answerOptions.map<Widget>(
                         (String answerOption) {
                           return Padding(
@@ -210,6 +227,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
                                             answerOption, newOption),
                                     readOnly: widget.isEdit,
                                     validator: _validateTextField,
+                                    initialValue: answerOption,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(
@@ -306,10 +324,16 @@ class _PollAddScreenState extends State<PollAddScreen> {
                         ),
                       ),
                       SearchableOptions<Group>(
-                        items: Provider.of<SzikAppStateManager>(context,
-                                listen: false)
-                            .groups,
+                        items: groups,
+                        selectedItem: widget.isEdit
+                            ? groups.firstWhere(
+                                (element) =>
+                                    element.id ==
+                                    widget.originalItem!.participantIDs.first,
+                              )
+                            : null,
                         onItemChanged: _onParticipantGroupIDChanged,
+                        readonly: widget.isEdit,
                         compare: (i, s) => i!.isEqual(s),
                       ),
 
@@ -327,7 +351,8 @@ class _PollAddScreenState extends State<PollAddScreen> {
                               alignment: Alignment.centerRight,
                               child: Switch(
                                 value: isSecret,
-                                onChanged: _onSecretPollChanged,
+                                onChanged:
+                                    widget.isEdit ? null : _onSecretPollChanged,
                                 activeColor: theme.colorScheme.primary,
                               ),
                             ),
@@ -349,7 +374,9 @@ class _PollAddScreenState extends State<PollAddScreen> {
                               alignment: Alignment.centerRight,
                               child: Switch(
                                 value: isMultipleChoice,
-                                onChanged: _onMultipleChoiceChanged,
+                                onChanged: widget.isEdit
+                                    ? null
+                                    : _onMultipleChoiceChanged,
                                 activeColor: theme.colorScheme.primary,
                               ),
                             ),
@@ -414,6 +441,25 @@ class _PollAddScreenState extends State<PollAddScreen> {
                           hintText: 'POLL_HINT_THANKS'.tr(),
                         ),
                       ),
+                      if (widget.isEdit)
+                        Container(
+                          margin: const EdgeInsets.only(top: kPaddingSmall),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'POLL_LIVE'.tr(),
+                                style: theme.textTheme.subtitle1?.copyWith(
+                                    color: theme.colorScheme.primaryContainer),
+                              ),
+                              Switch(
+                                value: isLive,
+                                onChanged: _onLivePollChanged,
+                                activeColor: theme.colorScheme.primary,
+                              ),
+                            ],
+                          ),
+                        ),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -560,6 +606,10 @@ class _PollAddScreenState extends State<PollAddScreen> {
     setState(() => feedbackMessage = message);
   }
 
+  void _onLivePollChanged(bool value) {
+    setState(() => isLive = value);
+  }
+
   String? _validateTextField(String? value) {
     if (value == null || value.isEmpty) {
       return 'ERROR_EMPTY_FIELD'.tr();
@@ -595,7 +645,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
         maxSelectableOptions: numberOfOptions,
       );
 
-      SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
+      SZIKAppState.analytics.logEvent(name: 'create_sent_poll_task');
       widget.onCreate(task);
     }
   }

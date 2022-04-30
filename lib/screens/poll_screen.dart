@@ -22,8 +22,10 @@ class PollScreen extends StatelessWidget {
   }
 
   final PollManager manager;
-  const PollScreen({Key key = const Key('PollScreen'), required this.manager})
-      : super(key: key);
+  const PollScreen({
+    Key key = const Key('PollScreen'),
+    required this.manager,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -57,18 +57,34 @@ class _PollWidgetState extends State<PollWidget> {
 
   Widget _buildOpenPoll() {
     var theme = Theme.of(context);
-    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    var user = Provider.of<AuthManager>(context, listen: false).user;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           color: theme.colorScheme.primary,
+          width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Text(
-              widget.poll.question,
-              style: theme.textTheme.headline2!
-                  .copyWith(color: theme.colorScheme.surface),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.poll.question,
+                  style: theme.textTheme.headline2!
+                      .copyWith(color: theme.colorScheme.surface),
+                ),
+                const SizedBox(width: kPaddingLarge),
+                if (user!.hasPermissionToModify(widget.poll))
+                  GestureDetector(
+                    onTap: () => widget.manager
+                        .editPoll(widget.manager.polls.indexOf(widget.poll)),
+                    child: Image.asset(
+                      'assets/icons/pencil_light_72.png',
+                      height: kIconSizeLarge,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -89,7 +105,7 @@ class _PollWidgetState extends State<PollWidget> {
                   color: theme.colorScheme.secondary,
                 ),
                 Expanded(child: ListView(children: _buildAnswerItems())),
-                widget.manager.hasVoted(userID: userID, poll: widget.poll)
+                widget.manager.hasVoted(userID: user.id, poll: widget.poll)
                     ? const Text('Már szavaztál')
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
@@ -138,6 +154,7 @@ class _PollWidgetState extends State<PollWidget> {
       children: [
         Container(
           color: theme.colorScheme.secondaryContainer,
+          width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(kBorderRadiusNormal),
             child: Text(
