@@ -636,6 +636,9 @@ class IO {
       polls.forEach((item) {
         answer.add(PollTask.fromJson(item));
       });
+      //for (var item in polls) {
+      //  answer.add(PollTask.fromJson(item));
+      //}
       return answer;
     }
     throw _handleErrors(response);
