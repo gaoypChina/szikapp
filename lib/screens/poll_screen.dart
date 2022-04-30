@@ -54,6 +54,7 @@ class _PollTileViewState extends State<PollTileView> {
 
   @override
   void initState() {
+    _polls = widget.manager.polls;
     _onTabChanged(0);
     super.initState();
   }
@@ -137,7 +138,7 @@ class _PollTileViewState extends State<PollTileView> {
                 );
               }).toList(),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -143,7 +143,23 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (pollManager.isCreatingNewPoll)
-            PollAddScreen.page(manager: pollManager),
+            PollAddScreen.page(
+              onCreate: (item) {
+                pollManager.addPoll(item);
+              },
+              onUpdate: (item, index) {},
+              onDelete: (item, index) {},
+            ),
+          if (pollManager.isEditingPoll)
+            PollAddScreen.page(
+              onCreate: (item) {},
+              onUpdate: (item, index) {
+                pollManager.editPoll(index);
+              },
+              onDelete: (item, index) {
+                pollManager.deletePoll(item);
+              },
+            ),
           if (reservationManager.selectedMode == ReservationMode.place)
             ReservationPlacesMapScreen.page(),
           if (reservationManager.selectedMode == ReservationMode.boardgame)

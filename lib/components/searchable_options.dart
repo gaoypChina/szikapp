@@ -28,6 +28,8 @@ class SearchableOptions<T> extends StatelessWidget {
   ///Választott érték nullitásvizsgálatának bekapcsolása
   final bool nullValidated;
 
+  final bool readonly;
+
   const SearchableOptions({
     Key? key,
     this.hint,
@@ -37,6 +39,7 @@ class SearchableOptions<T> extends StatelessWidget {
     required this.compare,
     this.showClearButton = false,
     this.nullValidated = true,
+    this.readonly = false,
   }) : super(key: key);
 
   @override
@@ -57,6 +60,7 @@ class SearchableOptions<T> extends StatelessWidget {
       selectedItem: selectedItem,
       onChanged: onItemChanged,
       showSearchBox: true,
+      enabled: !readonly,
       searchFieldProps: TextFieldProps(
         style: Theme.of(context).textTheme.headline3!.copyWith(
               fontSize: 14,
