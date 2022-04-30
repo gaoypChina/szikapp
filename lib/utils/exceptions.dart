@@ -91,3 +91,8 @@ class NotSupportedEmailFunctionalityException extends FunctionalityException {
   NotSupportedEmailFunctionalityException(message)
       : super(notSupportedEmailFunctionalityExceptionCode, message);
 }
+
+class NotSupportedBrowserFunctionalityException extends FunctionalityException {
+  NotSupportedBrowserFunctionalityException(message)
+      : super(notSupportedEmailFunctionalityExceptionCode, message);
+}

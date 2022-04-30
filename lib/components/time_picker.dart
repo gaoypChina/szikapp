@@ -16,13 +16,13 @@ class TimePicker extends StatefulWidget {
   ///Szöveg mérete
   final double fontSize;
 
-  const TimePicker(
-      {Key? key,
-      required this.time,
-      required this.onChanged,
-      this.color = szikTarawera,
-      this.fontSize = 14})
-      : super(key: key);
+  const TimePicker({
+    Key? key,
+    required this.time,
+    required this.onChanged,
+    this.color = szikTarawera,
+    this.fontSize = 14,
+  }) : super(key: key);
 
   @override
   _TimePickerState createState() => _TimePickerState();
@@ -48,9 +48,10 @@ class _TimePickerState extends State<TimePicker> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 1,
-            style: BorderStyle.solid),
+          color: Theme.of(context).colorScheme.primary,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
         borderRadius: BorderRadius.circular(kBorderRadiusSmall),
       ),
       padding: const EdgeInsets.symmetric(
@@ -62,9 +63,10 @@ class _TimePickerState extends State<TimePicker> {
         child: Text(
           widget.time.format(context),
           style: Theme.of(context).textTheme.button!.copyWith(
-              color: widget.color,
-              fontSize: widget.fontSize,
-              fontStyle: FontStyle.italic),
+                color: widget.color,
+                fontSize: widget.fontSize,
+                fontStyle: FontStyle.italic,
+              ),
         ),
       ),
     );

@@ -13,6 +13,7 @@ import '../screens/janitor_screen.dart';
 import '../screens/poll_add_screen.dart';
 import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/reservation_accounts.dart';
 import '../screens/reservation_details.dart';
 import '../screens/reservation_games.dart';
 import '../screens/reservation_new_edit.dart';
@@ -147,9 +148,11 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationPlacesMapScreen.page(),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
             ReservationGamesListScreen.page(manager: reservationManager),
+          if (reservationManager.selectedMode == ReservationMode.account)
+            ReservationAccountsListScreen.page(manager: reservationManager),
           if (reservationManager.selectedPlaceIndex != -1 ||
               reservationManager.selectedGameIndex != -1 ||
-              reservationManager.selectedMode == ReservationMode.zoom)
+              reservationManager.selectedAccountIndex != -1)
             ReservationDetailsScreen.page(manager: reservationManager),
           if (reservationManager.isCreatingNewReservation)
             ReservationNewEditScreen.page(
@@ -219,12 +222,11 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
       pollManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kReservationNewEditPath) {
-      reservationManager.performBackButtonPressed();
+      reservationManager.cancelCreatingOrEditing();
     }
     if (route.settings.name == SzikAppLink.kReservationGamesListPath ||
         route.settings.name == SzikAppLink.kReservationPlacesMapPath ||
-        (route.settings.name == SzikAppLink.kReservationDetailsPath &&
-            reservationManager.selectedMode == ReservationMode.zoom)) {
+        route.settings.name == SzikAppLink.kReservationAccountsListPath) {
       reservationManager.unselectMode();
     }
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
@@ -234,6 +236,10 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.place) {
       reservationManager.selectPlace(-1);
+    }
+    if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
+        reservationManager.selectedMode == ReservationMode.account) {
+      reservationManager.selectAccount(-1);
     }
     return true;
   }

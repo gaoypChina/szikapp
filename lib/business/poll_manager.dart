@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../utils/utils.dart';
 
 ///Szavazás funkció logikai működését megvalósító singleton háttérosztály.
@@ -165,90 +165,81 @@ class PollManager extends ChangeNotifier {
     return true;
   }
 
-  ///Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
-  ///hozza a szavazás eredményeit.
-  Future<Map<dynamic, dynamic>> getResults(PollTask poll) async {
-    var io = IO();
-    var param = {'id': poll.id};
-    var resultTaskList = await io.getPoll(param);
-    var resultTask = resultTaskList.first;
+  /// Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
+  /// hozza a szavazás eredményeit.
+  Map<String, dynamic> getResults({
+    required PollTask poll,
+    required List<Group> groups,
+  }) {
+    var voters = <String>{};
+    var results = <String, dynamic>{
+      'allVoteCount': 0,
+    };
 
-    var results = {};
-    if (resultTask.isLive) {
-      if (resultTask.answers.isNotEmpty) results['isLive'] = true;
-    } else {
-      if (resultTask.answers.isEmpty) {
-        results['isNotStarted'] = true;
-      } else {
-        results['isLive'] = false;
-      }
-    }
-    results['isConfidential'] = resultTask.isConfidential ? true : false;
-    results['isMultipleChoice'] = resultTask.isMultipleChoice ? true : false;
-
-    if (resultTask.isMultipleChoice) {
-      for (var answerOption in resultTask.answerOptions) {
-        results[answerOption] = resultTask.isConfidential ? 0 : [];
-      }
-    } else {
-      results['yes'] = resultTask.isConfidential ? 0 : [];
-      results['no'] = resultTask.isConfidential ? 0 : [];
-      results['abstain'] = resultTask.isConfidential ? 0 : [];
+    for (var answerOption in poll.answerOptions) {
+      results[answerOption] = <String, dynamic>{
+        'voteCount': 0,
+        if (!poll.isConfidential) 'voterIDs': <String>[],
+      };
     }
 
-    for (var vote in resultTask.answers) {
-      if (resultTask.isMultipleChoice) {
-        for (var option in vote.votes) {
-          resultTask.isConfidential
-              ? results[option] += 1
-              : results[option].add(vote.voterID);
+    for (var vote in poll.answers) {
+      voters.add(vote.voterID);
+      for (var answerOption in vote.votes) {
+        results[answerOption]['voteCount'] += 1;
+        if (!poll.isConfidential) {
+          results[answerOption]['voterIDs'].add(vote.voterID);
         }
-      } else {
-        resultTask.isConfidential
-            ? results[vote.votes.first] += 1
-            : results[vote.votes.first].add(vote.voterID);
+        results['allVoteCount'] += 1;
       }
     }
+
+    Set possibleVoters = <String>{};
+    for (var id in poll.participantIDs) {
+      if (id.startsWith('g')) {
+        possibleVoters
+            .addAll(groups.firstWhere((element) => element.id == id).memberIDs);
+      } else {
+        possibleVoters.add(id);
+      }
+    }
+
+    results['allVoterCount'] = voters.length;
+    results['nonVoterIDs'] = possibleVoters.difference(voters);
 
     return results;
   }
 
-  List<PollTask> filter({required String userID, bool? isLive}) {
+  bool hasVoted({required String userID, required PollTask poll}) {
+    return poll.answers.any((element) => element.voterID == userID);
+  }
+
+  List<PollTask> filter({required bool isLive}) {
     var results = <PollTask>[];
 
-    //userID-ra mindenképp szűrünk
-    for (var poll in polls) {
-      if (poll.participantIDs.contains(userID)) results.add(poll);
-    }
-
-    if (isLive == null) {
-      return results;
-    } else if (isLive) {
-      //élő szavazásokat szűrjük ki: ha aktívak még
-
-      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
-      for (var i = 0; i < results.length; i++) {
-        if (!results[i].isLive) results.remove(results[i]);
+    if (isLive) {
+      for (var element in polls) {
+        if (element.isLive && element.end.isAfter(DateTime.now())) {
+          results.add(element);
+        }
       }
-      return results;
     } else {
-      //lejárt szavazások: nem aktívak vagy a határidejük lejárt
-      //!!!!forEach ciklusból nem lehet a ciklus közben törölni elemeket, ezért kell indexelni!!!
-      for (var i = 0; i < results.length; i++) {
-        var hasPastDueDate =
-            results[i].end.difference(DateTime.now()).isNegative;
-        if (!hasPastDueDate && results[i].isLive) results.remove(results[i]);
+      for (var element in polls) {
+        if (!element.isLive || element.end.isBefore(DateTime.now())) {
+          results.add(element);
+        }
       }
-      return results;
     }
+    return results;
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb szavazáslistát.
   ///A paraméterek megadásával szűkíthető a szinkronizálandó adatok köre.
-  Future<void> refresh({String? managerID, String? participantID}) async {
-    var parameter = <String, String>{};
-    if (managerID != null) parameter['managerid'] = managerID;
-    if (participantID != null) parameter['participantid'] = participantID;
+  Future<void> refresh({required String userID}) async {
+    var parameter = <String, String>{
+      'manager': userID,
+      'participant': userID,
+    };
 
     var io = IO();
     _polls = await io.getPoll(parameter);

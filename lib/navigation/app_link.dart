@@ -15,6 +15,7 @@ class SzikAppLink {
   static const String kProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
   static const String kReservationPlacesMapPath = '/reservation/places';
+  static const String kReservationAccountsListPath = '/reservation/accounts';
   static const String kReservationGamesListPath = '/reservation/games';
   static const String kReservationNewEditPath = '/reservation/newedit';
   static const String kReservationPath = '/reservation';
@@ -167,6 +168,8 @@ class SzikAppLink {
         return Uri.encodeFull(loc);
       case kReservationGamesListPath:
         return kReservationGamesListPath;
+      case kReservationAccountsListPath:
+        return kReservationAccountsListPath;
       case kReservationNewEditPath:
         var loc = '$kReservationNewEditPath?';
         loc += addKeyValPair(

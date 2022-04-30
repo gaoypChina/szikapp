@@ -8,6 +8,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
+import 'poll_widget.dart';
 
 class PollScreen extends StatelessWidget {
   static const String route = '/poll';
@@ -21,17 +22,16 @@ class PollScreen extends StatelessWidget {
   }
 
   final PollManager manager;
-
-  const PollScreen({
-    Key key = const Key('PollScreen'),
-    required this.manager,
-  }) : super(key: key);
+  const PollScreen({Key key = const Key('PollScreen'), required this.manager})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder<void>(
-      future: manager.refresh(),
-      shimmer: const ListScreenShimmer(),
+      future: manager.refresh(
+        userID: Provider.of<AuthManager>(context).user!.id,
+      ),
+      shimmer: const ListScreenShimmer(type: ShimmerListType.square),
       child: PollTileView(manager: manager),
     );
   }
@@ -63,12 +63,9 @@ class _PollTileViewState extends State<PollTileView> {
     var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: _onCreatePoll,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(width: 36, height: 36),
-          child: Image.asset('assets/icons/plus_light_72.png'),
-        ),
+        typeToCreate: PollTask,
       ),
       body: Column(
         children: [
@@ -97,9 +94,10 @@ class _PollTileViewState extends State<PollTileView> {
                 return GestureDetector(
                   onTap: () => showDialog(
                     context: context,
-                    builder: (context) {
-                      return const PollWidget();
-                    },
+                    builder: (context) => PollWidget(
+                      poll: poll,
+                      manager: widget.manager,
+                    ),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -113,13 +111,18 @@ class _PollTileViewState extends State<PollTileView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
+                          Flexible(
+                            fit: FlexFit.tight,
                             child: Text(
                               poll.question,
                               style: theme.textTheme.subtitle1?.copyWith(
                                 color: theme.colorScheme.surface,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
+                          ),
+                          const SizedBox(
+                            height: kPaddingNormal,
                           ),
                           Text(
                             _calculateTime(poll.end),
@@ -141,18 +144,8 @@ class _PollTileViewState extends State<PollTileView> {
   }
 
   void _onTabChanged(int? tab) {
-    List<PollTask> newPolls;
-    if (tab == 0) {
-      newPolls = widget.manager.filter(
-          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
-          isLive: true);
-    } else {
-      newPolls = widget.manager.filter(
-          userID: Provider.of<AuthManager>(context, listen: false).user!.id,
-          isLive: false);
-    }
     setState(() {
-      _polls = newPolls;
+      _polls = widget.manager.filter(isLive: tab == 0);
     });
   }
 
@@ -173,13 +166,5 @@ class _PollTileViewState extends State<PollTileView> {
       answer = 'POLL_MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
     }
     return answer;
-  }
-}
-
-class PollWidget extends StatelessWidget {
-  const PollWidget({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
