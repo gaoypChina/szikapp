@@ -256,12 +256,9 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: widget.isEdit
                               ? IconButton(
-                                  icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
-                                    colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryContainer,
-                                        BlendMode.srcIn),
+                                  icon: CustomIcon(
+                                    CustomIcons.trash,
+                                    color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

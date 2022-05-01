@@ -6,6 +6,7 @@ export 'app_scaffold.dart';
 export 'birthday_bar.dart';
 export 'bottom_navigation_bar.dart';
 export 'checkbox.dart';
+export 'custom_icon.dart';
 export 'date_picker.dart';
 export 'dialog.dart';
 export 'document_details.dart';

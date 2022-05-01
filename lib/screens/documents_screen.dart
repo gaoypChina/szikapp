@@ -156,8 +156,8 @@ class _DocumentsListViewState extends State<DocumentsListView> {
                   children: [
                     Row(
                       children: [
-                        Icon(
-                          Icons.favorite,
+                        CustomIcon(
+                          CustomIcons.heartFull,
                           color: theme.colorScheme.secondary,
                         ),
                         Text(

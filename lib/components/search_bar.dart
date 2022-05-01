@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../ui/themes.dart';
+import 'components.dart';
 
 class SearchBar extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -64,18 +65,12 @@ class _SearchBarState extends State<SearchBar>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: widget.searchBarIconSize,
-                  height: widget.searchBarIconSize,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: kPaddingNormal,
-                  ),
-                  child: ColorFiltered(
-                    child: Image.asset('assets/icons/search_light_72.png'),
-                    colorFilter: ColorFilter.mode(
-                      theme.colorScheme.primary,
-                      BlendMode.srcIn,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(kPaddingNormal),
+                  child: CustomIcon(
+                    CustomIcons.search,
+                    color: theme.colorScheme.primary,
+                    size: widget.searchBarIconSize,
                   ),
                 ),
                 Expanded(
@@ -107,16 +102,12 @@ class _SearchBarState extends State<SearchBar>
                             : _filterToggleController.reverse();
                       },
                     ),
-                    child: Container(
-                      width: widget.searchBarIconSize,
-                      height: widget.searchBarIconSize,
-                      margin: const EdgeInsets.only(right: kPaddingNormal),
-                      child: ColorFiltered(
-                        child: Image.asset('assets/icons/sliders_light_72.png'),
-                        colorFilter: ColorFilter.mode(
-                          theme.colorScheme.primary,
-                          BlendMode.srcIn,
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(kPaddingNormal),
+                      child: CustomIcon(
+                        CustomIcons.filter,
+                        color: theme.colorScheme.primary,
+                        size: widget.searchBarIconSize,
                       ),
                     ),
                   ),

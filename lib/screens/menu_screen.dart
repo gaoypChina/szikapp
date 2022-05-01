@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../business/business.dart';
-import '../components/menu/menu_item.dart';
+import '../components/components.dart';
 import '../navigation/navigation.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class MenuScreen extends StatelessWidget {
         children: [
           MenuItem(
             name: 'SUBMENU_DATA_TITLE'.tr(),
-            picture: 'assets/icons/bookopen_light_72.png',
+            picture: CustomIcons.bookOpen,
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.data),
@@ -38,7 +38,7 @@ class MenuScreen extends StatelessWidget {
           ),
           MenuItem(
             name: 'SUBMENU_COMMUNITY_TITLE'.tr(),
-            picture: 'assets/icons/smiley_light_72.png',
+            picture: CustomIcons.smiley,
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.community),
@@ -46,7 +46,7 @@ class MenuScreen extends StatelessWidget {
           ),
           MenuItem(
             name: 'SUBMENU_EVERYDAY_TITLE'.tr(),
-            picture: 'assets/icons/house_light_72.png',
+            picture: CustomIcons.house,
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectSubMenu(SzikAppSubMenu.everyday),
@@ -60,7 +60,7 @@ class MenuScreen extends StatelessWidget {
                   )
               ? MenuItem(
                   name: 'MENU_CALENDAR'.tr(),
-                  picture: 'assets/icons/calendar_light_72.png',
+                  picture: CustomIcons.calendar,
                   onTap: () =>
                       Provider.of<SzikAppStateManager>(context, listen: false)
                           .selectFeature(SzikAppFeature.calendar),
@@ -69,7 +69,7 @@ class MenuScreen extends StatelessWidget {
               : Container(),
           MenuItem(
             name: 'MENU_SETTINGS'.tr(),
-            picture: 'assets/icons/gear_light_72.png',
+            picture: CustomIcons.settings,
             onTap: () =>
                 Provider.of<SzikAppStateManager>(context, listen: false)
                     .selectFeature(SzikAppFeature.settings),

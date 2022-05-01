@@ -289,12 +289,10 @@ class _JanitorListViewState extends State<JanitorListView> {
                           trailing: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: kPaddingLarge),
-                            child: ColorFiltered(
-                              child: Image.asset(
-                                  'assets/icons/down_light_72.png',
-                                  height: theme.textTheme.headline3!.fontSize),
-                              colorFilter: ColorFilter.mode(
-                                  theme.colorScheme.primary, BlendMode.srcIn),
+                            child: CustomIcon(
+                              CustomIcons.doubleArrowDown,
+                              size: theme.textTheme.headline3!.fontSize ?? 14,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                           children: items.map<ToggleListItem>((item) {

@@ -4,6 +4,7 @@ import '../business/business.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 
+import 'components.dart';
 import 'curve_shape_border.dart';
 
 PreferredSizeWidget buildCustomAppBar({
@@ -36,10 +37,7 @@ PreferredSizeWidget buildCustomAppBar({
     leading: withBackButton
         ? IconButton(
             onPressed: _onLeadingPressed,
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
+            icon: const CustomIcon(CustomIcons.arrowLeft),
           )
         : Container(),
     actions: [

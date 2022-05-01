@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
+import 'components.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedTab;
@@ -37,43 +37,34 @@ class CustomBottomNavigationBar extends StatelessWidget {
       },
       items: [
         BottomNavigationBarItem(
-          icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/feed_light_72.png',
-              width: kIconSizeNormal,
-            ),
-            colorFilter: ColorFilter.mode(
-              _getSelectionColor(
-                  selectedTab, 0, Theme.of(context).colorScheme.onPrimary),
-              BlendMode.srcIn,
+          icon: CustomIcon(
+            CustomIcons.feed,
+            color: _getSelectionColor(
+              selectedTab,
+              0,
+              Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_FEED'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/cedar_light_72.png',
-              width: kIconSizeNormal,
-            ),
-            colorFilter: ColorFilter.mode(
-              _getSelectionColor(
-                  selectedTab, 1, Theme.of(context).colorScheme.onPrimary),
-              BlendMode.srcIn,
+          icon: CustomIcon(
+            CustomIcons.cedar,
+            color: _getSelectionColor(
+              selectedTab,
+              1,
+              Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_HOME'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/gear_light_72.png',
-              width: kIconSizeNormal,
-            ),
-            colorFilter: ColorFilter.mode(
-              _getSelectionColor(
-                  selectedTab, 2, Theme.of(context).colorScheme.onPrimary),
-              BlendMode.srcIn,
+          icon: CustomIcon(
+            CustomIcons.settings,
+            color: _getSelectionColor(
+              selectedTab,
+              2,
+              Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_SETTINGS'.tr(),

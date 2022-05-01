@@ -1,3 +1,4 @@
+import '../components/components.dart';
 import '../navigation/navigation.dart';
 
 class CustomNotification {
@@ -10,6 +11,6 @@ class CustomNotification {
     required this.title,
     this.description,
     required this.route,
-    this.iconPath = 'assets/icons/bell_light_72.png',
+    this.iconPath = CustomIcons.bell,
   });
 }

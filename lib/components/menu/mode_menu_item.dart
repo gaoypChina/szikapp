@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../ui/themes.dart';
+import '../components.dart';
 
 class ModeMenuItem extends StatelessWidget {
   final VoidCallback? onTap;
@@ -28,11 +29,9 @@ class ModeMenuItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.all(kPaddingXLarge),
-              height: kIconSizeLarge,
-              width: kIconSizeLarge,
-              child: Image.asset(
+            Padding(
+              padding: const EdgeInsets.all(kPaddingXLarge),
+              child: CustomIcon(
                 leadingAssetPath,
                 color: color ?? Theme.of(context).colorScheme.secondary,
               ),

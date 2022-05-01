@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
+import '../components.dart';
 
 class SubMenuItemData {
   final String picture;
@@ -39,15 +40,10 @@ class SubMenuItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ColorFiltered(
-              child: Image.asset(
-                data.picture,
-                height: kIconSizeXLarge,
-              ),
-              colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
-                BlendMode.srcIn,
-              ),
+            CustomIcon(
+              data.picture,
+              size: kIconSizeXLarge,
+              color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(height: kPaddingNormal),
             Text(
@@ -57,7 +53,7 @@ class SubMenuItem extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 16,
                   ),
-            )
+            ),
           ],
         ),
       ),

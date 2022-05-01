@@ -37,14 +37,14 @@ class ReservationScreen extends StatelessWidget {
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.place),
-              leadingAssetPath: 'assets/icons/armchair_light_72.png',
+              leadingAssetPath: CustomIcons.armchair,
               title: 'RESERVATION_MODE_PLACE'.tr(),
             ),
             ModeMenuItem(
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.account),
-              leadingAssetPath: 'assets/icons/chalkboard_teacher_light_72.png',
+              leadingAssetPath: CustomIcons.chalkboard,
               title: 'RESERVATION_MODE_ACCOUNT'.tr(),
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -52,7 +52,7 @@ class ReservationScreen extends StatelessWidget {
               onTap: () =>
                   Provider.of<ReservationManager>(context, listen: false)
                       .selectMode(ReservationMode.boardgame),
-              leadingAssetPath: 'assets/icons/dicefive_light_72.png',
+              leadingAssetPath: CustomIcons.dice,
               title: 'RESERVATION_MODE_BOARDGAME'.tr(),
               color: Theme.of(context).colorScheme.primaryContainer,
             ),

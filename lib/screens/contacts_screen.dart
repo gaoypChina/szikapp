@@ -184,12 +184,9 @@ class _ContactsListViewState extends State<ContactsListView>
                           vertical: kPaddingNormal,
                           horizontal: kPaddingLarge,
                         ),
-                        child: ColorFiltered(
-                          child: Image.asset('assets/icons/down_light_72.png',
-                              height: theme.textTheme.headline3!.fontSize),
-                          colorFilter: ColorFilter.mode(
-                              theme.colorScheme.primaryContainer,
-                              BlendMode.srcIn),
+                        child: CustomIcon(
+                          CustomIcons.doubleArrowDown,
+                          color: theme.colorScheme.primaryContainer,
                         ),
                       ),
                       children: _selectedTab == 0
@@ -262,14 +259,10 @@ class _ContactsListViewState extends State<ContactsListView>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ColorFiltered(
-                        child: Image.asset(
-                          'assets/icons/phone_light_72.png',
-                          height: theme.textTheme.bodyText1!.fontSize! * 1.5,
-                        ),
-                        colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primaryContainer,
-                            BlendMode.srcIn),
+                      CustomIcon(
+                        CustomIcons.phone,
+                        size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                        color: theme.colorScheme.primaryContainer,
                       ),
                       Text(
                         item.phone ?? 'PHONE_NOT_FOUND'.tr(),
@@ -304,16 +297,10 @@ class _ContactsListViewState extends State<ContactsListView>
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(right: kPaddingSmall),
-                          child: ColorFiltered(
-                            child: Image.asset(
-                              'assets/icons/at_light_72.png',
-                              height:
-                                  theme.textTheme.bodyText1!.fontSize! * 1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                              theme.colorScheme.primaryContainer,
-                              BlendMode.srcIn,
-                            ),
+                          child: CustomIcon(
+                            CustomIcons.email,
+                            size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                         Flexible(
@@ -331,13 +318,10 @@ class _ContactsListViewState extends State<ContactsListView>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ColorFiltered(
-                      child: Image.asset(
-                        'assets/icons/gift_light_72.png',
-                        height: theme.textTheme.bodyText1!.fontSize! * 1.5,
-                      ),
-                      colorFilter: ColorFilter.mode(
-                          theme.colorScheme.primaryContainer, BlendMode.srcIn),
+                    CustomIcon(
+                      CustomIcons.gift,
+                      size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                      color: theme.colorScheme.primaryContainer,
                     ),
                     Text(
                       item.birthday != null
@@ -425,15 +409,10 @@ class _ContactsListViewState extends State<ContactsListView>
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(right: kPaddingSmall),
-                          child: ColorFiltered(
-                            child: Image.asset(
-                              'assets/icons/at_light_72.png',
-                              height:
-                                  theme.textTheme.bodyText1!.fontSize! * 1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryContainer,
-                                BlendMode.srcIn),
+                          child: CustomIcon(
+                            CustomIcons.email,
+                            size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                         Flexible(
@@ -457,16 +436,10 @@ class _ContactsListViewState extends State<ContactsListView>
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ColorFiltered(
-                              child: Image.asset(
-                                'assets/icons/user_light_72.png',
-                                height:
-                                    theme.textTheme.bodyText1!.fontSize! * 1.5,
-                              ),
-                              colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryContainer,
-                                BlendMode.srcIn,
-                              ),
+                            CustomIcon(
+                              CustomIcons.user,
+                              size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                             Flexible(
                               child: Text(
