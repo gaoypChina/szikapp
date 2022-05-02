@@ -341,7 +341,7 @@ class Vote implements Cachable {
   List<String> votes;
   @override
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Vote({
     required this.voterID,

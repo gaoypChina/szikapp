@@ -22,8 +22,10 @@ class PollScreen extends StatelessWidget {
   }
 
   final PollManager manager;
-  const PollScreen({Key key = const Key('PollScreen'), required this.manager})
-      : super(key: key);
+  const PollScreen({
+    Key key = const Key('PollScreen'),
+    required this.manager,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class _PollTileViewState extends State<PollTileView> {
 
   @override
   void initState() {
+    _polls = widget.manager.polls;
     _onTabChanged(0);
     super.initState();
   }
@@ -61,7 +64,6 @@ class _PollTileViewState extends State<PollTileView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
       floatingActionButton: CustomFloatingActionButton(
@@ -138,7 +140,7 @@ class _PollTileViewState extends State<PollTileView> {
                 );
               }).toList(),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -150,7 +152,9 @@ class _PollTileViewState extends State<PollTileView> {
     });
   }
 
-  void _onCreatePoll() {}
+  void _onCreatePoll() {
+    widget.manager.createNewPoll();
+  }
 
   String _calculateTime(DateTime date) {
     var difference = date.difference(DateTime.now());

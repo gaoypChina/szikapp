@@ -83,6 +83,15 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void performBackButtonPressed() {
+    _selectedIndex = -1;
+    _createNewPoll = false;
+    _editPoll = false;
+    _vote = false;
+    _viewPollResults = false;
+    notifyListeners();
+  }
+
   ///Új szavazás hozzáadása. A függvény feltölti a szerverre az új szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
   Future<bool> addPoll(PollTask poll) async {

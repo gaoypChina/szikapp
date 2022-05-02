@@ -11,6 +11,7 @@ class SzikAppLink {
   static const String kKitchenCleaningPath = '/cleaning';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
+  static const String kPollNewPath = '/poll/createedit';
   static const String kProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
   static const String kReservationPlacesMapPath = '/reservation/places';
@@ -107,6 +108,13 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
+      case kPollNewPath:
+        var loc = '$kPollNewPath?';
+        loc += addKeyValPair(
+          key: kIdParam,
+          value: itemId,
+        );
+        return Uri.encodeFull(loc);
       case kErrorPath:
         var loc = '$kErrorPath?';
         loc += addKeyValPair(
