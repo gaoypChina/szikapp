@@ -65,7 +65,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
   List<String> answerOptions = [''];
   late DateTime startDateTime;
   late DateTime endDateTime;
-  String? participantGroupID;
+  List<String> participantGroupIDs = [];
   bool isSecret = false;
   bool isMultipleChoice = false;
   int numberOfOptions = 1;
@@ -315,7 +315,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
                       ),
 
                       Container(
-                        margin: const EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: kPaddingNormal),
                         child: Text(
                           'POLL_PARTICIPANTS'.tr(),
@@ -323,16 +323,18 @@ class _PollAddScreenState extends State<PollAddScreen> {
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
-                      SearchableOptions<Group>(
+                      SearchableOptions<Group>.multiSelection(
                         items: groups,
-                        selectedItem: widget.isEdit
-                            ? groups.firstWhere(
-                                (element) =>
-                                    element.id ==
-                                    widget.originalItem!.participantIDs.first,
-                              )
-                            : null,
-                        onItemChanged: _onParticipantGroupIDChanged,
+                        selectedItems: widget.isEdit
+                            ? groups
+                                .where(
+                                  (element) => widget
+                                      .originalItem!.participantIDs
+                                      .contains(element.id),
+                                )
+                                .toList()
+                            : [],
+                        onItemsChanged: _onParticipantGroupIDsChanged,
                         readonly: widget.isEdit,
                         compare: (i, s) => i!.isEqual(s),
                       ),
@@ -585,8 +587,15 @@ class _PollAddScreenState extends State<PollAddScreen> {
     });
   }
 
-  void _onParticipantGroupIDChanged(Group? value) {
-    setState(() => participantGroupID = value!.id);
+  void _onParticipantGroupIDsChanged(List<Group>? groups) {
+    groups = groups ?? [];
+    for (var group in groups) {
+      if (participantGroupIDs.contains(group.id)) {
+        setState(() => participantGroupIDs.remove(group.id));
+      } else {
+        setState(() => participantGroupIDs.add(group.id));
+      }
+    }
   }
 
   void _onSecretPollChanged(bool value) {
@@ -630,9 +639,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
           Provider.of<AuthManager>(context, listen: false).user!.id,
           'g001',
         ],
-        participantIDs: <String>[
-          participantGroupID!,
-        ],
+        participantIDs: participantGroupIDs,
         description: description,
         lastUpdate: DateTime.now(),
         question: question,
