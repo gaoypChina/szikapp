@@ -106,7 +106,7 @@ class _PollWidgetState extends State<PollWidget> {
                 ),
                 Expanded(child: ListView(children: _buildAnswerItems())),
                 widget.manager.hasVoted(userID: user.id, poll: widget.poll)
-                    ? const Text('Már szavaztál')
+                    ? Text('POLL_ALREADY_VOTED'.tr())
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(

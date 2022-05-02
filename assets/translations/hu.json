@@ -104,6 +104,7 @@
         "POLL_LIVE": "Élő szavazás",
         "POLL_CREATE":"Létrehozás",
         "POLL_VOTE": "{} szavazat",
+        "POLL_ALREADY_VOTED": "Már szavaztál.",
         "POLL_HINT_THANKS":"Köszönjuk szavazatodat!",
     "FEED": null,
         "FEED_GREETINGS": "Szia {}",

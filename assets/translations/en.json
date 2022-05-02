@@ -103,6 +103,7 @@
         "POLL_FEEDBACK":"Feedback message",
         "POLL_LIVE": "Live poll",
         "POLL_CREATE":"Create",
+        "POLL_ALREADY_VOTED": "You've already voted.",
         "POLL_VOTE": "{} votes",
         "POLL_HINT_THANKS":"Thank you for voting!",
     "FEED": null,

@@ -14,7 +14,7 @@ import '../ui/themes.dart';
 import '../utils/utils.dart';
 
 class PollAddScreen extends StatefulWidget {
-  static const String route = '/poll/new';
+  static const String route = '/poll/createedit';
 
   static MaterialPage page({
     PollTask? originalItem,
@@ -97,7 +97,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
     isSecret = widget.isEdit ? widget.originalItem!.isConfidential : true;
     isMultipleChoice =
         widget.isEdit ? widget.originalItem!.isMultipleChoice : false;
-    isLive = DateTime.now().isInInterval(startDateTime, endDateTime);
+    isLive = widget.isEdit ? widget.originalItem!.isLive : true;
     super.initState();
   }
 
@@ -136,7 +136,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
           key: _formKey,
           child: Column(
             children: [
-              //fejlélc
+              //fejléc
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -182,7 +182,7 @@ class _PollAddScreenState extends State<PollAddScreen> {
                           ),
                           hintText: 'POLL_HINT_QUESTION'.tr(),
                         ),
-                        maxLines: 2,
+                        maxLines: 5,
                         minLines: 1,
                       ),
                       const SizedBox(height: 10),
@@ -664,7 +664,6 @@ class _PollAddScreenState extends State<PollAddScreen> {
       task.start = startDateTime;
       task.end = endDateTime;
       task.description = description;
-      task.lastUpdate = DateTime.now();
       task.feedbackOnAnswer = feedbackMessage;
       task.isLive = isLive;
 

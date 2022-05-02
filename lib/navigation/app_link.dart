@@ -11,7 +11,7 @@ class SzikAppLink {
   static const String kKitchenCleaningPath = '/cleaning';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
-  static const String kPollNewPath = '/poll/new';
+  static const String kPollNewPath = '/poll/createedit';
   static const String kProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
   static const String kReservationPlacesMapPath = '/reservation/places';
