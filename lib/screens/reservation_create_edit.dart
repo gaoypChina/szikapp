@@ -11,8 +11,8 @@ import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 import '../utils/methods.dart';
 
-class ReservationNewEditScreen extends StatefulWidget {
-  static const String route = '/reservation/newedit';
+class ReservationCreateEditScreen extends StatefulWidget {
+  static const String route = '/reservation/createedit';
 
   static MaterialPage page({
     TimetableTask? originalItem,
@@ -25,7 +25,7 @@ class ReservationNewEditScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: ReservationNewEditScreen(
+      child: ReservationCreateEditScreen(
         originalItem: originalItem,
         index: index,
         manager: manager,
@@ -44,7 +44,7 @@ class ReservationNewEditScreen extends StatefulWidget {
   final Function(TimetableTask, int) onDelete;
   final Function(TimetableTask, int) onUpdate;
 
-  const ReservationNewEditScreen({
+  const ReservationCreateEditScreen({
     Key? key,
     this.originalItem,
     this.index = -1,
@@ -56,11 +56,12 @@ class ReservationNewEditScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _ReservationNewEditScreenState createState() =>
-      _ReservationNewEditScreenState();
+  _ReservationCreateEditScreenState createState() =>
+      _ReservationCreateEditScreenState();
 }
 
-class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
+class _ReservationCreateEditScreenState
+    extends State<ReservationCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String? description;
   String? name;
