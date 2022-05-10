@@ -74,6 +74,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         (element) => element.toCapitalizedString() == preferedLanguage);
     setState(() {
       _preferedLanguage = language;
+      if (language == Language.hu) {
+        context.setLocale(const Locale('hu'));
+      } else {
+        context.setLocale(const Locale('en'));
+      }
     });
     Settings.instance.language = language;
   }

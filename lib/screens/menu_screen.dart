@@ -13,6 +13,9 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Az alábbi sor az easy_localization package hibája
+    // https://github.com/aissat/easy_localization/issues/370#issuecomment-920807924
+    context.locale;
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     var fifth =
         (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
