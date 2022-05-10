@@ -22,6 +22,7 @@ export 'search_bar.dart';
 export 'searchable_options.dart';
 export 'shimmers/card_shimmer.dart';
 export 'shimmers/list_screen_shimmer.dart';
+export 'shimmers/list_shimmer.dart';
 export 'shimmers/search_bar_shimmer.dart';
 export 'shimmers/square_shimmer.dart';
 export 'shimmers/tile_shimmer.dart';

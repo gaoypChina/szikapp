@@ -401,9 +401,12 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
   }
 
   bool _timeFieldHasErrors() {
+    timeFieldError = '';
     if (end.isBefore(start)) {
       setState(() => timeFieldError = 'ERROR_NEGATIVE_DATE'.tr());
       return true;
+    } else if (end.difference(start) < const Duration(minutes: 15)) {
+      setState(() => timeFieldError = 'ERROR_DURATION_TOO_SHORT'.tr());
     }
     return false;
   }
@@ -421,6 +424,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       start = DateTime(start.year, start.month, start.day, startingTime!.hour,
           startingTime.minute);
     });
+    _timeFieldHasErrors();
   }
 
   void _onFinishingTimeChanged(TimeOfDay? endingTime) {
@@ -428,6 +432,7 @@ class _ReservationNewEditScreenState extends State<ReservationNewEditScreen> {
       end = DateTime(
           end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
     });
+    _timeFieldHasErrors();
   }
 
   void _onTitleChanged(String? name) {

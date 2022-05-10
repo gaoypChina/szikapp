@@ -84,10 +84,14 @@ class ReservationDetails extends StatefulWidget {
 }
 
 class _ReservationDetailsState extends State<ReservationDetails> {
-  List<TimetableTask> _reservations = [];
   var _selectedMode = ReservationMode.none;
   var _resourceID = '';
   var _currentDate = DateTime.now().toLocal();
+
+  DateTime get _currentDateStart =>
+      DateTime(_currentDate.year, _currentDate.month, _currentDate.day);
+  DateTime get _currentDateEnd =>
+      DateTime(_currentDate.year, _currentDate.month, _currentDate.day, 23, 59);
 
   @override
   void initState() {
@@ -106,11 +110,6 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .accounts[widget.manager.selectedAccountIndex]
           .id;
     }
-    _reservations = widget.manager.filter(
-      DateTime(_currentDate.year, _currentDate.month, _currentDate.day),
-      DateTime(_currentDate.year, _currentDate.month, _currentDate.day, 23, 59),
-      [_resourceID],
-    );
   }
 
   @override
@@ -188,18 +187,25 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               ),
             ),
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: () => widget.manager.refresh(),
-                child: ListView(
-                  children: [
-                    Stack(
+              child: FutureBuilder(
+                future: widget.manager
+                    .refresh(start: _currentDateStart, end: _currentDateEnd),
+                builder: (context, snapshot) {
+                  return RefreshIndicator(
+                    onRefresh: () => widget.manager.refresh(
+                        start: _currentDateStart, end: _currentDateEnd),
+                    child: ListView(
                       children: [
-                        _buildRaster(),
-                        _buildEvents(),
+                        Stack(
+                          children: [
+                            _buildRaster(),
+                            _buildEvents(),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],
@@ -215,12 +221,6 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   void _onDateChanged(DateTime? date) {
     setState(() {
       _currentDate = date ?? DateTime.now().toLocal();
-      _reservations = widget.manager.filter(
-        DateTime(_currentDate.year, _currentDate.month, _currentDate.day),
-        DateTime(
-            _currentDate.year, _currentDate.month, _currentDate.day, 23, 59),
-        [_resourceID],
-      );
     });
   }
 
@@ -264,7 +264,8 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     var theme = Theme.of(context);
     return Positioned.fill(
       child: Stack(
-        children: _reservations
+        children: widget.manager
+            .filter(_currentDateStart, _currentDateEnd, [_resourceID])
             .map(
               (e) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,

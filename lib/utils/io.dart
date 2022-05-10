@@ -633,9 +633,7 @@ class IO {
       var answer = <PollTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var polls = parsed['results'];
-      polls.forEach((item) {
-        answer.add(PollTask.fromJson(item));
-      });
+      polls.forEach((item) => answer.add(PollTask.fromJson(item)));
       return answer;
     }
     throw _handleErrors(response);
