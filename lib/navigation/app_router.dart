@@ -226,6 +226,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kDocumentsPath ||
         route.settings.name == SzikAppLink.kErrorPath ||
         route.settings.name == SzikAppLink.kJanitorPath ||
+        route.settings.name == SzikAppLink.kPollPath ||
         route.settings.name == SzikAppLink.kProfilePath ||
         route.settings.name == SzikAppLink.kReservationPath ||
         route.settings.name == SzikAppLink.kSettingsPath) {
