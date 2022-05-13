@@ -101,16 +101,16 @@ class ReservationAccountList extends StatelessWidget {
                                         padding: const EdgeInsets.only(
                                             right: kPaddingLarge),
                                         child: ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                              theme
+                                                  .colorScheme.primaryContainer,
+                                              BlendMode.srcIn),
                                           child: Icon(
                                             Icons.account_box,
                                             size: theme.textTheme.bodyText1!
                                                     .fontSize! *
                                                 1.5,
                                           ),
-                                          colorFilter: ColorFilter.mode(
-                                              theme
-                                                  .colorScheme.primaryContainer,
-                                              BlendMode.srcIn),
                                         ),
                                       ),
                                       Flexible(
@@ -133,15 +133,15 @@ class ReservationAccountList extends StatelessWidget {
                                         padding: const EdgeInsets.only(
                                             right: kPaddingLarge),
                                         child: ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            theme.colorScheme.primaryContainer,
+                                            BlendMode.srcIn,
+                                          ),
                                           child: Icon(
                                             Icons.password,
                                             size: theme.textTheme.bodyText1!
                                                     .fontSize! *
                                                 1.5,
-                                          ),
-                                          colorFilter: ColorFilter.mode(
-                                            theme.colorScheme.primaryContainer,
-                                            BlendMode.srcIn,
                                           ),
                                         ),
                                       ),
@@ -165,16 +165,16 @@ class ReservationAccountList extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                                               right: kPaddingLarge),
                                           child: ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                              theme
+                                                  .colorScheme.primaryContainer,
+                                              BlendMode.srcIn,
+                                            ),
                                             child: Icon(
                                               Icons.description,
                                               size: theme.textTheme.bodyText1!
                                                       .fontSize! *
                                                   1.5,
-                                            ),
-                                            colorFilter: ColorFilter.mode(
-                                              theme
-                                                  .colorScheme.primaryContainer,
-                                              BlendMode.srcIn,
                                             ),
                                           ),
                                         ),

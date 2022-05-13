@@ -11,13 +11,10 @@ enum DarkMode {
   @JsonValue('dark')
   dark,
   @JsonValue('light')
-  light,
-}
+  light;
 
-extension DarkModeExtensions on DarkMode {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 
   bool isEqual(DarkMode? other) {
     if (other == null) return false;
@@ -30,17 +27,12 @@ enum Language {
   @JsonValue('hu')
   hu,
   @JsonValue('en')
-  en,
-}
+  en;
 
-extension LanguageExtensions on Language {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 
-  String toCapitalizedString() {
-    return toString().split('.').last.toUpperCase();
-  }
+  String toCapitalizedString() => name.toUpperCase();
 
   bool isEqual(Language? other) {
     if (other == null) return false;
@@ -51,13 +43,10 @@ extension LanguageExtensions on Language {
 ///Témabeállításokat tartalmazó típus.
 enum SzikAppTheme {
   @JsonValue('default')
-  defaultTheme,
-}
+  defaultTheme;
 
-extension ThemeExtensions on SzikAppTheme {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 
   bool isEqual(SzikAppTheme? other) {
     if (other == null) return false;

@@ -31,12 +31,12 @@ class ContactsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ContactsScreenState createState() => _ContactsScreenState();
+  ContactsScreenState createState() => ContactsScreenState();
 }
 
 ///A [ContactsScreen] képernyő állapota. Tartalmazza a [Contacts] signleton
 ///egy példányát.
-class _ContactsScreenState extends State<ContactsScreen> {
+class ContactsScreenState extends State<ContactsScreen> {
   late ContactsManager manager;
 
   ///Létrehozza a [Contacts] singleton egy példányát és betölti a
@@ -66,12 +66,12 @@ class ContactsListView extends StatefulWidget {
   const ContactsListView({Key? key, required this.manager}) : super(key: key);
 
   @override
-  _ContactsListViewState createState() => _ContactsListViewState();
+  ContactsListViewState createState() => ContactsListViewState();
 }
 
 ///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
 ///[Contacts] singletont.
-class _ContactsListViewState extends State<ContactsListView>
+class ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
   ///Megjelenített kontaktok
   List<UserData> _items = [];
@@ -185,11 +185,11 @@ class _ContactsListViewState extends State<ContactsListView>
                           horizontal: kPaddingLarge,
                         ),
                         child: ColorFiltered(
-                          child: Image.asset('assets/icons/down_light_72.png',
-                              height: theme.textTheme.headline3!.fontSize),
                           colorFilter: ColorFilter.mode(
                               theme.colorScheme.primaryContainer,
                               BlendMode.srcIn),
+                          child: Image.asset('assets/icons/down_light_72.png',
+                              height: theme.textTheme.headline3!.fontSize),
                         ),
                       ),
                       children: _selectedTab == 0
@@ -263,13 +263,13 @@ class _ContactsListViewState extends State<ContactsListView>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            theme.colorScheme.primaryContainer,
+                            BlendMode.srcIn),
                         child: Image.asset(
                           'assets/icons/phone_light_72.png',
                           height: theme.textTheme.bodyText1!.fontSize! * 1.5,
                         ),
-                        colorFilter: ColorFilter.mode(
-                            theme.colorScheme.primaryContainer,
-                            BlendMode.srcIn),
                       ),
                       Text(
                         item.phone ?? 'PHONE_NOT_FOUND'.tr(),
@@ -305,14 +305,14 @@ class _ContactsListViewState extends State<ContactsListView>
                         Padding(
                           padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.primaryContainer,
+                              BlendMode.srcIn,
+                            ),
                             child: Image.asset(
                               'assets/icons/at_light_72.png',
                               height:
                                   theme.textTheme.bodyText1!.fontSize! * 1.5,
-                            ),
-                            colorFilter: ColorFilter.mode(
-                              theme.colorScheme.primaryContainer,
-                              BlendMode.srcIn,
                             ),
                           ),
                         ),
@@ -332,12 +332,12 @@ class _ContactsListViewState extends State<ContactsListView>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                          theme.colorScheme.primaryContainer, BlendMode.srcIn),
                       child: Image.asset(
                         'assets/icons/gift_light_72.png',
                         height: theme.textTheme.bodyText1!.fontSize! * 1.5,
                       ),
-                      colorFilter: ColorFilter.mode(
-                          theme.colorScheme.primaryContainer, BlendMode.srcIn),
                     ),
                     Text(
                       item.birthday != null
@@ -426,14 +426,14 @@ class _ContactsListViewState extends State<ContactsListView>
                         Padding(
                           padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primaryContainer,
+                                BlendMode.srcIn),
                             child: Image.asset(
                               'assets/icons/at_light_72.png',
                               height:
                                   theme.textTheme.bodyText1!.fontSize! * 1.5,
                             ),
-                            colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryContainer,
-                                BlendMode.srcIn),
                           ),
                         ),
                         Flexible(
@@ -458,14 +458,14 @@ class _ContactsListViewState extends State<ContactsListView>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primaryContainer,
+                                BlendMode.srcIn,
+                              ),
                               child: Image.asset(
                                 'assets/icons/user_light_72.png',
                                 height:
                                     theme.textTheme.bodyText1!.fontSize! * 1.5,
-                              ),
-                              colorFilter: ColorFilter.mode(
-                                theme.colorScheme.primaryContainer,
-                                BlendMode.srcIn,
                               ),
                             ),
                             Flexible(

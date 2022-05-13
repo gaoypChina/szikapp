@@ -43,10 +43,10 @@ class DocumentsListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DocumentsListViewState createState() => _DocumentsListViewState();
+  DocumentsListViewState createState() => DocumentsListViewState();
 }
 
-class _DocumentsListViewState extends State<DocumentsListView> {
+class DocumentsListViewState extends State<DocumentsListView> {
   List<GoodToKnow> items = [];
   int index = 0;
 

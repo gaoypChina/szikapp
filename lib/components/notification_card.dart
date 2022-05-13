@@ -29,9 +29,9 @@ class NotificationCard extends StatelessWidget {
               height: kIconSizeNormal,
               margin: const EdgeInsets.only(right: kPaddingSmall),
               child: ColorFiltered(
-                child: Image.asset(data.iconPath),
                 colorFilter: ColorFilter.mode(
                     theme.colorScheme.secondary, BlendMode.srcIn),
+                child: Image.asset(data.iconPath),
               ),
             ),
             title: Text(

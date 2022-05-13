@@ -40,13 +40,13 @@ class SubMenuItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ColorFiltered(
-              child: Image.asset(
-                data.picture,
-                height: kIconSizeXLarge,
-              ),
               colorFilter: ColorFilter.mode(
                 Theme.of(context).colorScheme.primary,
                 BlendMode.srcIn,
+              ),
+              child: Image.asset(
+                data.picture,
+                height: kIconSizeXLarge,
               ),
             ),
             const SizedBox(height: kPaddingNormal),

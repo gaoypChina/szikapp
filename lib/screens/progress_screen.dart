@@ -6,10 +6,10 @@ class ProgressScreen extends StatefulWidget {
   const ProgressScreen({Key? key}) : super(key: key);
 
   @override
-  _ProgressScreenState createState() => _ProgressScreenState();
+  ProgressScreenState createState() => ProgressScreenState();
 }
 
-class _ProgressScreenState extends State<ProgressScreen>
+class ProgressScreenState extends State<ProgressScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 

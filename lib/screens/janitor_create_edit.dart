@@ -10,8 +10,8 @@ import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
-class JanitorNewEditScreen extends StatefulWidget {
-  static const String route = '/janitor/newedit';
+class JanitorCreateEditScreen extends StatefulWidget {
+  static const String route = '/janitor/createedit';
 
   static MaterialPage page({
     JanitorTask? originalItem,
@@ -24,7 +24,7 @@ class JanitorNewEditScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: JanitorNewEditScreen(
+      child: JanitorCreateEditScreen(
         originalItem: originalItem,
         isFeedback: isFeedback,
         index: index,
@@ -43,7 +43,7 @@ class JanitorNewEditScreen extends StatefulWidget {
   final Function(JanitorTask, int) onDelete;
   final Function(JanitorTask, int) onUpdate;
 
-  const JanitorNewEditScreen({
+  const JanitorCreateEditScreen({
     Key? key,
     this.isFeedback = false,
     this.originalItem,
@@ -55,10 +55,10 @@ class JanitorNewEditScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _JanitorNewEditScreenState createState() => _JanitorNewEditScreenState();
+  JanitorCreateEditScreenState createState() => JanitorCreateEditScreenState();
 }
 
-class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
+class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Place> places = [];
   String? placeID;
@@ -257,11 +257,11 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
                                         theme.colorScheme.secondaryContainer,
                                         BlendMode.srcIn),
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

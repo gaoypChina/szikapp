@@ -54,10 +54,10 @@ class PollAddScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _PollAddScreenState createState() => _PollAddScreenState();
+  PollAddScreenState createState() => PollAddScreenState();
 }
 
-class _PollAddScreenState extends State<PollAddScreen> {
+class PollAddScreenState extends State<PollAddScreen> {
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
@@ -469,11 +469,11 @@ class _PollAddScreenState extends State<PollAddScreen> {
                           widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
                                         theme.colorScheme.secondaryContainer,
                                         BlendMode.srcIn),
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

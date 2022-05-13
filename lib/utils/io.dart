@@ -332,7 +332,7 @@ class IO {
           ..._lastUpdateHeader(lastUpdate)
         },
         body: json.encode({
-          'data': {'status': data.toShortString()}
+          'data': {'status': data.toString()}
         }));
 
     if (response.statusCode == 200) return true;

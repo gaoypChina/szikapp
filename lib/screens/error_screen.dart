@@ -32,10 +32,10 @@ class ErrorScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ErrorScreenState createState() => _ErrorScreenState();
+  ErrorScreenState createState() => ErrorScreenState();
 }
 
-class _ErrorScreenState extends State<ErrorScreen> {
+class ErrorScreenState extends State<ErrorScreen> {
   @override
   void initState() {
     super.initState();
