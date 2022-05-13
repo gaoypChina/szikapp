@@ -710,7 +710,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                                                         kBorderRadiusNormal)),
                                                         child: Text(
                                                           item.status
-                                                              .toShortString(),
+                                                              .toString(),
                                                           style: theme.textTheme
                                                               .subtitle1!
                                                               .copyWith(
