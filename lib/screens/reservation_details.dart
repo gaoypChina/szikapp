@@ -295,31 +295,24 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                               widget.pixelsPerMinute),
                           width: 200,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 3,
-                              color: theme.colorScheme.primary,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              kBorderRadiusNormal,
-                            ),
-                            color: theme.colorScheme.background,
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                            color: theme.colorScheme.primary,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: kPaddingLarge,
-                          ),
+                          padding: const EdgeInsets.all(kPaddingLarge),
                           child: Column(
                             children: [
                               Text(
                                 e.name.useCorrectEllipsis(),
                                 style: theme.textTheme.caption!.copyWith(
-                                  color: theme.colorScheme.primaryContainer,
+                                  color: theme.colorScheme.surface,
                                 ),
                               ),
                               Flexible(
                                 child: Text(
-                                  e.description ?? '',
-                                  style: theme.textTheme.bodyText1!.copyWith(
-                                    color: theme.colorScheme.primary,
+                                  e.managerIDs.first,
+                                  style: theme.textTheme.caption!.copyWith(
+                                    color: theme.colorScheme.surface,
                                   ),
                                   overflow: TextOverflow.fade,
                                 ),

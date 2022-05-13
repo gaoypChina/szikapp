@@ -73,73 +73,88 @@ class PollTileViewState extends State<PollTileView> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 30),
+            margin: const EdgeInsets.symmetric(
+              vertical: kPaddingLarge,
+              horizontal: kPaddingNormal,
+            ),
             child: TabChoice(
               labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
               onChanged: _onTabChanged,
             ),
           ),
           Expanded(
-            child: GridView.count(
-              padding: const EdgeInsets.fromLTRB(
-                kPaddingNormal,
-                kPaddingLarge,
-                kPaddingNormal,
-                0,
-              ),
-              crossAxisCount:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? 4
-                      : 2,
-              crossAxisSpacing: kPaddingNormal,
-              mainAxisSpacing: kPaddingNormal,
-              children: _polls.map<GestureDetector>((poll) {
-                return GestureDetector(
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (context) => PollWidget(
-                      poll: poll,
-                      manager: widget.manager,
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                      color: poll.isLive
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.secondaryContainer,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(kBorderRadiusNormal),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(
-                              poll.question,
-                              style: theme.textTheme.subtitle1?.copyWith(
-                                color: theme.colorScheme.surface,
-                                overflow: TextOverflow.fade,
+            child: _polls.isEmpty
+                ? Center(
+                    child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () => widget.manager.refresh(
+                        userID: Provider.of<AuthManager>(context).user!.id),
+                    child: GridView.count(
+                      padding: const EdgeInsets.fromLTRB(
+                        kPaddingNormal,
+                        kPaddingNormal,
+                        kPaddingNormal,
+                        0,
+                      ),
+                      crossAxisCount: MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                          ? 4
+                          : 2,
+                      crossAxisSpacing: kPaddingNormal,
+                      mainAxisSpacing: kPaddingNormal,
+                      children: _polls.map<GestureDetector>((poll) {
+                        return GestureDetector(
+                          onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => PollWidget(
+                              poll: poll,
+                              manager: widget.manager,
+                            ),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadiusNormal),
+                              color: poll.isLive &&
+                                      poll.end.isAfter(DateTime.now())
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.secondaryContainer,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(kBorderRadiusNormal),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    fit: FlexFit.tight,
+                                    child: Text(
+                                      poll.question,
+                                      style:
+                                          theme.textTheme.subtitle1?.copyWith(
+                                        color: theme.colorScheme.surface,
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: kPaddingNormal,
+                                  ),
+                                  Text(
+                                    _calculateTime(poll.end),
+                                    style: theme.textTheme.subtitle1?.copyWith(
+                                      color: theme.colorScheme.primaryContainer,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: kPaddingNormal,
-                          ),
-                          Text(
-                            _calculateTime(poll.end),
-                            style: theme.textTheme.subtitle1?.copyWith(
-                              color: theme.colorScheme.primaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      }).toList(),
                     ),
                   ),
-                );
-              }).toList(),
-            ),
           ),
         ],
       ),
