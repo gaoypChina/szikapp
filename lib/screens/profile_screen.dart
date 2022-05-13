@@ -170,13 +170,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Provider.of<AuthManager>(context, listen: false)
                           .signOut(),
                   icon: ColorFiltered(
-                    child: Image.asset(
-                      'assets/icons/user_light_72.png',
-                      height: kIconSizeSmall,
-                    ),
                     colorFilter: ColorFilter.mode(
                       Theme.of(context).colorScheme.surface,
                       BlendMode.srcIn,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/user_light_72.png',
+                      height: kIconSizeSmall,
                     ),
                   ),
                   label: Text('SIGN_OUT_LABEL'.tr()),
@@ -227,8 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
               child: Row(
-                children: _buildActionButtons(),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _buildActionButtons(),
               ),
             ),
           ],

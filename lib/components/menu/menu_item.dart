@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../ui/themes.dart';
 
-class MenuItem extends StatelessWidget {
+class CustomMenuItem extends StatelessWidget {
   final String name;
   final String picture;
   final VoidCallback? onTap;
   final double height;
   final bool reversed;
 
-  const MenuItem({
+  const CustomMenuItem({
     Key? key,
     required this.name,
     required this.picture,
@@ -23,6 +23,7 @@ class MenuItem extends StatelessWidget {
     var children = <Widget>[
       Expanded(
         child: Container(
+          padding: EdgeInsets.symmetric(horizontal: height * 0.1),
           child: Text(
             name,
             textAlign: reversed ? TextAlign.left : TextAlign.right,
@@ -30,7 +31,6 @@ class MenuItem extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: height * 0.1),
         ),
       ),
       Center(
@@ -44,13 +44,13 @@ class MenuItem extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.all(height * 0.05),
             child: ColorFiltered(
-              child: Image.asset(
-                picture,
-                width: kIconSizeNormal,
-              ),
               colorFilter: ColorFilter.mode(
                 Theme.of(context).colorScheme.onPrimary,
                 BlendMode.srcIn,
+              ),
+              child: Image.asset(
+                picture,
+                width: kIconSizeNormal,
               ),
             ),
           ),

@@ -38,42 +38,42 @@ class CustomBottomNavigationBar extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/feed_light_72.png',
-              width: kIconSizeNormal,
-            ),
             colorFilter: ColorFilter.mode(
               _getSelectionColor(
                   selectedTab, 0, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
+            ),
+            child: Image.asset(
+              'assets/icons/feed_light_72.png',
+              width: kIconSizeNormal,
             ),
           ),
           label: 'MENU_FEED'.tr(),
         ),
         BottomNavigationBarItem(
           icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/cedar_light_72.png',
-              width: kIconSizeNormal,
-            ),
             colorFilter: ColorFilter.mode(
               _getSelectionColor(
                   selectedTab, 1, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
+            ),
+            child: Image.asset(
+              'assets/icons/cedar_light_72.png',
+              width: kIconSizeNormal,
             ),
           ),
           label: 'MENU_HOME'.tr(),
         ),
         BottomNavigationBarItem(
           icon: ColorFiltered(
-            child: Image.asset(
-              'assets/icons/gear_light_72.png',
-              width: kIconSizeNormal,
-            ),
             colorFilter: ColorFilter.mode(
               _getSelectionColor(
                   selectedTab, 2, Theme.of(context).colorScheme.onPrimary),
               BlendMode.srcIn,
+            ),
+            child: Image.asset(
+              'assets/icons/gear_light_72.png',
+              width: kIconSizeNormal,
             ),
           ),
           label: 'MENU_SETTINGS'.tr(),

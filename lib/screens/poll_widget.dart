@@ -118,15 +118,6 @@ class _PollWidgetState extends State<PollWidget> {
                               lastUpdate: DateTime.now(),
                             ),
                             widget.poll)),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                          ),
-                          child: Text('BUTTON_SEND'.tr()),
-                        ),
                         style: ButtonStyle(
                           shape:
                               MaterialStateProperty.resolveWith<OutlinedBorder>(
@@ -137,6 +128,15 @@ class _PollWidgetState extends State<PollWidget> {
                               );
                             },
                           ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                          ),
+                          child: Text('BUTTON_SEND'.tr()),
                         ),
                       ),
               ],

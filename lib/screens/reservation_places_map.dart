@@ -41,7 +41,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                        child: MyText(
+                        child: CustomText(
                       title: 'Terasz',
                     )),
                   ),
@@ -57,7 +57,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                       ),
                     ),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Szemináriumi\nszoba',
                       ),
                     ),
@@ -70,7 +70,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Hencsergő',
                       ),
                     ),
@@ -95,7 +95,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                        child: MyText(
+                        child: CustomText(
                       title: 'Párbeszéd\nterme',
                     )),
                   ),
@@ -107,7 +107,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Folyóirat\nolvasó',
                       ),
                     ),
@@ -120,7 +120,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Kápolna',
                       ),
                     ),
@@ -133,7 +133,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Akvárium',
                       ),
                     ),
@@ -146,7 +146,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'TV szoba',
                       ),
                     ),
@@ -171,7 +171,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                        child: MyText(
+                        child: CustomText(
                       title: 'Nagy terasz',
                     )),
                   ),
@@ -183,7 +183,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Szalon',
                       ),
                     ),
@@ -192,7 +192,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                     width: 10,
                   ),
                   const Center(
-                    child: MyText(
+                    child: CustomText(
                       title: 'Konyha\nnem foglalható',
                     ),
                   ),
@@ -216,7 +216,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                        child: MyText(
+                        child: CustomText(
                       title: 'Könyvtár',
                     )),
                   ),
@@ -228,7 +228,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: 'Zeneszoba',
                       ),
                     ),
@@ -249,7 +249,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                     width: 10,
                   ),
                   const Center(
-                      child: MyText(
+                      child: CustomText(
                     title: 'Kondi terem\nnem foglalható',
                   )),
                   const SizedBox(
@@ -274,7 +274,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
                         Provider.of<ReservationManager>(context, listen: false)
                             .selectPlace(50),
                     child: const Center(
-                      child: MyText(
+                      child: CustomText(
                         title: '-1 Közösségi tér',
                       ),
                     ),
@@ -289,15 +289,16 @@ class ReservationPlacesMapScreen extends StatelessWidget {
   }
 }
 
-class MyText extends StatefulWidget {
+//TODO TBD
+class CustomText extends StatefulWidget {
   final String title;
-  const MyText({Key key = const Key('MyText'), required this.title})
+  const CustomText({Key key = const Key('MyText'), required this.title})
       : super(key: key);
   @override
-  _MyTextState createState() => _MyTextState();
+  CustomTextState createState() => CustomTextState();
 }
 
-class _MyTextState extends State<MyText> {
+class CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
     return Text(

@@ -44,10 +44,10 @@ class JanitorListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _JanitorListViewState createState() => _JanitorListViewState();
+  JanitorListViewState createState() => JanitorListViewState();
 }
 
-class _JanitorListViewState extends State<JanitorListView> {
+class JanitorListViewState extends State<JanitorListView> {
   List<JanitorTask> items = [];
 
   @override
@@ -136,13 +136,13 @@ class _JanitorListViewState extends State<JanitorListView> {
           onPressed: () => userID == 'u904'
               ? _onEditJanitorPressed(task)
               : _onEditPressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_EDIT'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -151,13 +151,13 @@ class _JanitorListViewState extends State<JanitorListView> {
       buttons.add(
         OutlinedButton(
           onPressed: () => _onFeedbackPressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_FEEDBACK'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -166,13 +166,13 @@ class _JanitorListViewState extends State<JanitorListView> {
       buttons.add(
         OutlinedButton(
           onPressed: () => _onApprovePressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_APPROVE'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -290,11 +290,11 @@ class _JanitorListViewState extends State<JanitorListView> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: kPaddingLarge),
                             child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                  theme.colorScheme.primary, BlendMode.srcIn),
                               child: Image.asset(
                                   'assets/icons/down_light_72.png',
                                   height: theme.textTheme.headline3!.fontSize),
-                              colorFilter: ColorFilter.mode(
-                                  theme.colorScheme.primary, BlendMode.srcIn),
                             ),
                           ),
                           children: items.map<ToggleListItem>((item) {

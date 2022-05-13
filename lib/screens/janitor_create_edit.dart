@@ -55,11 +55,10 @@ class JanitorCreateEditScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _JanitorCreateEditScreenState createState() =>
-      _JanitorCreateEditScreenState();
+  JanitorCreateEditScreenState createState() => JanitorCreateEditScreenState();
 }
 
-class _JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
+class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Place> places = [];
   String? placeID;
@@ -258,11 +257,11 @@ class _JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
                                         theme.colorScheme.secondaryContainer,
                                         BlendMode.srcIn),
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

@@ -30,7 +30,7 @@ class MenuScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          MenuItem(
+          CustomMenuItem(
             name: 'SUBMENU_DATA_TITLE'.tr(),
             picture: 'assets/icons/bookopen_light_72.png',
             onTap: () =>
@@ -39,7 +39,7 @@ class MenuScreen extends StatelessWidget {
             height: fifth,
             reversed: true,
           ),
-          MenuItem(
+          CustomMenuItem(
             name: 'SUBMENU_COMMUNITY_TITLE'.tr(),
             picture: 'assets/icons/smiley_light_72.png',
             onTap: () =>
@@ -47,7 +47,7 @@ class MenuScreen extends StatelessWidget {
                     .selectSubMenu(SzikAppSubMenu.community),
             height: fifth,
           ),
-          MenuItem(
+          CustomMenuItem(
             name: 'SUBMENU_EVERYDAY_TITLE'.tr(),
             picture: 'assets/icons/house_light_72.png',
             onTap: () =>
@@ -61,7 +61,7 @@ class MenuScreen extends StatelessWidget {
                   .hasPermissionToAccess(
                     SzikAppLink(currentFeature: SzikAppFeature.calendar),
                   )
-              ? MenuItem(
+              ? CustomMenuItem(
                   name: 'MENU_CALENDAR'.tr(),
                   picture: 'assets/icons/calendar_light_72.png',
                   onTap: () =>
@@ -70,7 +70,7 @@ class MenuScreen extends StatelessWidget {
                   height: fifth,
                 )
               : Container(),
-          MenuItem(
+          CustomMenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: 'assets/icons/gear_light_72.png',
             onTap: () =>

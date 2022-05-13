@@ -31,10 +31,10 @@ class WrappedIcon extends StatelessWidget {
           color: backgroundColor ?? Theme.of(context).colorScheme.primary,
         ),
         child: ColorFiltered(
-          child: Image.asset(assetPath),
           colorFilter: ColorFilter.mode(
               color ?? Theme.of(context).colorScheme.onPrimary,
               BlendMode.srcIn),
+          child: Image.asset(assetPath),
         ),
       ),
     );

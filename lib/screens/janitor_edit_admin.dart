@@ -43,10 +43,10 @@ class JanitorEditAdminScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _JanitorEditAdminScreenState createState() => _JanitorEditAdminScreenState();
+  JanitorEditAdminScreenState createState() => JanitorEditAdminScreenState();
 }
 
-class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
+class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   final _formKey = GlobalKey<FormState>();
   TaskStatus? status;
   String answer = '';
@@ -360,11 +360,11 @@ class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                     right: kPaddingNormal),
                                 child: IconButton(
                                   icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
                                         theme.colorScheme.secondaryContainer,
                                         BlendMode.srcIn),
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

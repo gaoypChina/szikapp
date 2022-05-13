@@ -22,10 +22,10 @@ class FeedScreen extends StatefulWidget {
   const FeedScreen({Key key = const Key('FeedScreen')}) : super(key: key);
 
   @override
-  _FeedScreenState createState() => _FeedScreenState();
+  FeedScreenState createState() => FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class FeedScreenState extends State<FeedScreen> {
   List<CustomNotification> notifications = [];
 
   @override
@@ -54,7 +54,7 @@ class _FeedScreenState extends State<FeedScreen> {
     var theme = Theme.of(context);
     var shownName =
         Provider.of<AuthManager>(context, listen: false).user!.showableName;
-    var _feedShortcuts = context.select(
+    var feedShortcuts = context.select(
       (Settings settings) => settings.feedShortcuts,
     );
     return Container(
@@ -116,7 +116,7 @@ class _FeedScreenState extends State<FeedScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: _feedShortcuts.map<WrappedIconButton>(
+              children: feedShortcuts.map<WrappedIconButton>(
                 (item) {
                   return WrappedIconButton(
                     assetPath: shortcutData[item]?.assetPath ??

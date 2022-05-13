@@ -48,10 +48,10 @@ class PollTileView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PollTileViewState createState() => _PollTileViewState();
+  PollTileViewState createState() => PollTileViewState();
 }
 
-class _PollTileViewState extends State<PollTileView> {
+class PollTileViewState extends State<PollTileView> {
   List<PollTask> _polls = [];
 
   @override

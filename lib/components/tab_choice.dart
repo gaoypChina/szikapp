@@ -37,11 +37,11 @@ class TabChoice extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TabChoiceState createState() => _TabChoiceState();
+  TabChoiceState createState() => TabChoiceState();
 }
 
 ///A [TabChoice] widget állapota.
-class _TabChoiceState extends State<TabChoice> {
+class TabChoiceState extends State<TabChoice> {
   ///Kiválasztott lap indexe. Ha a [TabChoice.allowNoneSelected] flag értéke
   ///engedi, az érték `null`-t is felvehet.
   int? _value = 0;

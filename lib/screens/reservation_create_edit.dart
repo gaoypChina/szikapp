@@ -56,11 +56,11 @@ class ReservationCreateEditScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _ReservationCreateEditScreenState createState() =>
-      _ReservationCreateEditScreenState();
+  ReservationCreateEditScreenState createState() =>
+      ReservationCreateEditScreenState();
 }
 
-class _ReservationCreateEditScreenState
+class ReservationCreateEditScreenState
     extends State<ReservationCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String? description;
@@ -359,12 +359,12 @@ class _ReservationCreateEditScreenState
                           child: widget.isEdit
                               ? IconButton(
                                   icon: ColorFiltered(
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
                                     colorFilter: ColorFilter.mode(
                                         theme.colorScheme.secondaryContainer
                                             .withOpacity(0.7),
                                         BlendMode.srcIn),
+                                    child: Image.asset(
+                                        'assets/icons/trash_light_72.png'),
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

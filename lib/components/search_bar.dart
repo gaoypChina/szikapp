@@ -71,11 +71,11 @@ class _SearchBarState extends State<SearchBar>
                     horizontal: kPaddingNormal,
                   ),
                   child: ColorFiltered(
-                    child: Image.asset('assets/icons/search_light_72.png'),
                     colorFilter: ColorFilter.mode(
                       theme.colorScheme.primary,
                       BlendMode.srcIn,
                     ),
+                    child: Image.asset('assets/icons/search_light_72.png'),
                   ),
                 ),
                 Expanded(
@@ -112,11 +112,11 @@ class _SearchBarState extends State<SearchBar>
                       height: widget.searchBarIconSize,
                       margin: const EdgeInsets.only(right: kPaddingNormal),
                       child: ColorFiltered(
-                        child: Image.asset('assets/icons/sliders_light_72.png'),
                         colorFilter: ColorFilter.mode(
                           theme.colorScheme.primary,
                           BlendMode.srcIn,
                         ),
+                        child: Image.asset('assets/icons/sliders_light_72.png'),
                       ),
                     ),
                   ),
