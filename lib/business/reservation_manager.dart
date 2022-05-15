@@ -214,19 +214,31 @@ class ReservationManager extends ChangeNotifier {
       'end': end.toIso8601String()
     };
 
-    var io = IO();
-    _reservations = await io.getReservation(parameter);
-    _reservations.sort((a, b) => a.start.compareTo(b.start));
+    try {
+      var io = IO();
+      _reservations = await io.getReservation(parameter);
+      _reservations.sort((a, b) => a.start.compareTo(b.start));
+    } on IONotModifiedException {
+      _reservations = [];
+    }
   }
 
   Future<void> refreshGames() async {
-    var io = IO();
-    _games = await io.getBoardgame();
+    try {
+      var io = IO();
+      _games = await io.getBoardgame();
+    } on IONotModifiedException {
+      _games = [];
+    }
   }
 
   Future<void> refreshAccounts() async {
-    var io = IO();
-    _accounts = await io.getAccount();
+    try {
+      var io = IO();
+      _accounts = await io.getAccount();
+    } on IONotModifiedException {
+      _accounts = [];
+    }
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a foglaláslistát.
