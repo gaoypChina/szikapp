@@ -33,6 +33,13 @@ class JanitorManager extends ChangeNotifier {
   bool get isAdminEditingTask => _adminEditTask;
   bool get isGivingFeedback => _feedbackTask;
 
+  int indexOf(JanitorTask task) {
+    for (var e in tasks) {
+      if (e.id == task.id) return tasks.indexOf(e);
+    }
+    return -1;
+  }
+
   void createNewTask() {
     _createNewTask = true;
     _editTask = false;
