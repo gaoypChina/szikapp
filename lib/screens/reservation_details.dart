@@ -306,11 +306,19 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                 e.name.useCorrectEllipsis(),
                                 style: theme.textTheme.caption!.copyWith(
                                   color: theme.colorScheme.surface,
+                                  fontStyle: FontStyle.normal,
                                 ),
                               ),
                               Flexible(
                                 child: Text(
-                                  e.managerIDs.first,
+                                  Provider.of<SzikAppStateManager>(context,
+                                          listen: false)
+                                      .users
+                                      .where((element) =>
+                                          e.managerIDs.contains(element.id))
+                                      .map((e) => e.showableName)
+                                      .toList()
+                                      .join(', '),
                                   style: theme.textTheme.caption!.copyWith(
                                     color: theme.colorScheme.surface,
                                   ),
