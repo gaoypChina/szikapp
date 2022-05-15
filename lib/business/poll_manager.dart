@@ -42,6 +42,7 @@ class PollManager extends ChangeNotifier {
   }
 
   void editPoll(int index) {
+    _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = true;
     _vote = false;
@@ -51,6 +52,7 @@ class PollManager extends ChangeNotifier {
   }
 
   void vote(int index) {
+    _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = false;
     _vote = true;
@@ -83,8 +85,12 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void performBackButtonPressed() {
+  void unselectPoll() {
     _selectedIndex = -1;
+    notifyListeners();
+  }
+
+  void performBackButtonPressed() {
     _createNewPoll = false;
     _editPoll = false;
     _vote = false;

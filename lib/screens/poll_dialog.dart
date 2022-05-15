@@ -7,20 +7,20 @@ import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
-class PollWidget extends StatefulWidget {
+class PollDialog extends StatefulWidget {
   final PollTask poll;
   final PollManager manager;
-  const PollWidget({
+  const PollDialog({
     Key? key,
     required this.poll,
     required this.manager,
   }) : super(key: key);
 
   @override
-  State<PollWidget> createState() => _PollWidgetState();
+  State<PollDialog> createState() => _PollDialogState();
 }
 
-class _PollWidgetState extends State<PollWidget> {
+class _PollDialogState extends State<PollDialog> {
   List<String> _selected = [];
 
   @override

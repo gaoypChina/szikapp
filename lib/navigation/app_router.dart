@@ -155,7 +155,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: pollManager.selectedPoll,
               onCreate: (item) {},
               onUpdate: (item, index) {
-                pollManager.editPoll(index);
+                pollManager.updatePoll(item);
               },
               onDelete: (item, index) {
                 pollManager.deletePoll(item);
