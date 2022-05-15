@@ -69,10 +69,12 @@ class _PollDialogState extends State<PollDialog> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.poll.question,
-                  style: theme.textTheme.headline2!
-                      .copyWith(color: theme.colorScheme.surface),
+                Expanded(
+                  child: Text(
+                    widget.poll.name,
+                    style: theme.textTheme.headline2!
+                        .copyWith(color: theme.colorScheme.surface),
+                  ),
                 ),
                 const SizedBox(width: kPaddingLarge),
                 if (user!.hasPermissionToModify(widget.poll))
@@ -88,11 +90,21 @@ class _PollDialogState extends State<PollDialog> {
             ),
           ),
         ),
-        Expanded(
+        Flexible(
           child: Padding(
-            padding: const EdgeInsets.all(kPaddingNormal),
+            padding: const EdgeInsets.all(kPaddingLarge),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  widget.poll.question,
+                  style: theme.textTheme.subtitle1!.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: kPaddingNormal),
                 Text(
                   widget.poll.description ?? '',
                   style: theme.textTheme.subtitle1!.copyWith(
@@ -104,9 +116,15 @@ class _PollDialogState extends State<PollDialog> {
                   thickness: 2,
                   color: theme.colorScheme.secondary,
                 ),
-                Expanded(child: ListView(children: _buildAnswerItems())),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: _buildAnswerItems(),
+                  ),
+                ),
+                const SizedBox(height: kPaddingNormal),
                 widget.manager.hasVoted(userID: user.id, poll: widget.poll)
-                    ? Text('POLL_ALREADY_VOTED'.tr())
+                    ? Center(child: Text('POLL_ALREADY_VOTED'.tr()))
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(
@@ -158,16 +176,26 @@ class _PollDialogState extends State<PollDialog> {
           child: Padding(
             padding: const EdgeInsets.all(kBorderRadiusNormal),
             child: Text(
-              widget.poll.question,
+              widget.poll.name,
               style: theme.textTheme.headline2!
                   .copyWith(color: theme.colorScheme.surface),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(kPaddingNormal),
+          padding: const EdgeInsets.all(kPaddingLarge),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                widget.poll.question,
+                style: theme.textTheme.subtitle1!.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: kPaddingNormal),
               Text(
                 widget.poll.description ?? '',
                 style: theme.textTheme.subtitle1!.copyWith(
@@ -179,7 +207,12 @@ class _PollDialogState extends State<PollDialog> {
                 thickness: 2,
                 color: theme.colorScheme.secondary,
               ),
-              ..._buildClosedAnswerItems(),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _buildClosedAnswerItems(),
+                ),
+              ),
             ],
           ),
         ),
@@ -276,22 +309,26 @@ class _PollDialogState extends State<PollDialog> {
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              Column(children: [
-                Text(
-                  '${votesPercent.toString()}%',
-                  style: theme.textTheme.headline2!.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontStyle: FontStyle.italic,
+              Column(
+                children: [
+                  Text(
+                    '${votesPercent.toString()}%',
+                    style: theme.textTheme.headline2!.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
-                ),
-                Text(
-                  'POLL_VOTE'.tr(args: [results[item]['voteCount'].toString()]),
-                  style: theme.textTheme.subtitle1!.copyWith(
-                    color: theme.colorScheme.primaryContainer,
-                    fontStyle: FontStyle.italic,
+                  Text(
+                    'POLL_VOTE'.tr(
+                      args: [results[item]['voteCount'].toString()],
+                    ),
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
             ],
           ),
         );
