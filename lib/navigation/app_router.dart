@@ -10,7 +10,7 @@ import '../screens/home_screen.dart';
 import '../screens/janitor_create_edit.dart';
 import '../screens/janitor_edit_admin.dart';
 import '../screens/janitor_screen.dart';
-import '../screens/poll_add_screen.dart';
+import '../screens/poll_create_edit.dart';
 import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_accounts.dart';
@@ -143,7 +143,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (pollManager.isCreatingNewPoll)
-            PollAddScreen.page(
+            PollCreateEditScreen.page(
               onCreate: (item) {
                 pollManager.addPoll(item);
               },
@@ -151,7 +151,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               onDelete: (item, index) {},
             ),
           if (pollManager.isEditingPoll)
-            PollAddScreen.page(
+            PollCreateEditScreen.page(
               originalItem: pollManager.selectedPoll,
               onCreate: (item) {},
               onUpdate: (item, index) {
@@ -236,7 +236,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
       janitorManager.performBackButtonPressed();
     }
-    if (route.settings.name == SzikAppLink.kPollNewPath) {
+    if (route.settings.name == SzikAppLink.kPollCreateEditPath) {
       pollManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kReservationCreateEditPath) {

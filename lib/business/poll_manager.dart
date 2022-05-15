@@ -32,6 +32,13 @@ class PollManager extends ChangeNotifier {
   bool get isVoting => _vote;
   bool get isViewingPollResults => _viewPollResults;
 
+  int indexOf(PollTask task) {
+    for (var e in polls) {
+      if (e.id == task.id) return polls.indexOf(e);
+    }
+    return -1;
+  }
+
   void createNewPoll() {
     _createNewPoll = true;
     _editPoll = false;
@@ -47,7 +54,6 @@ class PollManager extends ChangeNotifier {
     _editPoll = true;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = index;
     notifyListeners();
   }
 
@@ -128,7 +134,6 @@ class PollManager extends ChangeNotifier {
     _editPoll = false;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -166,7 +171,6 @@ class PollManager extends ChangeNotifier {
     _editPoll = false;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = -1;
     notifyListeners();
     return true;
   }

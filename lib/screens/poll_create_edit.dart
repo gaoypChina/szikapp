@@ -13,7 +13,7 @@ import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 
-class PollAddScreen extends StatefulWidget {
+class PollCreateEditScreen extends StatefulWidget {
   static const String route = '/poll/createedit';
 
   static MaterialPage page({
@@ -26,7 +26,7 @@ class PollAddScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: PollAddScreen(
+      child: PollCreateEditScreen(
         originalItem: originalItem,
         index: index,
         onCreate: onCreate,
@@ -43,7 +43,7 @@ class PollAddScreen extends StatefulWidget {
   final Function(PollTask, int) onDelete;
   final Function(PollTask, int) onUpdate;
 
-  const PollAddScreen({
+  const PollCreateEditScreen({
     Key? key,
     this.originalItem,
     this.index = -1,
@@ -54,10 +54,10 @@ class PollAddScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  PollAddScreenState createState() => PollAddScreenState();
+  PollCreateEditScreenState createState() => PollCreateEditScreenState();
 }
 
-class PollAddScreenState extends State<PollAddScreen> {
+class PollCreateEditScreenState extends State<PollCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';

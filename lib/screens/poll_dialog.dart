@@ -78,7 +78,7 @@ class _PollDialogState extends State<PollDialog> {
                 if (user!.hasPermissionToModify(widget.poll))
                   GestureDetector(
                     onTap: () => widget.manager
-                        .editPoll(widget.manager.polls.indexOf(widget.poll)),
+                        .editPoll(widget.manager.indexOf(widget.poll)),
                     child: Image.asset(
                       'assets/icons/pencil_light_72.png',
                       height: kIconSizeLarge,
