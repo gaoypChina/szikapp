@@ -104,7 +104,10 @@ class BirthdayBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               color: Theme.of(context).colorScheme.background,
             ),
-            child: Text('BIRTHDAY_BAR_ERROR'.tr()),
+            child: Text(
+              'BIRTHDAY_BAR_ERROR'.tr(),
+              style: Theme.of(context).textTheme.caption,
+            ),
           );
         }
       },

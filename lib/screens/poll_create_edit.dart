@@ -13,7 +13,7 @@ import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 
-class PollAddScreen extends StatefulWidget {
+class PollCreateEditScreen extends StatefulWidget {
   static const String route = '/poll/createedit';
 
   static MaterialPage page({
@@ -26,7 +26,7 @@ class PollAddScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: PollAddScreen(
+      child: PollCreateEditScreen(
         originalItem: originalItem,
         index: index,
         onCreate: onCreate,
@@ -43,7 +43,7 @@ class PollAddScreen extends StatefulWidget {
   final Function(PollTask, int) onDelete;
   final Function(PollTask, int) onUpdate;
 
-  const PollAddScreen({
+  const PollCreateEditScreen({
     Key? key,
     this.originalItem,
     this.index = -1,
@@ -54,10 +54,10 @@ class PollAddScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  PollAddScreenState createState() => PollAddScreenState();
+  PollCreateEditScreenState createState() => PollCreateEditScreenState();
 }
 
-class PollAddScreenState extends State<PollAddScreen> {
+class PollCreateEditScreenState extends State<PollCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
@@ -68,7 +68,7 @@ class PollAddScreenState extends State<PollAddScreen> {
   List<String> participantGroupIDs = [];
   bool isSecret = false;
   bool isMultipleChoice = false;
-  int numberOfOptions = 1;
+  int numberOfOptions = 2;
   String? feedbackMessage;
   bool isLive = false;
 
@@ -93,11 +93,20 @@ class PollAddScreenState extends State<PollAddScreen> {
             23,
             59,
           );
+    title = widget.isEdit ? widget.originalItem!.name : '';
+    description = (widget.isEdit ? widget.originalItem!.description : '') ?? '';
+    question = widget.isEdit ? widget.originalItem!.question : '';
     answerOptions = widget.isEdit ? widget.originalItem!.answerOptions : [''];
+    participantGroupIDs =
+        widget.isEdit ? widget.originalItem!.participantIDs : [];
     isSecret = widget.isEdit ? widget.originalItem!.isConfidential : true;
     isMultipleChoice =
         widget.isEdit ? widget.originalItem!.isMultipleChoice : false;
     isLive = widget.isEdit ? widget.originalItem!.isLive : true;
+    numberOfOptions =
+        widget.isEdit ? widget.originalItem!.maxSelectableOptions : 2;
+    feedbackMessage =
+        widget.isEdit ? widget.originalItem!.feedbackOnAnswer : null;
     super.initState();
   }
 
@@ -146,8 +155,7 @@ class PollAddScreenState extends State<PollAddScreen> {
                   padding: const EdgeInsets.all(kPaddingLarge),
                   child: TextFormField(
                     onChanged: _onTitleChanged,
-                    initialValue:
-                        widget.isEdit ? widget.originalItem!.name : '',
+                    initialValue: title,
                     validator: _validateTextField,
                     readOnly: widget.isEdit,
                     style: theme.textTheme.subtitle1?.copyWith(
@@ -171,8 +179,7 @@ class PollAddScreenState extends State<PollAddScreen> {
                     children: [
                       TextFormField(
                         onChanged: _onQuestionChanged,
-                        initialValue:
-                            widget.isEdit ? widget.originalItem!.question : '',
+                        initialValue: question,
                         validator: _validateTextField,
                         readOnly: widget.isEdit,
                         decoration: InputDecoration(
@@ -189,9 +196,7 @@ class PollAddScreenState extends State<PollAddScreen> {
                       //szavazás leírása
                       TextFormField(
                         onChanged: _onDescriptionChanged,
-                        initialValue: widget.isEdit
-                            ? widget.originalItem!.description
-                            : '',
+                        initialValue: description,
                         validator: _validateTextField,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -299,8 +304,7 @@ class PollAddScreenState extends State<PollAddScreen> {
                         children: [
                           DatePicker(
                             onChanged: _onEndDateChanged,
-                            initialDate:
-                                DateTime.now().add(const Duration(days: 8)),
+                            initialDate: endDateTime,
                             startDate: DateTime.now(),
                           ),
                           const SizedBox(width: kPaddingNormal),
@@ -328,9 +332,8 @@ class PollAddScreenState extends State<PollAddScreen> {
                         selectedItems: widget.isEdit
                             ? groups
                                 .where(
-                                  (element) => widget
-                                      .originalItem!.participantIDs
-                                      .contains(element.id),
+                                  (element) =>
+                                      participantGroupIDs.contains(element.id),
                                 )
                                 .toList()
                             : [],
@@ -399,12 +402,9 @@ class PollAddScreenState extends State<PollAddScreen> {
                               const SizedBox(width: kPaddingLarge),
                               Expanded(
                                 child: TextFormField(
+                                  readOnly: widget.isEdit,
                                   onChanged: _onNumberOfOptionsChanged,
-                                  initialValue: widget.isEdit
-                                      ? widget
-                                          .originalItem!.maxSelectableOptions
-                                          .toString()
-                                      : '2',
+                                  initialValue: numberOfOptions.toString(),
                                   validator: _validateTextField,
                                   keyboardType: TextInputType.number,
                                   //itt mi történik?
@@ -432,9 +432,7 @@ class PollAddScreenState extends State<PollAddScreen> {
                       ),
                       TextFormField(
                         onChanged: _onFeedbackMessageChanged,
-                        initialValue: widget.isEdit
-                            ? widget.originalItem!.feedbackOnAnswer
-                            : '',
+                        initialValue: feedbackMessage,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/cleaning_exchange.dart';
 import '../models/cleaning_period.dart';
 import '../models/tasks.dart';
+import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
@@ -45,17 +46,25 @@ class KitchenCleaningManager extends ChangeNotifier {
       'end': end.toIso8601String(),
     };
 
-    var io = IO();
-    _cleaningTasks = await io.getCleaning(parameter);
+    try {
+      var io = IO();
+      _cleaningTasks = await io.getCleaning(parameter);
+    } on IONotModifiedException {
+      _cleaningTasks = [];
+    }
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
   void refreshExchanges({bool approved = false}) async {
-    var io = IO();
-    var parameter = {'approved': approved.toString()};
-    _cleaningExchanges = await io.getCleaningExchange(parameter);
+    try {
+      var io = IO();
+      var parameter = {'approved': approved.toString()};
+      _cleaningExchanges = await io.getCleaningExchange(parameter);
+    } on IONotModifiedException {
+      _cleaningExchanges = [];
+    }
   }
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb konyhatakarítási
@@ -70,8 +79,12 @@ class KitchenCleaningManager extends ChangeNotifier {
       'end': end.toIso8601String()
     };
 
-    var io = IO();
-    _cleaningPeriods = await io.getCleaningPeriod(parameter);
+    try {
+      var io = IO();
+      _cleaningPeriods = await io.getCleaningPeriod(parameter);
+    } on IONotModifiedException {
+      _cleaningPeriods = [];
+    }
   }
 
   ///Elmaradt konyhatakarítás jelentése.

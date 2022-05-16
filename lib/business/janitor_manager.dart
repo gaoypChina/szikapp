@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/tasks.dart';
+import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 ///Gondnoki kérések funkció logikai működését megvalósító singleton
@@ -32,6 +33,13 @@ class JanitorManager extends ChangeNotifier {
   bool get isEditingTask => _editTask;
   bool get isAdminEditingTask => _adminEditTask;
   bool get isGivingFeedback => _feedbackTask;
+
+  int indexOf(JanitorTask task) {
+    for (var e in tasks) {
+      if (e.id == task.id) return tasks.indexOf(e);
+    }
+    return -1;
+  }
 
   void createNewTask() {
     _createNewTask = true;
@@ -172,8 +180,12 @@ class JanitorManager extends ChangeNotifier {
 
     var parameter = {'from': from.toIso8601String()};
 
-    var io = IO();
-    _tasks = await io.getJanitor(parameter);
+    try {
+      var io = IO();
+      _tasks = await io.getJanitor(parameter);
+    } on IONotModifiedException {
+      _tasks = [];
+    }
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a feladatlistát.

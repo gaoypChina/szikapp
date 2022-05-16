@@ -85,13 +85,13 @@ class JanitorListViewState extends State<JanitorListView> {
 
   void _onEditPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
-    var index = widget.manager.tasks.indexOf(task);
+    var index = widget.manager.indexOf(task);
     widget.manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
-    var index = widget.manager.tasks.indexOf(task);
+    var index = widget.manager.indexOf(task);
     widget.manager.adminEditTask(index);
   }
 
@@ -99,7 +99,7 @@ class JanitorListViewState extends State<JanitorListView> {
     if (task.status == TaskStatus.awaitingApproval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
-      var index = widget.manager.tasks.indexOf(task);
+      var index = widget.manager.indexOf(task);
       widget.manager.feedbackTask(index);
     }
   }

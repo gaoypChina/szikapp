@@ -441,8 +441,9 @@ class IO {
   Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+    uri += 'localTime=${DateTime.now().toIso8601String()}';
+    var response =
+        await client.get(Uri.parse(uri), headers: {...await _commonHeaders()});
 
     if (response.statusCode == 200) {
       var answer = <UserData>[];

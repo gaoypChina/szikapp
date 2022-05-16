@@ -125,10 +125,18 @@ class ContactsManager {
     var io = IO();
 
     if (_contacts.isEmpty || forceRefresh) {
-      _contacts = await io.getContacts();
+      try {
+        _contacts = await io.getContacts();
+      } on IONotModifiedException {
+        _contacts = [];
+      }
     }
     if (_groups.isEmpty || forceRefresh) {
-      _groups = await io.getGroup();
+      try {
+        _groups = await io.getGroup();
+      } on IONotModifiedException {
+        _groups = [];
+      }
     }
   }
 }

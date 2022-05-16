@@ -8,7 +8,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
-import 'poll_widget.dart';
+import 'poll_dialog.dart';
 
 class PollScreen extends StatelessWidget {
   static const String route = '/poll';
@@ -107,7 +107,7 @@ class PollTileViewState extends State<PollTileView> {
                         return GestureDetector(
                           onTap: () => showDialog(
                             context: context,
-                            builder: (context) => PollWidget(
+                            builder: (context) => PollDialog(
                               poll: poll,
                               manager: widget.manager,
                             ),
