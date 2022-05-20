@@ -42,7 +42,7 @@ class SubMenuItem extends StatelessWidget {
           children: [
             CustomIcon(
               data.picture,
-              size: kIconSizeXLarge,
+              size: kIconSizeGiant,
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(height: kPaddingNormal),

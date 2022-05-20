@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../navigation/app_state_manager.dart';
+import '../ui/themes.dart';
 import 'components.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -50,6 +51,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: CustomIcon(
             CustomIcons.cedar,
+            size: kIconSizeLarge,
             color: _getSelectionColor(
               selectedTab,
               1,

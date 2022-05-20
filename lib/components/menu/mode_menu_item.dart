@@ -33,6 +33,7 @@ class ModeMenuItem extends StatelessWidget {
               padding: const EdgeInsets.all(kPaddingXLarge),
               child: CustomIcon(
                 leadingAssetPath,
+                size: kIconSizeLarge,
                 color: color ?? Theme.of(context).colorScheme.secondary,
               ),
             ),

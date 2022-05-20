@@ -45,7 +45,10 @@ class NotificationCard extends StatelessWidget {
               //Router.of(context).routerDelegate.setNewRoutePath(data.route);
             },
             trailing: IconButton(
-              icon: const CustomIcon(CustomIcons.close),
+              icon: CustomIcon(
+                CustomIcons.close,
+                color: theme.colorScheme.secondary,
+              ),
               onPressed: () {},
             ),
           )
