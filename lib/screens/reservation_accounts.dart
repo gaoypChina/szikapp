@@ -100,17 +100,13 @@ class ReservationAccountList extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             right: kPaddingLarge),
-                                        child: ColorFiltered(
-                                          child: Icon(
-                                            Icons.account_box,
-                                            size: theme.textTheme.bodyText1!
-                                                    .fontSize! *
-                                                1.5,
-                                          ),
-                                          colorFilter: ColorFilter.mode(
-                                              theme
-                                                  .colorScheme.primaryContainer,
-                                              BlendMode.srcIn),
+                                        child: CustomIcon(
+                                          CustomIcons.userName,
+                                          size: theme.textTheme.bodyText1!
+                                                  .fontSize! *
+                                              1.5,
+                                          color: theme
+                                              .colorScheme.primaryContainer,
                                         ),
                                       ),
                                       Flexible(
@@ -132,17 +128,13 @@ class ReservationAccountList extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             right: kPaddingLarge),
-                                        child: ColorFiltered(
-                                          child: Icon(
-                                            Icons.password,
-                                            size: theme.textTheme.bodyText1!
-                                                    .fontSize! *
-                                                1.5,
-                                          ),
-                                          colorFilter: ColorFilter.mode(
-                                            theme.colorScheme.primaryContainer,
-                                            BlendMode.srcIn,
-                                          ),
+                                        child: CustomIcon(
+                                          CustomIcons.password,
+                                          size: theme.textTheme.bodyText1!
+                                                  .fontSize! *
+                                              1.5,
+                                          color: theme
+                                              .colorScheme.primaryContainer,
                                         ),
                                       ),
                                       Flexible(
@@ -164,18 +156,13 @@ class ReservationAccountList extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               right: kPaddingLarge),
-                                          child: ColorFiltered(
-                                            child: Icon(
-                                              Icons.description,
-                                              size: theme.textTheme.bodyText1!
-                                                      .fontSize! *
-                                                  1.5,
-                                            ),
-                                            colorFilter: ColorFilter.mode(
-                                              theme
-                                                  .colorScheme.primaryContainer,
-                                              BlendMode.srcIn,
-                                            ),
+                                          child: CustomIcon(
+                                            CustomIcons.description,
+                                            size: theme.textTheme.bodyText1!
+                                                    .fontSize! *
+                                                1.5,
+                                            color: theme
+                                                .colorScheme.primaryContainer,
                                           ),
                                         ),
                                         Flexible(
