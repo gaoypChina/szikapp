@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'business/business.dart';
+import 'firebase_options.dart';
 import 'models/models.dart';
 import 'navigation/navigation.dart';
 import 'ui/themes.dart';
@@ -24,7 +25,7 @@ void main() async {
   HttpOverrides.global = IOHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Settings.instance.initialize();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/Montserrat/OFL.txt');
