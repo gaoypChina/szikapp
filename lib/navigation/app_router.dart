@@ -162,7 +162,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
-            ReservationPlacesMapScreen.page(),
+            ReservationPlacesMapScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
             ReservationGamesListScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.account)
