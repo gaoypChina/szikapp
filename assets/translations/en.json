@@ -111,7 +111,7 @@
     "FEED": null,
         "FEED_GREETINGS": "Hello {}",
         "FEED_NOTIFICATIONS": "Notifications",
-        "FEED_DAY": "{} is having birthday {}",
+        "FEED_BIRTHDAY": "{} is having birthday {}",
         "FEED_BIRTHDAY_DAYS": "in {} days",
     "DOCUMENTS": null,
         "DOCUMENTS_TITLE": "Documents",
