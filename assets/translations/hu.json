@@ -105,7 +105,7 @@
         "POLL_CREATE":"Létrehozás",
         "POLL_VOTE": "{} szavazat",
         "POLL_ALREADY_VOTED": "Már szavaztál.",
-        "POLL_HINT_THANKS":"Köszönjuk szavazatodat!",
+        "POLL_HINT_THANKS":"Köszönjük szavazatodat!",
     "FEED": null,
         "FEED_GREETINGS": "Szia {}",
         "FEED_NOTIFICATIONS": "Értesítéseid",
