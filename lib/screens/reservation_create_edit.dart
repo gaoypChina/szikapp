@@ -421,9 +421,30 @@ class ReservationCreateEditScreenState
   }
 
   void _onStartingTimeChanged(TimeOfDay? startingTime) {
+    startingTime ??= TimeOfDay.fromDateTime(start);
+    var newStart = DateTime(
+      start.year,
+      start.month,
+      start.day,
+      startingTime.hour,
+      startingTime.minute,
+    );
+    var diff = DateTime(
+      start.year,
+      start.month,
+      start.day,
+      startingTime.hour,
+      startingTime.minute,
+    ).difference(start);
+
+    var newEnd = end.add(diff);
+    if (newEnd.day != end.day || newEnd.isBefore(newStart)) {
+      newEnd = DateTime(start.year, start.month, start.day, 23, 59);
+    }
+
     setState(() {
-      start = DateTime(start.year, start.month, start.day, startingTime!.hour,
-          startingTime.minute);
+      start = newStart;
+      end = newEnd;
     });
     _timeFieldHasErrors();
   }
