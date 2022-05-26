@@ -241,6 +241,11 @@ class ReservationManager extends ChangeNotifier {
     }
   }
 
+  bool isReserved(String id) {
+    return reservations.any((task) => (task.resourceIDs.contains(id) &&
+        DateTime.now().isInInterval(task.start, task.end)));
+  }
+
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a foglaláslistát.
   ///Ha minden paraméter üres, a teljes listát adja vissza.
   List<TimetableTask> filter(
