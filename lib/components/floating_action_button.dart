@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../ui/themes.dart';
+import 'components.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -25,7 +26,7 @@ class CustomFloatingActionButton extends StatelessWidget {
                 width: kIconSizeLarge,
                 height: kIconSizeLarge,
               ),
-              child: Image.asset('assets/icons/plus_light_72.png'),
+              child: const CustomIcon(CustomIcons.plus),
             ),
           )
         : Container();

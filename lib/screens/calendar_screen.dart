@@ -41,14 +41,10 @@ class CalendarScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.all(kPaddingNormal),
-                width: kIconSizeXLarge,
-                height: kIconSizeXLarge,
-                child: Image.asset(
-                  'assets/icons/calendar_light_72.png',
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+              CustomIcon(
+                CustomIcons.calendar,
+                size: kIconSizeXLarge,
+                color: Theme.of(context).colorScheme.primary,
               ),
               Text(
                 'CALENDAR_HELP_TEXT'.tr(),

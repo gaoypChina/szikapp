@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/goodtoknow.dart';
 import '../ui/themes.dart';
+import 'components.dart';
 
 class DocumentDetails extends StatelessWidget {
   final GoodToKnow? document;
@@ -45,8 +46,8 @@ class DocumentDetails extends StatelessWidget {
                     document?.title ?? '',
                     style: theme.textTheme.headline5,
                   ),
-                  Icon(
-                    Icons.favorite,
+                  CustomIcon(
+                    CustomIcons.heartFull,
                     color: theme.colorScheme.secondary,
                   ),
                 ],

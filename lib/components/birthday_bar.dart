@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
-import 'shimmers/card_shimmer.dart';
+import 'components.dart';
 
 class BirthdayBar extends StatelessWidget {
   final IO io;
@@ -76,7 +76,7 @@ class BirthdayBar extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.all(kPaddingNormal),
-                  child: Icon(Icons.cake_outlined),
+                  child: CustomIcon(CustomIcons.gift),
                 ),
                 Expanded(
                   child: Text(

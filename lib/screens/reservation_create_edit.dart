@@ -358,13 +358,9 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: widget.isEdit
                               ? IconButton(
-                                  icon: ColorFiltered(
-                                    colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryContainer
-                                            .withOpacity(0.7),
-                                        BlendMode.srcIn),
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
+                                  icon: CustomIcon(
+                                    CustomIcons.trash,
+                                    color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

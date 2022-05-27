@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/notification.dart';
 import '../ui/themes.dart';
+import 'components.dart';
 
 class NotificationCard extends StatelessWidget {
   final CustomNotification data;
@@ -28,10 +29,9 @@ class NotificationCard extends StatelessWidget {
               width: kIconSizeNormal,
               height: kIconSizeNormal,
               margin: const EdgeInsets.only(right: kPaddingSmall),
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                    theme.colorScheme.secondary, BlendMode.srcIn),
-                child: Image.asset(data.iconPath),
+              child: CustomIcon(
+                data.iconPath,
+                color: theme.colorScheme.secondary,
               ),
             ),
             title: Text(
@@ -45,7 +45,10 @@ class NotificationCard extends StatelessWidget {
               //Router.of(context).routerDelegate.setNewRoutePath(data.route);
             },
             trailing: IconButton(
-              icon: const Icon(Icons.close),
+              icon: CustomIcon(
+                CustomIcons.close,
+                color: theme.colorScheme.secondary,
+              ),
               onPressed: () {},
             ),
           )

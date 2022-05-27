@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../ui/themes.dart';
+import 'components.dart';
 
 class WrappedIcon extends StatelessWidget {
   final double iconSize;
@@ -30,11 +31,10 @@ class WrappedIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
           color: backgroundColor ?? Theme.of(context).colorScheme.primary,
         ),
-        child: ColorFiltered(
-          colorFilter: ColorFilter.mode(
-              color ?? Theme.of(context).colorScheme.onPrimary,
-              BlendMode.srcIn),
-          child: Image.asset(assetPath),
+        child: CustomIcon(
+          assetPath,
+          size: iconSize,
+          color: color ?? Theme.of(context).colorScheme.onPrimary,
         ),
       ),
     );

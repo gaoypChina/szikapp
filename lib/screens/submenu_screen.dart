@@ -9,12 +9,12 @@ import '../ui/themes.dart';
 final List<SubMenuItemData> subMenuDataListItems = [
   SubMenuItemData(
     name: 'CONTACTS_TITLE'.tr(),
-    picture: 'assets/icons/users_light_72.png',
+    picture: CustomIcons.users,
     feature: SzikAppFeature.contacts,
   ),
   SubMenuItemData(
     name: 'DOCUMENTS_TITLE'.tr(),
-    picture: 'assets/icons/book_light_72.png',
+    picture: CustomIcons.bookClosed,
     feature: SzikAppFeature.documents,
   ),
 ];
@@ -22,17 +22,17 @@ final List<SubMenuItemData> subMenuDataListItems = [
 final List<SubMenuItemData> subMenuCommunityListItems = [
   SubMenuItemData(
     name: 'HELP_ME_TITLE'.tr(),
-    picture: 'assets/icons/helpme_light_72.png',
+    picture: CustomIcons.shield,
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
     name: 'BEER_WITH_ME_TITLE'.tr(),
-    picture: 'assets/icons/beer_light_72.png',
+    picture: CustomIcons.beer,
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
     name: 'SPIRITUAL_TITLE'.tr(),
-    picture: 'assets/icons/fire_light_72.png',
+    picture: CustomIcons.fire,
     feature: SzikAppFeature.error,
   ),
 ];
@@ -40,32 +40,32 @@ final List<SubMenuItemData> subMenuCommunityListItems = [
 final List<SubMenuItemData> subMenuEverydayListItems = [
   SubMenuItemData(
     name: 'CLEANING_TITLE'.tr(),
-    picture: 'assets/icons/knife_light_72.png',
+    picture: CustomIcons.knife,
     feature: SzikAppFeature.cleaning,
   ),
   SubMenuItemData(
     name: 'RESERVATION_TITLE'.tr(),
-    picture: 'assets/icons/hourglass_light_72.png',
+    picture: CustomIcons.hourglass,
     feature: SzikAppFeature.reservation,
   ),
   SubMenuItemData(
     name: 'JANITOR_TITLE'.tr(),
-    picture: 'assets/icons/wrench_light_72.png',
+    picture: CustomIcons.wrench,
     feature: SzikAppFeature.janitor,
   ),
   SubMenuItemData(
     name: 'FORMS_TITLE'.tr(),
-    picture: 'assets/icons/pencil_light_72.png',
+    picture: CustomIcons.pencilAndPaper,
     feature: SzikAppFeature.error,
   ),
   SubMenuItemData(
     name: 'POLL_TITLE'.tr(),
-    picture: 'assets/icons/handpalm_light_72.png',
+    picture: CustomIcons.handpalm,
     feature: SzikAppFeature.poll,
   ),
   SubMenuItemData(
     name: 'BOOKRENTAL_TITLE'.tr(),
-    picture: 'assets/icons/bank_light_72.png',
+    picture: CustomIcons.library,
     feature: SzikAppFeature.error,
   ),
 ];

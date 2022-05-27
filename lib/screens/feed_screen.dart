@@ -119,8 +119,8 @@ class FeedScreenState extends State<FeedScreen> {
               children: feedShortcuts.map<WrappedIconButton>(
                 (item) {
                   return WrappedIconButton(
-                    assetPath: shortcutData[item]?.assetPath ??
-                        'assets/icons/bell_light_72.png',
+                    assetPath:
+                        shortcutData[item]?.assetPath ?? CustomIcons.bell,
                     color: theme.colorScheme.primaryContainer,
                     backgroundColor: theme.colorScheme.background,
                     onTap: () =>
@@ -146,8 +146,8 @@ class FeedScreenState extends State<FeedScreen> {
                 Expanded(
                   child: IconButton(
                     onPressed: _onClearAllNotificationsPressed,
-                    icon: Icon(
-                      Icons.cancel_outlined,
+                    icon: CustomIcon(
+                      CustomIcons.closeOutlined,
                       color: theme.colorScheme.background,
                     ),
                     alignment: Alignment.centerRight,

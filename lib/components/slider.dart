@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../ui/themes.dart';
+import 'components.dart';
 
 class CustomSlider extends StatefulWidget {
   ///A csúszka címe
@@ -29,12 +30,12 @@ class CustomSlider extends StatefulWidget {
     this.initValue,
     this.min = 0,
     this.max = 100,
-    this.minIcon = const Icon(
-      Icons.volume_mute,
+    this.minIcon = const CustomIcon(
+      CustomIcons.volumeDown,
       size: kIconSizeLarge,
     ),
-    this.maxIcon = const Icon(
-      Icons.volume_up,
+    this.maxIcon = const CustomIcon(
+      CustomIcons.volumeUp,
       size: kIconSizeLarge,
     ),
     required this.onChanged,

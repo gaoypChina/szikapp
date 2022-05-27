@@ -359,12 +359,9 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                 margin: const EdgeInsets.only(
                                     right: kPaddingNormal),
                                 child: IconButton(
-                                  icon: ColorFiltered(
-                                    colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryContainer,
-                                        BlendMode.srcIn),
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
+                                  icon: CustomIcon(
+                                    CustomIcons.trash,
+                                    color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

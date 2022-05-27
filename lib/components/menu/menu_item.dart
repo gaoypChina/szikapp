@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../ui/themes.dart';
+import '../components.dart';
 
 class CustomMenuItem extends StatelessWidget {
   final String name;
@@ -41,17 +42,12 @@ class CustomMenuItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(kBorderRadiusSmall),
             color: Theme.of(context).colorScheme.primary,
           ),
-          child: Container(
-            margin: EdgeInsets.all(height * 0.05),
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.onPrimary,
-                BlendMode.srcIn,
-              ),
-              child: Image.asset(
-                picture,
-                width: kIconSizeNormal,
-              ),
+          child: Padding(
+            padding: EdgeInsets.all(height * 0.05),
+            child: CustomIcon(
+              picture,
+              size: kIconSizeLarge,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
         ),

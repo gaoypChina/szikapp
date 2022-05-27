@@ -8,6 +8,7 @@ const double kIconSizeSmall = 20;
 const double kIconSizeNormal = 24;
 const double kIconSizeLarge = 32;
 const double kIconSizeXLarge = 48;
+const double kIconSizeGiant = 64;
 
 const double kPaddingSmall = 5;
 const double kPaddingNormal = 10;

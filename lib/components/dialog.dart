@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/themes.dart';
+import 'components.dart';
 
 enum DialogType {
   alert,
@@ -77,7 +78,10 @@ class CustomDialog extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: Navigator.of(context, rootNavigator: true).pop,
-                    child: const Icon(Icons.close),
+                    child: CustomIcon(
+                      CustomIcons.close,
+                      color: theme.colorScheme.secondaryContainer,
+                    ),
                   )
                 ],
               ),

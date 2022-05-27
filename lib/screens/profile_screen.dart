@@ -115,16 +115,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return changed
         ? [
             ElevatedButton.icon(
-              icon: const Icon(
-                Icons.close,
+              icon: const CustomIcon(
+                CustomIcons.close,
                 size: kIconSizeNormal,
               ),
               label: Text('BUTTON_DISMISS'.tr()),
               onPressed: _onCancel,
             ),
             ElevatedButton.icon(
-              icon: const Icon(
-                Icons.done,
+              icon: const CustomIcon(
+                CustomIcons.done,
                 size: kIconSizeNormal,
               ),
               label: Text('BUTTON_SAVE'.tr()),
@@ -169,15 +169,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: () =>
                       Provider.of<AuthManager>(context, listen: false)
                           .signOut(),
-                  icon: ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.surface,
-                      BlendMode.srcIn,
-                    ),
-                    child: Image.asset(
-                      'assets/icons/user_light_72.png',
-                      height: kIconSizeSmall,
-                    ),
+                  icon: CustomIcon(
+                    CustomIcons.logout,
+                    size: kIconSizeSmall,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                   label: Text('SIGN_OUT_LABEL'.tr()),
                 ),

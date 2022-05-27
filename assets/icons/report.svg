@@ -1,0 +1,5 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 83C68.2254 83 83 68.2254 83 50C83 31.7746 68.2254 17 50 17C31.7746 17 17 31.7746 17 50C17 68.2254 31.7746 83 50 83Z" stroke="#FEFBFC" stroke-width="4" stroke-miterlimit="10"/>
+<path d="M50 33V53" stroke="#FEFBFC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M50 69C52.2091 69 54 67.2091 54 65C54 62.7909 52.2091 61 50 61C47.7909 61 46 62.7909 46 65C46 67.2091 47.7909 69 50 69Z" fill="#FEFBFC"/>
+</svg>
