@@ -258,6 +258,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                               ? IconButton(
                                   icon: CustomIcon(
                                     CustomIcons.trash,
+                                    size: kIconSizeLarge,
                                     color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {

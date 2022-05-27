@@ -74,9 +74,13 @@ class BirthdayBar extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(kPaddingNormal),
-                  child: CustomIcon(CustomIcons.gift),
+                Padding(
+                  padding: const EdgeInsets.all(kPaddingNormal),
+                  child: CustomIcon(
+                    CustomIcons.gift,
+                    size: kIconSizeLarge,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
                 ),
                 Expanded(
                   child: Text(

@@ -360,6 +360,7 @@ class ReservationCreateEditScreenState
                               ? IconButton(
                                   icon: CustomIcon(
                                     CustomIcons.trash,
+                                    size: kIconSizeLarge,
                                     color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {

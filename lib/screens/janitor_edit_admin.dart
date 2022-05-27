@@ -361,6 +361,7 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                 child: IconButton(
                                   icon: CustomIcon(
                                     CustomIcons.trash,
+                                    size: kIconSizeLarge,
                                     color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {
