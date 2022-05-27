@@ -16,8 +16,8 @@ class DocumentDetails extends StatelessWidget {
 
   void _onPressed() async {
     var url = document!.keyValuePairs![GoodToKnow.urlKey] ?? '';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     }
   }
 

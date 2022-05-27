@@ -25,10 +25,10 @@ class TimePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TimePickerState createState() => _TimePickerState();
+  TimePickerState createState() => TimePickerState();
 }
 
-class _TimePickerState extends State<TimePicker> {
+class TimePickerState extends State<TimePicker> {
   void _selectTime() async {
     final newTime = await showTimePicker(
       context: context,

@@ -25,25 +25,22 @@ class Settings extends ChangeNotifier {
   ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
     var value =
-        _preferences.getString('darkMode') ?? DarkMode.system.toShortString();
-    return DarkMode.values
-        .firstWhere((element) => element.toShortString() == value);
+        _preferences.getString('darkMode') ?? DarkMode.system.toString();
+    return DarkMode.values.firstWhere((element) => element.toString() == value);
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
-    var value =
-        _preferences.getString('language') ?? Language.hu.toShortString();
-    return Language.values
-        .firstWhere((element) => element.toShortString() == value);
+    var value = _preferences.getString('language') ?? Language.hu.toString();
+    return Language.values.firstWhere((element) => element.toString() == value);
   }
 
   ///Lekéri az alkalmazás színtémát.
   SzikAppTheme get theme {
-    var value = _preferences.getString('theme') ??
-        SzikAppTheme.defaultTheme.toShortString();
+    var value =
+        _preferences.getString('theme') ?? SzikAppTheme.defaultTheme.toString();
     return SzikAppTheme.values
-        .firstWhere((element) => element.toShortString() == value);
+        .firstWhere((element) => element.toString() == value);
   }
 
   ///Lekéri az adattakarékos mód beállítását.
@@ -82,21 +79,21 @@ class Settings extends ChangeNotifier {
   ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
     _preferences
-        .setString('darkMode', mode.toShortString())
+        .setString('darkMode', mode.toString())
         .then((_) => notifyListeners());
   }
 
   ///Elmenti a nyelvbeállításokat.
   set language(Language language) {
     _preferences
-        .setString('language', language.toShortString())
+        .setString('language', language.toString())
         .then((_) => notifyListeners());
   }
 
   ///Elmenti a témabeállításokat.
   set theme(SzikAppTheme theme) {
     _preferences
-        .setString('theme', theme.toShortString())
+        .setString('theme', theme.toString())
         .then((_) => notifyListeners());
   }
 

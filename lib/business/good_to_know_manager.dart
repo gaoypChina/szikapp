@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/goodtoknow.dart';
+import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
 class GoodToKnowManager extends ChangeNotifier {
@@ -107,7 +108,11 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   Future<void> refresh() async {
-    var io = IO();
-    _posts = await io.getGoodToKnow();
+    try {
+      var io = IO();
+      _posts = await io.getGoodToKnow();
+    } on IONotModifiedException {
+      _posts = [];
+    }
   }
 }

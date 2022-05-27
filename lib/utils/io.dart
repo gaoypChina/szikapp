@@ -332,7 +332,7 @@ class IO {
           ..._lastUpdateHeader(lastUpdate)
         },
         body: json.encode({
-          'data': {'status': data.toShortString()}
+          'data': {'status': data.toString()}
         }));
 
     if (response.statusCode == 200) return true;
@@ -441,8 +441,9 @@ class IO {
   Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+    uri += 'localTime=${DateTime.now().toIso8601String()}';
+    var response =
+        await client.get(Uri.parse(uri), headers: {...await _commonHeaders()});
 
     if (response.statusCode == 200) {
       var answer = <UserData>[];
@@ -633,12 +634,7 @@ class IO {
       var answer = <PollTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var polls = parsed['results'];
-      polls.forEach((item) {
-        answer.add(PollTask.fromJson(item));
-      });
-      //for (var item in polls) {
-      //  answer.add(PollTask.fromJson(item));
-      //}
+      polls.forEach((item) => answer.add(PollTask.fromJson(item)));
       return answer;
     }
     throw _handleErrors(response);

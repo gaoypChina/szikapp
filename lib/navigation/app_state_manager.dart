@@ -59,6 +59,8 @@ class SzikAppStateManager extends ChangeNotifier {
   ///jogosultságait.
   List<Group> _groups = [];
 
+  List<UserData> _users = [];
+
   bool get isFirebaseInitialized => _firebaseInitialized;
   bool get hasError => _hasError;
   BaseException? get error => _error;
@@ -68,6 +70,7 @@ class SzikAppStateManager extends ChangeNotifier {
 
   List<Place> get places => _places;
   List<Group> get groups => _groups;
+  List<UserData> get users => _users;
 
   void initializeFirebase() {
     _firebaseInitialized = true;
@@ -81,9 +84,11 @@ class SzikAppStateManager extends ChangeNotifier {
       var io = IO();
       _places = await io.getPlace();
       _groups = await io.getGroup();
+      _users = await io.getContacts();
     } on Exception {
       _places = <Place>[];
       _groups = <Group>[];
+      _users = <UserData>[];
     }
   }
 

@@ -79,8 +79,8 @@ class _CustomSliderState extends State<CustomSlider> {
       child: Column(
         children: [
           Align(
-            child: widget.titleText,
             alignment: Alignment.topLeft,
+            child: widget.titleText,
           ),
           const SizedBox(height: 10),
           Row(

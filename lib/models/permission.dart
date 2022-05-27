@@ -68,11 +68,8 @@ enum Permission {
 
   resourceView,
   resourceCreate,
-  resourceEdit,
-}
+  resourceEdit;
 
-extension PermissionToString on Permission {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 }

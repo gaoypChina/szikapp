@@ -43,10 +43,10 @@ class JanitorEditAdminScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _JanitorEditAdminScreenState createState() => _JanitorEditAdminScreenState();
+  JanitorEditAdminScreenState createState() => JanitorEditAdminScreenState();
 }
 
-class _JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
+class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   final _formKey = GlobalKey<FormState>();
   TaskStatus? status;
   String answer = '';

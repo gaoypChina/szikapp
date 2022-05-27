@@ -32,6 +32,13 @@ class PollManager extends ChangeNotifier {
   bool get isVoting => _vote;
   bool get isViewingPollResults => _viewPollResults;
 
+  int indexOf(PollTask task) {
+    for (var e in polls) {
+      if (e.id == task.id) return polls.indexOf(e);
+    }
+    return -1;
+  }
+
   void createNewPoll() {
     _createNewPoll = true;
     _editPoll = false;
@@ -42,15 +49,16 @@ class PollManager extends ChangeNotifier {
   }
 
   void editPoll(int index) {
+    _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = true;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = index;
     notifyListeners();
   }
 
   void vote(int index) {
+    _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = false;
     _vote = true;
@@ -79,6 +87,19 @@ class PollManager extends ChangeNotifier {
   }
 
   void closePollResults() {
+    _viewPollResults = false;
+    notifyListeners();
+  }
+
+  void unselectPoll() {
+    _selectedIndex = -1;
+    notifyListeners();
+  }
+
+  void performBackButtonPressed() {
+    _createNewPoll = false;
+    _editPoll = false;
+    _vote = false;
     _viewPollResults = false;
     notifyListeners();
   }
@@ -113,7 +134,6 @@ class PollManager extends ChangeNotifier {
     _editPoll = false;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -151,7 +171,6 @@ class PollManager extends ChangeNotifier {
     _editPoll = false;
     _vote = false;
     _viewPollResults = false;
-    _selectedIndex = -1;
     notifyListeners();
     return true;
   }
@@ -232,7 +251,11 @@ class PollManager extends ChangeNotifier {
       'participant': userID,
     };
 
-    var io = IO();
-    _polls = await io.getPoll(parameter);
+    try {
+      var io = IO();
+      _polls = await io.getPoll(parameter);
+    } on IONotModifiedException {
+      _polls = [];
+    }
   }
 }

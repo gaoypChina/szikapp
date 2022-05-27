@@ -1,4 +1,4 @@
-package com.example.szikapp
+package com.szik.szikapp
 
 import io.flutter.embedding.android.FlutterActivity;
 import androidx.annotation.NonNull;

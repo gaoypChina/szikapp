@@ -24,6 +24,7 @@ class CustomMenuItem extends StatelessWidget {
     var children = <Widget>[
       Expanded(
         child: Container(
+          padding: EdgeInsets.symmetric(horizontal: height * 0.1),
           child: Text(
             name,
             textAlign: reversed ? TextAlign.left : TextAlign.right,
@@ -31,7 +32,6 @@ class CustomMenuItem extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: height * 0.1),
         ),
       ),
       Center(

@@ -44,10 +44,10 @@ class JanitorListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _JanitorListViewState createState() => _JanitorListViewState();
+  JanitorListViewState createState() => JanitorListViewState();
 }
 
-class _JanitorListViewState extends State<JanitorListView> {
+class JanitorListViewState extends State<JanitorListView> {
   List<JanitorTask> items = [];
 
   @override
@@ -85,13 +85,13 @@ class _JanitorListViewState extends State<JanitorListView> {
 
   void _onEditPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
-    var index = widget.manager.tasks.indexOf(task);
+    var index = widget.manager.indexOf(task);
     widget.manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
     SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
-    var index = widget.manager.tasks.indexOf(task);
+    var index = widget.manager.indexOf(task);
     widget.manager.adminEditTask(index);
   }
 
@@ -99,7 +99,7 @@ class _JanitorListViewState extends State<JanitorListView> {
     if (task.status == TaskStatus.awaitingApproval ||
         task.status == TaskStatus.approved) {
       SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
-      var index = widget.manager.tasks.indexOf(task);
+      var index = widget.manager.indexOf(task);
       widget.manager.feedbackTask(index);
     }
   }
@@ -136,13 +136,13 @@ class _JanitorListViewState extends State<JanitorListView> {
           onPressed: () => userID == 'u904'
               ? _onEditJanitorPressed(task)
               : _onEditPressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_EDIT'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -151,13 +151,13 @@ class _JanitorListViewState extends State<JanitorListView> {
       buttons.add(
         OutlinedButton(
           onPressed: () => _onFeedbackPressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_FEEDBACK'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -166,13 +166,13 @@ class _JanitorListViewState extends State<JanitorListView> {
       buttons.add(
         OutlinedButton(
           onPressed: () => _onApprovePressed(task),
+          style: buttonStyle,
           child: Text(
             'BUTTON_APPROVE'.tr(),
             style: theme.textTheme.bodyText1!.copyWith(
               color: theme.colorScheme.primaryContainer,
             ),
           ),
-          style: buttonStyle,
         ),
       );
     }
@@ -708,7 +708,7 @@ class _JanitorListViewState extends State<JanitorListView> {
                                                                         kBorderRadiusNormal)),
                                                         child: Text(
                                                           item.status
-                                                              .toShortString(),
+                                                              .toString(),
                                                           style: theme.textTheme
                                                               .subtitle1!
                                                               .copyWith(

@@ -19,13 +19,10 @@ enum TaskType {
   @JsonValue('bookloan')
   bookloan,
   @JsonValue('poll')
-  poll
-}
+  poll;
 
-extension TaskTypeExtensions on TaskType {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 
   bool isEqual(TaskType? other) {
     if (other == null) return false;
@@ -48,13 +45,10 @@ enum TaskStatus {
   @JsonValue('refused')
   refused,
   @JsonValue('approved')
-  approved
-}
+  approved;
 
-extension TaskStatusExtensions on TaskStatus {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  @override
+  String toString() => name;
 
   bool isEqual(TaskStatus? other) {
     if (other == null) return false;
@@ -341,7 +335,7 @@ class Vote implements Cachable {
   List<String> votes;
   @override
   @JsonKey(name: 'last_update')
-  DateTime lastUpdate;
+  final DateTime lastUpdate;
 
   Vote({
     required this.voterID,

@@ -100,8 +100,8 @@ class ContactsManager {
   ///ahonnan a szám már gombnyomásra hívható.
   Future<void> makePhoneCall(String phoneNumber) async {
     var url = 'tel:$phoneNumber';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw NotSupportedCallFunctionalityException(url);
     }
@@ -111,8 +111,8 @@ class ContactsManager {
   ///alapértelmezett levelező klienst.
   Future<void> makeEmail(String emailAddress) async {
     var url = 'mailto:$emailAddress';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw NotSupportedEmailFunctionalityException(url);
     }
@@ -125,10 +125,18 @@ class ContactsManager {
     var io = IO();
 
     if (_contacts.isEmpty || forceRefresh) {
-      _contacts = await io.getContacts();
+      try {
+        _contacts = await io.getContacts();
+      } on IONotModifiedException {
+        _contacts = [];
+      }
     }
     if (_groups.isEmpty || forceRefresh) {
-      _groups = await io.getGroup();
+      try {
+        _groups = await io.getGroup();
+      } on IONotModifiedException {
+        _groups = [];
+      }
     }
   }
 }

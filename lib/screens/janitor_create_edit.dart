@@ -10,8 +10,8 @@ import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
-class JanitorNewEditScreen extends StatefulWidget {
-  static const String route = '/janitor/newedit';
+class JanitorCreateEditScreen extends StatefulWidget {
+  static const String route = '/janitor/createedit';
 
   static MaterialPage page({
     JanitorTask? originalItem,
@@ -24,7 +24,7 @@ class JanitorNewEditScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: JanitorNewEditScreen(
+      child: JanitorCreateEditScreen(
         originalItem: originalItem,
         isFeedback: isFeedback,
         index: index,
@@ -43,7 +43,7 @@ class JanitorNewEditScreen extends StatefulWidget {
   final Function(JanitorTask, int) onDelete;
   final Function(JanitorTask, int) onUpdate;
 
-  const JanitorNewEditScreen({
+  const JanitorCreateEditScreen({
     Key? key,
     this.isFeedback = false,
     this.originalItem,
@@ -55,10 +55,10 @@ class JanitorNewEditScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _JanitorNewEditScreenState createState() => _JanitorNewEditScreenState();
+  JanitorCreateEditScreenState createState() => JanitorCreateEditScreenState();
 }
 
-class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
+class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Place> places = [];
   String? placeID;
@@ -299,32 +299,33 @@ class _JanitorNewEditScreenState extends State<JanitorNewEditScreen> {
     placeID = item!.id;
   }
 
-  void _onTitleChanged(String? title) {
-    this.title = title!;
+  void _onTitleChanged(String title) {
+    this.title = title;
   }
 
-  void _onDescriptionChanged(String? text) {
-    widget.isFeedback ? feedback = text! : description = text!;
+  void _onDescriptionChanged(String text) {
+    widget.isFeedback ? feedback = text : description = text;
   }
 
   void _onNewSent() {
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = JanitorTask(
-          id: uuid.v4().toUpperCase(),
-          name: title!,
-          description: description,
-          start: DateTime.now(),
-          end: DateTime.now(),
-          type: TaskType.janitor,
-          lastUpdate: DateTime.now(),
-          placeID: placeID!,
-          //Gondnok ID !!
-          participantIDs: <String>[
-            Provider.of<AuthManager>(context, listen: false).user!.id,
-            'u904'
-          ],
-          status: TaskStatus.created);
+        id: uuid.v4().toUpperCase(),
+        name: title!,
+        description: description,
+        start: DateTime.now(),
+        end: DateTime.now(),
+        type: TaskType.janitor,
+        lastUpdate: DateTime.now(),
+        placeID: placeID!,
+        //Gondnok ID !!
+        participantIDs: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id,
+          'u904'
+        ],
+        status: TaskStatus.created,
+      );
       task.status = TaskStatus.sent;
 
       SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');

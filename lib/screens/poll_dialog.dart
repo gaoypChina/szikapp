@@ -7,20 +7,20 @@ import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 
-class PollWidget extends StatefulWidget {
+class PollDialog extends StatefulWidget {
   final PollTask poll;
   final PollManager manager;
-  const PollWidget({
+  const PollDialog({
     Key? key,
     required this.poll,
     required this.manager,
   }) : super(key: key);
 
   @override
-  State<PollWidget> createState() => _PollWidgetState();
+  State<PollDialog> createState() => _PollDialogState();
 }
 
-class _PollWidgetState extends State<PollWidget> {
+class _PollDialogState extends State<PollDialog> {
   List<String> _selected = [];
 
   @override
@@ -57,26 +57,54 @@ class _PollWidgetState extends State<PollWidget> {
 
   Widget _buildOpenPoll() {
     var theme = Theme.of(context);
-    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    var user = Provider.of<AuthManager>(context, listen: false).user;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           color: theme.colorScheme.primary,
+          width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Text(
-              widget.poll.question,
-              style: theme.textTheme.headline2!
-                  .copyWith(color: theme.colorScheme.surface),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.poll.name,
+                    style: theme.textTheme.headline2!
+                        .copyWith(color: theme.colorScheme.surface),
+                  ),
+                ),
+                const SizedBox(width: kPaddingLarge),
+                if (user!.hasPermissionToModify(widget.poll))
+                  GestureDetector(
+                    onTap: () => widget.manager
+                        .editPoll(widget.manager.indexOf(widget.poll)),
+                    child: Image.asset(
+                      'assets/icons/pencil_light_72.png',
+                      height: kIconSizeLarge,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
-        Expanded(
+        Flexible(
           child: Padding(
-            padding: const EdgeInsets.all(kPaddingNormal),
+            padding: const EdgeInsets.all(kPaddingLarge),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  widget.poll.question,
+                  style: theme.textTheme.subtitle1!.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: kPaddingNormal),
                 Text(
                   widget.poll.description ?? '',
                   style: theme.textTheme.subtitle1!.copyWith(
@@ -88,9 +116,15 @@ class _PollWidgetState extends State<PollWidget> {
                   thickness: 2,
                   color: theme.colorScheme.secondary,
                 ),
-                Expanded(child: ListView(children: _buildAnswerItems())),
-                widget.manager.hasVoted(userID: userID, poll: widget.poll)
-                    ? const Text('Már szavaztál')
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: _buildAnswerItems(),
+                  ),
+                ),
+                const SizedBox(height: kPaddingNormal),
+                widget.manager.hasVoted(userID: user.id, poll: widget.poll)
+                    ? Center(child: Text('POLL_ALREADY_VOTED'.tr()))
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(
@@ -102,15 +136,6 @@ class _PollWidgetState extends State<PollWidget> {
                               lastUpdate: DateTime.now(),
                             ),
                             widget.poll)),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                          ),
-                          child: Text('BUTTON_SEND'.tr()),
-                        ),
                         style: ButtonStyle(
                           shape:
                               MaterialStateProperty.resolveWith<OutlinedBorder>(
@@ -121,6 +146,15 @@ class _PollWidgetState extends State<PollWidget> {
                               );
                             },
                           ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                            kPaddingNormal,
+                            kBorderRadiusSmall,
+                          ),
+                          child: Text('BUTTON_SEND'.tr()),
                         ),
                       ),
               ],
@@ -138,19 +172,30 @@ class _PollWidgetState extends State<PollWidget> {
       children: [
         Container(
           color: theme.colorScheme.secondaryContainer,
+          width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(kBorderRadiusNormal),
             child: Text(
-              widget.poll.question,
+              widget.poll.name,
               style: theme.textTheme.headline2!
                   .copyWith(color: theme.colorScheme.surface),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(kPaddingNormal),
+          padding: const EdgeInsets.all(kPaddingLarge),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                widget.poll.question,
+                style: theme.textTheme.subtitle1!.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: kPaddingNormal),
               Text(
                 widget.poll.description ?? '',
                 style: theme.textTheme.subtitle1!.copyWith(
@@ -162,7 +207,12 @@ class _PollWidgetState extends State<PollWidget> {
                 thickness: 2,
                 color: theme.colorScheme.secondary,
               ),
-              ..._buildClosedAnswerItems(),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _buildClosedAnswerItems(),
+                ),
+              ),
             ],
           ),
         ),
@@ -259,22 +309,26 @@ class _PollWidgetState extends State<PollWidget> {
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              Column(children: [
-                Text(
-                  '${votesPercent.toString()}%',
-                  style: theme.textTheme.headline2!.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontStyle: FontStyle.italic,
+              Column(
+                children: [
+                  Text(
+                    '${votesPercent.toString()}%',
+                    style: theme.textTheme.headline2!.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
-                ),
-                Text(
-                  'POLL_VOTE'.tr(args: [results[item]['voteCount'].toString()]),
-                  style: theme.textTheme.subtitle1!.copyWith(
-                    color: theme.colorScheme.primaryContainer,
-                    fontStyle: FontStyle.italic,
+                  Text(
+                    'POLL_VOTE'.tr(
+                      args: [results[item]['voteCount'].toString()],
+                    ),
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
             ],
           ),
         );

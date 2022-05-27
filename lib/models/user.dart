@@ -94,7 +94,7 @@ class User {
   }
 
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (_permissions.any((element) => element.toShortString() == 'admin')) {
+    if (_permissions.any((element) => element.toString() == 'admin')) {
       return true;
     }
     return _permissions.any((element) =>
@@ -102,6 +102,9 @@ class User {
   }
 
   bool hasPermissionToCreate(Type type) {
+    if (_permissions.any((element) => element.toString() == 'admin')) {
+      return true;
+    }
     if (type == PollTask) {
       return _permissions.contains(Permission.pollCreate);
     } else {
@@ -110,6 +113,9 @@ class User {
   }
 
   bool hasPermissionToRead(Task task) {
+    if (_permissions.any((element) => element.toString() == 'admin')) {
+      return true;
+    }
     if (task.runtimeType == PollTask) {
       return _permissions.contains(Permission.pollView) &&
           task.participantIDs.contains(id);
@@ -119,6 +125,9 @@ class User {
   }
 
   bool hasPermissionToModify(Task task) {
+    if (_permissions.any((element) => element.toString() == 'admin')) {
+      return true;
+    }
     return task.managerIDs.contains(id);
   }
 }

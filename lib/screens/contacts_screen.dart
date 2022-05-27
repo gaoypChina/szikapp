@@ -31,12 +31,12 @@ class ContactsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ContactsScreenState createState() => _ContactsScreenState();
+  ContactsScreenState createState() => ContactsScreenState();
 }
 
 ///A [ContactsScreen] képernyő állapota. Tartalmazza a [Contacts] signleton
 ///egy példányát.
-class _ContactsScreenState extends State<ContactsScreen> {
+class ContactsScreenState extends State<ContactsScreen> {
   late ContactsManager manager;
 
   ///Létrehozza a [Contacts] singleton egy példányát és betölti a
@@ -66,12 +66,12 @@ class ContactsListView extends StatefulWidget {
   const ContactsListView({Key? key, required this.manager}) : super(key: key);
 
   @override
-  _ContactsListViewState createState() => _ContactsListViewState();
+  ContactsListViewState createState() => ContactsListViewState();
 }
 
 ///A [ContactsListView] állapota. Tartalmazza a funkcionalitást támogató
 ///[Contacts] singletont.
-class _ContactsListViewState extends State<ContactsListView>
+class ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
   ///Megjelenített kontaktok
   List<UserData> _items = [];

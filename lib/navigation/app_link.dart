@@ -6,17 +6,18 @@ class SzikAppLink {
   static const String kFeedPath = '/feed';
   static const String kHomePath = '/';
   static const String kJanitorEditAdminPath = '/janitor/adminedit';
-  static const String kJanitorNewEditPath = '/janitor/newedit';
+  static const String kJanitorCreateEditPath = '/janitor/createedit';
   static const String kJanitorPath = '/janitor';
   static const String kKitchenCleaningPath = '/cleaning';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
+  static const String kPollCreateEditPath = '/poll/createedit';
   static const String kProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
   static const String kReservationPlacesMapPath = '/reservation/places';
   static const String kReservationAccountsListPath = '/reservation/accounts';
   static const String kReservationGamesListPath = '/reservation/games';
-  static const String kReservationNewEditPath = '/reservation/newedit';
+  static const String kReservationCreateEditPath = '/reservation/createedit';
   static const String kReservationPath = '/reservation';
   static const String kSettingsPath = '/settings';
   static const String kSignInPath = '/signin';
@@ -107,6 +108,13 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
+      case kPollCreateEditPath:
+        var loc = '$kPollCreateEditPath?';
+        loc += addKeyValPair(
+          key: kIdParam,
+          value: itemId,
+        );
+        return Uri.encodeFull(loc);
       case kErrorPath:
         var loc = '$kErrorPath?';
         loc += addKeyValPair(
@@ -128,8 +136,8 @@ class SzikAppLink {
           value: itemId,
         );
         return Uri.encodeFull(loc);
-      case kJanitorNewEditPath:
-        var loc = '$kJanitorNewEditPath?';
+      case kJanitorCreateEditPath:
+        var loc = '$kJanitorCreateEditPath?';
         loc += addKeyValPair(
           key: kIdParam,
           value: itemId,
@@ -162,8 +170,8 @@ class SzikAppLink {
         return kReservationGamesListPath;
       case kReservationAccountsListPath:
         return kReservationAccountsListPath;
-      case kReservationNewEditPath:
-        var loc = '$kReservationNewEditPath?';
+      case kReservationCreateEditPath:
+        var loc = '$kReservationCreateEditPath?';
         loc += addKeyValPair(
           key: kIdParam,
           value: itemId,

@@ -222,8 +222,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
               child: Row(
-                children: _buildActionButtons(),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _buildActionButtons(),
               ),
             ),
           ],

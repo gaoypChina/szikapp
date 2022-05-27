@@ -7,15 +7,16 @@ import '../screens/contacts_screen.dart';
 import '../screens/documents_screen.dart';
 import '../screens/error_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/janitor_create_edit.dart';
 import '../screens/janitor_edit_admin.dart';
-import '../screens/janitor_new_edit.dart';
 import '../screens/janitor_screen.dart';
+import '../screens/poll_create_edit.dart';
 import '../screens/poll_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/reservation_accounts.dart';
+import '../screens/reservation_create_edit.dart';
 import '../screens/reservation_details.dart';
 import '../screens/reservation_games.dart';
-import '../screens/reservation_new_edit.dart';
 import '../screens/reservation_places_map.dart';
 import '../screens/reservation_screen.dart';
 import '../screens/settings_screen.dart';
@@ -101,7 +102,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.settings)
             SettingsScreen.page(),
           if (janitorManager.isCreatingNewTask)
-            JanitorNewEditScreen.page(
+            JanitorCreateEditScreen.page(
               onCreate: (item) {
                 janitorManager.addTask(item);
               },
@@ -109,7 +110,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               onDelete: (item, index) {},
             ),
           if (janitorManager.isEditingTask)
-            JanitorNewEditScreen.page(
+            JanitorCreateEditScreen.page(
               originalItem: janitorManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
@@ -120,7 +121,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (janitorManager.isGivingFeedback)
-            JanitorNewEditScreen.page(
+            JanitorCreateEditScreen.page(
               originalItem: janitorManager.selectedTask,
               isFeedback: true,
               onCreate: (_) {},
@@ -141,8 +142,27 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                 janitorManager.updateTask(item);
               },
             ),
+          if (pollManager.isCreatingNewPoll)
+            PollCreateEditScreen.page(
+              onCreate: (item) {
+                pollManager.addPoll(item);
+              },
+              onUpdate: (item, index) {},
+              onDelete: (item, index) {},
+            ),
+          if (pollManager.isEditingPoll)
+            PollCreateEditScreen.page(
+              originalItem: pollManager.selectedPoll,
+              onCreate: (item) {},
+              onUpdate: (item, index) {
+                pollManager.updatePoll(item);
+              },
+              onDelete: (item, index) {
+                pollManager.deletePoll(item);
+              },
+            ),
           if (reservationManager.selectedMode == ReservationMode.place)
-            ReservationPlacesMapScreen.page(),
+            ReservationPlacesMapScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
             ReservationGamesListScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.account)
@@ -152,7 +172,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               reservationManager.selectedAccountIndex != -1)
             ReservationDetailsScreen.page(manager: reservationManager),
           if (reservationManager.isCreatingNewReservation)
-            ReservationNewEditScreen.page(
+            ReservationCreateEditScreen.page(
               manager: reservationManager,
               onCreate: (item) {
                 reservationManager.addReservation(item);
@@ -161,7 +181,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               onDelete: (item, index) {},
             ),
           if (reservationManager.isEditingReservation)
-            ReservationNewEditScreen.page(
+            ReservationCreateEditScreen.page(
               manager: reservationManager,
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
@@ -206,16 +226,20 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kDocumentsPath ||
         route.settings.name == SzikAppLink.kErrorPath ||
         route.settings.name == SzikAppLink.kJanitorPath ||
+        route.settings.name == SzikAppLink.kPollPath ||
         route.settings.name == SzikAppLink.kProfilePath ||
         route.settings.name == SzikAppLink.kReservationPath ||
         route.settings.name == SzikAppLink.kSettingsPath) {
       appStateManager.unselectFeature();
     }
-    if (route.settings.name == SzikAppLink.kJanitorNewEditPath ||
+    if (route.settings.name == SzikAppLink.kJanitorCreateEditPath ||
         route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
       janitorManager.performBackButtonPressed();
     }
-    if (route.settings.name == SzikAppLink.kReservationNewEditPath) {
+    if (route.settings.name == SzikAppLink.kPollCreateEditPath) {
+      pollManager.performBackButtonPressed();
+    }
+    if (route.settings.name == SzikAppLink.kReservationCreateEditPath) {
       reservationManager.cancelCreatingOrEditing();
     }
     if (route.settings.name == SzikAppLink.kReservationGamesListPath ||
