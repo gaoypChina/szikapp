@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
+import '../models/resource.dart';
 import '../navigation/navigation.dart';
 
 class ReservationPlacesMapScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class ReservationPlacesMapScreen extends StatelessWidget {
           itemCount: places.length,
           itemBuilder: (context, index) {
             var reserved = manager.isReserved(places[index].id);
-            return places[index].type == 'public'
+            return places[index].type == PlaceType.public
                 ? ListTile(
                     leading: const Icon(Icons.place),
                     title: Text(
