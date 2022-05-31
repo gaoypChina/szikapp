@@ -52,8 +52,8 @@ class FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var shownName =
-        Provider.of<AuthManager>(context, listen: false).user!.showableName;
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
+
     var feedShortcuts = context.select(
       (Settings settings) => settings.feedShortcuts,
     );
@@ -87,7 +87,7 @@ class FeedScreenState extends State<FeedScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FEED_GREETINGS'.tr(args: [shownName]),
+                      'FEED_GREETINGS'.tr(args: [user.showableName]),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -95,14 +95,17 @@ class FeedScreenState extends State<FeedScreen> {
                       ),
                     ),
                   ),
-                  CircleAvatar(
-                    foregroundImage: NetworkImage(
-                      Provider.of<AuthManager>(context, listen: false)
-                          .user!
-                          .profilePicture
-                          .toString(),
-                    ),
-                  ),
+                  user.profilePicture != null
+                      ? CircleAvatar(
+                          foregroundImage: NetworkImage(
+                            user.profilePicture!,
+                          ),
+                        )
+                      : CustomIcon(
+                          CustomIcons.user,
+                          size: kIconSizeGiant,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                 ],
               ),
             ),
