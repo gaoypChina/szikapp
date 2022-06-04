@@ -163,6 +163,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
                     ),
+                    cursorColor: theme.colorScheme.surface,
                     decoration: InputDecoration(
                       hintText: 'POLL_HINT_TITLE'.tr(),
                     ),
