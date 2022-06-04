@@ -122,7 +122,11 @@ class _PollDialogState extends State<PollDialog> {
                 ),
                 const SizedBox(height: kPaddingNormal),
                 widget.manager.hasVoted(userID: user.id, poll: widget.poll)
-                    ? Center(child: Text('POLL_ALREADY_VOTED'.tr()))
+                    ? Center(
+                        child: Text(
+                        '${widget.poll.feedbackOnAnswer}\n${'POLL_ALREADY_VOTED'.tr()}',
+                        textAlign: TextAlign.center,
+                      ))
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(
