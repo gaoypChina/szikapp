@@ -260,13 +260,9 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                           child: FittedBox(
                             child: FloatingActionButton(
                               onPressed: _onAnswerOptionAdded,
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints.expand(
-                                  width: kIconSizeXLarge,
-                                  height: kIconSizeXLarge,
-                                ),
-                                child: Image.asset(
-                                    'assets/icons/plus_light_72.png'),
+                              child: const CustomIcon(
+                                CustomIcons.plus,
+                                size: kIconSizeXLarge,
                               ),
                             ),
                           ),
@@ -288,6 +284,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             onChanged: _onStartDateChanged,
                             initialDate: startDateTime,
                             startDate: DateTime.now(),
+                            color: theme.colorScheme.primaryContainer,
                           ),
                           const SizedBox(width: kPaddingNormal),
                           TimePicker(
@@ -296,6 +293,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               minute: startDateTime.minute,
                             ),
                             onChanged: _onStartTimeChanged,
+                            color: theme.colorScheme.primaryContainer,
                           )
                         ],
                       ),
@@ -306,6 +304,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             onChanged: _onEndDateChanged,
                             initialDate: endDateTime,
                             startDate: DateTime.now(),
+                            color: theme.colorScheme.primaryContainer,
                           ),
                           const SizedBox(width: kPaddingNormal),
                           TimePicker(
@@ -314,6 +313,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               minute: endDateTime.minute,
                             ),
                             onChanged: _onEndTimeChanged,
+                            color: theme.colorScheme.primaryContainer,
                           )
                         ],
                       ),
@@ -466,12 +466,9 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                         children: [
                           widget.isEdit
                               ? IconButton(
-                                  icon: ColorFiltered(
-                                    colorFilter: ColorFilter.mode(
-                                        theme.colorScheme.secondaryContainer,
-                                        BlendMode.srcIn),
-                                    child: Image.asset(
-                                        'assets/icons/trash_light_72.png'),
+                                  icon: CustomIcon(
+                                    CustomIcons.trash,
+                                    color: theme.colorScheme.secondaryContainer,
                                   ),
                                   onPressed: () {
                                     showDialog<void>(

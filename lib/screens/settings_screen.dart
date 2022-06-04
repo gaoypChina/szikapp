@@ -150,8 +150,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       'SETTINGS_DARKMODE'.tr(),
                       style: theme.textTheme.headline6!.copyWith(
                         color: _isAutomaticDarkModeEnabled
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.secondaryContainer,
+                            ? theme.colorScheme.secondaryContainer
+                            : theme.colorScheme.primary,
                       ),
                     ),
                     onChanged: _onPreferDarkModeChanged,

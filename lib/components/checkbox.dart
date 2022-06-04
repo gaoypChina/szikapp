@@ -42,6 +42,7 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
@@ -49,15 +50,23 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
         tilePadding: const EdgeInsets.all(0),
         children: widget.checkboxLabels.map((title) {
           var index = widget.checkboxLabels.indexOf(title);
+          var disabled = _checkboxValues.where((item) => item == true).length >=
+                  widget.maxEnabled &&
+              _checkboxValues[index] == false;
           return ListTile(
-            title: Text(title, style: Theme.of(context).textTheme.bodyText1),
+            title: Text(
+              title,
+              style: theme.textTheme.bodyText1!.copyWith(
+                color: disabled
+                    ? theme.colorScheme.secondaryContainer
+                    : theme.colorScheme.primary,
+              ),
+            ),
             trailing: Checkbox(
               tristate: false,
               activeColor: Theme.of(context).colorScheme.primary,
               value: _checkboxValues[widget.checkboxLabels.indexOf(title)],
-              onChanged: _checkboxValues.where((item) => item == true).length >=
-                          widget.maxEnabled &&
-                      _checkboxValues[index] == false
+              onChanged: disabled
                   ? null
                   : (bool? value) {
                       setState(() {

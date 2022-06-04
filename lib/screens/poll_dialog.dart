@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/business.dart';
+import '../components/components.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
@@ -81,10 +82,7 @@ class _PollDialogState extends State<PollDialog> {
                   GestureDetector(
                     onTap: () => widget.manager
                         .editPoll(widget.manager.indexOf(widget.poll)),
-                    child: Image.asset(
-                      'assets/icons/pencil_light_72.png',
-                      height: kIconSizeLarge,
-                    ),
+                    child: const CustomIcon(CustomIcons.pencil),
                   ),
               ],
             ),

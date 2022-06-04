@@ -247,6 +247,7 @@ class ReservationCreateEditScreenState
                           child: TimePicker(
                             time: TimeOfDay.fromDateTime(start),
                             onChanged: _onStartingTimeChanged,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                       ],
@@ -272,6 +273,7 @@ class ReservationCreateEditScreenState
                           child: TimePicker(
                             time: TimeOfDay.fromDateTime(end),
                             onChanged: _onFinishingTimeChanged,
+                            color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                       ],
