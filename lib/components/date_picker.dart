@@ -24,7 +24,7 @@ class DatePicker extends StatefulWidget {
   final DateTime? endDate;
 
   ///Szöveg színe
-  final Color? color;
+  final Color color;
 
   ///Szöveg mérete
   final double fontSize;
