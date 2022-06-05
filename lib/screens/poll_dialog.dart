@@ -124,7 +124,7 @@ class _PollDialogState extends State<PollDialog> {
                 widget.manager.hasVoted(userID: user.id, poll: widget.poll)
                     ? Center(
                         child: Text(
-                        '${widget.poll.feedbackOnAnswer}\n${'POLL_ALREADY_VOTED'.tr()}',
+                        '${widget.poll.feedbackOnAnswer ?? ''}\n${'POLL_ALREADY_VOTED'.tr()}',
                         textAlign: TextAlign.center,
                       ))
                     : ElevatedButton(
@@ -228,11 +228,17 @@ class _PollDialogState extends State<PollDialog> {
     var hasVoted = widget.manager.hasVoted(userID: userID, poll: widget.poll);
     return widget.poll.answerOptions.map<ListTile>(
       (item) {
+        var disabled = hasVoted;
+        if (widget.poll.isMultipleChoice) {
+          disabled = hasVoted ||
+              (_selected.length >= widget.poll.maxSelectableOptions &&
+                  !_selected.contains(item));
+        }
         return ListTile(
           title: Text(
             item,
             style: theme.textTheme.subtitle1!.copyWith(
-              color: hasVoted
+              color: disabled
                   ? theme.colorScheme.secondaryContainer
                   : theme.colorScheme.primaryContainer,
               fontStyle: FontStyle.italic,
@@ -241,15 +247,15 @@ class _PollDialogState extends State<PollDialog> {
           leading: widget.poll.isMultipleChoice
               ? Checkbox(
                   value: _selected.isEmpty ? false : _selected.contains(item),
-                  activeColor: hasVoted
+                  activeColor: disabled
                       ? theme.colorScheme.secondaryContainer
                       : theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
-                    hasVoted
+                    disabled
                         ? theme.colorScheme.secondaryContainer
                         : theme.colorScheme.primaryContainer,
                   ),
-                  onChanged: hasVoted
+                  onChanged: disabled
                       ? null
                       : (bool? value) => setState(
                             () {
