@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
@@ -94,6 +95,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var userCanModify = Provider.of<AuthManager>(context, listen: false)
+        .user!
+        .hasPermission(Permission.profileEdit);
     return CustomScaffold(
       withNavigationBar: widget.withNavigationBar,
       withBackButton: widget.withBackButton,
@@ -217,85 +221,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: _onVolumeChanged,
             ),*/
             //Értesítések
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(kPaddingLarge),
-              margin: const EdgeInsets.symmetric(
-                vertical: kPaddingSmall,
-                horizontal: kPaddingLarge,
-              ),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(kBorderRadiusNormal),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    offset: const Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'SETTINGS_NOTIFICATIONS'.tr(),
-                      style: theme.textTheme.headline3!.copyWith(
-                        color: theme.colorScheme.primary,
-                      ),
+            userCanModify
+                ? Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(kPaddingLarge),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: kPaddingSmall,
+                      horizontal: kPaddingLarge,
                     ),
-                  ),
-                  CustomSwitch(
-                    titleText: Text(
-                      'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                      style: theme.textTheme.headline6!.copyWith(
-                        color: theme.colorScheme.primary,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(kBorderRadiusNormal),
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: theme.colorScheme.secondaryContainer,
+                          offset: const Offset(0.0, 2.0),
+                          blurRadius: 3.0,
+                        ),
+                      ],
                     ),
-                    onChanged: (bool switchState) {
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
-            ),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'SETTINGS_NOTIFICATIONS'.tr(),
+                            style: theme.textTheme.headline3!.copyWith(
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        CustomSwitch(
+                          titleText: Text(
+                            'SETTINGS_APP_NOTIFICATIONS'.tr(),
+                            style: theme.textTheme.headline6!.copyWith(
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                          onChanged: (bool switchState) {
+                            setState(() {});
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                : Container(),
             //Shortcutok
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(kPaddingLarge),
-              margin: const EdgeInsets.symmetric(
-                vertical: kPaddingSmall,
-                horizontal: kPaddingLarge,
-              ),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(kBorderRadiusNormal),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    offset: const Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  ),
-                ],
-              ),
-              child: CustomCheckboxList(
-                title: Text(
-                  'SETTINGS_SHORTCUTS'.tr(),
-                  style: theme.textTheme.headline3!
-                      .copyWith(color: theme.colorScheme.primary),
-                ),
-                checkboxLabels:
-                    shortcutData.entries.map((e) => e.value.name).toList(),
-                maxEnabled: 3,
-                initValues: intListToBool(_feedShortcuts, shortcutData.length),
-                onChanged: _onFeedShortcutsChanged,
-              ),
-            ),
+            userCanModify
+                ? Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(kPaddingLarge),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: kPaddingSmall,
+                      horizontal: kPaddingLarge,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(kBorderRadiusNormal),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: theme.colorScheme.secondaryContainer,
+                          offset: const Offset(0.0, 2.0),
+                          blurRadius: 3.0,
+                        ),
+                      ],
+                    ),
+                    child: CustomCheckboxList(
+                      title: Text(
+                        'SETTINGS_SHORTCUTS'.tr(),
+                        style: theme.textTheme.headline3!
+                            .copyWith(color: theme.colorScheme.primary),
+                      ),
+                      checkboxLabels: shortcutData.entries
+                          .map((e) => e.value.name)
+                          .toList(),
+                      maxEnabled: 3,
+                      initValues:
+                          intListToBool(_feedShortcuts, shortcutData.length),
+                      onChanged: _onFeedShortcutsChanged,
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

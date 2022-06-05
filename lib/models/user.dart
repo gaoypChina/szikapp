@@ -98,8 +98,12 @@ class User {
     _permissions = await io.getUserPermissions();
   }
 
+  bool hasPermission(Permission permission) {
+    return _permissions.any((element) => element == permission);
+  }
+
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     return _permissions.any((element) =>
@@ -107,7 +111,7 @@ class User {
   }
 
   bool hasPermissionToCreate(Type type) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (type == PollTask) {
@@ -118,7 +122,7 @@ class User {
   }
 
   bool hasPermissionToRead(Task task) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (task.runtimeType == PollTask) {
@@ -130,7 +134,7 @@ class User {
   }
 
   bool hasPermissionToModify(Task task) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     return task.managerIDs.contains(id);
