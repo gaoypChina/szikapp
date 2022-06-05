@@ -67,7 +67,9 @@ class SearchableOptions<T> extends StatelessWidget {
         ? DropdownSearch<T>.multiSelection(
             validator: nullValidated
                 ? (v) {
-                    return v == null ? 'ERROR_REQUIRED_FIELD'.tr() : null;
+                    return (v == null || v.isEmpty)
+                        ? 'ERROR_REQUIRED_FIELD'.tr()
+                        : null;
                   }
                 : null,
             autoValidateMode: AutovalidateMode.onUserInteraction,

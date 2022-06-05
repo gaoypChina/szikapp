@@ -12,7 +12,7 @@ class User {
   final String id;
   final String name;
   final String email;
-  final Uri profilePicture;
+  String? profilePicture;
   String? nick;
   DateTime? _birthday;
   String? _phone;
@@ -82,8 +82,13 @@ class User {
     }
   }
 
-  String get showableName => nick ?? name.split(' ')[1];
+  String get showableName {
+    if (name == 'Guest') return 'GUEST'.tr();
+    return nick ?? name.split(' ')[1];
+  }
+
   String get initials {
+    if (name == 'Guest') return 'G';
     var splitted = name.split(' ');
     return '${splitted[0][0]}${splitted[1][0]}';
   }
@@ -93,8 +98,12 @@ class User {
     _permissions = await io.getUserPermissions();
   }
 
+  bool hasPermission(Permission permission) {
+    return _permissions.any((element) => element == permission);
+  }
+
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     return _permissions.any((element) =>
@@ -102,7 +111,7 @@ class User {
   }
 
   bool hasPermissionToCreate(Type type) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (type == PollTask) {
@@ -113,7 +122,7 @@ class User {
   }
 
   bool hasPermissionToRead(Task task) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (task.runtimeType == PollTask) {
@@ -125,7 +134,7 @@ class User {
   }
 
   bool hasPermissionToModify(Task task) {
-    if (_permissions.any((element) => element.toString() == 'admin')) {
+    if (_permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     return task.managerIDs.contains(id);

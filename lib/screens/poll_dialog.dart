@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/business.dart';
+import '../components/components.dart';
 import '../models/models.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
@@ -81,10 +82,7 @@ class _PollDialogState extends State<PollDialog> {
                   GestureDetector(
                     onTap: () => widget.manager
                         .editPoll(widget.manager.indexOf(widget.poll)),
-                    child: Image.asset(
-                      'assets/icons/pencil_light_72.png',
-                      height: kIconSizeLarge,
-                    ),
+                    child: const CustomIcon(CustomIcons.pencil),
                   ),
               ],
             ),
@@ -124,7 +122,11 @@ class _PollDialogState extends State<PollDialog> {
                 ),
                 const SizedBox(height: kPaddingNormal),
                 widget.manager.hasVoted(userID: user.id, poll: widget.poll)
-                    ? Center(child: Text('POLL_ALREADY_VOTED'.tr()))
+                    ? Center(
+                        child: Text(
+                        '${widget.poll.feedbackOnAnswer ?? ''}\n${'POLL_ALREADY_VOTED'.tr()}',
+                        textAlign: TextAlign.center,
+                      ))
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(
@@ -226,11 +228,17 @@ class _PollDialogState extends State<PollDialog> {
     var hasVoted = widget.manager.hasVoted(userID: userID, poll: widget.poll);
     return widget.poll.answerOptions.map<ListTile>(
       (item) {
+        var disabled = hasVoted;
+        if (widget.poll.isMultipleChoice) {
+          disabled = hasVoted ||
+              (_selected.length >= widget.poll.maxSelectableOptions &&
+                  !_selected.contains(item));
+        }
         return ListTile(
           title: Text(
             item,
             style: theme.textTheme.subtitle1!.copyWith(
-              color: hasVoted
+              color: disabled
                   ? theme.colorScheme.secondaryContainer
                   : theme.colorScheme.primaryContainer,
               fontStyle: FontStyle.italic,
@@ -239,15 +247,15 @@ class _PollDialogState extends State<PollDialog> {
           leading: widget.poll.isMultipleChoice
               ? Checkbox(
                   value: _selected.isEmpty ? false : _selected.contains(item),
-                  activeColor: hasVoted
+                  activeColor: disabled
                       ? theme.colorScheme.secondaryContainer
                       : theme.colorScheme.primaryContainer,
                   fillColor: MaterialStateProperty.all(
-                    hasVoted
+                    disabled
                         ? theme.colorScheme.secondaryContainer
                         : theme.colorScheme.primaryContainer,
                   ),
-                  onChanged: hasVoted
+                  onChanged: disabled
                       ? null
                       : (bool? value) => setState(
                             () {

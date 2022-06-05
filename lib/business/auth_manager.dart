@@ -66,11 +66,9 @@ class AuthManager extends ChangeNotifier {
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture = userData.name != 'Guest'
-          ? _auth.currentUser!.photoURL
-          : '../assets/default.png';
-      _user = szikapp_user.User(
-          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      var profilePicture =
+          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      _user = szikapp_user.User(profilePicture, userData);
       _signedIn = true;
       notifyListeners();
     } on Exception catch (e) {
@@ -91,11 +89,9 @@ class AuthManager extends ChangeNotifier {
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture = userData.name != 'Guest'
-          ? _auth.currentUser!.photoURL
-          : '../assets/default.png';
-      _user = szikapp_user.User(
-          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      var profilePicture =
+          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      _user = szikapp_user.User(profilePicture, userData);
       _signedIn = true;
       notifyListeners();
     } on Exception catch (e) {
@@ -110,6 +106,7 @@ class AuthManager extends ChangeNotifier {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
+      await GoogleSignIn().signOut();
       _user = null;
       _signedIn = false;
       notifyListeners();
@@ -144,11 +141,9 @@ class AuthManager extends ChangeNotifier {
       var io = IO();
 
       var userData = await io.getUser();
-      var profilePicture = userData.name != 'Guest'
-          ? _auth.currentUser!.photoURL
-          : '../assets/default.png';
-      _user = szikapp_user.User(
-          Uri.parse(profilePicture ?? '../assets/default.png'), userData);
+      var profilePicture =
+          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      _user = szikapp_user.User(profilePicture, userData);
       return true;
     }
     return false;

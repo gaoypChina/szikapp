@@ -28,11 +28,20 @@ class Resource implements Identifiable, Cachable {
   factory Resource.fromJson(Json json) => _$ResourceFromJson(json);
 }
 
+enum PlaceType {
+  @JsonValue('room')
+  room,
+  @JsonValue('public')
+  public,
+  @JsonValue('other')
+  other,
+}
+
 ///Kollégiumi helyiségeket megjelenítő adatmodell osztály. A [Resource]
 ///osztály leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
 class Place extends Resource {
-  final String type;
+  final PlaceType type;
   @JsonKey(name: 'overseer_ids')
   List<String> overseerIDs;
 
@@ -110,6 +119,8 @@ class Account extends Resource {
   final String username;
   final String credential;
   final String url;
+  final bool reservable;
+
   Account({
     required String id,
     required String name,
@@ -118,6 +129,7 @@ class Account extends Resource {
     required this.username,
     required this.credential,
     required this.url,
+    this.reservable = true,
   }) : super(
           id: id,
           name: name,

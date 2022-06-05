@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/auth_manager.dart';
 import '../components/components.dart';
+import '../models/permission.dart';
 import '../navigation/app_state_manager.dart';
 import '../ui/themes.dart';
 import '../utils/exceptions.dart';
@@ -42,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String buildGroupNamesFromIDs(List<String> ids) {
     var result = '';
+    if (ids.isEmpty) return result;
     var groups =
         Provider.of<SzikAppStateManager>(context, listen: false).groups;
     for (var item in ids) {
@@ -144,6 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var userCanModify =
+        widget.manager.user!.hasPermission(Permission.profileEdit);
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'PROFILE_TITLE'.tr(),
@@ -155,12 +159,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               margin: const EdgeInsets.only(top: kPaddingLarge),
               alignment: Alignment.center,
-              child: CircleAvatar(
-                radius: 40,
-                foregroundImage: NetworkImage(
-                  widget.manager.user!.profilePicture.toString(),
-                ),
-              ),
+              child: widget.manager.user!.profilePicture != null
+                  ? CircleAvatar(
+                      radius: 40,
+                      foregroundImage: NetworkImage(
+                        widget.manager.user!.profilePicture!,
+                      ),
+                    )
+                  : CustomIcon(
+                      CustomIcons.user,
+                      size: kIconSizeGiant,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -191,6 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     label: 'PROFILE_NICKNAME'.tr(),
                     initialValue: nick,
                     onChanged: _onNickChanged,
+                    readOnly: !userCanModify,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_EMAIL'.tr(),
@@ -203,11 +214,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ? DateFormat('yyyy. MM. dd.').format(birthday!)
                         : null,
                     onChanged: _onBirthdayChanged,
+                    readOnly: !userCanModify,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_PHONENUMBER'.tr(),
                     initialValue: phone,
                     onChanged: _onPhoneChanged,
+                    readOnly: !userCanModify,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
@@ -223,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: _buildActionButtons(),
+                children: userCanModify ? _buildActionButtons() : [],
               ),
             ),
           ],

@@ -22,6 +22,9 @@ PreferredSizeWidget buildCustomAppBar({
         .selectFeature(SzikAppFeature.profile);
   }
 
+  var profilePicture =
+      Provider.of<AuthManager>(context, listen: false).user?.profilePicture;
+
   return AppBar(
     elevation: elevation,
     centerTitle: true,
@@ -43,15 +46,13 @@ PreferredSizeWidget buildCustomAppBar({
     actions: [
       IconButton(
         onPressed: _onTrailingPressed,
-        icon: CircleAvatar(
-          foregroundImage: NetworkImage(
-            Provider.of<AuthManager>(context, listen: false)
-                    .user
-                    ?.profilePicture
-                    .toString() ??
-                '../assets/default.png',
-          ),
-        ),
+        icon: profilePicture != null
+            ? CircleAvatar(
+                foregroundImage: NetworkImage(
+                  profilePicture,
+                ),
+              )
+            : const CustomIcon(CustomIcons.user),
       ),
     ],
   );

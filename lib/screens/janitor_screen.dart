@@ -359,7 +359,8 @@ class JanitorListViewState extends State<JanitorListView> {
                                           ),
                                         ),
                                         Text(
-                                          '${item.start.month}. ${item.start.day}.',
+                                          DateFormat('MM. dd.')
+                                              .format(item.start),
                                           style: theme.textTheme.bodyText1!
                                               .copyWith(
                                             fontWeight: FontWeight.bold,
@@ -420,7 +421,8 @@ class JanitorListViewState extends State<JanitorListView> {
                                           ),
                                         ),
                                         Text(
-                                          '${item.start.month}. ${item.start.day}.',
+                                          DateFormat('MM. dd.')
+                                              .format(item.start),
                                           style: theme.textTheme.bodyText1!
                                               .copyWith(
                                             fontWeight: FontWeight.bold,
@@ -648,7 +650,10 @@ class JanitorListViewState extends State<JanitorListView> {
                                                                     .circular(
                                                                         kBorderRadiusNormal)),
                                                         child: Text(
-                                                          '${item.start.year}. ${item.start.month}. ${item.start.day}.  ${item.start.hour}:${item.start.minute}',
+                                                          DateFormat(
+                                                                  'yyyy. MM. dd. hh:mm')
+                                                              .format(
+                                                                  item.start),
                                                           style: theme.textTheme
                                                               .subtitle1!
                                                               .copyWith(

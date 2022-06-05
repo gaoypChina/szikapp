@@ -24,7 +24,7 @@ Place _$PlaceFromJson(Map<String, dynamic> json) => Place(
       id: json['id'],
       name: json['name'] as String,
       description: json['description'] as String?,
-      type: json['type'] as String,
+      type: $enumDecode(_$PlaceTypeEnumMap, json['type']),
       overseerIDs: (json['overseer_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -37,9 +37,15 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'type': instance.type,
+      'type': _$PlaceTypeEnumMap[instance.type],
       'overseer_ids': instance.overseerIDs,
     };
+
+const _$PlaceTypeEnumMap = {
+  PlaceType.room: 'room',
+  PlaceType.public: 'public',
+  PlaceType.other: 'other',
+};
 
 Boardgame _$BoardgameFromJson(Map<String, dynamic> json) => Boardgame(
       id: json['id'],
@@ -65,6 +71,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       username: json['username'] as String,
       credential: json['credential'] as String,
       url: json['url'] as String,
+      reservable: json['reservable'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
@@ -75,4 +82,5 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'username': instance.username,
       'credential': instance.credential,
       'url': instance.url,
+      'reservable': instance.reservable,
     };
