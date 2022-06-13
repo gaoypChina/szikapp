@@ -243,6 +243,8 @@ class JanitorListViewState extends State<JanitorListView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var appStateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE'.tr(),
@@ -342,10 +344,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            Provider.of<SzikAppStateManager>(
-                                                    context,
-                                                    listen: false)
-                                                .places
+                                            appStateManager.places
                                                 .firstWhere((element) =>
                                                     element.id == item.placeID)
                                                 .name,
@@ -404,10 +403,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            Provider.of<SzikAppStateManager>(
-                                                    context,
-                                                    listen: false)
-                                                .places
+                                            appStateManager.places
                                                 .firstWhere((element) =>
                                                     element.id == item.placeID)
                                                 .name,

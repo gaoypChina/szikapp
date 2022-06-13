@@ -130,10 +130,7 @@ class _PollDialogState extends State<PollDialog> {
                     : ElevatedButton(
                         onPressed: (() => widget.manager.addVote(
                             Vote(
-                              voterID: Provider.of<AuthManager>(context,
-                                      listen: false)
-                                  .user!
-                                  .id,
+                              voterID: user.id,
                               votes: _selected,
                               lastUpdate: DateTime.now(),
                             ),
