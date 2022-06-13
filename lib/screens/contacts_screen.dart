@@ -74,7 +74,7 @@ class ContactsListView extends StatefulWidget {
 class ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
   ///Megjelenített kontaktok
-  List<UserData> _items = [];
+  List<UserData> _users = [];
   List<Group> _groups = [];
 
   int _selectedTab = 0;
@@ -83,7 +83,7 @@ class ContactsListViewState extends State<ContactsListView>
   ///adatbázisban szereplő kontaktot.
   @override
   void initState() {
-    _items = widget.manager.contacts;
+    _users = widget.manager.contacts;
     _groups = widget.manager.groups;
     super.initState();
   }
@@ -94,7 +94,7 @@ class ContactsListViewState extends State<ContactsListView>
     if (_selectedTab == 0) {
       var newItems = widget.manager.search(query);
       setState(() {
-        _items = newItems;
+        _users = newItems;
       });
     } else {
       var newItems = widget.manager.findGroup(query);
@@ -116,7 +116,7 @@ class ContactsListViewState extends State<ContactsListView>
     var newItems = widget.manager.findMembers(group?.id ?? '');
     SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
-      _items = newItems;
+      _users = newItems;
       _selectedTab = 0;
     });
   }
@@ -172,7 +172,7 @@ class ContactsListViewState extends State<ContactsListView>
             ),
           ),
           Expanded(
-            child: _items.isEmpty
+            child: _users.isEmpty
                 ? Center(
                     child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
                   )
@@ -202,7 +202,7 @@ class ContactsListViewState extends State<ContactsListView>
 
   List<ToggleListItem> _buildPeopleView() {
     var theme = Theme.of(context);
-    return _items.map<ToggleListItem>(
+    return _users.map<ToggleListItem>(
       (item) {
         return ToggleListItem(
           leading: Padding(
@@ -347,7 +347,7 @@ class ContactsListViewState extends State<ContactsListView>
       (item) {
         var members = <UserData>[];
         for (var memberID in item.memberIDs) {
-          members.add(_items.where((element) => element.id == memberID).first);
+          members.add(_users.where((element) => element.id == memberID).first);
         }
         return ToggleListItem(
           leading: Padding(

@@ -104,7 +104,7 @@ class FeedScreenState extends State<FeedScreen> {
                       : CustomIcon(
                           CustomIcons.user,
                           size: kIconSizeGiant,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: theme.colorScheme.primary,
                         ),
                 ],
               ),

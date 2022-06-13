@@ -44,7 +44,7 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      data: theme.copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         title: widget.title,
         tilePadding: const EdgeInsets.all(0),
@@ -64,7 +64,7 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
             ),
             trailing: Checkbox(
               tristate: false,
-              activeColor: Theme.of(context).colorScheme.primary,
+              activeColor: theme.colorScheme.primary,
               value: _checkboxValues[widget.checkboxLabels.indexOf(title)],
               onChanged: disabled
                   ? null

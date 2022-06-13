@@ -146,13 +146,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     var userCanModify =
         widget.manager.user!.hasPermission(Permission.profileEdit);
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: theme.colorScheme.background,
         padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
         child: ListView(
           children: [
@@ -169,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   : CustomIcon(
                       CustomIcons.user,
                       size: kIconSizeGiant,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: theme.colorScheme.primary,
                     ),
             ),
             Row(
@@ -182,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: CustomIcon(
                     CustomIcons.logout,
                     size: kIconSizeSmall,
-                    color: Theme.of(context).colorScheme.surface,
+                    color: theme.colorScheme.surface,
                   ),
                   label: Text('SIGN_OUT_LABEL'.tr()),
                 ),

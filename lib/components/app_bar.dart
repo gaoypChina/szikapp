@@ -24,18 +24,18 @@ PreferredSizeWidget buildCustomAppBar({
 
   var profilePicture =
       Provider.of<AuthManager>(context, listen: false).user?.profilePicture;
-
+  var theme = Theme.of(context);
   return AppBar(
     elevation: elevation,
     centerTitle: true,
     shape: const CurveShapeBorder(kCurveHeight),
-    backgroundColor: Theme.of(context).colorScheme.primary,
+    backgroundColor: theme.colorScheme.primary,
     title: Text(
       appBarTitle.toUpperCase(),
-      style: Theme.of(context).textTheme.headline2!.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
-            fontSize: 14,
-          ),
+      style: theme.textTheme.headline2!.copyWith(
+        color: theme.colorScheme.onPrimary,
+        fontSize: 14,
+      ),
     ),
     leading: withBackButton
         ? IconButton(
