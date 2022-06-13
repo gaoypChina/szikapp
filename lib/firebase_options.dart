@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,6 +46,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBN4-WOTttcDlojT6k99XHiJZ_8mt8QNt4',
+    appId: '1:590618268030:web:600f623ccfc8e21650e32f',
+    messagingSenderId: '590618268030',
+    projectId: 'szikapp-18',
+    authDomain: 'szikapp-18.firebaseapp.com',
+    storageBucket: 'szikapp-18.appspot.com',
+    measurementId: 'G-544X91PQ78',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1II7445fOB2gg-BaSQ96DSUbYFWZK8gE',
     appId: '1:590618268030:android:da008ba4dae644df50e32f',
@@ -63,10 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '590618268030',
     projectId: 'szikapp-18',
     storageBucket: 'szikapp-18.appspot.com',
-    androidClientId:
-        '590618268030-23fm2bvjtnv4b3esr5c40itk7ac1fg8g.apps.googleusercontent.com',
-    iosClientId:
-        '590618268030-r22274ert0j8l8f99sctsumr7t26lova.apps.googleusercontent.com',
+    androidClientId: '590618268030-23fm2bvjtnv4b3esr5c40itk7ac1fg8g.apps.googleusercontent.com',
+    iosClientId: '590618268030-r22274ert0j8l8f99sctsumr7t26lova.apps.googleusercontent.com',
     iosBundleId: 'com.szik.szikapp',
   );
 }
