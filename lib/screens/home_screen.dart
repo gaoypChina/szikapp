@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import '../business/business.dart';
 import '../components/bottom_navigation_bar.dart';
 import '../navigation/app_state_manager.dart';
-import 'feed_screen.dart';
-import 'menu_screen.dart';
-import 'settings_screen.dart';
+import '../screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/';

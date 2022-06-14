@@ -1,30 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../business/business.dart';
-import '../screens/calendar_screen.dart';
-import '../screens/cleaning_screen.dart';
-import '../screens/contacts_screen.dart';
-import '../screens/documents_screen.dart';
-import '../screens/error_screen.dart';
-import '../screens/home_screen.dart';
-import '../screens/janitor_create_edit.dart';
-import '../screens/janitor_edit_admin.dart';
-import '../screens/janitor_screen.dart';
-import '../screens/poll_create_edit.dart';
-import '../screens/poll_screen.dart';
-import '../screens/profile_screen.dart';
-import '../screens/reservation_accounts.dart';
-import '../screens/reservation_create_edit.dart';
-import '../screens/reservation_details.dart';
-import '../screens/reservation_games.dart';
-import '../screens/reservation_places_map.dart';
-import '../screens/reservation_screen.dart';
-import '../screens/settings_screen.dart';
-import '../screens/signin_screen.dart';
-import '../screens/submenu_screen.dart';
+import '../navigation/navigation.dart';
+import '../screens/screens.dart';
 import '../utils/utils.dart';
-import 'app_link.dart';
-import 'app_state_manager.dart';
 
 class SzikAppRouter extends RouterDelegate<SzikAppLink>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
