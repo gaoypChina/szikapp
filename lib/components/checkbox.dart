@@ -8,7 +8,7 @@ class CustomCheckboxList extends StatefulWidget {
   final List<String> checkboxLabels;
 
   /// Azonos méretű a [checkboxLabels] listával. A checkboxok állapotát tárolja
-  final List<bool> initValues;
+  final List<bool>? initValues;
 
   /// maximum hány checkbox lehet bejelölve egyszerre
   final int maxEnabled;
@@ -16,16 +16,14 @@ class CustomCheckboxList extends StatefulWidget {
   /// A checkboxok változásakor visszatér a gomb aktuális értékével
   final ValueChanged<List<bool>> onChanged;
 
-  CustomCheckboxList({
+  const CustomCheckboxList({
     Key? key,
     required this.title,
     required this.checkboxLabels,
-    initValues,
+    this.initValues,
     required this.maxEnabled,
     required this.onChanged,
-  })  : initValues = initValues ??
-            List.generate(checkboxLabels.length, (index) => false),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<CustomCheckboxList> createState() => _CustomCheckboxListState();
@@ -36,7 +34,8 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
 
   @override
   void initState() {
-    _checkboxValues = widget.initValues;
+    _checkboxValues = widget.initValues ??
+        List.generate(widget.checkboxLabels.length, (index) => false);
     super.initState();
   }
 

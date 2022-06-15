@@ -96,7 +96,6 @@ class SearchableOptions<T> extends StatelessWidget {
                   borderSide: BorderSide(
                     color: theme.colorScheme.primary,
                     width: 2,
-                    style: BorderStyle.solid,
                   ),
                 ),
                 contentPadding: const EdgeInsets.all(kPaddingSmall),
@@ -109,7 +108,6 @@ class SearchableOptions<T> extends StatelessWidget {
                 borderSide: BorderSide(
                   color: Theme.of(context).colorScheme.primary,
                   width: 2,
-                  style: BorderStyle.solid,
                 ),
                 gapPadding: 6,
               ),
@@ -154,7 +152,6 @@ class SearchableOptions<T> extends StatelessWidget {
                   borderSide: BorderSide(
                     color: theme.colorScheme.primary,
                     width: 2,
-                    style: BorderStyle.solid,
                   ),
                 ),
                 contentPadding: const EdgeInsets.all(kPaddingSmall),
@@ -167,7 +164,6 @@ class SearchableOptions<T> extends StatelessWidget {
                 borderSide: BorderSide(
                   color: Theme.of(context).colorScheme.primary,
                   width: 2,
-                  style: BorderStyle.solid,
                 ),
                 gapPadding: 6,
               ),

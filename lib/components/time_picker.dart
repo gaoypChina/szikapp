@@ -47,11 +47,7 @@ class TimePickerState extends State<TimePicker> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 1,
-          style: BorderStyle.solid,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.primary),
         borderRadius: BorderRadius.circular(kBorderRadiusSmall),
       ),
       padding: const EdgeInsets.symmetric(

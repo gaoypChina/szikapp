@@ -213,8 +213,7 @@ class JanitorListViewState extends State<JanitorListView> {
                     padding: const EdgeInsets.all(kPaddingNormal),
                     decoration: BoxDecoration(
                       color: Colors.transparent,
-                      border: Border.all(
-                          color: theme.colorScheme.background, width: 1),
+                      border: Border.all(color: theme.colorScheme.background),
                       borderRadius: BorderRadius.circular(kBorderRadiusNormal),
                     ),
                     child: Column(
@@ -514,11 +513,9 @@ class JanitorListViewState extends State<JanitorListView> {
                                                           color: Colors
                                                               .transparent,
                                                           border: Border.all(
-                                                            color: theme
-                                                                .colorScheme
-                                                                .primaryContainer,
-                                                            width: 1,
-                                                          ),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primaryContainer),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -578,11 +575,9 @@ class JanitorListViewState extends State<JanitorListView> {
                                                           color: Colors
                                                               .transparent,
                                                           border: Border.all(
-                                                            color: theme
-                                                                .colorScheme
-                                                                .primaryContainer,
-                                                            width: 1,
-                                                          ),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primaryContainer),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -643,8 +638,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                                             border: Border.all(
                                                                 color: theme
                                                                     .colorScheme
-                                                                    .primaryContainer,
-                                                                width: 1),
+                                                                    .primaryContainer),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -705,8 +699,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                                             border: Border.all(
                                                                 color: theme
                                                                     .colorScheme
-                                                                    .primaryContainer,
-                                                                width: 1),
+                                                                    .primaryContainer),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -770,8 +763,7 @@ class JanitorListViewState extends State<JanitorListView> {
                                                             border: Border.all(
                                                                 color: theme
                                                                     .colorScheme
-                                                                    .background,
-                                                                width: 1),
+                                                                    .background),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(

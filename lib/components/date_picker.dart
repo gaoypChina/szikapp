@@ -76,11 +76,7 @@ class DatePickerState extends State<DatePicker> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 1,
-          style: BorderStyle.solid,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.primary),
         borderRadius: widget.borderRadius,
       ),
       padding: widget.padding,

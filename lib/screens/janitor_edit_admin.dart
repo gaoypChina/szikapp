@@ -328,7 +328,6 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
-                                        style: BorderStyle.solid,
                                       ),
                                     ),
                                     hintText: 'PLACEHOLDER_ANSWER'.tr(),
@@ -338,7 +337,6 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
-                                        style: BorderStyle.solid,
                                       ),
                                     ),
                                     contentPadding:
