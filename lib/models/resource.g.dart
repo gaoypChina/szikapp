@@ -84,3 +84,21 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'url': instance.url,
       'reservable': instance.reservable,
     };
+
+Article _$ArticleFromJson(Map<String, dynamic> json) => Article(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      lastUpdate: DateTime.parse(json['last_update'] as String),
+      imageUrl: json['image_url'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'last_update': instance.lastUpdate.toIso8601String(),
+      'url': instance.url,
+      'image_url': instance.imageUrl,
+    };

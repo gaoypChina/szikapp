@@ -6,8 +6,6 @@ part 'tasks.g.dart';
 
 ///Feladattípusokat [Task] reprezentáló típus.
 enum TaskType {
-  @JsonValue('agenda')
-  agenda,
   @JsonValue('janitor')
   janitor,
   @JsonValue('reservation')
@@ -16,10 +14,12 @@ enum TaskType {
   timetable,
   @JsonValue('cleaning')
   cleaning,
-  @JsonValue('bookloan')
-  bookloan,
+  @JsonValue('bookrent')
+  bookrent,
   @JsonValue('poll')
-  poll;
+  poll,
+  @JsonValue('invitation')
+  invitation;
 
   @override
   String toString() => name;
@@ -238,11 +238,11 @@ class CleaningTask extends Task {
 ///Könyvtári kölcsönzést megtestesítő adatmodell osztály. A [Task] osztály
 ///leszármazottja. Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable(explicitToJson: true)
-class BookloanTask extends Task {
+class BookrentTask extends Task {
   @JsonKey(name: 'book_id')
   String bookID;
 
-  BookloanTask({
+  BookrentTask({
     required String id,
     required String name,
     required DateTime start,
@@ -266,9 +266,9 @@ class BookloanTask extends Task {
         );
 
   @override
-  Json toJson() => _$BookloanTaskToJson(this);
+  Json toJson() => _$BookrentTaskToJson(this);
 
-  factory BookloanTask.fromJson(Json json) => _$BookloanTaskFromJson(json);
+  factory BookrentTask.fromJson(Json json) => _$BookrentTaskFromJson(json);
 }
 
 ///Szavazást megtestesítő adatmodell osztály. A [Task] osztály
