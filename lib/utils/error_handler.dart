@@ -39,6 +39,11 @@ class ErrorInformation {
         errorMessage = exception.message;
         errorSolution = 'ERROR_UNKNOWN_EXCEPTION_SOLUTION'.tr();
         break;
+      case IOServerException:
+        errorCode = exception.code;
+        errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
+        errorSolution = 'ERROR_HTTP_SOLUTION'.tr();
+        break;
       case SocketException:
         errorCode = socketExceptionCode;
         errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
@@ -203,6 +208,7 @@ class ErrorHandler {
       content: Text(errorInformation.errorMessage),
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
+        textColor: Theme.of(context).colorScheme.surface,
         label: 'BUTTON_DISMISS'.tr(),
         onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
       ),

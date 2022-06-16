@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../business/business.dart';
@@ -83,7 +84,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (janitorManager.isCreatingNewTask)
             JanitorCreateEditScreen.page(
               onCreate: (item) {
-                janitorManager.addTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.addTask(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -93,10 +95,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: janitorManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                janitorManager.updateTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
               },
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
             ),
           if (janitorManager.isGivingFeedback)
@@ -105,26 +109,31 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               isFeedback: true,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                janitorManager.updateStatus(item.status, item);
+                performFunctionSecurely(context,
+                    () => janitorManager.updateStatus(item.status, item));
               },
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
             ),
           if (janitorManager.isAdminEditingTask)
             JanitorEditAdminScreen.page(
               item: janitorManager.selectedTask!,
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
               onUpdate: (item, index) {
-                janitorManager.updateTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
               },
             ),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
               onCreate: (item) {
-                pollManager.addPoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.addPoll(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -134,10 +143,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: pollManager.selectedPoll,
               onCreate: (item) {},
               onUpdate: (item, index) {
-                pollManager.updatePoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.updatePoll(item));
               },
               onDelete: (item, index) {
-                pollManager.deletePoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.deletePoll(item));
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
@@ -154,7 +165,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationCreateEditScreen.page(
               manager: reservationManager,
               onCreate: (item) {
-                reservationManager.addReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.addReservation(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -165,10 +177,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                reservationManager.updateReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.updateReservation(item));
               },
               onDelete: (item, index) {
-                reservationManager.deleteReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.deleteReservation(item));
               },
             ),
         ],
@@ -346,6 +360,22 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         break;
       default:
         break;
+    }
+  }
+
+  void performFunctionSecurely(
+    BuildContext context,
+    Future<dynamic> Function() callback,
+  ) async {
+    try {
+      await callback();
+    } on IOException catch (e) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } on SocketException {
+      var snackbar =
+          ErrorHandler.buildSnackbar(context, errorCode: socketExceptionCode);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 }
