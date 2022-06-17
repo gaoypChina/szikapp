@@ -8,6 +8,7 @@ import '../business/business.dart';
 import '../components/components.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 import 'poll_dialog.dart';
 
 class PollScreen extends StatelessWidget {
@@ -69,21 +70,6 @@ class PollTileViewState extends State<PollTileView> {
 
   void _onCreatePoll() {
     widget.manager.createNewPoll();
-  }
-
-  String _calculateTime(DateTime date) {
-    var difference = date.difference(DateTime.now());
-    var answer = '';
-    if (difference.isNegative) {
-      answer = 'POLL_NO_TIME_LEFT'.tr();
-    } else if (difference.inDays > 0) {
-      answer = 'POLL_DAYS_LEFT'.tr(args: [difference.inDays.toString()]);
-    } else if (difference.inHours > 0) {
-      answer = 'POLL_HOURS_LEFT'.tr(args: [difference.inHours.toString()]);
-    } else if (difference.inMinutes > 0) {
-      answer = 'POLL_MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
-    }
-    return answer;
   }
 
   @override
@@ -167,7 +153,7 @@ class PollTileViewState extends State<PollTileView> {
                                     height: kPaddingNormal,
                                   ),
                                   Text(
-                                    _calculateTime(poll.end),
+                                    poll.end.readableRemainingTime(),
                                     style: theme.textTheme.subtitle1?.copyWith(
                                       color: theme.colorScheme.primaryContainer,
                                     ),
