@@ -48,7 +48,7 @@ class TimePickerState extends State<TimePicker> {
     var theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
+        border: Border.all(color: theme.colorScheme.primary),
         borderRadius: BorderRadius.circular(kBorderRadiusSmall),
       ),
       padding: const EdgeInsets.symmetric(
