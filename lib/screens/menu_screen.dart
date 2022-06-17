@@ -40,14 +40,14 @@ class MenuScreen extends StatelessWidget {
         children: [
           CustomMenuItem(
             name: 'ARTICLE_TITLE'.tr(),
-            picture: CustomIcons.settings,
+            picture: CustomIcons.article,
             onTap: () => appStateManager.selectFeature(SzikAppFeature.article),
             height: fifth,
             reversed: true,
           ),
           CustomMenuItem(
             name: 'INVITATION_TITLE'.tr(),
-            picture: CustomIcons.settings,
+            picture: CustomIcons.envelope,
             onTap: () =>
                 appStateManager.selectFeature(SzikAppFeature.invitation),
             height: fifth,
