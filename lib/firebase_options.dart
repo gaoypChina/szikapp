@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '590618268030',
     projectId: 'szikapp-18',
     storageBucket: 'szikapp-18.appspot.com',
-    androidClientId: '590618268030-23fm2bvjtnv4b3esr5c40itk7ac1fg8g.apps.googleusercontent.com',
-    iosClientId: '590618268030-r22274ert0j8l8f99sctsumr7t26lova.apps.googleusercontent.com',
+    androidClientId:
+        '590618268030-23fm2bvjtnv4b3esr5c40itk7ac1fg8g.apps.googleusercontent.com',
+    iosClientId:
+        '590618268030-r22274ert0j8l8f99sctsumr7t26lova.apps.googleusercontent.com',
     iosBundleId: 'com.szik.szikapp',
   );
 }
