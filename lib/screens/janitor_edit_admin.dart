@@ -91,8 +91,7 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var leftColumnWidth = width * 0.3;
+    var leftColumnWidth = MediaQuery.of(context).size.width * 0.3;
     var theme = Theme.of(context);
     final confirmDialog = CustomDialog.alert(
       title: 'DIALOG_TITLE_CONFIRM_DELETE'.tr(),
@@ -328,7 +327,6 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
-                                        style: BorderStyle.solid,
                                       ),
                                     ),
                                     hintText: 'PLACEHOLDER_ANSWER'.tr(),
@@ -338,7 +336,6 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.secondary,
                                         width: 2,
-                                        style: BorderStyle.solid,
                                       ),
                                     ),
                                     contentPadding:

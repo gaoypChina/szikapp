@@ -26,13 +26,10 @@ class _PollDialogState extends State<PollDialog> {
 
   @override
   void initState() {
-    _selected = widget.poll.answers.any((element) =>
-            element.voterID ==
-            Provider.of<AuthManager>(context, listen: false).user!.id)
+    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    _selected = widget.poll.answers.any((element) => element.voterID == userID)
         ? widget.poll.answers
-            .firstWhere((element) =>
-                element.voterID ==
-                Provider.of<AuthManager>(context, listen: false).user!.id)
+            .firstWhere((element) => element.voterID == userID)
             .votes
         : [];
     super.initState();
@@ -45,49 +42,19 @@ class _PollDialogState extends State<PollDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadiusNormal),
       ),
-      child: (() {
-        if (widget.poll.end.isBefore(DateTime.now()) ||
-            widget.poll.isLive == false) {
-          return _buildClosedPoll();
-        } else if (true) {
-          return _buildOpenPoll();
-        }
-      }()),
+      child: _buildPoll(
+          isOpen:
+              widget.poll.end.isAfter(DateTime.now()) && widget.poll.isLive),
     );
   }
 
-  Widget _buildOpenPoll() {
+  Widget _buildPoll({required bool isOpen}) {
     var theme = Theme.of(context);
-    var user = Provider.of<AuthManager>(context, listen: false).user;
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          color: theme.colorScheme.primary,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.poll.name,
-                    style: theme.textTheme.headline2!
-                        .copyWith(color: theme.colorScheme.surface),
-                  ),
-                ),
-                const SizedBox(width: kPaddingLarge),
-                if (user!.hasPermissionToModify(widget.poll))
-                  GestureDetector(
-                    onTap: () => widget.manager
-                        .editPoll(widget.manager.indexOf(widget.poll)),
-                    child: const CustomIcon(CustomIcons.pencil),
-                  ),
-              ],
-            ),
-          ),
-        ),
+        _buildHeader(isOpen: isOpen),
         Flexible(
           child: Padding(
             padding: const EdgeInsets.all(kPaddingLarge),
@@ -117,45 +84,59 @@ class _PollDialogState extends State<PollDialog> {
                 Flexible(
                   child: ListView(
                     shrinkWrap: true,
-                    children: _buildAnswerItems(),
+                    children: isOpen
+                        ? _buildOpenAnswerItems()
+                        : _buildClosedAnswerItems(),
                   ),
                 ),
                 const SizedBox(height: kPaddingNormal),
-                widget.manager.hasVoted(userID: user.id, poll: widget.poll)
-                    ? Center(
-                        child: Text(
-                        '${widget.poll.feedbackOnAnswer ?? ''}\n${'POLL_ALREADY_VOTED'.tr()}',
-                        textAlign: TextAlign.center,
-                      ))
-                    : ElevatedButton(
-                        onPressed: (() => widget.manager.addVote(
-                            Vote(
-                              voterID: user.id,
-                              votes: _selected,
-                              lastUpdate: DateTime.now(),
+                if (isOpen)
+                  widget.manager.hasVoted(userID: user.id, poll: widget.poll)
+                      ? Column(
+                          children: [
+                            if (widget.poll.managerIDs.contains(user.id))
+                              Divider(
+                                thickness: 2,
+                                color: theme.colorScheme.secondary,
+                              ),
+                            ..._buildClosedAnswerItems(),
+                            Center(
+                              child: Text(
+                                '${widget.poll.feedbackOnAnswer ?? ''}\n${'POLL_ALREADY_VOTED'.tr()}',
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            widget.poll)),
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.resolveWith<OutlinedBorder>(
-                            (_) {
-                              return RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(kBorderRadiusSmall),
-                              );
-                            },
+                          ],
+                        )
+                      : ElevatedButton(
+                          onPressed: (() => widget.manager.addVote(
+                              Vote(
+                                voterID: user.id,
+                                votes: _selected,
+                                lastUpdate: DateTime.now(),
+                              ),
+                              widget.poll)),
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.resolveWith<
+                                OutlinedBorder>(
+                              (_) {
+                                return RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(kBorderRadiusSmall),
+                                );
+                              },
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              kPaddingNormal,
+                              kBorderRadiusSmall,
+                              kPaddingNormal,
+                              kBorderRadiusSmall,
+                            ),
+                            child: Text('BUTTON_SEND'.tr()),
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                            kPaddingNormal,
-                            kBorderRadiusSmall,
-                          ),
-                          child: Text('BUTTON_SEND'.tr()),
-                        ),
-                      ),
               ],
             ),
           ),
@@ -164,62 +145,42 @@ class _PollDialogState extends State<PollDialog> {
     );
   }
 
-  Widget _buildClosedPoll() {
+  Widget _buildHeader({required bool isOpen}) {
     var theme = Theme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          color: theme.colorScheme.secondaryContainer,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Text(
-              widget.poll.name,
-              style: theme.textTheme.headline2!
-                  .copyWith(color: theme.colorScheme.surface),
+    var user = Provider.of<AuthManager>(context).user!;
+    return Container(
+      color: isOpen
+          ? theme.colorScheme.primary
+          : theme.colorScheme.secondaryContainer,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(kBorderRadiusNormal),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                widget.poll.name,
+                style: theme.textTheme.headline2!
+                    .copyWith(color: theme.colorScheme.surface),
+              ),
             ),
-          ),
+            if (user.hasPermissionToModify(widget.poll) && isOpen)
+              Padding(
+                padding: const EdgeInsets.only(left: kPaddingLarge),
+                child: GestureDetector(
+                  onTap: () => widget.manager
+                      .editPoll(widget.manager.indexOf(widget.poll)),
+                  child: const CustomIcon(CustomIcons.pencil),
+                ),
+              ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(kPaddingLarge),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.poll.question,
-                style: theme.textTheme.subtitle1!.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: kPaddingNormal),
-              Text(
-                widget.poll.description ?? '',
-                style: theme.textTheme.subtitle1!.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              Divider(
-                thickness: 2,
-                color: theme.colorScheme.secondary,
-              ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: _buildClosedAnswerItems(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  List<Widget> _buildAnswerItems() {
+  List<Widget> _buildOpenAnswerItems() {
     var theme = Theme.of(context);
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     var hasVoted = widget.manager.hasVoted(userID: userID, poll: widget.poll);

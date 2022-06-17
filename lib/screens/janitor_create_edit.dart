@@ -263,7 +263,6 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
-                                  style: BorderStyle.solid,
                                 ),
                               ),
                               contentPadding:
@@ -309,7 +308,6 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                                 borderSide: BorderSide(
                                   color: theme.colorScheme.primary,
                                   width: 2,
-                                  style: BorderStyle.solid,
                                 ),
                               ),
                               contentPadding:

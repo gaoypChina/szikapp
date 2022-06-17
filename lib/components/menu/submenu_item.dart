@@ -9,7 +9,7 @@ class SubMenuItemData {
   final String name;
   final int feature;
 
-  SubMenuItemData({
+  const SubMenuItemData({
     required this.picture,
     required this.name,
     required this.feature,

@@ -293,9 +293,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-          border: Border.all(
-            color: theme.colorScheme.primary,
-          ),
+          border: Border.all(color: theme.colorScheme.primary),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.8),
