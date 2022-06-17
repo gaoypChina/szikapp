@@ -1,30 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../business/business.dart';
-import '../screens/calendar_screen.dart';
-import '../screens/cleaning_screen.dart';
-import '../screens/contacts_screen.dart';
-import '../screens/documents_screen.dart';
-import '../screens/error_screen.dart';
-import '../screens/home_screen.dart';
-import '../screens/janitor_create_edit.dart';
-import '../screens/janitor_edit_admin.dart';
-import '../screens/janitor_screen.dart';
-import '../screens/poll_create_edit.dart';
-import '../screens/poll_screen.dart';
-import '../screens/profile_screen.dart';
-import '../screens/reservation_accounts.dart';
-import '../screens/reservation_create_edit.dart';
-import '../screens/reservation_details.dart';
-import '../screens/reservation_games.dart';
-import '../screens/reservation_places_map.dart';
-import '../screens/reservation_screen.dart';
-import '../screens/settings_screen.dart';
-import '../screens/signin_screen.dart';
-import '../screens/submenu_screen.dart';
+import '../navigation/navigation.dart';
+import '../screens/screens.dart';
 import '../utils/utils.dart';
-import 'app_link.dart';
-import 'app_state_manager.dart';
 
 class SzikAppRouter extends RouterDelegate<SzikAppLink>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -104,7 +84,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (janitorManager.isCreatingNewTask)
             JanitorCreateEditScreen.page(
               onCreate: (item) {
-                janitorManager.addTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.addTask(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -114,10 +95,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: janitorManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                janitorManager.updateTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
               },
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
             ),
           if (janitorManager.isGivingFeedback)
@@ -126,26 +109,31 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               isFeedback: true,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                janitorManager.updateStatus(item.status, item);
+                performFunctionSecurely(context,
+                    () => janitorManager.updateStatus(item.status, item));
               },
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
             ),
           if (janitorManager.isAdminEditingTask)
             JanitorEditAdminScreen.page(
               item: janitorManager.selectedTask!,
               onDelete: (item, index) {
-                janitorManager.deleteTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
               },
               onUpdate: (item, index) {
-                janitorManager.updateTask(item);
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
               },
             ),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
               onCreate: (item) {
-                pollManager.addPoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.addPoll(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -155,10 +143,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: pollManager.selectedPoll,
               onCreate: (item) {},
               onUpdate: (item, index) {
-                pollManager.updatePoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.updatePoll(item));
               },
               onDelete: (item, index) {
-                pollManager.deletePoll(item);
+                performFunctionSecurely(
+                    context, () => pollManager.deletePoll(item));
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
@@ -175,7 +165,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationCreateEditScreen.page(
               manager: reservationManager,
               onCreate: (item) {
-                reservationManager.addReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.addReservation(item));
               },
               onUpdate: (item, index) {},
               onDelete: (item, index) {},
@@ -186,10 +177,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
-                reservationManager.updateReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.updateReservation(item));
               },
               onDelete: (item, index) {
-                reservationManager.deleteReservation(item);
+                performFunctionSecurely(
+                    context, () => reservationManager.deleteReservation(item));
               },
             ),
         ],
@@ -367,6 +360,22 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         break;
       default:
         break;
+    }
+  }
+
+  void performFunctionSecurely(
+    BuildContext context,
+    Future<dynamic> Function() callback,
+  ) async {
+    try {
+      await callback();
+    } on IOException catch (e) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } on SocketException {
+      var snackbar =
+          ErrorHandler.buildSnackbar(context, errorCode: socketExceptionCode);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 }

@@ -20,7 +20,7 @@ class SquareShimmer extends StatelessWidget {
             width: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: Theme.of(context).colorScheme.background,
+              color: theme.colorScheme.background,
             ),
           ),
           Container(
@@ -29,7 +29,7 @@ class SquareShimmer extends StatelessWidget {
             width: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: Theme.of(context).colorScheme.background,
+              color: theme.colorScheme.background,
             ),
           ),
         ],

@@ -105,6 +105,124 @@ class ReservationCreateEditScreenState
     resourceIDs.add(selectedResource.id);
   }
 
+  String? _validateTextField(value) {
+    if (value == null || value.isEmpty) {
+      return 'ERROR_EMPTY_FIELD'.tr();
+    }
+    return null;
+  }
+
+  bool _timeFieldHasErrors() {
+    timeFieldError = '';
+    if (end.isBefore(start)) {
+      setState(() => timeFieldError = 'ERROR_NEGATIVE_DATE'.tr());
+      return true;
+    } else if (end.difference(start) < const Duration(minutes: 15)) {
+      setState(() => timeFieldError = 'ERROR_DURATION_TOO_SHORT'.tr());
+    }
+    return false;
+  }
+
+  void _onDateChanged(DateTime? date) {
+    setState(() {
+      start =
+          DateTime(date!.year, date.month, date.day, start.hour, start.minute);
+      end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
+    });
+  }
+
+  void _onStartingTimeChanged(TimeOfDay? startingTime) {
+    startingTime ??= TimeOfDay.fromDateTime(start);
+    var newStart = DateTime(
+      start.year,
+      start.month,
+      start.day,
+      startingTime.hour,
+      startingTime.minute,
+    );
+    var diff = DateTime(
+      start.year,
+      start.month,
+      start.day,
+      startingTime.hour,
+      startingTime.minute,
+    ).difference(start);
+
+    var newEnd = end.add(diff);
+    if (newEnd.day != end.day || newEnd.isBefore(newStart)) {
+      newEnd = DateTime(start.year, start.month, start.day, 23, 59);
+    }
+
+    setState(() {
+      start = newStart;
+      end = newEnd;
+    });
+    _timeFieldHasErrors();
+  }
+
+  void _onFinishingTimeChanged(TimeOfDay? endingTime) {
+    setState(() {
+      end = DateTime(
+          end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
+    });
+    _timeFieldHasErrors();
+  }
+
+  void _onTitleChanged(String? name) {
+    setState(() {
+      this.name = name;
+    });
+  }
+
+  void _onDescriptionChanged(String? description) {
+    setState(() {
+      this.description = description;
+    });
+  }
+
+  void _onNewSent() {
+    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
+      var uuid = const Uuid();
+      var task = TimetableTask(
+        id: uuid.v4().toUpperCase(),
+        name: name!,
+        start: start,
+        end: end,
+        type: TaskType.timetable,
+        participantIDs: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id
+        ],
+        lastUpdate: DateTime.now(),
+        description: description,
+        managerIDs: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id
+        ],
+        resourceIDs: resourceIDs,
+      );
+      SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
+      widget.onCreate(task);
+    }
+  }
+
+  void _onEditSent() {
+    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
+      var task = widget.originalItem;
+      task!.name = name!;
+      task.description = description;
+      task.start = start;
+      task.end = end;
+
+      SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
+      widget.onUpdate(task, widget.index);
+    }
+  }
+
+  void _onAcceptDelete() {
+    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
+    widget.onDelete(widget.originalItem!, widget.index);
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -367,8 +485,9 @@ class ReservationCreateEditScreenState
                                   ),
                                   onPressed: () {
                                     showDialog<void>(
-                                        context: context,
-                                        builder: (context) => confirmDialog);
+                                      context: context,
+                                      builder: (context) => confirmDialog,
+                                    );
                                   },
                                 )
                               : Container(),
@@ -376,9 +495,11 @@ class ReservationCreateEditScreenState
                         Expanded(
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
-                            child: Text(widget.isEdit
-                                ? 'BUTTON_SAVE'.tr()
-                                : 'BUTTON_SEND'.tr()),
+                            child: Text(
+                              widget.isEdit
+                                  ? 'BUTTON_SAVE'.tr()
+                                  : 'BUTTON_SEND'.tr(),
+                            ),
                           ),
                         )
                       ],
@@ -391,123 +512,5 @@ class ReservationCreateEditScreenState
         ),
       ),
     );
-  }
-
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
-  bool _timeFieldHasErrors() {
-    timeFieldError = '';
-    if (end.isBefore(start)) {
-      setState(() => timeFieldError = 'ERROR_NEGATIVE_DATE'.tr());
-      return true;
-    } else if (end.difference(start) < const Duration(minutes: 15)) {
-      setState(() => timeFieldError = 'ERROR_DURATION_TOO_SHORT'.tr());
-    }
-    return false;
-  }
-
-  void _onDateChanged(DateTime? date) {
-    setState(() {
-      start =
-          DateTime(date!.year, date.month, date.day, start.hour, start.minute);
-      end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
-    });
-  }
-
-  void _onStartingTimeChanged(TimeOfDay? startingTime) {
-    startingTime ??= TimeOfDay.fromDateTime(start);
-    var newStart = DateTime(
-      start.year,
-      start.month,
-      start.day,
-      startingTime.hour,
-      startingTime.minute,
-    );
-    var diff = DateTime(
-      start.year,
-      start.month,
-      start.day,
-      startingTime.hour,
-      startingTime.minute,
-    ).difference(start);
-
-    var newEnd = end.add(diff);
-    if (newEnd.day != end.day || newEnd.isBefore(newStart)) {
-      newEnd = DateTime(start.year, start.month, start.day, 23, 59);
-    }
-
-    setState(() {
-      start = newStart;
-      end = newEnd;
-    });
-    _timeFieldHasErrors();
-  }
-
-  void _onFinishingTimeChanged(TimeOfDay? endingTime) {
-    setState(() {
-      end = DateTime(
-          end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
-    });
-    _timeFieldHasErrors();
-  }
-
-  void _onTitleChanged(String? name) {
-    setState(() {
-      this.name = name;
-    });
-  }
-
-  void _onDescriptionChanged(String? description) {
-    setState(() {
-      this.description = description;
-    });
-  }
-
-  void _onNewSent() {
-    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
-      var uuid = const Uuid();
-      var task = TimetableTask(
-        id: uuid.v4().toUpperCase(),
-        name: name!,
-        start: start,
-        end: end,
-        type: TaskType.timetable,
-        participantIDs: <String>[
-          Provider.of<AuthManager>(context, listen: false).user!.id
-        ],
-        lastUpdate: DateTime.now(),
-        description: description,
-        managerIDs: <String>[
-          Provider.of<AuthManager>(context, listen: false).user!.id
-        ],
-        resourceIDs: resourceIDs,
-      );
-      SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
-      widget.onCreate(task);
-    }
-  }
-
-  void _onEditSent() {
-    if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
-      var task = widget.originalItem;
-      task!.name = name!;
-      task.description = description;
-      task.start = start;
-      task.end = end;
-
-      SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
-      widget.onUpdate(task, widget.index);
-    }
-  }
-
-  void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
-    widget.onDelete(widget.originalItem!, widget.index);
-    Navigator.of(context, rootNavigator: true).pop();
   }
 }

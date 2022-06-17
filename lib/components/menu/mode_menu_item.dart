@@ -18,13 +18,14 @@ class ModeMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: kPaddingXLarge),
         height: 90,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
         ),
         child: Row(
@@ -34,7 +35,7 @@ class ModeMenuItem extends StatelessWidget {
               child: CustomIcon(
                 leadingAssetPath,
                 size: kIconSizeLarge,
-                color: color ?? Theme.of(context).colorScheme.secondary,
+                color: color ?? theme.colorScheme.secondary,
               ),
             ),
             Container(
@@ -47,7 +48,7 @@ class ModeMenuItem extends StatelessWidget {
                     fontSize: 20,
                     fontStyle: FontStyle.normal,
                     decoration: TextDecoration.none,
-                    color: color ?? Theme.of(context).colorScheme.secondary,
+                    color: color ?? theme.colorScheme.secondary,
                   ),
                 ),
               ),

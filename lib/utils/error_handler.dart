@@ -32,8 +32,18 @@ class ErrorInformation {
       errorSolution = 'ERROR_UNKNOWN_CODE_SOLUTION'.tr();
     }
   }
-  ErrorInformation.fromException(Exception exception) {
+  ErrorInformation.fromException(BaseException exception) {
     switch (exception.runtimeType) {
+      case IOException:
+        errorCode = exception.code;
+        errorMessage = exception.message;
+        errorSolution = 'ERROR_UNKNOWN_EXCEPTION_SOLUTION'.tr();
+        break;
+      case IOServerException:
+        errorCode = exception.code;
+        errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
+        errorSolution = 'ERROR_HTTP_SOLUTION'.tr();
+        break;
       case SocketException:
         errorCode = socketExceptionCode;
         errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
@@ -55,7 +65,7 @@ class ErrorHandler {
   static MaterialBanner buildBanner(
     BuildContext context, {
     int? errorCode,
-    Exception? exception,
+    BaseException? exception,
     ErrorInformation? information,
   }) {
     ErrorInformation errorInformation;
@@ -72,7 +82,7 @@ class ErrorHandler {
   }
 
   static SnackBar buildSnackbar(BuildContext context,
-      {int? errorCode, Exception? exception}) {
+      {int? errorCode, BaseException? exception}) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
       errorInformation = ErrorInformation.fromCode(errorCode);
@@ -85,7 +95,7 @@ class ErrorHandler {
   }
 
   static Widget buildInset(BuildContext context,
-      {int? errorCode, Exception? exception}) {
+      {int? errorCode, BaseException? exception}) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
       errorInformation = ErrorInformation.fromCode(errorCode);
@@ -198,6 +208,7 @@ class ErrorHandler {
       content: Text(errorInformation.errorMessage),
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
+        textColor: Theme.of(context).colorScheme.surface,
         label: 'BUTTON_DISMISS'.tr(),
         onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
       ),

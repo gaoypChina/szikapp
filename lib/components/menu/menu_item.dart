@@ -21,6 +21,7 @@ class CustomMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     var children = <Widget>[
       Expanded(
         child: Container(
@@ -28,9 +29,9 @@ class CustomMenuItem extends StatelessWidget {
           child: Text(
             name,
             textAlign: reversed ? TextAlign.left : TextAlign.right,
-            style: Theme.of(context).textTheme.headline3!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
+            style: theme.textTheme.headline3!.copyWith(
+              color: theme.colorScheme.onPrimary,
+            ),
           ),
         ),
       ),
@@ -40,14 +41,14 @@ class CustomMenuItem extends StatelessWidget {
           height: height * 0.5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
           ),
           child: Padding(
             padding: EdgeInsets.all(height * 0.05),
             child: CustomIcon(
               picture,
               size: kIconSizeLarge,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: theme.colorScheme.onPrimary,
             ),
           ),
         ),

@@ -17,7 +17,7 @@ class CardShimmer extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-          color: Theme.of(context).colorScheme.background,
+          color: theme.colorScheme.background,
         ),
       ),
     );

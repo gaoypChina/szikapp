@@ -74,10 +74,11 @@ class DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
+          color: theme.colorScheme.primary,
           width: 1,
           style: BorderStyle.solid,
         ),
@@ -89,13 +90,13 @@ class DatePickerState extends State<DatePicker> {
         child: Text(
           DateFormat('yyyy. MM. dd.')
               .format(widget.initialDate ?? DateTime.now()),
-          style: Theme.of(context).textTheme.button!.copyWith(
-                color: widget.readonly
-                    ? Theme.of(context).colorScheme.secondaryContainer
-                    : widget.color,
-                fontSize: widget.fontSize,
-                fontStyle: FontStyle.italic,
-              ),
+          style: theme.textTheme.button!.copyWith(
+            color: widget.readonly
+                ? theme.colorScheme.secondaryContainer
+                : widget.color,
+            fontSize: widget.fontSize,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       ),
     );

@@ -6,83 +6,7 @@ import '../components/components.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
 
-final List<SubMenuItemData> subMenuDataListItems = [
-  SubMenuItemData(
-    name: 'CONTACTS_TITLE'.tr(),
-    picture: CustomIcons.users,
-    feature: SzikAppFeature.contacts,
-  ),
-  SubMenuItemData(
-    name: 'DOCUMENTS_TITLE'.tr(),
-    picture: CustomIcons.bookClosed,
-    feature: SzikAppFeature.documents,
-  ),
-];
-
-final List<SubMenuItemData> subMenuCommunityListItems = [
-  SubMenuItemData(
-    name: 'HELP_ME_TITLE'.tr(),
-    picture: CustomIcons.shield,
-    feature: SzikAppFeature.error,
-  ),
-  SubMenuItemData(
-    name: 'BEER_WITH_ME_TITLE'.tr(),
-    picture: CustomIcons.beer,
-    feature: SzikAppFeature.error,
-  ),
-  SubMenuItemData(
-    name: 'SPIRITUAL_TITLE'.tr(),
-    picture: CustomIcons.fire,
-    feature: SzikAppFeature.error,
-  ),
-];
-
-final List<SubMenuItemData> subMenuEverydayListItems = [
-  SubMenuItemData(
-    name: 'CLEANING_TITLE'.tr(),
-    picture: CustomIcons.knife,
-    feature: SzikAppFeature.cleaning,
-  ),
-  SubMenuItemData(
-    name: 'RESERVATION_TITLE'.tr(),
-    picture: CustomIcons.hourglass,
-    feature: SzikAppFeature.reservation,
-  ),
-  SubMenuItemData(
-    name: 'JANITOR_TITLE'.tr(),
-    picture: CustomIcons.wrench,
-    feature: SzikAppFeature.janitor,
-  ),
-  SubMenuItemData(
-    name: 'FORMS_TITLE'.tr(),
-    picture: CustomIcons.pencilAndPaper,
-    feature: SzikAppFeature.error,
-  ),
-  SubMenuItemData(
-    name: 'POLL_TITLE'.tr(),
-    picture: CustomIcons.handpalm,
-    feature: SzikAppFeature.poll,
-  ),
-  SubMenuItemData(
-    name: 'BOOKRENTAL_TITLE'.tr(),
-    picture: CustomIcons.library,
-    feature: SzikAppFeature.error,
-  ),
-];
-
-final List<List<SubMenuItemData>> subMenus = [
-  subMenuDataListItems,
-  subMenuCommunityListItems,
-  subMenuEverydayListItems,
-];
-
-final List<String> subMenuTitles = [
-  'SUBMENU_DATA_TITLE'.tr(),
-  'SUBMENU_COMMUNITY_TITLE'.tr(),
-  'SUBMENU_EVERYDAY_TITLE'.tr(),
-];
-
-class SubMenuScreen extends StatelessWidget {
+class SubMenuScreen extends StatefulWidget {
   final int selectedSubMenu;
   static const String route = '/submenu';
 
@@ -102,9 +26,109 @@ class SubMenuScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SubMenuScreen> createState() => _SubMenuScreenState();
+}
+
+class _SubMenuScreenState extends State<SubMenuScreen> {
+  List<SubMenuItemData> subMenuDataListItems = [
+    SubMenuItemData(
+      name: 'CONTACTS_TITLE'.tr(),
+      picture: CustomIcons.users,
+      feature: SzikAppFeature.contacts,
+    ),
+    SubMenuItemData(
+      name: 'DOCUMENTS_TITLE'.tr(),
+      picture: CustomIcons.bookClosed,
+      feature: SzikAppFeature.documents,
+    ),
+  ];
+
+  List<SubMenuItemData> subMenuCommunityListItems = [
+    SubMenuItemData(
+      name: 'HELP_ME_TITLE'.tr(),
+      picture: CustomIcons.shield,
+      feature: SzikAppFeature.error,
+    ),
+    SubMenuItemData(
+      name: 'BEER_WITH_ME_TITLE'.tr(),
+      picture: CustomIcons.beer,
+      feature: SzikAppFeature.error,
+    ),
+    SubMenuItemData(
+      name: 'SPIRITUAL_TITLE'.tr(),
+      picture: CustomIcons.fire,
+      feature: SzikAppFeature.error,
+    ),
+  ];
+
+  List<SubMenuItemData> subMenuEverydayListItems = [
+    SubMenuItemData(
+      name: 'CLEANING_TITLE'.tr(),
+      picture: CustomIcons.knife,
+      feature: SzikAppFeature.cleaning,
+    ),
+    SubMenuItemData(
+      name: 'RESERVATION_TITLE'.tr(),
+      picture: CustomIcons.hourglass,
+      feature: SzikAppFeature.reservation,
+    ),
+    SubMenuItemData(
+      name: 'JANITOR_TITLE'.tr(),
+      picture: CustomIcons.wrench,
+      feature: SzikAppFeature.janitor,
+    ),
+    SubMenuItemData(
+      name: 'FORMS_TITLE'.tr(),
+      picture: CustomIcons.pencilAndPaper,
+      feature: SzikAppFeature.error,
+    ),
+    SubMenuItemData(
+      name: 'POLL_TITLE'.tr(),
+      picture: CustomIcons.handpalm,
+      feature: SzikAppFeature.poll,
+    ),
+    SubMenuItemData(
+      name: 'BOOKRENTAL_TITLE'.tr(),
+      picture: CustomIcons.library,
+      feature: SzikAppFeature.error,
+    ),
+  ];
+
+  List<List<SubMenuItemData>> subMenus = [];
+
+  List<String> subMenuTitles = [
+    'SUBMENU_DATA_TITLE'.tr(),
+    'SUBMENU_COMMUNITY_TITLE'.tr(),
+    'SUBMENU_EVERYDAY_TITLE'.tr(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    subMenus = [
+      subMenuDataListItems,
+      subMenuCommunityListItems,
+      subMenuEverydayListItems,
+    ];
+  }
+
+  List<Widget> _buildGridItems(BuildContext context) {
+    var items = <Widget>[];
+    var user = Provider.of<AuthManager>(context, listen: false).user;
+    for (var item in subMenus[widget.selectedSubMenu]) {
+      if (user!.hasPermissionToAccess(
+        SzikAppLink(currentFeature: item.feature),
+      )) {
+        items.add(SubMenuItem(data: item));
+      }
+    }
+    return items;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: subMenuTitles[selectedSubMenu],
+      appBarTitle: subMenuTitles[widget.selectedSubMenu],
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
@@ -129,18 +153,5 @@ class SubMenuScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<Widget> _buildGridItems(BuildContext context) {
-    var items = <Widget>[];
-    var user = Provider.of<AuthManager>(context, listen: false).user;
-    for (var item in subMenus[selectedSubMenu]) {
-      if (user!.hasPermissionToAccess(
-        SzikAppLink(currentFeature: item.feature),
-      )) {
-        items.add(SubMenuItem(data: item));
-      }
-    }
-    return items;
   }
 }

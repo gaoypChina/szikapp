@@ -45,10 +45,11 @@ class TimePickerState extends State<TimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
+          color: theme.colorScheme.primary,
           width: 1,
           style: BorderStyle.solid,
         ),
@@ -62,11 +63,11 @@ class TimePickerState extends State<TimePicker> {
         onTap: _selectTime,
         child: Text(
           widget.time.format(context),
-          style: Theme.of(context).textTheme.button!.copyWith(
-                color: widget.color,
-                fontSize: widget.fontSize,
-                fontStyle: FontStyle.italic,
-              ),
+          style: theme.textTheme.button!.copyWith(
+            color: widget.color,
+            fontSize: widget.fontSize,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       ),
     );

@@ -30,6 +30,7 @@ class CalendarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return CustomFutureBuilder<void>(
       future: manager.refresh(),
       shimmer: const ListScreenShimmer(),
@@ -44,11 +45,11 @@ class CalendarScreen extends StatelessWidget {
               CustomIcon(
                 CustomIcons.calendar,
                 size: kIconSizeXLarge,
-                color: Theme.of(context).colorScheme.primary,
+                color: theme.colorScheme.primary,
               ),
               Text(
                 'CALENDAR_HELP_TEXT'.tr(),
-                style: Theme.of(context).textTheme.headline2,
+                style: theme.textTheme.headline2,
                 textAlign: TextAlign.center,
               ),
               Link(
@@ -61,10 +62,10 @@ class CalendarScreen extends StatelessWidget {
                     onTap: followLink,
                     child: Text(
                       'CALENDAR_LINK_TEXT'.tr(),
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                            decoration: TextDecoration.underline,
-                          ),
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        color: theme.colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   );
                 },

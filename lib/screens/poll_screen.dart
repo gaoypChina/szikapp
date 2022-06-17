@@ -61,6 +61,31 @@ class PollTileViewState extends State<PollTileView> {
     super.initState();
   }
 
+  void _onTabChanged(int? tab) {
+    setState(() {
+      _polls = widget.manager.filter(isLive: tab == 0);
+    });
+  }
+
+  void _onCreatePoll() {
+    widget.manager.createNewPoll();
+  }
+
+  String _calculateTime(DateTime date) {
+    var difference = date.difference(DateTime.now());
+    var answer = '';
+    if (difference.isNegative) {
+      answer = 'POLL_NO_TIME_LEFT'.tr();
+    } else if (difference.inDays > 0) {
+      answer = 'POLL_DAYS_LEFT'.tr(args: [difference.inDays.toString()]);
+    } else if (difference.inHours > 0) {
+      answer = 'POLL_HOURS_LEFT'.tr(args: [difference.inHours.toString()]);
+    } else if (difference.inMinutes > 0) {
+      answer = 'POLL_MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
+    }
+    return answer;
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -159,30 +184,5 @@ class PollTileViewState extends State<PollTileView> {
         ],
       ),
     );
-  }
-
-  void _onTabChanged(int? tab) {
-    setState(() {
-      _polls = widget.manager.filter(isLive: tab == 0);
-    });
-  }
-
-  void _onCreatePoll() {
-    widget.manager.createNewPoll();
-  }
-
-  String _calculateTime(DateTime date) {
-    var difference = date.difference(DateTime.now());
-    var answer = '';
-    if (difference.isNegative) {
-      answer = 'POLL_NO_TIME_LEFT'.tr();
-    } else if (difference.inDays > 0) {
-      answer = 'POLL_DAYS_LEFT'.tr(args: [difference.inDays.toString()]);
-    } else if (difference.inHours > 0) {
-      answer = 'POLL_HOURS_LEFT'.tr(args: [difference.inHours.toString()]);
-    } else if (difference.inMinutes > 0) {
-      answer = 'POLL_MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
-    }
-    return answer;
   }
 }

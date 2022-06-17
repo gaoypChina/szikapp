@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/bottom_navigation_bar.dart';
 import '../navigation/app_state_manager.dart';
-import 'feed_screen.dart';
-import 'menu_screen.dart';
-import 'settings_screen.dart';
+import '../screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/';
@@ -42,26 +39,6 @@ class HomeScreenState extends State<HomeScreen> {
       withBackButton: false,
     ),
   ];
-
-  void setNotificationBarTheme() {
-    MediaQuery.of(context).platformBrightness == Brightness.light
-        ? SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle(
-              statusBarColor: Theme.of(context).colorScheme.primary,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.light,
-              //systemStatusBarContrastEnforced: , //Not sure if needed
-            ),
-          )
-        : SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle(
-              statusBarColor: Theme.of(context).colorScheme.primary,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarBrightness: Brightness.dark,
-              //systemStatusBarContrastEnforced: ,  //Not sure if needed
-            ),
-          );
-  }
 
   @override
   void initState() {

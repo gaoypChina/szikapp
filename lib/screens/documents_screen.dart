@@ -88,11 +88,12 @@ class DocumentsListViewState extends State<DocumentsListView> {
     });
   }
 
-  Widget _buildListItem(BuildContext context, int pindex) {
+  Widget _buildListItem(BuildContext context, int newIndex) {
+    var theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
         setState(() {
-          index = pindex;
+          index = newIndex;
         });
         showDialog(
           context: context,
@@ -111,21 +112,21 @@ class DocumentsListViewState extends State<DocumentsListView> {
           horizontal: kPaddingLarge,
         ),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: theme.colorScheme.surface,
           borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadiusNormal),
           ),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.secondaryContainer,
+              color: theme.colorScheme.secondaryContainer,
               offset: const Offset(0.0, 2.0),
               blurRadius: 3.0,
             ),
           ],
         ),
         child: Text(
-          items[pindex].title,
-          style: Theme.of(context).textTheme.bodyText1,
+          items[newIndex].title,
+          style: theme.textTheme.bodyText1,
         ),
       ),
     );
@@ -162,11 +163,11 @@ class DocumentsListViewState extends State<DocumentsListView> {
                         ),
                         Text(
                           'LABEL_FAVOURITES'.tr(),
-                          style: Theme.of(context)
+                          style: theme
                               .textTheme
                               .headline3!
                               .copyWith(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: theme.colorScheme.secondary,
                               ),
                         ),
                       ],

@@ -83,11 +83,11 @@ class SearchableOptions<T> extends StatelessWidget {
             showSearchBox: true,
             enabled: !readonly,
             searchFieldProps: TextFieldProps(
-              style: Theme.of(context).textTheme.headline3!.copyWith(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    fontStyle: FontStyle.italic,
-                  ),
+              style: theme.textTheme.headline3!.copyWith(
+                fontSize: 14,
+                color: theme.colorScheme.primaryContainer,
+                fontStyle: FontStyle.italic,
+              ),
               decoration: InputDecoration(
                 hintText: 'PLACEHOLDER_SEARCH'.tr(),
                 hintStyle: theme.textTheme.caption,
@@ -107,7 +107,7 @@ class SearchableOptions<T> extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                 borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: theme.colorScheme.primary,
                   width: 2,
                   style: BorderStyle.solid,
                 ),
@@ -118,7 +118,7 @@ class SearchableOptions<T> extends StatelessWidget {
             popupShape: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kBorderRadiusSmall),
               borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
+                color: theme.colorScheme.primary,
                 width: 2,
                 style: BorderStyle.solid,
               ),
@@ -141,11 +141,11 @@ class SearchableOptions<T> extends StatelessWidget {
             showSearchBox: true,
             enabled: !readonly,
             searchFieldProps: TextFieldProps(
-              style: Theme.of(context).textTheme.headline3!.copyWith(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    fontStyle: FontStyle.italic,
-                  ),
+              style: theme.textTheme.headline3!.copyWith(
+                fontSize: 14,
+                color: theme.colorScheme.primaryContainer,
+                fontStyle: FontStyle.italic,
+              ),
               decoration: InputDecoration(
                 hintText: 'PLACEHOLDER_SEARCH'.tr(),
                 hintStyle: theme.textTheme.caption,
@@ -165,7 +165,7 @@ class SearchableOptions<T> extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                 borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: theme.colorScheme.primary,
                   width: 2,
                   style: BorderStyle.solid,
                 ),
@@ -176,7 +176,7 @@ class SearchableOptions<T> extends StatelessWidget {
             popupShape: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kBorderRadiusSmall),
               borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
+                color: theme.colorScheme.primary,
                 width: 2,
                 style: BorderStyle.solid,
               ),

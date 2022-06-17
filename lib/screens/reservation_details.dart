@@ -112,112 +112,6 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    String appBarTitle;
-    Resource resource;
-    if (_selectedMode == ReservationMode.place) {
-      appBarTitle = 'RESERVATION_MODE_PLACE'.tr();
-      resource = Provider.of<SzikAppStateManager>(context, listen: false)
-          .places[widget.manager.selectedPlaceIndex];
-    } else if (_selectedMode == ReservationMode.boardgame) {
-      appBarTitle = 'RESERVATION_MODE_BOARDGAME'.tr();
-      resource = widget.manager.games[widget.manager.selectedGameIndex];
-    } else {
-      appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
-      resource = widget.manager.accounts[widget.manager.selectedAccountIndex];
-    }
-    return CustomScaffold(
-      appBarTitle: appBarTitle,
-      resizeToAvoidBottomInset: true,
-      body: Container(
-        color: theme.colorScheme.background,
-        padding: const EdgeInsets.all(kPaddingLarge),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-              child: Center(
-                child: Text(
-                  resource.name.toUpperCase(),
-                  style: theme.textTheme.headline1!.copyWith(
-                    color: theme.colorScheme.secondary,
-                    fontWeight: FontWeight.normal,
-                    letterSpacing: 5,
-                  ),
-                ),
-              ),
-            ),
-            Divider(
-              thickness: widget.dividerThickness,
-              color: theme.colorScheme.secondary,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'CONTROL_FILTER'.tr(),
-                    style: theme.textTheme.headline3!.copyWith(
-                      color: theme.colorScheme.primary,
-                      fontSize: 12,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 70,
-                    height: 1,
-                    child: Container(
-                      color: theme.colorScheme.primary,
-                      margin: const EdgeInsets.only(left: kPaddingNormal),
-                    ),
-                  ),
-                  DatePicker(
-                    initialDate: _currentDate,
-                    onChanged: _onDateChanged,
-                    borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                    color: theme.colorScheme.primary,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: kPaddingNormal,
-                      horizontal: kPaddingXLarge,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: FutureBuilder(
-                future: widget.manager
-                    .refresh(start: _currentDateStart, end: _currentDateEnd),
-                builder: (context, snapshot) {
-                  return RefreshIndicator(
-                    onRefresh: () => widget.manager.refresh(
-                        start: _currentDateStart, end: _currentDateEnd),
-                    child: ListView(
-                      children: [
-                        Stack(
-                          children: [
-                            _buildRaster(),
-                            _buildEvents(),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: CustomFloatingActionButton(
-        onPressed: _onCreateTask,
-        typeToCreate: TimetableTask,
-      ),
-    );
-  }
-
   void _onDateChanged(DateTime? date) {
     setState(() {
       _currentDate = date ?? DateTime.now().toLocal();
@@ -370,6 +264,112 @@ class _ReservationDetailsState extends State<ReservationDetails> {
             ),
           )
           .toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    String appBarTitle;
+    Resource resource;
+    if (_selectedMode == ReservationMode.place) {
+      appBarTitle = 'RESERVATION_MODE_PLACE'.tr();
+      resource = Provider.of<SzikAppStateManager>(context, listen: false)
+          .places[widget.manager.selectedPlaceIndex];
+    } else if (_selectedMode == ReservationMode.boardgame) {
+      appBarTitle = 'RESERVATION_MODE_BOARDGAME'.tr();
+      resource = widget.manager.games[widget.manager.selectedGameIndex];
+    } else {
+      appBarTitle = 'RESERVATION_MODE_ACCOUNT'.tr();
+      resource = widget.manager.accounts[widget.manager.selectedAccountIndex];
+    }
+    return CustomScaffold(
+      appBarTitle: appBarTitle,
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        color: theme.colorScheme.background,
+        padding: const EdgeInsets.all(kPaddingLarge),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              child: Center(
+                child: Text(
+                  resource.name.toUpperCase(),
+                  style: theme.textTheme.headline1!.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 5,
+                  ),
+                ),
+              ),
+            ),
+            Divider(
+              thickness: widget.dividerThickness,
+              color: theme.colorScheme.secondary,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'CONTROL_FILTER'.tr(),
+                    style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 70,
+                    height: 1,
+                    child: Container(
+                      color: theme.colorScheme.primary,
+                      margin: const EdgeInsets.only(left: kPaddingNormal),
+                    ),
+                  ),
+                  DatePicker(
+                    initialDate: _currentDate,
+                    onChanged: _onDateChanged,
+                    borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+                    color: theme.colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: kPaddingNormal,
+                      horizontal: kPaddingXLarge,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: widget.manager
+                    .refresh(start: _currentDateStart, end: _currentDateEnd),
+                builder: (context, snapshot) {
+                  return RefreshIndicator(
+                    onRefresh: () => widget.manager.refresh(
+                        start: _currentDateStart, end: _currentDateEnd),
+                    child: ListView(
+                      children: [
+                        Stack(
+                          children: [
+                            _buildRaster(),
+                            _buildEvents(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        onPressed: _onCreateTask,
+        typeToCreate: TimetableTask,
+      ),
     );
   }
 }
