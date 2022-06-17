@@ -100,6 +100,7 @@ class Task implements Identifiable, Cachable {
 class TimetableTask extends Task {
   @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
+  String? url;
 
   TimetableTask({
     required String id,
@@ -112,6 +113,7 @@ class TimetableTask extends Task {
     String? description,
     required DateTime lastUpdate,
     required this.resourceIDs,
+    this.url,
   }) : super(
           id: id,
           name: name,

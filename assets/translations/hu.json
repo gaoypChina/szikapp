@@ -193,6 +193,8 @@
         "BUTTON_OPEN": "Megnyitás",
         "BUTTON_AGREE": "Elfogadom",
         "BUTTON_DISAGREE": "Elutasítom",
+        "BUTTON_SEE_MORE": "Tovább olvasom",
+        "BUTTON_DETAILS": "Részletek",
     "WIDGETS": null,
         "DATE_PICKER_HELP": "Válassz dátumot",
         "TIME_PICKER_HELP": "Válassz időpontot",

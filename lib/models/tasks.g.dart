@@ -66,6 +66,7 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
       resourceIDs: (json['resource_ids'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
@@ -80,6 +81,7 @@ Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
       'resource_ids': instance.resourceIDs,
+      'url': instance.url,
     };
 
 JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) => JanitorTask(
