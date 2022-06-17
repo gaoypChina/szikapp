@@ -77,7 +77,7 @@ class DatePickerState extends State<DatePicker> {
     var theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
+        border: Border.all(color: theme.colorScheme.primary),
         borderRadius: widget.borderRadius,
       ),
       padding: widget.padding,
