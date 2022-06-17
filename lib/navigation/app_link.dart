@@ -1,4 +1,5 @@
 class SzikAppLink {
+  static const String kArticlePath = '/article';
   static const String kCalendarPath = '/calendar';
   static const String kContactsPath = '/contacts';
   static const String kDocumentsPath = '/documents';
@@ -9,6 +10,7 @@ class SzikAppLink {
   static const String kJanitorCreateEditPath = '/janitor/createedit';
   static const String kJanitorPath = '/janitor';
   static const String kKitchenCleaningPath = '/cleaning';
+  static const String kInvitationPath = '/invitation';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
   static const String kPollCreateEditPath = '/poll/createedit';
@@ -73,6 +75,13 @@ class SzikAppLink {
         value == null ? '' : '$key=$value&';
 
     switch (location) {
+      case kArticlePath:
+        var loc = '$kArticlePath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kCalendarPath:
         var loc = '$kCalendarPath?';
         loc += addKeyValPair(
@@ -145,6 +154,13 @@ class SzikAppLink {
         return Uri.encodeFull(loc);
       case kJanitorPath:
         var loc = '$kJanitorPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
+      case kInvitationPath:
+        var loc = '$kInvitationPath?';
         loc += addKeyValPair(
           key: kFeatureParam,
           value: currentFeature.toString(),
