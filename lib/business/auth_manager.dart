@@ -25,6 +25,8 @@ class AuthManager extends ChangeNotifier {
   /// Az aktuálisan bejelentkezett felhasználó saját adatstruktúrája
   szikapp_user.User? get user => _user;
 
+  bool get userIsGuest => _user?.name == 'Guest';
+
   /// Bejelentkezési állapot változásokat reprezentáló [Stream]
   Stream<User?> get stateChanges => _auth.authStateChanges();
 

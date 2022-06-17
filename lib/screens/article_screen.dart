@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../components/components.dart';
@@ -20,7 +21,9 @@ class ArticleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
       future: IO.instance.getArticles(),
-      child: CustomScaffold(),
+      child: CustomScaffold(
+        appBarTitle: 'ARTICLE_TITLE'.tr(),
+      ),
     );
   }
 }

@@ -47,7 +47,11 @@ class FeedScreenState extends State<FeedScreen> {
     ];
   }
 
-  void _onClearAllNotificationsPressed() {}
+  void _onClearAllNotificationsPressed() {
+    setState(() {
+      notifications = [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,28 +121,30 @@ class FeedScreenState extends State<FeedScreen> {
                   child: BirthdayBar(),
                 )
               : Container(),
-          Container(
-            margin: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: feedShortcuts.map<WrappedIconButton>(
-                (item) {
-                  var userCanRouteToLink = user
-                      .hasPermissionToAccess(SzikAppLink(currentFeature: item));
-                  return WrappedIconButton(
-                    assetPath:
-                        shortcutData[item]?.assetPath ?? CustomIcons.bell,
-                    color: theme.colorScheme.primaryContainer,
-                    backgroundColor: theme.colorScheme.background,
-                    onTap: userCanRouteToLink
-                        ? () => appStateManager.selectFeature(item)
-                        : null,
-                  );
-                },
-              ).toList(),
-            ),
-          ),
+          user.name != 'Guest'
+              ? Container(
+                  margin: const EdgeInsets.all(kBorderRadiusNormal),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: feedShortcuts.map<WrappedIconButton>(
+                      (item) {
+                        var userCanRouteToLink = user.hasPermissionToAccess(
+                            SzikAppLink(currentFeature: item));
+                        return WrappedIconButton(
+                          assetPath:
+                              shortcutData[item]?.assetPath ?? CustomIcons.bell,
+                          color: theme.colorScheme.primaryContainer,
+                          backgroundColor: theme.colorScheme.background,
+                          onTap: userCanRouteToLink
+                              ? () => appStateManager.selectFeature(item)
+                              : null,
+                        );
+                      },
+                    ).toList(),
+                  ),
+                )
+              : Container(),
           Container(
             margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
             padding: const EdgeInsets.only(left: kPaddingNormal),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../components/components.dart';
@@ -20,7 +21,9 @@ class InvitationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
       future: IO.instance.getInvitations(),
-      child: CustomScaffold(),
+      child: CustomScaffold(
+        appBarTitle: 'INVITATION_TITLE'.tr(),
+      ),
     );
   }
 }
