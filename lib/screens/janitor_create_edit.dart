@@ -78,6 +78,80 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
     }
   }
 
+  String? _validateTextField(value) {
+    if (value == null || value.isEmpty) {
+      return 'ERROR_EMPTY_FIELD'.tr();
+    }
+    return null;
+  }
+
+  void _onPlaceChanged(Place? item) {
+    placeID = item!.id;
+  }
+
+  void _onTitleChanged(String title) {
+    this.title = title;
+  }
+
+  void _onDescriptionChanged(String text) {
+    widget.isFeedback ? feedback = text : description = text;
+  }
+
+  void _onNewSent() {
+    if (_formKey.currentState!.validate()) {
+      var uuid = const Uuid();
+      var task = JanitorTask(
+        id: uuid.v4().toUpperCase(),
+        name: title!,
+        description: description,
+        start: DateTime.now(),
+        end: DateTime.now(),
+        type: TaskType.janitor,
+        lastUpdate: DateTime.now(),
+        placeID: placeID!,
+        //Gondnok ID !!
+        participantIDs: <String>[
+          Provider.of<AuthManager>(context, listen: false).user!.id,
+          'u904'
+        ],
+        status: TaskStatus.created,
+      );
+      task.status = TaskStatus.sent;
+
+      SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
+      widget.onCreate(task);
+    }
+  }
+
+  void _onEditSent() {
+    if (_formKey.currentState!.validate()) {
+      var task = widget.originalItem;
+      task!.name = title!;
+      widget.isFeedback
+          ? task.feedback.add(
+              Feedback(
+                id: const Uuid().v4().toUpperCase(),
+                userID:
+                    Provider.of<AuthManager>(context, listen: false).user!.id,
+                message: feedback ?? '',
+                lastUpdate: DateTime.now(),
+              ),
+            )
+          : task.description = description;
+
+      task.placeID = placeID!;
+
+      SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
+      widget.onUpdate(task, widget.index);
+    }
+  }
+
+  void _onAcceptDelete() {
+    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    widget.onDelete(widget.originalItem!, widget.index);
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -285,79 +359,5 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         ),
       ),
     );
-  }
-
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
-  void _onPlaceChanged(Place? item) {
-    placeID = item!.id;
-  }
-
-  void _onTitleChanged(String title) {
-    this.title = title;
-  }
-
-  void _onDescriptionChanged(String text) {
-    widget.isFeedback ? feedback = text : description = text;
-  }
-
-  void _onNewSent() {
-    if (_formKey.currentState!.validate()) {
-      var uuid = const Uuid();
-      var task = JanitorTask(
-        id: uuid.v4().toUpperCase(),
-        name: title!,
-        description: description,
-        start: DateTime.now(),
-        end: DateTime.now(),
-        type: TaskType.janitor,
-        lastUpdate: DateTime.now(),
-        placeID: placeID!,
-        //Gondnok ID !!
-        participantIDs: <String>[
-          Provider.of<AuthManager>(context, listen: false).user!.id,
-          'u904'
-        ],
-        status: TaskStatus.created,
-      );
-      task.status = TaskStatus.sent;
-
-      SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
-      widget.onCreate(task);
-    }
-  }
-
-  void _onEditSent() {
-    if (_formKey.currentState!.validate()) {
-      var task = widget.originalItem;
-      task!.name = title!;
-      widget.isFeedback
-          ? task.feedback.add(
-              Feedback(
-                id: const Uuid().v4().toUpperCase(),
-                userID:
-                    Provider.of<AuthManager>(context, listen: false).user!.id,
-                message: feedback ?? '',
-                lastUpdate: DateTime.now(),
-              ),
-            )
-          : task.description = description;
-
-      task.placeID = placeID!;
-
-      SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
-      widget.onUpdate(task, widget.index);
-    }
-  }
-
-  void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
-    widget.onDelete(widget.originalItem!, widget.index);
-    Navigator.of(context, rootNavigator: true).pop();
   }
 }

@@ -22,6 +22,7 @@ class WrappedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Center(
       child: Container(
         width: iconSize + padding * 2,
@@ -29,12 +30,12 @@ class WrappedIcon extends StatelessWidget {
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius),
-          color: backgroundColor ?? Theme.of(context).colorScheme.primary,
+          color: backgroundColor ?? theme.colorScheme.primary,
         ),
         child: CustomIcon(
           assetPath,
           size: iconSize,
-          color: color ?? Theme.of(context).colorScheme.onPrimary,
+          color: color ?? theme.colorScheme.onPrimary,
         ),
       ),
     );

@@ -34,19 +34,18 @@ class _CustomRadioListState extends State<CustomRadioList> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Column(
       children: widget.radioLabels.map((title) {
         return ListTile(
           title: Text(title,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(color: Theme.of(context).colorScheme.primary)),
+              style: theme.textTheme.headline6!
+                  .copyWith(color: theme.colorScheme.primary)),
           trailing: Transform.scale(
             scale: 1.2,
             child: Radio(
               value: title,
-              activeColor: Theme.of(context).colorScheme.primary,
+              activeColor: theme.colorScheme.primary,
               groupValue: _radioValue,
               onChanged: (String? value) {
                 setState(() {

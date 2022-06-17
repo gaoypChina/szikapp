@@ -110,6 +110,170 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
     super.initState();
   }
 
+  void _onTitleChanged(String title) {
+    setState(() => this.title = title);
+  }
+
+  void _onQuestionChanged(String question) {
+    setState(() => this.question = question);
+  }
+
+  void _onDescriptionChanged(String description) {
+    setState(() => this.description = description);
+  }
+
+  void _onAnswerOptionAdded() {
+    setState(() => answerOptions.add(''));
+  }
+
+  void _onAnswerOptionChanged(String oldOption, String newOption) {
+    var index = answerOptions.indexOf(oldOption);
+    setState(() => answerOptions[index] = newOption);
+  }
+
+  void _onAnswerOptionDeleted(String answerOption) {
+    setState(() => answerOptions.remove(answerOption));
+  }
+
+  void _onStartDateChanged(DateTime date) {
+    setState(() {
+      startDateTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        startDateTime.hour,
+        startDateTime.minute,
+        startDateTime.second,
+      );
+    });
+  }
+
+  void _onStartTimeChanged(TimeOfDay time) {
+    setState(() {
+      startDateTime = DateTime(
+        startDateTime.year,
+        startDateTime.month,
+        startDateTime.day,
+        time.hour,
+        time.minute,
+      );
+    });
+  }
+
+  void _onEndDateChanged(DateTime date) {
+    setState(() {
+      endDateTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        endDateTime.hour,
+        endDateTime.minute,
+        endDateTime.second,
+      );
+    });
+  }
+
+  void _onEndTimeChanged(TimeOfDay time) {
+    setState(() {
+      endDateTime = DateTime(
+        endDateTime.year,
+        endDateTime.month,
+        endDateTime.day,
+        time.hour,
+        time.minute,
+      );
+    });
+  }
+
+  void _onParticipantGroupIDsChanged(List<Group>? groups) {
+    groups = groups ?? [];
+    participantGroupIDs = [];
+    for (var group in groups) {
+      participantGroupIDs.add(group.id);
+    }
+    setState(() {});
+  }
+
+  void _onSecretPollChanged(bool value) {
+    setState(() => isSecret = value);
+  }
+
+  void _onMultipleChoiceChanged(bool value) {
+    setState(() => isMultipleChoice = value);
+  }
+
+  void _onNumberOfOptionsChanged(String number) {
+    var numberInt = int.parse(number);
+    setState(() => numberOfOptions = numberInt);
+  }
+
+  void _onFeedbackMessageChanged(String message) {
+    setState(() => feedbackMessage = message);
+  }
+
+  void _onLivePollChanged(bool value) {
+    setState(() => isLive = value);
+  }
+
+  String? _validateTextField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'ERROR_EMPTY_FIELD'.tr();
+    }
+    return null;
+  }
+
+  void _onNewSent() {
+    if (_formKey.currentState!.validate()) {
+      var uuid = const Uuid();
+      var task = PollTask(
+        id: uuid.v4().toUpperCase(),
+        name: title,
+        start: startDateTime,
+        end: endDateTime,
+        type: TaskType.poll,
+        managerIDs: [
+          Provider.of<AuthManager>(context, listen: false).user!.id,
+          'g001',
+        ],
+        participantIDs: participantGroupIDs,
+        description: description,
+        lastUpdate: DateTime.now(),
+        question: question,
+        answerOptions: answerOptions,
+        answers: [],
+        feedbackOnAnswer: feedbackMessage,
+        isLive: DateTime.now().isInInterval(startDateTime, endDateTime),
+        isConfidential: isSecret,
+        isMultipleChoice: isMultipleChoice,
+        maxSelectableOptions: numberOfOptions,
+      );
+
+      SZIKAppState.analytics.logEvent(name: 'create_sent_poll_task');
+      widget.onCreate(task);
+    }
+  }
+
+  void _onEditSent() {
+    if (_formKey.currentState!.validate()) {
+      var task = widget.originalItem;
+      task!.name = title;
+      task.start = startDateTime;
+      task.end = endDateTime;
+      task.description = description;
+      task.feedbackOnAnswer = feedbackMessage;
+      task.isLive = isLive;
+
+      SZIKAppState.analytics.logEvent(name: 'edit_sent_poll_task');
+      widget.onUpdate(task, widget.index);
+    }
+  }
+
+  void _onAcceptDelete() {
+    SZIKAppState.analytics.logEvent(name: 'delete_poll_task');
+    widget.onDelete(widget.originalItem!, widget.index);
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -504,169 +668,5 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
         ),
       ),
     );
-  }
-
-  void _onTitleChanged(String title) {
-    setState(() => this.title = title);
-  }
-
-  void _onQuestionChanged(String question) {
-    setState(() => this.question = question);
-  }
-
-  void _onDescriptionChanged(String description) {
-    setState(() => this.description = description);
-  }
-
-  void _onAnswerOptionAdded() {
-    setState(() => answerOptions.add(''));
-  }
-
-  void _onAnswerOptionChanged(String oldOption, String newOption) {
-    var index = answerOptions.indexOf(oldOption);
-    setState(() => answerOptions[index] = newOption);
-  }
-
-  void _onAnswerOptionDeleted(String answerOption) {
-    setState(() => answerOptions.remove(answerOption));
-  }
-
-  void _onStartDateChanged(DateTime date) {
-    setState(() {
-      startDateTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        startDateTime.hour,
-        startDateTime.minute,
-        startDateTime.second,
-      );
-    });
-  }
-
-  void _onStartTimeChanged(TimeOfDay time) {
-    setState(() {
-      startDateTime = DateTime(
-        startDateTime.year,
-        startDateTime.month,
-        startDateTime.day,
-        time.hour,
-        time.minute,
-      );
-    });
-  }
-
-  void _onEndDateChanged(DateTime date) {
-    setState(() {
-      endDateTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        endDateTime.hour,
-        endDateTime.minute,
-        endDateTime.second,
-      );
-    });
-  }
-
-  void _onEndTimeChanged(TimeOfDay time) {
-    setState(() {
-      endDateTime = DateTime(
-        endDateTime.year,
-        endDateTime.month,
-        endDateTime.day,
-        time.hour,
-        time.minute,
-      );
-    });
-  }
-
-  void _onParticipantGroupIDsChanged(List<Group>? groups) {
-    groups = groups ?? [];
-    participantGroupIDs = [];
-    for (var group in groups) {
-      participantGroupIDs.add(group.id);
-    }
-    setState(() {});
-  }
-
-  void _onSecretPollChanged(bool value) {
-    setState(() => isSecret = value);
-  }
-
-  void _onMultipleChoiceChanged(bool value) {
-    setState(() => isMultipleChoice = value);
-  }
-
-  void _onNumberOfOptionsChanged(String number) {
-    var numberInt = int.parse(number);
-    setState(() => numberOfOptions = numberInt);
-  }
-
-  void _onFeedbackMessageChanged(String message) {
-    setState(() => feedbackMessage = message);
-  }
-
-  void _onLivePollChanged(bool value) {
-    setState(() => isLive = value);
-  }
-
-  String? _validateTextField(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
-  void _onNewSent() {
-    if (_formKey.currentState!.validate()) {
-      var uuid = const Uuid();
-      var task = PollTask(
-        id: uuid.v4().toUpperCase(),
-        name: title,
-        start: startDateTime,
-        end: endDateTime,
-        type: TaskType.poll,
-        managerIDs: [
-          Provider.of<AuthManager>(context, listen: false).user!.id,
-          'g001',
-        ],
-        participantIDs: participantGroupIDs,
-        description: description,
-        lastUpdate: DateTime.now(),
-        question: question,
-        answerOptions: answerOptions,
-        answers: [],
-        feedbackOnAnswer: feedbackMessage,
-        isLive: DateTime.now().isInInterval(startDateTime, endDateTime),
-        isConfidential: isSecret,
-        isMultipleChoice: isMultipleChoice,
-        maxSelectableOptions: numberOfOptions,
-      );
-
-      SZIKAppState.analytics.logEvent(name: 'create_sent_poll_task');
-      widget.onCreate(task);
-    }
-  }
-
-  void _onEditSent() {
-    if (_formKey.currentState!.validate()) {
-      var task = widget.originalItem;
-      task!.name = title;
-      task.start = startDateTime;
-      task.end = endDateTime;
-      task.description = description;
-      task.feedbackOnAnswer = feedbackMessage;
-      task.isLive = isLive;
-
-      SZIKAppState.analytics.logEvent(name: 'edit_sent_poll_task');
-      widget.onUpdate(task, widget.index);
-    }
-  }
-
-  void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_poll_task');
-    widget.onDelete(widget.originalItem!, widget.index);
-    Navigator.of(context, rootNavigator: true).pop();
   }
 }

@@ -153,3 +153,40 @@ class Account extends Resource {
   @override
   String toString() => name;
 }
+
+@JsonSerializable(explicitToJson: true)
+class Article extends Resource {
+  final String url;
+  @JsonKey(name: 'image_url')
+  final String imageUrl;
+
+  Article({
+    required String id,
+    required String name,
+    String? description,
+    required DateTime lastUpdate,
+    required this.imageUrl,
+    required this.url,
+  }) : super(
+          id: id,
+          name: name,
+          description: description,
+          lastUpdate: lastUpdate,
+        );
+
+  @override
+  Json toJson() => _$ArticleToJson(this);
+
+  factory Article.fromJson(Json json) => _$ArticleFromJson(json);
+
+  String articleAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(Account other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
+}

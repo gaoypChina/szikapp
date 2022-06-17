@@ -21,6 +21,8 @@ class ReservationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var manager = Provider.of<ReservationManager>(context, listen: false);
     return CustomScaffold(
       appBarTitle: 'RESERVATION_TITLE'.tr(),
       body: Container(
@@ -34,27 +36,21 @@ class ReservationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ModeMenuItem(
-              onTap: () =>
-                  Provider.of<ReservationManager>(context, listen: false)
-                      .selectMode(ReservationMode.place),
+              onTap: () => manager.selectMode(ReservationMode.place),
               leadingAssetPath: CustomIcons.armchair,
               title: 'RESERVATION_MODE_PLACE'.tr(),
             ),
             ModeMenuItem(
-              onTap: () =>
-                  Provider.of<ReservationManager>(context, listen: false)
-                      .selectMode(ReservationMode.account),
+              onTap: () => manager.selectMode(ReservationMode.account),
               leadingAssetPath: CustomIcons.chalkboard,
               title: 'RESERVATION_MODE_ACCOUNT'.tr(),
-              color: Theme.of(context).colorScheme.primary,
+              color: theme.colorScheme.primary,
             ),
             ModeMenuItem(
-              onTap: () =>
-                  Provider.of<ReservationManager>(context, listen: false)
-                      .selectMode(ReservationMode.boardgame),
+              onTap: () => manager.selectMode(ReservationMode.boardgame),
               leadingAssetPath: CustomIcons.dice,
               title: 'RESERVATION_MODE_BOARDGAME'.tr(),
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: theme.colorScheme.primaryContainer,
             ),
           ],
         ),

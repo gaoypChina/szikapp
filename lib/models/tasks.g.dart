@@ -37,13 +37,13 @@ Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
     };
 
 const _$TaskTypeEnumMap = {
-  TaskType.agenda: 'agenda',
   TaskType.janitor: 'janitor',
   TaskType.reservation: 'reservation',
   TaskType.timetable: 'timetable',
   TaskType.cleaning: 'cleaning',
-  TaskType.bookloan: 'bookloan',
+  TaskType.bookrent: 'bookrent',
   TaskType.poll: 'poll',
+  TaskType.invitation: 'invitation',
 };
 
 TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
@@ -186,7 +186,7 @@ Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
       'status': _$TaskStatusEnumMap[instance.status],
     };
 
-BookloanTask _$BookloanTaskFromJson(Map<String, dynamic> json) => BookloanTask(
+BookrentTask _$BookrentTaskFromJson(Map<String, dynamic> json) => BookrentTask(
       id: json['uid'] as String,
       name: json['name'] as String,
       start: DateTime.parse(json['start'] as String),
@@ -205,7 +205,7 @@ BookloanTask _$BookloanTaskFromJson(Map<String, dynamic> json) => BookloanTask(
       bookID: json['book_id'] as String,
     );
 
-Map<String, dynamic> _$BookloanTaskToJson(BookloanTask instance) =>
+Map<String, dynamic> _$BookrentTaskToJson(BookrentTask instance) =>
     <String, dynamic>{
       'uid': instance.id,
       'name': instance.name,

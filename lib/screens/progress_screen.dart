@@ -30,11 +30,12 @@ class ProgressScreenState extends State<ProgressScreen>
   @override
   Widget build(BuildContext context) {
     var queryData = MediaQuery.of(context);
+    var theme = Theme.of(context);
     return Stack(
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
           ),
         ),
         Center(
@@ -51,14 +52,11 @@ class ProgressScreenState extends State<ProgressScreen>
                 ),
               ),
               LinearProgressIndicator(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: theme.colorScheme.primary,
                 valueColor: animationController.drive(
                   ColorTween(
-                    begin: Theme.of(context).colorScheme.onPrimary,
-                    end: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.25),
+                    begin: theme.colorScheme.onPrimary,
+                    end: theme.colorScheme.onPrimary.withOpacity(0.25),
                   ),
                 ),
               )

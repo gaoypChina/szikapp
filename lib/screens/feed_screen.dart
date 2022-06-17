@@ -53,6 +53,8 @@ class FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var appStateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
 
     var feedShortcuts = context.select(
       (Settings settings) => settings.feedShortcuts,
@@ -81,8 +83,7 @@ class FeedScreenState extends State<FeedScreen> {
             ),
             child: GestureDetector(
               onTap: () =>
-                  Provider.of<SzikAppStateManager>(context, listen: false)
-                      .selectFeature(SzikAppFeature.profile),
+                  appStateManager.selectFeature(SzikAppFeature.profile),
               child: Row(
                 children: [
                   Expanded(
@@ -104,7 +105,7 @@ class FeedScreenState extends State<FeedScreen> {
                       : CustomIcon(
                           CustomIcons.user,
                           size: kIconSizeGiant,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: theme.colorScheme.primary,
                         ),
                 ],
               ),
@@ -131,9 +132,7 @@ class FeedScreenState extends State<FeedScreen> {
                     color: theme.colorScheme.primaryContainer,
                     backgroundColor: theme.colorScheme.background,
                     onTap: userCanRouteToLink
-                        ? () => Provider.of<SzikAppStateManager>(context,
-                                listen: false)
-                            .selectFeature(item)
+                        ? () => appStateManager.selectFeature(item)
                         : null,
                   );
                 },

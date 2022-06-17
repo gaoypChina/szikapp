@@ -61,7 +61,7 @@ class ReservationAccountList extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                       border: Border.all(color: theme.colorScheme.primary),
-                      color: Theme.of(context).colorScheme.surface,
+                      color: theme.colorScheme.surface,
                     ),
                     child: GestureDetector(
                       onTap: () => Provider.of<ReservationManager>(context,

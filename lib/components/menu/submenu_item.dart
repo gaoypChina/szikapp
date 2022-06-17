@@ -26,6 +26,7 @@ class SubMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
         Provider.of<SzikAppStateManager>(context, listen: false)
@@ -35,7 +36,7 @@ class SubMenuItem extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-          color: Theme.of(context).colorScheme.surface,
+          color: theme.colorScheme.surface,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -43,16 +44,16 @@ class SubMenuItem extends StatelessWidget {
             CustomIcon(
               data.picture,
               size: kIconSizeGiant,
-              color: Theme.of(context).colorScheme.primary,
+              color: theme.colorScheme.primary,
             ),
             const SizedBox(height: kPaddingNormal),
             Text(
               data.name,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 16,
-                  ),
+              style: theme.textTheme.headline3!.copyWith(
+                color: theme.colorScheme.primary,
+                fontSize: 16,
+              ),
             ),
           ],
         ),

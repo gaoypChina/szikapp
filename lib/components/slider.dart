@@ -56,6 +56,7 @@ class _CustomSliderState extends State<CustomSlider> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(kPaddingLarge),
@@ -64,13 +65,13 @@ class _CustomSliderState extends State<CustomSlider> {
         horizontal: kPaddingLarge,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: theme.colorScheme.surface,
         borderRadius: const BorderRadius.all(
           Radius.circular(kBorderRadiusNormal),
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: theme.colorScheme.secondaryContainer,
             offset: const Offset(0.0, 2.0),
             blurRadius: 3.0,
           ),

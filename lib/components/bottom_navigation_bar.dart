@@ -43,7 +43,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             color: _getSelectionColor(
               selectedTab,
               0,
-              Theme.of(context).colorScheme.onPrimary,
+              theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_FEED'.tr(),
@@ -55,7 +55,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             color: _getSelectionColor(
               selectedTab,
               1,
-              Theme.of(context).colorScheme.onPrimary,
+              theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_HOME'.tr(),
@@ -66,7 +66,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             color: _getSelectionColor(
               selectedTab,
               2,
-              Theme.of(context).colorScheme.onPrimary,
+              theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_SETTINGS'.tr(),

@@ -20,6 +20,7 @@ class ProfileTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Column(
       children: [
         Padding(
@@ -29,10 +30,8 @@ class ProfileTextField extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .copyWith(color: Theme.of(context).colorScheme.primary),
+                style: theme.textTheme.headline3!
+                    .copyWith(color: theme.colorScheme.primary),
               ),
               Expanded(
                 child: Padding(
@@ -59,7 +58,7 @@ class ProfileTextField extends StatelessWidget {
         Divider(
           height: 1,
           thickness: 2,
-          color: Theme.of(context).colorScheme.secondary,
+          color: theme.colorScheme.secondary,
         ),
       ],
     );

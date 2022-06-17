@@ -19,6 +19,8 @@ class MenuScreen extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     var fifth =
         (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
+    var appStateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -33,9 +35,7 @@ class MenuScreen extends StatelessWidget {
           CustomMenuItem(
             name: 'SUBMENU_DATA_TITLE'.tr(),
             picture: CustomIcons.bookOpen,
-            onTap: () =>
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectSubMenu(SzikAppSubMenu.data),
+            onTap: () => appStateManager.selectSubMenu(SzikAppSubMenu.data),
             height: fifth,
             reversed: true,
           ),
@@ -43,16 +43,13 @@ class MenuScreen extends StatelessWidget {
             name: 'SUBMENU_COMMUNITY_TITLE'.tr(),
             picture: CustomIcons.smiley,
             onTap: () =>
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectSubMenu(SzikAppSubMenu.community),
+                appStateManager.selectSubMenu(SzikAppSubMenu.community),
             height: fifth,
           ),
           CustomMenuItem(
             name: 'SUBMENU_EVERYDAY_TITLE'.tr(),
             picture: CustomIcons.house,
-            onTap: () =>
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectSubMenu(SzikAppSubMenu.everyday),
+            onTap: () => appStateManager.selectSubMenu(SzikAppSubMenu.everyday),
             height: fifth,
             reversed: true,
           ),
@@ -65,17 +62,14 @@ class MenuScreen extends StatelessWidget {
                   name: 'MENU_CALENDAR'.tr(),
                   picture: CustomIcons.calendar,
                   onTap: () =>
-                      Provider.of<SzikAppStateManager>(context, listen: false)
-                          .selectFeature(SzikAppFeature.calendar),
+                      appStateManager.selectFeature(SzikAppFeature.calendar),
                   height: fifth,
                 )
               : Container(),
           CustomMenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: CustomIcons.settings,
-            onTap: () =>
-                Provider.of<SzikAppStateManager>(context, listen: false)
-                    .selectFeature(SzikAppFeature.settings),
+            onTap: () => appStateManager.selectFeature(SzikAppFeature.settings),
             height: fifth,
             reversed: true,
           ),

@@ -24,6 +24,7 @@ class BirthdayBar extends StatelessWidget {
     return FutureBuilder(
       future: io.getBirthdays(),
       builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
+        var theme = Theme.of(context);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CardShimmer();
         } else if (snapshot.hasData) {
@@ -70,7 +71,7 @@ class BirthdayBar extends StatelessWidget {
             padding: const EdgeInsets.all(kPaddingNormal),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: Theme.of(context).colorScheme.background,
+              color: theme.colorScheme.background,
             ),
             child: Row(
               children: [
@@ -79,7 +80,7 @@ class BirthdayBar extends StatelessWidget {
                   child: CustomIcon(
                     CustomIcons.gift,
                     size: kIconSizeLarge,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: theme.colorScheme.secondary,
                   ),
                 ),
                 Expanded(
@@ -95,7 +96,7 @@ class BirthdayBar extends StatelessWidget {
                             ),
                       ],
                     ),
-                    style: Theme.of(context).textTheme.caption,
+                    style: theme.textTheme.caption,
                   ),
                 ),
               ],
@@ -106,11 +107,11 @@ class BirthdayBar extends StatelessWidget {
             padding: const EdgeInsets.all(kPaddingNormal),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              color: Theme.of(context).colorScheme.background,
+              color: theme.colorScheme.background,
             ),
             child: Text(
               'BIRTHDAY_BAR_ERROR'.tr(),
-              style: Theme.of(context).textTheme.caption,
+              style: theme.textTheme.caption,
             ),
           );
         }
