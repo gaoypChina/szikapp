@@ -17,6 +17,54 @@ class MenuScreen extends StatelessWidget {
     // https://github.com/aissat/easy_localization/issues/370#issuecomment-920807924
     context.locale;
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    return Provider.of<AuthManager>(context, listen: false).userIsGuest
+        ? _buildGuestMenu(context)
+        : _buildMenu(context);
+  }
+
+  Widget _buildGuestMenu(BuildContext context) {
+    var fifth =
+        (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
+    var appStateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/pictures/background_1.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CustomMenuItem(
+            name: 'ARTICLE_TITLE'.tr(),
+            picture: CustomIcons.article,
+            onTap: () => appStateManager.selectFeature(SzikAppFeature.article),
+            height: fifth,
+            reversed: true,
+          ),
+          CustomMenuItem(
+            name: 'INVITATION_TITLE'.tr(),
+            picture: CustomIcons.envelope,
+            onTap: () =>
+                appStateManager.selectFeature(SzikAppFeature.invitation),
+            height: fifth,
+          ),
+          CustomMenuItem(
+            name: 'MENU_SETTINGS'.tr(),
+            picture: CustomIcons.settings,
+            onTap: () => appStateManager.selectFeature(SzikAppFeature.settings),
+            height: fifth,
+            reversed: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenu(BuildContext context) {
     var fifth =
         (MediaQuery.of(context).size.height - kBottomNavigationBarHeight) * 0.2;
     var appStateManager =

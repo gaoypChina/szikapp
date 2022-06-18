@@ -28,6 +28,8 @@ class SzikAppFeature {
   static const int profile = 6;
   static const int reservation = 7;
   static const int settings = 8;
+  static const int article = 9;
+  static const int invitation = 10;
   static const int error = 99;
 }
 
