@@ -1,11 +1,20 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../models/user.dart' as szikapp_user;
 import '../models/user_data.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
+
+enum SignInMethod {
+  google,
+  apple,
+}
 
 /// Az [AuthManager] osztály felelős a Firebase és a saját API autentikáció
 /// összekapcsolásáért. Menedzseli a bejelentkeztetett felhasználót és adatait.
@@ -55,6 +64,26 @@ class AuthManager extends ChangeNotifier {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<UserCredential> _signInWithApple() async {
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: nonce,
+    );
+
+    final oauthCredential = OAuthProvider('apple.com').credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+  }
+
   /// Csendes bejelentkezés. A függvény autentikál a saját APInk felé,
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
@@ -82,12 +111,14 @@ class AuthManager extends ChangeNotifier {
   /// Bejelentkezés. A függvény a Google autentikáció segítségével
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
-  Future<void> signIn() async {
+  Future<void> signIn({required SignInMethod method}) async {
     if (isSignedIn) {
       return;
     }
     try {
-      await _signInWithGoogle();
+      method == SignInMethod.google
+          ? await _signInWithGoogle()
+          : await _signInWithApple();
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
@@ -149,5 +180,19 @@ class AuthManager extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  String generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 }

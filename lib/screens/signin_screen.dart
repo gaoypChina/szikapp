@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -71,13 +72,15 @@ class _SignInWidgetState extends State<SignInWidget> {
       Provider.of<SzikAppStateManager>(context, listen: false)
           .setError(NoConnectionException('ERROR_NO_INTERNET'.tr()));
     } else {
+      var method = Platform.isIOS ? SignInMethod.apple : SignInMethod.google;
       if (Settings.instance.firstRun) {
         showDialog(
           context: context,
           builder: (context) {
             return GDPRWidget(
               onAgreePressed: () {
-                Provider.of<AuthManager>(context, listen: false).signIn();
+                Provider.of<AuthManager>(context, listen: false)
+                    .signIn(method: method);
                 Navigator.pop(context);
               },
               onDisagreePressed: () => Navigator.pop(context),
@@ -85,7 +88,7 @@ class _SignInWidgetState extends State<SignInWidget> {
           },
         );
       } else {
-        Provider.of<AuthManager>(context, listen: false).signIn();
+        Provider.of<AuthManager>(context, listen: false).signIn(method: method);
       }
     }
   }
@@ -130,8 +133,14 @@ class _SignInWidgetState extends State<SignInWidget> {
                   SignInButton(
                     Buttons.Google,
                     onPressed: _onPressed,
-                    text: 'SIGN_IN_BUTTON'.tr(),
+                    text: 'SIGN_IN_BUTTON_GOOGLE'.tr(),
                   ),
+                  if (Platform.isIOS)
+                    SignInButton(
+                      Buttons.Apple,
+                      onPressed: _onPressed,
+                      text: 'SIGN_IN_BUTTON_APPLE'.tr(),
+                    ),
                 ],
               ),
             ),
