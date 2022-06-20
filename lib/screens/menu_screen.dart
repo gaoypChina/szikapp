@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
     // https://github.com/aissat/easy_localization/issues/370#issuecomment-920807924
     context.locale;
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return Provider.of<AuthManager>(context, listen: false).userIsGuest
+    return Provider.of<AuthManager>(context, listen: false).isUserGuest
         ? _buildGuestMenu(context)
         : _buildMenu(context);
   }

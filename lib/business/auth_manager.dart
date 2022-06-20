@@ -22,6 +22,8 @@ class AuthManager extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   szikapp_user.User? _user;
   bool _signedIn = false;
+  bool _isGuest = true;
+  SignInMethod? _method;
 
   /// Singleton osztálypéldány
   static final AuthManager _instance = AuthManager._privateConstructor();
@@ -34,7 +36,7 @@ class AuthManager extends ChangeNotifier {
   /// Az aktuálisan bejelentkezett felhasználó saját adatstruktúrája
   szikapp_user.User? get user => _user;
 
-  bool get userIsGuest => _user?.name == 'Guest';
+  bool get isUserGuest => _isGuest;
 
   /// Bejelentkezési állapot változásokat reprezentáló [Stream]
   Stream<User?> get stateChanges => _auth.authStateChanges();
@@ -97,11 +99,29 @@ class AuthManager extends ChangeNotifier {
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
+      _isGuest = false;
       _signedIn = true;
       notifyListeners();
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
+        var profilePicture = _auth.currentUser!.photoURL;
+        _user = szikapp_user.User(
+          profilePicture,
+          UserData(
+            id: 'u999',
+            name: _auth.currentUser!.displayName ?? '',
+            email: _auth.currentUser!.email ?? '',
+            lastUpdate: DateTime.now(),
+          ),
+        );
+        _signedIn = true;
+        notifyListeners();
+      } else {
+        _signedIn = false;
+        throw AuthException(e.toString());
+      }
     } on Exception catch (e) {
       _signedIn = false;
       throw AuthException(e.toString());
@@ -122,11 +142,31 @@ class AuthManager extends ChangeNotifier {
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
+      _isGuest = false;
       _signedIn = true;
+      _method = method;
       notifyListeners();
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
+        var profilePicture = _auth.currentUser!.photoURL;
+        _user = szikapp_user.User(
+          profilePicture,
+          UserData(
+            id: 'u999',
+            name: _auth.currentUser!.displayName ?? '',
+            email: _auth.currentUser!.email ?? '',
+            lastUpdate: DateTime.now(),
+          ),
+        );
+        _signedIn = true;
+        _method = method;
+        notifyListeners();
+      } else {
+        _signedIn = false;
+        throw AuthException(e.toString());
+      }
     } on Exception catch (e) {
       _signedIn = false;
       throw AuthException(e.toString());
@@ -174,8 +214,7 @@ class AuthManager extends ChangeNotifier {
       var io = IO();
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
       return true;
     }
