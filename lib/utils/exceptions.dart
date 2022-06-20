@@ -36,7 +36,7 @@ class AuthException extends BaseException {
   AuthException(message) : super(authExceptionCode, message);
 }
 
-class IOException extends BaseException {
+abstract class IOException extends BaseException {
   IOException(code, message) : super(code, message);
 }
 
@@ -60,7 +60,7 @@ class IOUnknownException extends IOException {
   IOUnknownException(code, message) : super(code, message);
 }
 
-class ValidationException extends BaseException {
+abstract class ValidationException extends BaseException {
   ValidationException(code, message) : super(code, message);
 }
 
@@ -78,7 +78,7 @@ class NotValidBirthdayException extends ValidationException {
       : super(notValidBirthdayExceptionCode, message);
 }
 
-class FunctionalityException extends BaseException {
+abstract class FunctionalityException extends BaseException {
   FunctionalityException(code, message) : super(code, message);
 }
 
