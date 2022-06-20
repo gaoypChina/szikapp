@@ -88,6 +88,7 @@
         "POLL_TITLE_EDIT": "Edit poll",
         "POLL_TAB_ACTIVE": "Active",
         "POLL_TAB_EXPIRED": "Expired",
+        "POLL_CLOSED": "Closed by a user",
         "POLL_ADD": "Creating new poll",
         "POLL_HINT_TITLE": "Write the title here",
         "POLL_HINT_QUESTION": "Write the question here",

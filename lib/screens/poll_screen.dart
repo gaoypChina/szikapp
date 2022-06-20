@@ -153,7 +153,9 @@ class PollTileViewState extends State<PollTileView> {
                                     height: kPaddingNormal,
                                   ),
                                   Text(
-                                    poll.end.readableRemainingTime(),
+                                    poll.isLive
+                                        ? poll.end.readableRemainingTime()
+                                        : 'POLL_CLOSED'.tr(),
                                     style: theme.textTheme.subtitle1?.copyWith(
                                       color: theme.colorScheme.primaryContainer,
                                     ),

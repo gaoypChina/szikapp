@@ -88,6 +88,7 @@
         "POLL_TITLE_EDIT": "Szavazás szerkesztése",
         "POLL_TAB_ACTIVE": "Aktív",
         "POLL_TAB_EXPIRED": "Lejárt",
+        "POLL_CLOSED": "Kiíró által lezárt",
         "POLL_ADD": "Új szavazás létrehozása",
         "POLL_HINT_TITLE": "Írd ide a címet",
         "POLL_HINT_QUESTION": "Írd ide a kérdést", 
