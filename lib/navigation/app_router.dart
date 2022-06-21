@@ -52,16 +52,20 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           )
         ] else if (!authManager.isSignedIn) ...[
-          SignInScreen.page(),
+          HomeScreen.page(appStateManager.selectedTab),
+          if (appStateManager.selectedFeature == SzikAppFeature.article)
+            ArticleScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.invitation)
+            InvitationScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.settings)
+            SettingsScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.profile)
+            ProfileScreen.page(manager: authManager),
         ] else ...[
           HomeScreen.page(appStateManager.selectedTab),
           if (appStateManager.selectedSubMenu != SzikAppSubMenu.none)
             SubMenuScreen.page(
                 selectedSubMenu: appStateManager.selectedSubMenu),
-          if (appStateManager.selectedFeature == SzikAppFeature.article)
-            ArticleScreen.page(),
-          if (appStateManager.selectedFeature == SzikAppFeature.invitation)
-            InvitationScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.calendar)
             CalendarScreen.page(manager: calendarManager),
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
@@ -83,8 +87,6 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ProfileScreen.page(manager: authManager),
           if (appStateManager.selectedFeature == SzikAppFeature.reservation)
             ReservationScreen.page(),
-          if (appStateManager.selectedFeature == SzikAppFeature.settings)
-            SettingsScreen.page(),
           if (janitorManager.isCreatingNewTask)
             JanitorCreateEditScreen.page(
               onCreate: (item) {

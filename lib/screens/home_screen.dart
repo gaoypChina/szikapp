@@ -43,8 +43,10 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
-    Settings.instance.loadPreferences();
+    if (Provider.of<AuthManager>(context, listen: false).isSignedIn) {
+      Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
+      Settings.instance.loadPreferences();
+    }
   }
 
   @override

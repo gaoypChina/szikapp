@@ -56,6 +56,7 @@ class FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var authManager = Provider.of<AuthManager>(context, listen: false);
     var user = Provider.of<AuthManager>(context, listen: false).user!;
     var appStateManager =
         Provider.of<SzikAppStateManager>(context, listen: false);
@@ -92,7 +93,10 @@ class FeedScreenState extends State<FeedScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FEED_GREETINGS'.tr(args: [user.showableName]),
+                      authManager.isSignedIn
+                          ? 'FEED_GREETINGS_SIGNEDIN'
+                              .tr(args: [user.showableName])
+                          : 'FEED_GREETINGS'.tr(),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -115,14 +119,15 @@ class FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
-          user.hasPermission(Permission.contactsView)
+          authManager.isSignedIn && user.hasPermission(Permission.contactsView)
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
                   child: BirthdayBar(),
                 )
               : Container(),
-          user.name != 'Guest'
-              ? Container(
+          !authManager.isSignedIn || authManager.isUserGuest
+              ? Container()
+              : Container(
                   margin: const EdgeInsets.all(kBorderRadiusNormal),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -143,8 +148,7 @@ class FeedScreenState extends State<FeedScreen> {
                       },
                     ).toList(),
                   ),
-                )
-              : Container(),
+                ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
             padding: const EdgeInsets.only(left: kPaddingNormal),
@@ -170,29 +174,41 @@ class FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: notifications.isEmpty
-                ? Center(
+          authManager.isSignedIn
+              ? Expanded(
+                  child: notifications.isEmpty
+                      ? Center(
+                          child: Text(
+                            'PLACEHOLDER_NOTIFICATIONS_EMPTY'.tr(),
+                            style: theme.textTheme.headline2!.copyWith(
+                              fontSize: 16,
+                              color: theme.colorScheme.background,
+                            ),
+                          ),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () async {},
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: notifications.map<NotificationCard>(
+                              (item) {
+                                return NotificationCard(data: item);
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                )
+              : Expanded(
+                  child: Center(
                     child: Text(
-                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                      'PLACEHOLDER_NOTIFICATIONS_SIGNIN'.tr(),
                       style: theme.textTheme.headline2!.copyWith(
                         fontSize: 16,
                         color: theme.colorScheme.background,
                       ),
                     ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: () async {},
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: notifications.map<NotificationCard>(
-                        (item) {
-                          return NotificationCard(data: item);
-                        },
-                      ).toList(),
-                    ),
                   ),
-          ),
+                ),
         ],
       ),
     );
