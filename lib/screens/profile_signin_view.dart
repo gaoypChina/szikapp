@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -59,12 +58,11 @@ class _SignInWidgetState extends State<SignInWidget> {
     super.initState();
   }
 
-  void _onPressed() {
+  void _onPressed(SignInMethod method) {
     if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
       Provider.of<SzikAppStateManager>(context, listen: false)
           .setError(NoConnectionException('ERROR_NO_INTERNET'.tr()));
     } else {
-      var method = Platform.isIOS ? SignInMethod.apple : SignInMethod.google;
       if (Settings.instance.firstRun) {
         showDialog(
           context: context,
@@ -124,15 +122,14 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ),
                   SignInButton(
                     Buttons.Google,
-                    onPressed: _onPressed,
+                    onPressed: () => _onPressed(SignInMethod.google),
                     text: 'SIGN_IN_BUTTON_GOOGLE'.tr(),
                   ),
-                  if (Platform.isIOS)
-                    SignInButton(
-                      Buttons.Apple,
-                      onPressed: _onPressed,
-                      text: 'SIGN_IN_BUTTON_APPLE'.tr(),
-                    ),
+                  SignInButton(
+                    Buttons.Apple,
+                    onPressed: () => _onPressed(SignInMethod.apple),
+                    text: 'SIGN_IN_BUTTON_APPLE'.tr(),
+                  ),
                 ],
               ),
             ),
