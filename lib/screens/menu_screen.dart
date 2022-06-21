@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
     // https://github.com/aissat/easy_localization/issues/370#issuecomment-920807924
     context.locale;
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return Provider.of<AuthManager>(context, listen: false).isUserGuest
+    return Provider.of<AuthManager>(context).isUserGuest
         ? _buildGuestMenu(context)
         : _buildMenu(context);
   }
@@ -102,10 +102,11 @@ class MenuScreen extends StatelessWidget {
             reversed: true,
           ),
           Provider.of<AuthManager>(context, listen: false)
-                  .user!
-                  .hasPermissionToAccess(
-                    SzikAppLink(currentFeature: SzikAppFeature.calendar),
-                  )
+                      .user
+                      ?.hasPermissionToAccess(
+                        SzikAppLink(currentFeature: SzikAppFeature.calendar),
+                      ) ??
+                  false
               ? CustomMenuItem(
                   name: 'MENU_CALENDAR'.tr(),
                   picture: CustomIcons.calendar,

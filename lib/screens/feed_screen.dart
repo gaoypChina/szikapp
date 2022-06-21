@@ -56,8 +56,8 @@ class FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var authManager = Provider.of<AuthManager>(context, listen: false);
-    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var authManager = Provider.of<AuthManager>(context);
+    var user = authManager.user;
     var appStateManager =
         Provider.of<SzikAppStateManager>(context, listen: false);
 
@@ -95,7 +95,7 @@ class FeedScreenState extends State<FeedScreen> {
                     child: Text(
                       authManager.isSignedIn
                           ? 'FEED_GREETINGS_SIGNEDIN'
-                              .tr(args: [user.showableName])
+                              .tr(args: [user!.showableName])
                           : 'FEED_GREETINGS'.tr(),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
@@ -104,10 +104,10 @@ class FeedScreenState extends State<FeedScreen> {
                       ),
                     ),
                   ),
-                  user.profilePicture != null
+                  user?.profilePicture != null
                       ? CircleAvatar(
                           foregroundImage: NetworkImage(
-                            user.profilePicture!,
+                            user!.profilePicture!,
                           ),
                         )
                       : CustomIcon(
@@ -119,36 +119,36 @@ class FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
-          authManager.isSignedIn && user.hasPermission(Permission.contactsView)
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-                  child: BirthdayBar(),
-                )
-              : Container(),
-          !authManager.isSignedIn || authManager.isUserGuest
-              ? Container()
-              : Container(
-                  margin: const EdgeInsets.all(kBorderRadiusNormal),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: feedShortcuts.map<WrappedIconButton>(
-                      (item) {
-                        var userCanRouteToLink = user.hasPermissionToAccess(
-                            SzikAppLink(currentFeature: item));
-                        return WrappedIconButton(
-                          assetPath:
-                              shortcutData[item]?.assetPath ?? CustomIcons.bell,
-                          color: theme.colorScheme.primaryContainer,
-                          backgroundColor: theme.colorScheme.background,
-                          onTap: userCanRouteToLink
-                              ? () => appStateManager.selectFeature(item)
-                              : null,
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ),
+          if (authManager.isSignedIn &&
+              (user?.hasPermission(Permission.contactsView) ?? false))
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              child: BirthdayBar(),
+            ),
+          if (authManager.isSignedIn && !authManager.isUserGuest)
+            Container(
+              margin: const EdgeInsets.all(kBorderRadiusNormal),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: feedShortcuts.map<WrappedIconButton>(
+                  (item) {
+                    var userCanRouteToLink = (user?.hasPermissionToAccess(
+                            SzikAppLink(currentFeature: item)) ??
+                        false);
+                    return WrappedIconButton(
+                      assetPath:
+                          shortcutData[item]?.assetPath ?? CustomIcons.bell,
+                      color: theme.colorScheme.primaryContainer,
+                      backgroundColor: theme.colorScheme.background,
+                      onTap: userCanRouteToLink
+                          ? () => appStateManager.selectFeature(item)
+                          : null,
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
             padding: const EdgeInsets.only(left: kPaddingNormal),

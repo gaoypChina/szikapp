@@ -51,7 +51,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               errorCode: appStateManager.error?.code,
             ),
           )
-        ] else if (!authManager.isSignedIn) ...[
+        ] else if (authManager.isUserGuest) ...[
           HomeScreen.page(appStateManager.selectedTab),
           if (appStateManager.selectedFeature == SzikAppFeature.article)
             ArticleScreen.page(),

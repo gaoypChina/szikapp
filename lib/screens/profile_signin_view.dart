@@ -15,30 +15,22 @@ import '../navigation/app_state_manager.dart';
 import '../utils/utils.dart';
 import 'progress_screen.dart';
 
-class SignInScreen extends StatefulWidget {
-  static const String route = '/signin';
+class SignInScreenView extends StatelessWidget {
+  const SignInScreenView({Key key = const Key('SignInScreen')})
+      : super(key: key);
 
-  static MaterialPage page() {
-    return const MaterialPage(
-      name: route,
-      key: ValueKey(route),
-      child: SignInScreen(),
-    );
-  }
-
-  const SignInScreen({Key key = const Key('SignInScreen')}) : super(key: key);
-
-  @override
-  SignInScreenState createState() => SignInScreenState();
-}
-
-class SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
-    return CustomFutureBuilder(
-      future: Provider.of<AuthManager>(context, listen: false).signInSilently(),
-      shimmer: const ProgressScreen(),
-      child: const SignInWidget(),
+    return CustomScaffold(
+      withNavigationBar: false,
+      resizeToAvoidBottomInset: true,
+      appBarTitle: 'SIGN_IN_TITLE'.tr(),
+      body: CustomFutureBuilder(
+        future:
+            Provider.of<AuthManager>(context, listen: false).signInSilently(),
+        shimmer: const ProgressScreen(),
+        child: const SignInWidget(),
+      ),
     );
   }
 }

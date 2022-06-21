@@ -26,5 +26,4 @@ export 'reservation_games.dart';
 export 'reservation_places_map.dart';
 export 'reservation_screen.dart';
 export 'settings_screen.dart';
-export 'signin_screen.dart';
 export 'submenu_screen.dart';

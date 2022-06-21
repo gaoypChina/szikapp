@@ -116,6 +116,7 @@ class AuthManager extends ChangeNotifier {
             lastUpdate: DateTime.now(),
           ),
         );
+        _isGuest = true;
         _signedIn = true;
         notifyListeners();
       } else {
@@ -160,6 +161,7 @@ class AuthManager extends ChangeNotifier {
             lastUpdate: DateTime.now(),
           ),
         );
+        _isGuest = true;
         _signedIn = true;
         _method = method;
         notifyListeners();
@@ -181,6 +183,7 @@ class AuthManager extends ChangeNotifier {
       await _auth.signOut();
       await GoogleSignIn().signOut();
       _user = null;
+      _isGuest = true;
       _signedIn = false;
       notifyListeners();
     } on Exception catch (e) {
