@@ -37,6 +37,7 @@ class AuthManager extends ChangeNotifier {
   szikapp_user.User? get user => _user;
 
   bool get isUserGuest => _isGuest;
+  SignInMethod? get signInMethod => _method;
 
   /// Bejelentkezési állapot változásokat reprezentáló [Stream]
   Stream<User?> get stateChanges => _auth.authStateChanges();

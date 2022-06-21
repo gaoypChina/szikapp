@@ -5,6 +5,7 @@ import '../business/auth_manager.dart';
 import '../components/components.dart';
 import 'profile_profile_view.dart';
 import 'profile_signin_view.dart';
+import 'progress_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String route = '/me';
@@ -36,6 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var authManager = Provider.of<AuthManager>(context);
     return CustomFutureBuilder(
       future: authManager.signInSilently(),
+      shimmer: const ProgressScreen(),
       child: authManager.isSignedIn
           ? ProfileScreenView(manager: widget.manager)
           : const SignInScreenView(),

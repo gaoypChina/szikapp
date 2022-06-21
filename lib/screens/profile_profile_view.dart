@@ -31,8 +31,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
 
   String buildGroupNamesFromIDs(List<String>? ids) {
     var result = '';
-    if (ids == null) return result;
-    if (ids.isEmpty) return result;
+    if (ids == null || ids.isEmpty) return result;
     var groups =
         Provider.of<SzikAppStateManager>(context, listen: false).groups;
     if (groups.isEmpty) return result;

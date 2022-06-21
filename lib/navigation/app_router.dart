@@ -87,6 +87,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ProfileScreen.page(manager: authManager),
           if (appStateManager.selectedFeature == SzikAppFeature.reservation)
             ReservationScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.settings)
+            SettingsScreen.page(),
           if (janitorManager.isCreatingNewTask)
             JanitorCreateEditScreen.page(
               onCreate: (item) {
@@ -265,9 +267,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   }
 
   SzikAppLink getCurrentPath() {
-    if (!authManager.isSignedIn) {
-      return SzikAppLink(location: SzikAppLink.kSignInPath);
-    } else if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
+    if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
       return SzikAppLink(
         location: SzikAppLink.kSubMenuPath,
         currentSubMenu: appStateManager.selectedSubMenu,
