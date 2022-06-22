@@ -51,6 +51,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               errorCode: appStateManager.error?.code,
             ),
           )
+        ] else if (appStateManager.isStarting) ...[
+          StartScreen.page(),
         ] else if (authManager.isUserGuest) ...[
           HomeScreen.page(appStateManager.selectedTab),
           if (appStateManager.selectedFeature == SzikAppFeature.article)
@@ -267,6 +269,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   }
 
   SzikAppLink getCurrentPath() {
+    if (appStateManager.isStarting) {
+      return SzikAppLink(location: SzikAppLink.kStartPath);
+    }
     if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
       return SzikAppLink(
         location: SzikAppLink.kSubMenuPath,
@@ -347,6 +352,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   @override
   Future<void> setNewRoutePath(SzikAppLink configuration) async {
     switch (configuration.location) {
+      case SzikAppLink.kStartPath:
+        appStateManager.initStarting();
+        break;
       case SzikAppLink.kHomePath:
         appStateManager.selectTab(configuration.currentTab ?? SzikAppTab.feed);
         break;

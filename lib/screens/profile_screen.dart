@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../business/auth_manager.dart';
 import '../components/components.dart';
+import '../navigation/navigation.dart';
 import 'profile_profile_view.dart';
 import 'profile_signin_view.dart';
 import 'progress_screen.dart';
@@ -36,7 +37,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var authManager = Provider.of<AuthManager>(context);
     return CustomFutureBuilder(
-      future: authManager.signInSilently(),
+      future: Future.wait([
+        authManager.signInSilently(),
+        if (authManager.isSignedIn && !authManager.isUserGuest) ...[
+          Provider.of<SzikAppStateManager>(context, listen: false)
+              .loadEarlyData()
+        ]
+      ]),
       shimmer: const ProgressScreen(),
       child: authManager.isSignedIn
           ? ProfileScreenView(manager: widget.manager)

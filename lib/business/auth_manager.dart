@@ -77,6 +77,12 @@ class AuthManager extends ChangeNotifier {
         AppleIDAuthorizationScopes.fullName,
       ],
       nonce: nonce,
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: 'com.szik.szikappsigninservice',
+        redirectUri: Uri.parse(
+          'https://szikapp-18.firebaseapp.com/__/auth/handler',
+        ),
+      ),
     );
 
     final oauthCredential = OAuthProvider('apple.com').credential(

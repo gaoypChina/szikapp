@@ -445,8 +445,7 @@ class IO {
   Future<List<Article>> getArticles([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_articleEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
-    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders()});
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1));
 
     if (response.statusCode == 200) {
       var answer = <Article>[];
@@ -467,7 +466,7 @@ class IO {
     var uri = '$_vmAddress$_invitationEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
+        headers: {..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
       var answer = <TimetableTask>[];

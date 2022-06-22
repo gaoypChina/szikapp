@@ -31,20 +31,23 @@ class FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    notifications = [
-      CustomNotification(
-        title: 'Belló konyhatakát cserélne veled',
-        route: SzikAppLink(),
-      ),
-      CustomNotification(
-        title: 'Sikeresen lefoglaltad a Catant',
-        route: SzikAppLink(),
-      ),
-      CustomNotification(
-        title: 'Gyuri kicserélte az égőt a szobádban',
-        route: SzikAppLink(),
-      ),
-    ];
+    var authManager = Provider.of<AuthManager>(context, listen: false);
+    if (authManager.isSignedIn && !authManager.isUserGuest) {
+      notifications = [
+        CustomNotification(
+          title: 'Belló konyhatakát cserélne veled',
+          route: SzikAppLink(),
+        ),
+        CustomNotification(
+          title: 'Sikeresen lefoglaltad a Catant',
+          route: SzikAppLink(),
+        ),
+        CustomNotification(
+          title: 'Gyuri kicserélte az égőt a szobádban',
+          route: SzikAppLink(),
+        ),
+      ];
+    }
   }
 
   void _onClearAllNotificationsPressed() {

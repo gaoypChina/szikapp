@@ -22,6 +22,7 @@ class SzikAppLink {
   static const String kReservationCreateEditPath = '/reservation/createedit';
   static const String kReservationPath = '/reservation';
   static const String kSettingsPath = '/settings';
+  static const String kStartPath = '/start';
   static const String kSubMenuPath = '/submenu';
 
   static const String kTabParam = 'tab';
@@ -206,6 +207,8 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
+      case kStartPath:
+        return kStartPath;
       case kSubMenuPath:
         var loc = '$kSubMenuPath?';
         loc += addKeyValPair(
