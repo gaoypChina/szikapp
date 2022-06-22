@@ -204,8 +204,8 @@ class JanitorListViewState extends State<JanitorListView> {
                       width: kBorderRadiusNormal,
                       decoration: BoxDecoration(
                         color: taskStatusColors[item.status]!,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(kBorderRadiusNormal),
+                        borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(kBorderRadiusNormal),
                         ),
                       ),
                     ),
