@@ -83,6 +83,7 @@ class User {
   }
 
   String get showableName {
+    if (name.isEmpty) return '';
     return nick ?? name.split(' ')[1];
   }
 
