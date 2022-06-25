@@ -111,12 +111,11 @@ class FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
-          user.hasPermission(Permission.contactsView)
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-                  child: BirthdayBar(),
-                )
-              : Container(),
+          if (user.hasPermission(Permission.contactsView))
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              child: BirthdayBar(),
+            ),
           Container(
             margin: const EdgeInsets.all(kBorderRadiusNormal),
             child: Row(

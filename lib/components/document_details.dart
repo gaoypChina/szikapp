@@ -70,14 +70,13 @@ class DocumentDetails extends StatelessWidget {
                 ),
                 style: theme.textTheme.caption,
               ),
-              document!.category == GoodToKnowCategory.document
-                  ? Center(
-                      child: ElevatedButton(
-                        onPressed: _onPressed,
-                        child: Text('BUTTON_OPEN'.tr()),
-                      ),
-                    )
-                  : Container(),
+              if (document!.category == GoodToKnowCategory.document)
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _onPressed,
+                    child: Text('BUTTON_OPEN'.tr()),
+                  ),
+                )
             ],
           ),
         ),

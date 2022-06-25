@@ -53,19 +53,18 @@ class MenuScreen extends StatelessWidget {
             height: fifth,
             reversed: true,
           ),
-          Provider.of<AuthManager>(context, listen: false)
-                  .user!
-                  .hasPermissionToAccess(
-                    SzikAppLink(currentFeature: SzikAppFeature.calendar),
-                  )
-              ? CustomMenuItem(
-                  name: 'MENU_CALENDAR'.tr(),
-                  picture: CustomIcons.calendar,
-                  onTap: () =>
-                      appStateManager.selectFeature(SzikAppFeature.calendar),
-                  height: fifth,
-                )
-              : Container(),
+          if (Provider.of<AuthManager>(context, listen: false)
+              .user!
+              .hasPermissionToAccess(
+                SzikAppLink(currentFeature: SzikAppFeature.calendar),
+              ))
+            CustomMenuItem(
+              name: 'MENU_CALENDAR'.tr(),
+              picture: CustomIcons.calendar,
+              onTap: () =>
+                  appStateManager.selectFeature(SzikAppFeature.calendar),
+              height: fifth,
+            ),
           CustomMenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: CustomIcons.settings,

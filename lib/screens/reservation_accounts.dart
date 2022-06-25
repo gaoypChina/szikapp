@@ -190,23 +190,21 @@ class ReservationAccountList extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      item.reservable
-                                          ? ElevatedButton(
-                                              onPressed: () =>
-                                                  manager.selectAccount(
-                                                manager.accounts.indexOf(item),
-                                              ),
-                                              child: Text(
-                                                'RESERVATION_ACCOUNT_BUTTON_LIST'
-                                                    .tr(),
-                                                style: theme.textTheme.overline!
-                                                    .copyWith(
-                                                  color:
-                                                      theme.colorScheme.surface,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(),
+                                      if (item.reservable)
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              manager.selectAccount(
+                                            manager.accounts.indexOf(item),
+                                          ),
+                                          child: Text(
+                                            'RESERVATION_ACCOUNT_BUTTON_LIST'
+                                                .tr(),
+                                            style: theme.textTheme.overline!
+                                                .copyWith(
+                                              color: theme.colorScheme.surface,
+                                            ),
+                                          ),
+                                        )
                                     ],
                                   ),
                                 ],
