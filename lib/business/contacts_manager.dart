@@ -40,9 +40,10 @@ class ContactsManager {
     } else {
       var results = <UserData>[];
       for (var item in contacts) {
+        var emailUserName = item.email.substring(0, item.email.indexOf('@'));
         if (item.name.toLowerCase().contains(text.toLowerCase())) {
           results.add(item);
-        } else if (item.email.contains(text.toLowerCase())) {
+        } else if (emailUserName.contains(text.toLowerCase())) {
           results.add(item);
         } else if (item.phone != null) {
           if (item.phone!.contains(text)) results.add(item);
