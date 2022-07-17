@@ -70,7 +70,7 @@ class IO {
   //Metódusok
 
   ///Lekéri egy felhasználó adatait.
-  Future<UserData> getUser([KeyValuePairs? parameters]) async {
+  Future<User> getUser([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
@@ -78,13 +78,13 @@ class IO {
 
     if (response.statusCode == 200) {
       var parsed = json.decode(utf8.decode(response.bodyBytes));
-      return UserData.fromJson(parsed['results']);
+      return User.fromJson(parsed['results']);
     }
     throw _handleErrors(response);
   }
 
   ///Létrehoz egy új felhasználót.
-  Future<bool> postUser(UserData data, [KeyValuePairs? parameters]) async {
+  Future<bool> postUser(User data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
@@ -96,7 +96,7 @@ class IO {
   }
 
   ///Frissít egy létező felhasználót.
-  Future<bool> putUser(UserData data, [KeyValuePairs? parameters]) async {
+  Future<bool> putUser(User data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
@@ -423,18 +423,18 @@ class IO {
   }
 
   ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
-  Future<List<UserData>> getContacts([KeyValuePairs? parameters]) async {
+  Future<List<User>> getContacts([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_contactsEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader()});
 
     if (response.statusCode == 200) {
-      var answer = <UserData>[];
+      var answer = <User>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
       users.forEach((item) {
-        answer.add(UserData.fromJson(item));
+        answer.add(User.fromJson(item));
       });
       return answer;
     }
@@ -481,7 +481,7 @@ class IO {
   }
 
   ///Lekéri a három legközelebbi születésű felhasználó adatait.
-  Future<List<UserData>> getBirthdays([KeyValuePairs? parameters]) async {
+  Future<List<User>> getBirthdays([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_birthdayEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     uri += 'localTime=${DateTime.now().toIso8601String()}';
@@ -489,11 +489,11 @@ class IO {
         await client.get(Uri.parse(uri), headers: {...await _commonHeaders()});
 
     if (response.statusCode == 200) {
-      var answer = <UserData>[];
+      var answer = <User>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
       users.forEach((item) {
-        answer.add(UserData.fromJson(item));
+        answer.add(User.fromJson(item));
       });
       return answer;
     }

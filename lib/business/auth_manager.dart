@@ -7,7 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../models/user.dart' as szikapp_user;
-import '../models/user_data.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
@@ -105,23 +104,19 @@ class AuthManager extends ChangeNotifier {
     try {
       var io = IO(manager: _instance);
 
-      var userData = await io.getUser();
-      var profilePicture = _auth.currentUser!.photoURL;
-      _user = szikapp_user.User(profilePicture, userData);
+      _user = await io.getUser();
+      _user?.profilePicture = _auth.currentUser!.photoURL;
       _isGuest = false;
       _signedIn = true;
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
-        var profilePicture = _auth.currentUser!.photoURL;
         _user = szikapp_user.User(
-          profilePicture,
-          UserData(
-            id: 'u999',
-            name: _auth.currentUser!.displayName ?? '',
-            email: _auth.currentUser!.email ?? '',
-            lastUpdate: DateTime.now(),
-          ),
+          id: 'u999',
+          name: _auth.currentUser!.displayName ?? '',
+          email: _auth.currentUser!.email ?? '',
+          lastUpdate: DateTime.now(),
+          profilePicture: _auth.currentUser!.photoURL,
         );
         _isGuest = true;
         _signedIn = true;
@@ -149,24 +144,20 @@ class AuthManager extends ChangeNotifier {
           : await _signInWithApple();
       var io = IO(manager: _instance);
 
-      var userData = await io.getUser();
-      var profilePicture = _auth.currentUser!.photoURL;
-      _user = szikapp_user.User(profilePicture, userData);
+      _user = await io.getUser();
+      _user?.profilePicture = _auth.currentUser!.photoURL;
       _isGuest = false;
       _signedIn = true;
       _method = method;
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
-        var profilePicture = _auth.currentUser!.photoURL;
         _user = szikapp_user.User(
-          profilePicture,
-          UserData(
-            id: 'u999',
-            name: _auth.currentUser!.displayName ?? '',
-            email: _auth.currentUser!.email ?? '',
-            lastUpdate: DateTime.now(),
-          ),
+          id: 'u999',
+          name: _auth.currentUser!.displayName ?? '',
+          email: _auth.currentUser!.email ?? '',
+          lastUpdate: DateTime.now(),
+          profilePicture: _auth.currentUser!.photoURL,
         );
         _isGuest = true;
         _signedIn = true;
@@ -209,10 +200,9 @@ class AuthManager extends ChangeNotifier {
 
   ///Synchronizes local updates on the user profile.
   Future<bool> pushUserUpdate() async {
-    if (isSignedIn) {
+    if (isSignedIn && !isUserGuest) {
       var io = IO();
-      var data = UserData.fromUser(user!);
-      await io.putUser(data);
+      await io.putUser(_user!);
       return true;
     }
     return false;
@@ -220,12 +210,11 @@ class AuthManager extends ChangeNotifier {
 
   ///Synchronizes remote updates on the user profile.
   Future<bool> pullUserUpdate() async {
-    if (isSignedIn) {
+    if (isSignedIn && !isUserGuest) {
       var io = IO();
 
-      var userData = await io.getUser();
-      var profilePicture = _auth.currentUser!.photoURL;
-      _user = szikapp_user.User(profilePicture, userData);
+      _user = await io.getUser();
+      _user?.profilePicture = _auth.currentUser!.photoURL;
       return true;
     }
     return false;

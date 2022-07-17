@@ -1,37 +1,56 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../navigation/navigation.dart';
 import '../utils/utils.dart';
+import 'interfaces.dart';
 import 'models.dart';
+
+part 'user.g.dart';
 
 ///Az applikáció aktuális felhasználóját megtestesítő osztály.
 ///Az autentikáció során jön létre és a kijelentkezésig megőrzi a felhasználó
 ///adatait a programban. Nem hozható létre önállóan, életciklusát az [Auth]
 ///menedzser osztály kezeli.
-class User {
+@JsonSerializable(explicitToJson: true)
+class User implements Identifiable, Cachable {
+  @override
   final String id;
   final String name;
   final String email;
+  @JsonKey(name: 'profile_picture')
   String? profilePicture;
   String? nick;
   DateTime? _birthday;
   String? _phone;
+  Preferences? preferences;
+  @JsonKey(name: 'secondary_phone')
   String? _secondaryPhone;
+  @JsonKey(name: 'group_ids')
   List<String> groupIDs;
-  List<Permission> _permissions;
+  List<Permission> permissions;
+  @override
+  @JsonKey(name: 'last_update')
   final DateTime lastUpdate;
 
-  User(this.profilePicture, UserData userData)
-      : id = userData.id,
-        name = userData.name,
-        email = userData.email,
-        nick = userData.nick,
-        _birthday = userData.birthday,
-        _phone = userData.phone,
-        _secondaryPhone = userData.secondaryPhone,
-        groupIDs = userData.groupIDs,
-        _permissions = userData.permissions,
-        lastUpdate = userData.lastUpdate;
+  User({
+    required this.id,
+    required this.name,
+    this.nick,
+    required this.email,
+    String? phone,
+    String? secondaryPhone,
+    this.preferences,
+    DateTime? birthday,
+    this.permissions = const [],
+    this.groupIDs = const [],
+    this.profilePicture,
+    required this.lastUpdate,
+  }) {
+    this.birthday = birthday;
+    this.phone = phone;
+    this.secondaryPhone = secondaryPhone;
+  }
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
@@ -94,38 +113,38 @@ class User {
 
   Future<void> refreshPermissions() async {
     var io = IO();
-    _permissions = await io.getUserPermissions();
+    permissions = await io.getUserPermissions();
   }
 
   bool hasPermission(Permission permission) {
-    return _permissions.any((element) => element == permission);
+    return permissions.any((element) => element == permission);
   }
 
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (_permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((element) => element == Permission.admin)) {
       return true;
     }
-    return _permissions.any((element) =>
+    return permissions.any((element) =>
         element.index == featurePermissions[link.currentFeature]?.index);
   }
 
   bool hasPermissionToCreate(Type type) {
-    if (_permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (type == PollTask) {
-      return _permissions.contains(Permission.pollCreate);
+      return permissions.contains(Permission.pollCreate);
     } else {
       return true;
     }
   }
 
   bool hasPermissionToRead(Task task) {
-    if (_permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     if (task.runtimeType == PollTask) {
-      return _permissions.contains(Permission.pollView) &&
+      return permissions.contains(Permission.pollView) &&
           task.participantIDs.contains(id);
     } else {
       return true;
@@ -133,9 +152,24 @@ class User {
   }
 
   bool hasPermissionToModify(Task task) {
-    if (_permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((element) => element == Permission.admin)) {
       return true;
     }
     return task.managerIDs.contains(id);
   }
+
+  Json toJson() => _$UserToJson(this);
+
+  factory User.fromJson(Json json) => _$UserFromJson(json);
+
+  String userAsString() {
+    return '#$id $name';
+  }
+
+  bool isEqual(User other) {
+    return id == other.id;
+  }
+
+  @override
+  String toString() => name;
 }

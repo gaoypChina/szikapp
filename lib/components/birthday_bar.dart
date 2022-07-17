@@ -23,12 +23,12 @@ class BirthdayBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: io.getBirthdays(),
-      builder: (context, AsyncSnapshot<List<UserData>> snapshot) {
+      builder: (context, AsyncSnapshot<List<User>> snapshot) {
         var theme = Theme.of(context);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CardShimmer();
         } else if (snapshot.hasData) {
-          var birthdayUsers = <UserData>[];
+          var birthdayUsers = <User>[];
           birthdayUsers.add(snapshot.data!.first);
           var birthdayNames = birthdayUsers.first.showableName;
           var now = DateTime.now();
