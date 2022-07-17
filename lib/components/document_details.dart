@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/goodtoknow.dart';
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 import 'components.dart';
 
 class DocumentDetails extends StatelessWidget {
@@ -13,13 +13,6 @@ class DocumentDetails extends StatelessWidget {
     Key? key,
     this.document,
   }) : super(key: key);
-
-  void _onPressed() async {
-    var url = document!.keyValuePairs![GoodToKnow.urlKey] ?? '';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +66,12 @@ class DocumentDetails extends StatelessWidget {
               if (document!.category == GoodToKnowCategory.document)
                 Center(
                   child: ElevatedButton(
-                    onPressed: _onPressed,
+                    onPressed: () => openUrl(
+                      document!.keyValuePairs![GoodToKnow.urlKey] ?? '',
+                    ),
                     child: Text('BUTTON_OPEN'.tr()),
                   ),
-                )
+                ),
             ],
           ),
         ),

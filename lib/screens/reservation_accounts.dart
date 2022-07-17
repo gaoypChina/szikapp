@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../business/reservation_manager.dart';
 import '../components/components.dart';
@@ -181,7 +180,7 @@ class ReservationAccountList extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       OutlinedButton(
-                                        onPressed: (() => _launchUrl(item.url)),
+                                        onPressed: (() => openUrl(item.url)),
                                         child: Text(
                                           'RESERVATION_ACCOUNT_BUTTON_URL'.tr(),
                                           style: theme.textTheme.overline!
@@ -221,13 +220,5 @@ class ReservationAccountList extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
-      throw NotSupportedBrowserFunctionalityException(url);
-    }
   }
 }

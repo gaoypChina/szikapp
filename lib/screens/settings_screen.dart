@@ -95,9 +95,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var userCanModify = Provider.of<AuthManager>(context, listen: false)
-        .user!
-        .hasPermission(Permission.profileEdit);
+    var userCanModify = Provider.of<AuthManager>(context)
+            .user
+            ?.hasPermission(Permission.profileEdit) ??
+        false;
     return CustomScaffold(
       withNavigationBar: widget.withNavigationBar,
       withBackButton: widget.withBackButton,

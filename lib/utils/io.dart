@@ -31,21 +31,23 @@ class IO {
   final _vmAddress = 'https://130.61.17.52';
 
   //Végpontok nevei
-  final _userEndpoint = '/user';
-  final _preferencesEndpoint = '/user/preferences';
-  final _permissionsEndpoint = '/user/permissions';
-  final _groupEndpoint = '/group';
-  final _placeEndpoint = '/place';
-  final _contactsEndpoint = '/contacts';
+  final _accountEndpoint = '/account';
+  final _articleEndpoint = '/article';
   final _birthdayEndpoint = '/birthday';
-  final _pollEndpoint = '/poll';
+  final _boardgameEndpoint = '/boardgame';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
-  final _reservationEndpoint = '/reservation';
-  final _janitorEndpoint = '/janitor';
-  final _boardgameEndpoint = '/boardgame';
-  final _accountEndpoint = '/account';
+  final _contactsEndpoint = '/contacts';
   final _goodToKnowEndpoint = '/goodtoknow';
+  final _groupEndpoint = '/group';
+  final _invitationEndpoint = '/invitation';
+  final _janitorEndpoint = '/janitor';
+  final _placeEndpoint = '/place';
+  final _permissionsEndpoint = '/user/permissions';
+  final _pollEndpoint = '/poll';
+  final _preferencesEndpoint = '/user/preferences';
+  final _reservationEndpoint = '/reservation';
+  final _userEndpoint = '/user';
 
   static AuthManager? authManager;
 
@@ -53,6 +55,8 @@ class IO {
   static final IO _instance = IO._privateContructor();
 
   IO._privateContructor();
+
+  static IO get instance => _instance;
 
   ///[http.Client], ami összefogja az appból indított kéréseket
   final http.Client client = http.Client();
@@ -431,6 +435,45 @@ class IO {
       var users = parsed['results'];
       users.forEach((item) {
         answer.add(UserData.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  ///Lekéri az aktuális cikkeket.
+  Future<List<Article>> getArticles([KeyValuePairs? parameters]) async {
+    var uri = '$_vmAddress$_articleEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1));
+
+    if (response.statusCode == 200) {
+      var answer = <Article>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var users = parsed['results'];
+      users.forEach((item) {
+        answer.add(Article.fromJson(item));
+      });
+      return answer;
+    }
+    throw _handleErrors(response);
+  }
+
+  ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
+  Future<List<TimetableTask>> getInvitations([
+    KeyValuePairs? parameters,
+  ]) async {
+    var uri = '$_vmAddress$_invitationEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {..._lastUpdateHeader()});
+
+    if (response.statusCode == 200) {
+      var answer = <TimetableTask>[];
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var users = parsed['results'];
+      users.forEach((item) {
+        answer.add(TimetableTask.fromJson(item));
       });
       return answer;
     }

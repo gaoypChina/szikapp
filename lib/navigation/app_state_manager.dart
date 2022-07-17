@@ -28,6 +28,8 @@ class SzikAppFeature {
   static const int profile = 6;
   static const int reservation = 7;
   static const int settings = 8;
+  static const int article = 9;
+  static const int invitation = 10;
   static const int error = 99;
 }
 
@@ -43,6 +45,7 @@ const Map<int, Permission> featurePermissions = {
 };
 
 class SzikAppStateManager extends ChangeNotifier {
+  bool _isStarting = true;
   bool _firebaseInitialized = false;
   bool _hasError = false;
   BaseException? _error;
@@ -62,6 +65,7 @@ class SzikAppStateManager extends ChangeNotifier {
   List<UserData> _users = [];
 
   bool get isFirebaseInitialized => _firebaseInitialized;
+  bool get isStarting => _isStarting;
   bool get hasError => _hasError;
   BaseException? get error => _error;
   int get selectedTab => _selectedTab;
@@ -77,9 +81,19 @@ class SzikAppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void initStarting() {
+    _isStarting = true;
+    notifyListeners();
+  }
+
+  void finishStarting() {
+    _isStarting = false;
+    notifyListeners();
+  }
+
   ///A háttérben letölti azokat az adatokat, melyekre bármelyik funkciónak
   ///szüksége lehet.
-  void loadEarlyData() async {
+  Future<void> loadEarlyData() async {
     try {
       var io = IO();
       _places = await io.getPlace();

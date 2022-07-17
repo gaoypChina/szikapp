@@ -83,12 +83,11 @@ class User {
   }
 
   String get showableName {
-    if (name == 'Guest') return 'GUEST'.tr();
+    if (name.isEmpty) return '';
     return nick ?? name.split(' ')[1];
   }
 
   String get initials {
-    if (name == 'Guest') return 'G';
     var splitted = name.split(' ');
     return '${splitted[0][0]}${splitted[1][0]}';
   }

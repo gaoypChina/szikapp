@@ -1,11 +1,20 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../models/user.dart' as szikapp_user;
 import '../models/user_data.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
+
+enum SignInMethod {
+  google,
+  apple,
+}
 
 /// Az [AuthManager] osztály felelős a Firebase és a saját API autentikáció
 /// összekapcsolásáért. Menedzseli a bejelentkeztetett felhasználót és adatait.
@@ -13,6 +22,8 @@ class AuthManager extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   szikapp_user.User? _user;
   bool _signedIn = false;
+  bool _isGuest = true;
+  SignInMethod? _method;
 
   /// Singleton osztálypéldány
   static final AuthManager _instance = AuthManager._privateConstructor();
@@ -24,6 +35,9 @@ class AuthManager extends ChangeNotifier {
 
   /// Az aktuálisan bejelentkezett felhasználó saját adatstruktúrája
   szikapp_user.User? get user => _user;
+
+  bool get isUserGuest => _isGuest;
+  SignInMethod? get signInMethod => _method;
 
   /// Bejelentkezési állapot változásokat reprezentáló [Stream]
   Stream<User?> get stateChanges => _auth.authStateChanges();
@@ -53,6 +67,32 @@ class AuthManager extends ChangeNotifier {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<UserCredential> _signInWithApple() async {
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: nonce,
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: 'com.szik.szikappsigninservice',
+        redirectUri: Uri.parse(
+          'https://szikapp-18.firebaseapp.com/__/auth/handler',
+        ),
+      ),
+    );
+
+    final oauthCredential = OAuthProvider('apple.com').credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+  }
+
   /// Csendes bejelentkezés. A függvény autentikál a saját APInk felé,
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
@@ -66,11 +106,30 @@ class AuthManager extends ChangeNotifier {
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
+      _isGuest = false;
       _signedIn = true;
       notifyListeners();
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
+        var profilePicture = _auth.currentUser!.photoURL;
+        _user = szikapp_user.User(
+          profilePicture,
+          UserData(
+            id: 'u999',
+            name: _auth.currentUser!.displayName ?? '',
+            email: _auth.currentUser!.email ?? '',
+            lastUpdate: DateTime.now(),
+          ),
+        );
+        _isGuest = true;
+        _signedIn = true;
+        notifyListeners();
+      } else {
+        _signedIn = false;
+        throw AuthException(e.toString());
+      }
     } on Exception catch (e) {
       _signedIn = false;
       throw AuthException(e.toString());
@@ -80,20 +139,43 @@ class AuthManager extends ChangeNotifier {
   /// Bejelentkezés. A függvény a Google autentikáció segítségével
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
-  Future<void> signIn() async {
+  Future<void> signIn({required SignInMethod method}) async {
     if (isSignedIn) {
       return;
     }
     try {
-      await _signInWithGoogle();
+      method == SignInMethod.google
+          ? await _signInWithGoogle()
+          : await _signInWithApple();
       var io = IO(manager: _instance);
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
+      _isGuest = false;
       _signedIn = true;
+      _method = method;
       notifyListeners();
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
+        var profilePicture = _auth.currentUser!.photoURL;
+        _user = szikapp_user.User(
+          profilePicture,
+          UserData(
+            id: 'u999',
+            name: _auth.currentUser!.displayName ?? '',
+            email: _auth.currentUser!.email ?? '',
+            lastUpdate: DateTime.now(),
+          ),
+        );
+        _isGuest = true;
+        _signedIn = true;
+        _method = method;
+        notifyListeners();
+      } else {
+        _signedIn = false;
+        throw AuthException(e.toString());
+      }
     } on Exception catch (e) {
       _signedIn = false;
       throw AuthException(e.toString());
@@ -108,6 +190,7 @@ class AuthManager extends ChangeNotifier {
       await _auth.signOut();
       await GoogleSignIn().signOut();
       _user = null;
+      _isGuest = true;
       _signedIn = false;
       notifyListeners();
     } on Exception catch (e) {
@@ -141,11 +224,24 @@ class AuthManager extends ChangeNotifier {
       var io = IO();
 
       var userData = await io.getUser();
-      var profilePicture =
-          userData.name != 'Guest' ? _auth.currentUser!.photoURL : null;
+      var profilePicture = _auth.currentUser!.photoURL;
       _user = szikapp_user.User(profilePicture, userData);
       return true;
     }
     return false;
+  }
+
+  String generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 }

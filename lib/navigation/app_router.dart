@@ -51,8 +51,18 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               errorCode: appStateManager.error?.code,
             ),
           )
-        ] else if (!authManager.isSignedIn) ...[
-          SignInScreen.page(),
+        ] else if (appStateManager.isStarting) ...[
+          StartScreen.page(),
+        ] else if (authManager.isUserGuest) ...[
+          HomeScreen.page(appStateManager.selectedTab),
+          if (appStateManager.selectedFeature == SzikAppFeature.article)
+            ArticleScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.invitation)
+            InvitationScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.settings)
+            SettingsScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.profile)
+            ProfileScreen.page(manager: authManager),
         ] else ...[
           HomeScreen.page(appStateManager.selectedTab),
           if (appStateManager.selectedSubMenu != SzikAppSubMenu.none)
@@ -214,7 +224,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kSubMenuPath) {
       appStateManager.unselectSubMenu();
     }
-    if (route.settings.name == SzikAppLink.kCalendarPath ||
+    if (route.settings.name == SzikAppLink.kArticlePath ||
+        route.settings.name == SzikAppLink.kInvitationPath ||
+        route.settings.name == SzikAppLink.kCalendarPath ||
         route.settings.name == SzikAppLink.kContactsPath ||
         route.settings.name == SzikAppLink.kDocumentsPath ||
         route.settings.name == SzikAppLink.kErrorPath ||
@@ -257,12 +269,25 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   }
 
   SzikAppLink getCurrentPath() {
-    if (!authManager.isSignedIn) {
-      return SzikAppLink(location: SzikAppLink.kSignInPath);
-    } else if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
+    if (appStateManager.isStarting) {
+      return SzikAppLink(location: SzikAppLink.kStartPath);
+    }
+    if (appStateManager.selectedSubMenu != SzikAppSubMenu.none) {
       return SzikAppLink(
         location: SzikAppLink.kSubMenuPath,
         currentSubMenu: appStateManager.selectedSubMenu,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.article) {
+      return SzikAppLink(
+        location: SzikAppLink.kArticlePath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.invitation) {
+      return SzikAppLink(
+        location: SzikAppLink.kInvitationPath,
+        currentFeature: appStateManager.selectedFeature,
         currentTab: appStateManager.selectedTab,
       );
     } else if (appStateManager.selectedFeature == SzikAppFeature.calendar) {
@@ -327,12 +352,21 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   @override
   Future<void> setNewRoutePath(SzikAppLink configuration) async {
     switch (configuration.location) {
+      case SzikAppLink.kStartPath:
+        appStateManager.initStarting();
+        break;
       case SzikAppLink.kHomePath:
         appStateManager.selectTab(configuration.currentTab ?? SzikAppTab.feed);
         break;
       case SzikAppLink.kSubMenuPath:
         appStateManager
             .selectSubMenu(configuration.currentSubMenu ?? SzikAppSubMenu.data);
+        break;
+      case SzikAppLink.kArticlePath:
+        appStateManager.selectFeature(SzikAppFeature.article);
+        break;
+      case SzikAppLink.kInvitationPath:
+        appStateManager.selectFeature(SzikAppFeature.invitation);
         break;
       case SzikAppLink.kCalendarPath:
         appStateManager.selectFeature(SzikAppFeature.calendar);

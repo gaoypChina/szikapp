@@ -31,28 +31,36 @@ class FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    notifications = [
-      CustomNotification(
-        title: 'Belló konyhatakát cserélne veled',
-        route: SzikAppLink(),
-      ),
-      CustomNotification(
-        title: 'Sikeresen lefoglaltad a Catant',
-        route: SzikAppLink(),
-      ),
-      CustomNotification(
-        title: 'Gyuri kicserélte az égőt a szobádban',
-        route: SzikAppLink(),
-      ),
-    ];
+    var authManager = Provider.of<AuthManager>(context, listen: false);
+    if (authManager.isSignedIn && !authManager.isUserGuest) {
+      notifications = [
+        CustomNotification(
+          title: 'Belló konyhatakát cserélne veled',
+          route: SzikAppLink(),
+        ),
+        CustomNotification(
+          title: 'Sikeresen lefoglaltad a Catant',
+          route: SzikAppLink(),
+        ),
+        CustomNotification(
+          title: 'Gyuri kicserélte az égőt a szobádban',
+          route: SzikAppLink(),
+        ),
+      ];
+    }
   }
 
-  void _onClearAllNotificationsPressed() {}
+  void _onClearAllNotificationsPressed() {
+    setState(() {
+      notifications = [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var authManager = Provider.of<AuthManager>(context);
+    var user = authManager.user;
     var appStateManager =
         Provider.of<SzikAppStateManager>(context, listen: false);
 
@@ -88,7 +96,10 @@ class FeedScreenState extends State<FeedScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FEED_GREETINGS'.tr(args: [user.showableName]),
+                      authManager.isSignedIn
+                          ? 'FEED_GREETINGS_SIGNEDIN'
+                              .tr(args: [user!.showableName])
+                          : 'FEED_GREETINGS'.tr(),
                       style: theme.textTheme.headline1!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -96,10 +107,10 @@ class FeedScreenState extends State<FeedScreen> {
                       ),
                     ),
                   ),
-                  user.profilePicture != null
+                  user?.profilePicture != null
                       ? CircleAvatar(
                           foregroundImage: NetworkImage(
-                            user.profilePicture!,
+                            user!.profilePicture!,
                           ),
                         )
                       : CustomIcon(
@@ -111,33 +122,36 @@ class FeedScreenState extends State<FeedScreen> {
               ),
             ),
           ),
-          if (user.hasPermission(Permission.contactsView))
+          if (authManager.isSignedIn &&
+              (user?.hasPermission(Permission.contactsView) ?? false))
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
               child: BirthdayBar(),
             ),
-          Container(
-            margin: const EdgeInsets.all(kBorderRadiusNormal),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: feedShortcuts.map<WrappedIconButton>(
-                (item) {
-                  var userCanRouteToLink = user
-                      .hasPermissionToAccess(SzikAppLink(currentFeature: item));
-                  return WrappedIconButton(
-                    assetPath:
-                        shortcutData[item]?.assetPath ?? CustomIcons.bell,
-                    color: theme.colorScheme.primaryContainer,
-                    backgroundColor: theme.colorScheme.background,
-                    onTap: userCanRouteToLink
-                        ? () => appStateManager.selectFeature(item)
-                        : null,
-                  );
-                },
-              ).toList(),
+          if (authManager.isSignedIn && !authManager.isUserGuest)
+            Container(
+              margin: const EdgeInsets.all(kBorderRadiusNormal),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: feedShortcuts.map<WrappedIconButton>(
+                  (item) {
+                    var userCanRouteToLink = (user?.hasPermissionToAccess(
+                            SzikAppLink(currentFeature: item)) ??
+                        false);
+                    return WrappedIconButton(
+                      assetPath:
+                          shortcutData[item]?.assetPath ?? CustomIcons.bell,
+                      color: theme.colorScheme.primaryContainer,
+                      backgroundColor: theme.colorScheme.background,
+                      onTap: userCanRouteToLink
+                          ? () => appStateManager.selectFeature(item)
+                          : null,
+                    );
+                  },
+                ).toList(),
+              ),
             ),
-          ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
             padding: const EdgeInsets.only(left: kPaddingNormal),
@@ -163,29 +177,41 @@ class FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: notifications.isEmpty
-                ? Center(
+          authManager.isSignedIn
+              ? Expanded(
+                  child: notifications.isEmpty
+                      ? Center(
+                          child: Text(
+                            'PLACEHOLDER_NOTIFICATIONS_EMPTY'.tr(),
+                            style: theme.textTheme.headline2!.copyWith(
+                              fontSize: 16,
+                              color: theme.colorScheme.background,
+                            ),
+                          ),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () async {},
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: notifications.map<NotificationCard>(
+                              (item) {
+                                return NotificationCard(data: item);
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                )
+              : Expanded(
+                  child: Center(
                     child: Text(
-                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                      'PLACEHOLDER_NOTIFICATIONS_SIGNIN'.tr(),
                       style: theme.textTheme.headline2!.copyWith(
                         fontSize: 16,
                         color: theme.colorScheme.background,
                       ),
                     ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: () async {},
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: notifications.map<NotificationCard>(
-                        (item) {
-                          return NotificationCard(data: item);
-                        },
-                      ).toList(),
-                    ),
                   ),
-          ),
+                ),
         ],
       ),
     );

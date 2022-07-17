@@ -1,4 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'exceptions.dart';
 
 List<int> boolListToInt(List<bool> boolList) {
   var intList = <int>[];
@@ -44,5 +47,13 @@ extension CustomDateTimeExtension on DateTime {
       answer = 'MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
     }
     return answer;
+  }
+}
+
+Future<void> openUrl(String url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw NotSupportedBrowserFunctionalityException(url);
   }
 }

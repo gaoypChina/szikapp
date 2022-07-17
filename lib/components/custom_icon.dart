@@ -6,6 +6,7 @@ import '../ui/themes.dart';
 class CustomIcons {
   static const String armchair = 'assets/icons/armchair.svg';
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
+  static const String article = 'assets/icons/article.svg';
   static const String beer = 'assets/icons/beer.svg';
   static const String bell = 'assets/icons/bell.svg';
   static const String bookClosed = 'assets/icons/book_closed.svg';
@@ -25,6 +26,7 @@ class CustomIcons {
   static const String doubleArrowRight = 'assets/icons/double_arrow_right.svg';
   static const String doubleArrowUp = 'assets/icons/double_arrow_up.svg';
   static const String email = 'assets/icons/email.svg';
+  static const String envelope = 'assets/icons/envelope.svg';
   static const String feed = 'assets/icons/feed.svg';
   static const String filter = 'assets/icons/filter.svg';
   static const String fire = 'assets/icons/fire.svg';

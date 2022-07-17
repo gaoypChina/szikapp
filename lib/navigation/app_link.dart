@@ -1,4 +1,5 @@
 class SzikAppLink {
+  static const String kArticlePath = '/article';
   static const String kCalendarPath = '/calendar';
   static const String kContactsPath = '/contacts';
   static const String kDocumentsPath = '/documents';
@@ -9,6 +10,7 @@ class SzikAppLink {
   static const String kJanitorCreateEditPath = '/janitor/createedit';
   static const String kJanitorPath = '/janitor';
   static const String kKitchenCleaningPath = '/cleaning';
+  static const String kInvitationPath = '/invitation';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
   static const String kPollCreateEditPath = '/poll/createedit';
@@ -20,7 +22,7 @@ class SzikAppLink {
   static const String kReservationCreateEditPath = '/reservation/createedit';
   static const String kReservationPath = '/reservation';
   static const String kSettingsPath = '/settings';
-  static const String kSignInPath = '/signin';
+  static const String kStartPath = '/start';
   static const String kSubMenuPath = '/submenu';
 
   static const String kTabParam = 'tab';
@@ -73,6 +75,13 @@ class SzikAppLink {
         value == null ? '' : '$key=$value&';
 
     switch (location) {
+      case kArticlePath:
+        var loc = '$kArticlePath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kCalendarPath:
         var loc = '$kCalendarPath?';
         loc += addKeyValPair(
@@ -150,6 +159,13 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
+      case kInvitationPath:
+        var loc = '$kInvitationPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
       case kMenuPath:
         return kMenuPath;
       case kProfilePath:
@@ -191,8 +207,8 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
-      case kSignInPath:
-        return kSignInPath;
+      case kStartPath:
+        return kStartPath;
       case kSubMenuPath:
         var loc = '$kSubMenuPath?';
         loc += addKeyValPair(
