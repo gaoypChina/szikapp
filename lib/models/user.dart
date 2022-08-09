@@ -68,7 +68,7 @@ class User implements Identifiable, Cachable {
   String? get phone => _phone;
   set phone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
-    var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
+    var validationHU = RegExp(r'^(\+36(1|20|30|31|50|70)\d{7})$');
     if (value == null) {
       _phone = null;
     } else if (validationPhone.hasMatch(value)) {
