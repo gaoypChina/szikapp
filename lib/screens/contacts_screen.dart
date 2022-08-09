@@ -211,6 +211,9 @@ class ContactsListViewState extends State<ContactsListView>
               horizontal: kPaddingLarge,
             ),
             child: CircleAvatar(
+              foregroundImage: item.profilePicture != null
+                  ? NetworkImage(item.profilePicture!)
+                  : null,
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
