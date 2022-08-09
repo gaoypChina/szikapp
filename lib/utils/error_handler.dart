@@ -34,11 +34,6 @@ class ErrorInformation {
   }
   ErrorInformation.fromException(BaseException exception) {
     switch (exception.runtimeType) {
-      case IOException:
-        errorCode = exception.code;
-        errorMessage = exception.message;
-        errorSolution = 'ERROR_UNKNOWN_EXCEPTION_SOLUTION'.tr();
-        break;
       case IOServerException:
         errorCode = exception.code;
         errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
@@ -49,8 +44,16 @@ class ErrorInformation {
         errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
         errorSolution = 'ERROR_SOCKET_SOLUTION'.tr();
         break;
+      case NoConnectionException:
+        errorCode = noConnectionExceptionCode;
+        errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
+        errorSolution = 'ERROR_SOCKET_SOLUTION'.tr();
+        break;
+      case IOUnknownException:
+      case IOClientException:
+      case IONotModifiedException:
       default:
-        errorCode = unknownCatchedExceptionCode;
+        errorCode = exception.code;
         errorMessage = 'ERROR_UNKNOWN_EXCEPTION_MESSAGE'.tr();
         errorSolution = 'ERROR_UNKNOWN_EXCEPTION_SOLUTION'.tr();
         break;

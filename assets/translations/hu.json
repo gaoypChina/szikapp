@@ -92,10 +92,7 @@
         "POLL_TITLE_EDIT": "Szavazás szerkesztése",
         "POLL_TAB_ACTIVE": "Aktív",
         "POLL_TAB_EXPIRED": "Lejárt",
-        "POLL_NO_TIME_LEFT": "Lejárt",
-        "POLL_DAYS_LEFT": "{} nap van hátra",
-        "POLL_HOURS_LEFT": "{} óra van hátra",
-        "POLL_MINUTES_LEFT": "{} perc van hátra",
+        "POLL_CLOSED": "Kiíró által lezárt",
         "POLL_ADD": "Új szavazás létrehozása",
         "POLL_HINT_TITLE": "Írd ide a címet",
         "POLL_HINT_QUESTION": "Írd ide a kérdést", 
@@ -201,5 +198,10 @@
         "DATE_PICKER_HELP": "Válassz dátumot",
         "TIME_PICKER_HELP": "Válassz időpontot",
         "DIALOG_TITLE_CONFIRM_DELETE": "Biztosan törlöd?",
-        "BIRTHDAY_BAR_ERROR": "Net hiba: Kérdezd meg a szobatársad:("
+        "BIRTHDAY_BAR_ERROR": "Net hiba: Kérdezd meg a szobatársad:(",
+    "DATETIME": null,
+        "NO_TIME_LEFT": "Lejárt",
+        "DAYS_LEFT": "{} nap van hátra",
+        "HOURS_LEFT": "{} óra van hátra",
+        "MINUTES_LEFT": "{} perc van hátra"
 }

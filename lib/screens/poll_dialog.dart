@@ -268,11 +268,13 @@ class _PollDialogState extends State<PollDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                item,
-                style: theme.textTheme.subtitle1!.copyWith(
-                  color: theme.colorScheme.primaryContainer,
-                  fontStyle: FontStyle.italic,
+              Expanded(
+                child: Text(
+                  item,
+                  style: theme.textTheme.subtitle1!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
               Column(

@@ -62,7 +62,7 @@ class SzikAppStateManager extends ChangeNotifier {
   ///jogosultságait.
   List<Group> _groups = [];
 
-  List<UserData> _users = [];
+  List<User> _users = [];
 
   bool get isFirebaseInitialized => _firebaseInitialized;
   bool get isStarting => _isStarting;
@@ -74,7 +74,7 @@ class SzikAppStateManager extends ChangeNotifier {
 
   List<Place> get places => _places;
   List<Group> get groups => _groups;
-  List<UserData> get users => _users;
+  List<User> get users => _users;
 
   void initializeFirebase() {
     _firebaseInitialized = true;
@@ -102,7 +102,7 @@ class SzikAppStateManager extends ChangeNotifier {
     } on Exception {
       _places = <Place>[];
       _groups = <Group>[];
-      _users = <UserData>[];
+      _users = <User>[];
     }
   }
 

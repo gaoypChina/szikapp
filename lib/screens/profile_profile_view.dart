@@ -69,17 +69,17 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     }
   }
 
-  void _onSend() {
+  void _onSend() async {
     try {
       if (_formKey.currentState!.validate()) {
         widget.manager.user!.nick = nick;
         widget.manager.user!.phone = phone;
         widget.manager.user!.birthday = birthday;
-        widget.manager.pushUserUpdate();
+        await widget.manager.pushUserUpdate();
         setState(() {
           changed = false;
         });
-        widget.manager.pullUserUpdate();
+        await widget.manager.pullUserUpdate();
       }
     } on NotValidPhoneException {
       setState(() {

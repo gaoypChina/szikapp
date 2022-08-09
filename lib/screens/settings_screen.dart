@@ -222,91 +222,89 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: _onVolumeChanged,
             ),*/
             //Értesítések
-            userCanModify
-                ? Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(kPaddingLarge),
-                    margin: const EdgeInsets.symmetric(
-                      vertical: kPaddingSmall,
-                      horizontal: kPaddingLarge,
+            if (userCanModify)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(kPaddingLarge),
+                margin: const EdgeInsets.symmetric(
+                  vertical: kPaddingSmall,
+                  horizontal: kPaddingLarge,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(kBorderRadiusNormal),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.secondaryContainer,
+                      offset: const Offset(0.0, 2.0),
+                      blurRadius: 3.0,
                     ),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surface,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(kBorderRadiusNormal),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'SETTINGS_NOTIFICATIONS'.tr(),
+                        style: theme.textTheme.headline3!.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.colorScheme.secondaryContainer,
-                          offset: const Offset(0.0, 2.0),
-                          blurRadius: 3.0,
-                        ),
-                      ],
                     ),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'SETTINGS_NOTIFICATIONS'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
+                    CustomSwitch(
+                      titleText: Text(
+                        'SETTINGS_APP_NOTIFICATIONS'.tr(),
+                        style: theme.textTheme.headline6!.copyWith(
+                          color: theme.colorScheme.primary,
                         ),
-                        CustomSwitch(
-                          titleText: Text(
-                            'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                            style: theme.textTheme.headline6!.copyWith(
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                          onChanged: (bool switchState) {
-                            setState(() {});
-                          },
-                        )
-                      ],
-                    ),
-                  )
-                : Container(),
+                      ),
+                      onChanged: (bool switchState) {
+                        setState(() {});
+                      },
+                    )
+                  ],
+                ),
+              ),
             //Shortcutok
-            userCanModify
-                ? Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(kPaddingLarge),
-                    margin: const EdgeInsets.symmetric(
-                      vertical: kPaddingSmall,
-                      horizontal: kPaddingLarge,
+
+            if (userCanModify)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(kPaddingLarge),
+                margin: const EdgeInsets.symmetric(
+                  vertical: kPaddingSmall,
+                  horizontal: kPaddingLarge,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(kBorderRadiusNormal),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.secondaryContainer,
+                      offset: const Offset(0.0, 2.0),
+                      blurRadius: 3.0,
                     ),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surface,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(kBorderRadiusNormal),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.colorScheme.secondaryContainer,
-                          offset: const Offset(0.0, 2.0),
-                          blurRadius: 3.0,
-                        ),
-                      ],
-                    ),
-                    child: CustomCheckboxList(
-                      title: Text(
-                        'SETTINGS_SHORTCUTS'.tr(),
-                        style: theme.textTheme.headline3!
-                            .copyWith(color: theme.colorScheme.primary),
-                      ),
-                      checkboxLabels: shortcutData.entries
-                          .map((e) => e.value.name)
-                          .toList(),
-                      maxEnabled: 3,
-                      initValues:
-                          intListToBool(_feedShortcuts, shortcutData.length),
-                      onChanged: _onFeedShortcutsChanged,
-                    ),
-                  )
-                : Container(),
+                  ],
+                ),
+                child: CustomCheckboxList(
+                  title: Text(
+                    'SETTINGS_SHORTCUTS'.tr(),
+                    style: theme.textTheme.headline3!
+                        .copyWith(color: theme.colorScheme.primary),
+                  ),
+                  checkboxLabels:
+                      shortcutData.entries.map((e) => e.value.name).toList(),
+                  maxEnabled: 3,
+                  initValues:
+                      intListToBool(_feedShortcuts, shortcutData.length),
+                  onChanged: _onFeedShortcutsChanged,
+                ),
+              ),
           ],
         ),
       ),

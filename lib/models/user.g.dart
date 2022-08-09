@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_data.dart';
+part of 'user.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
+User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as String,
       name: json['name'] as String,
       nick: json['nick'] as String?,
       email: json['email'] as String,
       phone: json['phone'] as String?,
-      secondaryPhone: json['secondary_phone'] as String?,
+      secondaryPhone: json['secondaryPhone'] as String?,
       preferences: json['preferences'] == null
           ? null
           : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
@@ -28,21 +28,22 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
               .toList() ??
           const [],
       lastUpdate: DateTime.parse(json['last_update'] as String),
-    );
+    )..profilePicture = json['profile_picture'] as String?;
 
-Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'nick': instance.nick,
       'email': instance.email,
-      'phone': instance.phone,
-      'secondary_phone': instance.secondaryPhone,
+      'profile_picture': instance.profilePicture,
+      'nick': instance.nick,
       'preferences': instance.preferences?.toJson(),
-      'birthday': instance.birthday?.toIso8601String(),
       'group_ids': instance.groupIDs,
       'permissions':
           instance.permissions.map((e) => _$PermissionEnumMap[e]).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
+      'birthday': instance.birthday?.toIso8601String(),
+      'phone': instance.phone,
+      'secondaryPhone': instance.secondaryPhone,
     };
 
 const _$PermissionEnumMap = {

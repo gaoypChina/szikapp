@@ -409,7 +409,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                   IconButton(
                                     onPressed: () =>
                                         _onAnswerOptionDeleted(answerOption),
-                                    icon: const Icon(Icons.close),
+                                    icon: const CustomIcon(CustomIcons.close),
                                   ),
                               ],
                             ),
@@ -627,19 +627,18 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          widget.isEdit
-                              ? IconButton(
-                                  icon: CustomIcon(
-                                    CustomIcons.trash,
-                                    color: theme.colorScheme.secondaryContainer,
-                                  ),
-                                  onPressed: () {
-                                    showDialog<void>(
-                                        context: context,
-                                        builder: (context) => confirmDialog);
-                                  },
-                                )
-                              : Container(),
+                          if (widget.isEdit)
+                            IconButton(
+                              icon: CustomIcon(
+                                CustomIcons.trash,
+                                color: theme.colorScheme.secondaryContainer,
+                              ),
+                              onPressed: () {
+                                showDialog<void>(
+                                    context: context,
+                                    builder: (context) => confirmDialog);
+                              },
+                            ),
                           ElevatedButton(
                             style: theme.elevatedButtonTheme.style!.copyWith(
                               shape: MaterialStateProperty.all<

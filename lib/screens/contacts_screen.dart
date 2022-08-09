@@ -74,7 +74,7 @@ class ContactsListView extends StatefulWidget {
 class ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
   ///Megjelenített kontaktok
-  List<UserData> _users = [];
+  List<User> _users = [];
   List<Group> _groups = [];
 
   int _selectedTab = 0;
@@ -211,6 +211,9 @@ class ContactsListViewState extends State<ContactsListView>
               horizontal: kPaddingLarge,
             ),
             child: CircleAvatar(
+              foregroundImage: item.profilePicture != null
+                  ? NetworkImage(item.profilePicture!)
+                  : null,
               radius: theme.textTheme.headline3!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
@@ -345,7 +348,7 @@ class ContactsListViewState extends State<ContactsListView>
     var theme = Theme.of(context);
     return _groups.map<ToggleListItem>(
       (item) {
-        var members = <UserData>[];
+        var members = <User>[];
         for (var memberID in item.memberIDs) {
           members.add(_users.where((element) => element.id == memberID).first);
         }

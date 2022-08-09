@@ -92,10 +92,7 @@
         "POLL_TITLE_EDIT": "Edit poll",
         "POLL_TAB_ACTIVE": "Active",
         "POLL_TAB_EXPIRED": "Expired",
-        "POLL_NO_TIME_LEFT": "Expired",
-        "POLL_DAYS_LEFT": "{} days left",
-        "POLL_HOURS_LEFT": "{} hours left",
-        "POLL_MINUTES_LEFT": "{} minutes left",
+        "POLL_CLOSED": "Closed by a user",
         "POLL_ADD": "Creating new poll",
         "POLL_HINT_TITLE": "Write the title here",
         "POLL_HINT_QUESTION": "Write the question here",
@@ -201,5 +198,10 @@
         "DATE_PICKER_HELP": "Select date",
         "TIME_PICKER_HELP": "Select time",
         "DIALOG_TITLE_CONFIRM_DELETE": "Are you sure?",
-        "BIRTHDAY_BAR_ERROR": "Net error: Please ask your roommate:("
+        "BIRTHDAY_BAR_ERROR": "Net error: Please ask your roommate:(",
+    "DATETIME": null,
+        "NO_TIME_LEFT": "Expired",
+        "DAYS_LEFT": "{} days left",
+        "HOURS_LEFT": "{} hours left",
+        "MINUTES_LEFT": "{} minutes left"
 }

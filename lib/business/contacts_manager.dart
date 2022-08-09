@@ -9,7 +9,7 @@ import '../utils/io.dart';
 ///Telefonkönyv funkció logikai működését megvalósító singleton háttérosztály.
 class ContactsManager {
   ///Kontaktok listája
-  List<UserData> _contacts = [];
+  List<User> _contacts = [];
   List<Group> _groups = [];
 
   ///Singleton osztálypéldány
@@ -23,7 +23,7 @@ class ContactsManager {
   ContactsManager._privateConstructor();
 
   ///A felhasználó kontaktjainak listája.
-  List<UserData> get contacts => List.unmodifiable(_contacts);
+  List<User> get contacts => List.unmodifiable(_contacts);
 
   ///A szervezetbeli csoportok listája. Tartalmazza azokat a csoportokat
   ///is, melyeknek a felhasználó egyébként nem tagja.
@@ -34,15 +34,16 @@ class ContactsManager {
   ///Keresés. A függvény a megadott szöveg alapján keres egyezéseket a
   ///kontaktlista név, ímélcím, telefonszám, születésnap mezőiben. Ha a
   ///megadott keresőkifejezés üres, a teljes listával tér vissza.
-  List<UserData> search(String text) {
+  List<User> search(String text) {
     if (text == '') {
       return contacts;
     } else {
-      var results = <UserData>[];
+      var results = <User>[];
       for (var item in contacts) {
+        var emailUserName = item.email.substring(0, item.email.indexOf('@'));
         if (item.name.toLowerCase().contains(text.toLowerCase())) {
           results.add(item);
-        } else if (item.email.contains(text.toLowerCase())) {
+        } else if (emailUserName.contains(text.toLowerCase())) {
           results.add(item);
         } else if (item.phone != null) {
           if (item.phone!.contains(text)) results.add(item);
@@ -84,11 +85,11 @@ class ContactsManager {
 
   ///Szűrés. A függvény a megadott csoport azonosító alapján visszaadja a
   ///csoport tagjait. Ha az azonosító üres, a teljes listával tér vissza.
-  List<UserData> findMembers(String groupID) {
+  List<User> findMembers(String groupID) {
     if (groupID == '') {
       return contacts;
     } else {
-      var results = <UserData>[];
+      var results = <User>[];
       for (var item in contacts) {
         if (item.groupIDs.contains(groupID)) results.add(item);
       }
