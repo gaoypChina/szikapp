@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.1+225
+version: 1.0.1+226
 
 environment:
   sdk: ">=2.17.0 <3.0.0"

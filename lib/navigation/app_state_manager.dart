@@ -30,6 +30,7 @@ class SzikAppFeature {
   static const int settings = 8;
   static const int article = 9;
   static const int invitation = 10;
+  static const int bookrental = 11;
   static const int error = 99;
 }
 
@@ -42,6 +43,7 @@ const Map<int, Permission> featurePermissions = {
   SzikAppFeature.poll: Permission.pollView,
   SzikAppFeature.profile: Permission.profileView,
   SzikAppFeature.reservation: Permission.reservationView,
+  SzikAppFeature.bookrental: Permission.bookLoanView,
 };
 
 class SzikAppStateManager extends ChangeNotifier {
