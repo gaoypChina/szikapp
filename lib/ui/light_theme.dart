@@ -110,8 +110,8 @@ ThemeData szikLightThemeData = ThemeData(
   //textButtonTheme: null,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: szikLightColorScheme.primary,
-      onPrimary: szikLightColorScheme.background,
+      backgroundColor: szikLightColorScheme.primary,
+      foregroundColor: szikLightColorScheme.background,
       shape: StadiumBorder(
         side: BorderSide(color: szikLightColorScheme.primary),
       ),
@@ -119,7 +119,7 @@ ThemeData szikLightThemeData = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      primary: szikLightColorScheme.background,
+      foregroundColor: szikLightColorScheme.background,
       backgroundColor: szikLightColorScheme.background.withOpacity(0.2),
       shape: StadiumBorder(
         side: BorderSide(color: szikLightColorScheme.background),
