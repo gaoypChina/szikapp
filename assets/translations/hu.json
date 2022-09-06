@@ -151,7 +151,7 @@
         "FORMS_TITLE": "Űrlapok",
     "BOOKRENTAL": null,
         "BOOKRENTAL_TITLE": "Könyvtári kölcsönzés",
-        "BOOKRENTAL_HELP_TEXT": "Ez a funkció még fejlesztés alatt áll.\nMíg elkészül a Közös Jezsuita Katalógus webes keresője és a Losonczi-hagyatékról készült saját katalógus áll a rendelkezésedre.",
+        "BOOKRENTAL_HELP_TEXT": "Ez a funkció még fejlesztés alatt áll.\nMíg elkészül, a Közös Jezsuita Katalógus webes keresője és a Losonczi-hagyatékról készült saját katalógus áll a rendelkezésedre.",
         "BOOKRENTAL_LINK_COMMON_REF": "Keresés a közös jezsuita katalógusban",
         "BOOKRENTAL_LINK_OWN_REF": "Keresés a Losonczi katalógusban",
     "SETTINGS": null,

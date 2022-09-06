@@ -36,9 +36,10 @@ class BookRentalScreen extends StatelessWidget {
             ),
             Text(
               'BOOKRENTAL_HELP_TEXT'.tr(),
-              style: theme.textTheme.headline2,
+              style: theme.textTheme.headline3,
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: kPaddingLarge),
             Link(
               uri: Uri.parse(
                 'https://katalogus.jezsu.hu/kozoskatalogus/kerestargy2krovid.php',
@@ -57,6 +58,7 @@ class BookRentalScreen extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: kPaddingSmall),
             Link(
               uri: Uri.parse(
                 'https://docs.google.com/spreadsheets/d/1bbumbRPY0pf-3zQI3I3eH5c4_dYu4QsM2IoJoMPiLmI/edit?usp=sharing',
