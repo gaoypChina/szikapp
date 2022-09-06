@@ -13,11 +13,11 @@ PreferredSizeWidget buildCustomAppBar({
   required bool withBackButton,
   double elevation = 0.0,
 }) {
-  void _onLeadingPressed() {
+  void onLeadingPressed() {
     Router.of(context).routerDelegate.popRoute();
   }
 
-  void _onTrailingPressed() {
+  void onTrailingPressed() {
     Provider.of<SzikAppStateManager>(context, listen: false)
         .selectFeature(SzikAppFeature.profile);
   }
@@ -39,13 +39,13 @@ PreferredSizeWidget buildCustomAppBar({
     ),
     leading: withBackButton
         ? IconButton(
-            onPressed: _onLeadingPressed,
+            onPressed: onLeadingPressed,
             icon: const CustomIcon(CustomIcons.arrowLeft),
           )
         : Container(),
     actions: [
       IconButton(
-        onPressed: _onTrailingPressed,
+        onPressed: onTrailingPressed,
         icon: profilePicture != null
             ? CircleAvatar(
                 foregroundImage: NetworkImage(

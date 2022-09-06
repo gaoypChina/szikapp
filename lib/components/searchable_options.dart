@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/themes.dart';
+import 'components.dart';
 
 ///Kereshető lenyíló lista beviteli mező.
 ///A [DropdownSearch] widget személyre szabott változata.
@@ -74,51 +75,63 @@ class SearchableOptions<T> extends StatelessWidget {
                 : null,
             autoValidateMode: AutovalidateMode.onUserInteraction,
             compareFn: compare,
-            mode: Mode.MENU,
-            showSelectedItems: true,
-            showClearButton: showClearButton,
+            clearButtonProps: const ClearButtonProps(
+              isVisible: true,
+              icon: CustomIcon(CustomIcons.close),
+            ),
             items: items,
             selectedItems: selectedItems,
             onChanged: onItemsChanged,
-            showSearchBox: true,
             enabled: !readonly,
-            searchFieldProps: TextFieldProps(
-              style: theme.textTheme.headline3!.copyWith(
+            popupProps: PopupPropsMultiSelection.menu(
+              showSearchBox: true,
+              showSelectedItems: true,
+              menuProps: MenuProps(
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+              ),
+              searchFieldProps: TextFieldProps(
+                style: theme.textTheme.headline3!.copyWith(
+                  fontSize: 14,
+                  color: theme.colorScheme.primaryContainer,
+                  fontStyle: FontStyle.italic,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'PLACEHOLDER_SEARCH'.tr(),
+                  hintStyle: theme.textTheme.caption,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+                    borderSide: BorderSide(
+                      color: theme.colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.all(kPaddingSmall),
+                ),
+              ),
+            ),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              baseStyle: theme.textTheme.headline3!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
                 fontStyle: FontStyle.italic,
               ),
-              decoration: InputDecoration(
-                hintText: 'PLACEHOLDER_SEARCH'.tr(),
-                hintStyle: theme.textTheme.caption,
+              dropdownSearchDecoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                   borderSide: BorderSide(
                     color: theme.colorScheme.primary,
                     width: 2,
                   ),
+                  gapPadding: 6,
                 ),
                 contentPadding: const EdgeInsets.all(kPaddingSmall),
-              ),
-            ),
-            dropdownSearchDecoration: InputDecoration(
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.primary,
-                  width: 2,
-                ),
-                gapPadding: 6,
-              ),
-              contentPadding: const EdgeInsets.all(kPaddingSmall),
-            ),
-            popupShape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2,
-                style: BorderStyle.solid,
               ),
             ),
           )
@@ -130,51 +143,62 @@ class SearchableOptions<T> extends StatelessWidget {
                 : null,
             autoValidateMode: AutovalidateMode.onUserInteraction,
             compareFn: compare,
-            mode: Mode.MENU,
-            showSelectedItems: true,
-            showClearButton: showClearButton,
             items: items,
             selectedItem: selectedItems.first,
             onChanged: (item) => onItemsChanged(item == null ? [] : [item]),
-            showSearchBox: true,
             enabled: !readonly,
-            searchFieldProps: TextFieldProps(
-              style: theme.textTheme.headline3!.copyWith(
+            clearButtonProps: const ClearButtonProps(
+              icon: CustomIcon(CustomIcons.close),
+            ),
+            popupProps: PopupPropsMultiSelection.menu(
+              showSearchBox: true,
+              showSelectedItems: true,
+              menuProps: MenuProps(
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+              ),
+              searchFieldProps: TextFieldProps(
+                style: theme.textTheme.headline3!.copyWith(
+                  fontSize: 14,
+                  color: theme.colorScheme.primaryContainer,
+                  fontStyle: FontStyle.italic,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'PLACEHOLDER_SEARCH'.tr(),
+                  hintStyle: theme.textTheme.caption,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+                    borderSide: BorderSide(
+                      color: theme.colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.all(kPaddingSmall),
+                ),
+              ),
+            ),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              baseStyle: theme.textTheme.headline3!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
                 fontStyle: FontStyle.italic,
               ),
-              decoration: InputDecoration(
-                hintText: 'PLACEHOLDER_SEARCH'.tr(),
-                hintStyle: theme.textTheme.caption,
+              dropdownSearchDecoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                   borderSide: BorderSide(
                     color: theme.colorScheme.primary,
                     width: 2,
                   ),
+                  gapPadding: 6,
                 ),
                 contentPadding: const EdgeInsets.all(kPaddingSmall),
-              ),
-            ),
-            dropdownSearchDecoration: InputDecoration(
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.primary,
-                  width: 2,
-                ),
-                gapPadding: 6,
-              ),
-              contentPadding: const EdgeInsets.all(kPaddingSmall),
-            ),
-            popupShape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kBorderRadiusSmall),
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2,
-                style: BorderStyle.solid,
               ),
             ),
           );

@@ -131,9 +131,11 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
     setState(() => answerOptions[index] = newOption);
   }
 
+/*
   void _onAnswerOptionDeleted(String answerOption) {
     setState(() => answerOptions.remove(answerOption));
   }
+*/
 
   void _onStartDateChanged(DateTime date) {
     setState(() {
@@ -405,12 +407,14 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                     ),
                                   ),
                                 ),
+                                /*
                                 if (widget.isEdit == false)
                                   IconButton(
                                     onPressed: () =>
                                         _onAnswerOptionDeleted(answerOption),
                                     icon: const CustomIcon(CustomIcons.close),
                                   ),
+                                */
                               ],
                             ),
                           );

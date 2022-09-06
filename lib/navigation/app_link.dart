@@ -1,5 +1,6 @@
 class SzikAppLink {
   static const String kArticlePath = '/article';
+  static const String kBookRentalPath = '/bookrental';
   static const String kCalendarPath = '/calendar';
   static const String kContactsPath = '/contacts';
   static const String kDocumentsPath = '/documents';
@@ -77,6 +78,13 @@ class SzikAppLink {
     switch (location) {
       case kArticlePath:
         var loc = '$kArticlePath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
+      case kBookRentalPath:
+        var loc = '$kBookRentalPath?';
         loc += addKeyValPair(
           key: kFeatureParam,
           value: currentFeature.toString(),

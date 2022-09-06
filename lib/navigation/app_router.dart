@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../navigation/navigation.dart';
+import '../screens/bookrental_screen.dart';
 import '../screens/screens.dart';
 import '../utils/utils.dart';
 
@@ -68,6 +69,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedSubMenu != SzikAppSubMenu.none)
             SubMenuScreen.page(
                 selectedSubMenu: appStateManager.selectedSubMenu),
+          if (appStateManager.selectedFeature == SzikAppFeature.bookrental)
+            BookRentalScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.calendar)
             CalendarScreen.page(manager: calendarManager),
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
@@ -225,6 +228,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
       appStateManager.unselectSubMenu();
     }
     if (route.settings.name == SzikAppLink.kArticlePath ||
+        route.settings.name == SzikAppLink.kBookRentalPath ||
         route.settings.name == SzikAppLink.kInvitationPath ||
         route.settings.name == SzikAppLink.kCalendarPath ||
         route.settings.name == SzikAppLink.kContactsPath ||
@@ -281,6 +285,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     } else if (appStateManager.selectedFeature == SzikAppFeature.article) {
       return SzikAppLink(
         location: SzikAppLink.kArticlePath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.bookrental) {
+      return SzikAppLink(
+        location: SzikAppLink.kBookRentalPath,
         currentFeature: appStateManager.selectedFeature,
         currentTab: appStateManager.selectedTab,
       );
@@ -364,6 +374,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         break;
       case SzikAppLink.kArticlePath:
         appStateManager.selectFeature(SzikAppFeature.article);
+        break;
+      case SzikAppLink.kBookRentalPath:
+        appStateManager.selectFeature(SzikAppFeature.bookrental);
         break;
       case SzikAppLink.kInvitationPath:
         appStateManager.selectFeature(SzikAppFeature.invitation);

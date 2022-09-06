@@ -90,7 +90,7 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
     SubMenuItemData(
       name: 'BOOKRENTAL_TITLE'.tr(),
       picture: CustomIcons.library,
-      feature: SzikAppFeature.error,
+      feature: SzikAppFeature.bookrental,
     ),
   ];
 
