@@ -23,61 +23,64 @@ class BookRentalScreen extends StatelessWidget {
     var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'BOOKRENTAL_TITLE'.tr(),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomIcon(
-              CustomIcons.library,
-              size: kIconSizeXLarge,
-              color: theme.colorScheme.primary,
-            ),
-            Text(
-              'BOOKRENTAL_HELP_TEXT'.tr(),
-              style: theme.textTheme.headline3,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: kPaddingLarge),
-            Link(
-              uri: Uri.parse(
-                'https://katalogus.jezsu.hu/kozoskatalogus/kerestargy2krovid.php',
+      body: Padding(
+        padding: const EdgeInsets.all(kPaddingNormal),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomIcon(
+                CustomIcons.library,
+                size: kIconSizeXLarge,
+                color: theme.colorScheme.primary,
               ),
-              target: LinkTarget.defaultTarget,
-              builder: (context, followLink) {
-                return InkWell(
-                  onTap: followLink,
-                  child: Text(
-                    'BOOKRENTAL_LINK_COMMON_REF'.tr(),
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      color: theme.colorScheme.primary,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: kPaddingSmall),
-            Link(
-              uri: Uri.parse(
-                'https://docs.google.com/spreadsheets/d/1bbumbRPY0pf-3zQI3I3eH5c4_dYu4QsM2IoJoMPiLmI/edit?usp=sharing',
+              Text(
+                'BOOKRENTAL_HELP_TEXT'.tr(),
+                style: theme.textTheme.headline3,
+                textAlign: TextAlign.center,
               ),
-              target: LinkTarget.defaultTarget,
-              builder: (context, followLink) {
-                return InkWell(
-                  onTap: followLink,
-                  child: Text(
-                    'BOOKRENTAL_LINK_OWN_REF'.tr(),
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      color: theme.colorScheme.primary,
-                      decoration: TextDecoration.underline,
+              const SizedBox(height: kPaddingLarge),
+              Link(
+                uri: Uri.parse(
+                  'https://katalogus.jezsu.hu/kozoskatalogus/kerestargy2krovid.php',
+                ),
+                target: LinkTarget.defaultTarget,
+                builder: (context, followLink) {
+                  return InkWell(
+                    onTap: followLink,
+                    child: Text(
+                      'BOOKRENTAL_LINK_COMMON_REF'.tr(),
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        color: theme.colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+              const SizedBox(height: kPaddingSmall),
+              Link(
+                uri: Uri.parse(
+                  'https://docs.google.com/spreadsheets/d/1bbumbRPY0pf-3zQI3I3eH5c4_dYu4QsM2IoJoMPiLmI/edit?usp=sharing',
+                ),
+                target: LinkTarget.defaultTarget,
+                builder: (context, followLink) {
+                  return InkWell(
+                    onTap: followLink,
+                    child: Text(
+                      'BOOKRENTAL_LINK_OWN_REF'.tr(),
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        color: theme.colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
