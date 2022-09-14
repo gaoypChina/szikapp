@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/reservation_manager.dart';
-import '../components/components.dart';
-import '../ui/themes.dart';
+import '../../business/reservation_manager.dart';
+import '../../components/components.dart';
+import '../../ui/themes.dart';
 
 class ReservationGamesListScreen extends StatelessWidget {
   final ReservationManager manager;

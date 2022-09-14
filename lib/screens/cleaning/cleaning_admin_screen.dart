@@ -1,32 +1,31 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
 
-class CleaningScreen extends StatefulWidget {
-  static const String route = '/cleaning';
-
+class CleaningAdminScreen extends StatefulWidget {
+  static const String route = '/cleaning/admin';
   final KitchenCleaningManager manager;
 
   static MaterialPage page({required KitchenCleaningManager manager}) {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: CleaningScreen(manager: manager),
+      child: CleaningAdminScreen(manager: manager),
     );
   }
 
-  const CleaningScreen({
-    Key? key,
+  const CleaningAdminScreen({
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
-  State<CleaningScreen> createState() => _CleaningScreenState();
+  State<CleaningAdminScreen> createState() => _CleaningAdminScreenState();
 }
 
-class _CleaningScreenState extends State<CleaningScreen> {
+class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(

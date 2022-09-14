@@ -23,6 +23,14 @@ List<bool> intListToBool(List<int> intList, int length) {
   return boolList;
 }
 
+extension StringExtension on String {
+  ///Extension function on [String]s to correct [Textoverflow.ellipsis] behaviour
+  ///on flexible text widgets.
+  String useCorrectEllipsis() {
+    return replaceAll('', '\u200b');
+  }
+}
+
 extension CustomDateTimeExtension on DateTime {
   DateTime roundDown({Duration delta = const Duration(hours: 1)}) {
     return DateTime.fromMillisecondsSinceEpoch(

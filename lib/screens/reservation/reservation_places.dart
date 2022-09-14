@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business/reservation_manager.dart';
-import '../components/components.dart';
-import '../models/resource.dart';
-import '../navigation/navigation.dart';
+import '../../business/reservation_manager.dart';
+import '../../components/components.dart';
+import '../../models/resource.dart';
+import '../../navigation/navigation.dart';
 
-class ReservationPlacesMapScreen extends StatelessWidget {
+class ReservationPlacesScreen extends StatelessWidget {
   static const String route = '/reservation/places';
   final ReservationManager manager;
 
@@ -14,11 +14,11 @@ class ReservationPlacesMapScreen extends StatelessWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: ReservationPlacesMapScreen(manager: manager),
+      child: ReservationPlacesScreen(manager: manager),
     );
   }
 
-  const ReservationPlacesMapScreen({
+  const ReservationPlacesScreen({
     Key? key,
     required this.manager,
   }) : super(key: key);
