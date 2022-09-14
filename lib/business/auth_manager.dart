@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../models/user.dart' as szikapp_user;
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
+import 'business.dart';
 
 enum SignInMethod {
   google,
@@ -108,6 +110,7 @@ class AuthManager extends ChangeNotifier {
       _user?.profilePicture = _auth.currentUser!.photoURL;
       _isGuest = false;
       _signedIn = true;
+      NotificationManager.instance.saveTokenToDatabase(null);
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
@@ -149,6 +152,7 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       _method = method;
+      NotificationManager.instance.saveTokenToDatabase(null);
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {

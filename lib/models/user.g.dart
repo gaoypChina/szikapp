@@ -27,8 +27,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      profilePicture: json['profile_picture'] as String?,
       lastUpdate: DateTime.parse(json['last_update'] as String),
-    )..profilePicture = json['profile_picture'] as String?;
+    );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -39,7 +40,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'preferences': instance.preferences?.toJson(),
       'group_ids': instance.groupIDs,
       'permissions':
-          instance.permissions.map((e) => _$PermissionEnumMap[e]).toList(),
+          instance.permissions.map((e) => _$PermissionEnumMap[e]!).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
       'birthday': instance.birthday?.toIso8601String(),
       'phone': instance.phone,

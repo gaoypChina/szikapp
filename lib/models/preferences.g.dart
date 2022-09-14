@@ -13,10 +13,10 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
           Language.hu,
       theme: $enumDecodeNullable(_$SzikAppThemeEnumMap, json['theme']) ??
           SzikAppTheme.defaultTheme,
-      notifications: (json['notifications'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as bool),
-          ) ??
-          const {},
+      notifications: (json['notifications'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$NotificationTopicEnumMap, e))
+              .toList() ??
+          const [],
       feedShortcuts: (json['feed_shortcuts'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??
@@ -29,10 +29,12 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
 
 Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
     <String, dynamic>{
-      'dark_mode': _$DarkModeEnumMap[instance.darkMode],
-      'language': _$LanguageEnumMap[instance.language],
-      'theme': _$SzikAppThemeEnumMap[instance.theme],
-      'notifications': instance.notifications,
+      'dark_mode': _$DarkModeEnumMap[instance.darkMode]!,
+      'language': _$LanguageEnumMap[instance.language]!,
+      'theme': _$SzikAppThemeEnumMap[instance.theme]!,
+      'notifications': instance.notifications
+          .map((e) => _$NotificationTopicEnumMap[e]!)
+          .toList(),
       'feed_shortcuts': instance.feedShortcuts,
       'left_menu_option': instance.leftMenuOption,
       'right_menu_option': instance.rightMenuOption,
@@ -53,4 +55,20 @@ const _$LanguageEnumMap = {
 
 const _$SzikAppThemeEnumMap = {
   SzikAppTheme.defaultTheme: 'default',
+};
+
+const _$NotificationTopicEnumMap = {
+  NotificationTopic.birthdays: 'birthdays',
+  NotificationTopic.advertisements: 'advertisements',
+  NotificationTopic.reservationStart: 'reservationStart',
+  NotificationTopic.reservationEnd: 'reservationEnd',
+  NotificationTopic.janitorStatusUpdate: 'janitorStatusUpdate',
+  NotificationTopic.pollAvailable: 'pollAvailable',
+  NotificationTopic.pollVotingReminder: 'pollVotingReminder',
+  NotificationTopic.pollVotingEnded: 'pollVotingEnded',
+  NotificationTopic.cleaningTaskDueDate: 'cleaningTaskDueDate',
+  NotificationTopic.cleaningTasksAvailable: 'cleaningTasksAvailable',
+  NotificationTopic.cleaningTaskAssigned: 'cleaningTaskAssigned',
+  NotificationTopic.cleaningExchangeAvailable: 'cleaningExchangeAvailable',
+  NotificationTopic.cleaningExchangeUpdate: 'cleaningExchangeUpdate',
 };

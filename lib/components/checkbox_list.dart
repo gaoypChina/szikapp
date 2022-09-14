@@ -16,14 +16,19 @@ class CustomCheckboxList extends StatefulWidget {
   /// A checkboxok változásakor visszatér a gomb aktuális értékével
   final ValueChanged<List<bool>> onChanged;
 
-  const CustomCheckboxList({
+  CustomCheckboxList({
     Key? key,
     required this.title,
     required this.checkboxLabels,
-    this.initValues,
+    List<bool>? initValues,
     required this.maxEnabled,
     required this.onChanged,
-  }) : super(key: key);
+  })  : initValues = initValues ??
+            List.generate(
+              checkboxLabels.length,
+              (index) => false,
+            ),
+        super(key: key);
 
   @override
   State<CustomCheckboxList> createState() => _CustomCheckboxListState();

@@ -51,6 +51,7 @@ class FeedScreenState extends State<FeedScreen> {
   }
 
   void _onClearAllNotificationsPressed() {
+    NotificationManager.instance.dismissAllMessages();
     setState(() {
       notifications = [];
     });

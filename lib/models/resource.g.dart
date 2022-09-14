@@ -37,7 +37,7 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
-      'type': _$PlaceTypeEnumMap[instance.type],
+      'type': _$PlaceTypeEnumMap[instance.type]!,
       'overseer_ids': instance.overseerIDs,
     };
 

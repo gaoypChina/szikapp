@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/types.dart';
 import 'interfaces.dart';
+import 'notification.dart';
 
 part 'preferences.g.dart';
 
@@ -62,7 +63,7 @@ class Preferences implements Cachable {
   DarkMode darkMode;
   Language language;
   SzikAppTheme theme;
-  Map<String, bool> notifications;
+  List<NotificationTopic> notifications;
   @JsonKey(name: 'feed_shortcuts')
   List<int> feedShortcuts;
   @JsonKey(name: 'left_menu_option')
@@ -79,7 +80,7 @@ class Preferences implements Cachable {
     this.darkMode = DarkMode.system,
     this.language = Language.hu,
     this.theme = SzikAppTheme.defaultTheme,
-    this.notifications = const {},
+    this.notifications = const [],
     this.feedShortcuts = const [0, 1, 2],
     this.dataLite = false,
     this.leftMenuOption,

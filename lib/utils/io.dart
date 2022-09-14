@@ -38,6 +38,7 @@ class IO {
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
   final _contactsEndpoint = '/contacts';
+  final _fcmEndpoint = '/fcm';
   final _goodToKnowEndpoint = '/goodtoknow';
   final _groupEndpoint = '/group';
   final _invitationEndpoint = '/invitation';
@@ -140,6 +141,17 @@ class IO {
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
+
+    if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  ///Elmenti egy felhasználó tokenjét.
+  Future<bool> saveFCMToken(String token) async {
+    var uri = '$_vmAddress$_fcmEndpoint?';
+    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+        body: json.encode({'fcm_token': token}));
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
