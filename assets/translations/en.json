@@ -210,5 +210,13 @@
         "NO_TIME_LEFT": "Expired",
         "DAYS_LEFT": "{} days left",
         "HOURS_LEFT": "{} hours left",
-        "MINUTES_LEFT": "{} minutes left"
+        "MINUTES_LEFT": "{} minutes left",
+    "TASK_STATUS": null,
+        "created": "created",
+        "sent": "sent",
+        "irresolvable": "irresolvable",
+        "inProgress": "in progress",
+        "awaitingApproval": "awaiting approval",
+        "refused": "refused",
+        "approved": "approved"
 }

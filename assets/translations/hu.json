@@ -210,5 +210,13 @@
         "NO_TIME_LEFT": "Lejárt",
         "DAYS_LEFT": "{} nap van hátra",
         "HOURS_LEFT": "{} óra van hátra",
-        "MINUTES_LEFT": "{} perc van hátra"
+        "MINUTES_LEFT": "{} perc van hátra",
+    "TASK_STATUS": null,
+        "created": "létrehozva",
+        "sent": "elküldve",
+        "irresolvable": "megoldhatatlan",
+        "inProgress": "folyamatban",
+        "awaitingApproval": "jóváhagyásra vár",
+        "refused": "visszautasítva",
+        "approved": "elfogadva"
 }
