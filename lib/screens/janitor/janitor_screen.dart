@@ -246,7 +246,7 @@ class JanitorListViewState extends State<JanitorListView> {
                               ),
                               _buildRow(
                                 label: 'JANITOR_LABEL_STATUS'.tr(),
-                                value: item.status.toString(),
+                                value: item.status.name.tr(),
                               ),
                               if (item.answer != null)
                                 _buildRow(

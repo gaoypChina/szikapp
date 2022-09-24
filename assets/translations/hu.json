@@ -164,6 +164,10 @@
         "SETTINGS_NOTIFICATIONS": "Értesítések",
         "SETTINGS_APP_NOTIFICATIONS": "Alkalmazásértesítések",
         "SETTINGS_SHORTCUTS": "Csempék",
+        "SETTINGS_FEEDBACK": "Visszajelzés küldése",
+        "SETTINGS_FEEDBACK_EMAIL": "Emailt küldök",
+        "SETTINGS_NORMAL_FEEDBACK": "Visszajelző kérdőív",
+        "SETTINGS_BUGREPORT": "Hibajelentés",
     "LANGUAGES": null,
         "LANGUAGES_HU": "Magyar",
         "LANGUAGES_ENG":"Angol",
@@ -206,5 +210,13 @@
         "NO_TIME_LEFT": "Lejárt",
         "DAYS_LEFT": "{} nap van hátra",
         "HOURS_LEFT": "{} óra van hátra",
-        "MINUTES_LEFT": "{} perc van hátra"
+        "MINUTES_LEFT": "{} perc van hátra",
+    "TASK_STATUS": null,
+        "created": "létrehozva",
+        "sent": "elküldve",
+        "irresolvable": "megoldhatatlan",
+        "inProgress": "folyamatban",
+        "awaitingApproval": "jóváhagyásra vár",
+        "refused": "visszautasítva",
+        "approved": "elfogadva"
 }
