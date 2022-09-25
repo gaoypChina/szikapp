@@ -2,26 +2,26 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../models/models.dart';
-import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../models/models.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../ui/themes.dart';
 
-class PollDialog extends StatefulWidget {
+class PollDetailsView extends StatefulWidget {
   final PollTask poll;
   final PollManager manager;
-  const PollDialog({
+  const PollDetailsView({
     Key? key,
     required this.poll,
     required this.manager,
   }) : super(key: key);
 
   @override
-  State<PollDialog> createState() => _PollDialogState();
+  State<PollDetailsView> createState() => _PollDetailsViewState();
 }
 
-class _PollDialogState extends State<PollDialog> {
+class _PollDetailsViewState extends State<PollDetailsView> {
   List<String> _selected = [];
 
   @override

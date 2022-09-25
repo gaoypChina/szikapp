@@ -16,6 +16,11 @@ class Shortcut {
 }
 
 Map<int, Shortcut> shortcutData = <int, Shortcut>{
+  SzikAppFeature.bookrental: Shortcut(
+    assetPath: CustomIcons.library,
+    feature: SzikAppFeature.bookrental,
+    name: 'BOOKRENTAL_TITLE'.tr(),
+  ),
   SzikAppFeature.calendar: Shortcut(
     assetPath: CustomIcons.calendar,
     feature: SzikAppFeature.calendar,

@@ -131,7 +131,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (janitorManager.isAdminEditingTask)
-            JanitorEditAdminScreen.page(
+            JanitorAdminScreen.page(
               item: janitorManager.selectedTask!,
               onDelete: (item, index) {
                 performFunctionSecurely(
@@ -165,7 +165,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
-            ReservationPlacesMapScreen.page(manager: reservationManager),
+            ReservationPlacesScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.boardgame)
             ReservationGamesListScreen.page(manager: reservationManager),
           if (reservationManager.selectedMode == ReservationMode.account)

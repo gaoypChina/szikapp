@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_list/toggle_list.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../main.dart';
-import '../models/tasks.dart';
-import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/tasks.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../ui/themes.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';

@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../models/permission.dart';
-import '../navigation/navigation.dart';
-import '../ui/themes.dart';
-import '../utils/utils.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../models/permission.dart';
+import '../../navigation/navigation.dart';
+import '../../ui/themes.dart';
+import '../../utils/utils.dart';
 
 class ProfileScreenView extends StatefulWidget {
   final AuthManager manager;
