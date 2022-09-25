@@ -198,6 +198,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                     context, () => reservationManager.deleteReservation(item));
               },
             ),
+          if (kitchenCleaningManager.isAdminEditing)
+            CleaningAdminScreen.page(manager: kitchenCleaningManager),
         ],
       ],
       onPopPage: _handlePopPage,
@@ -268,6 +270,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.account) {
       reservationManager.selectAccount(-1);
+    }
+    if (route.settings.name == SzikAppLink.kKitchenCleaningAdminPath) {
+      kitchenCleaningManager.performBackButtonPressed();
     }
     return true;
   }

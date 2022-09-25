@@ -32,7 +32,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
       appBarTitle: 'CLEANING_TITLE'.tr(),
       body: Center(
         child: Text(
-          'ERROR_NOT_IMPLEMENTED'.tr(),
+          'Konyhatakarítás adminisztráció',
           style: TextStyle(
             color: Theme.of(context).colorScheme.error,
             fontSize: 20,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
-import '../../models/cleaning_exchange.dart';
+import '../../models/models.dart';
 import '../../ui/themes.dart';
 import 'cleaning_apply_view.dart';
 import 'cleaning_exchanges_view.dart';
@@ -68,12 +68,8 @@ class _CleaningScreenState extends State<CleaningScreen> {
     return CustomScaffold(
       appBarTitle: 'CLEANING_TITLE'.tr(),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('HALI'),
-          ),
-        ),
-        typeToCreate: CleaningExchange,
+        onPressed: () => widget.manager.adminEdit(),
+        typeToCreate: CleaningPeriod,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
