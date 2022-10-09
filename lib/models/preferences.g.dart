@@ -22,8 +22,8 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
               .toList() ??
           const [0, 1, 2],
       dataLite: json['data_lite'] as bool? ?? false,
-      leftMenuOption: json['left_menu_option'] as String?,
-      rightMenuOption: json['right_menu_option'] as String?,
+      leftMenuOption: json['left_menu_option'] as String? ?? 'feed',
+      rightMenuOption: json['right_menu_option'] as String? ?? 'settings',
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 

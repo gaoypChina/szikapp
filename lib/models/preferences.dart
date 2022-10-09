@@ -67,9 +67,9 @@ class Preferences implements Cachable {
   @JsonKey(name: 'feed_shortcuts')
   List<int> feedShortcuts;
   @JsonKey(name: 'left_menu_option')
-  String? leftMenuOption;
+  String leftMenuOption;
   @JsonKey(name: 'right_menu_option')
-  String? rightMenuOption;
+  String rightMenuOption;
   @JsonKey(name: 'data_lite')
   bool dataLite;
   @override
@@ -83,8 +83,8 @@ class Preferences implements Cachable {
     this.notifications = const [],
     this.feedShortcuts = const [0, 1, 2],
     this.dataLite = false,
-    this.leftMenuOption,
-    this.rightMenuOption,
+    this.leftMenuOption = 'feed',
+    this.rightMenuOption = 'settings',
     required this.lastUpdate,
   });
 
