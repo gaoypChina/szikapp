@@ -29,23 +29,26 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       id: 'test001',
       taskID: 'test002',
       initiatorID: 'u067',
+      replaceTaskID: 'test003',
+      responderID: 'u069',
       lastUpdate: DateTime.now(),
     ),
-    /*CleaningExchange(
+    CleaningExchange(
       id: 'test003',
       taskID: 'test004',
       initiatorID: 'u066',
       lastUpdate: DateTime.now(),
-    ),*/
+    ),
   ];
 
   @override
   void initState() {
     super.initState();
-    _userHasActiveExchange = exchanges.any((element) =>
-        element.initiatorID == Provider.of<AuthManager>(context).user!.id);
     exchanges = _customSorted(testData);
     //exchanges = _customSorted(widget.manager.exchanges);  //TODO: uncomment
+    _userHasActiveExchange = exchanges.any((element) =>
+        element.initiatorID ==
+        Provider.of<AuthManager>(context, listen: false).user!.id);
   }
 
   @override
@@ -117,7 +120,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             ),
                           ),
                           Text(
-                            DateFormat('MM. dd.').format(DateTime.now()), //TODO
+                            DateFormat('MM. dd.')
+                                .format(DateTime.now()), //TODO: itemDate
                             style: theme.textTheme.bodyText1!.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -151,20 +155,9 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(kPaddingLarge),
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: Text(
-                                    'body',
-                                    style: TextStyle(
-                                      color: isOwnItem
-                                          ? theme.colorScheme.background
-                                          : theme.colorScheme.primaryContainer,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            child: isOwnItem
+                                ? _buildOwnItemBody(item)
+                                : _buildOtherItemBody(item),
                           ),
                         ],
                       ),
@@ -180,9 +173,239 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   Widget _buildNewExchangeTile() {
-    return Container(
-      height: 100,
-      color: Colors.red,
+    var theme = Theme.of(context);
+
+    /*
+    var exchangableItem = widget.manager.tasks.firstWhere((element) => element
+        .participantIDs
+        .contains(Provider.of<AuthManager>(context, listen: false).user!.id));
+*/
+    return Padding(
+      padding: const EdgeInsets.all(kPaddingNormal),
+      child: Container(
+        padding: const EdgeInsets.all(kPaddingLarge),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      Provider.of<AuthManager>(context).user!.name,
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: theme.colorScheme.background,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    DateFormat('MM. dd.')
+                        .format(DateTime.now()), //TODO: exchangableItem.start
+                    style: theme.textTheme.bodyText1!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: theme.colorScheme.background,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 2 * kPaddingLarge),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        _buildExchangeOfferDialog(
+                      DateTime.now(),
+                    ), //TODO: exchangableItem.start
+                  );
+                },
+                child: CustomIcon(
+                  CustomIcons.plus,
+                  size: theme.textTheme.headline3!.fontSize ?? 14,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOwnItemBody(CleaningExchange exchange) {
+    var theme = Theme.of(context);
+    var responses = exchanges.where((element) =>
+        element.initiatorID == Provider.of<AuthManager>(context).user!.id);
+    return Column(
+      children: [
+        ...responses.map((e) {
+          /*
+        var offeredItem =
+            widget.manager.tasks.firstWhere((element) => element.id == e.id);
+        */
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.surface,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(kPaddingNormal),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          Provider.of<SzikAppStateManager>(context)
+                              .users
+                              .firstWhere((element) =>
+                                  element.id == exchange.initiatorID)
+                              .name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                        ),
+                        Text(
+                          'Teszt vézna szövegecske, de hosszú',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.surface,
+                                fontStyle: FontStyle.italic,
+                              ),
+                        ),
+                        /* TODO: uncomment + string literals
+                      Text(
+                        '${'Ekkor'}: ${DateFormat('MM. dd.').format(offeredItem.start)}',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: Theme.of(context).colorScheme.surface,
+                              fontStyle: FontStyle.italic,
+                            ),
+                      ),
+                      Text(
+                        '${'Plusz feladat'}: ${offeredItem.description}',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: Theme.of(context).colorScheme.surface,
+                              fontStyle: FontStyle.italic,
+                            ),
+                      ), 
+                      */
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildExchangeRefuseDialog(
+                            DateTime.now(), //TODO: exchangableItem.start
+                            /*
+                          Provider.of<SzikAppStateManager>(context)
+                              .users
+                              .firstWhere(
+                                  (element) => element.id == e.initiatorID)
+                              .name,
+                          */
+                            'abc', //TODO: ^^^^
+                          ),
+                        );
+                      },
+                      icon: const CustomIcon(CustomIcons.closeOutlined),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildExchangeAcceptDialog(
+                            DateTime.now(), //TODO: exchangableItem.start
+                            /*
+                          Provider.of<SzikAppStateManager>(context)
+                              .users
+                              .firstWhere(
+                                  (element) => element.id == e.initiatorID)
+                              .name,
+                          */
+                            'abc', //TODO: ^^^^
+                          ),
+                        );
+                      },
+                      icon: const CustomIcon(CustomIcons.done),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.only(top: kPaddingNormal),
+            child: OutlinedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      _buildExchangeWithdrawDialog(
+                    DateTime.now(),
+                  ), //TODO: exchangableItem.start
+                );
+              },
+              style: theme.outlinedButtonTheme.style!.copyWith(
+                backgroundColor: MaterialStateColor.resolveWith(
+                    (states) => theme.colorScheme.primaryContainer),
+                side: MaterialStateBorderSide.resolveWith(
+                  (states) => BorderSide(color: theme.colorScheme.surface),
+                ),
+                shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                  (Set<MaterialState> states) => RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(kBorderRadiusSmall),
+                  ),
+                ),
+              ),
+              child: Text(
+                'abc', //TODO: string literal
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      color: Theme.of(context).colorScheme.surface,
+                      fontStyle: FontStyle.italic,
+                    ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOtherItemBody(CleaningExchange exchange) {
+    return const Center(
+      child: Text('Other'),
     );
   }
 
@@ -206,5 +429,52 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       }
     }
     return list;
+  }
+
+  Widget _buildExchangeOfferDialog(DateTime date) {
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_OFFER_TITLE'.tr(),
+      bodytext: DateFormat('MM. dd. - EEEE').format(date),
+      onWeakButtonClick: () => {}, //TODO: logic
+      onStrongButtonClick: () => {}, //TODO: logic
+    );
+  }
+
+  Widget _buildExchangeExchangeDialog(DateTime date) {
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_EXCHANGE_TITLE'.tr(),
+      bodytext: DateFormat('MM. dd. - EEEE').format(date),
+      onWeakButtonClick: () => {}, //TODO: logic
+      onStrongButtonClick: () => {}, //TODO: logic
+    );
+  }
+
+  Widget _buildExchangeWithdrawDialog(DateTime date) {
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_WITHDRAW_TITLE'.tr(),
+      bodytext: DateFormat('MM. dd. - EEEE').format(date),
+      onWeakButtonClick: () => {}, //TODO: logic
+      onStrongButtonClick: () => {}, //TODO: logic
+    );
+  }
+
+  Widget _buildExchangeAcceptDialog(DateTime date, String name) {
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
+      bodytext:
+          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()}: $name',
+      onWeakButtonClick: () => {}, //TODO: logic
+      onStrongButtonClick: () => {}, //TODO: logic
+    );
+  }
+
+  Widget _buildExchangeRefuseDialog(DateTime date, String name) {
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_REFUSE_TITLE'.tr(),
+      bodytext:
+          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()} $name',
+      onWeakButtonClick: () => {}, //TODO: logic
+      onStrongButtonClick: () => {}, //TODO: logic
+    );
   }
 }
