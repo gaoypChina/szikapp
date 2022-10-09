@@ -91,6 +91,7 @@ class NotificationManager extends ChangeNotifier {
       );
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        //TODO Check if it works
         if (message.notification != null) {
           _messages.add(message);
         }
@@ -109,6 +110,7 @@ class NotificationManager extends ChangeNotifier {
     io.saveFCMToken(token!);
   }
 
+  //Todo check if it works
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.

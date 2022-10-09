@@ -182,6 +182,8 @@ class AuthManager extends ChangeNotifier {
   /// adatstruktúrát.
   Future<void> signOut() async {
     try {
+      Settings.instance.savePreferences();
+      await pushUserUpdate();
       await _auth.signOut();
       await GoogleSignIn().signOut();
       _user = null;

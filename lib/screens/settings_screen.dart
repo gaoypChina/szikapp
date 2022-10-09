@@ -81,6 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       Settings.instance.darkMode =
           _preferDarkMode ? DarkMode.dark : DarkMode.light;
     }
+    Settings.instance.savePreferences();
   }
 
   void _onPreferDarkModeChanged(bool newValue) {
@@ -92,6 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       Settings.instance.darkMode = DarkMode.light;
     }
+    Settings.instance.savePreferences();
   }
 
   void _onLanguageChanged(String preferedLanguage) {
@@ -106,6 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     });
     Settings.instance.language = language;
+    Settings.instance.savePreferences();
   }
 
   void _onFeedShortcutsChanged(List<bool> newValues) {
@@ -114,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _feedShortcuts = intList;
     });
     Settings.instance.feedShortcuts = intList;
+    Settings.instance.savePreferences();
   }
 
   void _onNotificationsChanged(List<bool> newValues) {
@@ -130,6 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _notifications = enumValues;
     });
     Settings.instance.notificationSettings = enumValues;
+    Settings.instance.savePreferences();
   }
 
   @override
