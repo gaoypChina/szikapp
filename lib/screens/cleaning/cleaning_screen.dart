@@ -56,7 +56,7 @@ class _CleaningScreenState extends State<CleaningScreen> {
       case 0:
         return const CleaningApplyView();
       case 2:
-        return const CleaningExchangesView();
+        return CleaningExchangesView(manager: widget.manager);
       case 1:
       default:
         return const CleaningTasksView();
@@ -71,12 +71,19 @@ class _CleaningScreenState extends State<CleaningScreen> {
         onPressed: () => widget.manager.adminEdit(),
         typeToCreate: CleaningPeriod,
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.fromLTRB(
           kPaddingNormal,
-          kPaddingNormal,
+          kPaddingLarge,
           kPaddingNormal,
           0,
+        ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+            opacity: 0.5,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,7 +97,9 @@ class _CleaningScreenState extends State<CleaningScreen> {
               ],
               onChanged: _onTabChanged,
             ),
-            _buildBody(),
+            Expanded(
+              child: _buildBody(),
+            ),
           ],
         ),
       ),

@@ -107,7 +107,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
-  void refreshExchanges({bool approved = false}) async {
+  Future<void> refreshExchanges({bool approved = false}) async {
     try {
       var io = IO();
       var parameter = {'approved': approved.toString()};
