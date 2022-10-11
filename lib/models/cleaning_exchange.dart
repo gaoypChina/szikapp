@@ -16,10 +16,8 @@ class CleaningExchange implements Identifiable, Cachable {
   String initiatorID;
   @JsonKey(name: 'replace_task_id')
   String? replaceTaskID;
-  @JsonKey(name: 'responder_id')
-  String? responderID;
   bool approved;
-  List<Map<String, dynamic>>? rejected;
+  List<Json>? replacements;
   @override
   @JsonKey(name: 'last_update')
   DateTime lastUpdate;
@@ -29,9 +27,8 @@ class CleaningExchange implements Identifiable, Cachable {
     required this.taskID,
     required this.initiatorID,
     this.replaceTaskID,
-    this.responderID,
     this.approved = false,
-    this.rejected,
+    this.replacements,
     required this.lastUpdate,
   });
 

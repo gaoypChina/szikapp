@@ -177,7 +177,7 @@ class PollManager extends ChangeNotifier {
 
   /// Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
   /// hozza a szavazás eredményeit.
-  Map<String, dynamic> getResults({
+  Json getResults({
     required PollTask poll,
     required List<Group> groups,
   }) {

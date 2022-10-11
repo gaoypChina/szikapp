@@ -5,8 +5,6 @@ class CleaningTasksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('Tasks'),
-    );
+    return const Text('Tasks');
   }
 }
