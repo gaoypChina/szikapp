@@ -30,7 +30,18 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       taskID: 'test002',
       initiatorID: 'u067',
       replaceTaskID: 'test003',
-      responderID: 'u069',
+      replacements: [
+        {
+          'task_id': 'test004',
+          'replacer_id': 'u068',
+          'status': 'created',
+        },
+        {
+          'task_id': 'test005',
+          'replacer_id': 'u069',
+          'status': 'created',
+        },
+      ],
       lastUpdate: DateTime.now(),
     ),
     CleaningExchange(

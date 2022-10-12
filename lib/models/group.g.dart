@@ -31,7 +31,7 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'member_ids': instance.memberIDs,
       'max_member_count': instance.maxMemberCount,
       'permissions':
-          instance.permissions.map((e) => _$PermissionEnumMap[e]).toList(),
+          instance.permissions.map((e) => _$PermissionEnumMap[e]!).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
     };
 

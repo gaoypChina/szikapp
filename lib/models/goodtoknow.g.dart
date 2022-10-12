@@ -25,7 +25,7 @@ Map<String, dynamic> _$GoodToKnowToJson(GoodToKnow instance) =>
       'description': instance.description,
       'last_update': instance.lastUpdate.toIso8601String(),
       'title': instance.title,
-      'category': _$GoodToKnowCategoryEnumMap[instance.category],
+      'category': _$GoodToKnowCategoryEnumMap[instance.category]!,
       'key_value_pairs': instance.keyValuePairs,
     };
 

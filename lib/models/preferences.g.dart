@@ -29,9 +29,9 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
 
 Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
     <String, dynamic>{
-      'dark_mode': _$DarkModeEnumMap[instance.darkMode],
-      'language': _$LanguageEnumMap[instance.language],
-      'theme': _$SzikAppThemeEnumMap[instance.theme],
+      'dark_mode': _$DarkModeEnumMap[instance.darkMode]!,
+      'language': _$LanguageEnumMap[instance.language]!,
+      'theme': _$SzikAppThemeEnumMap[instance.theme]!,
       'notifications': instance.notifications,
       'feed_shortcuts': instance.feedShortcuts,
       'left_menu_option': instance.leftMenuOption,
