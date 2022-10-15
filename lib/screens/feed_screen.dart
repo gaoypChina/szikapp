@@ -26,37 +26,6 @@ class FeedScreen extends StatefulWidget {
 }
 
 class FeedScreenState extends State<FeedScreen> {
-  List<CustomNotification> notifications = [];
-
-  @override
-  void initState() {
-    super.initState();
-    var authManager = Provider.of<AuthManager>(context, listen: false);
-    if (authManager.isSignedIn && !authManager.isUserGuest) {
-      notifications = [
-        CustomNotification(
-          title: 'Belló konyhatakát cserélne veled',
-          route: SzikAppLink(),
-        ),
-        CustomNotification(
-          title: 'Sikeresen lefoglaltad a Catant',
-          route: SzikAppLink(),
-        ),
-        CustomNotification(
-          title: 'Gyuri kicserélte az égőt a szobádban',
-          route: SzikAppLink(),
-        ),
-      ];
-    }
-  }
-
-  void _onClearAllNotificationsPressed() {
-    NotificationManager.instance.dismissAllMessages();
-    setState(() {
-      notifications = [];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -67,6 +36,9 @@ class FeedScreenState extends State<FeedScreen> {
 
     var feedShortcuts = context.select(
       (Settings settings) => settings.feedShortcuts,
+    );
+    var notifications = context.select(
+      (NotificationManager manager) => manager.notifications,
     );
     return Container(
       padding: const EdgeInsets.fromLTRB(
@@ -167,7 +139,8 @@ class FeedScreenState extends State<FeedScreen> {
                 ),
                 Expanded(
                   child: IconButton(
-                    onPressed: _onClearAllNotificationsPressed,
+                    onPressed: () =>
+                        NotificationManager.instance.dismissAllMessages(),
                     icon: CustomIcon(
                       CustomIcons.closeOutlined,
                       color: theme.colorScheme.background,

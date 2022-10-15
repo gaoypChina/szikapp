@@ -161,6 +161,7 @@ class SZIKAppState extends State<SZIKApp> {
         ChangeNotifierProvider(create: (context) => _pollManager),
         ChangeNotifierProvider(create: (context) => _reservationManager),
         ChangeNotifierProvider(create: (context) => _settings),
+        ChangeNotifierProvider(create: (context) => _notificationManager),
       ],
       child: Consumer<Settings>(
         builder: (context, settings, child) {

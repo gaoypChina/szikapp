@@ -7,7 +7,6 @@ import '../utils/utils.dart';
 ///Handler az app megnyitásakor jelenlevő üzenetek feldolgozására.
 ///Az FCM követelményei szerint top-level függvény lehet csak.
 Future<void> _firebaseMessagingInitialHandler(RemoteMessage message) async {
-  //TODO Navigate to the right location
   if (message.notification != null) {
     NotificationManager.instance.addMessage(message);
   }
@@ -16,9 +15,9 @@ Future<void> _firebaseMessagingInitialHandler(RemoteMessage message) async {
 ///Handler a háttérben lévő appnak érkező üzenetek feldolgozására.
 ///Az FCM követelményei szerint top-level függvény lehet csak.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (message.notification != null) {
-    NotificationManager.instance.addMessage(message);
-  }
+  //TODO: Ha kell, akkor itt lehet előre feldolgozni az üzenetet.
+  //TODO: Viszont mivel itt nincs megnyitva az app, nincs context és semmi egyéb.
+  if (message.notification != null) {}
 }
 
 ///Értesítéseket kezelő singleton osztály. Szerver és kliens közti rétegként
@@ -50,6 +49,8 @@ class NotificationManager extends ChangeNotifier {
         result.add(CustomNotification(
           title: item.notification!.title ?? '',
           body: item.notification!.body,
+          //TODO: route implementálása
+          //TODO: iconPath implementálása
         ));
       }
     }
@@ -58,16 +59,19 @@ class NotificationManager extends ChangeNotifier {
 
   void addMessage(RemoteMessage message) {
     _messages.add(message);
+    notifyListeners();
   }
 
   void dismissMessage(CustomNotification message) {
     _messages.remove(_messages
         .firstWhere((element) => element.notification?.title == message.title));
+    notifyListeners();
   }
 
   //Call on the Feed Screen
   void dismissAllMessages() {
     _messages.removeRange(0, _messages.length);
+    notifyListeners();
   }
 
   Future<void> initialize() async {
@@ -81,7 +85,6 @@ class NotificationManager extends ChangeNotifier {
       sound: true,
     );
 
-    //TODO Check what happens when permissions are not given
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       await FirebaseMessaging.instance
           .setForegroundNotificationPresentationOptions(
@@ -91,9 +94,8 @@ class NotificationManager extends ChangeNotifier {
       );
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        //TODO Check if it works
         if (message.notification != null) {
-          _messages.add(message);
+          addMessage(message);
         }
       });
 
@@ -110,7 +112,6 @@ class NotificationManager extends ChangeNotifier {
     io.saveFCMToken(token!);
   }
 
-  //Todo check if it works
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
