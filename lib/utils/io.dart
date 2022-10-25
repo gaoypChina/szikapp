@@ -957,6 +957,9 @@ class IO {
     if (response.statusCode >= 500) {
       return IOServerException(response.statusCode,
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
+    } else if (response.statusCode == 409) {
+      return IOConflictException(
+          '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');
     } else if (response.statusCode >= 400) {
       return IOClientException(response.statusCode,
           '${response.statusCode.toString()}; ${utf8.decode(response.bodyBytes)}');

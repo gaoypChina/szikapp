@@ -1,5 +1,6 @@
 const int authExceptionCode = 610;
 const int ioNotModifiedExceptionCode = 304;
+const int ioConflictExceptionCode = 409;
 const int notValidPhoneExceptionCode = 921;
 const int nonHungarianPhoneExceptionCode = 922;
 const int notValidBirthdayExceptionCode = 923;
@@ -42,6 +43,10 @@ abstract class IOException extends BaseException {
 
 class IOServerException extends IOException {
   IOServerException(code, message) : super(code, message);
+}
+
+class IOConflictException extends IOException {
+  IOConflictException(message) : super(ioConflictExceptionCode, message);
 }
 
 class IOClientException extends IOException {

@@ -17,6 +17,8 @@
     "ERROR_HANDLER": null,
         "ERROR_HTTP_MESSAGE": "Hiba történt a szerverrel való kommunikációban.",
         "ERROR_HTTP_SOLUTION": "Kérlek próbáld újra.",
+        "ERROR_CONFLICT_MESSAGE": "Ez az erőforrás már foglalt.",
+        "ERROR_CONFLICT_SOLUTION": "Kérlek próbálkozz más paraméterekkel.",
         "ERROR_AUTH_MESSAGE": "Hiba történt az azonosításnál.",
         "ERROR_AUTH_SOLUTION": "Kérlek ellenőrizd, hogy jó adatokat adtál-e meg.",
         "ERROR_SZIKAPP_MESSAGE": "Hiba történt az alkalmazás használata közben.",

@@ -17,6 +17,8 @@
     "ERROR_HANDLER": null,
         "ERROR_HTTP_MESSAGE": "An error occured while communicating with the server.",
         "ERROR_HTTP_SOLUTION": "Please try again.",
+        "ERROR_CONFLICT_MESSAGE": "This resource is already in use.",
+        "ERROR_CONFLICT_SOLUTION": "Please try with different parameters.",
         "ERROR_AUTH_MESSAGE": "An error occured while authenticating your account.",
         "ERROR_AUTH_SOLUTION": "Please check you entered correct data.",
         "ERROR_SZIKAPP_MESSAGE": "An error occured while using the application.",

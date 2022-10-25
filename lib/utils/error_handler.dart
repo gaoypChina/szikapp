@@ -34,6 +34,11 @@ class ErrorInformation {
   }
   ErrorInformation.fromException(BaseException exception) {
     switch (exception.runtimeType) {
+      case IOConflictException:
+        errorCode = 409;
+        errorMessage = 'ERROR_CONFLICT_MESSAGE'.tr();
+        errorSolution = 'ERROR_CONFLICT_SOLUTION'.tr();
+        break;
       case IOServerException:
         errorCode = exception.code;
         errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
