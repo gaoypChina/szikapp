@@ -79,17 +79,11 @@ class ReservationCreateEditScreenState
     description = widget.isEdit ? widget.originalItem!.description : null;
     start = widget.isEdit
         ? widget.originalItem!.start
-        : DateTime.now()
-            .toUtc()
-            .roundDown()
-            .toLocal()
+        : _getCorrectLocalDate(widget.manager.selectedDate ?? DateTime.now())
             .add(const Duration(hours: 1));
     end = widget.isEdit
         ? widget.originalItem!.end
-        : DateTime.now()
-            .toUtc()
-            .roundDown()
-            .toLocal()
+        : _getCorrectLocalDate(widget.manager.selectedDate ?? DateTime.now())
             .add(const Duration(hours: 2));
 
     if (widget.manager.selectedMode == ReservationMode.place) {
@@ -103,6 +97,17 @@ class ReservationCreateEditScreenState
           widget.manager.accounts[widget.manager.selectedAccountIndex];
     }
     resourceIDs.add(selectedResource.id);
+  }
+
+  DateTime _getCorrectLocalDate(DateTime date) {
+    var now = DateTime.now();
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      now.hour,
+      now.minute,
+    ).toUtc().roundDown().toLocal();
   }
 
   String? _validateTextField(value) {
@@ -124,9 +129,11 @@ class ReservationCreateEditScreenState
   }
 
   void _onDateChanged(DateTime? date) {
+    widget.manager.selectDate(
+        DateTime(date!.year, date.month, date.day, start.hour, start.minute));
     setState(() {
       start =
-          DateTime(date!.year, date.month, date.day, start.hour, start.minute);
+          DateTime(date.year, date.month, date.day, start.hour, start.minute);
       end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
     });
   }

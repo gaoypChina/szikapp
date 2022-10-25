@@ -86,7 +86,7 @@ class ReservationDetails extends StatefulWidget {
 class _ReservationDetailsState extends State<ReservationDetails> {
   var _selectedMode = ReservationMode.none;
   var _resourceID = '';
-  var _currentDate = DateTime.now().toLocal();
+  late DateTime _currentDate;
 
   DateTime get _currentDateStart =>
       DateTime(_currentDate.year, _currentDate.month, _currentDate.day);
@@ -110,9 +110,12 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .accounts[widget.manager.selectedAccountIndex]
           .id;
     }
+    _currentDate =
+        widget.manager.selectedDate?.toLocal() ?? DateTime.now().toLocal();
   }
 
   void _onDateChanged(DateTime? date) {
+    widget.manager.selectDate(date);
     setState(() {
       _currentDate = date ?? DateTime.now().toLocal();
     });
