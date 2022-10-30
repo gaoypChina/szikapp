@@ -11,7 +11,6 @@ import '../../main.dart';
 import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
-import '../../utils/utils.dart';
 
 class PollCreateEditScreen extends StatefulWidget {
   static const String route = '/poll/createedit';
@@ -37,13 +36,14 @@ class PollCreateEditScreen extends StatefulWidget {
   }
 
   final bool isEdit;
+  final bool isRestrictedEdit;
   final PollTask? originalItem;
   final int index;
   final Function(PollTask) onCreate;
   final Function(PollTask, int) onDelete;
   final Function(PollTask, int) onUpdate;
 
-  const PollCreateEditScreen({
+  PollCreateEditScreen({
     Key? key,
     this.originalItem,
     this.index = -1,
@@ -51,6 +51,8 @@ class PollCreateEditScreen extends StatefulWidget {
     required this.onUpdate,
     required this.onDelete,
   })  : isEdit = (originalItem != null),
+        isRestrictedEdit = (originalItem != null) &&
+            originalItem.start.isBefore(DateTime.now()),
         super(key: key);
 
   @override
@@ -244,7 +246,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
         answerOptions: answerOptions,
         answers: [],
         feedbackOnAnswer: feedbackMessage,
-        isLive: DateTime.now().isInInterval(startDateTime, endDateTime),
+        isLive: true,
         isConfidential: isSecret,
         isMultipleChoice: isMultipleChoice,
         maxSelectableOptions: numberOfOptions,
@@ -321,7 +323,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                     onChanged: _onTitleChanged,
                     initialValue: title,
                     validator: _validateTextField,
-                    readOnly: widget.isEdit,
+                    readOnly: widget.isRestrictedEdit,
                     style: theme.textTheme.subtitle1?.copyWith(
                       color: theme.colorScheme.surface,
                       fontWeight: FontWeight.bold,
@@ -346,7 +348,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                         onChanged: _onQuestionChanged,
                         initialValue: question,
                         validator: _validateTextField,
-                        readOnly: widget.isEdit,
+                        readOnly: widget.isRestrictedEdit,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius:
@@ -395,7 +397,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                     onChanged: (newOption) =>
                                         _onAnswerOptionChanged(
                                             answerOption, newOption),
-                                    readOnly: widget.isEdit,
+                                    readOnly: widget.isRestrictedEdit,
                                     validator: _validateTextField,
                                     initialValue: answerOption,
                                     decoration: InputDecoration(
@@ -408,7 +410,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                   ),
                                 ),
                                 /*
-                                if (widget.isEdit == false)
+                                if (widget.isRestrictedEdit == false)
                                   IconButton(
                                     onPressed: () =>
                                         _onAnswerOptionDeleted(answerOption),
@@ -505,7 +507,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                 .toList()
                             : [],
                         onItemsChanged: _onParticipantGroupIDsChanged,
-                        readonly: widget.isEdit,
+                        readonly: widget.isRestrictedEdit,
                         compare: (i, s) => i!.isEqual(s),
                       ),
 
@@ -523,8 +525,9 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               alignment: Alignment.centerRight,
                               child: Switch(
                                 value: isSecret,
-                                onChanged:
-                                    widget.isEdit ? null : _onSecretPollChanged,
+                                onChanged: widget.isRestrictedEdit
+                                    ? null
+                                    : _onSecretPollChanged,
                                 activeColor: theme.colorScheme.primary,
                               ),
                             ),
@@ -546,7 +549,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               alignment: Alignment.centerRight,
                               child: Switch(
                                 value: isMultipleChoice,
-                                onChanged: widget.isEdit
+                                onChanged: widget.isRestrictedEdit
                                     ? null
                                     : _onMultipleChoiceChanged,
                                 activeColor: theme.colorScheme.primary,
@@ -569,7 +572,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               const SizedBox(width: kPaddingLarge),
                               Expanded(
                                 child: TextFormField(
-                                  readOnly: widget.isEdit,
+                                  readOnly: widget.isRestrictedEdit,
                                   onChanged: _onNumberOfOptionsChanged,
                                   initialValue: numberOfOptions.toString(),
                                   validator: _validateTextField,
