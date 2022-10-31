@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
+import '../../main.dart';
 import '../../models/models.dart';
 import '../../navigation/app_state_manager.dart';
 import '../../ui/themes.dart';
@@ -110,13 +111,17 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                           ],
                         )
                       : ElevatedButton(
-                          onPressed: (() => widget.manager.addVote(
+                          onPressed: () {
+                            SzikAppState.analytics.logEvent(name: 'poll_vote');
+                            widget.manager.addVote(
                               Vote(
                                 voterID: user.id,
                                 votes: _selected,
                                 lastUpdate: DateTime.now(),
                               ),
-                              widget.poll)),
+                              widget.poll,
+                            );
+                          },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.resolveWith<
                                 OutlinedBorder>(
@@ -171,8 +176,11 @@ class _PollDetailsViewState extends State<PollDetailsView> {
               Padding(
                 padding: const EdgeInsets.only(left: kPaddingLarge),
                 child: GestureDetector(
-                  onTap: () => widget.manager
-                      .editPoll(widget.manager.indexOf(widget.poll)),
+                  onTap: () {
+                    SzikAppState.analytics.logEvent(name: 'poll_open_edit');
+                    widget.manager
+                        .editPoll(widget.manager.indexOf(widget.poll));
+                  },
                   child: const CustomIcon(CustomIcons.pencil),
                 ),
               ),

@@ -144,7 +144,7 @@ class ContactsListViewState extends State<ContactsListView>
   ///és megjeleníti a találatokat.
   void _onMembersTapped(Group? group) {
     var newItems = widget.manager.findMembers([group?.id]);
-    SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
+    SzikAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
       _users = newItems;
       _selectedTab = 0;
@@ -156,10 +156,7 @@ class ContactsListViewState extends State<ContactsListView>
   void _copyToClipBoard(String? text, String message) {
     if (text == null) return;
     Clipboard.setData(ClipboardData(text: text)).then((_) {
-      SZIKAppState.analytics.logEvent(
-        name: 'copy_to_clipboard',
-        parameters: <String, dynamic>{'message': message},
-      );
+      SzikAppState.analytics.logEvent(name: 'copy_to_clipboard');
       _showSnackBar(message);
     });
   }
@@ -341,12 +338,7 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     if (item.phone != null) {
                       try {
-                        SZIKAppState.analytics.logEvent(
-                          name: 'phone_call',
-                          parameters: <String, dynamic>{
-                            'country': item.phone!.padLeft(5)
-                          },
-                        );
+                        SzikAppState.analytics.logEvent(name: 'phone_call');
                         widget.manager.makePhoneCall(item.phone!);
                       } on NotSupportedCallFunctionalityException catch (e) {
                         _showSnackBar(e.message);
@@ -375,12 +367,7 @@ class ContactsListViewState extends State<ContactsListView>
                 GestureDetector(
                   onTap: () {
                     try {
-                      SZIKAppState.analytics.logEvent(
-                        name: 'make_email',
-                        parameters: <String, dynamic>{
-                          'domain': item.email.split('@').last
-                        },
-                      );
+                      SzikAppState.analytics.logEvent(name: 'make_email');
                       widget.manager.makeEmail(item.email);
                     } on NotSupportedEmailFunctionalityException catch (e) {
                       _showSnackBar(e.message);
@@ -486,12 +473,7 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     if (item.email != null) {
                       try {
-                        SZIKAppState.analytics.logEvent(
-                          name: 'make_email',
-                          parameters: <String, dynamic>{
-                            'domain': item.email!.split('@').last
-                          },
-                        );
+                        SzikAppState.analytics.logEvent(name: 'make_email');
                         widget.manager.makeEmail(item.email!);
                       } on NotSupportedEmailFunctionalityException catch (e) {
                         _showSnackBar(e.message);

@@ -122,7 +122,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   }
 
   void _onCreateTask() {
-    SZIKAppState.analytics.logEvent(name: 'create_open_reservation_task');
+    SzikAppState.analytics.logEvent(name: 'reservation_open_create');
     if (_selectedMode == ReservationMode.place) {
       widget.manager
           .createNewPlaceReservation(widget.manager.selectedPlaceIndex);
@@ -135,7 +135,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   }
 
   void _onEditTask(int reservationIndex) {
-    SZIKAppState.analytics.logEvent(name: 'edit_reservation_task');
+    SzikAppState.analytics.logEvent(name: 'reservation_open_edit');
     widget.manager.setSelectedReservationTask(
       widget.manager.reservations[reservationIndex].id,
     );

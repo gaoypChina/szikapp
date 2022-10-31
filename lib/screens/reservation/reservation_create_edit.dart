@@ -206,7 +206,7 @@ class ReservationCreateEditScreenState
         ],
         resourceIDs: resourceIDs,
       );
-      SZIKAppState.analytics.logEvent(name: 'create_sent_reservation');
+      SzikAppState.analytics.logEvent(name: 'reservation_create');
       widget.onCreate(task);
     }
   }
@@ -219,13 +219,13 @@ class ReservationCreateEditScreenState
       task.start = start;
       task.end = end;
 
-      SZIKAppState.analytics.logEvent(name: 'edit_sent_reservation');
+      SzikAppState.analytics.logEvent(name: 'reservation_edit');
       widget.onUpdate(task, widget.index);
     }
   }
 
   void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_reservation_task');
+    SzikAppState.analytics.logEvent(name: 'reservation_delete');
     widget.onDelete(widget.originalItem!, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
   }
