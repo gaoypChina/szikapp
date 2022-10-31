@@ -35,7 +35,7 @@ class ErrorInformation {
   ErrorInformation.fromException(BaseException exception) {
     switch (exception.runtimeType) {
       case IOConflictException:
-        errorCode = 409;
+        errorCode = exception.code;
         errorMessage = 'ERROR_CONFLICT_MESSAGE'.tr();
         errorSolution = 'ERROR_CONFLICT_SOLUTION'.tr();
         break;
@@ -65,7 +65,7 @@ class ErrorInformation {
     }
   }
   factory ErrorInformation.unknown() {
-    return ErrorInformation.fromCode(informationlessExceptionCode);
+    return ErrorInformation.fromCode(unknownExceptionCode);
   }
 }
 

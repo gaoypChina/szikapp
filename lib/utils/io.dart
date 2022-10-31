@@ -56,6 +56,7 @@ class IO {
 
   IO._privateContructor();
 
+  ///Instance getter. Visszaadja a singleton példányt.
   static IO get instance => _instance;
 
   ///[http.Client], ami összefogja az appból indított kéréseket
@@ -844,6 +845,7 @@ class IO {
     throw _handleErrors(response);
   }
 
+  ///Lekéri az elérhető közösségi média és egyéb online fiókok listáját.
   Future<List<Account>> getAccount([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_accountEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -862,6 +864,7 @@ class IO {
     throw _handleErrors(response);
   }
 
+  ///Hozzáad egy új közös online fiókot.
   Future<bool> postAccount(Account data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_accountEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -873,6 +876,7 @@ class IO {
     throw _handleErrors(response);
   }
 
+  ///Módosítja egy közös online fiók adatait.
   Future<bool> putAccount(Account data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -884,6 +888,7 @@ class IO {
     throw _handleErrors(response);
   }
 
+  ///Töröl egy közös online fiókot.
   Future<bool> deleteAccount(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_accountEndpoint?';

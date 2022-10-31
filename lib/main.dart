@@ -88,7 +88,7 @@ class SzikAppState extends State<SzikApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
+    } on PlatformException {
       await SzikAppState.analytics.logEvent(name: 'error_connectivity_package');
       return;
     }

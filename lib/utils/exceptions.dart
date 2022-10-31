@@ -1,18 +1,18 @@
-const int authExceptionCode = 610;
 const int ioNotModifiedExceptionCode = 304;
 const int ioConflictExceptionCode = 409;
+const int authExceptionCode = 610;
+const int routeExceptionCode = 710;
+const int dynamicLinkExceptionCode = 720;
+const int notImplementedExceptionCode = 730;
+const int socketExceptionCode = 810;
+const int noConnectionExceptionCode = 820;
 const int notValidPhoneExceptionCode = 921;
 const int nonHungarianPhoneExceptionCode = 922;
 const int notValidBirthdayExceptionCode = 923;
 const int notSupportedCallFunctionalityExceptionCode = 931;
 const int notSupportedEmailFunctionalityExceptionCode = 932;
-const int routeExceptionCode = 710;
-const int dynamicLinkExceptionCode = 720;
-const int socketExceptionCode = 810;
-const int notImplementedExceptionCode = 730;
-const int noConnectionExceptionCode = 820;
-const int unknownCatchedExceptionCode = 1000;
-const int informationlessExceptionCode = 1010;
+const int notSupportedBrowserFunctionalityExceptionCode = 933;
+const int unknownExceptionCode = 1000;
 
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
@@ -99,5 +99,5 @@ class NotSupportedEmailFunctionalityException extends FunctionalityException {
 
 class NotSupportedBrowserFunctionalityException extends FunctionalityException {
   NotSupportedBrowserFunctionalityException(message)
-      : super(notSupportedEmailFunctionalityExceptionCode, message);
+      : super(notSupportedBrowserFunctionalityExceptionCode, message);
 }
