@@ -29,7 +29,7 @@ class InvitationScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ListScreenShimmer();
         } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
+          if (SzikAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
               errorInset: ErrorHandler.buildInset(
                 context,

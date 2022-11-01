@@ -66,7 +66,7 @@ class JanitorAdminScreenState extends State<JanitorAdminScreen> {
   }
 
   void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_delete');
     widget.onDelete(widget.originalItem, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
   }
@@ -84,7 +84,7 @@ class JanitorAdminScreenState extends State<JanitorAdminScreen> {
       var newItem = widget.originalItem;
       newItem.status = status!;
       newItem.answer = answer;
-      SZIKAppState.analytics.logEvent(name: 'edit_admin_sent_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_admin_edit');
       widget.onUpdate(newItem, widget.index);
     }
   }

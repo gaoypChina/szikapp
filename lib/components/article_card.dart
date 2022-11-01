@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import '../models/resource.dart';
 import '../ui/themes.dart';
 import '../utils/methods.dart';
@@ -51,7 +52,10 @@ class ArticleCard extends StatelessWidget {
                   style: theme.textTheme.caption,
                 ),
                 OutlinedButton(
-                  onPressed: () => openUrl(data.url),
+                  onPressed: () {
+                    SzikAppState.analytics.logEvent(name: 'article_open');
+                    openUrl(data.url);
+                  },
                   child: Text(
                     'BUTTON_SEE_MORE'.tr(),
                     style: theme.textTheme.button!.copyWith(fontSize: 12),

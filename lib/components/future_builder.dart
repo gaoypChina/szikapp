@@ -27,7 +27,7 @@ class CustomFutureBuilder<T> extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return shimmer;
         } else if (snapshot.hasError) {
-          if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
+          if (SzikAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
               errorInset: ErrorHandler.buildInset(
                 context,

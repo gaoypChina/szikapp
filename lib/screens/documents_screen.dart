@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
+import '../main.dart';
 import '../models/goodtoknow.dart';
 import '../ui/themes.dart';
 
@@ -103,6 +104,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
             );
           },
         );
+        SzikAppState.analytics.logEvent(name: 'document_open');
       },
       child: Container(
         width: double.infinity,
