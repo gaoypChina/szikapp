@@ -8,7 +8,7 @@ part of 'cleaning_period.dart';
 
 CleaningPeriod _$CleaningPeriodFromJson(Map<String, dynamic> json) =>
     CleaningPeriod(
-      id: json['id'] as String,
+      id: json['uid'] as String,
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
       isLive: json['is_live'] as bool? ?? false,
@@ -17,7 +17,7 @@ CleaningPeriod _$CleaningPeriodFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CleaningPeriodToJson(CleaningPeriod instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'uid': instance.id,
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
       'is_live': instance.isLive,

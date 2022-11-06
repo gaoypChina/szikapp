@@ -10,6 +10,7 @@ part 'cleaning_period.g.dart';
 @JsonSerializable()
 class CleaningPeriod implements Identifiable, Cachable {
   @override
+  @JsonKey(name: 'uid')
   String id;
   DateTime start;
   DateTime end;

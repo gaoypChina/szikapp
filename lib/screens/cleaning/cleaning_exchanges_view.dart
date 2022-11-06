@@ -24,39 +24,11 @@ class CleaningExchangesView extends StatefulWidget {
 class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   bool _userHasActiveExchange = false;
   List<CleaningExchange> exchanges = [];
-  List<CleaningExchange> testData = [
-    CleaningExchange(
-      id: 'test001',
-      taskID: 'test002',
-      initiatorID: 'u067',
-      replaceTaskID: 'test003',
-      replacements: [
-        {
-          'task_id': 'test004',
-          'replacer_id': 'u068',
-          'status': 'created',
-        },
-        {
-          'task_id': 'test005',
-          'replacer_id': 'u069',
-          'status': 'created',
-        },
-      ],
-      lastUpdate: DateTime.now(),
-    ),
-    CleaningExchange(
-      id: 'test003',
-      taskID: 'test004',
-      initiatorID: 'u066',
-      lastUpdate: DateTime.now(),
-    ),
-  ];
 
   @override
   void initState() {
     super.initState();
-    exchanges = _customSorted(testData);
-    //exchanges = _customSorted(widget.manager.exchanges);  //TODO: uncomment
+    exchanges = _customSorted(widget.manager.exchanges);
     _userHasActiveExchange = exchanges.any((element) =>
         element.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
@@ -84,12 +56,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                children: testData.map<ToggleListItem>((item) {
-                  /* TODO: uncomment
+                children: exchanges.map<ToggleListItem>((item) {
                   var itemDate = widget.manager.tasks
                       .firstWhere((element) => element.id == item.taskID)
                       .start;
-                  */
+
                   var isOwnItem = Provider.of<AuthManager>(context).user!.id ==
                       item.initiatorID;
                   return ToggleListItem(
@@ -131,8 +102,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             ),
                           ),
                           Text(
-                            DateFormat('MM. dd.')
-                                .format(DateTime.now()), //TODO: itemDate
+                            DateFormat('MM. dd.').format(itemDate),
                             style: theme.textTheme.bodyText1!.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -185,12 +155,9 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   Widget _buildNewExchangeTile() {
     var theme = Theme.of(context);
-
-    /*
     var exchangableItem = widget.manager.tasks.firstWhere((element) => element
         .participantIDs
         .contains(Provider.of<AuthManager>(context, listen: false).user!.id));
-*/
     return Padding(
       padding: const EdgeInsets.all(kPaddingNormal),
       child: Container(
@@ -219,8 +186,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     ),
                   ),
                   Text(
-                    DateFormat('MM. dd.')
-                        .format(DateTime.now()), //TODO: exchangableItem.start
+                    DateFormat('MM. dd.').format(exchangableItem.start),
                     style: theme.textTheme.bodyText1!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -237,9 +203,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        _buildExchangeOfferDialog(
-                      DateTime.now(),
-                    ), //TODO: exchangableItem.start
+                        _buildExchangeOfferDialog(exchangableItem.start),
                   );
                 },
                 child: CustomIcon(
@@ -257,55 +221,54 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   Widget _buildOwnItemBody(CleaningExchange exchange) {
     var theme = Theme.of(context);
-    var responses = exchanges.where((element) =>
-        element.initiatorID == Provider.of<AuthManager>(context).user!.id);
     return Column(
       children: [
-        ...responses.map((e) {
-          /*
-        var offeredItem =
-            widget.manager.tasks.firstWhere((element) => element.id == e.id);
-        */
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.surface,
+        if (exchange.replacements != null)
+          ...exchange.replacements!.map((replacement) {
+            var replacementTask = widget.manager.tasks
+                .firstWhere((element) => element.id == replacement['task_id']);
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(kPaddingNormal),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          Provider.of<SzikAppStateManager>(context)
-                              .users
-                              .firstWhere((element) =>
-                                  element.id == exchange.initiatorID)
-                              .name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                        ),
-                        Text(
-                          'Teszt vézna szövegecske, de hosszú',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.surface,
-                                fontStyle: FontStyle.italic,
-                              ),
-                        ),
-                        /* TODO: uncomment + string literals
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(kPaddingNormal),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Provider.of<SzikAppStateManager>(context)
+                                .users
+                                .firstWhere(
+                                  (element) =>
+                                      element.id == replacement['replacer_id'],
+                                )
+                                .name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                          ),
+                          Text(
+                            'Teszt vézna szövegecske, de hosszú', //TODO string literal
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                          ),
+                          /* TODO string literal
                       Text(
                         '${'Ekkor'}: ${DateFormat('MM. dd.').format(offeredItem.start)}',
                         style: Theme.of(context).textTheme.subtitle1!.copyWith(
@@ -321,59 +284,56 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             ),
                       ), 
                       */
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              _buildExchangeRefuseDialog(
-                            DateTime.now(), //TODO: exchangableItem.start
-                            /*
-                          Provider.of<SzikAppStateManager>(context)
-                              .users
-                              .firstWhere(
-                                  (element) => element.id == e.initiatorID)
-                              .name,
-                          */
-                            'abc', //TODO: ^^^^
-                          ),
-                        );
-                      },
-                      icon: const CustomIcon(CustomIcons.closeOutlined),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              _buildExchangeAcceptDialog(
-                            DateTime.now(), //TODO: exchangableItem.start
-                            /*
-                          Provider.of<SzikAppStateManager>(context)
-                              .users
-                              .firstWhere(
-                                  (element) => element.id == e.initiatorID)
-                              .name,
-                          */
-                            'abc', //TODO: ^^^^
-                          ),
-                        );
-                      },
-                      icon: const CustomIcon(CustomIcons.done),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }).toList(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildExchangeRefuseDialog(
+                              replacementTask.start,
+                              Provider.of<SzikAppStateManager>(context)
+                                  .users
+                                  .firstWhere((element) =>
+                                      element.id == replacement['replacer_id'])
+                                  .name,
+                            ),
+                          );
+                        },
+                        icon: const CustomIcon(CustomIcons.closeOutlined),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildExchangeAcceptDialog(
+                              replacementTask.start,
+                              Provider.of<SzikAppStateManager>(context)
+                                  .users
+                                  .firstWhere(
+                                    (element) =>
+                                        element.id ==
+                                        replacement['replacer_id'],
+                                  )
+                                  .name,
+                            ),
+                          );
+                        },
+                        icon: const CustomIcon(CustomIcons.done),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
         Align(
           alignment: Alignment.centerRight,
           child: Padding(
@@ -383,9 +343,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      _buildExchangeWithdrawDialog(
-                    DateTime.now(),
-                  ), //TODO: exchangableItem.start
+                      _buildExchangeWithdrawDialog(widget.manager.tasks
+                          .firstWhere(
+                              (element) => element.id == exchange.taskID)
+                          .start),
                 );
               },
               style: theme.outlinedButtonTheme.style!.copyWith(
@@ -401,7 +362,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 ),
               ),
               child: Text(
-                'abc', //TODO: string literal
+                'CLEANING_BUTTON_WITHDRAW'.tr(),
                 style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       color: Theme.of(context).colorScheme.surface,
                       fontStyle: FontStyle.italic,
@@ -415,21 +376,77 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   Widget _buildOtherItemBody(CleaningExchange exchange) {
-    return const Center(
-      child: Text('Other'),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(kPaddingNormal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'DEF', //TODO
+                  /*
+                  Provider.of<SzikAppStateManager>(context)
+                      .users
+                      .firstWhere(
+                          (element) => element.id == exchange.initiatorID)
+                      .name,
+                      */
+                  style: Theme.of(context).textTheme.headline3!.copyWith(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                ),
+                Text(
+                  'Teszt vézna szövegecske, de hosszú', //TODO string literal
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        fontStyle: FontStyle.italic,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            icon: CustomIcon(
+              CustomIcons.done,
+              size: kIconSizeLarge,
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => _buildExchangeExchangeDialog(
+                  widget.manager.tasks
+                      .firstWhere((element) => element.id == exchange.taskID)
+                      .start,
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
   Future<void> _onManualRefresh() async {
     await widget.manager.refreshExchanges();
     setState(() {
-      //exchanges = List.from(widget.manager.exchanges); //TODO: uncomment
-      exchanges = testData;
-      _customSorted(exchanges);
+      _customSorted(widget.manager.exchanges);
     });
   }
 
   List<CleaningExchange> _customSorted(List<CleaningExchange> list) {
+    list = List.from(list);
     var ownItems = list.where((element) =>
         element.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
@@ -473,7 +490,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()}: $name',
+          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()} $name',
       onWeakButtonClick: () => {}, //TODO: logic
       onStrongButtonClick: () => {}, //TODO: logic
     );

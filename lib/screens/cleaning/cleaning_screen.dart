@@ -9,10 +9,8 @@ import 'cleaning_apply_view.dart';
 import 'cleaning_exchanges_view.dart';
 import 'cleaning_tasks_view.dart';
 
-class CleaningScreen extends StatefulWidget {
+class CleaningScreen extends StatelessWidget {
   static const String route = '/cleaning';
-
-  final KitchenCleaningManager manager;
 
   static MaterialPage page({required KitchenCleaningManager manager}) {
     return MaterialPage(
@@ -22,16 +20,42 @@ class CleaningScreen extends StatefulWidget {
     );
   }
 
+  final KitchenCleaningManager manager;
+
   const CleaningScreen({
     Key? key,
     required this.manager,
   }) : super(key: key);
 
   @override
-  State<CleaningScreen> createState() => _CleaningScreenState();
+  Widget build(BuildContext context) {
+    return CustomFutureBuilder<void>(
+      future: _allRefresh(),
+      shimmer: const ListScreenShimmer(),
+      child: CleaningScreenView(manager: manager),
+    );
+  }
+
+  Future<void> _allRefresh() async {
+    await manager.refreshPeriods();
+    await manager.refreshTasks();
+    await manager.refreshExchanges();
+  }
 }
 
-class _CleaningScreenState extends State<CleaningScreen> {
+class CleaningScreenView extends StatefulWidget {
+  const CleaningScreenView({
+    Key? key,
+    required this.manager,
+  }) : super(key: key);
+
+  final KitchenCleaningManager manager;
+
+  @override
+  State<CleaningScreenView> createState() => _CleaningScreenViewState();
+}
+
+class _CleaningScreenViewState extends State<CleaningScreenView> {
   bool isApplyingLive = false;
   int _selectedTab = 0;
 

@@ -9,6 +9,7 @@ part 'cleaning_exchange.g.dart';
 @JsonSerializable()
 class CleaningExchange implements Identifiable, Cachable {
   @override
+  @JsonKey(name: 'uid')
   String id;
   @JsonKey(name: 'task_id')
   String taskID;

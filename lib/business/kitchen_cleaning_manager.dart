@@ -85,7 +85,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
-  void refreshTasks({DateTime? start, DateTime? end}) async {
+  Future<void> refreshTasks({DateTime? start, DateTime? end}) async {
     if (_cleaningPeriods.isEmpty) refreshPeriods();
 
     start ??= DateTime.now().subtract(const Duration(days: 1));
@@ -120,13 +120,12 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb konyhatakarítási
   ///periódus listát. Alapértelmezetten csak a jelenleg aktív periódust
   ///szinkronizálja.
-  void refreshPeriods({DateTime? start, DateTime? end}) async {
+  Future<void> refreshPeriods({DateTime? start, DateTime? end}) async {
     start ??= DateTime.now();
-    end ??= DateTime.now();
+    //TODO
 
     var parameter = {
       'start': start.toIso8601String(),
-      'end': end.toIso8601String()
     };
 
     try {
