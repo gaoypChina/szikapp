@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_list/toggle_list.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../main.dart';
-import '../models/tasks.dart';
-import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/tasks.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../ui/themes.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
@@ -79,18 +79,18 @@ class JanitorListViewState extends State<JanitorListView> {
   }
 
   void _onCreateTask() {
-    SZIKAppState.analytics.logEvent(name: 'create_open_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_open_create');
     widget.manager.createNewTask();
   }
 
   void _onEditPressed(JanitorTask task) {
-    SZIKAppState.analytics.logEvent(name: 'edit_open_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_open_edit');
     var index = widget.manager.indexOf(task);
     widget.manager.editTask(index);
   }
 
   void _onEditJanitorPressed(JanitorTask task) {
-    SZIKAppState.analytics.logEvent(name: 'edit_admin_open_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_open_admin_edit');
     var index = widget.manager.indexOf(task);
     widget.manager.adminEditTask(index);
   }
@@ -98,7 +98,7 @@ class JanitorListViewState extends State<JanitorListView> {
   void _onFeedbackPressed(JanitorTask task) {
     if (task.status == TaskStatus.awaitingApproval ||
         task.status == TaskStatus.approved) {
-      SZIKAppState.analytics.logEvent(name: 'feedback_open_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_open_feedback');
       var index = widget.manager.indexOf(task);
       widget.manager.feedbackTask(index);
     }
@@ -106,7 +106,7 @@ class JanitorListViewState extends State<JanitorListView> {
 
   void _onApprovePressed(JanitorTask task) {
     if (task.status == TaskStatus.awaitingApproval) {
-      SZIKAppState.analytics.logEvent(name: 'approve_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_approve');
       widget.manager.updateStatus(TaskStatus.approved, task);
     }
   }
@@ -246,7 +246,7 @@ class JanitorListViewState extends State<JanitorListView> {
                               ),
                               _buildRow(
                                 label: 'JANITOR_LABEL_STATUS'.tr(),
-                                value: item.status.toString(),
+                                value: item.status.name.tr(),
                               ),
                               if (item.answer != null)
                                 _buildRow(

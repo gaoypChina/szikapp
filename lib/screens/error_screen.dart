@@ -39,11 +39,9 @@ class ErrorScreenState extends State<ErrorScreen> {
   @override
   void initState() {
     super.initState();
-    SZIKAppState.analytics.logEvent(
+    SzikAppState.analytics.logEvent(
       name: 'error_screen_show',
-      parameters: <String, dynamic>{
-        'message': widget.error.toString(),
-      },
+      parameters: {'message': widget.error.toString()},
     );
   }
 

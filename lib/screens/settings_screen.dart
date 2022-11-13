@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/link.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
@@ -342,6 +343,98 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onChanged: _onFeedShortcutsChanged,
                 ),
               ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.colorScheme.secondaryContainer,
+                    offset: const Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'SETTINGS_FEEDBACK'.tr(),
+                      style: theme.textTheme.headline3!.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Link(
+                      uri: Uri.parse('mailto:szikapp@gmail.com'),
+                      target: LinkTarget.defaultTarget,
+                      builder: (context, followLink) {
+                        return InkWell(
+                          onTap: followLink,
+                          child: Text(
+                            'SETTINGS_FEEDBACK_EMAIL'.tr(),
+                            style: theme.textTheme.bodyText1!.copyWith(
+                              color: theme.colorScheme.secondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Link(
+                      uri: Uri.parse('https://forms.gle/N1UrjXHg4S38wC3NA'),
+                      target: LinkTarget.defaultTarget,
+                      builder: (context, followLink) {
+                        return InkWell(
+                          onTap: followLink,
+                          child: Text(
+                            'SETTINGS_NORMAL_FEEDBACK'.tr(),
+                            style: theme.textTheme.bodyText1!.copyWith(
+                              color: theme.colorScheme.secondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Link(
+                      uri: Uri.parse('https://forms.gle/GJNgJzTW8b5Ec6Zv6'),
+                      target: LinkTarget.defaultTarget,
+                      builder: (context, followLink) {
+                        return InkWell(
+                          onTap: followLink,
+                          child: Text(
+                            'SETTINGS_BUGREPORT'.tr(),
+                            style: theme.textTheme.bodyText1!.copyWith(
+                              color: theme.colorScheme.secondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

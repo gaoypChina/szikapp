@@ -23,6 +23,14 @@ List<bool> intListToBool(List<int> intList, int length) {
   return boolList;
 }
 
+extension StringExtension on String {
+  ///Extension function on [String]s to correct [Textoverflow.ellipsis] behaviour
+  ///on flexible text widgets.
+  String useCorrectEllipsis() {
+    return replaceAll('', '\u200b');
+  }
+}
+
 extension CustomDateTimeExtension on DateTime {
   DateTime roundDown({Duration delta = const Duration(hours: 1)}) {
     return DateTime.fromMillisecondsSinceEpoch(
@@ -34,17 +42,20 @@ extension CustomDateTimeExtension on DateTime {
     return ((this).isAfter(start) && (this).isBefore(end));
   }
 
-  String readableRemainingTime() {
+  String readableRemainingTime({String until = ''}) {
     var difference = this.difference(DateTime.now());
     var answer = '';
     if (difference.isNegative) {
       answer = 'NO_TIME_LEFT'.tr();
-    } else if (difference.inDays > 0) {
-      answer = 'DAYS_LEFT'.tr(args: [difference.inDays.toString()]);
-    } else if (difference.inHours > 0) {
-      answer = 'HOURS_LEFT'.tr(args: [difference.inHours.toString()]);
-    } else if (difference.inMinutes > 0) {
-      answer = 'MINUTES_LEFT'.tr(args: [difference.inMinutes.toString()]);
+    } else {
+      if (difference.inDays > 0) {
+        answer = 'DAYS_LEFT'.tr(args: [difference.inDays.toString(), until]);
+      } else if (difference.inHours > 0) {
+        answer = 'HOURS_LEFT'.tr(args: [difference.inHours.toString(), until]);
+      } else {
+        answer =
+            'MINUTES_LEFT'.tr(args: [difference.inMinutes.toString(), until]);
+      }
     }
     return answer;
   }

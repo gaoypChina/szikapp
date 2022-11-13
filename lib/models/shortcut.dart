@@ -15,6 +15,7 @@ class Shortcut {
   });
 }
 
+/// List of shortcuts. Keep in sync with SzikappFeatures. Order matters.
 Map<int, Shortcut> shortcutData = <int, Shortcut>{
   SzikAppFeature.calendar: Shortcut(
     assetPath: CustomIcons.calendar,
@@ -60,5 +61,10 @@ Map<int, Shortcut> shortcutData = <int, Shortcut>{
     assetPath: CustomIcons.settings,
     feature: SzikAppFeature.settings,
     name: 'SETTINGS_TITLE'.tr(),
+  ),
+  SzikAppFeature.bookrental: Shortcut(
+    assetPath: CustomIcons.library,
+    feature: SzikAppFeature.bookrental,
+    name: 'BOOKRENTAL_TITLE'.tr(),
   ),
 };

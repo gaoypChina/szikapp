@@ -2,40 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../main.dart';
-import '../models/models.dart';
-import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
-import '../utils/utils.dart';
-
-const List<TimeOfDay> hours = [
-  TimeOfDay(hour: 0, minute: 0),
-  TimeOfDay(hour: 1, minute: 0),
-  TimeOfDay(hour: 2, minute: 0),
-  TimeOfDay(hour: 3, minute: 0),
-  TimeOfDay(hour: 4, minute: 0),
-  TimeOfDay(hour: 5, minute: 0),
-  TimeOfDay(hour: 6, minute: 0),
-  TimeOfDay(hour: 7, minute: 0),
-  TimeOfDay(hour: 8, minute: 0),
-  TimeOfDay(hour: 9, minute: 0),
-  TimeOfDay(hour: 10, minute: 0),
-  TimeOfDay(hour: 11, minute: 0),
-  TimeOfDay(hour: 12, minute: 0),
-  TimeOfDay(hour: 13, minute: 0),
-  TimeOfDay(hour: 14, minute: 0),
-  TimeOfDay(hour: 15, minute: 0),
-  TimeOfDay(hour: 16, minute: 0),
-  TimeOfDay(hour: 17, minute: 0),
-  TimeOfDay(hour: 18, minute: 0),
-  TimeOfDay(hour: 19, minute: 0),
-  TimeOfDay(hour: 20, minute: 0),
-  TimeOfDay(hour: 21, minute: 0),
-  TimeOfDay(hour: 22, minute: 0),
-  TimeOfDay(hour: 23, minute: 0),
-];
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/models.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../ui/themes.dart';
+import '../../utils/utils.dart';
 
 class ReservationDetailsScreen extends StatelessWidget {
   static const String route = '/reservation/details';
@@ -86,7 +59,7 @@ class ReservationDetails extends StatefulWidget {
 class _ReservationDetailsState extends State<ReservationDetails> {
   var _selectedMode = ReservationMode.none;
   var _resourceID = '';
-  var _currentDate = DateTime.now().toLocal();
+  late DateTime _currentDate;
 
   DateTime get _currentDateStart =>
       DateTime(_currentDate.year, _currentDate.month, _currentDate.day);
@@ -110,16 +83,19 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           .accounts[widget.manager.selectedAccountIndex]
           .id;
     }
+    _currentDate =
+        widget.manager.selectedDate?.toLocal() ?? DateTime.now().toLocal();
   }
 
   void _onDateChanged(DateTime? date) {
+    widget.manager.selectDate(date);
     setState(() {
       _currentDate = date ?? DateTime.now().toLocal();
     });
   }
 
   void _onCreateTask() {
-    SZIKAppState.analytics.logEvent(name: 'create_open_reservation_task');
+    SzikAppState.analytics.logEvent(name: 'reservation_open_create');
     if (_selectedMode == ReservationMode.place) {
       widget.manager
           .createNewPlaceReservation(widget.manager.selectedPlaceIndex);
@@ -132,7 +108,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   }
 
   void _onEditTask(int reservationIndex) {
-    SZIKAppState.analytics.logEvent(name: 'edit_reservation_task');
+    SzikAppState.analytics.logEvent(name: 'reservation_open_edit');
     widget.manager.setSelectedReservationTask(
       widget.manager.reservations[reservationIndex].id,
     );

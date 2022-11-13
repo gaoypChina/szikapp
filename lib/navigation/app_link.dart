@@ -7,10 +7,11 @@ class SzikAppLink {
   static const String kErrorPath = '/error';
   static const String kFeedPath = '/feed';
   static const String kHomePath = '/';
-  static const String kJanitorEditAdminPath = '/janitor/adminedit';
+  static const String kJanitorEditAdminPath = '/janitor/admin';
   static const String kJanitorCreateEditPath = '/janitor/createedit';
   static const String kJanitorPath = '/janitor';
   static const String kKitchenCleaningPath = '/cleaning';
+  static const String kKitchenCleaningAdminPath = '/cleaning/admin';
   static const String kInvitationPath = '/invitation';
   static const String kMenuPath = '/menu';
   static const String kPollPath = '/poll';
@@ -113,6 +114,13 @@ class SzikAppLink {
         return loc;
       case kKitchenCleaningPath:
         var loc = '$kKitchenCleaningPath?';
+        loc += addKeyValPair(
+          key: kFeatureParam,
+          value: currentFeature.toString(),
+        );
+        return loc;
+      case kKitchenCleaningAdminPath:
+        var loc = '$kKitchenCleaningAdminPath?';
         loc += addKeyValPair(
           key: kFeatureParam,
           value: currentFeature.toString(),

@@ -2,12 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../models/permission.dart';
-import '../navigation/navigation.dart';
-import '../ui/themes.dart';
-import '../utils/utils.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/permission.dart';
+import '../../navigation/navigation.dart';
+import '../../ui/themes.dart';
+import '../../utils/utils.dart';
 
 class ProfileScreenView extends StatefulWidget {
   final AuthManager manager;
@@ -79,6 +80,8 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         setState(() {
           changed = false;
         });
+        await widget.manager.pullUserUpdate();
+        SzikAppState.analytics.logEvent(name: 'profile_update');
       }
     } on NotValidPhoneException {
       setState(() {
@@ -98,6 +101,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
       phone = widget.manager.user!.phone;
       changed = false;
     });
+    SzikAppState.analytics.logEvent(name: 'profile_update_cancelled');
   }
 
   List<Widget> _buildActionButtons() {
@@ -164,9 +168,10 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () =>
-                      Provider.of<AuthManager>(context, listen: false)
-                          .signOut(),
+                  onPressed: () {
+                    SzikAppState.analytics.logEvent(name: 'sign_out');
+                    Provider.of<AuthManager>(context, listen: false).signOut();
+                  },
                   icon: CustomIcon(
                     CustomIcons.logout,
                     size: kIconSizeSmall,

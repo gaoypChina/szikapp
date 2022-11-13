@@ -4,12 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../models/models.dart';
-import '../ui/themes.dart';
-import '../utils/utils.dart';
-import 'poll_dialog.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/models.dart';
+import '../../ui/themes.dart';
+import '../../utils/utils.dart';
+import 'poll_details_view.dart';
 
 class PollScreen extends StatelessWidget {
   static const String route = '/poll';
@@ -69,12 +70,12 @@ class PollTileViewState extends State<PollTileView> {
   }
 
   void _onCreatePoll() {
+    SzikAppState.analytics.logEvent(name: 'poll_open_create');
     widget.manager.createNewPoll();
   }
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'POLL_TITLE'.tr(),
       floatingActionButton: CustomFloatingActionButton(
@@ -114,63 +115,75 @@ class PollTileViewState extends State<PollTileView> {
                           : 2,
                       crossAxisSpacing: kPaddingNormal,
                       mainAxisSpacing: kPaddingNormal,
-                      children: _polls.map<GestureDetector>((poll) {
-                        return GestureDetector(
-                          onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => PollDialog(
-                              poll: poll,
-                              manager: widget.manager,
-                            ),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadiusNormal),
-                              color: poll.isLive &&
-                                      poll.end.isAfter(DateTime.now())
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.secondaryContainer,
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.all(kBorderRadiusNormal),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    child: Text(
-                                      poll.question,
-                                      style:
-                                          theme.textTheme.subtitle1?.copyWith(
-                                        color: theme.colorScheme.surface,
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: kPaddingNormal,
-                                  ),
-                                  Text(
-                                    poll.isLive
-                                        ? poll.end.readableRemainingTime()
-                                        : 'POLL_CLOSED'.tr(),
-                                    style: theme.textTheme.subtitle1?.copyWith(
-                                      color: theme.colorScheme.primaryContainer,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      children: _buildPolls(context),
                     ),
                   ),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildPolls(BuildContext context) {
+    var theme = Theme.of(context);
+    return _polls.map<GestureDetector>((poll) {
+      String timeInformation;
+      if (poll.isLive) {
+        if (poll.start.isAfter(DateTime.now())) {
+          timeInformation =
+              poll.start.readableRemainingTime(until: 'UNTIL_START'.tr());
+        } else {
+          timeInformation =
+              poll.end.readableRemainingTime(until: 'UNTIL_END'.tr());
+        }
+      } else {
+        timeInformation = 'POLL_CLOSED'.tr();
+      }
+      return GestureDetector(
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => PollDetailsView(
+            poll: poll,
+            manager: widget.manager,
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+            color:
+                poll.isLive && DateTime.now().isInInterval(poll.start, poll.end)
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.secondaryContainer,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(kBorderRadiusNormal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    poll.question,
+                    style: theme.textTheme.subtitle1?.copyWith(
+                      color: theme.colorScheme.surface,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: kPaddingNormal,
+                ),
+                Text(
+                  timeInformation,
+                  style: theme.textTheme.subtitle1?.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }).toList();
   }
 }

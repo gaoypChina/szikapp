@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/components.dart';
-import '../main.dart';
-import '../models/tasks.dart';
-import '../navigation/app_state_manager.dart';
-import '../ui/themes.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../models/tasks.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../ui/themes.dart';
 
-class JanitorEditAdminScreen extends StatefulWidget {
-  static const String route = '/janitor/adminedit';
+class JanitorAdminScreen extends StatefulWidget {
+  static const String route = '/janitor/admin';
 
   static MaterialPage page({
     required JanitorTask item,
@@ -20,7 +20,7 @@ class JanitorEditAdminScreen extends StatefulWidget {
     return MaterialPage(
       name: route,
       key: const ValueKey(route),
-      child: JanitorEditAdminScreen(
+      child: JanitorAdminScreen(
         originalItem: item,
         index: index,
         onDelete: onDelete,
@@ -34,7 +34,7 @@ class JanitorEditAdminScreen extends StatefulWidget {
   final JanitorTask originalItem;
   final int index;
 
-  const JanitorEditAdminScreen({
+  const JanitorAdminScreen({
     Key? key,
     required this.onDelete,
     required this.onUpdate,
@@ -43,10 +43,10 @@ class JanitorEditAdminScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  JanitorEditAdminScreenState createState() => JanitorEditAdminScreenState();
+  JanitorAdminScreenState createState() => JanitorAdminScreenState();
 }
 
-class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
+class JanitorAdminScreenState extends State<JanitorAdminScreen> {
   final _formKey = GlobalKey<FormState>();
   TaskStatus? status;
   String answer = '';
@@ -66,7 +66,7 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
   }
 
   void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_delete');
     widget.onDelete(widget.originalItem, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
   }
@@ -84,7 +84,7 @@ class JanitorEditAdminScreenState extends State<JanitorEditAdminScreen> {
       var newItem = widget.originalItem;
       newItem.status = status!;
       newItem.answer = answer;
-      SZIKAppState.analytics.logEvent(name: 'edit_admin_sent_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_admin_edit');
       widget.onUpdate(newItem, widget.index);
     }
   }

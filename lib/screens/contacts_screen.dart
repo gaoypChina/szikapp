@@ -75,9 +75,15 @@ class ContactsListViewState extends State<ContactsListView>
     with SingleTickerProviderStateMixin {
   ///Megjelenített kontaktok
   List<User> _users = [];
+
+  ///Megjelenített csoportok
   List<Group> _groups = [];
 
+  ///A kiválasztott tab
   int _selectedTab = 0;
+
+  ///A szűrt csoportok
+  List<String> _groupFilter = [];
 
   ///Létrehozásnál lekéri a [Contacts] singletont és megjeleníti az összes
   ///adatbázisban szereplő kontaktot.
@@ -95,26 +101,50 @@ class ContactsListViewState extends State<ContactsListView>
       var newItems = widget.manager.search(query);
       setState(() {
         _users = newItems;
+        _groupFilter = [];
       });
     } else {
       var newItems = widget.manager.findGroup(query);
       setState(() {
         _groups = newItems;
+        _groupFilter = [];
       });
     }
   }
 
   void _onTabChanged(int? newTab) {
+    _groupFilter = [];
+    _users = widget.manager.contacts;
     setState(() {
       _selectedTab = newTab ?? 0;
+    });
+  }
+
+  void _onMembersFilterChanged(bool? newValue, String group) {
+    if (newValue != null && newValue) {
+      _groupFilter.add(group);
+    } else {
+      _groupFilter.remove(group);
+    }
+    var newItems = widget.manager.findMembers(_groupFilter);
+    setState(() {
+      _users = newItems;
+      _selectedTab = 0;
+    });
+  }
+
+  void _onMembersFilterCleared() {
+    setState(() {
+      _groupFilter = [];
+      _users = widget.manager.contacts;
     });
   }
 
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onMembersTapped(Group? group) {
-    var newItems = widget.manager.findMembers(group?.id ?? '');
-    SZIKAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
+    var newItems = widget.manager.findMembers([group?.id]);
+    SzikAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
       _users = newItems;
       _selectedTab = 0;
@@ -126,10 +156,7 @@ class ContactsListViewState extends State<ContactsListView>
   void _copyToClipBoard(String? text, String message) {
     if (text == null) return;
     Clipboard.setData(ClipboardData(text: text)).then((_) {
-      SZIKAppState.analytics.logEvent(
-        name: 'copy_to_clipboard',
-        parameters: <String, dynamic>{'message': message},
-      );
+      SzikAppState.analytics.logEvent(name: 'copy_to_clipboard');
       _showSnackBar(message);
     });
   }
@@ -163,13 +190,7 @@ class ContactsListViewState extends State<ContactsListView>
             onChanged: _onSearchFieldChanged,
             validator: _validateTextField,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
-            filter: TabChoice(
-              labels: [
-                'CONTACTS_TITLE'.tr(),
-                'GROUPS_TITLE'.tr(),
-              ],
-              onChanged: _onTabChanged,
-            ),
+            filter: _buildFilter(),
           ),
           Expanded(
             child: _users.isEmpty
@@ -195,6 +216,78 @@ class ContactsListViewState extends State<ContactsListView>
                     ),
                   ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFilter() {
+    var theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.secondaryContainer.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+      ),
+      child: Column(
+        children: [
+          TabChoice(
+            labels: [
+              'CONTACTS_TITLE'.tr(),
+              'GROUPS_TITLE'.tr(),
+            ],
+            onChanged: _onTabChanged,
+          ),
+          if (_selectedTab == 0)
+            Row(
+              children: [
+                Checkbox(
+                  activeColor: theme.colorScheme.primary,
+                  value: _groupFilter.contains('g100'),
+                  onChanged: (value) => _onMembersFilterChanged(value, 'g100'),
+                ),
+                Text(
+                  'CONTACTS_GROUP_MEMBERS'.tr(),
+                  style: theme.textTheme.headline3!.copyWith(
+                    fontSize: 14,
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
+              ],
+            ),
+          if (_selectedTab == 0)
+            Row(
+              children: [
+                Checkbox(
+                  activeColor: theme.colorScheme.primary,
+                  value: _groupFilter.contains('g106'),
+                  onChanged: (value) => _onMembersFilterChanged(value, 'g106'),
+                ),
+                Text(
+                  'CONTACTS_GROUP_TENANTS'.tr(),
+                  style: theme.textTheme.headline3!.copyWith(
+                    fontSize: 14,
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
+              ],
+            ),
+          if (_selectedTab == 0)
+            Row(
+              children: [
+                Checkbox(
+                  activeColor: theme.colorScheme.primary,
+                  value: _groupFilter.isEmpty,
+                  onChanged: (value) => _onMembersFilterCleared(),
+                ),
+                Text(
+                  'CONTACTS_GROUP_ALL'.tr(),
+                  style: theme.textTheme.headline3!.copyWith(
+                    fontSize: 14,
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -245,12 +338,7 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     if (item.phone != null) {
                       try {
-                        SZIKAppState.analytics.logEvent(
-                          name: 'phone_call',
-                          parameters: <String, dynamic>{
-                            'country': item.phone!.padLeft(5)
-                          },
-                        );
+                        SzikAppState.analytics.logEvent(name: 'phone_call');
                         widget.manager.makePhoneCall(item.phone!);
                       } on NotSupportedCallFunctionalityException catch (e) {
                         _showSnackBar(e.message);
@@ -279,12 +367,7 @@ class ContactsListViewState extends State<ContactsListView>
                 GestureDetector(
                   onTap: () {
                     try {
-                      SZIKAppState.analytics.logEvent(
-                        name: 'make_email',
-                        parameters: <String, dynamic>{
-                          'domain': item.email.split('@').last
-                        },
-                      );
+                      SzikAppState.analytics.logEvent(name: 'make_email');
                       widget.manager.makeEmail(item.email);
                     } on NotSupportedEmailFunctionalityException catch (e) {
                       _showSnackBar(e.message);
@@ -390,12 +473,7 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     if (item.email != null) {
                       try {
-                        SZIKAppState.analytics.logEvent(
-                          name: 'make_email',
-                          parameters: <String, dynamic>{
-                            'domain': item.email!.split('@').last
-                          },
-                        );
+                        SzikAppState.analytics.logEvent(name: 'make_email');
                         widget.manager.makeEmail(item.email!);
                       } on NotSupportedEmailFunctionalityException catch (e) {
                         _showSnackBar(e.message);

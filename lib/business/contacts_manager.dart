@@ -85,13 +85,15 @@ class ContactsManager {
 
   ///Szűrés. A függvény a megadott csoport azonosító alapján visszaadja a
   ///csoport tagjait. Ha az azonosító üres, a teljes listával tér vissza.
-  List<User> findMembers(String groupID) {
-    if (groupID == '') {
+  List<User> findMembers(List<String?> groupIDs) {
+    if (groupIDs.isEmpty) {
       return contacts;
     } else {
       var results = <User>[];
       for (var item in contacts) {
-        if (item.groupIDs.contains(groupID)) results.add(item);
+        for (var id in groupIDs) {
+          if (item.groupIDs.contains(id)) results.add(item);
+        }
       }
       return results;
     }

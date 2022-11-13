@@ -1,4 +1,4 @@
-///[SZIKApp] is an awesome application made in Flutter for the lovely people
+///[SzikApp] is an awesome application made in Flutter for the lovely people
 ///in da SZIK.
 import 'dart:async';
 import 'dart:io';
@@ -44,24 +44,24 @@ void main() async {
       fallbackLocale: const Locale('en'),
       saveLocale: false,
       useOnlyLangCode: true,
-      child: const SZIKApp(),
+      child: const SzikApp(),
     ),
   );
 }
 
 ///Az applikáció
-class SZIKApp extends StatefulWidget {
-  const SZIKApp({Key key = const Key('SzikApp')}) : super(key: key);
+class SzikApp extends StatefulWidget {
+  const SzikApp({Key key = const Key('SzikApp')}) : super(key: key);
 
   @override
-  SZIKAppState createState() => SZIKAppState();
+  SzikAppState createState() => SzikAppState();
 }
 
 ///Az applikáció állapota. A [runApp] függvény meghívásakor jön létre és a
 ///program futása során megmarad. Így statikus változóként tartalmazza azokat
 ///az adatokat, amelyekre bármikor és funkciótól függetlenül szükség lehet
 ///a futás során.
-class SZIKAppState extends State<SZIKApp> {
+class SzikAppState extends State<SzikApp> {
   final _appStateManager = SzikAppStateManager();
   final _authManager = AuthManager();
   final _calendarManager = CalendarManager();
@@ -90,9 +90,8 @@ class SZIKAppState extends State<SZIKApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      await SZIKAppState.analytics
-          .logEvent(name: 'PACKAGE_ERROR', parameters: {'error': e.toString()});
+    } on PlatformException {
+      await SzikAppState.analytics.logEvent(name: 'error_connectivity_package');
       return;
     }
 

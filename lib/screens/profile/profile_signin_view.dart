@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../components/components.dart';
-import '../main.dart';
-import '../navigation/app_state_manager.dart';
-import '../utils/utils.dart';
+import '../../business/business.dart';
+import '../../components/components.dart';
+import '../../main.dart';
+import '../../navigation/app_state_manager.dart';
+import '../../utils/utils.dart';
 
 class SignInScreenView extends StatefulWidget {
   const SignInScreenView({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _SignInScreenViewState extends State<SignInScreenView> {
   }
 
   void _onPressed(SignInMethod method) {
-    if (SZIKAppState.connectionStatus == ConnectivityResult.none) {
+    if (SzikAppState.connectionStatus == ConnectivityResult.none) {
       Provider.of<SzikAppStateManager>(context, listen: false)
           .setError(NoConnectionException('ERROR_NO_INTERNET'.tr()));
     } else {
@@ -50,14 +50,19 @@ class _SignInScreenViewState extends State<SignInScreenView> {
               onAgreePressed: () {
                 Provider.of<AuthManager>(context, listen: false)
                     .signIn(method: method);
+                SzikAppState.analytics.logEvent(name: 'sign_in');
                 Navigator.pop(context);
               },
-              onDisagreePressed: () => Navigator.pop(context),
+              onDisagreePressed: () {
+                SzikAppState.analytics.logEvent(name: 'sign_in_abort_gdpr');
+                Navigator.pop(context);
+              },
             );
           },
         );
       } else {
         Provider.of<AuthManager>(context, listen: false).signIn(method: method);
+        SzikAppState.analytics.logEvent(name: 'sign_in');
       }
     }
   }

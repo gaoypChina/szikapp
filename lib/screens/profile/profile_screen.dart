@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/auth_manager.dart';
-import '../components/components.dart';
-import '../navigation/navigation.dart';
+import '../../business/auth_manager.dart';
+import '../../components/components.dart';
+import '../../navigation/navigation.dart';
+import '../progress_screen.dart';
 import 'profile_profile_view.dart';
 import 'profile_signin_view.dart';
-import 'progress_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String route = '/me';
