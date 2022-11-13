@@ -1,6 +1,6 @@
-# SZIKapp
+# SzikApp
 
-SZIK projekt a 2020/21-es tanév őszi félévében.
+SZIK projekt, immár negyedik féléve.
 
 [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 ![develop](https://github.com/csertant/szikapp/workflows/test/badge.svg?branch=develop)

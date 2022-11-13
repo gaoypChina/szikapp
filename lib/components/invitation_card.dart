@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import '../models/tasks.dart';
 import '../ui/themes.dart';
 import '../utils/methods.dart';
@@ -43,7 +44,10 @@ class InvitationCard extends StatelessWidget {
                   style: theme.textTheme.caption,
                 ),
                 OutlinedButton(
-                  onPressed: () => openUrl(data.url ?? ''),
+                  onPressed: () {
+                    SzikAppState.analytics.logEvent(name: 'invitation_open');
+                    openUrl(data.url ?? '');
+                  },
                   child: Text(
                     'BUTTON_DETAILS'.tr(),
                     style: theme.textTheme.button!.copyWith(fontSize: 12),

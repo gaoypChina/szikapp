@@ -24,6 +24,7 @@ class ReservationManager extends ChangeNotifier {
   int _selectedMode = ReservationMode.none;
   bool _createNewReservation = false;
   bool _editReservation = false;
+  DateTime? _selectedDate;
 
   ///Singleton osztálypéldány
   static final ReservationManager _instance =
@@ -51,6 +52,7 @@ class ReservationManager extends ChangeNotifier {
       selectedIndex != -1 ? _accounts[_selectedAccount] : null;
   bool get isCreatingNewReservation => _createNewReservation;
   bool get isEditingReservation => _editReservation;
+  DateTime? get selectedDate => _selectedDate;
 
   void createNewReservation({
     int gameIndex = -1,
@@ -92,6 +94,11 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectDate(DateTime? date) {
+    _selectedDate = date;
+    notifyListeners();
+  }
+
   void editReservation(
     int index, {
     int gameIndex = -1,
@@ -125,6 +132,7 @@ class ReservationManager extends ChangeNotifier {
   }
 
   void unselectMode() {
+    _selectedDate = null;
     _selectedMode = ReservationMode.none;
     notifyListeners();
   }
@@ -150,6 +158,7 @@ class ReservationManager extends ChangeNotifier {
     _selectedAccount = -1;
     _createNewReservation = false;
     _editReservation = false;
+    _selectedDate = null;
     notifyListeners();
   }
 

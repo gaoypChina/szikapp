@@ -118,7 +118,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
       );
       task.status = TaskStatus.sent;
 
-      SZIKAppState.analytics.logEvent(name: 'create_sent_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_create');
       widget.onCreate(task);
     }
   }
@@ -141,13 +141,13 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
 
       task.placeID = placeID!;
 
-      SZIKAppState.analytics.logEvent(name: 'edit_sent_janitor_task');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_edit');
       widget.onUpdate(task, widget.index);
     }
   }
 
   void _onAcceptDelete() {
-    SZIKAppState.analytics.logEvent(name: 'delete_janitor_task');
+    SzikAppState.analytics.logEvent(name: 'janitor_task_delete');
     widget.onDelete(widget.originalItem!, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/preferences.dart';
+import '../models/models.dart';
 import '../utils/io.dart';
 
 ///Felhasználói beállításokat implementáló osztály. Specifikus interfészt
@@ -47,18 +47,13 @@ class Settings extends ChangeNotifier {
   bool get dataLite => _preferences.getBool('dataLite') ?? false;
 
   ///Lekéri a felhasználó értesítés beállításait.
-  Map<String, bool> get notificationSettings {
-    var enabled = _preferences.getStringList('enabled') ?? [];
-    var disabled = _preferences.getStringList('disabled') ?? [];
-    var result = <String, bool>{};
-
-    for (var element in enabled) {
-      result.putIfAbsent(element, () => true);
+  List<NotificationTopic> get notificationSettings {
+    var enabled = _preferences.getStringList('notificationsEnabled') ?? [];
+    var result = <NotificationTopic>[];
+    for (var item in enabled) {
+      result.add(NotificationTopic.values
+          .firstWhere((element) => element.toString() == item));
     }
-    for (var element in disabled) {
-      result.putIfAbsent(element, () => false);
-    }
-
     return result;
   }
 
@@ -103,18 +98,16 @@ class Settings extends ChangeNotifier {
   }
 
   ///Elmenti a felhasználó értesítés beállításait.
-  set notificationSettings(Map<String, bool>? notifications) {
+  set notificationSettings(List<NotificationTopic> notifications) {
     var enabled = <String>[];
-    var disabled = <String>[];
 
-    for (var key in notifications!.keys) {
-      notifications[key] == true ? enabled.add(key) : disabled.add(key);
+    for (var item in notifications) {
+      enabled.add(item.toString());
     }
 
-    Future.wait([
-      _preferences.setStringList('disabled', disabled),
-      _preferences.setStringList('enabled', enabled)
-    ]).then((_) => notifyListeners());
+    _preferences
+        .setStringList('notificationsEnabled', enabled)
+        .then((_) => notifyListeners());
   }
 
   set feedShortcuts(List<int> shortcuts) {

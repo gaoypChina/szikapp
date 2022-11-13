@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
+import '../main.dart';
 import '../models/models.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
@@ -54,6 +55,7 @@ class FeedScreenState extends State<FeedScreen> {
     setState(() {
       notifications = [];
     });
+    SzikAppState.analytics.logEvent(name: 'notifications_clear_all');
   }
 
   @override
