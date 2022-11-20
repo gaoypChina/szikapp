@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.1.4+247
+version: 1.1.4+248
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -34,6 +34,7 @@ dependencies:
   uuid: ^3.0.6
   sign_in_with_apple: ^4.1.0
   crypto: ^3.0.2
+  table_calendar: ^3.0.8
 
 
 dev_dependencies:
