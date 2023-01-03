@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import '../utils/types.dart';
 import 'interfaces.dart';
+import 'models.dart';
 
 part 'cleaning_exchange.g.dart';
 
@@ -15,10 +17,8 @@ class CleaningExchange implements Identifiable, Cachable {
   String taskID;
   @JsonKey(name: 'initiator_id')
   String initiatorID;
-  @JsonKey(name: 'replace_task_id')
-  String? replaceTaskID;
-  bool approved;
-  List<Json>? replacements;
+  TaskStatus status;
+  List<Json> replacements;
   @override
   @JsonKey(name: 'last_update')
   DateTime lastUpdate;
@@ -27,9 +27,8 @@ class CleaningExchange implements Identifiable, Cachable {
     required this.id,
     required this.taskID,
     required this.initiatorID,
-    this.replaceTaskID,
-    this.approved = false,
-    this.replacements,
+    this.status = TaskStatus.created,
+    this.replacements = const [],
     required this.lastUpdate,
   });
 
