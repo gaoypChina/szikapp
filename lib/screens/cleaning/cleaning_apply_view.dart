@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../business/business.dart';
-import '../../main.dart';
 import '../../models/tasks.dart';
 import '../../navigation/app_state_manager.dart';
 import '../../ui/themes.dart';
@@ -47,7 +46,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
-      print("onDaySelected");
+      print('onDaySelected');
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
@@ -165,7 +164,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                           child: Text(Provider.of<SzikAppStateManager>(context,
                                   listen: false)
                               .users
-                              .firstWhere((element) => element.id == "u066")
+                              .firstWhere((element) => element.id == 'u066')
                               .name),
                         )
                       ],
