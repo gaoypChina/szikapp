@@ -63,7 +63,15 @@ class ReservationGamesList extends StatelessWidget {
               children: manager.games
                   .map(
                     (item) => Card(
-                      elevation: 5,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(kBorderRadiusNormal),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1,
+                        ),
+                      ),
                       color: Theme.of(context).colorScheme.background,
                       child: GestureDetector(
                         onTap: () => Provider.of<ReservationManager>(context,

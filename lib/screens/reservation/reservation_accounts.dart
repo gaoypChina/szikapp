@@ -195,6 +195,9 @@ class ReservationAccountList extends StatelessWidget {
                                               manager.selectAccount(
                                             manager.accounts.indexOf(item),
                                           ),
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                          ),
                                           child: Text(
                                             'RESERVATION_ACCOUNT_BUTTON_LIST'
                                                 .tr(),

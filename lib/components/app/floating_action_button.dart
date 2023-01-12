@@ -21,6 +21,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     return user!.hasPermissionToCreate(typeToCreate)
         ? FloatingActionButton(
             onPressed: onPressed,
+            elevation: 0,
             child: ConstrainedBox(
               constraints: const BoxConstraints.expand(
                 width: kIconSizeLarge,

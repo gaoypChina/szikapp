@@ -70,7 +70,7 @@ ThemeData szikDarkThemeData = ThemeData(
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: szikEden,
       backgroundColor: szikSilver,
-      elevation: 10,
+      elevation: 0,
       splashColor: szikSilverChalice),
   //navigationRailTheme: null,
   //typography: null,

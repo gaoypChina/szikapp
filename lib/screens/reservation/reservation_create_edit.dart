@@ -502,6 +502,9 @@ class ReservationCreateEditScreenState
                         Expanded(
                           child: ElevatedButton(
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                            ),
                             child: Text(
                               widget.isEdit
                                   ? 'BUTTON_SAVE'.tr()
