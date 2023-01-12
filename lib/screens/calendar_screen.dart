@@ -29,9 +29,10 @@ class CalendarScreen extends StatelessWidget {
             style: theme.textTheme.headline2,
             textAlign: TextAlign.center,
           ),
-          url:
-              'https://calendar.google.com/calendar/u/1/r?cid=c3plbnRpZ25hYy5odV91c3M2YzJldGMzaDExbmRsZmQyMm5oMXBqZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t',
-          urlText: 'CALENDAR_LINK_TEXT'.tr(),
+          urls: const [
+            'https://calendar.google.com/calendar/u/1/r?cid=c3plbnRpZ25hYy5odV91c3M2YzJldGMzaDExbmRsZmQyMm5oMXBqZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
+          ],
+          urlTexts: ['CALENDAR_LINK_TEXT'.tr()],
         ));
   }
 }

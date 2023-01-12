@@ -5,15 +5,15 @@ import '../ui/themes.dart';
 import 'custom_icon.dart';
 
 class FeatureLinkPage extends StatelessWidget {
-  final String url;
-  final String urlText;
+  final List<String> urls;
+  final List<String> urlTexts;
   final String icon;
   final Widget? description;
 
   const FeatureLinkPage({
     Key? key,
-    required this.url,
-    required this.urlText,
+    required this.urls,
+    required this.urlTexts,
     required this.icon,
     this.description,
   }) : super(key: key);
@@ -33,22 +33,25 @@ class FeatureLinkPage extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
           description ?? Container(),
-          Link(
-            uri: Uri.parse(url),
-            target: LinkTarget.defaultTarget,
-            builder: (context, followLink) {
-              return InkWell(
-                onTap: followLink,
-                child: Text(
-                  urlText,
-                  style: theme.textTheme.bodyText1!.copyWith(
-                    color: theme.colorScheme.primary,
-                    decoration: TextDecoration.underline,
+          const SizedBox(height: kPaddingNormal),
+          ...urls.map((url) {
+            return Link(
+              uri: Uri.parse(url),
+              target: LinkTarget.defaultTarget,
+              builder: (context, followLink) {
+                return InkWell(
+                  onTap: followLink,
+                  child: Text(
+                    urlTexts[urls.indexOf(url)],
+                    style: theme.textTheme.bodyText1!.copyWith(
+                      color: theme.colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            );
+          }).toList(),
         ],
       ),
     );

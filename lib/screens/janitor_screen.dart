@@ -25,9 +25,10 @@ class JanitorScreen extends StatelessWidget {
       appBarTitle: 'JANITOR_TITLE'.tr(),
       body: FeatureLinkPage(
         icon: CustomIcons.wrench,
-        url:
-            'https://docs.google.com/spreadsheets/d/1v-g9gMaGB9En4YVNiWaa-cnYq5ehp-HMM_iDwNlrln0/edit',
-        urlText: 'JANITOR_TITLE_SPREADSHEET'.tr(),
+        urls: const [
+          'https://docs.google.com/spreadsheets/d/1v-g9gMaGB9En4YVNiWaa-cnYq5ehp-HMM_iDwNlrln0/edit'
+        ],
+        urlTexts: ['JANITOR_TITLE_SPREADSHEET'.tr()],
         description: Text(
           'JANITOR_DESCRIPTION'.tr(),
           style: theme.textTheme.headline2,
