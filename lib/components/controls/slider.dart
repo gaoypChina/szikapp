@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
-import 'components.dart';
+import '../../ui/themes.dart';
+import '../components.dart';
 
 class CustomSlider extends StatefulWidget {
   ///A csúszka címe

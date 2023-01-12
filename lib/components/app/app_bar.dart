@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business/business.dart';
-import '../navigation/navigation.dart';
-import '../ui/themes.dart';
+import '../../business/business.dart';
+import '../../navigation/navigation.dart';
+import '../../ui/themes.dart';
 
-import 'components.dart';
+import '../components.dart';
 import 'curve_shape_border.dart';
 
 PreferredSizeWidget buildCustomAppBar({

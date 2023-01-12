@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
+import '../../ui/themes.dart';
 
 ///A [DatePicker] widgetben kiválasztható legkorábbi és legkésőbbi dátum
 ///különbsége az aktuális időponttól.
