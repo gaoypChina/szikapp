@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/resource.dart';
+import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 import '../screens.dart';
 
@@ -42,10 +43,13 @@ class ArticleScreen extends StatelessWidget {
           var articles = snapshot.data!;
           return CustomScaffold(
             appBarTitle: 'ARTICLE_TITLE'.tr(),
-            body: ListView.builder(
-              itemCount: articles.length,
-              itemBuilder: (context, index) =>
-                  ArticleCard(data: articles[index]),
+            body: Padding(
+              padding: const EdgeInsets.only(top: kPaddingNormal),
+              child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) =>
+                    ArticleCard(data: articles[index]),
+              ),
             ),
           );
         }
