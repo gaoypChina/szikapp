@@ -57,6 +57,7 @@ class GDPRWidget extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: onAgreePressed,
+                  style: ElevatedButton.styleFrom(elevation: 0),
                   child: Text(
                     'BUTTON_AGREE'.tr(),
                     style: theme.textTheme.overline!.copyWith(

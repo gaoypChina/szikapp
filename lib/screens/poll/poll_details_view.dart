@@ -111,6 +111,13 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                           ],
                         )
                       : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadiusNormal),
+                            ),
+                          ),
                           onPressed: () {
                             SzikAppState.analytics.logEvent(name: 'poll_vote');
                             widget.manager.addVote(
@@ -122,17 +129,6 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                               widget.poll,
                             );
                           },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.resolveWith<
-                                OutlinedBorder>(
-                              (_) {
-                                return RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(kBorderRadiusSmall),
-                                );
-                              },
-                            ),
-                          ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(
                               kPaddingNormal,

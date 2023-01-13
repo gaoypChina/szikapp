@@ -114,6 +114,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               ),
               label: Text('BUTTON_DISMISS'.tr()),
               onPressed: _onCancel,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+              ),
             ),
             ElevatedButton.icon(
               icon: const CustomIcon(
@@ -122,6 +125,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               ),
               label: Text('BUTTON_SAVE'.tr()),
               onPressed: _onSend,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+              ),
             )
           ]
         : [];
@@ -178,6 +184,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     color: theme.colorScheme.surface,
                   ),
                   label: Text('SIGN_OUT_LABEL'.tr()),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
                 ),
               ],
             ),

@@ -121,13 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    offset: const Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  ),
-                ],
+                border: Border.all(color: theme.colorScheme.primary),
               ),
               child: Column(
                 children: [
@@ -180,13 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    offset: const Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  ),
-                ],
+                border: Border.all(color: theme.colorScheme.primary),
               ),
               child: Column(
                 children: [
@@ -236,13 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(kBorderRadiusNormal),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.colorScheme.secondaryContainer,
-                      offset: const Offset(0.0, 2.0),
-                      blurRadius: 3.0,
-                    ),
-                  ],
+                  border: Border.all(color: theme.colorScheme.primary),
                 ),
                 child: Column(
                   children: [
@@ -284,13 +266,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(kBorderRadiusNormal),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.colorScheme.secondaryContainer,
-                      offset: const Offset(0.0, 2.0),
-                      blurRadius: 3.0,
-                    ),
-                  ],
+                  border: Border.all(color: theme.colorScheme.primary),
                 ),
                 child: CustomCheckboxList(
                   title: Text(
@@ -318,13 +294,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(kBorderRadiusNormal),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    offset: const Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  ),
-                ],
+                border: Border.all(color: theme.colorScheme.primary),
               ),
               child: Column(
                 children: [

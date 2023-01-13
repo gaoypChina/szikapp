@@ -162,6 +162,9 @@ class CustomDialog extends StatelessWidget {
                               BorderRadius.circular(kBorderRadiusSmall),
                         ),
                       ),
+                      elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) => 0,
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

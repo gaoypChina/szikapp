@@ -69,6 +69,13 @@ class DocumentDetails extends StatelessWidget {
                     onPressed: () => openUrl(
                       document!.keyValuePairs![GoodToKnow.urlKey] ?? '',
                     ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.secondary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(kBorderRadiusNormal),
+                        ),
+                        elevation: 0),
                     child: Text('BUTTON_OPEN'.tr()),
                   ),
                 ),

@@ -293,19 +293,11 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
           widget.isEdit ? 'POLL_TITLE_EDIT'.tr() : 'POLL_TITLE_CREATE'.tr(),
       body: Container(
         clipBehavior: Clip.hardEdge,
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(kPaddingNormal),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
           border: Border.all(color: theme.colorScheme.primary),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.8),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(4, 4), // changes position of shadow
-            ),
-          ],
         ),
         child: Form(
           key: _formKey,
@@ -429,6 +421,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                           child: FittedBox(
                             child: FloatingActionButton(
                               onPressed: _onAnswerOptionAdded,
+                              elevation: 0,
                               child: const CustomIcon(
                                 CustomIcons.plus,
                                 size: kIconSizeXLarge,
@@ -577,7 +570,6 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                                   initialValue: numberOfOptions.toString(),
                                   validator: _validateTextField,
                                   keyboardType: TextInputType.number,
-                                  //itt mi történik?
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(
@@ -647,13 +639,11 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                               },
                             ),
                           ElevatedButton(
-                            style: theme.elevatedButtonTheme.style!.copyWith(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(kBorderRadiusSmall),
-                                ),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadiusSmall),
                               ),
                             ),
                             onPressed: widget.isEdit ? _onEditSent : _onNewSent,
