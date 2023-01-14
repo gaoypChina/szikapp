@@ -151,6 +151,7 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///Visszalépés a foglalások módválasztó képernyőjére.
   void performBackButtonPressed() {
     _selectedIndex = -1;
     _selectedPlace = -1;
@@ -159,6 +160,19 @@ class ReservationManager extends ChangeNotifier {
     _createNewReservation = false;
     _editReservation = false;
     _selectedDate = null;
+    notifyListeners();
+  }
+
+  ///Visszaállítás alapállapotba. Így az összes foglalási képernyő eltűnik.
+  void clear() {
+    _selectedIndex = -1;
+    _selectedPlace = -1;
+    _selectedGame = -1;
+    _selectedAccount = -1;
+    _createNewReservation = false;
+    _editReservation = false;
+    _selectedDate = null;
+    _selectedMode = ReservationMode.none;
     notifyListeners();
   }
 
