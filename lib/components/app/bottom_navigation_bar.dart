@@ -39,6 +39,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
             Provider.of<SzikAppStateManager>(context, listen: false);
         if (appStateManager.selectedFeature == SzikAppFeature.reservation) {
           Provider.of<ReservationManager>(context, listen: false).clear();
+        } else if (appStateManager.selectedFeature == SzikAppFeature.poll) {
+          Provider.of<PollManager>(context, listen: false)
+              .performBackButtonPressed();
         }
         appStateManager.selectTab(index);
       },
