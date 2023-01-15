@@ -62,8 +62,9 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
   @override
   void initState() {
     super.initState();
-    isApplyingLive = widget.manager.periods
-        .any((element) => element.start.isAfter(DateTime.now()));
+    /*isApplyingLive = widget.manager.periods
+        .any((element) => element.start.isAfter(DateTime.now()));*/
+    isApplyingLive = true;
     if (!isApplyingLive) _selectedTab = 1;
   }
 
@@ -78,36 +79,31 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
   Widget _buildBody() {
     switch (_selectedTab) {
       case 0:
-        return const CleaningApplyView();
+        return CleaningApplyView(manager: widget.manager);
       case 2:
         return CleaningExchangesView(manager: widget.manager);
       case 1:
       default:
-        return const CleaningTasksView();
+        return CleaningTasksView(manager: widget.manager);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'CLEANING_TITLE'.tr(),
       floatingActionButton: CustomFloatingActionButton(
         onPressed: () => widget.manager.adminEdit(),
         typeToCreate: CleaningPeriod,
+        icon: CustomIcons.wrench,
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(
           kPaddingNormal,
-          kPaddingLarge,
+          kPaddingSmall,
           kPaddingNormal,
           0,
-        ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/pictures/background_1.jpg'),
-            fit: BoxFit.cover,
-            opacity: 0.5,
-          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,6 +115,7 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
                 'CLEANING_TAB_TASKS'.tr(),
                 'CLEANING_TAB_EXCHANGES'.tr(),
               ],
+              wrapColor: theme.colorScheme.background,
               onChanged: _onTabChanged,
             ),
             Expanded(

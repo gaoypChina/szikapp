@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../../business/kitchen_cleaning_manager.dart';
+
 class CleaningTasksView extends StatelessWidget {
-  const CleaningTasksView({Key? key}) : super(key: key);
+  final KitchenCleaningManager manager;
+
+  const CleaningTasksView({Key? key, required this.manager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Tasks');
+    return ListView.builder(
+      itemBuilder: ((context, index) {
+        return Container();
+      }),
+      itemCount: manager.tasks.length,
+    );
   }
 }

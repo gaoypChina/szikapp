@@ -9,7 +9,9 @@ import '../../navigation/app_state_manager.dart';
 import '../../ui/themes.dart';
 
 class CleaningApplyView extends StatefulWidget {
-  const CleaningApplyView({Key? key}) : super(key: key);
+  final KitchenCleaningManager manager;
+
+  const CleaningApplyView({Key? key, required this.manager}) : super(key: key);
 
   @override
   State<CleaningApplyView> createState() => _CleaningApplyViewState();
@@ -17,13 +19,8 @@ class CleaningApplyView extends StatefulWidget {
 
 class _CleaningApplyViewState extends State<CleaningApplyView> {
   late List<CleaningTask> _selectedEvents;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-      .toggledOff; // Can be toggled on/off by longpressing a date
   late DateTime _focusedDay;
   DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
 
   @override
   void initState() {
@@ -34,145 +31,124 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   List<CleaningTask> _getEventsForDay(DateTime day) {
-    // Implementation example
-    var events =
-        Provider.of<KitchenCleaningManager>(context, listen: false).tasks;
-
-    var selectedEvents =
-        events.where((element) => isSameDay(element.start, day)).toList();
-    print(selectedEvents.length);
-    return selectedEvents;
+    return widget.manager.tasks
+        .where((element) => isSameDay(element.start, day))
+        .toList();
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
-      print('onDaySelected');
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
-        _rangeEnd = null;
-        _rangeSelectionMode = RangeSelectionMode.toggledOff;
         _selectedEvents = _getEventsForDay(selectedDay);
-      });
-    }
-  }
-
-  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
-    setState(() {
-      _selectedDay = null;
-      _focusedDay = focusedDay;
-      _rangeStart = start;
-      _rangeEnd = end;
-      _rangeSelectionMode = RangeSelectionMode.toggledOn;
-    });
-
-    // `start` or `end` could be null
-    if (start != null) {
-      setState(() {
-        _selectedEvents = _getEventsForDay(start);
-      });
-    } else if (end != null) {
-      setState(() {
-        _selectedEvents = _getEventsForDay(end);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(kPaddingLarge),
-            color: Theme.of(context).colorScheme.background),
-        child: Column(
-          children: [
-            TableCalendar<CleaningTask>(
-              locale: context.locale.toString(),
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 10, 16),
-              focusedDay: _focusedDay,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              rangeStartDay: _rangeStart,
-              rangeEndDay: _rangeEnd,
-              calendarFormat: _calendarFormat,
-              rangeSelectionMode: _rangeSelectionMode,
-              eventLoader: _getEventsForDay,
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              calendarStyle: const CalendarStyle(
-                // Use `CalendarStyle` to customize the UI
-                outsideDaysVisible: false,
-              ),
-              onDaySelected: _onDaySelected,
-              onRangeSelected: _onRangeSelected,
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kPaddingLarge),
+          color: Theme.of(context).colorScheme.background),
+      child: Column(
+        children: [
+          TableCalendar<CleaningTask>(
+            locale: context.locale.toString(),
+            firstDay: DateTime.now().subtract(const Duration(days: 365)),
+            lastDay: DateTime.now().add(const Duration(days: 365)),
+            focusedDay: _focusedDay,
+            eventLoader: _getEventsForDay,
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            calendarFormat: CalendarFormat.month,
+            rangeSelectionMode: RangeSelectionMode.disabled,
+            daysOfWeekHeight: 20,
+            headerStyle: const HeaderStyle(
+              titleCentered: true,
+              formatButtonVisible: false,
             ),
-            const SizedBox(height: 8.0),
-            Expanded(
-                child: ListView.builder(
+            calendarStyle: CalendarStyle(
+              outsideDaysVisible: false,
+              todayDecoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.8),
+                shape: BoxShape.circle,
+              ),
+              selectedDecoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+            ),
+            onDaySelected: _onDaySelected,
+            onPageChanged: (focusedDay) {
+              _focusedDay = focusedDay;
+            },
+          ),
+          const SizedBox(height: 8.0),
+          Expanded(
+            child: ListView.builder(
               itemBuilder: (context, index) {
                 return Container(
-                    margin: const EdgeInsets.all(8.0),
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(kPaddingLarge),
-                        color: Theme.of(context).colorScheme.background,
-                        border: Border.all(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer)),
-                    child: Column(
-                      children: [
-                        Text(_selectedEvents[index].name),
-                        Divider(
-                          color: Theme.of(context).colorScheme.primaryContainer,
+                  margin: const EdgeInsets.all(kPaddingSmall),
+                  padding: const EdgeInsets.all(kPaddingLarge),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kPaddingLarge),
+                    color: Theme.of(context).colorScheme.background,
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(_selectedEvents[index].name),
+                      Divider(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kPaddingNormal),
+                          color: Theme.of(context).colorScheme.background,
+                          border: Border.all(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                          ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.all(8.0),
-                          padding: const EdgeInsets.all(20.0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kPaddingNormal),
-                              color: Theme.of(context).colorScheme.background,
-                              border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer)),
-                          child: Text(
-                              _selectedEvents[index].description.toString()),
+                        child: Text(
+                          _selectedEvents[index].description ?? '',
                         ),
-                        Container(
-                          margin: const EdgeInsets.all(8.0),
-                          padding: const EdgeInsets.all(20.0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kPaddingNormal),
-                              color: Theme.of(context).colorScheme.background,
-                              border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer)),
-                          child: Text(Provider.of<SzikAppStateManager>(context,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kPaddingNormal),
+                          color: Theme.of(context).colorScheme.background,
+                          border: Border.all(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                          ),
+                        ),
+                        child: Text(
+                          Provider.of<SzikAppStateManager>(context,
                                   listen: false)
                               .users
                               .firstWhere((element) => element.id == 'u066')
-                              .name),
-                        )
-                      ],
-                    ));
+                              .name,
+                        ),
+                      )
+                    ],
+                  ),
+                );
               },
               itemCount: _selectedEvents.length,
-            ))
-          ],
-        ));
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
