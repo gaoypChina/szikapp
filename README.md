@@ -20,6 +20,7 @@ SZIK projekt, immár negyedik féléve.
 
 ## Fejlesztői parancsok
 
+- ```flutter pub outdated```: frissíthető csomagok listázása
 - ```flutter pub run build_runner build```: elkészíti a legenerálandó forráskódfájlokat
 - ```flutter pub run flutter_native_splash:create```: generálja a splash screent a pubspec.yaml-ban specifikáltak alapján, használd a `create` helyett a `remove` kapcsolót az eltávolításhoz
 - ```flutter build appbundle```: elkészíti a Google Play Storeba feltölthető Appbundle fájlt, használd a `--split-debug-info` flaget a csomagméret csökkentéséhez
