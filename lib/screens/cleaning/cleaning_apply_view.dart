@@ -92,9 +92,9 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
               itemBuilder: (context, index) {
                 return Container(
                   margin: const EdgeInsets.all(kPaddingSmall),
-                  padding: const EdgeInsets.all(kPaddingLarge),
+                  padding: const EdgeInsets.all(kPaddingNormal),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kPaddingLarge),
+                    borderRadius: BorderRadius.circular(kBorderRadiusNormal),
                     color: Theme.of(context).colorScheme.background,
                     border: Border.all(
                       color: Theme.of(context).colorScheme.primaryContainer,
@@ -107,10 +107,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         color: Theme.of(context).colorScheme.primaryContainer,
                       ),
                       Container(
-                        margin: const EdgeInsets.all(8.0),
-                        padding: const EdgeInsets.all(20.0),
+                        margin: const EdgeInsets.all(kPaddingSmall),
+                        padding: const EdgeInsets.all(kPaddingNormal),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(kPaddingNormal),
+                          borderRadius:
+                              BorderRadius.circular(kBorderRadiusNormal),
                           color: Theme.of(context).colorScheme.background,
                           border: Border.all(
                             color:
@@ -122,22 +123,21 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.all(8.0),
-                        padding: const EdgeInsets.all(20.0),
+                        margin: const EdgeInsets.all(kPaddingSmall),
+                        padding: const EdgeInsets.all(kPaddingNormal),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(kPaddingNormal),
+                          borderRadius:
+                              BorderRadius.circular(kBorderRadiusNormal),
                           color: Theme.of(context).colorScheme.background,
                           border: Border.all(
                             color:
                                 Theme.of(context).colorScheme.primaryContainer,
                           ),
                         ),
-                        child: Text(
-                          Provider.of<SzikAppStateManager>(context,
-                                  listen: false)
-                              .users
-                              .firstWhere((element) => element.id == 'u066')
-                              .name,
+                        child: Row(
+                          children: [
+                            Text('CLEANING_DIALOG_WITH'.tr()),
+                          ],
                         ),
                       )
                     ],
