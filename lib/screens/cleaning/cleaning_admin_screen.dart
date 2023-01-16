@@ -35,10 +35,6 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
     });
   }
 
-  Widget _buildPeriodView() {
-    return const Text('Periods');
-  }
-
   Widget _buildPunishmentView() {
     return const Text('Punishments');
   }
@@ -69,12 +65,195 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
             ),
             Expanded(
               child: _selectedTab == 0
-                  ? _buildPeriodView()
+                  ? CleaningAdminPeriodView(manager: widget.manager)
                   : _buildPunishmentView(),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class CleaningAdminPeriodView extends StatefulWidget {
+  final KitchenCleaningManager manager;
+  const CleaningAdminPeriodView({Key? key, required this.manager})
+      : super(key: key);
+
+  @override
+  State<CleaningAdminPeriodView> createState() =>
+      _CleaningAdminPeriodViewState();
+}
+
+class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
+  late DateTime startDate;
+  late DateTime endDate;
+
+  @override
+  void initState() {
+    super.initState();
+    startDate = DateTime.now();
+    endDate = startDate.add(const Duration(days: 31));
+  }
+
+  void _onStartChanged(DateTime? newDate) {
+    setState(() {
+      startDate = newDate ?? DateTime.now();
+    });
+  }
+
+  void _onEndChanged(DateTime? newDate) {
+    setState(() {
+      endDate = newDate ?? DateTime.now();
+    });
+  }
+
+  void _onNewPeriod() {}
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(kBorderRadiusNormal),
+            ),
+            border: Border.all(color: theme.colorScheme.primary),
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: kPaddingNormal,
+            horizontal: kPaddingLarge,
+          ),
+          child: Column(
+            children: [
+              Text(
+                'CLEANING_ADMIN_NEW_PERIOD'.tr(),
+                style: theme.textTheme.headline6,
+              ),
+              const SizedBox(height: kPaddingSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_PERIOD_START'.tr(),
+                    style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  DatePicker(
+                    onChanged: _onStartChanged,
+                    initialDate: startDate,
+                    endDate: endDate,
+                  )
+                ],
+              ),
+              const SizedBox(height: kPaddingSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_PERIOD_END'.tr(),
+                    style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  DatePicker(
+                    onChanged: _onEndChanged,
+                    initialDate: endDate,
+                    startDate: startDate,
+                  )
+                ],
+              ),
+              const SizedBox(height: kPaddingNormal),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_ADMIN_NUMOFDAYS'.tr(),
+                    style: theme.textTheme.headline3!.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  Text(
+                    '${endDate.difference(startDate).inDays * 2 + 2}',
+                    style: theme.textTheme.headline3,
+                  )
+                ],
+              ),
+              const SizedBox(height: kPaddingNormal),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: _onNewPeriod,
+                    child: Text('BUTTON_SAVE'.tr()),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        const SizedBox(height: kPaddingLarge),
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(kBorderRadiusNormal),
+            ),
+            border: Border.all(color: theme.colorScheme.primary),
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: kPaddingNormal,
+            horizontal: kPaddingLarge,
+          ),
+          child: Column(
+            children: [
+              Text(
+                'CLEANING_ADMIN_ACTIVE_PERIOD'.tr(),
+                style: theme.textTheme.headline6!.copyWith(
+                  color: theme.colorScheme.secondary,
+                ),
+              ),
+              const SizedBox(height: kPaddingSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_PERIOD_START'.tr(),
+                    style: theme.textTheme.headline5,
+                  ),
+                  Text('xx.xx.xxxx'),
+                ],
+              ),
+              const SizedBox(height: kPaddingSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_PERIOD_END'.tr(),
+                    style: theme.textTheme.headline5,
+                  ),
+                  Text('yy.yy.yyyy'),
+                ],
+              ),
+              const SizedBox(height: kPaddingNormal),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'CLEANING_ADMIN_NUMOFDAYS'.tr(),
+                    style: theme.textTheme.headline5,
+                  ),
+                  Text('diff')
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
