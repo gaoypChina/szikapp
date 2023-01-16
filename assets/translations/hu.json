@@ -149,6 +149,7 @@
         "CLEANING_ADMIN_TITLE": "Konyhataka admin",
         "CLEANING_ADMIN_NEW_PERIOD": "Új blokk kiírása",
         "CLEANING_ADMIN_ACTIVE_PERIOD": "Aktív időszak",
+        "CLEANING_ADMIN_AUTO_ASSIGN": "Auto beosztás",
         "CLEANING_PERIOD_START": "Kezdés",
         "CLEANING_PERIOD_END": "Befejezés",
         "CLEANING_ADMIN_NUMOFDAYS": "Kiírt helyek száma",

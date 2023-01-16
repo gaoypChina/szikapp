@@ -149,6 +149,7 @@
         "CLEANING_ADMIN_TITLE": "Cleaning administration",
         "CLEANING_ADMIN_NEW_PERIOD": "New period",
         "CLEANING_ADMIN_ACTIVE_PERIOD": "Active period",
+        "CLEANING_ADMIN_AUTO_ASSIGN": "Auto assign",
         "CLEANING_PERIOD_START": "Start date",
         "CLEANING_PERIOD_END": "End date",
         "CLEANING_ADMIN_NUMOFDAYS": "Number of assigned tasks",

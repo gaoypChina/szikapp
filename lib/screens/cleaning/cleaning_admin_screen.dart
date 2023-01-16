@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
+import '../../models/models.dart';
 import '../../ui/themes.dart';
+import '../../utils/utils.dart';
 
 class CleaningAdminScreen extends StatefulWidget {
   static const String route = '/cleaning/admin';
@@ -45,11 +48,9 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
     return CustomScaffold(
       appBarTitle: 'CLEANING_ADMIN_TITLE'.tr(),
       body: Container(
-        padding: const EdgeInsets.fromLTRB(
-          kPaddingNormal,
-          kPaddingSmall,
-          kPaddingNormal,
-          kPaddingSmall,
+        padding: const EdgeInsets.symmetric(
+          horizontal: kPaddingNormal,
+          vertical: kPaddingSmall,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,12 +89,23 @@ class CleaningAdminPeriodView extends StatefulWidget {
 class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   late DateTime startDate;
   late DateTime endDate;
+  bool hasOpenPeriod = false;
+  late CleaningPeriod openPeriod;
+  late CleaningPeriod activePeriod;
 
   @override
   void initState() {
     super.initState();
-    startDate = DateTime.now();
-    endDate = startDate.add(const Duration(days: 31));
+    hasOpenPeriod = widget.manager.periods
+        .any((element) => element.start.isAfter(DateTime.now()));
+    openPeriod = widget.manager.periods
+        .firstWhere((element) => element.start.isAfter(DateTime.now()));
+    startDate = hasOpenPeriod ? openPeriod.start : DateTime.now();
+    endDate = hasOpenPeriod
+        ? openPeriod.end
+        : startDate.add(const Duration(days: 31));
+    activePeriod = widget.manager.periods.firstWhere(
+        (element) => DateTime.now().isInInterval(element.start, element.end));
   }
 
   void _onStartChanged(DateTime? newDate) {
@@ -108,7 +120,31 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     });
   }
 
-  void _onNewPeriod() {}
+  void _onNewPeriod() {
+    var uuid = const Uuid();
+    var newPeriod = CleaningPeriod(
+      id: uuid.v4().toUpperCase(),
+      start: startDate,
+      end: endDate,
+      lastUpdate: DateTime.now(),
+    );
+
+    widget.manager.createCleaningPeriod(newPeriod);
+    widget.manager.refreshPeriods();
+    setState(() {
+      hasOpenPeriod = true;
+    });
+  }
+
+  void _onEditPeriod() {
+    openPeriod.start = startDate;
+    openPeriod.end = endDate;
+    openPeriod.lastUpdate = DateTime.now();
+    widget.manager.editCleaningPeriod(openPeriod);
+    widget.manager.refreshPeriods();
+  }
+
+  void _onAutoAssign() {}
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +214,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     ),
                   ),
                   Text(
-                    '${endDate.difference(startDate).inDays * 2 + 2}',
+                    '${endDate.difference(startDate).inDays * 2}',
                     style: theme.textTheme.headline3,
                   )
                 ],
@@ -187,10 +223,36 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    onPressed: _onNewPeriod,
-                    child: Text('BUTTON_SAVE'.tr()),
-                  ),
+                  if (!hasOpenPeriod)
+                    ElevatedButton(
+                      onPressed: _onNewPeriod,
+                      child: Text(
+                        'BUTTON_SAVE'.tr(),
+                        style: theme.textTheme.overline!.copyWith(
+                          color: theme.colorScheme.surface,
+                        ),
+                      ),
+                    ),
+                  if (hasOpenPeriod) ...[
+                    ElevatedButton(
+                      onPressed: _onEditPeriod,
+                      child: Text(
+                        'BUTTON_EDIT'.tr(),
+                        style: theme.textTheme.overline!.copyWith(
+                          color: theme.colorScheme.surface,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: _onAutoAssign,
+                      child: Text(
+                        'CLEANING_ADMIN_AUTO_ASSIGN'.tr(),
+                        style: theme.textTheme.overline!.copyWith(
+                          color: theme.colorScheme.surface,
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               )
             ],
@@ -225,7 +287,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     'CLEANING_PERIOD_START'.tr(),
                     style: theme.textTheme.headline5,
                   ),
-                  Text('xx.xx.xxxx'),
+                  Text(DateFormat('yyyy.MM.dd.').format(activePeriod.start)),
                 ],
               ),
               const SizedBox(height: kPaddingSmall),
@@ -236,7 +298,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     'CLEANING_PERIOD_END'.tr(),
                     style: theme.textTheme.headline5,
                   ),
-                  Text('yy.yy.yyyy'),
+                  Text(DateFormat('yyyy.MM.dd.').format(activePeriod.end)),
                 ],
               ),
               const SizedBox(height: kPaddingNormal),
@@ -247,7 +309,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     'CLEANING_ADMIN_NUMOFDAYS'.tr(),
                     style: theme.textTheme.headline5,
                   ),
-                  Text('diff')
+                  Text(
+                    '${activePeriod.end.difference(activePeriod.start).inDays * 2}',
+                  )
                 ],
               ),
             ],
