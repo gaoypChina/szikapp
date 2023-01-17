@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_list/toggle_list.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
@@ -52,99 +53,15 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                       const EdgeInsets.symmetric(horizontal: kPaddingLarge),
                   child: CustomIcon(
                     CustomIcons.doubleArrowDown,
-                    size: theme.textTheme.headline3!.fontSize ?? 14,
+                    size: theme.textTheme.headline3!.fontSize!,
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                children: exchanges.map<ToggleListItem>((item) {
-                  var itemDate = widget.manager.tasks
-                      .firstWhere((element) => element.id == item.taskID)
-                      .start;
-
-                  var isOwnItem = Provider.of<AuthManager>(context).user!.id ==
-                      item.initiatorID;
-                  return ToggleListItem(
-                    headerDecoration: BoxDecoration(
-                      color: isOwnItem
-                          ? theme.colorScheme.primaryContainer
-                          : theme.colorScheme.surface,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(kBorderRadiusNormal),
-                      ),
-                    ),
-                    expandedHeaderDecoration: BoxDecoration(
-                      color: isOwnItem
-                          ? theme.colorScheme.primaryContainer
-                          : theme.colorScheme.surface,
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(kBorderRadiusNormal),
-                      ),
-                    ),
-                    title: Padding(
-                      padding: const EdgeInsets.all(kPaddingLarge),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              Provider.of<SzikAppStateManager>(context)
-                                  .users
-                                  .firstWhere((element) =>
-                                      element.id == item.initiatorID)
-                                  .name,
-                              style: theme.textTheme.bodyText1!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: isOwnItem
-                                    ? theme.colorScheme.background
-                                    : theme.colorScheme.primaryContainer,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            DateFormat('MM. dd.').format(itemDate),
-                            style: theme.textTheme.bodyText1!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: isOwnItem
-                                  ? theme.colorScheme.background
-                                  : theme.colorScheme.primaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    content: Container(
-                      decoration: BoxDecoration(
-                        color: isOwnItem
-                            ? theme.colorScheme.primaryContainer
-                            : theme.colorScheme.surface,
-                        borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(kBorderRadiusNormal),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Divider(
-                            height: 1,
-                            thickness: 1,
-                            indent: kPaddingNormal,
-                            endIndent: kPaddingNormal,
-                            color: isOwnItem
-                                ? theme.colorScheme.surface
-                                : theme.colorScheme.primaryContainer,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(kPaddingLarge),
-                            child: isOwnItem
-                                ? _buildOwnItemBody(item)
-                                : _buildOtherItemBody(item),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+                children: exchanges
+                    .map<ToggleListItem>(
+                      (item) => _buildExchangeTile(exchange: item),
+                    )
+                    .toList(),
               ),
             ),
           ],
@@ -203,7 +120,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        _buildExchangeOfferDialog(exchangableItem.start),
+                        _buildExchangeOfferDialog(exchangableItem),
                   );
                 },
                 child: CustomIcon(
@@ -219,121 +136,191 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     );
   }
 
-  Widget _buildOwnItemBody(CleaningExchange exchange) {
+  ToggleListItem _buildExchangeTile({required CleaningExchange exchange}) {
+    var isOwnItem =
+        Provider.of<AuthManager>(context).user!.id == exchange.initiatorID;
+    var theme = Theme.of(context);
+    var itemDate = widget.manager.tasks
+        .firstWhere((element) => element.id == exchange.taskID)
+        .start;
+    var backgroundColor = isOwnItem
+        ? theme.colorScheme.primaryContainer
+        : theme.colorScheme.surface;
+    var foregroundColor = isOwnItem
+        ? theme.colorScheme.surface
+        : theme.colorScheme.primaryContainer;
+    var strongFont = theme.textTheme.headline3!.copyWith(
+      color: foregroundColor,
+    );
+    var weakFont = theme.textTheme.subtitle1!.copyWith(
+      color: foregroundColor,
+      fontStyle: FontStyle.italic,
+    );
+    return ToggleListItem(
+      headerDecoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(kBorderRadiusNormal),
+        ),
+      ),
+      expandedHeaderDecoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(kBorderRadiusNormal),
+        ),
+      ),
+      title: Padding(
+        padding: const EdgeInsets.all(kPaddingLarge),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                Provider.of<SzikAppStateManager>(context)
+                    .users
+                    .firstWhere((element) => element.id == exchange.initiatorID)
+                    .name,
+                style: strongFont,
+              ),
+            ),
+            Text(
+              DateFormat('MM. dd.').format(itemDate),
+              style: weakFont,
+            ),
+          ],
+        ),
+      ),
+      content: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(kBorderRadiusNormal),
+          ),
+        ),
+        child: Column(
+          children: [
+            Divider(
+              height: 1,
+              thickness: 1,
+              indent: kPaddingNormal,
+              endIndent: kPaddingNormal,
+              color: foregroundColor,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(kPaddingLarge),
+              child: isOwnItem
+                  ? _buildOwnItemBody(
+                      exchange: exchange,
+                      backgroundColor: backgroundColor,
+                      foregroundColor: foregroundColor,
+                      strongFont: strongFont,
+                      weakFont: weakFont,
+                    )
+                  : _buildOtherItemBody(
+                      exchange: exchange,
+                      backgroundColor: backgroundColor,
+                      foregroundColor: foregroundColor,
+                      strongFont: strongFont,
+                      weakFont: weakFont,
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOwnItemBody({
+    required CleaningExchange exchange,
+    required Color backgroundColor,
+    required Color foregroundColor,
+    required TextStyle strongFont,
+    required TextStyle weakFont,
+  }) {
     var theme = Theme.of(context);
     return Column(
       children: [
-        if (exchange.replacements != null)
-          ...exchange.replacements!.map((replacement) {
-            var replacementTask = widget.manager.tasks
-                .firstWhere((element) => element.id == replacement['task_id']);
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(kPaddingNormal),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            Provider.of<SzikAppStateManager>(context)
-                                .users
-                                .firstWhere(
-                                  (element) =>
-                                      element.id == replacement['replacer_id'],
-                                )
-                                .name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline3!
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                          ),
-                          Text(
-                            'Teszt vézna szövegecske, de hosszú', //TODO string literal
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1!
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.surface,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                          ),
-                          /* TODO string literal
-                      Text(
-                        '${'Ekkor'}: ${DateFormat('MM. dd.').format(offeredItem.start)}',
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                              color: Theme.of(context).colorScheme.surface,
-                              fontStyle: FontStyle.italic,
+        ...exchange.replacements.map((replacement) {
+          var replacementTask = widget.manager.tasks
+              .firstWhere((element) => element.id == replacement['task_id']);
+          var replacerName = Provider.of<SzikAppStateManager>(context)
+              .users
+              .firstWhere(
+                (element) => element.id == replacement['replacer_id'],
+              )
+              .name;
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              border: Border.all(color: foregroundColor),
+            ),
+            padding: const EdgeInsets.all(kPaddingSmall),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(kPaddingNormal),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              replacerName,
+                              style: strongFont,
                             ),
-                      ),
-                      Text(
-                        '${'Plusz feladat'}: ${offeredItem.description}',
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                              color: Theme.of(context).colorScheme.surface,
-                              fontStyle: FontStyle.italic,
+                            Text(
+                              DateFormat('MM. dd.').format(
+                                replacementTask.start,
+                              ),
+                              style: weakFont,
                             ),
-                      ), 
-                      */
-                        ],
-                      ),
+                          ],
+                        ),
+                        const SizedBox(height: kPaddingNormal),
+                        _buildTexts(
+                          replacementTask: replacementTask,
+                          font: weakFont,
+                        ),
+                      ],
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                _buildExchangeRefuseDialog(
-                              replacementTask.start,
-                              Provider.of<SzikAppStateManager>(context)
-                                  .users
-                                  .firstWhere((element) =>
-                                      element.id == replacement['replacer_id'])
-                                  .name,
-                            ),
-                          );
-                        },
-                        icon: const CustomIcon(CustomIcons.closeOutlined),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                _buildExchangeAcceptDialog(
-                              replacementTask.start,
-                              Provider.of<SzikAppStateManager>(context)
-                                  .users
-                                  .firstWhere(
-                                    (element) =>
-                                        element.id ==
-                                        replacement['replacer_id'],
-                                  )
-                                  .name,
-                            ),
-                          );
-                        },
-                        icon: const CustomIcon(CustomIcons.done),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildExchangeRefuseDialog(
+                                  exchange, replacement['task_id']),
+                        );
+                      },
+                      icon: const CustomIcon(CustomIcons.closeOutlined),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildExchangeAcceptDialog(
+                            exchange,
+                            replacement['task_id'],
+                          ),
+                        );
+                      },
+                      icon: const CustomIcon(CustomIcons.done),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
         Align(
           alignment: Alignment.centerRight,
           child: Padding(
@@ -342,18 +329,16 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      _buildExchangeWithdrawDialog(widget.manager.tasks
-                          .firstWhere(
-                              (element) => element.id == exchange.taskID)
-                          .start),
+                  builder: (BuildContext context) => _buildExchangeDeleteDialog(
+                    exchange,
+                  ),
                 );
               },
               style: theme.outlinedButtonTheme.style!.copyWith(
-                backgroundColor: MaterialStateColor.resolveWith(
-                    (states) => theme.colorScheme.primaryContainer),
+                backgroundColor:
+                    MaterialStateColor.resolveWith((states) => backgroundColor),
                 side: MaterialStateBorderSide.resolveWith(
-                  (states) => BorderSide(color: theme.colorScheme.surface),
+                  (states) => BorderSide(color: foregroundColor),
                 ),
                 shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
                   (Set<MaterialState> states) => RoundedRectangleBorder(
@@ -362,11 +347,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 ),
               ),
               child: Text(
-                'CLEANING_BUTTON_WITHDRAW'.tr(),
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: Theme.of(context).colorScheme.surface,
-                      fontStyle: FontStyle.italic,
-                    ),
+                'CLEANING_BUTTON_DELETE'.tr(),
+                style: theme.textTheme.subtitle1!.copyWith(
+                  color: foregroundColor,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
           ),
@@ -375,65 +360,77 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     );
   }
 
-  Widget _buildOtherItemBody(CleaningExchange exchange) {
-    return Column(
+  Widget _buildOtherItemBody({
+    required exchange,
+    required backgroundColor,
+    required foregroundColor,
+    required strongFont,
+    required weakFont,
+  }) {
+    var replacementTask = widget.manager.tasks
+        .firstWhere((element) => element.id == exchange.taskID);
+    var userOfferedTaskIDs = widget.manager.exchanges
+        .where((element) => element.replacements.any((element) =>
+            element['replacer_id'].toString() ==
+            Provider.of<AuthManager>(context).user!.id))
+        .map((e) => e.taskID)
+        .toList();
+
+    Widget iconButton;
+    if (userOfferedTaskIDs.isEmpty) {
+      iconButton = IconButton(
+        padding: const EdgeInsets.all(0),
+        alignment: Alignment.bottomRight,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => _buildExchangeExchangeDialog(
+              exchange,
+              replacementTask.id,
+            ),
+          );
+        },
+        icon: CustomIcon(
+          CustomIcons.done,
+          color: foregroundColor,
+        ),
+      );
+    } else if (userOfferedTaskIDs.contains(exchange.id)) {
+      iconButton = IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => _buildExchangeWithdrawDialog(
+              exchange,
+              replacementTask.id,
+            ),
+          );
+        },
+        icon: CustomIcon(
+          CustomIcons.close,
+          color: foregroundColor,
+        ),
+      );
+    } else {
+      iconButton = Container();
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(kPaddingNormal),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'DEF', //TODO
-                  /*
-                  Provider.of<SzikAppStateManager>(context)
-                      .users
-                      .firstWhere(
-                          (element) => element.id == exchange.initiatorID)
-                      .name,
-                      */
-                  style: Theme.of(context).textTheme.headline3!.copyWith(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                ),
-                Text(
-                  'Teszt vézna szövegecske, de hosszú', //TODO string literal
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        fontStyle: FontStyle.italic,
-                      ),
-                ),
-              ],
-            ),
+        Expanded(
+          child: _buildTexts(
+            replacementTask: replacementTask,
+            font: weakFont,
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: IconButton(
-            icon: CustomIcon(
-              CustomIcons.done,
-              size: kIconSizeLarge,
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => _buildExchangeExchangeDialog(
-                  widget.manager.tasks
-                      .firstWhere((element) => element.id == exchange.taskID)
-                      .start,
-                ),
-              );
-            },
-          ),
+        iconButton,
+        /*Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingSmall),
+          child: iconButton,
         ),
+        */
       ],
     );
   }
@@ -459,50 +456,132 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return list;
   }
 
-  Widget _buildExchangeOfferDialog(DateTime date) {
+  String userIDSToString(List<String> userIDs) {
+    return userIDs
+        .map(
+          (e) => Provider.of<SzikAppStateManager>(context)
+              .users
+              .firstWhere((element) => element.id == e)
+              .name,
+        )
+        .join(', ');
+  }
+
+  Widget _buildTexts({replacementTask, font}) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: '${'CLEANING_LABEL_EXTRA_TASK'.tr()}: ',
+            style: font.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          TextSpan(
+            text: replacementTask.description,
+            style: font,
+          ),
+          const TextSpan(text: '\n\n'),
+          TextSpan(
+            text: '${'CLEANING_LABEL_WITH'.tr()}: ',
+            style: font.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          TextSpan(
+            text: userIDSToString(
+              replacementTask.participantIDs,
+            ),
+            style: font,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExchangeOfferDialog(CleaningTask exchangableItem) {
+    var uuid = const Uuid();
+    var exchange = CleaningExchange(
+      id: uuid.v4().toUpperCase(),
+      taskID: exchangableItem.id,
+      initiatorID: Provider.of<AuthManager>(context).user!.id,
+      replacements: [],
+      lastUpdate: DateTime.now(),
+    );
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_OFFER_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(date),
-      onWeakButtonClick: () => {}, //TODO: logic
-      onStrongButtonClick: () => {}, //TODO: logic
+      bodytext: DateFormat('MM. dd. - EEEE').format(exchangableItem.start),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.createCleaningExchangeOccasion(exchange),
     );
   }
 
-  Widget _buildExchangeExchangeDialog(DateTime date) {
+  Widget _buildExchangeExchangeDialog(
+      CleaningExchange exchange, String replaceUID) {
+    var replacementTask =
+        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_EXCHANGE_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(date),
-      onWeakButtonClick: () => {}, //TODO: logic
-      onStrongButtonClick: () => {}, //TODO: logic
+      bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.offerCleaningExchangeOccasion(exchange, replaceUID),
     );
   }
 
-  Widget _buildExchangeWithdrawDialog(DateTime date) {
+  Widget _buildExchangeWithdrawDialog(
+      CleaningExchange exchange, String replaceUID) {
+    var replacementTask =
+        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_WITHDRAW_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(date),
-      onWeakButtonClick: () => {}, //TODO: logic
-      onStrongButtonClick: () => {}, //TODO: logic
+      bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.withdrawCleaningExchangeOccasion(exchange, replaceUID),
     );
   }
 
-  Widget _buildExchangeAcceptDialog(DateTime date, String name) {
+  Widget _buildExchangeAcceptDialog(
+      CleaningExchange exchange, String replaceUID) {
+    var replacementTask =
+        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()} $name',
-      onWeakButtonClick: () => {}, //TODO: logic
-      onStrongButtonClick: () => {}, //TODO: logic
+          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDSToString(replacementTask.participantIDs)}',
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.acceptCleaningExchangeOccasion(exchange),
     );
   }
 
-  Widget _buildExchangeRefuseDialog(DateTime date, String name) {
+  Widget _buildExchangeRefuseDialog(
+      CleaningExchange exchange, String replaceUID) {
+    var replacementTask =
+        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
+
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_REFUSE_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(date)}\n${'CLEANING_DIALOG_WITH'.tr()} $name',
-      onWeakButtonClick: () => {}, //TODO: logic
-      onStrongButtonClick: () => {}, //TODO: logic
+          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDSToString(replacementTask.participantIDs)}',
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.rejectCleaningExchangeOccasion(exchange),
+    );
+  }
+
+  Widget _buildExchangeDeleteDialog(CleaningExchange exchange) {
+    var task = widget.manager.tasks
+        .firstWhere((element) => element.id == exchange.taskID);
+
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_DELETE_TITLE'.tr(),
+      bodytext: DateFormat('MM. dd. - EEEE').format(task.start),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () =>
+          widget.manager.deleteCleaningExchangeOccasion(exchange),
     );
   }
 }

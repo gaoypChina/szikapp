@@ -120,12 +120,12 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb konyhatakarítási
   ///periódus listát. Alapértelmezetten csak a jelenleg aktív periódust
   ///szinkronizálja.
-  Future<void> refreshPeriods({DateTime? start, DateTime? end}) async {
+  Future<void> refreshPeriods({DateTime? start, bool isLive = true}) async {
     start ??= DateTime.now();
-    //TODO
 
     var parameter = {
       'start': start.toIso8601String(),
+      'is_live': isLive.toString(),
     };
 
     try {
@@ -221,6 +221,14 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': exchange.id};
     await io.putCleaningExchange(parameter, exchange.lastUpdate);
+    return true;
+  }
+
+  ///Cserealkalom törlése.
+  Future<bool> deleteCleaningExchangeOccasion(CleaningExchange exchange) async {
+    var io = IO();
+    var parameter = {'id': exchange.id};
+    await io.deleteCleaningExchange(parameter, exchange.lastUpdate);
     return true;
   }
 }
