@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
+import '../../main.dart';
 import '../../models/models.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
@@ -65,6 +66,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
       await widget.manager.createCleaningPeriod(newPeriod);
       await widget.manager.refreshPeriods();
+      SzikAppState.analytics.logEvent(name: 'cleaning_add_period');
       setState(() {
         _hasOpenPeriod = true;
       });
@@ -81,6 +83,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       _openPeriod.lastUpdate = DateTime.now();
       widget.manager.editCleaningPeriod(_openPeriod);
       widget.manager.refreshPeriods();
+      SzikAppState.analytics.logEvent(name: 'cleaning_edit_period');
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -88,7 +91,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   }
 
   ///TODO ilyen függvény jelenleg nincs
-  void _onAutoAssign() {}
+  void _onAutoAssign() {
+    SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
+  }
 
   @override
   Widget build(BuildContext context) {

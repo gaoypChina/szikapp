@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../business/business.dart';
+import '../../main.dart';
 import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
@@ -53,6 +54,7 @@ class _CleaningAdminPunishmentViewState
       task.status = TaskStatus.approved;
       await widget.manager.editCleaningTask(task);
       await widget.manager.refreshTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_refuse_report');
       setState(() {
         pendingTasks = widget.manager.tasks
             .where((element) => element.status == TaskStatus.awaitingApproval)
@@ -69,6 +71,8 @@ class _CleaningAdminPunishmentViewState
       task.status = TaskStatus.refused;
       await widget.manager.editCleaningTask(task);
       await widget.manager.refreshTasks();
+      SzikAppState.analytics
+          .logEvent(name: 'cleaning_accept_report_or_payment');
       setState(() {
         pendingTasks = widget.manager.tasks
             .where((element) => element.status == TaskStatus.awaitingApproval)

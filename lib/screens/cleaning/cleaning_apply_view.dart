@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../business/business.dart';
 import '../../components/custom_icon.dart';
+import '../../main.dart';
 import '../../models/tasks.dart';
 import '../../models/user.dart';
 import '../../navigation/navigation.dart';
@@ -85,6 +86,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
       });
       await widget.manager.editCleaningTask(_selectedEvent);
       await widget.manager.refreshTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_apply_task');
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -100,6 +102,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
       });
       await widget.manager.editCleaningTask(_selectedEvent);
       await widget.manager.refreshTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_withdraw_task');
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
