@@ -11,62 +11,14 @@ import '../utils/io.dart';
 class KitchenCleaningManager extends ChangeNotifier {
   ///Konyhatakarítási feladatok listája
   List<CleaningTask> _cleaningTasks = [];
-  int _selectedTask = -1;
 
   ///Konyhatakarítás-cserék listája
   List<CleaningExchange> _cleaningExchanges = [];
-  int _selectedExchange = -1;
 
   ///Konyhatakarítási periódusok listája
   List<CleaningPeriod> _cleaningPeriods = [];
-  int _selectedPeriod = -1;
 
   bool _adminEdit = false;
-
-  int get selectedTaskIndex => _selectedTask;
-  CleaningTask? get selectedTask =>
-      _selectedTask != -1 ? _cleaningTasks[_selectedTask] : null;
-
-  int get selectedExchangeIndex => _selectedTask;
-  CleaningExchange? get selectedExchange =>
-      _selectedExchange != -1 ? _cleaningExchanges[_selectedExchange] : null;
-
-  int get selectedPeriodIndex => _selectedTask;
-  CleaningPeriod? get selectedPeriod =>
-      _selectedPeriod != -1 ? _cleaningPeriods[_selectedPeriod] : null;
-
-  bool get isAdminEditing => _adminEdit;
-
-  int indexOfTask(CleaningTask task) {
-    for (var e in _cleaningTasks) {
-      if (e.id == task.id) return _cleaningTasks.indexOf(e);
-    }
-    return -1;
-  }
-
-  int indexOfExchange(CleaningExchange exchange) {
-    for (var e in _cleaningExchanges) {
-      if (e.id == exchange.id) return _cleaningExchanges.indexOf(e);
-    }
-    return -1;
-  }
-
-  int indexOfPeriod(CleaningPeriod period) {
-    for (var e in _cleaningPeriods) {
-      if (e.id == period.id) return _cleaningPeriods.indexOf(e);
-    }
-    return -1;
-  }
-
-  void performBackButtonPressed() {
-    _adminEdit = false;
-    notifyListeners();
-  }
-
-  void adminEdit() {
-    _adminEdit = true;
-    notifyListeners();
-  }
 
   ///Singleton osztálypéldány
   static final KitchenCleaningManager _instance =
@@ -81,6 +33,18 @@ class KitchenCleaningManager extends ChangeNotifier {
   List<CleaningTask> get tasks => List.unmodifiable(_cleaningTasks);
   List<CleaningExchange> get exchanges => List.unmodifiable(_cleaningExchanges);
   List<CleaningPeriod> get periods => List.unmodifiable(_cleaningPeriods);
+
+  bool get isAdminEditing => _adminEdit;
+
+  void performBackButtonPressed() {
+    _adminEdit = false;
+    notifyListeners();
+  }
+
+  void adminEdit() {
+    _adminEdit = true;
+    notifyListeners();
+  }
 
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
