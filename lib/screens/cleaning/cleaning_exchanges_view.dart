@@ -24,13 +24,13 @@ class CleaningExchangesView extends StatefulWidget {
 
 class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   bool _userHasActiveExchange = false;
-  List<CleaningExchange> exchanges = [];
+  List<CleaningExchange> _exchanges = [];
 
   @override
   void initState() {
     super.initState();
-    exchanges = _customSorted(widget.manager.exchanges);
-    _userHasActiveExchange = exchanges.any((element) =>
+    _exchanges = _customSorted(widget.manager.exchanges);
+    _userHasActiveExchange = _exchanges.any((element) =>
         element.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
   }
@@ -47,7 +47,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
             if (!_userHasActiveExchange) _buildNewExchangeTile(),
             Expanded(
               child: ToggleList(
-                divider: const SizedBox(height: 10),
+                divider: const SizedBox(height: kPaddingNormal),
                 trailing: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: kPaddingLarge),
@@ -57,7 +57,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                children: exchanges
+                children: _exchanges
                     .map<ToggleListItem>(
                       (item) => _buildExchangeTile(exchange: item),
                     )
@@ -72,9 +72,9 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   Widget _buildNewExchangeTile() {
     var theme = Theme.of(context);
-    var exchangableItem = widget.manager.tasks.firstWhere((element) => element
-        .participantIDs
-        .contains(Provider.of<AuthManager>(context, listen: false).user!.id));
+    var user = Provider.of<AuthManager>(context).user!;
+    var exchangableItem = widget.manager.tasks
+        .firstWhere((element) => element.participantIDs.contains(user.id));
     return Padding(
       padding: const EdgeInsets.all(kPaddingNormal),
       child: Container(
@@ -94,7 +94,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 children: [
                   Expanded(
                     child: Text(
-                      Provider.of<AuthManager>(context).user!.name,
+                      user.name,
                       style: theme.textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -347,7 +347,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 ),
               ),
               child: Text(
-                'CLEANING_BUTTON_DELETE'.tr(),
+                'CLEANING_BUTTON_WITHDRAW'.tr(),
                 style: theme.textTheme.subtitle1!.copyWith(
                   color: foregroundColor,
                   fontStyle: FontStyle.italic,
@@ -438,25 +438,25 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Future<void> _onManualRefresh() async {
     await widget.manager.refreshExchanges();
     setState(() {
-      _customSorted(widget.manager.exchanges);
+      _exchanges = _customSorted(widget.manager.exchanges);
     });
   }
 
   List<CleaningExchange> _customSorted(List<CleaningExchange> list) {
-    list = List.from(list);
-    var ownItems = list.where((element) =>
+    var copiedList = List<CleaningExchange>.from(list);
+    var ownItems = copiedList.where((element) =>
         element.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
     if (ownItems.isNotEmpty) {
       for (var ownItem in ownItems) {
-        list.remove(ownItem);
-        list.insert(0, ownItem);
+        copiedList.remove(ownItem);
+        copiedList.insert(0, ownItem);
       }
     }
-    return list;
+    return copiedList;
   }
 
-  String userIDSToString(List<String> userIDs) {
+  String userIDsToString(List<String> userIDs) {
     return userIDs
         .map(
           (e) => Provider.of<SzikAppStateManager>(context)
@@ -467,12 +467,15 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         .join(', ');
   }
 
-  Widget _buildTexts({replacementTask, font}) {
+  Widget _buildTexts({
+    required CleaningTask replacementTask,
+    required TextStyle font,
+  }) {
     return Text.rich(
       TextSpan(
         children: [
           TextSpan(
-            text: '${'CLEANING_LABEL_EXTRA_TASK'.tr()}: ',
+            text: '${'CLEANING_LABEL_EXTENSION'.tr()}: ',
             style: font.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -489,7 +492,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
             ),
           ),
           TextSpan(
-            text: userIDSToString(
+            text: userIDsToString(
               replacementTask.participantIDs,
             ),
             style: font,
@@ -550,7 +553,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDSToString(replacementTask.participantIDs)}',
+          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () =>
           widget.manager.acceptCleaningExchangeOccasion(exchange),
@@ -565,7 +568,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_REFUSE_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDSToString(replacementTask.participantIDs)}',
+          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () =>
           widget.manager.rejectCleaningExchangeOccasion(exchange),

@@ -19,32 +19,32 @@ class CleaningTasksView extends StatefulWidget {
 }
 
 class _CleaningTasksViewState extends State<CleaningTasksView> {
-  List<CleaningTask> tasks = [];
-  bool isShowingPastTasks = false;
+  List<CleaningTask> _tasks = [];
+  bool _isShowingPastTasks = false;
 
   @override
   void initState() {
     super.initState();
-    tasks = widget.manager.tasks;
+    _tasks = widget.manager.tasks;
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var yesterday = DateTime.now().subtract(const Duration(days: 1));
-    var showingTasks = isShowingPastTasks
-        ? tasks
+    var showingTasks = _isShowingPastTasks
+        ? _tasks
             .where((element) =>
                 (element.start.day != yesterday.day) ||
                 (element.start.month != yesterday.month))
             .toList()
-        : tasks
+        : _tasks
             .where((element) => element.start.isAfter(DateTime.now()))
             .toList();
     return RefreshIndicator(
       onRefresh: () async {
         await widget.manager.refreshTasks();
-        setState(() => tasks = widget.manager.tasks);
+        setState(() => _tasks = widget.manager.tasks);
       },
       child: Column(
         children: [
@@ -164,7 +164,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${'CLEANING_LABEL_EXTRA_TASK'.tr()}: ',
+                      text: '${'CLEANING_LABEL_EXTENSION'.tr()}: ',
                       style: weakFont.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -197,7 +197,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
       child: GestureDetector(
         onTap: () {
           var yesterday = DateTime.now().subtract(const Duration(days: 1));
-          var reportableItem = tasks.firstWhere(
+          var reportableItem = _tasks.firstWhere(
             (element) =>
                 (element.start.day == yesterday.day) &&
                 (element.start.month == yesterday.month),
@@ -247,7 +247,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
   Widget _buildOpener() {
     var theme = Theme.of(context);
     return GestureDetector(
-      onTap: (() => setState(() => isShowingPastTasks = !isShowingPastTasks)),
+      onTap: (() => setState(() => _isShowingPastTasks = !_isShowingPastTasks)),
       child: Container(
         margin: const EdgeInsets.all(kPaddingNormal),
         padding: const EdgeInsets.all(kPaddingNormal),
@@ -257,7 +257,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
             Radius.circular(kBorderRadiusNormal),
           ),
         ),
-        child: isShowingPastTasks
+        child: _isShowingPastTasks
             ? CustomIcon(
                 CustomIcons.doubleArrowDown,
                 color: theme.colorScheme.primary,
