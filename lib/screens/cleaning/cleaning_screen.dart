@@ -38,8 +38,7 @@ class CleaningScreen extends StatelessWidget {
 
   Future<void> _allRefresh() async {
     await manager.refreshPeriods();
-    await manager.refreshTasks(
-        start: DateTime.now().subtract(const Duration(days: 100)));
+    await manager.refreshTasks();
     await manager.refreshExchanges();
   }
 }
@@ -84,7 +83,7 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
         return CleaningExchangesView(manager: widget.manager);
       case 1:
       default:
-        return const CleaningTasksView();
+        return CleaningTasksView(manager: widget.manager);
     }
   }
 

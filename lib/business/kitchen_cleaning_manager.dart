@@ -88,7 +88,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<void> refreshTasks({DateTime? start, DateTime? end}) async {
     if (_cleaningPeriods.isEmpty) refreshPeriods();
 
-    start ??= DateTime.now().subtract(const Duration(days: 1));
+    start ??= _cleaningPeriods.first.start;
     end ??= _cleaningPeriods.last.end;
 
     var parameter = {
