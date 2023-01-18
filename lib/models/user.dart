@@ -121,7 +121,6 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToAccess(SzikAppLink link) {
-    return true;
     if (permissions.any((element) => element == Permission.admin)) {
       return true;
     }
@@ -135,6 +134,9 @@ class User implements Identifiable, Cachable {
     }
     if (type == PollTask) {
       return permissions.contains(Permission.pollCreate);
+    }
+    if (type == CleaningPeriod) {
+      return permissions.contains(Permission.cleaningPeriodCreate);
     } else {
       return true;
     }
