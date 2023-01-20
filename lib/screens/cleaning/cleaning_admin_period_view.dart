@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/models.dart';
+import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
@@ -171,6 +173,30 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                   ),
                   Text(
                     '${_endDate.difference(_startDate).inDays * 2}',
+                    style: theme.textTheme.headline3,
+                  )
+                ],
+              ),
+              const SizedBox(height: kPaddingNormal),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'ClEANING_ADMIN_NUMOFPARTICIPANTS'.tr(),
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  Text(
+                    Provider.of<SzikAppStateManager>(context, listen: false)
+                        .groups
+                        .firstWhere(
+                            (element) => element.email == 'lakok@szentignac.hu')
+                        .memberIDs
+                        .length
+                        .toString(),
                     style: theme.textTheme.headline3,
                   )
                 ],

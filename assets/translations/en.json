@@ -156,6 +156,7 @@
         "CLEANING_PERIOD_START": "Start date",
         "CLEANING_PERIOD_END": "End date",
         "CLEANING_ADMIN_NUMOFDAYS": "Number of assigned tasks",
+        "ClEANING_ADMIN_NUMOFPARTICIPANTS": "Number of participants",
         "CLEANING_TAB_APPLY": "Apply",
         "CLEANING_TAB_TASKS": "Tasks",
         "CLEANING_TAB_EXCHANGES": "Exchanges",
