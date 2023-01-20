@@ -40,8 +40,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
     _user = Provider.of<AuthManager>(context, listen: false).user!;
     _userAppliedSelectedEvent =
         _selectedEvent.participantIDs.contains(_user.id);
-    _userAlreadyApplied = widget.manager.tasks
-        .any((element) => element.participantIDs.contains(_user.id));
+    _userAlreadyApplied = widget.manager.userHasAppliedOpenTask(_user.id);
   }
 
   List<CleaningTask> _getEventsForDay(DateTime day) {
@@ -63,18 +62,23 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   Widget _buildCleaningMate() {
+    var theme = Theme.of(context);
     var mate = _selectedEvent.participantIDs.firstWhere(
       (element) => element != _user.id,
       orElse: () => '',
     );
-    if (mate != '') {
-      return Text(Provider.of<SzikAppStateManager>(context, listen: false)
-          .users
-          .firstWhere((element) => element.id == mate)
-          .showableName);
-    } else {
-      return Text('CLEANING_DIALOG_NO_MATE'.tr());
-    }
+    return Text(
+      mate != ''
+          ? Provider.of<SzikAppStateManager>(context, listen: false)
+              .users
+              .firstWhere((element) => element.id == mate)
+              .showableName
+          : 'CLEANING_DIALOG_NO_MATE'.tr(),
+      style: theme.textTheme.subtitle1!.copyWith(
+        color: theme.colorScheme.primaryContainer,
+        fontStyle: FontStyle.italic,
+      ),
+    );
   }
 
   Future<void> _onApplyPressed() async {
@@ -116,6 +120,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kPaddingLarge),
           color: Theme.of(context).colorScheme.background),
+      clipBehavior: Clip.hardEdge,
       child: ListView(
         children: [
           TableCalendar<CleaningTask>(
@@ -129,22 +134,33 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
             calendarFormat: CalendarFormat.month,
             rangeSelectionMode: RangeSelectionMode.disabled,
             daysOfWeekHeight: 20,
+            daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: theme.textTheme.subtitle1!,
+                weekendStyle: theme.textTheme.subtitle1!.copyWith(
+                  fontWeight: FontWeight.bold,
+                )),
             availableGestures: AvailableGestures.horizontalSwipe,
-            headerStyle: const HeaderStyle(
+            headerStyle: HeaderStyle(
               titleCentered: true,
               formatButtonVisible: false,
+              titleTextStyle: theme.textTheme.headline3!.copyWith(
+                color: theme.colorScheme.primaryContainer,
+              ),
             ),
             calendarStyle: CalendarStyle(
-              outsideDaysVisible: false,
-              todayDecoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.8),
-                shape: BoxShape.circle,
-              ),
-              selectedDecoration: BoxDecoration(
-                color: theme.colorScheme.primary,
-                shape: BoxShape.circle,
-              ),
-            ),
+                outsideDaysVisible: false,
+                todayDecoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withOpacity(0.8),
+                  shape: BoxShape.circle,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  shape: BoxShape.circle,
+                ),
+                defaultTextStyle: theme.textTheme.subtitle1!,
+                weekendTextStyle: theme.textTheme.subtitle1!.copyWith(
+                  fontWeight: FontWeight.bold,
+                )),
             onDaySelected: _onDaySelected,
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
@@ -186,7 +202,9 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                   children: [
                     Text(
                       _selectedEvent.name,
-                      style: theme.textTheme.bodyText1,
+                      style: theme.textTheme.headline3!.copyWith(
+                        color: theme.colorScheme.primaryContainer,
+                      ),
                     ),
                     Divider(
                       color: Theme.of(context).colorScheme.primaryContainer,
@@ -206,11 +224,19 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         children: [
                           Text(
                             'CLEANING_LABEL_EXTENSION'.tr(),
-                            style: theme.textTheme.headline5,
+                            style: theme.textTheme.subtitle1!.copyWith(
+                              color: theme.colorScheme.primaryContainer,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             _selectedEvent.description ?? '',
                             textAlign: TextAlign.center,
+                            style: theme.textTheme.subtitle1!.copyWith(
+                              color: theme.colorScheme.primaryContainer,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ],
                       ),
@@ -231,7 +257,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         children: [
                           Text(
                             'CLEANING_DIALOG_WITH'.tr(),
-                            style: theme.textTheme.headline5,
+                            style: theme.textTheme.subtitle1!.copyWith(
+                              color: theme.colorScheme.primaryContainer,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           _buildCleaningMate(),
                         ],
@@ -240,11 +270,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                     if (!_userAlreadyApplied &&
                         !_userAppliedSelectedEvent &&
                         _selectedEvent.participantIDs.length < 2)
-                      IconButton(
+                      ElevatedButton.icon(
                         onPressed: _onApplyPressed,
-                        icon: CustomIcon(
+                        label: Text('BUTTON_APPLY'.tr()),
+                        icon: const CustomIcon(
                           CustomIcons.done,
-                          color: theme.colorScheme.primary,
                           size: kIconSizeLarge,
                         ),
                       ),
@@ -253,11 +283,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('CLEANING_DIALOG_APPLIED'.tr()),
-                          IconButton(
+                          ElevatedButton.icon(
                             onPressed: _onWithdrawPressed,
-                            icon: CustomIcon(
+                            label: Text('BUTTON_DELETE'.tr()),
+                            icon: const CustomIcon(
                               CustomIcons.closeOutlined,
-                              color: theme.colorScheme.primary,
                               size: kIconSizeLarge,
                             ),
                           ),

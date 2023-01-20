@@ -106,7 +106,8 @@ class _CleaningAdminPunishmentViewState
               Text(
                 'CLEANING_ADMIN_AWAITING_APPROVAL'.tr(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline6,
+                style: theme.textTheme.headline3!
+                    .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
               ...pendingTasks.map(
@@ -122,7 +123,7 @@ class _CleaningAdminPunishmentViewState
                   child: Column(
                     children: [
                       Text(
-                        DateFormat('yyyy.MM.dd.').format(e.start),
+                        DateFormat('yyyy. MM. dd.').format(e.start),
                       ),
                       Text(_buildParticipants(e)),
                       Row(
@@ -170,7 +171,8 @@ class _CleaningAdminPunishmentViewState
               Text(
                 'CLEANING_ADMIN_FEE_PAYMENT'.tr(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline6,
+                style: theme.textTheme.headline3!
+                    .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
               ...refusedTasks.map(
@@ -186,7 +188,7 @@ class _CleaningAdminPunishmentViewState
                   child: Column(
                     children: [
                       Text(
-                        DateFormat('yyyy.MM.dd.').format(e.start),
+                        DateFormat('yyyy. MM. dd.').format(e.start),
                       ),
                       Text(_buildParticipants(e)),
                       Row(

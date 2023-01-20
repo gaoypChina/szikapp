@@ -5,6 +5,7 @@ import '../models/cleaning_period.dart';
 import '../models/tasks.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
 ///háttérosztály.
@@ -44,6 +45,40 @@ class KitchenCleaningManager extends ChangeNotifier {
   void adminEdit() {
     _adminEdit = true;
     notifyListeners();
+  }
+
+  CleaningPeriod getCurrentPeriod() => periods.firstWhere(
+      (element) => DateTime.now().isInInterval(element.start, element.end));
+
+  bool hasOpenPeriod() =>
+      periods.any((element) => element.start.isAfter(DateTime.now()));
+  CleaningPeriod getOpenPeriod() =>
+      periods.firstWhere((element) => element.start.isAfter(DateTime.now()));
+
+  bool userHasActiveExchange(String userID) =>
+      exchanges.any((element) => element.initiatorID == userID);
+
+  ///Checks whether user has applied task for the current period
+  bool userHasAppliedTask(String userID) {
+    var currentPeriod = getCurrentPeriod();
+    return tasks.any((element) =>
+        element.participantIDs.contains(userID) &&
+        element.start.isInInterval(currentPeriod.start, currentPeriod.end));
+  }
+
+  bool userHasAppliedOpenTask(String userID) {
+    var openPeriod = getOpenPeriod();
+    return tasks.any((element) =>
+        element.participantIDs.contains(userID) &&
+        element.start.isInInterval(openPeriod.start, openPeriod.end));
+  }
+
+  ///Returns the applied task for the user from the current period
+  CleaningTask getUserTask(String userID) {
+    var currentPeriod = getCurrentPeriod();
+    return tasks.firstWhere((element) =>
+        element.participantIDs.contains(userID) &&
+        element.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a

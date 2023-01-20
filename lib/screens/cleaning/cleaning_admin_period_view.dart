@@ -30,16 +30,14 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   @override
   void initState() {
     super.initState();
-    _hasOpenPeriod = widget.manager.periods
-        .any((element) => element.start.isAfter(DateTime.now()));
-    _openPeriod = widget.manager.periods
-        .firstWhere((element) => element.start.isAfter(DateTime.now()));
-    _startDate = _hasOpenPeriod ? _openPeriod.start : DateTime.now();
+    _hasOpenPeriod = widget.manager.hasOpenPeriod();
+    _openPeriod = widget.manager.getOpenPeriod();
+    _startDate =
+        _hasOpenPeriod ? _openPeriod.start : widget.manager.periods.last.end;
     _endDate = _hasOpenPeriod
         ? _openPeriod.end
         : _startDate.add(const Duration(days: 31));
-    _activePeriod = widget.manager.periods.firstWhere(
-        (element) => DateTime.now().isInInterval(element.start, element.end));
+    _activePeriod = widget.manager.getCurrentPeriod();
   }
 
   void _onStartChanged(DateTime? newDate) {
@@ -118,7 +116,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 _hasOpenPeriod
                     ? 'CLEANING_ADMIN_EDIT_PERIOD'.tr()
                     : 'CLEANING_ADMIN_NEW_PERIOD'.tr(),
-                style: theme.textTheme.headline6,
+                style: theme.textTheme.headline3!
+                    .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingSmall),
               Row(
@@ -126,8 +125,10 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_PERIOD_START'.tr(),
-                    style: theme.textTheme.headline3!.copyWith(
-                      color: theme.colorScheme.primary,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
                   DatePicker(
@@ -143,8 +144,10 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_PERIOD_END'.tr(),
-                    style: theme.textTheme.headline3!.copyWith(
-                      color: theme.colorScheme.primary,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
                   DatePicker(
@@ -160,8 +163,10 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_ADMIN_NUMOFDAYS'.tr(),
-                    style: theme.textTheme.headline3!.copyWith(
-                      color: theme.colorScheme.primary,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
                   Text(
@@ -226,7 +231,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
             children: [
               Text(
                 'CLEANING_ADMIN_ACTIVE_PERIOD'.tr(),
-                style: theme.textTheme.headline5,
+                style: theme.textTheme.headline3,
               ),
               const SizedBox(height: kPaddingSmall),
               Row(
@@ -234,10 +239,14 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_PERIOD_START'.tr(),
-                    style: theme.textTheme.headline5,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                   Text(
-                    DateFormat('yyyy.MM.dd.').format(_activePeriod.start),
+                    DateFormat('yyyy. MM. dd.').format(_activePeriod.start),
                     style: theme.textTheme.button!.copyWith(
                       color: theme.colorScheme.primaryContainer,
                       fontStyle: FontStyle.italic,
@@ -252,10 +261,14 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_PERIOD_END'.tr(),
-                    style: theme.textTheme.headline5,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                   Text(
-                    DateFormat('yyyy.MM.dd.').format(_activePeriod.end),
+                    DateFormat('yyyy. MM. dd.').format(_activePeriod.end),
                     style: theme.textTheme.button!.copyWith(
                       color: theme.colorScheme.primaryContainer,
                       fontStyle: FontStyle.italic,
@@ -270,7 +283,11 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                 children: [
                   Text(
                     'CLEANING_ADMIN_NUMOFDAYS'.tr(),
-                    style: theme.textTheme.headline5,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                   Text(
                     '${_activePeriod.end.difference(_activePeriod.start).inDays * 2}',

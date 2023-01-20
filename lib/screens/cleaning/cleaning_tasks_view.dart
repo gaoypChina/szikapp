@@ -121,17 +121,21 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: task.participantIDs
-                    .map(
-                      (participantID) => Text(
-                        Provider.of<SzikAppStateManager>(context)
-                            .users
-                            .firstWhere((user) => user.id == participantID)
-                            .name,
-                        style: strongFont,
-                      ),
-                    )
-                    .toList(),
+                children: task.participantIDs.isNotEmpty
+                    ? task.participantIDs
+                        .map(
+                          (participantID) => Text(
+                            Provider.of<SzikAppStateManager>(context)
+                                .users
+                                .firstWhere((user) => user.id == participantID)
+                                .showableName,
+                            style: strongFont,
+                          ),
+                        )
+                        .toList()
+                    : [
+                        Text('CLEANING_DIALOG_NO_MATE'.tr(), style: strongFont),
+                      ],
               ),
             ),
             Text(

@@ -24,15 +24,16 @@ class CleaningExchangesView extends StatefulWidget {
 
 class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   bool _userHasActiveExchange = false;
+  bool _userHasAppliedTask = false;
   List<CleaningExchange> _exchanges = [];
 
   @override
   void initState() {
     super.initState();
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
     _exchanges = _customSorted(widget.manager.exchanges);
-    _userHasActiveExchange = _exchanges.any((element) =>
-        element.initiatorID ==
-        Provider.of<AuthManager>(context, listen: false).user!.id);
+    _userHasActiveExchange = widget.manager.userHasActiveExchange(user.id);
+    _userHasAppliedTask = widget.manager.userHasAppliedTask(user.id);
   }
 
   @override
@@ -44,7 +45,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
         child: Column(
           children: [
-            if (!_userHasActiveExchange) _buildNewExchangeTile(),
+            if (!_userHasActiveExchange && _userHasAppliedTask)
+              _buildNewExchangeTile(),
             Expanded(
               child: ToggleList(
                 divider: const SizedBox(height: kPaddingNormal),
@@ -73,8 +75,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildNewExchangeTile() {
     var theme = Theme.of(context);
     var user = Provider.of<AuthManager>(context).user!;
-    var exchangableItem = widget.manager.tasks
-        .firstWhere((element) => element.participantIDs.contains(user.id));
+    var exchangableItem = widget.manager.getUserTask(user.id);
     return Padding(
       padding: const EdgeInsets.all(kPaddingNormal),
       child: Container(
@@ -94,7 +95,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 children: [
                   Expanded(
                     child: Text(
-                      user.name,
+                      user.showableName,
                       style: theme.textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -140,9 +141,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var isOwnItem =
         Provider.of<AuthManager>(context).user!.id == exchange.initiatorID;
     var theme = Theme.of(context);
-    var itemDate = widget.manager.tasks
-        .firstWhere((element) => element.id == exchange.taskID)
-        .start;
+    var hasTask =
+        widget.manager.tasks.any((element) => element.id == exchange.taskID);
     var backgroundColor = isOwnItem
         ? theme.colorScheme.primaryContainer
         : theme.colorScheme.surface;
@@ -179,54 +179,65 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 Provider.of<SzikAppStateManager>(context)
                     .users
                     .firstWhere((element) => element.id == exchange.initiatorID)
-                    .name,
+                    .showableName,
                 style: strongFont,
               ),
             ),
-            Text(
-              DateFormat('MM. dd.').format(itemDate),
-              style: weakFont,
+            Flexible(
+              child: Text(
+                hasTask
+                    ? DateFormat('MM. dd.').format(
+                        widget.manager.tasks
+                            .firstWhere(
+                                (element) => element.id == exchange.taskID)
+                            .start,
+                      )
+                    : 'CLEANING_EXCHANGE_VANISHEDTASK'.tr(),
+                style: weakFont,
+              ),
             ),
           ],
         ),
       ),
-      content: Container(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(kBorderRadiusNormal),
-          ),
-        ),
-        child: Column(
-          children: [
-            Divider(
-              height: 1,
-              thickness: 1,
-              indent: kPaddingNormal,
-              endIndent: kPaddingNormal,
-              color: foregroundColor,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(kPaddingLarge),
-              child: isOwnItem
-                  ? _buildOwnItemBody(
-                      exchange: exchange,
-                      backgroundColor: backgroundColor,
-                      foregroundColor: foregroundColor,
-                      strongFont: strongFont,
-                      weakFont: weakFont,
-                    )
-                  : _buildOtherItemBody(
-                      exchange: exchange,
-                      backgroundColor: backgroundColor,
-                      foregroundColor: foregroundColor,
-                      strongFont: strongFont,
-                      weakFont: weakFont,
-                    ),
-            ),
-          ],
-        ),
-      ),
+      content: hasTask
+          ? Container(
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(kBorderRadiusNormal),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: kPaddingNormal,
+                    endIndent: kPaddingNormal,
+                    color: foregroundColor,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(kPaddingLarge),
+                    child: isOwnItem
+                        ? _buildOwnItemBody(
+                            exchange: exchange,
+                            backgroundColor: backgroundColor,
+                            foregroundColor: foregroundColor,
+                            strongFont: strongFont,
+                            weakFont: weakFont,
+                          )
+                        : _buildOtherItemBody(
+                            exchange: exchange,
+                            backgroundColor: backgroundColor,
+                            foregroundColor: foregroundColor,
+                            strongFont: strongFont,
+                            weakFont: weakFont,
+                          ),
+                  ),
+                ],
+              ),
+            )
+          : Container(),
     );
   }
 
@@ -248,7 +259,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               .firstWhere(
                 (element) => element.id == replacement['replacer_id'],
               )
-              .name;
+              .showableName;
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
@@ -462,7 +473,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           (e) => Provider.of<SzikAppStateManager>(context)
               .users
               .firstWhere((element) => element.id == e)
-              .name,
+              .showableName,
         )
         .join(', ');
   }

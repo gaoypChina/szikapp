@@ -89,7 +89,6 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'CLEANING_TITLE'.tr(),
       floatingActionButton: CustomFloatingActionButton(
@@ -104,6 +103,12 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
           kPaddingNormal,
           0,
         ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
@@ -114,7 +119,7 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
                 'CLEANING_TAB_TASKS'.tr(),
                 'CLEANING_TAB_EXCHANGES'.tr(),
               ],
-              wrapColor: theme.colorScheme.background,
+              wrapColor: Colors.transparent,
               onChanged: _onTabChanged,
             ),
             Expanded(
