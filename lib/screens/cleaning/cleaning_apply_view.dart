@@ -92,13 +92,13 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   Future<void> _onApplyPressed() async {
     try {
       _selectedEvent!.participantIDs.add(_user.id);
+      await widget.manager.editCleaningTask(_selectedEvent!);
+      await widget.manager.refreshTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_apply_task');
       setState(() {
         _userAppliedSelectedEvent = true;
         _userAlreadyApplied = true;
       });
-      await widget.manager.editCleaningTask(_selectedEvent!);
-      await widget.manager.refreshTasks();
-      SzikAppState.analytics.logEvent(name: 'cleaning_apply_task');
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -108,13 +108,13 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   Future<void> _onWithdrawPressed() async {
     try {
       _selectedEvent!.participantIDs.remove(_user.id);
+      await widget.manager.editCleaningTask(_selectedEvent!);
+      await widget.manager.refreshTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_withdraw_task');
       setState(() {
         _userAppliedSelectedEvent = false;
         _userAlreadyApplied = false;
       });
-      await widget.manager.editCleaningTask(_selectedEvent!);
-      await widget.manager.refreshTasks();
-      SzikAppState.analytics.logEvent(name: 'cleaning_withdraw_task');
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -300,7 +300,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                             ),
                           if (_userAppliedSelectedEvent)
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text('CLEANING_DIALOG_APPLIED'.tr()),
                                 ElevatedButton.icon(

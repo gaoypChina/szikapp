@@ -173,7 +173,7 @@
         "CLEANING_DIALOG_REPORT_TITLE": "Do you report it?",
         "CLEANING_DIALOG_REPORT_TEXT": "{}'s cleaning was not completed or was incomplete.",
         "CLEANING_DIALOG_WITH": "with:",
-        "CLEANING_DIALOG_APPLIED": "Applied.",
+        "CLEANING_DIALOG_APPLIED": "Applied",
         "CLEANING_DIALOG_NO_MATE": "Nobody yet",
         "CLEANING_BUTTON_WITHDRAW": "Withdraw",
         "CLEANING_LABEL_EXTENSION": "Unique task",

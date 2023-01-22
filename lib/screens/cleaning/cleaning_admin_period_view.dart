@@ -83,9 +83,13 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       _openPeriod.start = _startDate;
       _openPeriod.end = _endDate;
       _openPeriod.lastUpdate = DateTime.now();
-      widget.manager.editCleaningPeriod(_openPeriod);
-      widget.manager.refreshPeriods();
+      await widget.manager.editCleaningPeriod(_openPeriod);
+      await widget.manager.refreshPeriods();
       SzikAppState.analytics.logEvent(name: 'cleaning_edit_period');
+      setState(() {
+        _hasOpenPeriod = true;
+        _openPeriod = widget.manager.getOpenPeriod();
+      });
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
