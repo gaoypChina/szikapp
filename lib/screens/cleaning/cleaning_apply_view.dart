@@ -24,7 +24,7 @@ class CleaningApplyView extends StatefulWidget {
 }
 
 class _CleaningApplyViewState extends State<CleaningApplyView> {
-  late CleaningTask _selectedEvent;
+  CleaningTask? _selectedEvent;
   late DateTime _focusedDay;
   late DateTime _selectedDay;
   late User _user;
@@ -34,17 +34,19 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   @override
   void initState() {
     super.initState();
-    _focusedDay = DateTime.now();
+    _focusedDay = widget.manager.getOpenPeriod().start;
     _selectedDay = _focusedDay;
-    _selectedEvent = _getEventsForDay(_selectedDay).first;
+    var eventsForDay = _getEventsForDay(_selectedDay);
+    if (eventsForDay.isNotEmpty) _selectedEvent = eventsForDay.first;
     _user = Provider.of<AuthManager>(context, listen: false).user!;
     _userAppliedSelectedEvent =
-        _selectedEvent.participantIDs.contains(_user.id);
+        _selectedEvent?.participantIDs.contains(_user.id) ?? false;
     _userAlreadyApplied = widget.manager.userHasAppliedOpenTask(_user.id);
   }
 
   List<CleaningTask> _getEventsForDay(DateTime day) {
-    return widget.manager.tasks
+    return widget.manager
+        .getOpenTasks()
         .where((element) => isSameDay(element.start, day))
         .toList();
   }
@@ -56,17 +58,18 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _focusedDay = focusedDay;
         _selectedEvent = _getEventsForDay(newSelectedDay).first;
         _userAppliedSelectedEvent =
-            _selectedEvent.participantIDs.contains(_user.id);
+            _selectedEvent?.participantIDs.contains(_user.id) ?? false;
       });
     }
   }
 
   Widget _buildCleaningMate() {
     var theme = Theme.of(context);
-    var mate = _selectedEvent.participantIDs.firstWhere(
-      (element) => element != _user.id,
-      orElse: () => '',
-    );
+    var mate = _selectedEvent?.participantIDs.firstWhere(
+          (element) => element != _user.id,
+          orElse: () => '',
+        ) ??
+        '';
     return Text(
       mate != ''
           ? Provider.of<SzikAppStateManager>(context, listen: false)
@@ -83,12 +86,12 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
 
   Future<void> _onApplyPressed() async {
     try {
-      _selectedEvent.participantIDs.add(_user.id);
+      _selectedEvent!.participantIDs.add(_user.id);
       setState(() {
         _userAppliedSelectedEvent = true;
         _userAlreadyApplied = true;
       });
-      await widget.manager.editCleaningTask(_selectedEvent);
+      await widget.manager.editCleaningTask(_selectedEvent!);
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_apply_task');
     } on IOException catch (e) {
@@ -99,12 +102,12 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
 
   Future<void> _onWithdrawPressed() async {
     try {
-      _selectedEvent.participantIDs.remove(_user.id);
+      _selectedEvent!.participantIDs.remove(_user.id);
       setState(() {
         _userAppliedSelectedEvent = false;
         _userAlreadyApplied = false;
       });
-      await widget.manager.editCleaningTask(_selectedEvent);
+      await widget.manager.editCleaningTask(_selectedEvent!);
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_withdraw_task');
     } on IOException catch (e) {
@@ -164,6 +167,12 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
             onDaySelected: _onDaySelected,
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
+              var eventsForDay = _getEventsForDay(focusedDay);
+              if (eventsForDay.isNotEmpty) {
+                setState(() => _selectedEvent = eventsForDay.first);
+              } else {
+                setState(() => _selectedEvent = null);
+              }
             },
             calendarBuilders: CalendarBuilders(
               singleMarkerBuilder: (context, day, event) {
@@ -198,103 +207,113 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                     color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      _selectedEvent.name,
-                      style: theme.textTheme.headline3!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                      ),
-                    ),
-                    Divider(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(kPaddingSmall),
-                      padding: const EdgeInsets.all(kPaddingNormal),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(kBorderRadiusNormal),
-                        color: Theme.of(context).colorScheme.background,
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                      ),
-                      child: Column(
+                child: _selectedEvent != null
+                    ? Column(
                         children: [
                           Text(
-                            'CLEANING_LABEL_EXTENSION'.tr(),
-                            style: theme.textTheme.subtitle1!.copyWith(
+                            _selectedEvent!.name,
+                            style: theme.textTheme.headline3!.copyWith(
                               color: theme.colorScheme.primaryContainer,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            _selectedEvent.description ?? '',
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.subtitle1!.copyWith(
-                              color: theme.colorScheme.primaryContainer,
-                              fontStyle: FontStyle.italic,
+                          Divider(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(kPaddingSmall),
+                            padding: const EdgeInsets.all(kPaddingNormal),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadiusNormal),
+                              color: Theme.of(context).colorScheme.background,
+                              border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'CLEANING_LABEL_EXTENSION'.tr(),
+                                  style: theme.textTheme.subtitle1!.copyWith(
+                                    color: theme.colorScheme.primaryContainer,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _selectedEvent?.description ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.subtitle1!.copyWith(
+                                    color: theme.colorScheme.primaryContainer,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Container(
+                            margin: const EdgeInsets.all(kPaddingSmall),
+                            padding: const EdgeInsets.all(kPaddingNormal),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadiusNormal),
+                              color: Theme.of(context).colorScheme.background,
+                              border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'CLEANING_DIALOG_WITH'.tr(),
+                                  style: theme.textTheme.subtitle1!.copyWith(
+                                    color: theme.colorScheme.primaryContainer,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                _buildCleaningMate(),
+                              ],
+                            ),
+                          ),
+                          if (!_userAlreadyApplied &&
+                              !_userAppliedSelectedEvent &&
+                              _selectedEvent!.participantIDs.length < 2)
+                            ElevatedButton.icon(
+                              onPressed: _onApplyPressed,
+                              label: Text('BUTTON_APPLY'.tr()),
+                              icon: const CustomIcon(
+                                CustomIcons.done,
+                                size: kIconSizeLarge,
+                              ),
+                            ),
+                          if (_userAppliedSelectedEvent)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('CLEANING_DIALOG_APPLIED'.tr()),
+                                ElevatedButton.icon(
+                                  onPressed: _onWithdrawPressed,
+                                  label: Text('BUTTON_DELETE'.tr()),
+                                  icon: const CustomIcon(
+                                    CustomIcons.closeOutlined,
+                                    size: kIconSizeLarge,
+                                  ),
+                                ),
+                              ],
+                            ),
                         ],
+                      )
+                    : Text(
+                        'CLEANING_EXCHANGE_TODAYEMPTY'.tr(),
+                        style: theme.textTheme.headline3,
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(kPaddingSmall),
-                      padding: const EdgeInsets.all(kPaddingNormal),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(kBorderRadiusNormal),
-                        color: Theme.of(context).colorScheme.background,
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'CLEANING_DIALOG_WITH'.tr(),
-                            style: theme.textTheme.subtitle1!.copyWith(
-                              color: theme.colorScheme.primaryContainer,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          _buildCleaningMate(),
-                        ],
-                      ),
-                    ),
-                    if (!_userAlreadyApplied &&
-                        !_userAppliedSelectedEvent &&
-                        _selectedEvent.participantIDs.length < 2)
-                      ElevatedButton.icon(
-                        onPressed: _onApplyPressed,
-                        label: Text('BUTTON_APPLY'.tr()),
-                        icon: const CustomIcon(
-                          CustomIcons.done,
-                          size: kIconSizeLarge,
-                        ),
-                      ),
-                    if (_userAppliedSelectedEvent)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('CLEANING_DIALOG_APPLIED'.tr()),
-                          ElevatedButton.icon(
-                            onPressed: _onWithdrawPressed,
-                            label: Text('BUTTON_DELETE'.tr()),
-                            icon: const CustomIcon(
-                              CustomIcons.closeOutlined,
-                              size: kIconSizeLarge,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
               )
             ],
           )

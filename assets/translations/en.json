@@ -177,6 +177,7 @@
         "CLEANING_BUTTON_WITHDRAW": "Withdraw",
         "CLEANING_LABEL_EXTENSION": "Unique task",
         "CLEANING_LABEL_WITH": "With",
+        "CLEANING_EXCHANGE_TODAYEMPTY": "You have no task to apply today.",
         "CLEANING_EXCHANGE_NOTASK": "You have no task to exchange.",
         "CLEANING_EXCHANGE_VANISHEDTASK": "The task you wanted to exchange has been deleted.",
     "HELP_ME": null,

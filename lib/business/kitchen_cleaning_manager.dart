@@ -64,6 +64,7 @@ class KitchenCleaningManager extends ChangeNotifier {
         element.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
+  ///Checks whether user has applied task for the next period
   bool userHasAppliedOpenTask(String userID) {
     var openPeriod = getOpenPeriod();
     return tasks.any((element) =>
@@ -77,6 +78,24 @@ class KitchenCleaningManager extends ChangeNotifier {
     return tasks.firstWhere((element) =>
         element.participantIDs.contains(userID) &&
         element.start.isInInterval(currentPeriod.start, currentPeriod.end));
+  }
+
+  ///Returns all tasks of the current period
+  List<CleaningTask> getCurrentTasks() {
+    var currentPeriod = getCurrentPeriod();
+    return tasks
+        .where((element) =>
+            element.start.isInInterval(currentPeriod.start, currentPeriod.end))
+        .toList();
+  }
+
+  ///Returns all tasks of the next period
+  List<CleaningTask> getOpenTasks() {
+    var openPeriod = getOpenPeriod();
+    return tasks
+        .where((element) =>
+            element.start.isInInterval(openPeriod.start, openPeriod.end))
+        .toList();
   }
 
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
@@ -104,10 +123,13 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
-  Future<void> refreshExchanges({bool approved = false}) async {
+  Future<void> refreshExchanges({bool? approved}) async {
     try {
       var io = IO();
-      var parameter = {'approved': approved.toString()};
+      var parameter = <String, String>{};
+      if (approved != null) {
+        parameter.addEntries({'approved': approved.toString()}.entries);
+      }
       _cleaningExchanges = await io.getCleaningExchange(parameter);
     } on IONotModifiedException {
       _cleaningExchanges = [];

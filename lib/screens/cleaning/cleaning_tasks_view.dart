@@ -25,7 +25,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
   @override
   void initState() {
     super.initState();
-    _tasks = widget.manager.tasks;
+    _tasks = widget.manager.getCurrentTasks();
   }
 
   @override
@@ -44,7 +44,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     return RefreshIndicator(
       onRefresh: () async {
         await widget.manager.refreshTasks();
-        setState(() => _tasks = widget.manager.tasks);
+        setState(() => _tasks = widget.manager.getCurrentTasks());
       },
       child: Column(
         children: [

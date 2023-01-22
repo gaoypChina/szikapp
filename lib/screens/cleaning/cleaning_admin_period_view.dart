@@ -33,7 +33,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   void initState() {
     super.initState();
     _hasOpenPeriod = widget.manager.hasOpenPeriod();
-    _openPeriod = widget.manager.getOpenPeriod();
+    if (_hasOpenPeriod) _openPeriod = widget.manager.getOpenPeriod();
     _startDate =
         _hasOpenPeriod ? _openPeriod.start : widget.manager.periods.last.end;
     _endDate = _hasOpenPeriod
@@ -62,6 +62,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         start: _startDate,
         end: _endDate,
         lastUpdate: DateTime.now(),
+        isLive: true,
       );
 
       await widget.manager.createCleaningPeriod(newPeriod);
@@ -69,6 +70,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       SzikAppState.analytics.logEvent(name: 'cleaning_add_period');
       setState(() {
         _hasOpenPeriod = true;
+        _openPeriod = widget.manager.getOpenPeriod();
       });
     } on IOException catch (e) {
       var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
@@ -91,7 +93,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   }
 
   ///TODO ilyen függvény jelenleg nincs
-  void _onAutoAssign() {
+  Future<void> _onAutoAssign() async {
     SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
   }
 

@@ -177,6 +177,7 @@
         "CLEANING_BUTTON_WITHDRAW": "Visszavonás",
         "CLEANING_LABEL_EXTENSION": "Pluszfeladat",
         "CLEANING_LABEL_WITH": "Vele",
+        "CLEANING_EXCHANGE_TODAYEMPTY": "Mára nincs kiírt feladat.",
         "CLEANING_EXCHANGE_NOTASK": "Még nincs feladatod.",
         "CLEANING_EXCHANGE_VANISHEDTASK": "A feladat már véget ért vagy törölve lett.",
     "HELP_ME": null,
