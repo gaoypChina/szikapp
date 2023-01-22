@@ -526,8 +526,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       title: 'CLEANING_DIALOG_OFFER_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE').format(exchangableItem.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.createCleaningExchangeOccasion(exchange),
+      onStrongButtonClick: () {
+        widget.manager.createCleaningExchangeOccasion(exchange);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 
@@ -539,8 +541,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       title: 'CLEANING_DIALOG_EXCHANGE_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.offerCleaningExchangeOccasion(exchange, replaceUID),
+      onStrongButtonClick: () {
+        widget.manager.offerCleaningExchangeOccasion(exchange, replaceUID);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 
@@ -552,8 +556,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       title: 'CLEANING_DIALOG_WITHDRAW_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.withdrawCleaningExchangeOccasion(exchange, replaceUID),
+      onStrongButtonClick: () {
+        widget.manager.withdrawCleaningExchangeOccasion(exchange, replaceUID);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 
@@ -566,8 +572,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext:
           '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.acceptCleaningExchangeOccasion(exchange),
+      onStrongButtonClick: () {
+        widget.manager.acceptCleaningExchangeOccasion(exchange);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 
@@ -581,8 +589,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext:
           '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.rejectCleaningExchangeOccasion(exchange),
+      onStrongButtonClick: () {
+        widget.manager.rejectCleaningExchangeOccasion(exchange);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 
@@ -594,8 +604,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       title: 'CLEANING_DIALOG_DELETE_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE').format(task.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.deleteCleaningExchangeOccasion(exchange),
+      onStrongButtonClick: () {
+        widget.manager.deleteCleaningExchangeOccasion(exchange);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 }

@@ -22,16 +22,16 @@ class CleaningAdminPunishmentView extends StatefulWidget {
 
 class _CleaningAdminPunishmentViewState
     extends State<CleaningAdminPunishmentView> {
-  List<CleaningTask> pendingTasks = [];
-  List<CleaningTask> refusedTasks = [];
+  List<CleaningTask> _pendingTasks = [];
+  List<CleaningTask> _refusedTasks = [];
 
   @override
   void initState() {
     super.initState();
-    pendingTasks = widget.manager.tasks
+    _pendingTasks = widget.manager.tasks
         .where((element) => element.status == TaskStatus.awaitingApproval)
         .toList();
-    refusedTasks = widget.manager.tasks
+    _refusedTasks = widget.manager.tasks
         .where((element) => element.status == TaskStatus.refused)
         .toList();
   }
@@ -56,8 +56,11 @@ class _CleaningAdminPunishmentViewState
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_refuse_report');
       setState(() {
-        pendingTasks = widget.manager.tasks
+        _pendingTasks = widget.manager.tasks
             .where((element) => element.status == TaskStatus.awaitingApproval)
+            .toList();
+        _refusedTasks = widget.manager.tasks
+            .where((element) => element.status == TaskStatus.refused)
             .toList();
       });
     } on IOException catch (e) {
@@ -74,10 +77,10 @@ class _CleaningAdminPunishmentViewState
       SzikAppState.analytics
           .logEvent(name: 'cleaning_accept_report_or_payment');
       setState(() {
-        pendingTasks = widget.manager.tasks
+        _pendingTasks = widget.manager.tasks
             .where((element) => element.status == TaskStatus.awaitingApproval)
             .toList();
-        refusedTasks = widget.manager.tasks
+        _refusedTasks = widget.manager.tasks
             .where((element) => element.status == TaskStatus.refused)
             .toList();
       });
@@ -110,7 +113,7 @@ class _CleaningAdminPunishmentViewState
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
-              ...pendingTasks.map(
+              ..._pendingTasks.map(
                 (e) => Container(
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
@@ -124,8 +127,19 @@ class _CleaningAdminPunishmentViewState
                     children: [
                       Text(
                         DateFormat('yyyy. MM. dd.').format(e.start),
+                        style: theme.textTheme.subtitle1!.copyWith(
+                          color: theme.colorScheme.primaryContainer,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
-                      Text(_buildParticipants(e)),
+                      Text(
+                        _buildParticipants(e),
+                        style: theme.textTheme.subtitle1!.copyWith(
+                          color: theme.colorScheme.primaryContainer,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -175,7 +189,7 @@ class _CleaningAdminPunishmentViewState
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
-              ...refusedTasks.map(
+              ..._refusedTasks.map(
                 (e) => Container(
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
@@ -189,8 +203,19 @@ class _CleaningAdminPunishmentViewState
                     children: [
                       Text(
                         DateFormat('yyyy. MM. dd.').format(e.start),
+                        style: theme.textTheme.subtitle1!.copyWith(
+                          color: theme.colorScheme.primaryContainer,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
-                      Text(_buildParticipants(e)),
+                      Text(
+                        _buildParticipants(e),
+                        style: theme.textTheme.subtitle1!.copyWith(
+                          color: theme.colorScheme.primaryContainer,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

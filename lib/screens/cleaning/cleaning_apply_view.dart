@@ -53,10 +53,15 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
 
   void _onDaySelected(DateTime newSelectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, newSelectedDay)) {
+      var eventsForDay = _getEventsForDay(focusedDay);
       setState(() {
         _selectedDay = newSelectedDay;
         _focusedDay = focusedDay;
-        _selectedEvent = _getEventsForDay(newSelectedDay).first;
+        if (eventsForDay.isNotEmpty) {
+          _selectedEvent = eventsForDay.first;
+        } else {
+          _selectedEvent = null;
+        }
         _userAppliedSelectedEvent =
             _selectedEvent?.participantIDs.contains(_user.id) ?? false;
       });

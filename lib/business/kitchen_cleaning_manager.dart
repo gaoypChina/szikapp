@@ -158,7 +158,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Elmaradt konyhatakarítás jelentése.
   Future<bool> reportInsufficiency(CleaningTask task) async {
     var io = IO();
-    task.status = TaskStatus.refused;
+    task.status = TaskStatus.awaitingApproval;
     var parameter = {'id': task.id};
     await io.putCleaning(task, parameter);
     _cleaningTasks.removeWhere((element) => element.id == task.id);

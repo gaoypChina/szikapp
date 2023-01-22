@@ -189,6 +189,16 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
 
   Widget _buildReportTile() {
     var theme = Theme.of(context);
+    var yesterday = DateTime.now().subtract(const Duration(days: 1));
+    var reportableItem = _tasks.firstWhere(
+      (element) =>
+          (element.start.day == yesterday.day) &&
+          (element.start.month == yesterday.month),
+    );
+    var alreadyReported =
+        reportableItem.status == TaskStatus.awaitingApproval ||
+            reportableItem.status == TaskStatus.approved ||
+            reportableItem.status == TaskStatus.refused;
     var weakFont = theme.textTheme.subtitle1!.copyWith(
       color: theme.colorScheme.surface,
       fontStyle: FontStyle.italic,
@@ -200,17 +210,13 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
       padding: const EdgeInsets.symmetric(vertical: kPaddingSmall),
       child: GestureDetector(
         onTap: () {
-          var yesterday = DateTime.now().subtract(const Duration(days: 1));
-          var reportableItem = _tasks.firstWhere(
-            (element) =>
-                (element.start.day == yesterday.day) &&
-                (element.start.month == yesterday.month),
-          );
-          showDialog(
-            context: context,
-            builder: (BuildContext context) =>
-                _buildReportDialog(reportableItem),
-          );
+          if (!alreadyReported) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  _buildReportDialog(reportableItem),
+            );
+          }
         },
         child: Container(
           margin: const EdgeInsets.symmetric(
@@ -231,7 +237,11 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: kPaddingNormal),
-                  child: Text('CLEANING_REPORT'.tr(), style: strongFont),
+                  child: Text(
+                      alreadyReported
+                          ? 'CLEANING_ALREADY_REPORTED'.tr()
+                          : 'CLEANING_REPORT'.tr(),
+                      style: strongFont),
                 ),
                 const Spacer(),
                 Text(
@@ -284,8 +294,10 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
             .format(reportableItem.start),
       ]),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () =>
-          widget.manager.reportInsufficiency(reportableItem),
+      onStrongButtonClick: () {
+        widget.manager.reportInsufficiency(reportableItem);
+        Navigator.of(context, rootNavigator: true).pop();
+      },
     );
   }
 }
