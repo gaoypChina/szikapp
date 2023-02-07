@@ -37,6 +37,7 @@ class IO {
   final _boardgameEndpoint = '/boardgame';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
+  final _cleaningAssignEndpoint = '/cleaning/assign';
   final _contactsEndpoint = '/contacts';
   final _goodToKnowEndpoint = '/goodtoknow';
   final _groupEndpoint = '/group';
@@ -664,6 +665,35 @@ class IO {
         body: json.encode({'data': data.toJson()}));
 
     if (response.statusCode == 200) return true;
+    throw _handleErrors(response);
+  }
+
+  ///Automatikusan beosztja a takarítókat a következő periódusra.
+  Future<bool> cleaningAutoAssign() async {
+    var uri = '$_vmAddress$_cleaningAssignEndpoint';
+    var response = await client.get(
+      Uri.parse(uri),
+      headers: await _commonHeaders(),
+    );
+
+    if (response.statusCode == 200) {
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var results = int.parse(parsed['results']);
+      switch (results) {
+        case cleaningAssignPeriodShrink:
+          throw IOServerException(cleaningAssignPeriodShrink, '');
+        case cleaningAssignPeriodExtended:
+          throw IOServerException(cleaningAssignPeriodExtended, '');
+        case cleaningAssignPeriodExtendedWithEmptyEnd:
+          throw IOServerException(cleaningAssignPeriodExtendedWithEmptyEnd, '');
+        case cleaningAssigned:
+          throw IOServerException(cleaningAssigned, '');
+        case cleaningAssignedWithEmptyEnd:
+          throw IOServerException(cleaningAssignedWithEmptyEnd, '');
+        default:
+          return false;
+      }
+    }
     throw _handleErrors(response);
   }
 

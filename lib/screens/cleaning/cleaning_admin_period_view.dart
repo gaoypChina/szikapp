@@ -96,9 +96,15 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     }
   }
 
-  ///TODO ilyen függvény jelenleg nincs
   Future<void> _onAutoAssign() async {
-    SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
+    try {
+      await widget.manager.autoAssignTasks();
+      SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
+    } on IOServerException catch (e) {
+      var banner = ErrorHandler.buildBanner(context,
+          information: ErrorInformation.fromCode(e.code));
+      ScaffoldMessenger.of(context).showMaterialBanner(banner);
+    }
   }
 
   @override

@@ -155,6 +155,11 @@ class KitchenCleaningManager extends ChangeNotifier {
     }
   }
 
+  Future<void> autoAssignTasks() async {
+    var io = IO();
+    await io.cleaningAutoAssign();
+  }
+
   ///Elmaradt konyhatakarítás jelentése.
   Future<bool> reportInsufficiency(CleaningTask task) async {
     var io = IO();
