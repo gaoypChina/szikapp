@@ -247,7 +247,7 @@ class ContactsListViewState extends State<ContactsListView>
                 ),
                 Text(
                   'CONTACTS_GROUP_MEMBERS'.tr(),
-                  style: theme.textTheme.headline3!.copyWith(
+                  style: theme.textTheme.displaySmall!.copyWith(
                     fontSize: 14,
                     color: theme.colorScheme.primaryContainer,
                   ),
@@ -264,7 +264,7 @@ class ContactsListViewState extends State<ContactsListView>
                 ),
                 Text(
                   'CONTACTS_GROUP_TENANTS'.tr(),
-                  style: theme.textTheme.headline3!.copyWith(
+                  style: theme.textTheme.displaySmall!.copyWith(
                     fontSize: 14,
                     color: theme.colorScheme.primaryContainer,
                   ),
@@ -281,7 +281,7 @@ class ContactsListViewState extends State<ContactsListView>
                 ),
                 Text(
                   'CONTACTS_GROUP_ALL'.tr(),
-                  style: theme.textTheme.headline3!.copyWith(
+                  style: theme.textTheme.displaySmall!.copyWith(
                     fontSize: 14,
                     color: theme.colorScheme.primaryContainer,
                   ),
@@ -307,11 +307,11 @@ class ContactsListViewState extends State<ContactsListView>
               foregroundImage: item.profilePicture != null
                   ? NetworkImage(item.profilePicture!)
                   : null,
-              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              radius: theme.textTheme.displaySmall!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
                 item.initials,
-                style: theme.textTheme.headline4!.copyWith(
+                style: theme.textTheme.headlineMedium!.copyWith(
                   color: theme.colorScheme.background,
                   fontStyle: FontStyle.normal,
                 ),
@@ -321,7 +321,7 @@ class ContactsListViewState extends State<ContactsListView>
           title: Text(
             item.name,
             textAlign: TextAlign.start,
-            style: theme.textTheme.headline3!.copyWith(
+            style: theme.textTheme.displaySmall!.copyWith(
               color: theme.colorScheme.secondary,
             ),
           ),
@@ -352,12 +352,12 @@ class ContactsListViewState extends State<ContactsListView>
                     children: [
                       CustomIcon(
                         CustomIcons.phone,
-                        size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                        size: theme.textTheme.bodyLarge!.fontSize! * 1.5,
                         color: theme.colorScheme.primaryContainer,
                       ),
                       Text(
                         item.phone ?? 'PHONE_NOT_FOUND'.tr(),
-                        style: theme.textTheme.bodyText1?.copyWith(
+                        style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.primaryContainer,
                         ),
                       ),
@@ -385,14 +385,14 @@ class ContactsListViewState extends State<ContactsListView>
                           padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: CustomIcon(
                             CustomIcons.email,
-                            size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            size: theme.textTheme.bodyLarge!.fontSize! * 1.5,
                             color: theme.colorScheme.primaryContainer,
                           ),
                         ),
                         Flexible(
                           child: Text(
                             item.email.useCorrectEllipsis(),
-                            style: theme.textTheme.bodyText1?.copyWith(
+                            style: theme.textTheme.bodyLarge?.copyWith(
                                 color: theme.colorScheme.primaryContainer),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -406,14 +406,14 @@ class ContactsListViewState extends State<ContactsListView>
                   children: [
                     CustomIcon(
                       CustomIcons.gift,
-                      size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                      size: theme.textTheme.bodyLarge!.fontSize! * 1.5,
                       color: theme.colorScheme.primaryContainer,
                     ),
                     Text(
                       item.birthday != null
                           ? DateFormat('yyyy. MM. dd.').format(item.birthday!)
                           : 'BIRTHDAY_NOT_FOUND'.tr(),
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         color: theme.colorScheme.primaryContainer,
                       ),
                     ),
@@ -442,11 +442,11 @@ class ContactsListViewState extends State<ContactsListView>
               horizontal: kPaddingLarge,
             ),
             child: CircleAvatar(
-              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              radius: theme.textTheme.displaySmall!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
                 item.initials,
-                style: theme.textTheme.headline4!.copyWith(
+                style: theme.textTheme.headlineMedium!.copyWith(
                   color: theme.colorScheme.background,
                   fontStyle: FontStyle.normal,
                 ),
@@ -456,7 +456,7 @@ class ContactsListViewState extends State<ContactsListView>
           title: Text(
             item.name,
             textAlign: TextAlign.start,
-            style: theme.textTheme.headline3!.copyWith(
+            style: theme.textTheme.displaySmall!.copyWith(
               color: theme.colorScheme.secondary,
             ),
           ),
@@ -492,7 +492,7 @@ class ContactsListViewState extends State<ContactsListView>
                           padding: const EdgeInsets.only(right: kPaddingSmall),
                           child: CustomIcon(
                             CustomIcons.email,
-                            size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                            size: theme.textTheme.bodyLarge!.fontSize! * 1.5,
                             color: theme.colorScheme.primaryContainer,
                           ),
                         ),
@@ -500,7 +500,7 @@ class ContactsListViewState extends State<ContactsListView>
                           child: Text(
                             item.email?.useCorrectEllipsis() ??
                                 'EMAIL_NOT_FOUND'.tr(),
-                            style: theme.textTheme.bodyText1?.copyWith(
+                            style: theme.textTheme.bodyLarge?.copyWith(
                                 color: theme.colorScheme.primaryContainer),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -519,14 +519,14 @@ class ContactsListViewState extends State<ContactsListView>
                           children: [
                             CustomIcon(
                               CustomIcons.user,
-                              size: theme.textTheme.bodyText1!.fontSize! * 1.5,
+                              size: theme.textTheme.bodyLarge!.fontSize! * 1.5,
                               color: theme.colorScheme.primaryContainer,
                             ),
                             Flexible(
                               child: Text(
                                 item.name,
                                 textAlign: TextAlign.end,
-                                style: theme.textTheme.bodyText1?.copyWith(
+                                style: theme.textTheme.bodyLarge?.copyWith(
                                   color: theme.colorScheme.primaryContainer,
                                 ),
                               ),

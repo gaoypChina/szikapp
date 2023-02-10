@@ -28,12 +28,12 @@ class InvitationCard extends StatelessWidget {
           children: [
             Text(
               data.name,
-              style: theme.textTheme.headline2,
+              style: theme.textTheme.displayMedium,
             ),
             const SizedBox(height: kPaddingNormal),
             Text(
               data.description ?? '',
-              style: theme.textTheme.bodyText1,
+              style: theme.textTheme.bodyLarge,
             ),
             const SizedBox(height: kPaddingNormal),
             Row(
@@ -41,7 +41,7 @@ class InvitationCard extends StatelessWidget {
               children: [
                 Text(
                   DateFormat('yyyy.MM.dd.').format(data.lastUpdate),
-                  style: theme.textTheme.caption,
+                  style: theme.textTheme.bodySmall,
                 ),
                 OutlinedButton(
                   onPressed: () {
@@ -50,7 +50,7 @@ class InvitationCard extends StatelessWidget {
                   },
                   child: Text(
                     'BUTTON_DETAILS'.tr(),
-                    style: theme.textTheme.button!.copyWith(fontSize: 12),
+                    style: theme.textTheme.labelLarge!.copyWith(fontSize: 12),
                   ),
                 )
               ],

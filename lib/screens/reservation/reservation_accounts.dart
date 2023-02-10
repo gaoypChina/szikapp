@@ -76,7 +76,7 @@ class ReservationAccountList extends StatelessWidget {
                               padding: const EdgeInsets.all(kPaddingLarge),
                               child: Text(
                                 item.name,
-                                style: theme.textTheme.headline3!.copyWith(
+                                style: theme.textTheme.displaySmall!.copyWith(
                                   color: theme.colorScheme.secondary,
                                 ),
                               ),
@@ -101,7 +101,7 @@ class ReservationAccountList extends StatelessWidget {
                                             right: kPaddingLarge),
                                         child: CustomIcon(
                                           CustomIcons.userName,
-                                          size: theme.textTheme.bodyText1!
+                                          size: theme.textTheme.bodyLarge!
                                                   .fontSize! *
                                               1.5,
                                           color: theme
@@ -111,7 +111,7 @@ class ReservationAccountList extends StatelessWidget {
                                       Flexible(
                                         child: Text(
                                           item.username,
-                                          style: theme.textTheme.bodyText1
+                                          style: theme.textTheme.bodyLarge
                                               ?.copyWith(
                                             color: theme
                                                 .colorScheme.primaryContainer,
@@ -129,7 +129,7 @@ class ReservationAccountList extends StatelessWidget {
                                             right: kPaddingLarge),
                                         child: CustomIcon(
                                           CustomIcons.password,
-                                          size: theme.textTheme.bodyText1!
+                                          size: theme.textTheme.bodyLarge!
                                                   .fontSize! *
                                               1.5,
                                           color: theme
@@ -139,7 +139,7 @@ class ReservationAccountList extends StatelessWidget {
                                       Flexible(
                                         child: Text(
                                           item.credential,
-                                          style: theme.textTheme.bodyText1
+                                          style: theme.textTheme.bodyLarge
                                               ?.copyWith(
                                                   color: theme.colorScheme
                                                       .primaryContainer),
@@ -157,7 +157,7 @@ class ReservationAccountList extends StatelessWidget {
                                               right: kPaddingLarge),
                                           child: CustomIcon(
                                             CustomIcons.description,
-                                            size: theme.textTheme.bodyText1!
+                                            size: theme.textTheme.bodyLarge!
                                                     .fontSize! *
                                                 1.5,
                                             color: theme
@@ -167,7 +167,7 @@ class ReservationAccountList extends StatelessWidget {
                                         Flexible(
                                           child: Text(
                                             item.description!,
-                                            style: theme.textTheme.caption
+                                            style: theme.textTheme.bodySmall
                                                 ?.copyWith(
                                                     color: theme.colorScheme
                                                         .primaryContainer),
@@ -183,7 +183,7 @@ class ReservationAccountList extends StatelessWidget {
                                         onPressed: (() => openUrl(item.url)),
                                         child: Text(
                                           'RESERVATION_ACCOUNT_BUTTON_URL'.tr(),
-                                          style: theme.textTheme.overline!
+                                          style: theme.textTheme.labelSmall!
                                               .copyWith(
                                             color: theme.colorScheme.primary,
                                           ),
@@ -201,7 +201,7 @@ class ReservationAccountList extends StatelessWidget {
                                           child: Text(
                                             'RESERVATION_ACCOUNT_BUTTON_LIST'
                                                 .tr(),
-                                            style: theme.textTheme.overline!
+                                            style: theme.textTheme.labelSmall!
                                                 .copyWith(
                                               color: theme.colorScheme.surface,
                                             ),

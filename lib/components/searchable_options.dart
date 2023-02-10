@@ -97,14 +97,14 @@ class SearchableOptions<T> extends StatelessWidget {
                 ),
               ),
               searchFieldProps: TextFieldProps(
-                style: theme.textTheme.headline3!.copyWith(
+                style: theme.textTheme.displaySmall!.copyWith(
                   fontSize: 14,
                   color: theme.colorScheme.primaryContainer,
                   fontStyle: FontStyle.italic,
                 ),
                 decoration: InputDecoration(
                   hintText: 'PLACEHOLDER_SEARCH'.tr(),
-                  hintStyle: theme.textTheme.caption,
+                  hintStyle: theme.textTheme.bodySmall,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                     borderSide: BorderSide(
@@ -117,7 +117,7 @@ class SearchableOptions<T> extends StatelessWidget {
               ),
             ),
             dropdownDecoratorProps: DropDownDecoratorProps(
-              baseStyle: theme.textTheme.headline3!.copyWith(
+              baseStyle: theme.textTheme.displaySmall!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
                 fontStyle: FontStyle.italic,
@@ -164,14 +164,14 @@ class SearchableOptions<T> extends StatelessWidget {
                 ),
               ),
               searchFieldProps: TextFieldProps(
-                style: theme.textTheme.headline3!.copyWith(
+                style: theme.textTheme.displaySmall!.copyWith(
                   fontSize: 14,
                   color: theme.colorScheme.primaryContainer,
                   fontStyle: FontStyle.italic,
                 ),
                 decoration: InputDecoration(
                   hintText: 'PLACEHOLDER_SEARCH'.tr(),
-                  hintStyle: theme.textTheme.caption,
+                  hintStyle: theme.textTheme.bodySmall,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(kBorderRadiusSmall),
                     borderSide: BorderSide(
@@ -184,7 +184,7 @@ class SearchableOptions<T> extends StatelessWidget {
               ),
             ),
             dropdownDecoratorProps: DropDownDecoratorProps(
-              baseStyle: theme.textTheme.headline3!.copyWith(
+              baseStyle: theme.textTheme.displaySmall!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
                 fontStyle: FontStyle.italic,

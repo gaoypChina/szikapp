@@ -37,7 +37,7 @@ class DocumentDetails extends StatelessWidget {
                 children: [
                   SelectableText(
                     document?.title ?? '',
-                    style: theme.textTheme.headline5,
+                    style: theme.textTheme.headlineSmall,
                   ),
                   CustomIcon(
                     CustomIcons.heartFull,
@@ -51,7 +51,7 @@ class DocumentDetails extends StatelessWidget {
               ),
               SelectableText(
                 document?.description ?? '',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyLarge,
               ),
               const Spacer(),
               Text(
@@ -61,7 +61,7 @@ class DocumentDetails extends StatelessWidget {
                         .format(document?.lastUpdate ?? DateTime.now())
                   ],
                 ),
-                style: theme.textTheme.caption,
+                style: theme.textTheme.bodySmall,
               ),
               if (document!.category == GoodToKnowCategory.document)
                 Center(

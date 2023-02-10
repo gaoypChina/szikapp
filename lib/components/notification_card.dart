@@ -36,7 +36,7 @@ class NotificationCard extends StatelessWidget {
             ),
             title: Text(
               data.title,
-              style: theme.textTheme.bodyText1!.copyWith(
+              style: theme.textTheme.bodyLarge!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
               ),

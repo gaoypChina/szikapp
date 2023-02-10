@@ -31,7 +31,7 @@ class JanitorScreen extends StatelessWidget {
         urlTexts: ['JANITOR_TITLE_SPREADSHEET'.tr()],
         description: Text(
           'JANITOR_DESCRIPTION'.tr(),
-          style: theme.textTheme.headline2,
+          style: theme.textTheme.displayMedium,
           textAlign: TextAlign.center,
         ),
       ),

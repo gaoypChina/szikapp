@@ -122,7 +122,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
         ),
         child: Text(
           items[newIndex].title,
-          style: theme.textTheme.bodyText1,
+          style: theme.textTheme.bodyLarge,
         ),
       ),
     );

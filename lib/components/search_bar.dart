@@ -77,7 +77,7 @@ class _SearchBarState extends State<SearchBar>
                   child: TextFormField(
                     validator: widget.validator,
                     autofocus: false,
-                    style: theme.textTheme.headline3!.copyWith(
+                    style: theme.textTheme.displaySmall!.copyWith(
                       fontSize: 14,
                       color: theme.colorScheme.primary,
                     ),

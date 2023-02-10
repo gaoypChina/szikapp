@@ -76,7 +76,7 @@ class TabChoiceState extends State<TabChoice> {
               selectedColor: widget.choiceColor ??
                   theme.colorScheme.primary.withOpacity(0.3),
               disabledColor: Colors.transparent,
-              labelStyle: theme.textTheme.headline3!.copyWith(
+              labelStyle: theme.textTheme.displaySmall!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
               ),

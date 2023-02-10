@@ -129,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_THEME'.tr(),
-                      style: theme.textTheme.headline3!.copyWith(
+                      style: theme.textTheme.displaySmall!.copyWith(
                         color: theme.colorScheme.primary,
                       ),
                     ),
@@ -138,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   CustomSwitch(
                     titleText: Text(
                       'SETTINGS_AUTOMATIC'.tr(),
-                      style: theme.textTheme.headline6!.copyWith(
+                      style: theme.textTheme.titleLarge!.copyWith(
                         color: theme.colorScheme.primary,
                       ),
                     ),
@@ -148,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   CustomSwitch(
                     titleText: Text(
                       'SETTINGS_DARKMODE'.tr(),
-                      style: theme.textTheme.headline6!.copyWith(
+                      style: theme.textTheme.titleLarge!.copyWith(
                         color: _isAutomaticDarkModeEnabled
                             ? theme.colorScheme.secondaryContainer
                             : theme.colorScheme.primary,
@@ -182,7 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_LANGUAGE'.tr(),
-                      style: theme.textTheme.headline3!.copyWith(
+                      style: theme.textTheme.displaySmall!.copyWith(
                         color: theme.colorScheme.primary,
                       ),
                     ),
@@ -232,7 +232,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         'SETTINGS_NOTIFICATIONS'.tr(),
-                        style: theme.textTheme.headline3!.copyWith(
+                        style: theme.textTheme.displaySmall!.copyWith(
                           color: theme.colorScheme.primary,
                         ),
                       ),
@@ -240,7 +240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     CustomSwitch(
                       titleText: Text(
                         'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                        style: theme.textTheme.headline6!.copyWith(
+                        style: theme.textTheme.titleLarge!.copyWith(
                           color: theme.colorScheme.primary,
                         ),
                       ),
@@ -271,7 +271,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: CustomCheckboxList(
                   title: Text(
                     'SETTINGS_SHORTCUTS'.tr(),
-                    style: theme.textTheme.headline3!
+                    style: theme.textTheme.displaySmall!
                         .copyWith(color: theme.colorScheme.primary),
                   ),
                   checkboxLabels:
@@ -302,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'SETTINGS_FEEDBACK'.tr(),
-                      style: theme.textTheme.headline3!.copyWith(
+                      style: theme.textTheme.displaySmall!.copyWith(
                         color: theme.colorScheme.primary,
                       ),
                     ),
@@ -318,7 +318,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onTap: followLink,
                           child: Text(
                             'SETTINGS_FEEDBACK_EMAIL'.tr(),
-                            style: theme.textTheme.bodyText1!.copyWith(
+                            style: theme.textTheme.bodyLarge!.copyWith(
                               color: theme.colorScheme.secondary,
                               decoration: TextDecoration.underline,
                             ),
@@ -337,7 +337,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onTap: followLink,
                           child: Text(
                             'SETTINGS_NORMAL_FEEDBACK'.tr(),
-                            style: theme.textTheme.bodyText1!.copyWith(
+                            style: theme.textTheme.bodyLarge!.copyWith(
                               color: theme.colorScheme.secondary,
                               decoration: TextDecoration.underline,
                             ),
@@ -356,7 +356,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onTap: followLink,
                           child: Text(
                             'SETTINGS_BUGREPORT'.tr(),
-                            style: theme.textTheme.bodyText1!.copyWith(
+                            style: theme.textTheme.bodyLarge!.copyWith(
                               color: theme.colorScheme.secondary,
                               decoration: TextDecoration.underline,
                             ),

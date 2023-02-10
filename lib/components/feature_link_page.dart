@@ -43,7 +43,7 @@ class FeatureLinkPage extends StatelessWidget {
                   onTap: followLink,
                   child: Text(
                     urlTexts[urls.indexOf(url)],
-                    style: theme.textTheme.bodyText1!.copyWith(
+                    style: theme.textTheme.bodyLarge!.copyWith(
                       color: theme.colorScheme.primary,
                       decoration: TextDecoration.underline,
                     ),

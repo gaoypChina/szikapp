@@ -37,7 +37,7 @@ class BookRentalScreen extends StatelessWidget {
             icon: CustomIcons.library,
             description: Text(
               'BOOKRENTAL_HELP_TEXT'.tr(),
-              style: theme.textTheme.headline3,
+              style: theme.textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
           )),
