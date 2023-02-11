@@ -17,7 +17,7 @@ class TileShimmer extends StatelessWidget {
             highlightColor:
                 theme.colorScheme.secondaryContainer.withOpacity(0.5),
             child: CircleAvatar(
-              radius: theme.textTheme.headline3!.fontSize! * 1.5,
+              radius: theme.textTheme.displaySmall!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
             ),
           ),
@@ -27,7 +27,7 @@ class TileShimmer extends StatelessWidget {
                 theme.colorScheme.secondaryContainer.withOpacity(0.5),
             child: Container(
               margin: const EdgeInsets.all(kPaddingLarge),
-              height: theme.textTheme.headline3!.fontSize! * 1.5,
+              height: theme.textTheme.displaySmall!.fontSize! * 1.5,
               width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(
                 color: theme.colorScheme.secondaryContainer,

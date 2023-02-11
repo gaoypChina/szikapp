@@ -316,7 +316,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                     initialValue: title,
                     validator: _validateTextField,
                     readOnly: widget.isRestrictedEdit,
-                    style: theme.textTheme.subtitle1?.copyWith(
+                    style: theme.textTheme.titleMedium?.copyWith(
                       color: theme.colorScheme.surface,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
@@ -373,7 +373,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             vertical: kPaddingNormal),
                         child: Text(
                           'POLL_OPTIONS'.tr(),
-                          style: theme.textTheme.subtitle1?.copyWith(
+                          style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
@@ -435,7 +435,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             vertical: kPaddingNormal),
                         child: Text(
                           'POLL_DURATION'.tr(),
-                          style: theme.textTheme.subtitle1?.copyWith(
+                          style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
@@ -485,7 +485,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             vertical: kPaddingNormal),
                         child: Text(
                           'POLL_PARTICIPANTS'.tr(),
-                          style: theme.textTheme.subtitle1?.copyWith(
+                          style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
@@ -511,7 +511,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                           children: [
                             Text(
                               'POLL_SECRET'.tr(),
-                              style: theme.textTheme.subtitle1?.copyWith(
+                              style: theme.textTheme.titleMedium?.copyWith(
                                   color: theme.colorScheme.primaryContainer),
                             ),
                             Align(
@@ -535,7 +535,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                           children: [
                             Text(
                               'POLL_MULTIPLE_CHOICE'.tr(),
-                              style: theme.textTheme.subtitle1?.copyWith(
+                              style: theme.textTheme.titleMedium?.copyWith(
                                   color: theme.colorScheme.primaryContainer),
                             ),
                             Align(
@@ -559,7 +559,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             children: [
                               Text(
                                 'POLL_MAX_OPTIONS'.tr(),
-                                style: theme.textTheme.subtitle1?.copyWith(
+                                style: theme.textTheme.titleMedium?.copyWith(
                                     color: theme.colorScheme.primaryContainer),
                               ),
                               const SizedBox(width: kPaddingLarge),
@@ -588,7 +588,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             vertical: kPaddingNormal),
                         child: Text(
                           'POLL_FEEDBACK'.tr(),
-                          style: theme.textTheme.subtitle1?.copyWith(
+                          style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.primaryContainer),
                         ),
                       ),
@@ -611,7 +611,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             children: [
                               Text(
                                 'POLL_LIVE'.tr(),
-                                style: theme.textTheme.subtitle1?.copyWith(
+                                style: theme.textTheme.titleMedium?.copyWith(
                                     color: theme.colorScheme.primaryContainer),
                               ),
                               Switch(

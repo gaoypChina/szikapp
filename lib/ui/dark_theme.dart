@@ -27,45 +27,11 @@ ThemeData szikDarkThemeData = ThemeData(
   //canvasColor: null,
   //shadowColor: null,
   scaffoldBackgroundColor: szikDaintree,
-  bottomAppBarColor: szikHippieBlue,
   //cardColor: null,
   dividerColor: szikMalibu,
-  //focusColor: null,
-  //hoverColor: null,
-  //highlightColor: null,
-  //splashColor: null,
-  //splashFactory: null,
-  //selectedRowColor: null,
-  //unselectedWidgetColor: null,
-  //disabledColor: null,
-  //buttonTheme: null,
-  //toggleButtonsTheme: null,
-  //secondaryHeaderColor: null,
-  backgroundColor: szikEden,
-  //dialogBackgroundColor: null,
-  //indicatorColor: null,
-  //hintColor: null,
-  errorColor: const Color(0xffe80000),
   //toggleableActiveColor: null,
   //fontFamily: null,
   textTheme: szikTextTheme,
-  //primaryTextTheme: null,
-  //inputDecorationTheme: null,
-  //iconTheme: null,
-  //primaryIconTheme: null,
-  //sliderTheme: null,
-  //tabBarTheme: null,
-  //tooltipTheme: null,
-  //cardTheme: null,
-  //chipTheme: null,
-  //platform: null,
-  //materialTapTargetSize: null,
-  //applyElevationOverlayColor: null,
-  //pageTransitionsTheme: null,
-  //appBarTheme: null,
-  //scrollbarTheme: null,
-  //bottomAppBarTheme: null,
-  colorScheme: szikDarkColorScheme,
   //dialogTheme: null,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: szikEden,
@@ -92,14 +58,14 @@ ThemeData szikDarkThemeData = ThemeData(
     entryModeIconColor: szikGunSmoke,
     hourMinuteColor: szikHippieBlue,
     hourMinuteTextColor: szikEden,
-    hourMinuteTextStyle: szikTextTheme.bodyText1!
+    hourMinuteTextStyle: szikTextTheme.bodyLarge!
         .copyWith(fontSize: 46, fontStyle: FontStyle.normal),
     hourMinuteShape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(kBorderRadiusSmall),
       ),
     ),
-    helpTextStyle: szikTextTheme.bodyText1!.copyWith(
+    helpTextStyle: szikTextTheme.bodyLarge!.copyWith(
         fontSize: 14, fontStyle: FontStyle.normal, color: szikGunSmoke),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
@@ -126,6 +92,10 @@ ThemeData szikDarkThemeData = ThemeData(
       ),
     ),
   ),
+  bottomAppBarTheme: const BottomAppBarTheme(color: szikHippieBlue),
+  colorScheme: szikDarkColorScheme
+      .copyWith(background: szikEden)
+      .copyWith(error: const Color(0xffe80000)),
   //textSelectionTheme: null,
   //dataTableTheme: null,
   //checkboxTheme: null,

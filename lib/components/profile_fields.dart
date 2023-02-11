@@ -30,7 +30,7 @@ class ProfileTextField extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: theme.textTheme.headline3!
+                style: theme.textTheme.displaySmall!
                     .copyWith(color: theme.colorScheme.primary),
               ),
               Expanded(

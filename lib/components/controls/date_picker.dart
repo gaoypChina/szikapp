@@ -86,7 +86,7 @@ class DatePickerState extends State<DatePicker> {
         child: Text(
           DateFormat('yyyy. MM. dd.')
               .format(widget.initialDate ?? DateTime.now()),
-          style: theme.textTheme.button!.copyWith(
+          style: theme.textTheme.labelLarge!.copyWith(
             color: widget.readonly
                 ? theme.colorScheme.secondaryContainer
                 : widget.color,

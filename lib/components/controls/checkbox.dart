@@ -55,7 +55,7 @@ class _CustomCheckboxListState extends State<CustomCheckboxList> {
           return ListTile(
             title: Text(
               title,
-              style: theme.textTheme.bodyText1!.copyWith(
+              style: theme.textTheme.bodyLarge!.copyWith(
                 color: disabled
                     ? theme.colorScheme.secondaryContainer
                     : theme.colorScheme.primary,

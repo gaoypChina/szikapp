@@ -39,12 +39,12 @@ class ArticleCard extends StatelessWidget {
           const SizedBox(height: kPaddingNormal),
           Text(
             data.name,
-            style: theme.textTheme.headline2!,
+            style: theme.textTheme.displayMedium!,
           ),
           const SizedBox(height: kPaddingNormal),
           Text(
             data.description ?? '',
-            style: theme.textTheme.caption,
+            style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: kPaddingNormal),
           Row(
@@ -52,7 +52,7 @@ class ArticleCard extends StatelessWidget {
             children: [
               Text(
                 DateFormat('yyyy.MM.dd.').format(data.lastUpdate),
-                style: theme.textTheme.caption,
+                style: theme.textTheme.bodySmall,
               ),
               OutlinedButton(
                 onPressed: () {
@@ -61,7 +61,7 @@ class ArticleCard extends StatelessWidget {
                 },
                 child: Text(
                   'BUTTON_SEE_MORE'.tr(),
-                  style: theme.textTheme.button!.copyWith(fontSize: 12),
+                  style: theme.textTheme.labelLarge!.copyWith(fontSize: 12),
                 ),
               ),
             ],

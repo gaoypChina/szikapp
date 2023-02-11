@@ -256,7 +256,7 @@ class ReservationCreateEditScreenState
               child: Center(
                 child: Text(
                   selectedResource.name.toUpperCase(),
-                  style: theme.textTheme.headline1!.copyWith(
+                  style: theme.textTheme.displayLarge!.copyWith(
                     color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.normal,
                     letterSpacing: 5,
@@ -279,7 +279,7 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_TITLE'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primary,
                             ),
@@ -292,7 +292,7 @@ class ReservationCreateEditScreenState
                             initialValue: widget.isEdit
                                 ? widget.originalItem!.name
                                 : null,
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primaryContainer,
                               fontStyle: FontStyle.italic,
@@ -332,7 +332,7 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_DATE'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primary,
                             ),
@@ -361,7 +361,7 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_TIME_FROM'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primary,
                             ),
@@ -387,7 +387,7 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_TIME_TO'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primary,
                             ),
@@ -417,7 +417,7 @@ class ReservationCreateEditScreenState
                             child: Text(
                               timeFieldError,
                               style: theme.textTheme.bodySmall!.copyWith(
-                                color: theme.errorColor,
+                                color: theme.colorScheme.error,
                               ),
                             ),
                           ),
@@ -433,7 +433,7 @@ class ReservationCreateEditScreenState
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
                             'RESERVATION_LABEL_DESCRIPTION'.tr(),
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primary,
                             ),
@@ -445,7 +445,7 @@ class ReservationCreateEditScreenState
                             initialValue: widget.isEdit
                                 ? widget.originalItem!.description
                                 : null,
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               fontSize: 14,
                               color: theme.colorScheme.primaryContainer,
                               fontStyle: FontStyle.italic,

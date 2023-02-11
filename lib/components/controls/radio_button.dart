@@ -39,7 +39,7 @@ class _CustomRadioListState extends State<CustomRadioList> {
       children: widget.radioLabels.map((title) {
         return ListTile(
           title: Text(title,
-              style: theme.textTheme.headline6!
+              style: theme.textTheme.titleLarge!
                   .copyWith(color: theme.colorScheme.primary)),
           trailing: Transform.scale(
             scale: 1.2,

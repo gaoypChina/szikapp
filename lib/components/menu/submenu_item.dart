@@ -50,7 +50,7 @@ class SubMenuItem extends StatelessWidget {
             Text(
               data.name,
               textAlign: TextAlign.center,
-              style: theme.textTheme.headline3!.copyWith(
+              style: theme.textTheme.displaySmall!.copyWith(
                 color: theme.colorScheme.primary,
                 fontSize: 16,
               ),

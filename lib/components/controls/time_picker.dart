@@ -59,7 +59,7 @@ class TimePickerState extends State<TimePicker> {
         onTap: _selectTime,
         child: Text(
           widget.time.format(context),
-          style: theme.textTheme.button!.copyWith(
+          style: theme.textTheme.labelLarge!.copyWith(
             color: widget.color,
             fontSize: widget.fontSize,
             fontStyle: FontStyle.italic,

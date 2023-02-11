@@ -26,7 +26,7 @@ class CalendarScreen extends StatelessWidget {
           icon: CustomIcons.calendar,
           description: Text(
             'CALENDAR_HELP_TEXT'.tr(),
-            style: theme.textTheme.headline2,
+            style: theme.textTheme.displayMedium,
             textAlign: TextAlign.center,
           ),
           urls: const [

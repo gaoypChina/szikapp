@@ -29,7 +29,7 @@ class CustomMenuItem extends StatelessWidget {
           child: Text(
             name,
             textAlign: reversed ? TextAlign.left : TextAlign.right,
-            style: theme.textTheme.headline3!.copyWith(
+            style: theme.textTheme.displaySmall!.copyWith(
               color: theme.colorScheme.onPrimary,
             ),
           ),

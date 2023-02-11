@@ -96,7 +96,7 @@ class BirthdayBar extends StatelessWidget {
                             ),
                       ],
                     ),
-                    style: theme.textTheme.caption,
+                    style: theme.textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -111,7 +111,7 @@ class BirthdayBar extends StatelessWidget {
             ),
             child: Text(
               'BIRTHDAY_BAR_ERROR'.tr(),
-              style: theme.textTheme.caption,
+              style: theme.textTheme.bodySmall,
             ),
           );
         }

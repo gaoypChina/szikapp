@@ -66,7 +66,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
               children: [
                 Text(
                   widget.poll.question,
-                  style: theme.textTheme.subtitle1!.copyWith(
+                  style: theme.textTheme.titleMedium!.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
@@ -74,7 +74,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                 const SizedBox(height: kPaddingNormal),
                 Text(
                   widget.poll.description ?? '',
-                  style: theme.textTheme.subtitle1!.copyWith(
+                  style: theme.textTheme.titleMedium!.copyWith(
                     color: theme.colorScheme.primary,
                     fontStyle: FontStyle.italic,
                   ),
@@ -163,7 +163,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
             Expanded(
               child: Text(
                 widget.poll.name,
-                style: theme.textTheme.headline2!
+                style: theme.textTheme.displayMedium!
                     .copyWith(color: theme.colorScheme.surface),
               ),
             ),
@@ -201,7 +201,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
         return ListTile(
           title: Text(
             item,
-            style: theme.textTheme.subtitle1!.copyWith(
+            style: theme.textTheme.titleMedium!.copyWith(
               color: disabled
                   ? theme.colorScheme.secondaryContainer
                   : theme.colorScheme.primaryContainer,
@@ -277,7 +277,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
               Expanded(
                 child: Text(
                   item,
-                  style: theme.textTheme.subtitle1!.copyWith(
+                  style: theme.textTheme.titleMedium!.copyWith(
                     color: theme.colorScheme.primaryContainer,
                     fontStyle: FontStyle.italic,
                   ),
@@ -287,7 +287,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                 children: [
                   Text(
                     '${votesPercent.toString()}%',
-                    style: theme.textTheme.headline2!.copyWith(
+                    style: theme.textTheme.displayMedium!.copyWith(
                       color: theme.colorScheme.primary,
                       fontStyle: FontStyle.italic,
                     ),
@@ -296,7 +296,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                     'POLL_VOTE'.tr(
                       args: [results[item]['voteCount'].toString()],
                     ),
-                    style: theme.textTheme.subtitle1!.copyWith(
+                    style: theme.textTheme.titleMedium!.copyWith(
                       color: theme.colorScheme.primaryContainer,
                       fontStyle: FontStyle.italic,
                     ),

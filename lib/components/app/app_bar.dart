@@ -32,7 +32,7 @@ PreferredSizeWidget buildCustomAppBar({
     backgroundColor: theme.colorScheme.primary,
     title: Text(
       appBarTitle.toUpperCase(),
-      style: theme.textTheme.headline2!.copyWith(
+      style: theme.textTheme.displayMedium!.copyWith(
         color: theme.colorScheme.onPrimary,
         fontSize: 14,
       ),
