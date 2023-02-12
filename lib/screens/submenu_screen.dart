@@ -41,6 +41,11 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
       picture: CustomIcons.bookClosed,
       feature: SzikAppFeature.documents,
     ),
+    SubMenuItemData(
+      name: 'PASSWORDS_TITLE'.tr(),
+      picture: CustomIcons.password,
+      feature: SzikAppFeature.passwords,
+    )
   ];
 
   List<SubMenuItemData> subMenuCommunityListItems = [

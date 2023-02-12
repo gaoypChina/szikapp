@@ -11,6 +11,7 @@ export 'feed_screen.dart';
 export 'home_screen.dart';
 export 'janitor_screen.dart';
 export 'menu_screen.dart';
+export 'passwords_screen.dart';
 export 'poll/poll_create_edit.dart';
 export 'poll/poll_details_view.dart';
 export 'poll/poll_screen.dart';

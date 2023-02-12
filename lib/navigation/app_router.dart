@@ -82,6 +82,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (appStateManager.selectedFeature == SzikAppFeature.janitor)
             JanitorScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.passwords)
+            PasswordsScreen.page(manager: reservationManager),
           if (appStateManager.selectedFeature == SzikAppFeature.profile)
             ProfileScreen.page(manager: authManager),
           if (appStateManager.selectedFeature == SzikAppFeature.reservation)
@@ -180,6 +182,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kErrorPath ||
         route.settings.name == SzikAppLink.kJanitorPath ||
         route.settings.name == SzikAppLink.kKitchenCleaningPath ||
+        route.settings.name == SzikAppLink.kPasswordsPath ||
         route.settings.name == SzikAppLink.kPollPath ||
         route.settings.name == SzikAppLink.kProfilePath ||
         route.settings.name == SzikAppLink.kReservationPath ||
@@ -276,6 +279,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         currentFeature: appStateManager.selectedFeature,
         currentTab: appStateManager.selectedTab,
       );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.passwords) {
+      return SzikAppLink(
+        location: SzikAppLink.kPasswordsPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
     } else if (appStateManager.selectedFeature == SzikAppFeature.reservation) {
       return SzikAppLink(
         location: SzikAppLink.kReservationPath,
@@ -335,6 +344,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         break;
       case SzikAppLink.kJanitorPath:
         appStateManager.selectFeature(SzikAppFeature.janitor);
+        break;
+      case SzikAppLink.kPasswordsPath:
+        appStateManager.selectFeature(SzikAppFeature.passwords);
         break;
       case SzikAppLink.kProfilePath:
         appStateManager.selectFeature(SzikAppFeature.profile);
