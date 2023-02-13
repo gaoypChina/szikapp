@@ -67,4 +67,9 @@ Map<int, Shortcut> shortcutData = <int, Shortcut>{
     feature: SzikAppFeature.bookrental,
     name: 'BOOKRENTAL_TITLE'.tr(),
   ),
+  SzikAppFeature.passwords: Shortcut(
+    assetPath: CustomIcons.password,
+    feature: SzikAppFeature.passwords,
+    name: 'PASSWORDS_TITLE'.tr(),
+  )
 };

@@ -252,7 +252,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             //Shortcutok
-
             if (userCanModify)
               Container(
                 width: double.infinity,
