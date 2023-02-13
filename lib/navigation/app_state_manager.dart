@@ -29,6 +29,7 @@ class SzikAppFeature {
   static const int reservation = 7;
   static const int settings = 8;
   static const int bookrental = 9;
+  static const int passwords = 10;
   static const int invitation = 97;
   static const int article = 98;
   static const int error = 99;
@@ -40,6 +41,7 @@ const Map<int, Permission> featurePermissions = {
   SzikAppFeature.contacts: Permission.contactsView,
   SzikAppFeature.documents: Permission.documentsView,
   SzikAppFeature.janitor: Permission.janitorView,
+  SzikAppFeature.passwords: Permission.passwordsView,
   SzikAppFeature.poll: Permission.pollView,
   SzikAppFeature.profile: Permission.profileView,
   SzikAppFeature.reservation: Permission.reservationView,

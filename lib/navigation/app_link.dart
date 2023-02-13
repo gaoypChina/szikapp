@@ -12,6 +12,7 @@ class SzikAppLink {
   static const String kKitchenCleaningAdminPath = '/cleaning/admin';
   static const String kInvitationPath = '/invitation';
   static const String kMenuPath = '/menu';
+  static const String kPasswordsPath = '/passwords';
   static const String kPollPath = '/poll';
   static const String kPollCreateEditPath = '/poll/createedit';
   static const String kProfilePath = '/me';
@@ -168,6 +169,8 @@ class SzikAppLink {
         return loc;
       case kMenuPath:
         return kMenuPath;
+      case kPasswordsPath:
+        return kPasswordsPath;
       case kProfilePath:
         var loc = '$kProfilePath?';
         loc += addKeyValPair(
