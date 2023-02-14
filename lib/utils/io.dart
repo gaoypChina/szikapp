@@ -678,7 +678,7 @@ class IO {
 
     if (response.statusCode == 200) {
       var parsed = json.decode(utf8.decode(response.bodyBytes));
-      var results = int.parse(parsed['results']);
+      var results = parsed['results'];
       switch (results) {
         case cleaningAssignPeriodShrink:
           throw IOServerException(cleaningAssignPeriodShrink, '');

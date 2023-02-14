@@ -68,23 +68,23 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
     }
   }
 
-  Widget _buildCleaningMate() {
+  Widget _buildCleaningMates() {
     var theme = Theme.of(context);
-    var mate = _selectedEvent?.participantIDs.firstWhere(
-          (element) => element != _user.id,
-          orElse: () => '',
-        ) ??
-        '';
-    return Text(
-      mate != ''
-          ? Provider.of<SzikAppStateManager>(context, listen: false)
-              .users
-              .firstWhere((element) => element.id == mate)
-              .showableName
-          : 'CLEANING_DIALOG_NO_MATE'.tr(),
-      style: theme.textTheme.titleMedium!.copyWith(
-        color: theme.colorScheme.primaryContainer,
-        fontStyle: FontStyle.italic,
+    var mateIDs = _selectedEvent?.participantIDs
+            .where(
+              (element) => element != _user.id,
+            )
+            .toList() ??
+        [];
+    return Flexible(
+      child: Text(
+        mateIDs.isEmpty
+            ? 'CLEANING_DIALOG_NO_MATE'.tr()
+            : userIDsToString(context, mateIDs),
+        style: theme.textTheme.titleMedium!.copyWith(
+          color: theme.colorScheme.primaryContainer,
+          fontStyle: FontStyle.italic,
+        ),
       ),
     );
   }
@@ -283,7 +283,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                _buildCleaningMate(),
+                                _buildCleaningMates(),
                               ],
                             ),
                           ),

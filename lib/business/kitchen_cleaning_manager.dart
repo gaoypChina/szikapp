@@ -8,6 +8,12 @@ import '../utils/utils.dart';
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
 ///háttérosztály.
 class KitchenCleaningManager extends ChangeNotifier {
+  ///Csoport, aminek a konyhatakát végeznie kell
+  static const String cleaningGroupEmail = 'lakok@szentignac.hu';
+
+  ///Csoporttagok, akik nem vesznek részt a konyhatakában
+  static const List<String> cleaningUserBlackList = ['u900', 'u901'];
+
   ///Konyhatakarítási feladatok listája
   List<CleaningTask> _cleaningTasks = [];
 

@@ -113,6 +113,13 @@ class _CleaningAdminPunishmentViewState
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
+              if (_pendingTasks.isEmpty)
+                Text(
+                  'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
               ..._pendingTasks.map(
                 (e) => Container(
                   decoration: BoxDecoration(
@@ -189,6 +196,13 @@ class _CleaningAdminPunishmentViewState
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
+              if (_refusedTasks.isEmpty)
+                Text(
+                  'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                ),
               ..._refusedTasks.map(
                 (e) => Container(
                   decoration: BoxDecoration(

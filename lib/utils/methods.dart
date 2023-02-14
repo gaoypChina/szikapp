@@ -1,7 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../navigation/app_state_manager.dart';
 import 'exceptions.dart';
+
+String userIDsToString(BuildContext context, List<String> userIDs) {
+  return userIDs
+      .map(
+        (e) => Provider.of<SzikAppStateManager>(context)
+            .users
+            .firstWhere((element) => element.id == e)
+            .name,
+      )
+      .join(', ');
+}
 
 List<int> boolListToInt(List<bool> boolList) {
   var intList = <int>[];

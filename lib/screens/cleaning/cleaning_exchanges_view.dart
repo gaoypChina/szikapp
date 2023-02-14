@@ -9,6 +9,7 @@ import '../../components/components.dart';
 import '../../models/models.dart';
 import '../../navigation/app_state_manager.dart';
 import '../../ui/themes.dart';
+import '../../utils/utils.dart';
 
 class CleaningExchangesView extends StatefulWidget {
   final KitchenCleaningManager manager;
@@ -95,7 +96,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 children: [
                   Expanded(
                     child: Text(
-                      user.showableName,
+                      user.name,
                       style: theme.textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -179,7 +180,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 Provider.of<SzikAppStateManager>(context)
                     .users
                     .firstWhere((element) => element.id == exchange.initiatorID)
-                    .showableName,
+                    .name,
                 style: strongFont,
               ),
             ),
@@ -259,7 +260,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               .firstWhere(
                 (element) => element.id == replacement['replacer_id'],
               )
-              .showableName;
+              .name;
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
@@ -467,17 +468,6 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return copiedList;
   }
 
-  String userIDsToString(List<String> userIDs) {
-    return userIDs
-        .map(
-          (e) => Provider.of<SzikAppStateManager>(context)
-              .users
-              .firstWhere((element) => element.id == e)
-              .showableName,
-        )
-        .join(', ');
-  }
-
   Widget _buildTexts({
     required CleaningTask replacementTask,
     required TextStyle font,
@@ -504,6 +494,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           ),
           TextSpan(
             text: userIDsToString(
+              context,
               replacementTask.participantIDs,
             ),
             style: font,
@@ -524,7 +515,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     );
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_OFFER_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(exchangableItem.start),
+      bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
+          .format(exchangableItem.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.createCleaningExchangeOccasion(exchange);
@@ -539,7 +531,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_EXCHANGE_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
+      bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
+          .format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.offerCleaningExchangeOccasion(exchange, replaceUID);
@@ -554,7 +547,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_WITHDRAW_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(replacementTask.start),
+      bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
+          .format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.withdrawCleaningExchangeOccasion(exchange, replaceUID);
@@ -570,7 +564,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
+          '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.acceptCleaningExchangeOccasion(exchange);
@@ -587,7 +581,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_REFUSE_TITLE'.tr(),
       bodytext:
-          '${DateFormat('MM. dd. - EEEE').format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(replacementTask.participantIDs)}',
+          '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.rejectCleaningExchangeOccasion(exchange);
@@ -602,7 +596,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_DELETE_TITLE'.tr(),
-      bodytext: DateFormat('MM. dd. - EEEE').format(task.start),
+      bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
+          .format(task.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
         widget.manager.deleteCleaningExchangeOccasion(exchange);

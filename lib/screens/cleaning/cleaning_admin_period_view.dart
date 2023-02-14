@@ -101,15 +101,23 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       await widget.manager.autoAssignTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
     } on IOServerException catch (e) {
-      var banner = ErrorHandler.buildBanner(context,
-          information: ErrorInformation.fromCode(e.code));
-      ScaffoldMessenger.of(context).showMaterialBanner(banner);
+      var snackbar = ErrorHandler.buildSnackbar(context, errorCode: e.code);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var memberIDs = Provider.of<SzikAppStateManager>(context, listen: false)
+        .groups
+        .firstWhere((element) =>
+            element.email == KitchenCleaningManager.cleaningGroupEmail)
+        .memberIDs;
+    memberIDs.removeWhere(
+      (element) =>
+          KitchenCleaningManager.cleaningUserBlackList.contains(element),
+    );
     return Column(
       children: [
         Container(
@@ -202,13 +210,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     ),
                   ),
                   Text(
-                    Provider.of<SzikAppStateManager>(context, listen: false)
-                        .groups
-                        .firstWhere(
-                            (element) => element.email == 'lakok@szentignac.hu')
-                        .memberIDs
-                        .length
-                        .toString(),
+                    memberIDs.length.toString(),
                     style: theme.textTheme.displaySmall,
                   )
                 ],
