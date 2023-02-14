@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
-import 'components.dart';
+import '../../ui/themes.dart';
+import '../components.dart';
 
 class CustomSlider extends StatefulWidget {
   ///A csúszka címe
@@ -65,18 +65,10 @@ class _CustomSliderState extends State<CustomSlider> {
         horizontal: kPaddingLarge,
       ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(kBorderRadiusNormal),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.secondaryContainer,
-            offset: const Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          ),
-        ],
-      ),
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          )),
       child: Column(
         children: [
           Align(

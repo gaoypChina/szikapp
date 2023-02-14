@@ -14,57 +14,59 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Card(
-      color: theme.colorScheme.surface,
-      clipBehavior: Clip.antiAlias,
-      elevation: 10,
-      margin: const EdgeInsets.all(kPaddingNormal),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: kPaddingNormal,
+        horizontal: kPaddingLarge,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(kPaddingLarge),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(kBorderRadiusNormal),
-              ),
-              child: Image.network(data.imageUrl),
-            ),
-            const SizedBox(height: kPaddingNormal),
-            Text(
-              data.name,
-              style: theme.textTheme.headline2!,
-            ),
-            const SizedBox(height: kPaddingNormal),
-            Text(
-              data.description ?? '',
-              style: theme.textTheme.caption,
-            ),
-            const SizedBox(height: kPaddingNormal),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DateFormat('yyyy.MM.dd.').format(data.lastUpdate),
-                  style: theme.textTheme.caption,
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    SzikAppState.analytics.logEvent(name: 'article_open');
-                    openUrl(data.url);
-                  },
-                  child: Text(
-                    'BUTTON_SEE_MORE'.tr(),
-                    style: theme.textTheme.button!.copyWith(fontSize: 12),
-                  ),
-                ),
-              ],
-            )
-          ],
+      padding: const EdgeInsets.all(kPaddingLarge),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(kBorderRadiusNormal),
         ),
+        border: Border.all(color: theme.colorScheme.primary),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(kBorderRadiusNormal),
+            ),
+            child: Image.network(data.imageUrl),
+          ),
+          const SizedBox(height: kPaddingNormal),
+          Text(
+            data.name,
+            style: theme.textTheme.displayMedium!,
+          ),
+          const SizedBox(height: kPaddingNormal),
+          Text(
+            data.description ?? '',
+            style: theme.textTheme.bodySmall,
+          ),
+          const SizedBox(height: kPaddingNormal),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat('yyyy.MM.dd.').format(data.lastUpdate),
+                style: theme.textTheme.bodySmall,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  SzikAppState.analytics.logEvent(name: 'article_open');
+                  openUrl(data.url);
+                },
+                child: Text(
+                  'BUTTON_SEE_MORE'.tr(),
+                  style: theme.textTheme.labelLarge!.copyWith(fontSize: 12),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

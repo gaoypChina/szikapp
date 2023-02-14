@@ -177,7 +177,7 @@ class ErrorHandler {
                           const EdgeInsetsDirectional.only(top: kPaddingNormal),
                       child: Text(
                         '#${errorInformation.errorCode}',
-                        style: theme.textTheme.caption,
+                        style: theme.textTheme.bodySmall,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -187,7 +187,7 @@ class ErrorHandler {
                       child: Text(
                         errorInformation.errorMessage,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyText1!
+                        style: theme.textTheme.bodyLarge!
                             .copyWith(color: theme.colorScheme.primary),
                       ),
                     ),
@@ -197,7 +197,7 @@ class ErrorHandler {
                       child: Text(
                         errorInformation.errorSolution,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                             color: theme.colorScheme.primaryContainer),
                       ),
                     )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/business.dart';
-import '../components/bottom_navigation_bar.dart';
+import '../components/app/bottom_navigation_bar.dart';
 import '../navigation/app_state_manager.dart';
 import '../screens/screens.dart';
 

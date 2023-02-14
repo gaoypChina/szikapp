@@ -36,7 +36,7 @@ class GDPRWidget extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Text(
                   'GDPR_AGREEMENT'.tr(),
-                  style: theme.textTheme.overline!.copyWith(
+                  style: theme.textTheme.labelSmall!.copyWith(
                     color: theme.colorScheme.primary,
                   ),
                 ),
@@ -50,16 +50,17 @@ class GDPRWidget extends StatelessWidget {
                   onPressed: onDisagreePressed,
                   child: Text(
                     'BUTTON_DISAGREE'.tr(),
-                    style: theme.textTheme.overline!.copyWith(
+                    style: theme.textTheme.labelSmall!.copyWith(
                       color: theme.colorScheme.primary,
                     ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: onAgreePressed,
+                  style: ElevatedButton.styleFrom(elevation: 0),
                   child: Text(
                     'BUTTON_AGREE'.tr(),
-                    style: theme.textTheme.overline!.copyWith(
+                    style: theme.textTheme.labelSmall!.copyWith(
                       color: theme.colorScheme.surface,
                     ),
                   ),

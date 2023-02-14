@@ -7,13 +7,12 @@ class SzikAppLink {
   static const String kErrorPath = '/error';
   static const String kFeedPath = '/feed';
   static const String kHomePath = '/';
-  static const String kJanitorEditAdminPath = '/janitor/admin';
-  static const String kJanitorCreateEditPath = '/janitor/createedit';
   static const String kJanitorPath = '/janitor';
   static const String kKitchenCleaningPath = '/cleaning';
   static const String kKitchenCleaningAdminPath = '/cleaning/admin';
   static const String kInvitationPath = '/invitation';
   static const String kMenuPath = '/menu';
+  static const String kPasswordsPath = '/passwords';
   static const String kPollPath = '/poll';
   static const String kPollCreateEditPath = '/poll/createedit';
   static const String kProfilePath = '/me';
@@ -154,20 +153,6 @@ class SzikAppLink {
           value: currentFeature.toString(),
         );
         return loc;
-      case kJanitorEditAdminPath:
-        var loc = '$kJanitorEditAdminPath?';
-        loc += addKeyValPair(
-          key: kIdParam,
-          value: itemId,
-        );
-        return Uri.encodeFull(loc);
-      case kJanitorCreateEditPath:
-        var loc = '$kJanitorCreateEditPath?';
-        loc += addKeyValPair(
-          key: kIdParam,
-          value: itemId,
-        );
-        return Uri.encodeFull(loc);
       case kJanitorPath:
         var loc = '$kJanitorPath?';
         loc += addKeyValPair(
@@ -184,6 +169,8 @@ class SzikAppLink {
         return loc;
       case kMenuPath:
         return kMenuPath;
+      case kPasswordsPath:
+        return kPasswordsPath;
       case kProfilePath:
         var loc = '$kProfilePath?';
         loc += addKeyValPair(

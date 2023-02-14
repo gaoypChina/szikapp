@@ -63,9 +63,7 @@ class SzikApp extends StatefulWidget {
 class SzikAppState extends State<SzikApp> {
   final _appStateManager = SzikAppStateManager();
   final _authManager = AuthManager();
-  final _calendarManager = CalendarManager();
   final _goodToKnowManager = GoodToKnowManager();
-  final _janitorManager = JanitorManager();
   final _kitchenCleaningManager = KitchenCleaningManager();
   final _pollManager = PollManager();
   final _reservationManager = ReservationManager();
@@ -121,9 +119,7 @@ class SzikAppState extends State<SzikApp> {
     _appRouter = SzikAppRouter(
       appStateManager: _appStateManager,
       authManager: _authManager,
-      calendarManager: _calendarManager,
       goodToKnowManager: _goodToKnowManager,
-      janitorManager: _janitorManager,
       kitchenCleaningManager: _kitchenCleaningManager,
       pollManager: _pollManager,
       reservationManager: _reservationManager,
@@ -149,9 +145,7 @@ class SzikAppState extends State<SzikApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => _appStateManager),
         ChangeNotifierProvider(create: (context) => _authManager),
-        ChangeNotifierProvider(create: (context) => _calendarManager),
         ChangeNotifierProvider(create: (context) => _goodToKnowManager),
-        ChangeNotifierProvider(create: (context) => _janitorManager),
         ChangeNotifierProvider(create: (context) => _kitchenCleaningManager),
         ChangeNotifierProvider(create: (context) => _pollManager),
         ChangeNotifierProvider(create: (context) => _reservationManager),

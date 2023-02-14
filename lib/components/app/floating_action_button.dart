@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../business/business.dart';
-import '../ui/themes.dart';
-import 'components.dart';
+import '../../business/business.dart';
+import '../../ui/themes.dart';
+import '../components.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -23,6 +23,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     return user!.hasPermissionToCreate(typeToCreate)
         ? FloatingActionButton(
             onPressed: onPressed,
+            elevation: 0,
             child: ConstrainedBox(
               constraints: const BoxConstraints.expand(
                 width: kIconSizeLarge,

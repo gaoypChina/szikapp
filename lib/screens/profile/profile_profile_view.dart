@@ -26,6 +26,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   final _formKey = GlobalKey<FormState>();
   bool changed = false;
   bool error = false;
+  late String name;
   String? nick;
   DateTime? birthday;
   String? phone;
@@ -39,6 +40,13 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
       result += '${groups.firstWhere((element) => element.id == id).name}, ';
     }
     return result.substring(0, result.length - 2);
+  }
+
+  void _onNameChanged(String newValue) {
+    setState(() {
+      newValue.isEmpty ? name = widget.manager.user!.name : name = newValue;
+      changed = true;
+    });
   }
 
   void _onNickChanged(String newValue) {
@@ -73,6 +81,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   void _onSend() async {
     try {
       if (_formKey.currentState!.validate()) {
+        widget.manager.user!.name = name;
         widget.manager.user!.nick = nick;
         widget.manager.user!.phone = phone;
         widget.manager.user!.birthday = birthday;
@@ -96,6 +105,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
 
   void _onCancel() {
     setState(() {
+      name = widget.manager.user!.name;
       nick = widget.manager.user!.nick;
       birthday = widget.manager.user!.birthday;
       phone = widget.manager.user!.phone;
@@ -114,6 +124,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               ),
               label: Text('BUTTON_DISMISS'.tr()),
               onPressed: _onCancel,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+              ),
             ),
             ElevatedButton.icon(
               icon: const CustomIcon(
@@ -122,6 +135,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               ),
               label: Text('BUTTON_SAVE'.tr()),
               onPressed: _onSend,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+              ),
             )
           ]
         : [];
@@ -130,6 +146,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   @override
   void initState() {
     super.initState();
+    name = widget.manager.user!.name;
     nick = widget.manager.user?.nick;
     birthday = widget.manager.user?.birthday;
     phone = widget.manager.user?.phone;
@@ -178,6 +195,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     color: theme.colorScheme.surface,
                   ),
                   label: Text('SIGN_OUT_LABEL'.tr()),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
                 ),
               ],
             ),
@@ -187,8 +207,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                 children: [
                   ProfileTextField(
                     label: 'PROFILE_NAME'.tr(),
-                    initialValue: widget.manager.user?.name,
-                    readOnly: true,
+                    initialValue: name,
+                    onChanged: _onNameChanged,
+                    readOnly: !userCanModify,
                   ),
                   ProfileTextField(
                     label: 'PROFILE_NICKNAME'.tr(),

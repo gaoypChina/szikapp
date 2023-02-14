@@ -118,17 +118,11 @@ class DocumentsListViewState extends State<DocumentsListView> {
           borderRadius: const BorderRadius.all(
             Radius.circular(kBorderRadiusNormal),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: theme.colorScheme.secondaryContainer,
-              offset: const Offset(0.0, 2.0),
-              blurRadius: 3.0,
-            ),
-          ],
+          border: Border.all(color: theme.colorScheme.primary),
         ),
         child: Text(
           items[newIndex].title,
-          style: theme.textTheme.bodyText1,
+          style: theme.textTheme.bodyLarge,
         ),
       ),
     );

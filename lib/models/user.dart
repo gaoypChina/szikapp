@@ -16,7 +16,7 @@ part 'user.g.dart';
 class User implements Identifiable, Cachable {
   @override
   final String id;
-  final String name;
+  String name;
   final String email;
   @JsonKey(name: 'profile_picture')
   String? profilePicture;

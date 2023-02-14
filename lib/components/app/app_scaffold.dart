@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../navigation/navigation.dart';
+
+import '../../navigation/navigation.dart';
 import 'app_bar.dart';
 import 'bottom_navigation_bar.dart';
 

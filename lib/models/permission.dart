@@ -55,6 +55,8 @@ enum Permission {
 
   calendarView,
 
+  passwordsView,
+
   profileView,
   profileEdit,
   userCreate,

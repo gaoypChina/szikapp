@@ -13,9 +13,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   final GlobalKey<NavigatorState> navigatorKey;
   final SzikAppStateManager appStateManager;
   final AuthManager authManager;
-  final CalendarManager calendarManager;
   final GoodToKnowManager goodToKnowManager;
-  final JanitorManager janitorManager;
   final KitchenCleaningManager kitchenCleaningManager;
   final PollManager pollManager;
   final ReservationManager reservationManager;
@@ -23,18 +21,14 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   SzikAppRouter({
     required this.appStateManager,
     required this.authManager,
-    required this.calendarManager,
     required this.goodToKnowManager,
-    required this.janitorManager,
     required this.kitchenCleaningManager,
     required this.pollManager,
     required this.reservationManager,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     authManager.addListener(notifyListeners);
-    calendarManager.addListener(notifyListeners);
     goodToKnowManager.addListener(notifyListeners);
-    janitorManager.addListener(notifyListeners);
     kitchenCleaningManager.addListener(notifyListeners);
     pollManager.addListener(notifyListeners);
     reservationManager.addListener(notifyListeners);
@@ -72,7 +66,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (appStateManager.selectedFeature == SzikAppFeature.bookrental)
             BookRentalScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.calendar)
-            CalendarScreen.page(manager: calendarManager),
+            CalendarScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.contacts)
             ContactsScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.documents)
@@ -87,61 +81,15 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                   NotImplementedException('Not implemented.'),
             ),
           if (appStateManager.selectedFeature == SzikAppFeature.janitor)
-            JanitorScreen.page(manager: janitorManager),
+            JanitorScreen.page(),
+          if (appStateManager.selectedFeature == SzikAppFeature.passwords)
+            PasswordsScreen.page(manager: reservationManager),
           if (appStateManager.selectedFeature == SzikAppFeature.profile)
             ProfileScreen.page(manager: authManager),
           if (appStateManager.selectedFeature == SzikAppFeature.reservation)
             ReservationScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.settings)
             SettingsScreen.page(),
-          if (janitorManager.isCreatingNewTask)
-            JanitorCreateEditScreen.page(
-              onCreate: (item) {
-                performFunctionSecurely(
-                    context, () => janitorManager.addTask(item));
-              },
-              onUpdate: (item, index) {},
-              onDelete: (item, index) {},
-            ),
-          if (janitorManager.isEditingTask)
-            JanitorCreateEditScreen.page(
-              originalItem: janitorManager.selectedTask,
-              onCreate: (_) {},
-              onUpdate: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.updateTask(item));
-              },
-              onDelete: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.deleteTask(item));
-              },
-            ),
-          if (janitorManager.isGivingFeedback)
-            JanitorCreateEditScreen.page(
-              originalItem: janitorManager.selectedTask,
-              isFeedback: true,
-              onCreate: (_) {},
-              onUpdate: (item, index) {
-                performFunctionSecurely(context,
-                    () => janitorManager.updateStatus(item.status, item));
-              },
-              onDelete: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.deleteTask(item));
-              },
-            ),
-          if (janitorManager.isAdminEditingTask)
-            JanitorAdminScreen.page(
-              item: janitorManager.selectedTask!,
-              onDelete: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.deleteTask(item));
-              },
-              onUpdate: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.updateTask(item));
-              },
-            ),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
               onCreate: (item) {
@@ -210,9 +158,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   void dispose() {
     appStateManager.removeListener(notifyListeners);
     authManager.removeListener(notifyListeners);
-    calendarManager.removeListener(notifyListeners);
     goodToKnowManager.removeListener(notifyListeners);
-    janitorManager.removeListener(notifyListeners);
     kitchenCleaningManager.removeListener(notifyListeners);
     pollManager.removeListener(notifyListeners);
     reservationManager.removeListener(notifyListeners);
@@ -238,15 +184,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kErrorPath ||
         route.settings.name == SzikAppLink.kJanitorPath ||
         route.settings.name == SzikAppLink.kKitchenCleaningPath ||
+        route.settings.name == SzikAppLink.kPasswordsPath ||
         route.settings.name == SzikAppLink.kPollPath ||
         route.settings.name == SzikAppLink.kProfilePath ||
         route.settings.name == SzikAppLink.kReservationPath ||
         route.settings.name == SzikAppLink.kSettingsPath) {
       appStateManager.unselectFeature();
-    }
-    if (route.settings.name == SzikAppLink.kJanitorCreateEditPath ||
-        route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
-      janitorManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kPollCreateEditPath) {
       pollManager.performBackButtonPressed();
@@ -341,6 +284,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         currentFeature: appStateManager.selectedFeature,
         currentTab: appStateManager.selectedTab,
       );
+    } else if (appStateManager.selectedFeature == SzikAppFeature.passwords) {
+      return SzikAppLink(
+        location: SzikAppLink.kPasswordsPath,
+        currentFeature: appStateManager.selectedFeature,
+        currentTab: appStateManager.selectedTab,
+      );
     } else if (appStateManager.selectedFeature == SzikAppFeature.reservation) {
       return SzikAppLink(
         location: SzikAppLink.kReservationPath,
@@ -400,6 +349,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         break;
       case SzikAppLink.kJanitorPath:
         appStateManager.selectFeature(SzikAppFeature.janitor);
+        break;
+      case SzikAppLink.kPasswordsPath:
+        appStateManager.selectFeature(SzikAppFeature.passwords);
         break;
       case SzikAppLink.kProfilePath:
         appStateManager.selectFeature(SzikAppFeature.profile);

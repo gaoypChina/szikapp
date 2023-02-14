@@ -164,7 +164,7 @@ class PollTileViewState extends State<PollTileView> {
                   fit: FlexFit.tight,
                   child: Text(
                     poll.question,
-                    style: theme.textTheme.subtitle1?.copyWith(
+                    style: theme.textTheme.titleMedium?.copyWith(
                       color: theme.colorScheme.surface,
                       overflow: TextOverflow.fade,
                     ),
@@ -175,7 +175,7 @@ class PollTileViewState extends State<PollTileView> {
                 ),
                 Text(
                   timeInformation,
-                  style: theme.textTheme.subtitle1?.copyWith(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.primaryContainer,
                   ),
                 ),

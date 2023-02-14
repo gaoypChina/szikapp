@@ -90,7 +90,7 @@ class CustomDialog extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: kPaddingNormal),
               child: Text(
                 title,
-                style: theme.textTheme.headline2!.copyWith(
+                style: theme.textTheme.displayMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.primaryContainer,
                 ),
@@ -101,7 +101,7 @@ class CustomDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(kPaddingNormal),
                 child: Text(
                   bodytext,
-                  style: theme.textTheme.headline3!.copyWith(
+                  style: theme.textTheme.displaySmall!.copyWith(
                     color: theme.colorScheme.primaryContainer,
                   ),
                 ),
@@ -138,7 +138,7 @@ class CustomDialog extends StatelessWidget {
                       ),
                       child: Text(
                         weakButtonLabel,
-                        style: theme.textTheme.button!.copyWith(
+                        style: theme.textTheme.labelLarge!.copyWith(
                           color: type == DialogType.alert
                               ? theme.colorScheme.secondary
                               : theme.colorScheme.primaryContainer,
@@ -162,6 +162,9 @@ class CustomDialog extends StatelessWidget {
                               BorderRadius.circular(kBorderRadiusSmall),
                         ),
                       ),
+                      elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) => 0,
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -170,7 +173,7 @@ class CustomDialog extends StatelessWidget {
                       ),
                       child: Text(
                         strongButtonLabel,
-                        style: theme.textTheme.button!.copyWith(
+                        style: theme.textTheme.labelLarge!.copyWith(
                           color: theme.colorScheme.surface,
                         ),
                       ),

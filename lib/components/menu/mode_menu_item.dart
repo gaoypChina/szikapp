@@ -44,7 +44,7 @@ class ModeMenuItem extends StatelessWidget {
               child: Center(
                 child: Text(
                   title,
-                  style: szikTextTheme.headline2!.copyWith(
+                  style: szikTextTheme.displayMedium!.copyWith(
                     fontSize: 20,
                     fontStyle: FontStyle.normal,
                     decoration: TextDecoration.none,

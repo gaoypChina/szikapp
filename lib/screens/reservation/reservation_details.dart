@@ -174,7 +174,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                             children: [
                               Text(
                                 e.name.useCorrectEllipsis(),
-                                style: theme.textTheme.caption!.copyWith(
+                                style: theme.textTheme.bodySmall!.copyWith(
                                   color: theme.colorScheme.surface,
                                   fontStyle: FontStyle.normal,
                                 ),
@@ -189,7 +189,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                       .map((e) => e.showableName)
                                       .toList()
                                       .join(', '),
-                                  style: theme.textTheme.caption!.copyWith(
+                                  style: theme.textTheme.bodySmall!.copyWith(
                                     color: theme.colorScheme.surface,
                                   ),
                                   overflow: TextOverflow.fade,
@@ -224,7 +224,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                   child: Center(
                     child: Text(
                       e.format(context),
-                      style: theme.textTheme.bodyText1!.copyWith(
+                      style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.primaryContainer,
                       ),
                     ),
@@ -272,7 +272,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
               child: Center(
                 child: Text(
                   resource.name.toUpperCase(),
-                  style: theme.textTheme.headline1!.copyWith(
+                  style: theme.textTheme.displayLarge!.copyWith(
                     color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.normal,
                     letterSpacing: 5,
@@ -291,7 +291,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                 children: [
                   Text(
                     'CONTROL_FILTER'.tr(),
-                    style: theme.textTheme.headline3!.copyWith(
+                    style: theme.textTheme.displaySmall!.copyWith(
                       color: theme.colorScheme.primary,
                       fontSize: 12,
                     ),

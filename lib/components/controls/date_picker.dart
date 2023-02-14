@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../ui/themes.dart';
+import '../../ui/themes.dart';
 
 ///A [DatePicker] widgetben kiválasztható legkorábbi és legkésőbbi dátum
 ///különbsége az aktuális időponttól.
@@ -86,7 +86,7 @@ class DatePickerState extends State<DatePicker> {
         child: Text(
           DateFormat('yyyy. MM. dd.')
               .format(widget.initialDate ?? DateTime.now()),
-          style: theme.textTheme.button!.copyWith(
+          style: theme.textTheme.labelLarge!.copyWith(
             color: widget.readonly
                 ? theme.colorScheme.secondaryContainer
                 : widget.color,

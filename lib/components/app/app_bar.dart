@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business/business.dart';
-import '../navigation/navigation.dart';
-import '../ui/themes.dart';
+import '../../business/business.dart';
+import '../../navigation/navigation.dart';
+import '../../ui/themes.dart';
 
-import 'components.dart';
+import '../components.dart';
 import 'curve_shape_border.dart';
 
 PreferredSizeWidget buildCustomAppBar({
@@ -32,7 +32,7 @@ PreferredSizeWidget buildCustomAppBar({
     backgroundColor: theme.colorScheme.primary,
     title: Text(
       appBarTitle.toUpperCase(),
-      style: theme.textTheme.headline2!.copyWith(
+      style: theme.textTheme.displayMedium!.copyWith(
         color: theme.colorScheme.onPrimary,
         fontSize: 14,
       ),

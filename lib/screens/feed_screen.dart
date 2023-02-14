@@ -102,7 +102,7 @@ class FeedScreenState extends State<FeedScreen> {
                           ? 'FEED_GREETINGS_SIGNEDIN'
                               .tr(args: [user!.showableName])
                           : 'FEED_GREETINGS'.tr(),
-                      style: theme.textTheme.headline1!.copyWith(
+                      style: theme.textTheme.displayLarge!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.primary,
@@ -161,7 +161,7 @@ class FeedScreenState extends State<FeedScreen> {
               children: [
                 Text(
                   'FEED_NOTIFICATIONS'.tr(),
-                  style: theme.textTheme.headline2!.copyWith(
+                  style: theme.textTheme.displayMedium!.copyWith(
                     fontSize: 20,
                     color: theme.colorScheme.background,
                   ),
@@ -185,7 +185,7 @@ class FeedScreenState extends State<FeedScreen> {
                       ? Center(
                           child: Text(
                             'PLACEHOLDER_NOTIFICATIONS_EMPTY'.tr(),
-                            style: theme.textTheme.headline2!.copyWith(
+                            style: theme.textTheme.displayMedium!.copyWith(
                               fontSize: 16,
                               color: theme.colorScheme.background,
                             ),
@@ -207,7 +207,7 @@ class FeedScreenState extends State<FeedScreen> {
                   child: Center(
                     child: Text(
                       'PLACEHOLDER_NOTIFICATIONS_SIGNIN'.tr(),
-                      style: theme.textTheme.headline2!.copyWith(
+                      style: theme.textTheme.displayMedium!.copyWith(
                         fontSize: 16,
                         color: theme.colorScheme.background,
                       ),

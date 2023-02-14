@@ -53,7 +53,7 @@ const Map<TaskStatus, Color> taskStatusColors = {
 TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
   ///Nunito, Semi-bold, 18 pt
-  bodyText1: TextStyle(
+  bodyLarge: TextStyle(
     fontFamily: 'Nunito',
     fontSize: 18,
     fontWeight: FontWeight.w600,
@@ -61,7 +61,7 @@ TextTheme szikTextTheme = const TextTheme(
 
   ///The default text style for Material.
   ///Nunito, Semi-bold, Italic, 18 pt
-  bodyText2: TextStyle(
+  bodyMedium: TextStyle(
     fontFamily: 'Nunito',
     fontSize: 18,
     fontWeight: FontWeight.w600,
@@ -70,14 +70,14 @@ TextTheme szikTextTheme = const TextTheme(
 
   ///Used for text on ElevatedButton, TextButton and OutlinedButton.
   ///Montserrat, 18 pt
-  button: TextStyle(
+  labelLarge: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 18,
   ),
 
   ///Used for auxiliary text associated with images.
   ///Nunito, italic, 14 pt
-  caption: TextStyle(
+  bodySmall: TextStyle(
     fontFamily: 'Nunito',
     fontSize: 14,
     fontStyle: FontStyle.italic,
@@ -85,7 +85,7 @@ TextTheme szikTextTheme = const TextTheme(
 
   ///Extremely large text.
   ///Montserrat, 18 pt
-  headline1: TextStyle(
+  displayLarge: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 18,
   ),
@@ -93,7 +93,7 @@ TextTheme szikTextTheme = const TextTheme(
   ///Very, very large text.
   ///Used for the date in the dialog shown by showDatePicker.
   ///Montserrat, Semi-bold, 18 pt
-  headline2: TextStyle(
+  displayMedium: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 25,
     fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ TextTheme szikTextTheme = const TextTheme(
 
   ///Very large text.
   ///Montserrat, Semi-bold, 18 pt
-  headline3: TextStyle(
+  displaySmall: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 18,
     fontWeight: FontWeight.w600,
@@ -109,7 +109,7 @@ TextTheme szikTextTheme = const TextTheme(
 
   ///Large text.
   ///Montserrat, Extra-bold, 18 pt
-  headline4: TextStyle(
+  headlineMedium: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 18,
     fontWeight: FontWeight.w800,
@@ -118,7 +118,7 @@ TextTheme szikTextTheme = const TextTheme(
   ///Used for large text in dialogs
   ///(e.g., the month and year in the dialog shown by showDatePicker).
   ///Nunito, Black, 18 pt
-  headline5: TextStyle(
+  headlineSmall: TextStyle(
     fontFamily: 'Nunito',
     fontSize: 18,
     fontWeight: FontWeight.w900,
@@ -127,28 +127,28 @@ TextTheme szikTextTheme = const TextTheme(
   ///Used for the primary text in app bars and dialogs
   ///(e.g., AppBar.title and AlertDialog.title).
   ///Montserrat, 18 pt
-  headline6: TextStyle(
+  titleLarge: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 18,
   ),
 
   ///The smallest style. [...]
   ///Montserrat, 14 pt
-  overline: TextStyle(
+  labelSmall: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 12,
   ),
 
   ///Used for the primary text in lists (e.g., ListTile.title).
   ///Montserrat, 14 pt
-  subtitle1: TextStyle(
+  titleMedium: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 14,
   ),
 
   ///For medium emphasis text thats a little smaller than subtitle1.
   ///Montserrat, 14 pt
-  subtitle2: TextStyle(
+  titleSmall: TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 14,
   ),
