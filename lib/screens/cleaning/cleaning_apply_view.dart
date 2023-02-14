@@ -8,7 +8,6 @@ import '../../components/custom_icon.dart';
 import '../../main.dart';
 import '../../models/tasks.dart';
 import '../../models/user.dart';
-import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
@@ -124,38 +123,41 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: kPaddingSmall),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kPaddingLarge),
-          color: Theme.of(context).colorScheme.background),
-      clipBehavior: Clip.hardEdge,
-      child: ListView(
-        children: [
-          TableCalendar<CleaningTask>(
-            locale: context.locale.toString(),
-            firstDay: DateTime.now().subtract(const Duration(days: 365)),
-            lastDay: DateTime.now().add(const Duration(days: 365)),
-            focusedDay: _focusedDay,
-            eventLoader: _getEventsForDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarFormat: CalendarFormat.month,
-            rangeSelectionMode: RangeSelectionMode.disabled,
-            daysOfWeekHeight: 20,
-            daysOfWeekStyle: DaysOfWeekStyle(
-                weekdayStyle: theme.textTheme.titleMedium!,
-                weekendStyle: theme.textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                )),
-            availableGestures: AvailableGestures.horizontalSwipe,
-            headerStyle: HeaderStyle(
-              titleCentered: true,
-              formatButtonVisible: false,
-              titleTextStyle: theme.textTheme.displaySmall!.copyWith(
-                color: theme.colorScheme.primaryContainer,
+          color: Theme.of(context).colorScheme.background,
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Column(
+          children: [
+            TableCalendar<CleaningTask>(
+              locale: context.locale.toString(),
+              firstDay: DateTime.now().subtract(const Duration(days: 365)),
+              lastDay: DateTime.now().add(const Duration(days: 365)),
+              focusedDay: _focusedDay,
+              eventLoader: _getEventsForDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarFormat: CalendarFormat.month,
+              rangeSelectionMode: RangeSelectionMode.disabled,
+              daysOfWeekHeight: 20,
+              daysOfWeekStyle: DaysOfWeekStyle(
+                  weekdayStyle: theme.textTheme.titleMedium!,
+                  weekendStyle: theme.textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  )),
+              availableGestures: AvailableGestures.horizontalSwipe,
+              headerStyle: HeaderStyle(
+                titleCentered: true,
+                formatButtonVisible: false,
+                titleTextStyle: theme.textTheme.displaySmall!.copyWith(
+                  color: theme.colorScheme.primaryContainer,
+                ),
               ),
-            ),
-            calendarStyle: CalendarStyle(
+              calendarStyle: CalendarStyle(
                 outsideDaysVisible: false,
                 todayDecoration: BoxDecoration(
                   color: theme.colorScheme.primary.withOpacity(0.8),
@@ -166,163 +168,158 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                   shape: BoxShape.circle,
                 ),
                 defaultTextStyle: theme.textTheme.titleMedium!,
-                weekendTextStyle: theme.textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                )),
-            onDaySelected: _onDaySelected,
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-              var eventsForDay = _getEventsForDay(focusedDay);
-              if (eventsForDay.isNotEmpty) {
-                setState(() => _selectedEvent = eventsForDay.first);
-              } else {
-                setState(() => _selectedEvent = null);
-              }
-            },
-            calendarBuilders: CalendarBuilders(
-              singleMarkerBuilder: (context, day, event) {
-                var participantCount = event.participantIDs.length;
-                var markerColor = const Color(0xffa00a34);
-                if (participantCount == 1) {
-                  markerColor = const Color(0xffffbf1b);
-                } else if (participantCount == 2) {
-                  markerColor = const Color(0xff278230);
+                weekendTextStyle: theme.textTheme.titleMedium!,
+              ),
+              onDaySelected: _onDaySelected,
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+                var eventsForDay = _getEventsForDay(focusedDay);
+                if (eventsForDay.isNotEmpty) {
+                  setState(() => _selectedEvent = eventsForDay.first);
+                } else {
+                  setState(() => _selectedEvent = null);
                 }
-                return Container(
-                  height: kCalendarMarkerSize,
-                  width: kCalendarMarkerSize,
-                  decoration: BoxDecoration(
-                    color: markerColor,
-                    borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                  ),
-                );
               },
+              calendarBuilders: CalendarBuilders(
+                singleMarkerBuilder: (context, day, event) {
+                  var participantCount = event.participantIDs.length;
+                  var markerColor = const Color(0xffa00a34);
+                  if (participantCount == 1) {
+                    markerColor = const Color(0xffffbf1b);
+                  } else if (participantCount == 2) {
+                    markerColor = const Color(0xff278230);
+                  }
+                  return Container(
+                    height: kCalendarMarkerSize,
+                    width: kCalendarMarkerSize,
+                    decoration: BoxDecoration(
+                      color: markerColor,
+                      borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: kPaddingNormal),
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(kPaddingSmall),
-                padding: const EdgeInsets.all(kPaddingNormal),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-                  color: Theme.of(context).colorScheme.background,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                  ),
+            const SizedBox(height: kPaddingNormal),
+            Container(
+              margin: const EdgeInsets.all(kPaddingSmall),
+              padding: const EdgeInsets.all(kPaddingNormal),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+                color: Theme.of(context).colorScheme.background,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer,
                 ),
-                child: _selectedEvent != null
-                    ? Column(
-                        children: [
-                          Text(
-                            _selectedEvent!.name,
-                            style: theme.textTheme.displaySmall!.copyWith(
-                              color: theme.colorScheme.primaryContainer,
+              ),
+              child: _selectedEvent != null
+                  ? Column(
+                      children: [
+                        Text(
+                          _selectedEvent!.name,
+                          style: theme.textTheme.displaySmall!.copyWith(
+                            color: theme.colorScheme.primaryContainer,
+                          ),
+                        ),
+                        Divider(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(kPaddingSmall),
+                          padding: const EdgeInsets.all(kPaddingNormal),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                            color: Theme.of(context).colorScheme.background,
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
                             ),
                           ),
-                          Divider(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(kPaddingSmall),
-                            padding: const EdgeInsets.all(kPaddingNormal),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadiusNormal),
-                              color: Theme.of(context).colorScheme.background,
-                              border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
+                          child: Column(
+                            children: [
+                              Text(
+                                'CLEANING_LABEL_EXTENSION'.tr(),
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                  color: theme.colorScheme.primaryContainer,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'CLEANING_LABEL_EXTENSION'.tr(),
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    color: theme.colorScheme.primaryContainer,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              Text(
+                                _selectedEvent?.description ?? '',
+                                textAlign: TextAlign.center,
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                  color: theme.colorScheme.primaryContainer,
+                                  fontStyle: FontStyle.italic,
                                 ),
-                                Text(
-                                  _selectedEvent?.description ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    color: theme.colorScheme.primaryContainer,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(kPaddingSmall),
+                          padding: const EdgeInsets.all(kPaddingNormal),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusNormal),
+                            color: Theme.of(context).colorScheme.background,
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.all(kPaddingSmall),
-                            padding: const EdgeInsets.all(kPaddingNormal),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadiusNormal),
-                              color: Theme.of(context).colorScheme.background,
-                              border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'CLEANING_DIALOG_WITH'.tr(),
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    color: theme.colorScheme.primaryContainer,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'CLEANING_DIALOG_WITH'.tr(),
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                  color: theme.colorScheme.primaryContainer,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                _buildCleaningMates(),
-                              ],
+                              ),
+                              _buildCleaningMates(),
+                            ],
+                          ),
+                        ),
+                        if (!_userAlreadyApplied &&
+                            !_userAppliedSelectedEvent &&
+                            _selectedEvent!.participantIDs.length < 2)
+                          ElevatedButton.icon(
+                            onPressed: _onApplyPressed,
+                            label: Text('BUTTON_APPLY'.tr()),
+                            icon: const CustomIcon(
+                              CustomIcons.done,
+                              size: kIconSizeLarge,
                             ),
                           ),
-                          if (!_userAlreadyApplied &&
-                              !_userAppliedSelectedEvent &&
-                              _selectedEvent!.participantIDs.length < 2)
-                            ElevatedButton.icon(
-                              onPressed: _onApplyPressed,
-                              label: Text('BUTTON_APPLY'.tr()),
-                              icon: const CustomIcon(
-                                CustomIcons.done,
-                                size: kIconSizeLarge,
-                              ),
-                            ),
-                          if (_userAppliedSelectedEvent)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text('CLEANING_DIALOG_APPLIED'.tr()),
-                                ElevatedButton.icon(
-                                  onPressed: _onWithdrawPressed,
-                                  label: Text('BUTTON_DELETE'.tr()),
-                                  icon: const CustomIcon(
-                                    CustomIcons.closeOutlined,
-                                    size: kIconSizeLarge,
-                                  ),
+                        if (_userAppliedSelectedEvent)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text('CLEANING_DIALOG_APPLIED'.tr()),
+                              ElevatedButton.icon(
+                                onPressed: _onWithdrawPressed,
+                                label: Text('BUTTON_DELETE'.tr()),
+                                icon: const CustomIcon(
+                                  CustomIcons.closeOutlined,
+                                  size: kIconSizeLarge,
                                 ),
-                              ],
-                            ),
-                        ],
-                      )
-                    : Text(
-                        'CLEANING_EXCHANGE_TODAYEMPTY'.tr(),
-                        style: theme.textTheme.displaySmall,
-                      ),
-              )
-            ],
-          )
-        ],
+                              ),
+                            ],
+                          ),
+                      ],
+                    )
+                  : Text(
+                      'CLEANING_EXCHANGE_TODAYEMPTY'.tr(),
+                      style: theme.textTheme.displaySmall,
+                    ),
+            )
+          ],
+        ),
       ),
     );
   }
