@@ -55,7 +55,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                       const EdgeInsets.symmetric(horizontal: kPaddingLarge),
                   child: CustomIcon(
                     CustomIcons.doubleArrowDown,
-                    size: theme.textTheme.headline3!.fontSize!,
+                    size: theme.textTheme.displaySmall!.fontSize!,
                     color: theme.colorScheme.primary,
                   ),
                 ),
@@ -96,7 +96,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   Expanded(
                     child: Text(
                       user.showableName,
-                      style: theme.textTheme.bodyText1!.copyWith(
+                      style: theme.textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: theme.colorScheme.background,
@@ -105,7 +105,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   ),
                   Text(
                     DateFormat('MM. dd.').format(exchangableItem.start),
-                    style: theme.textTheme.bodyText1!.copyWith(
+                    style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                       color: theme.colorScheme.background,
@@ -126,7 +126,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 },
                 child: CustomIcon(
                   CustomIcons.plus,
-                  size: theme.textTheme.headline3!.fontSize ?? 14,
+                  size: theme.textTheme.displaySmall!.fontSize ?? 14,
                   color: theme.colorScheme.primary,
                 ),
               ),
@@ -149,10 +149,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var foregroundColor = isOwnItem
         ? theme.colorScheme.surface
         : theme.colorScheme.primaryContainer;
-    var strongFont = theme.textTheme.headline3!.copyWith(
+    var strongFont = theme.textTheme.displaySmall!.copyWith(
       color: foregroundColor,
     );
-    var weakFont = theme.textTheme.subtitle1!.copyWith(
+    var weakFont = theme.textTheme.titleMedium!.copyWith(
       color: foregroundColor,
       fontStyle: FontStyle.italic,
     );
@@ -359,7 +359,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               ),
               child: Text(
                 'CLEANING_BUTTON_WITHDRAW'.tr(),
-                style: theme.textTheme.subtitle1!.copyWith(
+                style: theme.textTheme.titleMedium!.copyWith(
                   color: foregroundColor,
                   fontStyle: FontStyle.italic,
                 ),

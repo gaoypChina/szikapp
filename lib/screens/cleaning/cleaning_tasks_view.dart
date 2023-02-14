@@ -67,7 +67,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                 padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
                 child: CustomIcon(
                   CustomIcons.doubleArrowDown,
-                  size: theme.textTheme.headline3!.fontSize!,
+                  size: theme.textTheme.displaySmall!.fontSize!,
                   color: theme.colorScheme.primary,
                 ),
               ),
@@ -93,10 +93,10 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     var foregroundColor = isOwnItem
         ? theme.colorScheme.surface
         : theme.colorScheme.primaryContainer;
-    var strongFont = theme.textTheme.headline3!.copyWith(
+    var strongFont = theme.textTheme.displaySmall!.copyWith(
       color: foregroundColor,
     );
-    var weakFont = theme.textTheme.subtitle1!.copyWith(
+    var weakFont = theme.textTheme.titleMedium!.copyWith(
       color: foregroundColor,
       fontStyle: FontStyle.italic,
     );
@@ -199,11 +199,11 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
         reportableItem.status == TaskStatus.awaitingApproval ||
             reportableItem.status == TaskStatus.approved ||
             reportableItem.status == TaskStatus.refused;
-    var weakFont = theme.textTheme.subtitle1!.copyWith(
+    var weakFont = theme.textTheme.titleMedium!.copyWith(
       color: theme.colorScheme.surface,
       fontStyle: FontStyle.italic,
     );
-    var strongFont = theme.textTheme.headline3!.copyWith(
+    var strongFont = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.surface,
     );
     return Padding(

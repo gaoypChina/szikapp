@@ -109,7 +109,7 @@ class _CleaningAdminPunishmentViewState
               Text(
                 'CLEANING_ADMIN_AWAITING_APPROVAL'.tr(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline3!
+                style: theme.textTheme.displaySmall!
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
@@ -127,14 +127,14 @@ class _CleaningAdminPunishmentViewState
                     children: [
                       Text(
                         DateFormat('yyyy. MM. dd.').format(e.start),
-                        style: theme.textTheme.subtitle1!.copyWith(
+                        style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
                       Text(
                         _buildParticipants(e),
-                        style: theme.textTheme.subtitle1!.copyWith(
+                        style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _CleaningAdminPunishmentViewState
                             onPressed: () => _onRefusedPressed(e),
                             child: Text(
                               'BUTTON_DISAGREE'.tr(),
-                              style: theme.textTheme.overline!.copyWith(
+                              style: theme.textTheme.labelSmall!.copyWith(
                                 color: theme.colorScheme.surface,
                               ),
                             ),
@@ -156,7 +156,7 @@ class _CleaningAdminPunishmentViewState
                             onPressed: () => _onAcceptedPressed(e),
                             child: Text(
                               'BUTTON_APPROVE'.tr(),
-                              style: theme.textTheme.overline!.copyWith(
+                              style: theme.textTheme.labelSmall!.copyWith(
                                 color: theme.colorScheme.surface,
                               ),
                             ),
@@ -185,7 +185,7 @@ class _CleaningAdminPunishmentViewState
               Text(
                 'CLEANING_ADMIN_FEE_PAYMENT'.tr(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline3!
+                style: theme.textTheme.displaySmall!
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
@@ -203,14 +203,14 @@ class _CleaningAdminPunishmentViewState
                     children: [
                       Text(
                         DateFormat('yyyy. MM. dd.').format(e.start),
-                        style: theme.textTheme.subtitle1!.copyWith(
+                        style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
                       Text(
                         _buildParticipants(e),
-                        style: theme.textTheme.subtitle1!.copyWith(
+                        style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold,
@@ -223,7 +223,7 @@ class _CleaningAdminPunishmentViewState
                             onPressed: () => _onRefusedPressed(e),
                             child: Text(
                               'BUTTON_PAYMENT'.tr(),
-                              style: theme.textTheme.overline!.copyWith(
+                              style: theme.textTheme.labelSmall!.copyWith(
                                 color: theme.colorScheme.surface,
                               ),
                             ),

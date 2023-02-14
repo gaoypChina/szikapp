@@ -82,7 +82,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
               .firstWhere((element) => element.id == mate)
               .showableName
           : 'CLEANING_DIALOG_NO_MATE'.tr(),
-      style: theme.textTheme.subtitle1!.copyWith(
+      style: theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.primaryContainer,
         fontStyle: FontStyle.italic,
       ),
@@ -143,15 +143,15 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
             rangeSelectionMode: RangeSelectionMode.disabled,
             daysOfWeekHeight: 20,
             daysOfWeekStyle: DaysOfWeekStyle(
-                weekdayStyle: theme.textTheme.subtitle1!,
-                weekendStyle: theme.textTheme.subtitle1!.copyWith(
+                weekdayStyle: theme.textTheme.titleMedium!,
+                weekendStyle: theme.textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 )),
             availableGestures: AvailableGestures.horizontalSwipe,
             headerStyle: HeaderStyle(
               titleCentered: true,
               formatButtonVisible: false,
-              titleTextStyle: theme.textTheme.headline3!.copyWith(
+              titleTextStyle: theme.textTheme.displaySmall!.copyWith(
                 color: theme.colorScheme.primaryContainer,
               ),
             ),
@@ -165,8 +165,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                   color: theme.colorScheme.primary,
                   shape: BoxShape.circle,
                 ),
-                defaultTextStyle: theme.textTheme.subtitle1!,
-                weekendTextStyle: theme.textTheme.subtitle1!.copyWith(
+                defaultTextStyle: theme.textTheme.titleMedium!,
+                weekendTextStyle: theme.textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 )),
             onDaySelected: _onDaySelected,
@@ -217,7 +217,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         children: [
                           Text(
                             _selectedEvent!.name,
-                            style: theme.textTheme.headline3!.copyWith(
+                            style: theme.textTheme.displaySmall!.copyWith(
                               color: theme.colorScheme.primaryContainer,
                             ),
                           ),
@@ -242,7 +242,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                               children: [
                                 Text(
                                   'CLEANING_LABEL_EXTENSION'.tr(),
-                                  style: theme.textTheme.subtitle1!.copyWith(
+                                  style: theme.textTheme.titleMedium!.copyWith(
                                     color: theme.colorScheme.primaryContainer,
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold,
@@ -251,7 +251,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                                 Text(
                                   _selectedEvent?.description ?? '',
                                   textAlign: TextAlign.center,
-                                  style: theme.textTheme.subtitle1!.copyWith(
+                                  style: theme.textTheme.titleMedium!.copyWith(
                                     color: theme.colorScheme.primaryContainer,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -277,7 +277,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                               children: [
                                 Text(
                                   'CLEANING_DIALOG_WITH'.tr(),
-                                  style: theme.textTheme.subtitle1!.copyWith(
+                                  style: theme.textTheme.titleMedium!.copyWith(
                                     color: theme.colorScheme.primaryContainer,
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold,
@@ -317,7 +317,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                       )
                     : Text(
                         'CLEANING_EXCHANGE_TODAYEMPTY'.tr(),
-                        style: theme.textTheme.headline3,
+                        style: theme.textTheme.displaySmall,
                       ),
               )
             ],
