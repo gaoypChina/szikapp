@@ -12,7 +12,7 @@ import '../../ui/themes.dart';
 class CleaningTasksView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
-  const CleaningTasksView({Key? key, required this.manager}) : super(key: key);
+  const CleaningTasksView({super.key, required this.manager});
 
   @override
   State<CleaningTasksView> createState() => _CleaningTasksViewState();

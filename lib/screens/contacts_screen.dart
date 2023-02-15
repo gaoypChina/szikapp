@@ -27,8 +27,7 @@ class ContactsScreen extends StatefulWidget {
     );
   }
 
-  const ContactsScreen({Key key = const Key('ContactsScreen')})
-      : super(key: key);
+  const ContactsScreen({super.key = const Key('ContactsScreen')});
 
   @override
   ContactsScreenState createState() => ContactsScreenState();
@@ -63,7 +62,7 @@ class ContactsScreenState extends State<ContactsScreen> {
 class ContactsListView extends StatefulWidget {
   final ContactsManager manager;
 
-  const ContactsListView({Key? key, required this.manager}) : super(key: key);
+  const ContactsListView({super.key, required this.manager});
 
   @override
   ContactsListViewState createState() => ContactsListViewState();

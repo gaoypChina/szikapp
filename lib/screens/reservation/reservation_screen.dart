@@ -16,8 +16,7 @@ class ReservationScreen extends StatelessWidget {
     );
   }
 
-  const ReservationScreen({Key key = const Key('ReservationScreen')})
-      : super(key: key);
+  const ReservationScreen({super.key = const Key('ReservationScreen')});
 
   @override
   Widget build(BuildContext context) {

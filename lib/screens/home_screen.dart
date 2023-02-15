@@ -22,9 +22,9 @@ class HomeScreen extends StatefulWidget {
   }
 
   const HomeScreen({
-    Key key = const Key('HomeScreen'),
+    super.key = const Key('HomeScreen'),
     required this.currentTab,
-  }) : super(key: key);
+  });
 
   @override
   HomeScreenState createState() => HomeScreenState();

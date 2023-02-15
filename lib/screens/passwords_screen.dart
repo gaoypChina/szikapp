@@ -17,9 +17,9 @@ class PasswordsScreen extends StatelessWidget {
   }
 
   const PasswordsScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

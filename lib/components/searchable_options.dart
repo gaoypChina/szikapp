@@ -34,7 +34,7 @@ class SearchableOptions<T> extends StatelessWidget {
   final bool readonly;
 
   SearchableOptions({
-    Key? key,
+    super.key,
     this.hint,
     required this.items,
     required void Function(T?) onItemChanged,
@@ -45,11 +45,10 @@ class SearchableOptions<T> extends StatelessWidget {
     this.nullValidated = true,
   })  : allowMultiSelection = false,
         selectedItems = selectedItem == null ? const [] : [selectedItem],
-        onItemsChanged = ((value) => onItemChanged(value.first)),
-        super(key: key);
+        onItemsChanged = ((value) => onItemChanged(value.first));
 
   const SearchableOptions.multiSelection({
-    Key? key,
+    super.key,
     this.hint,
     required this.items,
     required this.onItemsChanged,
@@ -58,8 +57,7 @@ class SearchableOptions<T> extends StatelessWidget {
     this.readonly = false,
     this.showClearButton = false,
     this.nullValidated = true,
-  })  : allowMultiSelection = true,
-        super(key: key);
+  }) : allowMultiSelection = true;
 
   @override
   Widget build(BuildContext context) {

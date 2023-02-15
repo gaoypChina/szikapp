@@ -20,7 +20,7 @@ class FeedScreen extends StatefulWidget {
     );
   }
 
-  const FeedScreen({Key key = const Key('FeedScreen')}) : super(key: key);
+  const FeedScreen({super.key = const Key('FeedScreen')});
 
   @override
   FeedScreenState createState() => FeedScreenState();

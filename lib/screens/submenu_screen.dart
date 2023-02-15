@@ -21,9 +21,9 @@ class SubMenuScreen extends StatefulWidget {
   }
 
   const SubMenuScreen({
-    Key key = const Key('SubMenuScreen'),
+    super.key = const Key('SubMenuScreen'),
     required this.selectedSubMenu,
-  }) : super(key: key);
+  });
 
   @override
   State<SubMenuScreen> createState() => _SubMenuScreenState();

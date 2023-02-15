@@ -18,31 +18,28 @@ class CustomDialog extends StatelessWidget {
   final VoidCallback onStrongButtonClick;
 
   const CustomDialog.alert({
-    Key? key,
+    super.key,
     required this.title,
     required this.onWeakButtonClick,
     required this.onStrongButtonClick,
   })  : type = DialogType.alert,
-        bodytext = '',
-        super(key: key);
+        bodytext = '';
 
   const CustomDialog.confirmation({
-    Key? key,
+    super.key,
     required this.title,
     required this.bodytext,
     required this.onWeakButtonClick,
     required this.onStrongButtonClick,
-  })  : type = DialogType.confirmation,
-        super(key: key);
+  }) : type = DialogType.confirmation;
 
   CustomDialog.feedback({
-    Key? key,
+    super.key,
     required this.title,
   })  : type = DialogType.feedback,
         bodytext = '',
         onWeakButtonClick = (() => (null)),
-        onStrongButtonClick = (() => (null)),
-        super(key: key);
+        onStrongButtonClick = (() => (null));
 
   @override
   Widget build(BuildContext context) {

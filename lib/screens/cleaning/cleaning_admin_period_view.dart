@@ -14,8 +14,7 @@ import '../../utils/utils.dart';
 class CleaningAdminPeriodView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
-  const CleaningAdminPeriodView({Key? key, required this.manager})
-      : super(key: key);
+  const CleaningAdminPeriodView({super.key, required this.manager});
 
   @override
   State<CleaningAdminPeriodView> createState() =>
@@ -50,7 +49,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   void _onEndChanged(DateTime? newDate) {
     setState(() {
-      _endDate = newDate ?? DateTime.now();
+      _endDate = newDate?.copyWith(hour: 22) ?? DateTime.now();
     });
   }
 

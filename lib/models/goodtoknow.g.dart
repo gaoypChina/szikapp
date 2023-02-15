@@ -7,7 +7,7 @@ part of 'goodtoknow.dart';
 // **************************************************************************
 
 GoodToKnow _$GoodToKnowFromJson(Map<String, dynamic> json) => GoodToKnow(
-      id: json['id'],
+      id: json['id'] as String,
       title: json['title'] as String,
       category: $enumDecode(_$GoodToKnowCategoryEnumMap, json['category']),
       keyValuePairs: (json['key_value_pairs'] as Map<String, dynamic>?)?.map(

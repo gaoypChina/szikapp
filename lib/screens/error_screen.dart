@@ -26,10 +26,10 @@ class ErrorScreen extends StatefulWidget {
   final Widget? errorInset;
 
   const ErrorScreen({
-    Key key = const Key('ErrorScreen'),
+    super.key = const Key('ErrorScreen'),
     this.error,
     this.errorInset,
-  }) : super(key: key);
+  });
 
   @override
   ErrorScreenState createState() => ErrorScreenState();

@@ -11,13 +11,13 @@ class SearchBar extends StatefulWidget {
   final double searchBarIconSize;
 
   const SearchBar({
-    Key? key,
+    super.key,
     required this.onChanged,
     this.validator,
     this.filter,
     required this.placeholder,
     this.searchBarIconSize = 30.0,
-  }) : super(key: key);
+  });
 
   @override
   State<SearchBar> createState() => _SearchBarState();

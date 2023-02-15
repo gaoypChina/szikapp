@@ -14,12 +14,12 @@ class CustomSwitch extends StatefulWidget {
   final bool enabled;
 
   const CustomSwitch({
-    Key? key,
+    super.key,
     required this.titleText,
     this.initValue = true,
     required this.onChanged,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomSwitch> createState() => _CustomSwitchState();

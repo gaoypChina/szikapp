@@ -10,13 +10,13 @@ class ProfileTextField extends StatelessWidget {
   final TextEditingController? controller;
 
   const ProfileTextField({
-    Key? key,
+    super.key,
     required this.label,
     this.initialValue,
     this.onChanged,
     this.readOnly = false,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

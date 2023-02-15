@@ -11,11 +11,11 @@ class CustomFloatingActionButton extends StatelessWidget {
   final String icon;
 
   const CustomFloatingActionButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.typeToCreate,
     this.icon = CustomIcons.plus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

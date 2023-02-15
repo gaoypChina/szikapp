@@ -8,10 +8,10 @@ class ListScreenShimmer extends StatelessWidget {
   final bool withSearchbar;
 
   const ListScreenShimmer({
-    Key? key,
+    super.key,
     this.type = ShimmerListType.card,
     this.withSearchbar = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../ui/themes.dart';
 
 class TileShimmer extends StatelessWidget {
-  const TileShimmer({Key? key}) : super(key: key);
+  const TileShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

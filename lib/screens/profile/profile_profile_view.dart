@@ -14,9 +14,9 @@ class ProfileScreenView extends StatefulWidget {
   final AuthManager manager;
 
   const ProfileScreenView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   State<ProfileScreenView> createState() => _ProfileScreenViewState();

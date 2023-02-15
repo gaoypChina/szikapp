@@ -17,9 +17,9 @@ class ReservationAccountsListScreen extends StatelessWidget {
   }
 
   const ReservationAccountsListScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

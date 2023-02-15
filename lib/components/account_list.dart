@@ -10,14 +10,12 @@ class AccountList extends StatelessWidget {
   final String title;
   final bool isReservation;
 
-  AccountList.reservation({Key? key, required this.manager})
+  AccountList.reservation({super.key, required this.manager})
       : title = 'RESERVATION_TITLE_ACCOUNT_LIST'.tr(),
-        isReservation = true,
-        super(key: key);
-  AccountList.passwords({Key? key, required this.manager})
+        isReservation = true;
+  AccountList.passwords({super.key, required this.manager})
       : title = 'PASSWORDS_TITLE'.tr(),
-        isReservation = false,
-        super(key: key);
+        isReservation = false;
 
   @override
   Widget build(BuildContext context) {

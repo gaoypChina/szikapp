@@ -14,10 +14,10 @@ class PollDetailsView extends StatefulWidget {
   final PollTask poll;
   final PollManager manager;
   const PollDetailsView({
-    Key? key,
+    super.key,
     required this.poll,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   State<PollDetailsView> createState() => _PollDetailsViewState();

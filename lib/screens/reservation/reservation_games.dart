@@ -20,9 +20,9 @@ class ReservationGamesListScreen extends StatelessWidget {
   }
 
   const ReservationGamesListScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class ReservationGamesList extends StatelessWidget {
   final ReservationManager manager;
 
   const ReservationGamesList({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -45,15 +45,14 @@ class ReservationCreateEditScreen extends StatefulWidget {
   final Function(TimetableTask, int) onUpdate;
 
   const ReservationCreateEditScreen({
-    Key? key,
+    super.key,
     this.originalItem,
     this.index = -1,
     required this.manager,
     required this.onCreate,
     required this.onUpdate,
     required this.onDelete,
-  })  : isEdit = (originalItem != null),
-        super(key: key);
+  }) : isEdit = (originalItem != null);
 
   @override
   ReservationCreateEditScreenState createState() =>
@@ -101,13 +100,14 @@ class ReservationCreateEditScreenState
 
   DateTime _getCorrectLocalDate(DateTime date) {
     var now = DateTime.now();
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      now.hour,
-      now.minute,
-    ).toUtc().roundDown().toLocal();
+    return date
+        .copyWith(
+          hour: now.hour,
+          minute: now.minute,
+        )
+        .toUtc()
+        .roundDown()
+        .toLocal();
   }
 
   String? _validateTextField(value) {
@@ -129,35 +129,25 @@ class ReservationCreateEditScreenState
   }
 
   void _onDateChanged(DateTime? date) {
-    widget.manager.selectDate(
-        DateTime(date!.year, date.month, date.day, start.hour, start.minute));
+    widget.manager
+        .selectDate(date!.copyWith(hour: start.hour, minute: start.minute));
     setState(() {
-      start =
-          DateTime(date.year, date.month, date.day, start.hour, start.minute);
-      end = DateTime(date.year, date.month, date.day, end.hour, end.minute);
+      start = date.copyWith(hour: start.hour, minute: start.minute);
+      end = date.copyWith(hour: end.hour, minute: end.minute);
     });
   }
 
   void _onStartingTimeChanged(TimeOfDay? startingTime) {
     startingTime ??= TimeOfDay.fromDateTime(start);
-    var newStart = DateTime(
-      start.year,
-      start.month,
-      start.day,
-      startingTime.hour,
-      startingTime.minute,
+    var newStart = start.copyWith(
+      hour: startingTime.hour,
+      minute: startingTime.minute,
     );
-    var diff = DateTime(
-      start.year,
-      start.month,
-      start.day,
-      startingTime.hour,
-      startingTime.minute,
-    ).difference(start);
+    var diff = newStart.difference(start);
 
     var newEnd = end.add(diff);
     if (newEnd.day != end.day || newEnd.isBefore(newStart)) {
-      newEnd = DateTime(start.year, start.month, start.day, 23, 59);
+      newEnd = start.copyWith(hour: 23, minute: 59);
     }
 
     setState(() {
@@ -169,8 +159,7 @@ class ReservationCreateEditScreenState
 
   void _onFinishingTimeChanged(TimeOfDay? endingTime) {
     setState(() {
-      end = DateTime(
-          end.year, end.month, end.day, endingTime!.hour, endingTime.minute);
+      end = end.copyWith(hour: endingTime!.hour, minute: endingTime.minute);
     });
     _timeFieldHasErrors();
   }

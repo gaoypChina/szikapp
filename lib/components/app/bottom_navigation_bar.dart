@@ -11,9 +11,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedTab;
 
   const CustomBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.selectedTab,
-  }) : super(key: key);
+  });
 
   Color _getSelectionColor(
     int selectedTab,

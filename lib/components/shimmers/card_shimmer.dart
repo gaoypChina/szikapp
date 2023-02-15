@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../ui/themes.dart';
 
 class CardShimmer extends StatelessWidget {
-  const CardShimmer({Key? key}) : super(key: key);
+  const CardShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -23,9 +23,9 @@ class CleaningScreen extends StatelessWidget {
   final KitchenCleaningManager manager;
 
   const CleaningScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +45,9 @@ class CleaningScreen extends StatelessWidget {
 
 class CleaningScreenView extends StatefulWidget {
   const CleaningScreenView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   final KitchenCleaningManager manager;
 

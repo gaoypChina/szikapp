@@ -21,7 +21,7 @@ Map<String, dynamic> _$ResourceToJson(Resource instance) => <String, dynamic>{
     };
 
 Place _$PlaceFromJson(Map<String, dynamic> json) => Place(
-      id: json['id'],
+      id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
       type: $enumDecode(_$PlaceTypeEnumMap, json['type']),
@@ -48,7 +48,7 @@ const _$PlaceTypeEnumMap = {
 };
 
 Boardgame _$BoardgameFromJson(Map<String, dynamic> json) => Boardgame(
-      id: json['id'],
+      id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
       iconLink: json['icon_link'] as String,

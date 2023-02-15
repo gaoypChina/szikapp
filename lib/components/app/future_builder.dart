@@ -13,11 +13,11 @@ class CustomFutureBuilder<T> extends StatelessWidget {
   final Widget child;
 
   const CustomFutureBuilder({
-    Key? key,
+    super.key,
     required this.future,
     this.shimmer = const ListScreenShimmer(),
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

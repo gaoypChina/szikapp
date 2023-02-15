@@ -15,9 +15,7 @@ class BirthdayBar extends StatelessWidget {
     2: 'CALENDAR_DAY_AFTER_TOMORROW'.tr(),
   };
 
-  BirthdayBar({Key? key})
-      : io = IO(),
-        super(key: key);
+  BirthdayBar({super.key}) : io = IO();
 
   @override
   Widget build(BuildContext context) {
@@ -32,31 +30,37 @@ class BirthdayBar extends StatelessWidget {
           birthdayUsers.add(snapshot.data!.first);
           var birthdayNames = birthdayUsers.first.showableName;
           var now = DateTime.now();
-          var daysToBirthday = DateTime(
-            now.year,
-            birthdayUsers.first.birthday!.month,
-            birthdayUsers.first.birthday!.day,
-          )
+          var daysToBirthday = now
+              .copyWith(
+                month: birthdayUsers.first.birthday!.month,
+                day: birthdayUsers.first.birthday!.day,
+                hour: 0,
+                minute: 0,
+                second: 0,
+              )
               .difference(
-                DateTime(
-                  now.year,
-                  now.month,
-                  now.day,
+                now.copyWith(
+                  hour: 0,
+                  minute: 0,
+                  second: 0,
                 ),
               )
               .inDays;
           for (var element in snapshot.data!) {
             if (element.id != birthdayUsers.first.id) {
-              var daysToBirthdayElement = DateTime(
-                DateTime.now().year,
-                element.birthday!.month,
-                element.birthday!.day,
-              )
+              var daysToBirthdayElement = now
+                  .copyWith(
+                    month: element.birthday!.month,
+                    day: element.birthday!.day,
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                  )
                   .difference(
-                    DateTime(
-                      now.year,
-                      now.month,
-                      now.day,
+                    now.copyWith(
+                      hour: 0,
+                      minute: 0,
+                      second: 0,
                     ),
                   )
                   .inDays;

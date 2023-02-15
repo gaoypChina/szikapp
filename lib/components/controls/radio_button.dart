@@ -11,11 +11,11 @@ class CustomRadioList extends StatefulWidget {
   final ValueChanged<String> onChanged;
 
   const CustomRadioList({
-    Key? key,
+    super.key,
     required this.radioLabels,
     this.initValue,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomRadioList> createState() => _CustomRadioListState();

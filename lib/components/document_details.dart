@@ -10,9 +10,9 @@ class DocumentDetails extends StatelessWidget {
   final GoodToKnow? document;
 
   const DocumentDetails({
-    Key? key,
+    super.key,
     this.document,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

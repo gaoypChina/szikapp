@@ -20,7 +20,7 @@ class ArticleScreen extends StatelessWidget {
     );
   }
 
-  const ArticleScreen({Key? key}) : super(key: key);
+  const ArticleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

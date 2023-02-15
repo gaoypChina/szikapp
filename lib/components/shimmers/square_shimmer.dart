@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../ui/themes.dart';
 
 class SquareShimmer extends StatelessWidget {
-  const SquareShimmer({Key? key}) : super(key: key);
+  const SquareShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

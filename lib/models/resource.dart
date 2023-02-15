@@ -46,18 +46,13 @@ class Place extends Resource {
   List<String> overseerIDs;
 
   Place({
-    required id,
-    required String name,
-    String? description,
+    required super.id,
+    required super.name,
+    super.description,
     required this.type,
     this.overseerIDs = const [],
-    required DateTime lastUpdate,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+    required super.lastUpdate,
+  });
 
   @override
   Json toJson() => _$PlaceToJson(this);
@@ -85,17 +80,12 @@ class Boardgame extends Resource {
   final String iconLink;
 
   Boardgame({
-    required id,
-    required String name,
-    String? description,
+    required super.id,
+    required super.name,
+    super.description,
     required this.iconLink,
-    required DateTime lastUpdate,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+    required super.lastUpdate,
+  });
 
   @override
   Json toJson() => _$BoardgameToJson(this);
@@ -122,20 +112,15 @@ class Account extends Resource {
   final bool reservable;
 
   Account({
-    required String id,
-    required String name,
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    super.description,
+    required super.lastUpdate,
     required this.username,
     required this.credential,
     required this.url,
     this.reservable = true,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$AccountToJson(this);
@@ -161,18 +146,13 @@ class Article extends Resource {
   final String imageUrl;
 
   Article({
-    required String id,
-    required String name,
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    super.description,
+    required super.lastUpdate,
     required this.imageUrl,
     required this.url,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$ArticleToJson(this);

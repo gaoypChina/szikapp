@@ -9,7 +9,7 @@ import '../utils/methods.dart';
 class ArticleCard extends StatelessWidget {
   final Article data;
 
-  const ArticleCard({Key? key, required this.data}) : super(key: key);
+  const ArticleCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

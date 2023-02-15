@@ -24,9 +24,9 @@ class ReservationDetailsScreen extends StatelessWidget {
   final ReservationManager manager;
 
   const ReservationDetailsScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +48,9 @@ class ReservationDetails extends StatefulWidget {
   final leftColumnWidth = 80.0;
 
   const ReservationDetails({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   State<ReservationDetails> createState() => _ReservationDetailsState();
@@ -62,9 +62,8 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   late DateTime _currentDate;
 
   DateTime get _currentDateStart =>
-      DateTime(_currentDate.year, _currentDate.month, _currentDate.day);
-  DateTime get _currentDateEnd =>
-      DateTime(_currentDate.year, _currentDate.month, _currentDate.day, 23, 59);
+      _currentDate.copyWith(hour: 0, minute: 0, second: 0);
+  DateTime get _currentDateEnd => _currentDate.copyWith(hour: 23, minute: 59);
 
   @override
   void initState() {

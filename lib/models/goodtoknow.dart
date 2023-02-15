@@ -22,19 +22,14 @@ class GoodToKnow extends Resource implements Identifiable, Cachable {
   KeyValuePairs? keyValuePairs;
 
   GoodToKnow({
-    required id,
+    required super.id,
     required this.title,
     required this.category,
     this.keyValuePairs,
-    required String name,
-    String? description,
-    required DateTime lastUpdate,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+    required super.name,
+    super.description,
+    required super.lastUpdate,
+  });
 
   @override
   Json toJson() => _$GoodToKnowToJson(this);

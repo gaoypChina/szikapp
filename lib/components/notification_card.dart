@@ -8,9 +8,9 @@ class NotificationCard extends StatelessWidget {
   final CustomNotification data;
 
   const NotificationCard({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

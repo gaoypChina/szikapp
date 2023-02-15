@@ -25,9 +25,9 @@ class PollScreen extends StatelessWidget {
 
   final PollManager manager;
   const PollScreen({
-    Key key = const Key('PollScreen'),
+    super.key = const Key('PollScreen'),
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +45,9 @@ class PollTileView extends StatefulWidget {
   final PollManager manager;
 
   const PollTileView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   PollTileViewState createState() => PollTileViewState();

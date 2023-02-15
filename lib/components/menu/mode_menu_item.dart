@@ -9,12 +9,12 @@ class ModeMenuItem extends StatelessWidget {
   final Color? color;
 
   const ModeMenuItem({
-    Key? key,
+    super.key,
     this.onTap,
     required this.leadingAssetPath,
     required this.title,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

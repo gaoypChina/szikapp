@@ -12,8 +12,7 @@ import '../../utils/utils.dart';
 class CleaningAdminPunishmentView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
-  const CleaningAdminPunishmentView({Key? key, required this.manager})
-      : super(key: key);
+  const CleaningAdminPunishmentView({super.key, required this.manager});
 
   @override
   State<CleaningAdminPunishmentView> createState() =>

@@ -78,6 +78,7 @@ const _$PermissionEnumMap = {
   Permission.formsView: 'formsView',
   Permission.bookLoanView: 'bookLoanView',
   Permission.calendarView: 'calendarView',
+  Permission.passwordsView: 'passwordsView',
   Permission.profileView: 'profileView',
   Permission.profileEdit: 'profileEdit',
   Permission.userCreate: 'userCreate',

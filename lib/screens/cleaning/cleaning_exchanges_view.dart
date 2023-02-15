@@ -15,9 +15,9 @@ class CleaningExchangesView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
   const CleaningExchangesView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   State<CleaningExchangesView> createState() => _CleaningExchangesViewState();

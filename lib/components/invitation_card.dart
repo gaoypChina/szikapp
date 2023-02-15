@@ -9,7 +9,7 @@ import '../utils/methods.dart';
 class InvitationCard extends StatelessWidget {
   final TimetableTask data;
 
-  const InvitationCard({Key? key, required this.data}) : super(key: key);
+  const InvitationCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

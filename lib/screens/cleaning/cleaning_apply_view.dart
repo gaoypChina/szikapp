@@ -16,7 +16,7 @@ const double kCalendarMarkerSize = 5.0;
 class CleaningApplyView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
-  const CleaningApplyView({Key? key, required this.manager}) : super(key: key);
+  const CleaningApplyView({super.key, required this.manager});
 
   @override
   State<CleaningApplyView> createState() => _CleaningApplyViewState();

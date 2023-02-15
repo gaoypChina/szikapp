@@ -50,7 +50,7 @@ void main() async {
 
 ///Az applikáció
 class SzikApp extends StatefulWidget {
-  const SzikApp({Key key = const Key('SzikApp')}) : super(key: key);
+  const SzikApp({super.key = const Key('SzikApp')});
 
   @override
   SzikAppState createState() => SzikAppState();

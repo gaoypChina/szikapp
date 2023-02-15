@@ -9,7 +9,7 @@ import '../navigation/navigation.dart';
 class MenuScreen extends StatelessWidget {
   static const String route = '/menu';
 
-  const MenuScreen({Key key = const Key('MenuScreen')}) : super(key: key);
+  const MenuScreen({super.key = const Key('MenuScreen')});
 
   @override
   Widget build(BuildContext context) {
