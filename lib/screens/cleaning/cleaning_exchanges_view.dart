@@ -267,11 +267,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       children: [
         ...exchange.replacements.map((replacement) {
           var replacementTask = widget.manager.tasks
-              .firstWhere((element) => element.id == replacement['task_id']);
+              .firstWhere((element) => element.id == replacement.taskID);
           var replacerName = Provider.of<SzikAppStateManager>(context)
               .users
               .firstWhere(
-                (element) => element.id == replacement['replacer_id'],
+                (element) => element.id == replacement.replacerID,
               )
               .name;
           return Container(
@@ -313,7 +313,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     ),
                   ),
                 ),
-                if (replacement['status'] != 'rejected')
+                if (replacement.status != TaskStatus.refused)
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -323,7 +323,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             context: context,
                             builder: (BuildContext context) =>
                                 _buildExchangeRefuseDialog(
-                                    exchange, replacement['task_id']),
+                                    exchange, replacement.taskID),
                           );
                         },
                         icon: const CustomIcon(CustomIcons.closeOutlined),
@@ -335,7 +335,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             builder: (BuildContext context) =>
                                 _buildExchangeAcceptDialog(
                               exchange,
-                              replacement['task_id'],
+                              replacement.taskID,
                             ),
                           );
                         },
@@ -399,8 +399,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         .firstWhere((element) => element.id == exchange.taskID);
     var userOfferedExchangeIDs = widget.manager.exchanges
         .where((exchange) => exchange.replacements.any((replacement) =>
-            replacement['replacer_id'].toString() == user!.id &&
-            replacement['status'] != 'rejected'))
+            replacement.replacerID == user!.id &&
+            replacement.status != TaskStatus.refused))
         .map((exchange) => exchange.id)
         .toList();
 
