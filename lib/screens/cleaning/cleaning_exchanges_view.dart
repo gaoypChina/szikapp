@@ -40,6 +40,13 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var tasks = Provider.of<KitchenCleaningManager>(context).tasks;
+    var filteredExchanges = _exchanges.where((exchange) =>
+        exchange.status != TaskStatus.approved &&
+        tasks
+            .firstWhere((task) => task.id == exchange.taskID)
+            .end
+            .isAfter(DateTime.now()));
     return RefreshIndicator(
       onRefresh: _onManualRefresh,
       child: Padding(
@@ -60,13 +67,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                children: _exchanges
-                    .where((exchange) =>
-                        Provider.of<KitchenCleaningManager>(context)
-                            .tasks
-                            .firstWhere((task) => task.id == exchange.taskID)
-                            .end
-                            .isAfter(DateTime.now()))
+                children: filteredExchanges
                     .map<ToggleListItem>(
                       (item) => _buildExchangeTile(exchange: item),
                     )

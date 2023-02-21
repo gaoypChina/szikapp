@@ -59,8 +59,8 @@ class KitchenCleaningManager extends ChangeNotifier {
   CleaningPeriod getOpenPeriod() =>
       periods.firstWhere((element) => element.start.isAfter(DateTime.now()));
 
-  bool userHasActiveExchange(String userID) =>
-      exchanges.any((element) => element.initiatorID == userID);
+  bool userHasActiveExchange(String userID) => exchanges.any((exchange) =>
+      exchange.status != TaskStatus.approved && exchange.initiatorID == userID);
 
   ///Checks whether user has applied task for the current period
   bool userHasAppliedTask(String userID) {
@@ -129,13 +129,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
-  Future<void> refreshExchanges({bool? approved}) async {
+  Future<void> refreshExchanges({bool approved = false}) async {
     try {
       var io = IO();
-      var parameter = <String, String>{};
-      if (approved != null) {
-        parameter.addEntries({'approved': approved.toString()}.entries);
-      }
+      var parameter = {'approved': approved.toString()};
       _cleaningExchanges = await io.getCleaningExchange(parameter);
     } on IONotModifiedException {
       _cleaningExchanges = [];
