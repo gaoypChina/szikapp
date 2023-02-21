@@ -145,8 +145,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   ToggleListItem _buildExchangeTile({required CleaningExchange exchange}) {
-    var isOwnItem =
-        Provider.of<AuthManager>(context).user!.id == exchange.initiatorID;
+    var user = Provider.of<AuthManager>(context).user;
+    var isOwnItem = user!.id == exchange.initiatorID;
     var theme = Theme.of(context);
     var hasTask =
         widget.manager.tasks.any((element) => element.id == exchange.taskID);
@@ -235,6 +235,12 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                           )
                         : _buildOtherItemBody(
                             exchange: exchange,
+                            ownTaskID: widget.manager.tasks
+                                .firstWhere(
+                                  (task) =>
+                                      task.participantIDs.contains(user.id),
+                                )
+                                .id,
                             backgroundColor: backgroundColor,
                             foregroundColor: foregroundColor,
                             strongFont: strongFont,
@@ -380,22 +386,23 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   Widget _buildOtherItemBody({
     required exchange,
+    required ownTaskID,
     required backgroundColor,
     required foregroundColor,
     required strongFont,
     required weakFont,
   }) {
+    var user = Provider.of<AuthManager>(context).user;
     var replacementTask = widget.manager.tasks
         .firstWhere((element) => element.id == exchange.taskID);
-    var userOfferedTaskIDs = widget.manager.exchanges
-        .where((element) => element.replacements.any((element) =>
-            element['replacer_id'].toString() ==
-            Provider.of<AuthManager>(context).user!.id))
-        .map((e) => e.taskID)
+    var userOfferedExchangeIDs = widget.manager.exchanges
+        .where((exchange) => exchange.replacements.any(
+            (replacement) => replacement['replacer_id'].toString() == user!.id))
+        .map((exchange) => exchange.id)
         .toList();
 
     Widget iconButton;
-    if (userOfferedTaskIDs.isEmpty) {
+    if (userOfferedExchangeIDs.isEmpty) {
       iconButton = IconButton(
         padding: const EdgeInsets.all(0),
         alignment: Alignment.bottomRight,
@@ -404,7 +411,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
             context: context,
             builder: (BuildContext context) => _buildExchangeExchangeDialog(
               exchange,
-              replacementTask.id,
+              ownTaskID,
             ),
           );
         },
@@ -413,7 +420,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           color: foregroundColor,
         ),
       );
-    } else if (userOfferedTaskIDs.contains(exchange.id)) {
+    } else if (userOfferedExchangeIDs.contains(exchange.id)) {
       iconButton = IconButton(
         padding: const EdgeInsets.all(0),
         alignment: Alignment.bottomRight,
@@ -422,7 +429,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
             context: context,
             builder: (BuildContext context) => _buildExchangeWithdrawDialog(
               exchange,
-              replacementTask.id,
+              ownTaskID,
             ),
           );
         },
