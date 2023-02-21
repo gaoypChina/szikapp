@@ -537,20 +537,18 @@ class IO {
 
   ///Felajánl vagy elfogad egy konyhatakarítás-csere ajánlatot.
   Future<bool> patchCleaningExchange(
-      KeyValuePairs parameters, DateTime lastUpdate,
-      [String? data]) async {
+      KeyValuePairs parameters, DateTime lastUpdate, String data) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
-    var body = json.encode({
-      'data': {'replace_id': data}
-    });
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: {
           ...await _commonHeaders(),
           ..._lastUpdateHeader(lastUpdate),
           ..._contentTypeHeader(),
         },
-        body: data == null ? null : body);
+        body: json.encode({
+          'data': {'replace_id': data}
+        }));
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);
@@ -558,20 +556,18 @@ class IO {
 
   ///Visszavon vagy elutasít egy felajánlott konyhatakarítás-csere ajánlatot.
   Future<bool> putCleaningExchange(
-      KeyValuePairs parameters, DateTime lastUpdate,
-      [String? data]) async {
+      KeyValuePairs parameters, DateTime lastUpdate, String data) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
-    var body = json.encode({
-      'data': {'replace_id': data}
-    });
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {
           ...await _commonHeaders(),
           ..._lastUpdateHeader(lastUpdate),
           ..._contentTypeHeader(),
         },
-        body: data == null ? null : body);
+        body: json.encode({
+          'data': {'replace_id': data}
+        }));
 
     if (response.statusCode == 200) return true;
     throw _handleErrors(response);

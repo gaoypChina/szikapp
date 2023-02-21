@@ -230,10 +230,11 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   ///Cserealkalom elfogadása.
-  Future<bool> acceptCleaningExchangeOccasion(CleaningExchange exchange) async {
+  Future<bool> acceptCleaningExchangeOccasion(
+      CleaningExchange exchange, String replaceUid) async {
     var io = IO();
     var parameters = {'id': exchange.id, 'accept': 'true'};
-    await io.patchCleaningExchange(parameters, exchange.lastUpdate);
+    await io.patchCleaningExchange(parameters, exchange.lastUpdate, replaceUid);
     return true;
   }
 
@@ -247,10 +248,11 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   ///Cserealkalom visszautasítása.
-  Future<bool> rejectCleaningExchangeOccasion(CleaningExchange exchange) async {
+  Future<bool> rejectCleaningExchangeOccasion(
+      CleaningExchange exchange, String replaceUid) async {
     var io = IO();
     var parameters = {'id': exchange.id, 'reject': 'true'};
-    await io.putCleaningExchange(parameters, exchange.lastUpdate);
+    await io.putCleaningExchange(parameters, exchange.lastUpdate, replaceUid);
     return true;
   }
 

@@ -312,35 +312,36 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              _buildExchangeRefuseDialog(
-                                  exchange, replacement['task_id']),
-                        );
-                      },
-                      icon: const CustomIcon(CustomIcons.closeOutlined),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              _buildExchangeAcceptDialog(
-                            exchange,
-                            replacement['task_id'],
-                          ),
-                        );
-                      },
-                      icon: const CustomIcon(CustomIcons.done),
-                    ),
-                  ],
-                ),
+                if (replacement['status'] != 'rejected')
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildExchangeRefuseDialog(
+                                    exchange, replacement['task_id']),
+                          );
+                        },
+                        icon: const CustomIcon(CustomIcons.closeOutlined),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildExchangeAcceptDialog(
+                              exchange,
+                              replacement['task_id'],
+                            ),
+                          );
+                        },
+                        icon: const CustomIcon(CustomIcons.done),
+                      ),
+                    ],
+                  ),
               ],
             ),
           );
@@ -385,8 +386,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   Widget _buildOtherItemBody({
-    required exchange,
-    required ownTaskID,
+    required CleaningExchange exchange,
+    required String ownTaskID,
     required backgroundColor,
     required foregroundColor,
     required strongFont,
@@ -396,8 +397,9 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var replacementTask = widget.manager.tasks
         .firstWhere((element) => element.id == exchange.taskID);
     var userOfferedExchangeIDs = widget.manager.exchanges
-        .where((exchange) => exchange.replacements.any(
-            (replacement) => replacement['replacer_id'].toString() == user!.id))
+        .where((exchange) => exchange.replacements.any((replacement) =>
+            replacement['replacer_id'].toString() == user!.id &&
+            replacement['status'] != 'rejected'))
         .map((exchange) => exchange.id)
         .toList();
 
@@ -589,7 +591,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
-        widget.manager.acceptCleaningExchangeOccasion(exchange);
+        widget.manager.acceptCleaningExchangeOccasion(exchange, replaceUID);
         Navigator.of(context, rootNavigator: true).pop();
       },
     );
@@ -606,7 +608,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () {
-        widget.manager.rejectCleaningExchangeOccasion(exchange);
+        widget.manager.rejectCleaningExchangeOccasion(exchange, replaceUID);
         Navigator.of(context, rootNavigator: true).pop();
       },
     );
