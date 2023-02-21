@@ -61,6 +61,12 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   ),
                 ),
                 children: _exchanges
+                    .where((exchange) =>
+                        Provider.of<KitchenCleaningManager>(context)
+                            .tasks
+                            .firstWhere((task) => task.id == exchange.taskID)
+                            .end
+                            .isAfter(DateTime.now()))
                     .map<ToggleListItem>(
                       (item) => _buildExchangeTile(exchange: item),
                     )
@@ -409,6 +415,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       );
     } else if (userOfferedTaskIDs.contains(exchange.id)) {
       iconButton = IconButton(
+        padding: const EdgeInsets.all(0),
+        alignment: Alignment.bottomRight,
         onPressed: () {
           showDialog(
             context: context,
@@ -456,6 +464,13 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   List<CleaningExchange> _customSorted(List<CleaningExchange> list) {
     var copiedList = List<CleaningExchange>.from(list);
+    copiedList.sort((a, b) {
+      var tasks =
+          Provider.of<KitchenCleaningManager>(context, listen: false).tasks;
+      var aTask = tasks.firstWhere((task) => task.id == a.taskID);
+      var bTask = tasks.firstWhere((task) => task.id == b.taskID);
+      return aTask.start.compareTo(bTask.start);
+    });
     var ownItems = copiedList.where((element) =>
         element.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
