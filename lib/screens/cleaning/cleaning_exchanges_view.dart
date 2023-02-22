@@ -37,23 +37,38 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     _userHasAppliedTask = widget.manager.userHasAppliedTask(user.id);
   }
 
+  Future<void> refreshWidget() async {
+    await widget.manager.refreshExchanges(status: TaskStatus.created);
+    setState(() {
+      var user = Provider.of<AuthManager>(context, listen: false).user!;
+      _userHasActiveExchange = widget.manager.userHasActiveExchange(user.id);
+      _exchanges = _customSorted(widget.manager.exchanges);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var tasks = Provider.of<KitchenCleaningManager>(context).tasks;
-    var filteredExchanges = _exchanges.where((exchange) =>
-        exchange.status != TaskStatus.approved &&
-        tasks
-            .firstWhere((task) => task.id == exchange.taskID)
-            .end
-            .isAfter(DateTime.now()));
+    var filteredExchanges = _exchanges
+        .where(
+          (exchange) =>
+              exchange.status != TaskStatus.approved &&
+              tasks
+                  .firstWhere((task) => task.id == exchange.taskID)
+                  .end
+                  .isAfter(DateTime.now()),
+        )
+        .toList();
     return RefreshIndicator(
       onRefresh: _onManualRefresh,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
         child: Column(
           children: [
-            if (!_userHasActiveExchange && _userHasAppliedTask)
+            if (!_userHasAppliedTask)
+              _buildInfoTile(text: 'CLEANING_INFO_NO_TASK'.tr())
+            else if (!_userHasActiveExchange)
               _buildNewExchangeTile(),
             Expanded(
               child: ToggleList(
@@ -140,6 +155,32 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoTile({required String text}) {
+    var theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(kPaddingNormal),
+      child: Container(
+        padding: const EdgeInsets.all(kPaddingLarge),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: theme.colorScheme.background,
+            ),
+          ),
         ),
       ),
     );
@@ -466,7 +507,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   Future<void> _onManualRefresh() async {
-    await widget.manager.refreshExchanges();
+    await widget.manager.refreshExchanges(status: TaskStatus.created);
     setState(() {
       _exchanges = _customSorted(widget.manager.exchanges);
     });
@@ -543,9 +584,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
           .format(exchangableItem.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.createCleaningExchangeOccasion(exchange);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager.createCleaningExchangeOccasion(exchange);
+        refreshWidget();
       },
     );
   }
@@ -559,9 +601,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
           .format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.offerCleaningExchangeOccasion(exchange, replaceUID);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager
+            .offerCleaningExchangeOccasion(exchange, replaceUID);
+        refreshWidget();
       },
     );
   }
@@ -575,9 +619,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
           .format(replacementTask.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.withdrawCleaningExchangeOccasion(exchange, replaceUID);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager
+            .withdrawCleaningExchangeOccasion(exchange, replaceUID);
+        refreshWidget();
       },
     );
   }
@@ -591,9 +637,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext:
           '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.acceptCleaningExchangeOccasion(exchange, replaceUID);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager
+            .acceptCleaningExchangeOccasion(exchange, replaceUID);
+        refreshWidget();
       },
     );
   }
@@ -608,9 +656,11 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext:
           '${DateFormat('MM. dd. - EEEE', context.locale.toString()).format(replacementTask.start)}\n${'CLEANING_DIALOG_WITH'.tr()} ${userIDsToString(context, replacementTask.participantIDs)}',
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.rejectCleaningExchangeOccasion(exchange, replaceUID);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager
+            .rejectCleaningExchangeOccasion(exchange, replaceUID);
+        refreshWidget();
       },
     );
   }
@@ -624,9 +674,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
           .format(task.start),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.deleteCleaningExchangeOccasion(exchange);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager.deleteCleaningExchangeOccasion(exchange);
+        refreshWidget();
       },
     );
   }

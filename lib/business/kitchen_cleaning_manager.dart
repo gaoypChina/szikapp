@@ -129,10 +129,13 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
-  Future<void> refreshExchanges({bool approved = false}) async {
+  Future<void> refreshExchanges({TaskStatus? status}) async {
     try {
       var io = IO();
-      var parameter = {'approved': approved.toString()};
+      var parameter = <String, String>{};
+      if (status == null) {
+        parameter = {'status': status.toString()};
+      }
       _cleaningExchanges = await io.getCleaningExchange(parameter);
     } on IONotModifiedException {
       _cleaningExchanges = [];
@@ -258,6 +261,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': exchange.id};
     await io.deleteCleaningExchange(parameter, exchange.lastUpdate);
+    _cleaningExchanges.remove(exchange);
     return true;
   }
 }

@@ -39,7 +39,7 @@ class CleaningScreen extends StatelessWidget {
   Future<void> _allRefresh() async {
     await manager.refreshPeriods();
     await manager.refreshTasks();
-    await manager.refreshExchanges();
+    await manager.refreshExchanges(status: TaskStatus.created);
   }
 }
 

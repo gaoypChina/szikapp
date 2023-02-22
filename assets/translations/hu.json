@@ -155,6 +155,7 @@
         "CLEANING_TAB_PERIOD": "Blokkok",
         "CLEANING_TAB_PUNISHMENT": "Büntetés",
         "CLEANING_REPORT": "Jelentés",
+        "CLEANING_INFO_NO_TASK": "Cserélni csak jelentkezés után tudsz.",
         "CLEANING_ALREADY_REPORTED": "Bejelentve",
         "CLEANING_DIALOG_OFFER_TITLE": "Csere felajánlása",
         "CLEANING_DIALOG_DELETE_TITLE": "Csere törlése",
