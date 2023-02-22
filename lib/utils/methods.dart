@@ -46,6 +46,10 @@ extension StringExtension on String {
 }
 
 extension CustomDateTimeExtension on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
   DateTime roundDown({Duration delta = const Duration(hours: 1)}) {
     return DateTime.fromMillisecondsSinceEpoch(
       millisecondsSinceEpoch - millisecondsSinceEpoch % delta.inMilliseconds,

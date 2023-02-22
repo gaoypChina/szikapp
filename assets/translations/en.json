@@ -155,6 +155,7 @@
         "CLEANING_TAB_PERIOD": "Periods",
         "CLEANING_TAB_PUNISHMENT": "Punishment",
         "CLEANING_REPORT": "Report",
+        "CLEANING_INFO_NO_TASK": "Exchanges are available after applying.",
         "CLEANING_ALREADY_REPORTED": "Already reported",
         "CLEANING_DIALOG_OFFER_TITLE": "Offer exchange",
         "CLEANING_DIALOG_DELETE_TITLE": "Delete offer",

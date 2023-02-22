@@ -59,8 +59,8 @@ class KitchenCleaningManager extends ChangeNotifier {
   CleaningPeriod getOpenPeriod() =>
       periods.firstWhere((element) => element.start.isAfter(DateTime.now()));
 
-  bool userHasActiveExchange(String userID) =>
-      exchanges.any((element) => element.initiatorID == userID);
+  bool userHasActiveExchange(String userID) => exchanges.any((exchange) =>
+      exchange.status != TaskStatus.approved && exchange.initiatorID == userID);
 
   ///Checks whether user has applied task for the current period
   bool userHasAppliedTask(String userID) {
@@ -129,12 +129,12 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
   ///szinkronizálja.
-  Future<void> refreshExchanges({bool? approved}) async {
+  Future<void> refreshExchanges({TaskStatus? status}) async {
     try {
       var io = IO();
       var parameter = <String, String>{};
-      if (approved != null) {
-        parameter.addEntries({'approved': approved.toString()}.entries);
+      if (status == null) {
+        parameter = {'status': status.toString()};
       }
       _cleaningExchanges = await io.getCleaningExchange(parameter);
     } on IONotModifiedException {
@@ -230,10 +230,11 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   ///Cserealkalom elfogadása.
-  Future<bool> acceptCleaningExchangeOccasion(CleaningExchange exchange) async {
+  Future<bool> acceptCleaningExchangeOccasion(
+      CleaningExchange exchange, String replaceUid) async {
     var io = IO();
-    var parameter = {'id': exchange.id};
-    await io.patchCleaningExchange(parameter, exchange.lastUpdate);
+    var parameters = {'id': exchange.id, 'accept': 'true'};
+    await io.patchCleaningExchange(parameters, exchange.lastUpdate, replaceUid);
     return true;
   }
 
@@ -247,10 +248,11 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   ///Cserealkalom visszautasítása.
-  Future<bool> rejectCleaningExchangeOccasion(CleaningExchange exchange) async {
+  Future<bool> rejectCleaningExchangeOccasion(
+      CleaningExchange exchange, String replaceUid) async {
     var io = IO();
-    var parameter = {'id': exchange.id};
-    await io.putCleaningExchange(parameter, exchange.lastUpdate);
+    var parameters = {'id': exchange.id, 'reject': 'true'};
+    await io.putCleaningExchange(parameters, exchange.lastUpdate, replaceUid);
     return true;
   }
 
@@ -259,6 +261,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': exchange.id};
     await io.deleteCleaningExchange(parameter, exchange.lastUpdate);
+    _cleaningExchanges.remove(exchange);
     return true;
   }
 }
