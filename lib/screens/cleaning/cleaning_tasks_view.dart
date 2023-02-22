@@ -294,9 +294,10 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
             .format(reportableItem.start),
       ]),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
-      onStrongButtonClick: () {
-        widget.manager.reportInsufficiency(reportableItem);
+      onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
+        await widget.manager.reportInsufficiency(reportableItem);
+        setState(() {});
       },
     );
   }

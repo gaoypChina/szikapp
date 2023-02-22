@@ -12,6 +12,7 @@ import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
 const double kCalendarMarkerSize = 5.0;
+const double kDaysOfWeekSize = 20.0;
 
 class CleaningApplyView extends StatefulWidget {
   final KitchenCleaningManager manager;
@@ -143,7 +144,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarFormat: CalendarFormat.month,
               rangeSelectionMode: RangeSelectionMode.disabled,
-              daysOfWeekHeight: 20,
+              daysOfWeekHeight: kDaysOfWeekSize,
               daysOfWeekStyle: DaysOfWeekStyle(
                   weekdayStyle: theme.textTheme.titleMedium!,
                   weekendStyle: theme.textTheme.titleMedium!.copyWith(
