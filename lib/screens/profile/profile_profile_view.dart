@@ -89,7 +89,6 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         setState(() {
           changed = false;
         });
-        await widget.manager.pullUserUpdate();
         SzikAppState.analytics.logEvent(name: 'profile_update');
       }
     } on NotValidPhoneException {
