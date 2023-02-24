@@ -8,6 +8,7 @@ import '../../components/components.dart';
 import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
+import '../../utils/methods.dart';
 
 class CleaningTasksView extends StatefulWidget {
   final KitchenCleaningManager manager;
@@ -33,14 +34,8 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     var theme = Theme.of(context);
     var yesterday = DateTime.now().subtract(const Duration(days: 1));
     var showingTasks = _isShowingPastTasks
-        ? _tasks
-            .where((element) =>
-                (element.start.day != yesterday.day) ||
-                (element.start.month != yesterday.month))
-            .toList()
-        : _tasks
-            .where((element) => element.start.isAfter(DateTime.now()))
-            .toList();
+        ? _tasks.where((task) => !task.start.isSameDate(yesterday)).toList()
+        : _tasks.where((task) => task.start.isAfter(DateTime.now())).toList();
     return RefreshIndicator(
       onRefresh: () async {
         await widget.manager.refreshTasks();
@@ -72,9 +67,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                 ),
               ),
               children: showingTasks
-                  .map<ToggleListItem>(
-                    (item) => _buildTaskTile(task: item),
-                  )
+                  .map<ToggleListItem>((task) => _buildTaskTile(task: task))
                   .toList(),
             ),
           ),

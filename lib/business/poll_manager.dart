@@ -33,8 +33,8 @@ class PollManager extends ChangeNotifier {
   bool get isViewingPollResults => _viewPollResults;
 
   int indexOf(PollTask task) {
-    for (var e in polls) {
-      if (e.id == task.id) return polls.indexOf(e);
+    for (var poll in polls) {
+      if (poll.id == task.id) return polls.indexOf(poll);
     }
     return -1;
   }
@@ -68,7 +68,7 @@ class PollManager extends ChangeNotifier {
   }
 
   void setSelectedPollTask(String id) {
-    final index = _polls.indexWhere((element) => element.id == id);
+    final index = _polls.indexWhere((poll) => poll.id == id);
     _createNewPoll = false;
     _editPoll = true;
     _vote = false;
@@ -208,7 +208,7 @@ class PollManager extends ChangeNotifier {
     for (var id in poll.participantIDs) {
       if (id.startsWith('g')) {
         possibleVoters
-            .addAll(groups.firstWhere((element) => element.id == id).memberIDs);
+            .addAll(groups.firstWhere((group) => group.id == id).memberIDs);
       } else {
         possibleVoters.add(id);
       }
@@ -221,22 +221,22 @@ class PollManager extends ChangeNotifier {
   }
 
   bool hasVoted({required String userID, required PollTask poll}) {
-    return poll.answers.any((element) => element.voterID == userID);
+    return poll.answers.any((answer) => answer.voterID == userID);
   }
 
   List<PollTask> filter({required bool isLive}) {
     var results = <PollTask>[];
 
     if (isLive) {
-      for (var element in polls) {
-        if (element.isLive && element.end.isAfter(DateTime.now())) {
-          results.add(element);
+      for (var poll in polls) {
+        if (poll.isLive && poll.end.isAfter(DateTime.now())) {
+          results.add(poll);
         }
       }
     } else {
-      for (var element in polls) {
-        if (!element.isLive || element.end.isBefore(DateTime.now())) {
-          results.add(element);
+      for (var poll in polls) {
+        if (!poll.isLive || poll.end.isBefore(DateTime.now())) {
+          results.add(poll);
         }
       }
     }

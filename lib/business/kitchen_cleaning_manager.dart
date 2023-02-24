@@ -50,12 +50,12 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   CleaningPeriod getCurrentPeriod() => periods.firstWhere(
-      (element) => DateTime.now().isInInterval(element.start, element.end));
+      (period) => DateTime.now().isInInterval(period.start, period.end));
 
   bool hasOpenPeriod() =>
-      periods.any((element) => element.start.isAfter(DateTime.now()));
+      periods.any((period) => period.start.isAfter(DateTime.now()));
   CleaningPeriod getOpenPeriod() =>
-      periods.firstWhere((element) => element.start.isAfter(DateTime.now()));
+      periods.firstWhere((period) => period.start.isAfter(DateTime.now()));
 
   bool userHasActiveExchange(String userID) => exchanges.any((exchange) =>
       exchange.status != TaskStatus.approved && exchange.initiatorID == userID);
@@ -63,33 +63,33 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Checks whether user has applied task for the current period
   bool userHasAppliedTask(String userID) {
     var currentPeriod = getCurrentPeriod();
-    return tasks.any((element) =>
-        element.participantIDs.contains(userID) &&
-        element.start.isInInterval(currentPeriod.start, currentPeriod.end));
+    return tasks.any((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
   ///Checks whether user has applied task for the next period
   bool userHasAppliedOpenTask(String userID) {
     var openPeriod = getOpenPeriod();
-    return tasks.any((element) =>
-        element.participantIDs.contains(userID) &&
-        element.start.isInInterval(openPeriod.start, openPeriod.end));
+    return tasks.any((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(openPeriod.start, openPeriod.end));
   }
 
   ///Returns the applied task for the user from the current period
   CleaningTask getUserTask(String userID) {
     var currentPeriod = getCurrentPeriod();
-    return tasks.firstWhere((element) =>
-        element.participantIDs.contains(userID) &&
-        element.start.isInInterval(currentPeriod.start, currentPeriod.end));
+    return tasks.firstWhere((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
   ///Returns all tasks of the current period
   List<CleaningTask> getCurrentTasks() {
     var currentPeriod = getCurrentPeriod();
     return tasks
-        .where((element) =>
-            element.start.isInInterval(currentPeriod.start, currentPeriod.end))
+        .where((task) =>
+            task.start.isInInterval(currentPeriod.start, currentPeriod.end))
         .toList();
   }
 
@@ -97,8 +97,8 @@ class KitchenCleaningManager extends ChangeNotifier {
   List<CleaningTask> getOpenTasks() {
     var openPeriod = getOpenPeriod();
     return tasks
-        .where((element) =>
-            element.start.isInInterval(openPeriod.start, openPeriod.end))
+        .where(
+            (task) => task.start.isInInterval(openPeriod.start, openPeriod.end))
         .toList();
   }
 
@@ -167,7 +167,7 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   Future<void> autoAssignTasks() async {
     var io = IO();
-    await io.cleaningAutoAssign();
+    await io.getCleaningAutoAssign();
   }
 
   ///Elmaradt konyhatakarítás jelentése.
@@ -176,7 +176,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     task.status = TaskStatus.awaitingApproval;
     var parameter = {'id': task.id};
     await io.putCleaning(task, parameter);
-    _cleaningTasks.removeWhere((element) => element.id == task.id);
+    _cleaningTasks.removeWhere((cleaningTask) => cleaningTask.id == task.id);
     _cleaningTasks.add(task);
     return true;
   }
@@ -198,7 +198,8 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': period.id};
     await io.patchCleaningPeriod(period, parameter);
-    _cleaningPeriods.removeWhere((element) => element.id == period.id);
+    _cleaningPeriods
+        .removeWhere((cleaningPeriod) => cleaningPeriod.id == period.id);
     _cleaningPeriods.add(period);
     return true;
   }
@@ -210,7 +211,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     var parameter = {'id': task.id};
     await io.putCleaning(task, parameter);
-    _cleaningTasks.removeWhere((element) => element.id == task.id);
+    _cleaningTasks.removeWhere((cleaningTask) => cleaningTask.id == task.id);
     _cleaningTasks.add(task);
     return true;
   }

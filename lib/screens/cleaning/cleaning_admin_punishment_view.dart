@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../business/business.dart';
 import '../../main.dart';
 import '../../models/models.dart';
-import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
@@ -28,24 +26,11 @@ class _CleaningAdminPunishmentViewState
   void initState() {
     super.initState();
     _pendingTasks = widget.manager.tasks
-        .where((element) => element.status == TaskStatus.awaitingApproval)
+        .where((task) => task.status == TaskStatus.awaitingApproval)
         .toList();
     _refusedTasks = widget.manager.tasks
-        .where((element) => element.status == TaskStatus.refused)
+        .where((task) => task.status == TaskStatus.refused)
         .toList();
-  }
-
-  String _buildParticipants(CleaningTask task) {
-    var participantNames = [];
-    for (var element in task.participantIDs) {
-      participantNames.add(
-        Provider.of<SzikAppStateManager>(context, listen: false)
-            .users
-            .firstWhere((item) => element == item.id)
-            .showableName,
-      );
-    }
-    return participantNames.join(', ');
   }
 
   Future<void> _onRefusedPressed(CleaningTask task) async {
@@ -56,14 +41,14 @@ class _CleaningAdminPunishmentViewState
       SzikAppState.analytics.logEvent(name: 'cleaning_refuse_report');
       setState(() {
         _pendingTasks = widget.manager.tasks
-            .where((element) => element.status == TaskStatus.awaitingApproval)
+            .where((task) => task.status == TaskStatus.awaitingApproval)
             .toList();
         _refusedTasks = widget.manager.tasks
-            .where((element) => element.status == TaskStatus.refused)
+            .where((task) => task.status == TaskStatus.refused)
             .toList();
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -77,14 +62,14 @@ class _CleaningAdminPunishmentViewState
           .logEvent(name: 'cleaning_accept_report_or_payment');
       setState(() {
         _pendingTasks = widget.manager.tasks
-            .where((element) => element.status == TaskStatus.awaitingApproval)
+            .where((task) => task.status == TaskStatus.awaitingApproval)
             .toList();
         _refusedTasks = widget.manager.tasks
-            .where((element) => element.status == TaskStatus.refused)
+            .where((task) => task.status == TaskStatus.refused)
             .toList();
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -120,7 +105,7 @@ class _CleaningAdminPunishmentViewState
                   ),
                 ),
               ..._pendingTasks.map(
-                (e) => Container(
+                (task) => Container(
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: const BorderRadius.all(
@@ -132,14 +117,14 @@ class _CleaningAdminPunishmentViewState
                   child: Column(
                     children: [
                       Text(
-                        DateFormat('yyyy. MM. dd.').format(e.start),
+                        DateFormat('yyyy. MM. dd.').format(task.start),
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
                       Text(
-                        _buildParticipants(e),
+                        userIDsToString(context, task.participantIDs),
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
@@ -150,7 +135,7 @@ class _CleaningAdminPunishmentViewState
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
-                            onPressed: () => _onRefusedPressed(e),
+                            onPressed: () => _onRefusedPressed(task),
                             child: Text(
                               'BUTTON_DISAGREE'.tr(),
                               style: theme.textTheme.labelSmall!.copyWith(
@@ -159,7 +144,7 @@ class _CleaningAdminPunishmentViewState
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () => _onAcceptedPressed(e),
+                            onPressed: () => _onAcceptedPressed(task),
                             child: Text(
                               'BUTTON_APPROVE'.tr(),
                               style: theme.textTheme.labelSmall!.copyWith(
@@ -203,7 +188,7 @@ class _CleaningAdminPunishmentViewState
                   ),
                 ),
               ..._refusedTasks.map(
-                (e) => Container(
+                (task) => Container(
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: const BorderRadius.all(
@@ -215,14 +200,14 @@ class _CleaningAdminPunishmentViewState
                   child: Column(
                     children: [
                       Text(
-                        DateFormat('yyyy. MM. dd.').format(e.start),
+                        DateFormat('yyyy. MM. dd.').format(task.start),
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
                       Text(
-                        _buildParticipants(e),
+                        userIDsToString(context, task.participantIDs),
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: theme.colorScheme.primaryContainer,
                           fontStyle: FontStyle.italic,
@@ -233,7 +218,7 @@ class _CleaningAdminPunishmentViewState
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: () => _onRefusedPressed(e),
+                            onPressed: () => _onRefusedPressed(task),
                             child: Text(
                               'BUTTON_PAYMENT'.tr(),
                               style: theme.textTheme.labelSmall!.copyWith(

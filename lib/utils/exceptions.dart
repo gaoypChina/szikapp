@@ -47,6 +47,10 @@ abstract class IOException extends BaseException {
   IOException(code, message) : super(code, message);
 }
 
+class InformationException extends BaseException {
+  InformationException(code, message) : super(code, message);
+}
+
 class IOServerException extends IOException {
   IOServerException(code, message) : super(code, message);
 }

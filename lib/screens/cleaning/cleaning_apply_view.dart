@@ -10,9 +10,6 @@ import '../../models/models.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
-const double kCalendarMarkerSize = 5.0;
-const double kDaysOfWeekSize = 20.0;
-
 class CleaningApplyView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
@@ -43,15 +40,15 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
     _userAlreadyApplied = widget.manager.userHasAppliedOpenTask(_user.id);
   }
 
-  List<CleaningTask> _getEventsForDay(DateTime day) {
+  List<CleaningTask> _getEventsForDay(DateTime pickedDay) {
     return widget.manager
         .getOpenTasks()
-        .where((element) => isSameDay(element.start, day))
+        .where((task) => task.start.isSameDate(pickedDay))
         .toList();
   }
 
   void _onDaySelected(DateTime newSelectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, newSelectedDay)) {
+    if (!_selectedDay.isSameDate(newSelectedDay)) {
       var eventsForDay = _getEventsForDay(focusedDay);
       setState(() {
         _selectedDay = newSelectedDay;
@@ -70,9 +67,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   Widget _buildCleaningMates() {
     var theme = Theme.of(context);
     var mateIDs = _selectedEvent?.participantIDs
-            .where(
-              (element) => element != _user.id,
-            )
+            .where((participantID) => participantID != _user.id)
             .toList() ??
         [];
     return Flexible(
@@ -98,8 +93,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAppliedSelectedEvent = true;
         _userAlreadyApplied = true;
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -114,8 +109,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAppliedSelectedEvent = false;
         _userAlreadyApplied = false;
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -135,11 +130,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
           children: [
             TableCalendar<CleaningTask>(
               locale: context.locale.toString(),
-              firstDay: DateTime.now().subtract(const Duration(days: 365)),
-              lastDay: DateTime.now().add(const Duration(days: 365)),
+              firstDay: DateTime.now().subtract(const Duration(days: 90)),
+              lastDay: DateTime.now().add(const Duration(days: 90)),
               focusedDay: _focusedDay,
               eventLoader: _getEventsForDay,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              selectedDayPredicate: (day) => _selectedDay.isSameDate(day),
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarFormat: CalendarFormat.month,
               rangeSelectionMode: RangeSelectionMode.disabled,
@@ -183,11 +178,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
               calendarBuilders: CalendarBuilders(
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
-                  var markerColor = const Color(0xffa00a34);
+                  var markerColor = statusRed;
                   if (participantCount == 1) {
-                    markerColor = const Color(0xffffbf1b);
+                    markerColor = statusYellow;
                   } else if (participantCount == 2) {
-                    markerColor = const Color(0xff278230);
+                    markerColor = statusGreen;
                   }
                   return Container(
                     height: kCalendarMarkerSize,

@@ -120,15 +120,15 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
-    return permissions.any((element) =>
-        element.index == featurePermissions[link.currentFeature]?.index);
+    return permissions.any((permission) =>
+        permission.index == featurePermissions[link.currentFeature]?.index);
   }
 
   bool hasPermissionToCreate(Type type) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     if (type == PollTask) {
@@ -142,7 +142,7 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToRead(Task task) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     if (task.runtimeType == PollTask) {
@@ -154,7 +154,7 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToModify(Task task) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     return task.managerIDs.contains(id);

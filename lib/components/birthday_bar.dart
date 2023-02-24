@@ -46,12 +46,12 @@ class BirthdayBar extends StatelessWidget {
                 ),
               )
               .inDays;
-          for (var element in snapshot.data!) {
-            if (element.id != birthdayUsers.first.id) {
+          for (var user in snapshot.data!) {
+            if (user.id != birthdayUsers.first.id) {
               var daysToBirthdayElement = now
                   .copyWith(
-                    month: element.birthday!.month,
-                    day: element.birthday!.day,
+                    month: user.birthday!.month,
+                    day: user.birthday!.day,
                     hour: 0,
                     minute: 0,
                     second: 0,
@@ -65,8 +65,8 @@ class BirthdayBar extends StatelessWidget {
                   )
                   .inDays;
               if (daysToBirthdayElement == daysToBirthday) {
-                birthdayUsers.add(element);
-                birthdayNames += ', ${element.showableName}';
+                birthdayUsers.add(user);
+                birthdayNames += ', ${user.showableName}';
               }
             }
           }

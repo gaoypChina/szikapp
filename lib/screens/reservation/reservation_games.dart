@@ -62,7 +62,7 @@ class ReservationGamesList extends StatelessWidget {
               mainAxisSpacing: kPaddingNormal,
               children: manager.games
                   .map(
-                    (item) => Card(
+                    (game) => Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -77,12 +77,12 @@ class ReservationGamesList extends StatelessWidget {
                         onTap: () => Provider.of<ReservationManager>(context,
                                 listen: false)
                             .selectGame(
-                          manager.games.indexOf(item),
+                          manager.games.indexOf(game),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(kPaddingNormal),
                           child: Image.asset(
-                            'assets/pictures/${item.iconLink}',
+                            'assets/pictures/${game.iconLink}',
                             fit: BoxFit.contain,
                           ),
                         ),

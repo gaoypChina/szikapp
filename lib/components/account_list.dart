@@ -46,7 +46,7 @@ class AccountListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accounts = isReservation
-        ? manager.accounts.where((element) => element.reservable).toList()
+        ? manager.accounts.where((account) => account.reservable).toList()
         : manager.accounts;
     return CustomScaffold(
       resizeToAvoidBottomInset: true,

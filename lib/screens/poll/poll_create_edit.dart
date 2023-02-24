@@ -470,8 +470,8 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                         selectedItems: widget.isEdit
                             ? groups
                                 .where(
-                                  (element) =>
-                                      participantGroupIDs.contains(element.id),
+                                  (group) =>
+                                      participantGroupIDs.contains(group.id),
                                 )
                                 .toList()
                             : [],

@@ -26,13 +26,15 @@ class Settings extends ChangeNotifier {
   DarkMode get darkMode {
     var value =
         _preferences.getString('darkMode') ?? DarkMode.system.toString();
-    return DarkMode.values.firstWhere((element) => element.toString() == value);
+    return DarkMode.values
+        .firstWhere((enumValue) => enumValue.toString() == value);
   }
 
   ///Lekéri a nyelvbeállításokat.
   Language get language {
     var value = _preferences.getString('language') ?? Language.hu.toString();
-    return Language.values.firstWhere((element) => element.toString() == value);
+    return Language.values
+        .firstWhere((enumValue) => enumValue.toString() == value);
   }
 
   ///Lekéri az alkalmazás színtémát.
@@ -40,7 +42,7 @@ class Settings extends ChangeNotifier {
     var value =
         _preferences.getString('theme') ?? SzikAppTheme.defaultTheme.toString();
     return SzikAppTheme.values
-        .firstWhere((element) => element.toString() == value);
+        .firstWhere((enumValue) => enumValue.toString() == value);
   }
 
   ///Lekéri az adattakarékos mód beállítását.
@@ -52,7 +54,7 @@ class Settings extends ChangeNotifier {
     var result = <NotificationTopic>[];
     for (var item in enabled) {
       result.add(NotificationTopic.values
-          .firstWhere((element) => element.toString() == item));
+          .firstWhere((enumValue) => enumValue.toString() == item));
     }
     return result;
   }

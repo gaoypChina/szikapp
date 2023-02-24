@@ -7,13 +7,9 @@ import '../navigation/navigation.dart';
 import 'utils.dart';
 
 String userIDsToString(BuildContext context, List<String> userIDs) {
+  var users = Provider.of<SzikAppStateManager>(context).users;
   return userIDs
-      .map(
-        (e) => Provider.of<SzikAppStateManager>(context)
-            .users
-            .firstWhere((element) => element.id == e)
-            .name,
-      )
+      .map((userID) => users.firstWhere((user) => user.id == userID).name)
       .join(', ');
 }
 
