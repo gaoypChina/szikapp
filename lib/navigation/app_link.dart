@@ -46,9 +46,9 @@ class SzikAppLink {
   });
 
   static SzikAppLink fromLocation(String? location) {
-    location = Uri.decodeFull(location ?? '');
+    var locationUri = Uri.decodeFull(location ?? '');
 
-    final uri = Uri.parse(location);
+    final uri = Uri.parse(locationUri);
     final params = uri.queryParameters;
 
     final currentTab = int.tryParse(params[kTabParam] ?? '');

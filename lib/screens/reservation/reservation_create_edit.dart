@@ -128,17 +128,16 @@ class ReservationCreateEditScreenState
     return false;
   }
 
-  void _onDateChanged(DateTime? date) {
+  void _onDateChanged(DateTime date) {
     widget.manager
-        .selectDate(date!.copyWith(hour: start.hour, minute: start.minute));
+        .selectDate(date.copyWith(hour: start.hour, minute: start.minute));
     setState(() {
       start = date.copyWith(hour: start.hour, minute: start.minute);
       end = date.copyWith(hour: end.hour, minute: end.minute);
     });
   }
 
-  void _onStartingTimeChanged(TimeOfDay? startingTime) {
-    startingTime ??= TimeOfDay.fromDateTime(start);
+  void _onStartingTimeChanged(TimeOfDay startingTime) {
     var newStart = start.copyWith(
       hour: startingTime.hour,
       minute: startingTime.minute,
@@ -157,9 +156,9 @@ class ReservationCreateEditScreenState
     _timeFieldHasErrors();
   }
 
-  void _onFinishingTimeChanged(TimeOfDay? endingTime) {
+  void _onFinishingTimeChanged(TimeOfDay endingTime) {
     setState(() {
-      end = end.copyWith(hour: endingTime!.hour, minute: endingTime.minute);
+      end = end.copyWith(hour: endingTime.hour, minute: endingTime.minute);
     });
     _timeFieldHasErrors();
   }

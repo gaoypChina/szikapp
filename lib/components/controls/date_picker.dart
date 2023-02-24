@@ -56,7 +56,7 @@ class DatePicker extends StatefulWidget {
 }
 
 class DatePickerState extends State<DatePicker> {
-  void _selectDate() async {
+  Future<void> _selectDate() async {
     final newDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDate ?? DateTime.now(),

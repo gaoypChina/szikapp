@@ -86,10 +86,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         widget.manager.selectedDate?.toLocal() ?? DateTime.now().toLocal();
   }
 
-  void _onDateChanged(DateTime? date) {
+  void _onDateChanged(DateTime date) {
     widget.manager.selectDate(date);
     setState(() {
-      _currentDate = date ?? DateTime.now().toLocal();
+      _currentDate = date;
     });
   }
 

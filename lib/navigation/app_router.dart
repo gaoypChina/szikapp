@@ -366,7 +366,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     }
   }
 
-  void performFunctionSecurely(
+  Future<void> performFunctionSecurely(
     BuildContext context,
     Future<dynamic> Function() callback,
   ) async {

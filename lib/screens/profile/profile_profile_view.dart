@@ -78,7 +78,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     }
   }
 
-  void _onSend() async {
+  Future<void> _onSend() async {
     try {
       if (_formKey.currentState!.validate()) {
         widget.manager.user!.name = name;

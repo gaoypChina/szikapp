@@ -273,14 +273,14 @@ class ReservationManager extends ChangeNotifier {
   List<TimetableTask> filter(
       DateTime startTime, DateTime endTime, List<String> resourceIDs) {
     var results = <TimetableTask>[];
-    startTime = startTime.toLocal();
-    endTime = endTime.toLocal();
+    var startTimeLocal = startTime.toLocal();
+    var endTimeLocal = endTime.toLocal();
 
     if (resourceIDs.isEmpty) {
       //csak időpontra szűrünk
       for (var reservation in reservations) {
-        if (reservation.start.isInInterval(startTime, endTime) ||
-            reservation.end.isInInterval(startTime, endTime)) {
+        if (reservation.start.isInInterval(startTimeLocal, endTimeLocal) ||
+            reservation.end.isInInterval(startTimeLocal, endTimeLocal)) {
           results.add(reservation);
         }
       }
@@ -289,8 +289,8 @@ class ReservationManager extends ChangeNotifier {
       for (var reservation in reservations) {
         for (var resourceID in reservation.resourceIDs) {
           if (resourceIDs.contains(resourceID) &&
-              (reservation.start.isInInterval(startTime, endTime) ||
-                  reservation.end.isInInterval(startTime, endTime))) {
+              (reservation.start.isInInterval(startTimeLocal, endTimeLocal) ||
+                  reservation.end.isInInterval(startTimeLocal, endTimeLocal))) {
             results.add(reservation);
           }
         }
