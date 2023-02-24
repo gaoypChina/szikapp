@@ -104,13 +104,19 @@ class KitchenCleaningManager extends ChangeNotifier {
         .toList();
   }
 
+  /// Returns yesterday's cleaning task
+  CleaningTask getYesterdayTask() {
+    var yesterday = DateTime.now().subtract(const Duration(days: 1));
+    return tasks.firstWhere((task) => task.start.isSameDate(yesterday));
+  }
+
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
   Future<void> refreshTasks({DateTime? start, DateTime? end}) async {
     if (_cleaningPeriods.isEmpty) refreshPeriods();
 
-    start ??= _cleaningPeriods.first.start;
+    start ??= _cleaningPeriods.first.start.subtract(const Duration(days: 1));
     end ??= _cleaningPeriods.last.end;
 
     var parameter = {

@@ -232,19 +232,17 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 style: strongFont,
               ),
             ),
-            Flexible(
-              child: Text(
-                hasTask
-                    ? DateFormat('MM. dd.').format(
-                        widget.manager.tasks
-                            .firstWhere(
-                                (element) => element.id == exchange.taskID)
-                            .start,
-                      )
-                    : 'CLEANING_EXCHANGE_VANISHEDTASK'.tr(),
-                style: weakFont,
+            if (hasTask)
+              Flexible(
+                child: Text(
+                  DateFormat('MM. dd.').format(
+                    widget.manager.tasks
+                        .firstWhere((element) => element.id == exchange.taskID)
+                        .start,
+                  ),
+                  style: weakFont,
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -267,26 +265,27 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(kPaddingLarge),
-                    child: isOwnItem
-                        ? _buildOwnItemBody(
-                            exchange: exchange,
-                            backgroundColor: backgroundColor,
-                            foregroundColor: foregroundColor,
-                            strongFont: strongFont,
-                            weakFont: weakFont,
-                          )
-                        : _buildOtherItemBody(
-                            exchange: exchange,
-                            ownTaskID: widget.manager.tasks
-                                .firstWhere(
-                                  (task) =>
-                                      task.participantIDs.contains(user.id),
-                                )
-                                .id,
-                            backgroundColor: backgroundColor,
-                            foregroundColor: foregroundColor,
-                            strongFont: strongFont,
-                            weakFont: weakFont,
+                    child: hasTask
+                        ? isOwnItem
+                            ? _buildOwnItemBody(
+                                exchange: exchange,
+                                backgroundColor: backgroundColor,
+                                foregroundColor: foregroundColor,
+                                strongFont: strongFont,
+                                weakFont: weakFont,
+                              )
+                            : _buildOtherItemBody(
+                                exchange: exchange,
+                                ownTaskID:
+                                    widget.manager.getUserTask(user.id).id,
+                                backgroundColor: backgroundColor,
+                                foregroundColor: foregroundColor,
+                                strongFont: strongFont,
+                                weakFont: weakFont,
+                              )
+                        : _buildNoTaskItemBody(
+                            font: weakFont,
+                            textColor: foregroundColor,
                           ),
                   ),
                 ],
@@ -497,12 +496,17 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           ),
         ),
         iconButton,
-        /*Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPaddingSmall),
-          child: iconButton,
-        ),
-        */
       ],
+    );
+  }
+
+  Widget _buildNoTaskItemBody(
+      {required TextStyle font, required Color textColor}) {
+    return Center(
+      child: Text(
+        'CLEANING_EXCHANGE_VANISHEDTASK'.tr(),
+        style: font.copyWith(color: textColor),
+      ),
     );
   }
 
@@ -515,9 +519,9 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
 
   List<CleaningExchange> _customSorted(List<CleaningExchange> list) {
     var copiedList = List<CleaningExchange>.from(list);
+    var tasks =
+        Provider.of<KitchenCleaningManager>(context, listen: false).tasks;
     copiedList.sort((a, b) {
-      var tasks =
-          Provider.of<KitchenCleaningManager>(context, listen: false).tasks;
       var aTask = tasks.firstWhere((task) => task.id == a.taskID);
       var bTask = tasks.firstWhere((task) => task.id == b.taskID);
       return aTask.start.compareTo(bTask.start);
