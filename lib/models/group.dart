@@ -18,6 +18,7 @@ class Group implements Identifiable, Cachable {
   List<String> memberIDs;
   @JsonKey(name: 'max_member_count')
   int maxMemberCount;
+  @JsonKey(fromJson: Permission.permissionsFromJson)
   List<Permission> permissions;
   @override
   @JsonKey(name: 'last_update')
