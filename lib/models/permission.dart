@@ -1,4 +1,4 @@
-import '../utils/exceptions.dart';
+import '../utils/utils.dart';
 
 ///Az applikációban előforduló jogosultságokat reprezentáló enum típus.
 enum Permission {
