@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/models.dart';
 import '../utils/utils.dart';
-import '../utils/io.dart';
 
 ///Telefonkönyv funkció logikai működését megvalósító singleton háttérosztály.
 class ContactsManager {

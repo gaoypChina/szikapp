@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../models/goodtoknow.dart';
+import '../models/models.dart';
 import '../ui/themes.dart';
 
 class DocumentsScreen extends StatelessWidget {

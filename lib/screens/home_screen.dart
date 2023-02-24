@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
-import '../navigation/app_state_manager.dart';
+import '../navigation/navigation.dart';
 import '../screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
