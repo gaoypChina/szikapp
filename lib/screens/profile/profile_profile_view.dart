@@ -37,7 +37,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     var groups = Provider.of<SzikAppStateManager>(context).groups;
     if (groups.isEmpty) return result;
     for (var id in ids) {
-      result += '${groups.firstWhere((element) => element.id == id).name}, ';
+      result += '${groups.firstWhere((group) => group.id == id).name}, ';
     }
     return result.substring(0, result.length - 2);
   }

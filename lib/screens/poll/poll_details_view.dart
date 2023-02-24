@@ -29,9 +29,9 @@ class _PollDetailsViewState extends State<PollDetailsView> {
   @override
   void initState() {
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
-    _selected = widget.poll.answers.any((element) => element.voterID == userID)
+    _selected = widget.poll.answers.any((answer) => answer.voterID == userID)
         ? widget.poll.answers
-            .firstWhere((element) => element.voterID == userID)
+            .firstWhere((answer) => answer.voterID == userID)
             .votes
         : [];
     super.initState();
@@ -191,16 +191,16 @@ class _PollDetailsViewState extends State<PollDetailsView> {
     var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
     var hasVoted = widget.manager.hasVoted(userID: userID, poll: widget.poll);
     return widget.poll.answerOptions.map<ListTile>(
-      (item) {
+      (answerOption) {
         var disabled = hasVoted;
         if (widget.poll.isMultipleChoice) {
           disabled = hasVoted ||
               (_selected.length >= widget.poll.maxSelectableOptions &&
-                  !_selected.contains(item));
+                  !_selected.contains(answerOption));
         }
         return ListTile(
           title: Text(
-            item,
+            answerOption,
             style: theme.textTheme.titleMedium!.copyWith(
               color: disabled
                   ? theme.colorScheme.secondaryContainer
@@ -210,7 +210,9 @@ class _PollDetailsViewState extends State<PollDetailsView> {
           ),
           leading: widget.poll.isMultipleChoice
               ? Checkbox(
-                  value: _selected.isEmpty ? false : _selected.contains(item),
+                  value: _selected.isEmpty
+                      ? false
+                      : _selected.contains(answerOption),
                   activeColor: disabled
                       ? theme.colorScheme.secondaryContainer
                       : theme.colorScheme.primaryContainer,
@@ -223,15 +225,15 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                       ? null
                       : (bool? value) => setState(
                             () {
-                              var index = _selected.indexOf(item);
+                              var index = _selected.indexOf(answerOption);
                               (index == -1)
-                                  ? _selected.add(item)
+                                  ? _selected.add(answerOption)
                                   : _selected.removeAt(index);
                             },
                           ),
                 )
               : Radio<String>(
-                  value: item,
+                  value: answerOption,
                   groupValue: _selected.isEmpty ? null : _selected.first,
                   activeColor: hasVoted
                       ? theme.colorScheme.secondaryContainer
@@ -245,7 +247,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                       ? null
                       : (String? value) => setState(
                             () {
-                              _selected.removeWhere((element) => true);
+                              _selected = [];
                               if (value != null) _selected.add(value);
                             },
                           ),
@@ -263,10 +265,12 @@ class _PollDetailsViewState extends State<PollDetailsView> {
     );
 
     return widget.poll.answerOptions.map<Padding>(
-      (item) {
+      (answerOption) {
         var votesPercent = results['allVoteCount'] == 0
             ? 0
-            : (results[item]['voteCount'] / results['allVoteCount'] * 100)
+            : (results[answerOption]['voteCount'] /
+                    results['allVoteCount'] *
+                    100)
                 .round();
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
@@ -276,7 +280,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
             children: [
               Expanded(
                 child: Text(
-                  item,
+                  answerOption,
                   style: theme.textTheme.titleMedium!.copyWith(
                     color: theme.colorScheme.primaryContainer,
                     fontStyle: FontStyle.italic,
@@ -294,7 +298,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   ),
                   Text(
                     'POLL_VOTE'.tr(
-                      args: [results[item]['voteCount'].toString()],
+                      args: [results[answerOption]['voteCount'].toString()],
                     ),
                     style: theme.textTheme.titleMedium!.copyWith(
                       color: theme.colorScheme.primaryContainer,

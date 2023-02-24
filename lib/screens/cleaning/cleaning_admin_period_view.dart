@@ -71,8 +71,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         _hasOpenPeriod = true;
         _openPeriod = widget.manager.getOpenPeriod();
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -89,8 +89,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         _hasOpenPeriod = true;
         _openPeriod = widget.manager.getOpenPeriod();
       });
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -99,8 +99,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     try {
       await widget.manager.autoAssignTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
-    } on IOServerException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, errorCode: e.code);
+    } on InformationException catch (exception) {
+      var snackbar =
+          ErrorHandler.buildSnackbar(context, errorCode: exception.code);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -110,12 +111,12 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     var theme = Theme.of(context);
     var memberIDs = Provider.of<SzikAppStateManager>(context, listen: false)
         .groups
-        .firstWhere((element) =>
-            element.email == KitchenCleaningManager.cleaningGroupEmail)
+        .firstWhere(
+            (group) => group.email == KitchenCleaningManager.cleaningGroupEmail)
         .memberIDs;
     memberIDs.removeWhere(
-      (element) =>
-          KitchenCleaningManager.cleaningUserBlackList.contains(element),
+      (memberID) =>
+          KitchenCleaningManager.cleaningUserBlackList.contains(memberID),
     );
     return SingleChildScrollView(
       child: Column(

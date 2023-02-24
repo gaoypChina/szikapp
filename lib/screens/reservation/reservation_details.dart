@@ -136,31 +136,34 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         children: widget.manager
             .filter(_currentDateStart, _currentDateEnd, [_resourceID])
             .map(
-              (e) => Row(
+              (reservation) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: widget.leftColumnWidth),
                   Column(
                     children: [
                       SizedBox(
-                        height: (e.start.hour * 60 + e.start.minute) *
+                        height: (reservation.start.hour * 60 +
+                                reservation.start.minute) *
                             widget.pixelsPerMinute,
                       ),
                       InkWell(
                         onTap: () =>
                             Provider.of<AuthManager>(context, listen: false)
                                     .user!
-                                    .hasPermissionToModify(e)
+                                    .hasPermissionToModify(reservation)
                                 ? _onEditTask(
                                     Provider.of<ReservationManager>(
                                       context,
                                       listen: false,
-                                    ).reservations.indexOf(e),
+                                    ).reservations.indexOf(reservation),
                                   )
                                 : null,
                         child: Container(
-                          height: (((e.end.minute + e.end.hour * 60) -
-                                  (e.start.minute + e.start.hour * 60)) *
+                          height: (((reservation.end.minute +
+                                      reservation.end.hour * 60) -
+                                  (reservation.start.minute +
+                                      reservation.start.hour * 60)) *
                               widget.pixelsPerMinute),
                           width: 200,
                           decoration: BoxDecoration(
@@ -172,7 +175,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                           child: Column(
                             children: [
                               Text(
-                                e.name.useCorrectEllipsis(),
+                                reservation.name.useCorrectEllipsis(),
                                 style: theme.textTheme.bodySmall!.copyWith(
                                   color: theme.colorScheme.surface,
                                   fontStyle: FontStyle.normal,
@@ -183,9 +186,9 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                   Provider.of<SzikAppStateManager>(context,
                                           listen: false)
                                       .users
-                                      .where((element) =>
-                                          e.managerIDs.contains(element.id))
-                                      .map((e) => e.showableName)
+                                      .where((user) => reservation.managerIDs
+                                          .contains(user.id))
+                                      .map((user) => user.showableName)
                                       .toList()
                                       .join(', '),
                                   style: theme.textTheme.bodySmall!.copyWith(
@@ -214,7 +217,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: hours
           .map(
-            (e) => Column(
+            (hour) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -222,14 +225,14 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                   height: widget.pixelsPerMinute * 60 - widget.dividerThickness,
                   child: Center(
                     child: Text(
-                      e.format(context),
+                      hour.format(context),
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.primaryContainer,
                       ),
                     ),
                   ),
                 ),
-                if (hours.last != e)
+                if (hours.last != hour)
                   Divider(
                     thickness: widget.dividerThickness,
                     height: widget.dividerThickness,

@@ -92,24 +92,24 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             SettingsScreen.page(),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
-              onCreate: (item) {
+              onCreate: (poll) {
                 performFunctionSecurely(
-                    context, () => pollManager.addPoll(item));
+                    context, () => pollManager.addPoll(poll));
               },
-              onUpdate: (item, index) {},
-              onDelete: (item, index) {},
+              onUpdate: (_, __) {},
+              onDelete: (_, __) {},
             ),
           if (pollManager.isEditingPoll)
             PollCreateEditScreen.page(
               originalItem: pollManager.selectedPoll,
-              onCreate: (item) {},
-              onUpdate: (item, index) {
+              onCreate: (_) {},
+              onUpdate: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.updatePoll(item));
+                    context, () => pollManager.updatePoll(poll));
               },
-              onDelete: (item, index) {
+              onDelete: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.deletePoll(item));
+                    context, () => pollManager.deletePoll(poll));
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
@@ -125,25 +125,25 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (reservationManager.isCreatingNewReservation)
             ReservationCreateEditScreen.page(
               manager: reservationManager,
-              onCreate: (item) {
+              onCreate: (task) {
                 performFunctionSecurely(
-                    context, () => reservationManager.addReservation(item));
+                    context, () => reservationManager.addReservation(task));
               },
-              onUpdate: (item, index) {},
-              onDelete: (item, index) {},
+              onUpdate: (_, __) {},
+              onDelete: (_, __) {},
             ),
           if (reservationManager.isEditingReservation)
             ReservationCreateEditScreen.page(
               manager: reservationManager,
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
-              onUpdate: (item, index) {
+              onUpdate: (task, index) {
                 performFunctionSecurely(
-                    context, () => reservationManager.updateReservation(item));
+                    context, () => reservationManager.updateReservation(task));
               },
-              onDelete: (item, index) {
+              onDelete: (task, index) {
                 performFunctionSecurely(
-                    context, () => reservationManager.deleteReservation(item));
+                    context, () => reservationManager.deleteReservation(task));
               },
             ),
           if (kitchenCleaningManager.isAdminEditing)
@@ -373,8 +373,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   ) async {
     try {
       await callback();
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } on SocketException {
       var snackbar =

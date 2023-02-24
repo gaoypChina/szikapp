@@ -84,7 +84,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 ),
                 children: filteredExchanges
                     .map<ToggleListItem>(
-                      (item) => _buildExchangeTile(exchange: item),
+                      (exchange) => _buildExchangeTile(exchange: exchange),
                     )
                     .toList(),
               ),
@@ -191,7 +191,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var isOwnItem = user!.id == exchange.initiatorID;
     var theme = Theme.of(context);
     var hasTask =
-        widget.manager.tasks.any((element) => element.id == exchange.taskID);
+        widget.manager.tasks.any((task) => task.id == exchange.taskID);
     var backgroundColor = isOwnItem
         ? theme.colorScheme.primaryContainer
         : theme.colorScheme.surface;
@@ -237,8 +237,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 hasTask
                     ? DateFormat('MM. dd.').format(
                         widget.manager.tasks
-                            .firstWhere(
-                                (element) => element.id == exchange.taskID)
+                            .firstWhere((task) => task.id == exchange.taskID)
                             .start,
                       )
                     : 'CLEANING_EXCHANGE_VANISHEDTASK'.tr(),
@@ -308,12 +307,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       children: [
         ...exchange.replacements.map((replacement) {
           var replacementTask = widget.manager.tasks
-              .firstWhere((element) => element.id == replacement.taskID);
+              .firstWhere((task) => task.id == replacement.taskID);
           var replacerName = Provider.of<SzikAppStateManager>(context)
               .users
-              .firstWhere(
-                (element) => element.id == replacement.replacerID,
-              )
+              .firstWhere((user) => user.id == replacement.replacerID)
               .name;
           return Container(
             decoration: BoxDecoration(
@@ -436,8 +433,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     required weakFont,
   }) {
     var user = Provider.of<AuthManager>(context).user;
-    var replacementTask = widget.manager.tasks
-        .firstWhere((element) => element.id == exchange.taskID);
+    var replacementTask =
+        widget.manager.tasks.firstWhere((task) => task.id == exchange.taskID);
     var userOfferedExchangeIDs = widget.manager.exchanges
         .where((exchange) => exchange.replacements.any((replacement) =>
             replacement.replacerID == user!.id &&
@@ -522,8 +519,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       var bTask = tasks.firstWhere((task) => task.id == b.taskID);
       return aTask.start.compareTo(bTask.start);
     });
-    var ownItems = copiedList.where((element) =>
-        element.initiatorID ==
+    var ownItems = copiedList.where((exchange) =>
+        exchange.initiatorID ==
         Provider.of<AuthManager>(context, listen: false).user!.id);
     if (ownItems.isNotEmpty) {
       for (var ownItem in ownItems) {
@@ -595,7 +592,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildExchangeExchangeDialog(
       CleaningExchange exchange, String replaceUID) {
     var replacementTask =
-        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
+        widget.manager.tasks.firstWhere((task) => task.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_EXCHANGE_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
@@ -613,7 +610,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildExchangeWithdrawDialog(
       CleaningExchange exchange, String replaceUID) {
     var replacementTask =
-        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
+        widget.manager.tasks.firstWhere((task) => task.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_WITHDRAW_TITLE'.tr(),
       bodytext: DateFormat('MM. dd. - EEEE', context.locale.toString())
@@ -631,7 +628,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildExchangeAcceptDialog(
       CleaningExchange exchange, String replaceUID) {
     var replacementTask =
-        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
+        widget.manager.tasks.firstWhere((task) => task.id == replaceUID);
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_ACCEPT_TITLE'.tr(),
       bodytext:
@@ -649,7 +646,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildExchangeRefuseDialog(
       CleaningExchange exchange, String replaceUID) {
     var replacementTask =
-        widget.manager.tasks.firstWhere((element) => element.id == replaceUID);
+        widget.manager.tasks.firstWhere((task) => task.id == replaceUID);
 
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_REFUSE_TITLE'.tr(),
