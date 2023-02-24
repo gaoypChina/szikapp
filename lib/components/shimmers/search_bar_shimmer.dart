@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../ui/themes.dart';
 
 class SearchBarShimmer extends StatelessWidget {
-  const SearchBarShimmer({Key? key}) : super(key: key);
+  const SearchBarShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

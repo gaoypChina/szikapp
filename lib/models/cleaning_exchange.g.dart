@@ -6,28 +6,50 @@ part of 'cleaning_exchange.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Replacement _$ReplacementFromJson(Map<String, dynamic> json) => Replacement(
+      taskID: json['task_id'] as String,
+      replacerID: json['replacer_id'] as String,
+      status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
+          TaskStatus.created,
+    );
+
+Map<String, dynamic> _$ReplacementToJson(Replacement instance) =>
+    <String, dynamic>{
+      'task_id': instance.taskID,
+      'replacer_id': instance.replacerID,
+      'status': _$TaskStatusEnumMap[instance.status]!,
+    };
+
+const _$TaskStatusEnumMap = {
+  TaskStatus.created: 'created',
+  TaskStatus.sent: 'sent',
+  TaskStatus.irresolvable: 'irresolvable',
+  TaskStatus.inProgress: 'in_progress',
+  TaskStatus.awaitingApproval: 'awaiting_approval',
+  TaskStatus.refused: 'refused',
+  TaskStatus.approved: 'approved',
+};
+
 CleaningExchange _$CleaningExchangeFromJson(Map<String, dynamic> json) =>
     CleaningExchange(
-      id: json['id'] as String,
+      id: json['uid'] as String,
       taskID: json['task_id'] as String,
       initiatorID: json['initiator_id'] as String,
-      replaceTaskID: json['replace_task_id'] as String?,
-      responderID: json['responder_id'] as String?,
-      approved: json['approved'] as bool? ?? false,
-      rejected: (json['rejected'] as List<dynamic>?)
-          ?.map((e) => e as Map<String, dynamic>)
-          .toList(),
+      status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
+          TaskStatus.created,
+      replacements: (json['replacements'] as List<dynamic>?)
+              ?.map((e) => Replacement.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
 Map<String, dynamic> _$CleaningExchangeToJson(CleaningExchange instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'uid': instance.id,
       'task_id': instance.taskID,
       'initiator_id': instance.initiatorID,
-      'replace_task_id': instance.replaceTaskID,
-      'responder_id': instance.responderID,
-      'approved': instance.approved,
-      'rejected': instance.rejected,
+      'status': _$TaskStatusEnumMap[instance.status]!,
+      'replacements': instance.replacements.map((e) => e.toJson()).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
     };

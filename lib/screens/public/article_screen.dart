@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../models/resource.dart';
+import '../../models/models.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 import '../screens.dart';
@@ -20,7 +20,7 @@ class ArticleScreen extends StatelessWidget {
     );
   }
 
-  const ArticleScreen({Key? key}) : super(key: key);
+  const ArticleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

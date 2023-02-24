@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../utils/types.dart';
-import 'interfaces.dart';
+import '../utils/utils.dart';
+import 'models.dart';
 
 part 'cleaning_period.g.dart';
 
@@ -10,6 +10,7 @@ part 'cleaning_period.g.dart';
 @JsonSerializable()
 class CleaningPeriod implements Identifiable, Cachable {
   @override
+  @JsonKey(name: 'uid')
   String id;
   DateTime start;
   DateTime end;

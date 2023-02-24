@@ -11,12 +11,12 @@ class FeatureLinkPage extends StatelessWidget {
   final Widget? description;
 
   const FeatureLinkPage({
-    Key? key,
+    super.key,
     required this.urls,
     required this.urlTexts,
     required this.icon,
     this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

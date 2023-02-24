@@ -17,19 +17,19 @@ class TimePicker extends StatefulWidget {
   final double fontSize;
 
   const TimePicker({
-    Key? key,
+    super.key,
     required this.time,
     required this.onChanged,
     this.color = szikTarawera,
     this.fontSize = 14,
-  }) : super(key: key);
+  });
 
   @override
   TimePickerState createState() => TimePickerState();
 }
 
 class TimePickerState extends State<TimePicker> {
-  void _selectTime() async {
+  Future<void> _selectTime() async {
     final newTime = await showTimePicker(
       context: context,
       initialTime: widget.time,

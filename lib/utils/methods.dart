@@ -1,7 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'exceptions.dart';
+import '../navigation/navigation.dart';
+import 'utils.dart';
+
+String userIDsToString(BuildContext context, List<String> userIDs) {
+  var users = Provider.of<SzikAppStateManager>(context).users;
+  return userIDs
+      .map((userID) => users.firstWhere((user) => user.id == userID).name)
+      .join(', ');
+}
 
 List<int> boolListToInt(List<bool> boolList) {
   var intList = <int>[];
@@ -32,6 +42,10 @@ extension StringExtension on String {
 }
 
 extension CustomDateTimeExtension on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
   DateTime roundDown({Duration delta = const Duration(hours: 1)}) {
     return DateTime.fromMillisecondsSinceEpoch(
       millisecondsSinceEpoch - millisecondsSinceEpoch % delta.inMilliseconds,

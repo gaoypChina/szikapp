@@ -30,6 +30,7 @@ analyzer:
     avoid_catches_without_on_clauses: warning
     avoid_catching_errors: error
     avoid_classes_with_only_static_members: error
+    # avoid_dynamic_calls: warning
     avoid_equals_and_hash_code_on_mutable_classes: warning
     avoid_function_literals_in_foreach_calls: warning
     avoid_init_to_null: error
@@ -42,6 +43,7 @@ analyzer:
     avoid_setters_without_getters: warning
     avoid_shadowing_type_parameters: error
     avoid_types_on_closure_parameters: warning
+    avoid_void_async: info
     await_only_futures: warning
     camel_case_extensions: info
     constant_identifier_names: info
@@ -58,8 +60,10 @@ analyzer:
     null_closures: warning
     omit_local_variable_types: warning
     one_member_abstracts: warning
+    only_throw_errors: warning
     package_api_docs: info
     package_prefixed_library_names: info
+    parameter_assignments: warning
     prefer_adjacent_string_concatenation: warning
     prefer_collection_literals: warning
     prefer_conditional_assignment: warning
@@ -81,6 +85,7 @@ analyzer:
     public_member_api_docs: info
     recursive_getters: warning
     slash_for_doc_comments: info
+    sized_box_for_whitespace: info
     type_annotate_public_apis: warning
     type_init_formals: warning
     unawaited_futures: warning
@@ -126,6 +131,7 @@ linter:
     avoid_catches_without_on_clauses: true
     avoid_catching_errors: true
     #- avoid_classes_with_only_static_members
+    #- avoid_dynamic_calls: true
     avoid_equals_and_hash_code_on_mutable_classes: true
     #- avoid_function_literals_in_foreach_calls
     #- avoid_init_to_null
@@ -138,6 +144,7 @@ linter:
     avoid_setters_without_getters: true
     avoid_shadowing_type_parameters: true
     #- avoid_types_on_closure_parameters
+    avoid_void_async: true
     await_only_futures: true
     camel_case_extensions: true
     #- constant_identifier_names
@@ -153,8 +160,10 @@ linter:
     #- null_closures
     omit_local_variable_types: true
     #- one_member_abstracts
+    only_throw_errors: true
     #- package_api_docs
     #- package_prefixed_library_names
+    parameter_assignments: true
     #- prefer_adjacent_string_concatenation
     #- prefer_collection_literals
     #- prefer_conditional_assignment
@@ -176,6 +185,7 @@ linter:
     # - public_member_api_docs
     #- recursive_getters
     slash_for_doc_comments: true
+    sized_box_for_whitespace: true
     type_annotate_public_apis: true
     #- type_init_formals
     #- unawaited_futures

@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../models/user.dart' as szikapp_user;
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../models/models.dart' as szikapp_user;
+import '../utils/utils.dart';
 import 'business.dart';
 
 enum SignInMethod {
@@ -110,8 +109,8 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       notifyListeners();
-    } on IOClientException catch (e) {
-      if (e.code == 401) {
+    } on IOClientException catch (exception) {
+      if (exception.code == 401) {
         _user = szikapp_user.User(
           id: 'u999',
           name: _auth.currentUser!.displayName ?? '',
@@ -126,9 +125,9 @@ class AuthManager extends ChangeNotifier {
         _signedIn = false;
         throw AuthException(e.toString());
       }
-    } on Exception catch (e) {
+    } on Exception catch (exception) {
       _signedIn = false;
-      throw AuthException(e.toString());
+      throw AuthException(exception.toString());
     }
   }
 
@@ -151,8 +150,8 @@ class AuthManager extends ChangeNotifier {
       _signedIn = true;
       _method = method;
       notifyListeners();
-    } on IOClientException catch (e) {
-      if (e.code == 401) {
+    } on IOClientException catch (exception) {
+      if (exception.code == 401) {
         _user = szikapp_user.User(
           id: 'u999',
           name: _auth.currentUser!.displayName ?? '',
@@ -168,9 +167,9 @@ class AuthManager extends ChangeNotifier {
         _signedIn = false;
         throw AuthException(e.toString());
       }
-    } on Exception catch (e) {
+    } on Exception catch (exception) {
       _signedIn = false;
-      throw AuthException(e.toString());
+      throw AuthException(exception.toString());
     }
   }
 
@@ -187,8 +186,8 @@ class AuthManager extends ChangeNotifier {
       _isGuest = true;
       _signedIn = false;
       notifyListeners();
-    } on Exception catch (e) {
-      throw AuthException(e.toString());
+    } on Exception catch (exception) {
+      throw AuthException(exception.toString());
     }
   }
 

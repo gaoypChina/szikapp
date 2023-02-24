@@ -15,6 +15,12 @@ const int notSupportedEmailFunctionalityExceptionCode = 932;
 const int notSupportedBrowserFunctionalityExceptionCode = 933;
 const int unknownExceptionCode = 1000;
 
+const int cleaningAssignPeriodShrink = 2010;
+const int cleaningAssignPeriodExtended = 2020;
+const int cleaningAssignPeriodExtendedWithEmptyEnd = 2025;
+const int cleaningAssigned = 2000;
+const int cleaningAssignedWithEmptyEnd = 2005;
+
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
   ///Hibakód
@@ -40,6 +46,10 @@ class AuthException extends BaseException {
 
 abstract class IOException extends BaseException {
   IOException(code, message) : super(code, message);
+}
+
+class InformationException extends BaseException {
+  InformationException(code, message) : super(code, message);
 }
 
 class IOServerException extends IOException {

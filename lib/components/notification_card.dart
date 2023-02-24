@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/notification.dart';
+import '../models/models.dart';
 import '../ui/themes.dart';
 import 'components.dart';
 
@@ -8,9 +8,9 @@ class NotificationCard extends StatelessWidget {
   final CustomNotification data;
 
   const NotificationCard({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

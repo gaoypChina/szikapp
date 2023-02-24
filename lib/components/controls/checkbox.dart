@@ -17,13 +17,13 @@ class CustomCheckboxList extends StatefulWidget {
   final ValueChanged<List<bool>> onChanged;
 
   const CustomCheckboxList({
-    Key? key,
+    super.key,
     required this.title,
     required this.checkboxLabels,
     this.initValues,
     required this.maxEnabled,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomCheckboxList> createState() => _CustomCheckboxListState();

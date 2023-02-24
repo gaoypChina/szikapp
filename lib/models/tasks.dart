@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../utils/types.dart';
-import 'interfaces.dart';
+import '../utils/utils.dart';
+import 'models.dart';
 
 part 'tasks.g.dart';
 
@@ -103,28 +103,18 @@ class TimetableTask extends Task {
   String? url;
 
   TimetableTask({
-    required String id,
-    required String name,
-    required DateTime start,
-    required DateTime end,
-    required TaskType type,
-    List<String> managerIDs = const <String>[],
-    List<String> participantIDs = const <String>[],
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    required super.start,
+    required super.end,
+    required super.type,
+    super.managerIDs = const <String>[],
+    super.participantIDs = const <String>[],
+    super.description,
+    required super.lastUpdate,
     required this.resourceIDs,
     this.url,
-  }) : super(
-          id: id,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          managerIDs: managerIDs,
-          participantIDs: participantIDs,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$TimetableTaskToJson(this);
@@ -143,30 +133,20 @@ class JanitorTask extends Task {
   String? answer;
 
   JanitorTask({
-    required String id,
-    required String name,
-    required DateTime start,
-    required DateTime end,
-    required TaskType type,
-    List<String> managerIDs = const [],
-    List<String> participantIDs = const [],
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    required super.start,
+    required super.end,
+    required super.type,
+    super.managerIDs = const [],
+    super.participantIDs = const [],
+    super.description,
+    required super.lastUpdate,
     this.feedback = const [],
     required this.placeID,
     required this.status,
     this.answer,
-  }) : super(
-          id: id,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          managerIDs: managerIDs,
-          participantIDs: participantIDs,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$JanitorTaskToJson(this);
@@ -208,28 +188,18 @@ class CleaningTask extends Task {
   TaskStatus status;
 
   CleaningTask({
-    required String id,
-    required String name,
-    required DateTime start,
-    required DateTime end,
-    required TaskType type,
-    List<String> managerIDs = const [],
-    List<String> participantIDs = const [],
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    required super.start,
+    required super.end,
+    required super.type,
+    super.managerIDs = const [],
+    super.participantIDs = const [],
+    super.description,
+    required super.lastUpdate,
     this.feedback = const [],
     required this.status,
-  }) : super(
-          id: id,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          managerIDs: managerIDs,
-          participantIDs: participantIDs,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$CleaningTaskToJson(this);
@@ -245,27 +215,17 @@ class BookrentTask extends Task {
   String bookID;
 
   BookrentTask({
-    required String id,
-    required String name,
-    required DateTime start,
-    required DateTime end,
-    required TaskType type,
-    List<String> managerIDs = const [],
-    List<String> participantIDs = const [],
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    required super.start,
+    required super.end,
+    required super.type,
+    super.managerIDs = const [],
+    super.participantIDs = const [],
+    super.description,
+    required super.lastUpdate,
     required this.bookID,
-  }) : super(
-          id: id,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          managerIDs: managerIDs,
-          participantIDs: participantIDs,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$BookrentTaskToJson(this);
@@ -293,15 +253,15 @@ class PollTask extends Task {
   int maxSelectableOptions;
 
   PollTask({
-    required String id,
-    required String name,
-    required DateTime start,
-    required DateTime end,
-    required TaskType type,
-    List<String> managerIDs = const [],
-    List<String> participantIDs = const [],
-    String? description,
-    required DateTime lastUpdate,
+    required super.id,
+    required super.name,
+    required super.start,
+    required super.end,
+    required super.type,
+    super.managerIDs = const [],
+    super.participantIDs = const [],
+    super.description,
+    required super.lastUpdate,
     required this.question,
     required this.answerOptions,
     required this.answers,
@@ -310,17 +270,7 @@ class PollTask extends Task {
     this.isConfidential = false,
     this.isMultipleChoice = false,
     this.maxSelectableOptions = 999,
-  }) : super(
-          id: id,
-          name: name,
-          start: start,
-          end: end,
-          type: type,
-          managerIDs: managerIDs,
-          participantIDs: participantIDs,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+  });
 
   @override
   Json toJson() => _$PollTaskToJson(this);

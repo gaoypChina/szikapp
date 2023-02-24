@@ -44,7 +44,7 @@ class PollCreateEditScreen extends StatefulWidget {
   final Function(PollTask, int) onUpdate;
 
   PollCreateEditScreen({
-    Key? key,
+    super.key,
     this.originalItem,
     this.index = -1,
     required this.onCreate,
@@ -52,8 +52,7 @@ class PollCreateEditScreen extends StatefulWidget {
     required this.onDelete,
   })  : isEdit = (originalItem != null),
         isRestrictedEdit = (originalItem != null) &&
-            originalItem.start.isBefore(DateTime.now()),
-        super(key: key);
+            originalItem.start.isBefore(DateTime.now());
 
   @override
   PollCreateEditScreenState createState() => PollCreateEditScreenState();
@@ -79,22 +78,10 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
     var now = DateTime.now();
     startDateTime = widget.isEdit
         ? widget.originalItem!.start
-        : DateTime(
-            now.year,
-            now.month,
-            now.day,
-            now.hour,
-            0,
-          );
+        : now.copyWith(minute: 0, second: 0);
     endDateTime = widget.isEdit
         ? widget.originalItem!.end
-        : DateTime(
-            now.year,
-            now.month,
-            now.day + 7,
-            23,
-            59,
-          );
+        : now.copyWith(day: now.day + 7, hour: 23, minute: 59, second: 59);
     title = widget.isEdit ? widget.originalItem!.name : '';
     description = (widget.isEdit ? widget.originalItem!.description : '') ?? '';
     question = widget.isEdit ? widget.originalItem!.question : '';
@@ -141,59 +128,48 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
 
   void _onStartDateChanged(DateTime date) {
     setState(() {
-      startDateTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        startDateTime.hour,
-        startDateTime.minute,
-        startDateTime.second,
+      startDateTime = date.copyWith(
+        hour: startDateTime.hour,
+        minute: startDateTime.minute,
+        second: startDateTime.second,
       );
     });
   }
 
   void _onStartTimeChanged(TimeOfDay time) {
     setState(() {
-      startDateTime = DateTime(
-        startDateTime.year,
-        startDateTime.month,
-        startDateTime.day,
-        time.hour,
-        time.minute,
+      startDateTime = startDateTime.copyWith(
+        hour: time.hour,
+        minute: time.minute,
       );
     });
   }
 
   void _onEndDateChanged(DateTime date) {
     setState(() {
-      endDateTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        endDateTime.hour,
-        endDateTime.minute,
-        endDateTime.second,
+      endDateTime = date.copyWith(
+        hour: endDateTime.hour,
+        minute: endDateTime.minute,
+        second: endDateTime.second,
       );
     });
   }
 
   void _onEndTimeChanged(TimeOfDay time) {
     setState(() {
-      endDateTime = DateTime(
-        endDateTime.year,
-        endDateTime.month,
-        endDateTime.day,
-        time.hour,
-        time.minute,
+      endDateTime = endDateTime.copyWith(
+        hour: time.hour,
+        minute: time.minute,
       );
     });
   }
 
   void _onParticipantGroupIDsChanged(List<Group>? groups) {
-    groups = groups ?? [];
     participantGroupIDs = [];
-    for (var group in groups) {
-      participantGroupIDs.add(group.id);
+    if (groups != null) {
+      for (var group in groups) {
+        participantGroupIDs.add(group.id);
+      }
     }
     setState(() {});
   }
@@ -494,8 +470,8 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                         selectedItems: widget.isEdit
                             ? groups
                                 .where(
-                                  (element) =>
-                                      participantGroupIDs.contains(element.id),
+                                  (group) =>
+                                      participantGroupIDs.contains(group.id),
                                 )
                                 .toList()
                             : [],

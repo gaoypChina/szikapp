@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
-import '../models/resource.dart';
+import '../models/models.dart';
 import '../ui/themes.dart';
-import '../utils/methods.dart';
+import '../utils/utils.dart';
 
 class ArticleCard extends StatelessWidget {
   final Article data;
 
-  const ArticleCard({Key? key, required this.data}) : super(key: key);
+  const ArticleCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

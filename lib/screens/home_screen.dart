@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../business/business.dart';
-import '../components/app/bottom_navigation_bar.dart';
-import '../navigation/app_state_manager.dart';
+import '../components/components.dart';
+import '../navigation/navigation.dart';
 import '../screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,9 +22,9 @@ class HomeScreen extends StatefulWidget {
   }
 
   const HomeScreen({
-    Key key = const Key('HomeScreen'),
+    super.key = const Key('HomeScreen'),
     required this.currentTab,
-  }) : super(key: key);
+  });
 
   @override
   HomeScreenState createState() => HomeScreenState();

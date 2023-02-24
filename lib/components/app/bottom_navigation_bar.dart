@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../business/business.dart';
-import '../../navigation/app_state_manager.dart';
+import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../components.dart';
 
@@ -11,9 +11,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedTab;
 
   const CustomBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.selectedTab,
-  }) : super(key: key);
+  });
 
   Color _getSelectionColor(
     int selectedTab,
@@ -41,6 +41,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Provider.of<ReservationManager>(context, listen: false).clear();
         } else if (appStateManager.selectedFeature == SzikAppFeature.poll) {
           Provider.of<PollManager>(context, listen: false)
+              .performBackButtonPressed();
+        } else if (appStateManager.selectedFeature == SzikAppFeature.cleaning) {
+          Provider.of<KitchenCleaningManager>(context, listen: false)
               .performBackButtonPressed();
         }
         appStateManager.selectTab(index);

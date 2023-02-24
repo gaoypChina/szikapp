@@ -13,10 +13,10 @@ class ListShimmer extends StatelessWidget {
   final bool withSearchbar;
 
   const ListShimmer({
-    Key? key,
+    super.key,
     this.type = ShimmerListType.card,
     this.withSearchbar = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

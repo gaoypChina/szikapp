@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../models/permission.dart';
+import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
@@ -14,9 +14,9 @@ class ProfileScreenView extends StatefulWidget {
   final AuthManager manager;
 
   const ProfileScreenView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   State<ProfileScreenView> createState() => _ProfileScreenViewState();
@@ -37,7 +37,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     var groups = Provider.of<SzikAppStateManager>(context).groups;
     if (groups.isEmpty) return result;
     for (var id in ids) {
-      result += '${groups.firstWhere((element) => element.id == id).name}, ';
+      result += '${groups.firstWhere((group) => group.id == id).name}, ';
     }
     return result.substring(0, result.length - 2);
   }
@@ -78,7 +78,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     }
   }
 
-  void _onSend() async {
+  Future<void> _onSend() async {
     try {
       if (_formKey.currentState!.validate()) {
         widget.manager.user!.name = name;

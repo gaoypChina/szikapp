@@ -11,14 +11,14 @@ class WrappedIcon extends StatelessWidget {
   final Color? backgroundColor;
 
   const WrappedIcon({
-    Key? key,
+    super.key,
     this.iconSize = kIconSizeXLarge,
     this.padding = kPaddingNormal,
     this.radius = kBorderRadiusNormal,
     required this.assetPath,
     this.color,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/goodtoknow.dart';
+import '../../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 import 'components.dart';
@@ -10,9 +10,9 @@ class DocumentDetails extends StatelessWidget {
   final GoodToKnow? document;
 
   const DocumentDetails({
-    Key? key,
+    super.key,
     this.document,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

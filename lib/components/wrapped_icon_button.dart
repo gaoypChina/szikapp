@@ -14,7 +14,7 @@ class WrappedIconButton extends StatelessWidget {
   final void Function()? onLongPress;
 
   const WrappedIconButton({
-    Key? key,
+    super.key,
     this.iconSize = kIconSizeXLarge,
     this.padding = kPaddingNormal,
     this.radius = kBorderRadiusNormal,
@@ -24,7 +24,7 @@ class WrappedIconButton extends StatelessWidget {
     this.onTap,
     this.onDoubleTap,
     this.onLongPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

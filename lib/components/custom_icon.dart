@@ -75,10 +75,10 @@ class CustomIcon extends StatelessWidget {
 
   const CustomIcon(
     this.type, {
-    Key? key,
+    super.key,
     this.size = kIconSizeNormal,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

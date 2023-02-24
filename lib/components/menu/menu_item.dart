@@ -11,13 +11,13 @@ class CustomMenuItem extends StatelessWidget {
   final bool reversed;
 
   const CustomMenuItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.picture,
     this.height = kIconSizeXLarge,
     this.onTap,
     this.reversed = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

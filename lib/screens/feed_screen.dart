@@ -20,7 +20,7 @@ class FeedScreen extends StatefulWidget {
     );
   }
 
-  const FeedScreen({Key key = const Key('FeedScreen')}) : super(key: key);
+  const FeedScreen({super.key = const Key('FeedScreen')});
 
   @override
   FeedScreenState createState() => FeedScreenState();
@@ -137,17 +137,17 @@ class FeedScreenState extends State<FeedScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: feedShortcuts.map<WrappedIconButton>(
-                  (item) {
+                  (shortcut) {
                     var userCanRouteToLink = (user?.hasPermissionToAccess(
-                            SzikAppLink(currentFeature: item)) ??
+                            SzikAppLink(currentFeature: shortcut)) ??
                         false);
                     return WrappedIconButton(
                       assetPath:
-                          shortcutData[item]?.assetPath ?? CustomIcons.bell,
+                          shortcutData[shortcut]?.assetPath ?? CustomIcons.bell,
                       color: theme.colorScheme.primaryContainer,
                       backgroundColor: theme.colorScheme.background,
                       onTap: userCanRouteToLink
-                          ? () => appStateManager.selectFeature(item)
+                          ? () => appStateManager.selectFeature(shortcut)
                           : null,
                     );
                   },
@@ -196,8 +196,8 @@ class FeedScreenState extends State<FeedScreen> {
                           child: ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             children: notifications.map<NotificationCard>(
-                              (item) {
-                                return NotificationCard(data: item);
+                              (notification) {
+                                return NotificationCard(data: notification);
                               },
                             ).toList(),
                           ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../navigation/navigation.dart';
-import '../screens/bookrental_screen.dart';
 import '../screens/screens.dart';
 import '../utils/utils.dart';
 
@@ -92,24 +91,24 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             SettingsScreen.page(),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
-              onCreate: (item) {
+              onCreate: (poll) {
                 performFunctionSecurely(
-                    context, () => pollManager.addPoll(item));
+                    context, () => pollManager.addPoll(poll));
               },
-              onUpdate: (item, index) {},
-              onDelete: (item, index) {},
+              onUpdate: (_, __) {},
+              onDelete: (_, __) {},
             ),
           if (pollManager.isEditingPoll)
             PollCreateEditScreen.page(
               originalItem: pollManager.selectedPoll,
-              onCreate: (item) {},
-              onUpdate: (item, index) {
+              onCreate: (_) {},
+              onUpdate: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.updatePoll(item));
+                    context, () => pollManager.updatePoll(poll));
               },
-              onDelete: (item, index) {
+              onDelete: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.deletePoll(item));
+                    context, () => pollManager.deletePoll(poll));
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
@@ -125,27 +124,29 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
           if (reservationManager.isCreatingNewReservation)
             ReservationCreateEditScreen.page(
               manager: reservationManager,
-              onCreate: (item) {
+              onCreate: (task) {
                 performFunctionSecurely(
-                    context, () => reservationManager.addReservation(item));
+                    context, () => reservationManager.addReservation(task));
               },
-              onUpdate: (item, index) {},
-              onDelete: (item, index) {},
+              onUpdate: (_, __) {},
+              onDelete: (_, __) {},
             ),
           if (reservationManager.isEditingReservation)
             ReservationCreateEditScreen.page(
               manager: reservationManager,
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
-              onUpdate: (item, index) {
+              onUpdate: (task, index) {
                 performFunctionSecurely(
-                    context, () => reservationManager.updateReservation(item));
+                    context, () => reservationManager.updateReservation(task));
               },
-              onDelete: (item, index) {
+              onDelete: (task, index) {
                 performFunctionSecurely(
-                    context, () => reservationManager.deleteReservation(item));
+                    context, () => reservationManager.deleteReservation(task));
               },
             ),
+          if (kitchenCleaningManager.isAdminEditing)
+            CleaningAdminScreen.page(manager: kitchenCleaningManager),
         ],
       ],
       onPopPage: _handlePopPage,
@@ -211,6 +212,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.account) {
       reservationManager.selectAccount(-1);
+    }
+    if (route.settings.name == SzikAppLink.kKitchenCleaningAdminPath) {
+      kitchenCleaningManager.performBackButtonPressed();
     }
     return true;
   }
@@ -362,14 +366,14 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     }
   }
 
-  void performFunctionSecurely(
+  Future<void> performFunctionSecurely(
     BuildContext context,
     Future<dynamic> Function() callback,
   ) async {
     try {
       await callback();
-    } on IOException catch (e) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: e);
+    } on IOException catch (exception) {
+      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } on SocketException {
       var snackbar =

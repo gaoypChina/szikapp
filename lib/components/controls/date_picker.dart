@@ -34,7 +34,7 @@ class DatePicker extends StatefulWidget {
   final EdgeInsets padding;
 
   const DatePicker({
-    Key? key,
+    super.key,
     required this.onChanged,
     this.readonly = false,
     this.initialDate,
@@ -49,14 +49,14 @@ class DatePicker extends StatefulWidget {
       vertical: kPaddingNormal,
       horizontal: kPaddingSmall,
     ),
-  }) : super(key: key);
+  });
 
   @override
   DatePickerState createState() => DatePickerState();
 }
 
 class DatePickerState extends State<DatePicker> {
-  void _selectDate() async {
+  Future<void> _selectDate() async {
     final newDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDate ?? DateTime.now(),

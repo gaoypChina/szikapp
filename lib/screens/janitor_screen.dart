@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../components/components.dart';
-import '../components/feature_link_page.dart';
 
 class JanitorScreen extends StatelessWidget {
   static const String route = '/janitor';
@@ -15,7 +14,7 @@ class JanitorScreen extends StatelessWidget {
     );
   }
 
-  const JanitorScreen({Key? key}) : super(key: key);
+  const JanitorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

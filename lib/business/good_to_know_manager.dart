@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/goodtoknow.dart';
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../models/models.dart';
+import '../utils/utils.dart';
 
 class GoodToKnowManager extends ChangeNotifier {
   List<GoodToKnow> _posts = [];
@@ -37,7 +36,7 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   void setSelectedGoodToKnowItem(String id) {
-    final index = _posts.indexWhere((element) => element.id == id);
+    final index = _posts.indexWhere((post) => post.id == id);
     _selectedIndex = index;
     _createNewItem = false;
     _editItem = true;
@@ -57,13 +56,13 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   Future<bool> updateItem(GoodToKnow item) async {
-    if (!_posts.any((element) => element.id == item.id)) return false;
+    if (!_posts.any((post) => post.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};
     await io.putGoodToKnow(item, parameter);
 
-    _posts.removeWhere((element) => element.id == item.id);
+    _posts.removeWhere((post) => post.id == item.id);
     _posts.add(item);
     _createNewItem = false;
     _editItem = false;
@@ -73,7 +72,7 @@ class GoodToKnowManager extends ChangeNotifier {
   }
 
   Future<bool> deleteItem(GoodToKnow item) async {
-    if (!_posts.any((element) => element.id == item.id)) return false;
+    if (!_posts.any((post) => post.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};
@@ -103,7 +102,7 @@ class GoodToKnowManager extends ChangeNotifier {
 
   List<GoodToKnow> filter(GoodToKnowCategory category) {
     return List.unmodifiable(
-      _posts.where((element) => element.category == category).toList(),
+      _posts.where((post) => post.category == category).toList(),
     );
   }
 

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../business/auth_manager.dart';
+import '../business/business.dart';
 import '../models/models.dart';
 import 'exceptions.dart';
 import 'types.dart';
@@ -37,6 +37,7 @@ class IO {
   final _boardgameEndpoint = '/boardgame';
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
+  final _cleaningAssignEndpoint = '/cleaning/assign';
   final _contactsEndpoint = '/contacts';
   final _goodToKnowEndpoint = '/goodtoknow';
   final _groupEndpoint = '/group';
@@ -85,38 +86,35 @@ class IO {
   }
 
   ///Létrehoz egy új felhasználót.
-  Future<bool> postUser(User data, [KeyValuePairs? parameters]) async {
+  Future<void> postUser(User data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissít egy létező felhasználót.
-  Future<bool> putUser(User data, [KeyValuePairs? parameters]) async {
+  Future<void> putUser(User data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Töröl egy felhasználót.
-  Future<bool> deleteUser(KeyValuePairs parameters, DateTime lastUpdate) async {
+  Future<void> deleteUser(KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_userEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri egy felhasználó mentett preferenciáit.
@@ -134,7 +132,7 @@ class IO {
   }
 
   ///Elmenti egy felhasználó preferenciáit.
-  Future<bool> putUserPreferences(Preferences data,
+  Future<void> putUserPreferences(Preferences data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_preferencesEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -142,19 +140,17 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli egy felhasználó preferenciáit.
-  Future<bool> deleteUserPreferences([KeyValuePairs? parameters]) async {
+  Future<void> deleteUserPreferences([KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_preferencesEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: await _commonHeaders());
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a kollégiumi helyek (szűrt) listáját vagy egy konkrét helyiséget.
@@ -168,8 +164,8 @@ class IO {
       var answer = <Place>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var places = parsed['results'];
-      places.forEach((item) {
-        answer.add(Place.fromJson(item));
+      places.forEach((place) {
+        answer.add(Place.fromJson(place));
       });
       return answer;
     }
@@ -177,27 +173,25 @@ class IO {
   }
 
   ///Létrehoz egy új helyiséget.
-  Future<bool> postPlace(Place data, [KeyValuePairs? parameters]) async {
+  Future<void> postPlace(Place data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_placeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti egy létező helyiség adatait.
-  Future<bool> putPlace(Place data, KeyValuePairs parameters) async {
+  Future<void> putPlace(Place data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_placeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri egy felhasználóhoz tartozó engedélyeket.
@@ -212,9 +206,9 @@ class IO {
       var answer = <Permission>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var permissions = parsed['results'];
-      permissions.forEach((item) {
-        answer.add(Permission.values
-            .firstWhere((element) => element.toString() == 'Permission.$item'));
+      permissions.forEach((permission) {
+        answer.add(Permission.values.firstWhere(
+            (enumValue) => enumValue.toString() == 'Permission.$permission'));
       });
       return answer;
     }
@@ -222,7 +216,7 @@ class IO {
   }
 
   ///Egy csoport engedélyeit kibővíti a megadott jogosultságokkal.
-  Future<bool> postGroupPermission(List<Permission> data,
+  Future<void> postGroupPermission(List<Permission> data,
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -236,12 +230,11 @@ class IO {
           'data': {'permissions': data.toString()}
         }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Egy csoport engedélyeit kibővíti a megadott jogosultsággal.
-  Future<bool> patchGroupPermissions(
+  Future<void> patchGroupPermissions(
       Permission data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -255,12 +248,11 @@ class IO {
           'data': {'permissions': data.toString()}
         }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Egy csoport engedélyei közül eltávolítja a megadott jogosultságot.
-  Future<bool> putGroupPermissions(
+  Future<void> putGroupPermissions(
       Permission data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -274,20 +266,18 @@ class IO {
           'data': {'permissions': data.toString()}
         }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Eltávolítja egy csoport összes jogosultságát.
-  Future<bool> deleteUserPermission(
+  Future<void> deleteUserPermission(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_permissionsEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a (szűrt) gondnoki kérések listáját vagy egy konkrét kérést.
@@ -301,8 +291,8 @@ class IO {
       var answer = <JanitorTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var tasks = parsed['results'];
-      tasks.forEach((item) {
-        answer.add(JanitorTask.fromJson(item));
+      tasks.forEach((task) {
+        answer.add(JanitorTask.fromJson(task));
       });
       return answer;
     }
@@ -310,7 +300,7 @@ class IO {
   }
 
   ///Létrehoz egy új gondnoki kérést.
-  Future<bool> postJanitor(JanitorTask data,
+  Future<void> postJanitor(JanitorTask data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_janitorEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -321,12 +311,11 @@ class IO {
         },
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Beállítja a megadott gondnoki kérés státusát.
-  Future<bool> patchJanitor(
+  Future<void> patchJanitor(
       TaskStatus data, KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -340,32 +329,29 @@ class IO {
           'data': {'status': data.toString()}
         }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott gondnoki kérést.
-  Future<bool> putJanitor(JanitorTask data, KeyValuePairs parameters) async {
+  Future<void> putJanitor(JanitorTask data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott gondnoki kérést.
-  Future<bool> deleteJanitor(
+  Future<void> deleteJanitor(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_janitorEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a felhasználói csoportok listáját vagy egy konkrét csoportot.
@@ -379,8 +365,8 @@ class IO {
       var answer = <Group>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var groups = parsed['results'];
-      groups.forEach((item) {
-        answer.add(Group.fromJson(item));
+      groups.forEach((group) {
+        answer.add(Group.fromJson(group));
       });
       return answer;
     }
@@ -388,39 +374,36 @@ class IO {
   }
 
   ///Létrehoz egy új felhasználói csoportot.
-  Future<bool> postGroup(Group data, [KeyValuePairs? parameters]) async {
+  Future<void> postGroup(Group data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_groupEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott felhasználói csoportot.
-  Future<bool> putGroup(Group data, KeyValuePairs parameters) async {
+  Future<void> putGroup(Group data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_groupEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott felhasználói csoportot.
-  Future<bool> deleteGroup(
+  Future<void> deleteGroup(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_groupEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a többi felhasználó vagy egy másik konkrét felhasználó adatait.
@@ -434,8 +417,8 @@ class IO {
       var answer = <User>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
-      users.forEach((item) {
-        answer.add(User.fromJson(item));
+      users.forEach((user) {
+        answer.add(User.fromJson(user));
       });
       return answer;
     }
@@ -452,8 +435,8 @@ class IO {
       var answer = <Article>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
-      users.forEach((item) {
-        answer.add(Article.fromJson(item));
+      users.forEach((user) {
+        answer.add(Article.fromJson(user));
       });
       return answer;
     }
@@ -473,8 +456,8 @@ class IO {
       var answer = <TimetableTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
-      users.forEach((item) {
-        answer.add(TimetableTask.fromJson(item));
+      users.forEach((user) {
+        answer.add(TimetableTask.fromJson(user));
       });
       return answer;
     }
@@ -493,8 +476,8 @@ class IO {
       var answer = <User>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var users = parsed['results'];
-      users.forEach((item) {
-        answer.add(User.fromJson(item));
+      users.forEach((user) {
+        answer.add(User.fromJson(user));
       });
       return answer;
     }
@@ -513,8 +496,8 @@ class IO {
       var answer = <CleaningExchange>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var exchanges = parsed['results'];
-      exchanges.forEach((item) {
-        answer.add(CleaningExchange.fromJson(item));
+      exchanges.forEach((exchange) {
+        answer.add(CleaningExchange.fromJson(exchange));
       });
       return answer;
     }
@@ -522,7 +505,7 @@ class IO {
   }
 
   ///Létrehoz egy új  kanyhatakarítás-cserét.
-  Future<bool> postCleaningExchange(CleaningExchange data,
+  Future<void> postCleaningExchange(CleaningExchange data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -530,62 +513,54 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Felajánl vagy elfogad egy konyhatakarítás-csere ajánlatot.
-  Future<bool> patchCleaningExchange(
-      KeyValuePairs parameters, DateTime lastUpdate,
-      [String? data]) async {
+  Future<void> patchCleaningExchange(
+      KeyValuePairs parameters, DateTime lastUpdate, String data) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
-    var body = json.encode({
-      'data': {'replace_id': data}
-    });
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: {
           ...await _commonHeaders(),
           ..._lastUpdateHeader(lastUpdate),
           ..._contentTypeHeader(),
         },
-        body: data == null ? null : body);
+        body: json.encode({
+          'data': {'replace_id': data}
+        }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Visszavon vagy elutasít egy felajánlott konyhatakarítás-csere ajánlatot.
-  Future<bool> putCleaningExchange(
-      KeyValuePairs parameters, DateTime lastUpdate,
-      [String? data]) async {
+  Future<void> putCleaningExchange(
+      KeyValuePairs parameters, DateTime lastUpdate, String data) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
-    var body = json.encode({
-      'data': {'replace_id': data}
-    });
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {
           ...await _commonHeaders(),
           ..._lastUpdateHeader(lastUpdate),
           ..._contentTypeHeader(),
         },
-        body: data == null ? null : body);
+        body: json.encode({
+          'data': {'replace_id': data}
+        }));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli amegadott konyhatakarítás-cserét.
-  Future<bool> deleteCleaningExchange(
+  Future<void> deleteCleaningExchange(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_cleaningExchangeEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a konyhatakarítás feladatok listáját vagy egy konkrét feladat
@@ -600,8 +575,8 @@ class IO {
       var answer = <CleaningTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var tasks = parsed['results'];
-      tasks.forEach((item) {
-        answer.add(CleaningTask.fromJson(item));
+      tasks.forEach((task) {
+        answer.add(CleaningTask.fromJson(task));
       });
       return answer;
     }
@@ -621,8 +596,8 @@ class IO {
       var answer = <CleaningPeriod>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var tasks = parsed['results'];
-      tasks.forEach((item) {
-        answer.add(CleaningPeriod.fromJson(item));
+      tasks.forEach((task) {
+        answer.add(CleaningPeriod.fromJson(task));
       });
       return answer;
     }
@@ -630,7 +605,7 @@ class IO {
   }
 
   ///Létrehoz egy új konyhatakarítás periódust.
-  Future<bool> postCleaningPeriod(CleaningPeriod data,
+  Future<void> postCleaningPeriod(CleaningPeriod data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_cleaningEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -638,12 +613,11 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott konyhatakarítás periódust.
-  Future<bool> patchCleaningPeriod(
+  Future<void> patchCleaningPeriod(
       CleaningPeriod data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_cleaningEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -651,19 +625,47 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott konyhatakarítás feladatot.
-  Future<bool> putCleaning(CleaningTask data, KeyValuePairs parameters) async {
+  Future<void> putCleaning(CleaningTask data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_cleaningEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
+    if (response.statusCode != 200) throw _handleErrors(response);
+  }
+
+  ///Automatikusan beosztja a takarítókat a következő periódusra.
+  Future<void> getCleaningAutoAssign() async {
+    var uri = '$_vmAddress$_cleaningAssignEndpoint';
+    var response = await client.get(
+      Uri.parse(uri),
+      headers: await _commonHeaders(),
+    );
+
+    if (response.statusCode == 200) {
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      var results = parsed['results'];
+      switch (results) {
+        case cleaningAssignPeriodShrink:
+          throw InformationException(cleaningAssignPeriodShrink, '');
+        case cleaningAssignPeriodExtended:
+          throw InformationException(cleaningAssignPeriodExtended, '');
+        case cleaningAssignPeriodExtendedWithEmptyEnd:
+          throw InformationException(
+              cleaningAssignPeriodExtendedWithEmptyEnd, '');
+        case cleaningAssigned:
+          throw InformationException(cleaningAssigned, '');
+        case cleaningAssignedWithEmptyEnd:
+          throw InformationException(cleaningAssignedWithEmptyEnd, '');
+        default:
+          return;
+      }
+    }
     throw _handleErrors(response);
   }
 
@@ -678,57 +680,53 @@ class IO {
       var answer = <PollTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var polls = parsed['results'];
-      polls.forEach((item) => answer.add(PollTask.fromJson(item)));
+      polls.forEach((poll) => answer.add(PollTask.fromJson(poll)));
       return answer;
     }
     throw _handleErrors(response);
   }
 
   ///Létrehoz egy új szavazást.
-  Future<bool> postPoll(PollTask data, [KeyValuePairs? parameters]) async {
+  Future<void> postPoll(PollTask data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_pollEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott szavazás adatait.
-  Future<bool> patchPoll(PollTask data, KeyValuePairs parameters) async {
+  Future<void> patchPoll(PollTask data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.patch(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Leadja a felhasználó szavazatát a megadott szavazásra.
-  Future<bool> putPoll(Vote data, KeyValuePairs parameters) async {
+  Future<void> putPoll(Vote data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott szavazást.
-  Future<bool> deletePoll(KeyValuePairs parameters, DateTime lastUpdate) async {
+  Future<void> deletePoll(KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_pollEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a foglalások listáját vagy egy konkrét foglalás adatait.
@@ -743,8 +741,8 @@ class IO {
       var answer = <TimetableTask>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var timetables = parsed['results'];
-      timetables.forEach((item) {
-        answer.add(TimetableTask.fromJson(item));
+      timetables.forEach((task) {
+        answer.add(TimetableTask.fromJson(task));
       });
       return answer;
     }
@@ -752,7 +750,7 @@ class IO {
   }
 
   ///Létrehoz egy új foglalást.
-  Future<bool> postReservation(TimetableTask data,
+  Future<void> postReservation(TimetableTask data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_reservationEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -760,12 +758,11 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott foglalás adatait.
-  Future<bool> putReservation(
+  Future<void> putReservation(
       TimetableTask data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_reservationEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
@@ -773,20 +770,18 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott foglalást.
-  Future<bool> deleteReservation(
+  Future<void> deleteReservation(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_reservationEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a társasjátékok listáját vagy egy konkrét játék adatait.
@@ -800,8 +795,8 @@ class IO {
       var answer = <Boardgame>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var timetables = parsed['results'];
-      timetables.forEach((item) {
-        answer.add(Boardgame.fromJson(item));
+      timetables.forEach((task) {
+        answer.add(Boardgame.fromJson(task));
       });
       return answer;
     }
@@ -809,7 +804,7 @@ class IO {
   }
 
   ///Létrehoz egy új társast.
-  Future<bool> postBoardgame(Boardgame data,
+  Future<void> postBoardgame(Boardgame data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -817,32 +812,29 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott társasjáték adatait.
-  Future<bool> putBoardgame(Boardgame data, KeyValuePairs parameters) async {
+  Future<void> putBoardgame(Boardgame data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott társast.
-  Future<bool> deleteBoardgame(
+  Future<void> deleteBoardgame(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri az elérhető közösségi média és egyéb online fiókok listáját.
@@ -856,8 +848,8 @@ class IO {
       var answer = <Account>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var accounts = parsed['results'];
-      accounts.forEach((item) {
-        answer.add(Account.fromJson(item));
+      accounts.forEach((task) {
+        answer.add(Account.fromJson(task));
       });
       return answer;
     }
@@ -865,39 +857,36 @@ class IO {
   }
 
   ///Hozzáad egy új közös online fiókot.
-  Future<bool> postAccount(Account data, [KeyValuePairs? parameters]) async {
+  Future<void> postAccount(Account data, [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_accountEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Módosítja egy közös online fiók adatait.
-  Future<bool> putAccount(Account data, KeyValuePairs parameters) async {
+  Future<void> putAccount(Account data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_boardgameEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Töröl egy közös online fiókot.
-  Future<bool> deleteAccount(
+  Future<void> deleteAccount(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_accountEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Lekéri a jótudni infók listáját vagy egy konkrét infó szekció adatait.
@@ -911,8 +900,8 @@ class IO {
       var answer = <GoodToKnow>[];
       var parsed = json.decode(utf8.decode(response.bodyBytes));
       var timetables = parsed['results'];
-      timetables.forEach((item) {
-        answer.add(GoodToKnow.fromJson(item));
+      timetables.forEach((task) {
+        answer.add(GoodToKnow.fromJson(task));
       });
       return answer;
     }
@@ -920,7 +909,7 @@ class IO {
   }
 
   ///Létrehoz egy új jótudni infócsomagot.
-  Future<bool> postGoodToKnow(GoodToKnow data,
+  Future<void> postGoodToKnow(GoodToKnow data,
       [KeyValuePairs? parameters]) async {
     var uri = '$_vmAddress$_goodToKnowEndpoint?';
     parameters?.forEach((key, value) => uri += '$key=$value&');
@@ -928,32 +917,29 @@ class IO {
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Frissíti a megadott jótudni infócsomag adatait.
-  Future<bool> putGoodToKnow(GoodToKnow data, KeyValuePairs parameters) async {
+  Future<void> putGoodToKnow(GoodToKnow data, KeyValuePairs parameters) async {
     var uri = '$_vmAddress$_goodToKnowEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._contentTypeHeader()},
         body: json.encode({'data': data.toJson()}));
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Törli a megadott jótudni infót.
-  Future<bool> deleteGoodToKnow(
+  Future<void> deleteGoodToKnow(
       KeyValuePairs parameters, DateTime lastUpdate) async {
     var uri = '$_vmAddress$_goodToKnowEndpoint?';
     parameters.forEach((key, value) => uri += '$key=$value&');
     var response = await client.delete(Uri.parse(uri, 0, uri.length - 1),
         headers: {...await _commonHeaders(), ..._lastUpdateHeader(lastUpdate)});
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != 200) throw _handleErrors(response);
   }
 
   ///Hibakezelő függvény. A `HTTP` kérés válasz kódja alapján megfelelő kivételt

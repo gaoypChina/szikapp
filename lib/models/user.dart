@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../navigation/navigation.dart';
 import '../utils/utils.dart';
-import 'interfaces.dart';
 import 'models.dart';
 
 part 'user.g.dart';
@@ -122,26 +121,29 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToAccess(SzikAppLink link) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
-    return permissions.any((element) =>
-        element.index == featurePermissions[link.currentFeature]?.index);
+    return permissions.any((permission) =>
+        permission.index == featurePermissions[link.currentFeature]?.index);
   }
 
   bool hasPermissionToCreate(Type type) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     if (type == PollTask) {
       return permissions.contains(Permission.pollCreate);
+    }
+    if (type == CleaningPeriod) {
+      return permissions.contains(Permission.cleaningPeriodCreate);
     } else {
       return true;
     }
   }
 
   bool hasPermissionToRead(Task task) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     if (task.runtimeType == PollTask) {
@@ -153,7 +155,7 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermissionToModify(Task task) {
-    if (permissions.any((element) => element == Permission.admin)) {
+    if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
     return task.managerIDs.contains(id);

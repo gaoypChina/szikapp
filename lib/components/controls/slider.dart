@@ -25,7 +25,7 @@ class CustomSlider extends StatefulWidget {
   final ValueChanged<double> onChanged;
 
   const CustomSlider({
-    Key? key,
+    super.key,
     required this.titleText,
     this.initValue,
     this.min = 0,
@@ -39,7 +39,7 @@ class CustomSlider extends StatefulWidget {
       size: kIconSizeLarge,
     ),
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomSlider> createState() => _CustomSliderState();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toggle_list/toggle_list.dart';
 
-import '../business/contacts_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';
@@ -27,8 +27,7 @@ class ContactsScreen extends StatefulWidget {
     );
   }
 
-  const ContactsScreen({Key key = const Key('ContactsScreen')})
-      : super(key: key);
+  const ContactsScreen({super.key = const Key('ContactsScreen')});
 
   @override
   ContactsScreenState createState() => ContactsScreenState();
@@ -63,7 +62,7 @@ class ContactsScreenState extends State<ContactsScreen> {
 class ContactsListView extends StatefulWidget {
   final ContactsManager manager;
 
-  const ContactsListView({Key? key, required this.manager}) : super(key: key);
+  const ContactsListView({super.key, required this.manager});
 
   @override
   ContactsListViewState createState() => ContactsListViewState();
@@ -296,7 +295,7 @@ class ContactsListViewState extends State<ContactsListView>
   List<ToggleListItem> _buildPeopleView() {
     var theme = Theme.of(context);
     return _users.map<ToggleListItem>(
-      (item) {
+      (user) {
         return ToggleListItem(
           leading: Padding(
             padding: const EdgeInsets.symmetric(
@@ -304,13 +303,13 @@ class ContactsListViewState extends State<ContactsListView>
               horizontal: kPaddingLarge,
             ),
             child: CircleAvatar(
-              foregroundImage: item.profilePicture != null
-                  ? NetworkImage(item.profilePicture!)
+              foregroundImage: user.profilePicture != null
+                  ? NetworkImage(user.profilePicture!)
                   : null,
               radius: theme.textTheme.displaySmall!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
-                item.initials,
+                user.initials,
                 style: theme.textTheme.headlineMedium!.copyWith(
                   color: theme.colorScheme.background,
                   fontStyle: FontStyle.normal,
@@ -319,7 +318,7 @@ class ContactsListViewState extends State<ContactsListView>
             ),
           ),
           title: Text(
-            item.name,
+            user.name,
             textAlign: TextAlign.start,
             style: theme.textTheme.displaySmall!.copyWith(
               color: theme.colorScheme.secondary,
@@ -336,17 +335,17 @@ class ContactsListViewState extends State<ContactsListView>
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (item.phone != null) {
+                    if (user.phone != null) {
                       try {
                         SzikAppState.analytics.logEvent(name: 'phone_call');
-                        widget.manager.makePhoneCall(item.phone!);
-                      } on NotSupportedCallFunctionalityException catch (e) {
-                        _showSnackBar(e.message);
+                        widget.manager.makePhoneCall(user.phone!);
+                      } on NotSupportedCallFunctionalityException catch (exception) {
+                        _showSnackBar(exception.message);
                       }
                     }
                   },
                   onLongPress: () =>
-                      _copyToClipBoard(item.phone, 'MESSAGE_CLIPBOARD'.tr()),
+                      _copyToClipBoard(user.phone, 'MESSAGE_CLIPBOARD'.tr()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -356,7 +355,7 @@ class ContactsListViewState extends State<ContactsListView>
                         color: theme.colorScheme.primaryContainer,
                       ),
                       Text(
-                        item.phone ?? 'PHONE_NOT_FOUND'.tr(),
+                        user.phone ?? 'PHONE_NOT_FOUND'.tr(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.primaryContainer,
                         ),
@@ -368,13 +367,13 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     try {
                       SzikAppState.analytics.logEvent(name: 'make_email');
-                      widget.manager.makeEmail(item.email);
-                    } on NotSupportedEmailFunctionalityException catch (e) {
-                      _showSnackBar(e.message);
+                      widget.manager.makeEmail(user.email);
+                    } on NotSupportedEmailFunctionalityException catch (exception) {
+                      _showSnackBar(exception.message);
                     }
                   },
                   onLongPress: () =>
-                      _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                      _copyToClipBoard(user.email, 'MESSAGE_CLIPBOARD'.tr()),
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: kPaddingNormal),
@@ -391,7 +390,7 @@ class ContactsListViewState extends State<ContactsListView>
                         ),
                         Flexible(
                           child: Text(
-                            item.email.useCorrectEllipsis(),
+                            user.email.useCorrectEllipsis(),
                             style: theme.textTheme.bodyLarge?.copyWith(
                                 color: theme.colorScheme.primaryContainer),
                             overflow: TextOverflow.ellipsis,
@@ -410,8 +409,8 @@ class ContactsListViewState extends State<ContactsListView>
                       color: theme.colorScheme.primaryContainer,
                     ),
                     Text(
-                      item.birthday != null
-                          ? DateFormat('yyyy. MM. dd.').format(item.birthday!)
+                      user.birthday != null
+                          ? DateFormat('yyyy. MM. dd.').format(user.birthday!)
                           : 'BIRTHDAY_NOT_FOUND'.tr(),
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: theme.colorScheme.primaryContainer,
@@ -430,10 +429,10 @@ class ContactsListViewState extends State<ContactsListView>
   List<ToggleListItem> _buildGroupsView() {
     var theme = Theme.of(context);
     return _groups.map<ToggleListItem>(
-      (item) {
+      (group) {
         var members = <User>[];
-        for (var memberID in item.memberIDs) {
-          members.add(_users.where((element) => element.id == memberID).first);
+        for (var memberID in group.memberIDs) {
+          members.add(_users.where((user) => user.id == memberID).first);
         }
         return ToggleListItem(
           leading: Padding(
@@ -445,7 +444,7 @@ class ContactsListViewState extends State<ContactsListView>
               radius: theme.textTheme.displaySmall!.fontSize! * 1.5,
               backgroundColor: theme.colorScheme.primaryContainer,
               child: Text(
-                item.initials,
+                group.initials,
                 style: theme.textTheme.headlineMedium!.copyWith(
                   color: theme.colorScheme.background,
                   fontStyle: FontStyle.normal,
@@ -454,7 +453,7 @@ class ContactsListViewState extends State<ContactsListView>
             ),
           ),
           title: Text(
-            item.name,
+            group.name,
             textAlign: TextAlign.start,
             style: theme.textTheme.displaySmall!.copyWith(
               color: theme.colorScheme.secondary,
@@ -471,17 +470,17 @@ class ContactsListViewState extends State<ContactsListView>
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (item.email != null) {
+                    if (group.email != null) {
                       try {
                         SzikAppState.analytics.logEvent(name: 'make_email');
-                        widget.manager.makeEmail(item.email!);
-                      } on NotSupportedEmailFunctionalityException catch (e) {
-                        _showSnackBar(e.message);
+                        widget.manager.makeEmail(group.email!);
+                      } on NotSupportedEmailFunctionalityException catch (exception) {
+                        _showSnackBar(exception.message);
                       }
                     }
                   },
                   onLongPress: () =>
-                      _copyToClipBoard(item.email, 'MESSAGE_CLIPBOARD'.tr()),
+                      _copyToClipBoard(group.email, 'MESSAGE_CLIPBOARD'.tr()),
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: kPaddingNormal),
@@ -498,7 +497,7 @@ class ContactsListViewState extends State<ContactsListView>
                         ),
                         Flexible(
                           child: Text(
-                            item.email?.useCorrectEllipsis() ??
+                            group.email?.useCorrectEllipsis() ??
                                 'EMAIL_NOT_FOUND'.tr(),
                             style: theme.textTheme.bodyLarge?.copyWith(
                                 color: theme.colorScheme.primaryContainer),
@@ -510,10 +509,10 @@ class ContactsListViewState extends State<ContactsListView>
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => _onMembersTapped(item),
+                  onTap: () => _onMembersTapped(group),
                   child: Column(
                     children: members.map(
-                      (item) {
+                      (member) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -524,7 +523,7 @@ class ContactsListViewState extends State<ContactsListView>
                             ),
                             Flexible(
                               child: Text(
-                                item.name,
+                                member.name,
                                 textAlign: TextAlign.end,
                                 style: theme.textTheme.bodyLarge?.copyWith(
                                   color: theme.colorScheme.primaryContainer,

@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../utils/types.dart';
-import 'interfaces.dart';
+import '../utils/utils.dart';
 import 'models.dart';
 
 part 'goodtoknow.g.dart';
@@ -22,19 +21,14 @@ class GoodToKnow extends Resource implements Identifiable, Cachable {
   KeyValuePairs? keyValuePairs;
 
   GoodToKnow({
-    required id,
+    required super.id,
     required this.title,
     required this.category,
     this.keyValuePairs,
-    required String name,
-    String? description,
-    required DateTime lastUpdate,
-  }) : super(
-          id: id,
-          name: name,
-          description: description,
-          lastUpdate: lastUpdate,
-        );
+    required super.name,
+    super.description,
+    required super.lastUpdate,
+  });
 
   @override
   Json toJson() => _$GoodToKnowToJson(this);

@@ -10,11 +10,11 @@ import 'package:provider/provider.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../navigation/app_state_manager.dart';
+import '../../navigation/navigation.dart';
 import '../../utils/utils.dart';
 
 class SignInScreenView extends StatefulWidget {
-  const SignInScreenView({Key? key}) : super(key: key);
+  const SignInScreenView({super.key});
 
   @override
   State<SignInScreenView> createState() => _SignInScreenViewState();

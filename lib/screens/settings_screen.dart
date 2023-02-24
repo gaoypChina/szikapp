@@ -24,10 +24,10 @@ class SettingsScreen extends StatefulWidget {
   }
 
   const SettingsScreen({
-    Key key = const Key('SettingsScreen'),
+    super.key = const Key('SettingsScreen'),
     this.withNavigationBar = true,
     this.withBackButton = true,
-  }) : super(key: key);
+  });
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -75,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _onLanguageChanged(String preferedLanguage) {
     var language = Language.values.firstWhere(
-        (element) => element.toCapitalizedString() == preferedLanguage);
+        (enumValue) => enumValue.toCapitalizedString() == preferedLanguage);
     setState(() {
       _preferedLanguage = language;
       if (language == Language.hu) {
@@ -277,8 +277,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: theme.textTheme.displaySmall!
                         .copyWith(color: theme.colorScheme.primary),
                   ),
-                  checkboxLabels:
-                      shortcutData.entries.map((e) => e.value.name).toList(),
+                  checkboxLabels: shortcutData.entries
+                      .map((shortcut) => shortcut.value.name)
+                      .toList(),
                   maxEnabled: 3,
                   initValues:
                       intListToBool(_feedShortcuts, shortcutData.length),

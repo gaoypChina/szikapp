@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
-import '../models/goodtoknow.dart';
+import '../models/models.dart';
 import '../ui/themes.dart';
 
 class DocumentsScreen extends StatelessWidget {
@@ -21,9 +21,9 @@ class DocumentsScreen extends StatelessWidget {
   }
 
   const DocumentsScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class DocumentsListView extends StatefulWidget {
   final GoodToKnowManager manager;
 
   const DocumentsListView({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   DocumentsListViewState createState() => DocumentsListViewState();

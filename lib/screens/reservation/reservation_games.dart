@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../business/reservation_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../ui/themes.dart';
 
@@ -20,9 +20,9 @@ class ReservationGamesListScreen extends StatelessWidget {
   }
 
   const ReservationGamesListScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class ReservationGamesList extends StatelessWidget {
   final ReservationManager manager;
 
   const ReservationGamesList({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class ReservationGamesList extends StatelessWidget {
               mainAxisSpacing: kPaddingNormal,
               children: manager.games
                   .map(
-                    (item) => Card(
+                    (game) => Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -77,12 +77,12 @@ class ReservationGamesList extends StatelessWidget {
                         onTap: () => Provider.of<ReservationManager>(context,
                                 listen: false)
                             .selectGame(
-                          manager.games.indexOf(item),
+                          manager.games.indexOf(game),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(kPaddingNormal),
                           child: Image.asset(
-                            'assets/pictures/${item.iconLink}',
+                            'assets/pictures/${game.iconLink}',
                             fit: BoxFit.contain,
                           ),
                         ),

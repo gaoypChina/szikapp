@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business/auth_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
 import '../navigation/navigation.dart';
 import '../ui/themes.dart';
@@ -21,9 +21,9 @@ class SubMenuScreen extends StatefulWidget {
   }
 
   const SubMenuScreen({
-    Key key = const Key('SubMenuScreen'),
+    super.key = const Key('SubMenuScreen'),
     required this.selectedSubMenu,
-  }) : super(key: key);
+  });
 
   @override
   State<SubMenuScreen> createState() => _SubMenuScreenState();

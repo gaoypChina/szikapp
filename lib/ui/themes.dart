@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 export 'dark_theme.dart';
 export 'light_theme.dart';
 
@@ -21,6 +21,9 @@ const double kBorderRadiusLarge = 30;
 
 const double kCurveHeight = 8;
 
+const double kCalendarMarkerSize = 5.0;
+const double kDaysOfWeekSize = 20.0;
+
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
 const Color szikLavenderBlush = Color(0xfffffafb);
@@ -39,15 +42,20 @@ const Color szikSilverChalice = Color(0xffb1b1b1);
 const Color szikHippieBlue = Color(0xff59a3b0);
 const Color szikGunSmoke = Color(0xff888989);
 
+///Státusz színek
+const Color statusRed = Color(0xffa00a34);
+const Color statusYellow = Color(0xffffbf1b);
+const Color statusGreen = Color(0xff278230);
+
 ///Az egyes [TaskStatus]okhoz rendelt állapotjelző színek.
 const Map<TaskStatus, Color> taskStatusColors = {
-  TaskStatus.created: Color(0xffa00a34),
-  TaskStatus.sent: Color(0xffa00a34),
-  TaskStatus.inProgress: Color(0xffffbf1b),
-  TaskStatus.irresolvable: Color(0xffa00a34),
-  TaskStatus.refused: Color(0xffa00a34),
-  TaskStatus.awaitingApproval: Color(0xff278230),
-  TaskStatus.approved: Color(0xff278230),
+  TaskStatus.created: statusRed,
+  TaskStatus.sent: statusRed,
+  TaskStatus.inProgress: statusYellow,
+  TaskStatus.irresolvable: statusRed,
+  TaskStatus.refused: statusRed,
+  TaskStatus.awaitingApproval: statusYellow,
+  TaskStatus.approved: statusGreen,
 };
 
 TextTheme szikTextTheme = const TextTheme(

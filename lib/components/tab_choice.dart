@@ -27,14 +27,14 @@ class TabChoice extends StatefulWidget {
   final bool allowNoneSelected;
 
   const TabChoice({
-    Key? key,
+    super.key,
     required this.labels,
     required this.onChanged,
     this.choiceColor,
     this.wrapColor,
     this.fontColor,
     this.allowNoneSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   TabChoiceState createState() => TabChoiceState();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../models/tasks.dart';
+import '../../models/models.dart';
 import '../../utils/utils.dart';
 import '../screens.dart';
 
@@ -19,7 +19,7 @@ class InvitationScreen extends StatelessWidget {
     );
   }
 
-  const InvitationScreen({Key? key}) : super(key: key);
+  const InvitationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

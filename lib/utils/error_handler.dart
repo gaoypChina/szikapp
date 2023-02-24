@@ -27,6 +27,21 @@ class ErrorInformation {
     } else if (errorCode >= 900 && errorCode < 1000) {
       errorMessage = 'ERROR_SZIKAPP_MESSAGE'.tr();
       errorSolution = 'ERROR_SZIKAPP_SOLUTION'.tr();
+    } else if (errorCode == cleaningAssignPeriodShrink) {
+      errorMessage = 'CLEANING_ASSIGN_PERIOD_SHRINK'.tr();
+      errorSolution = '';
+    } else if (errorCode == cleaningAssignPeriodExtended) {
+      errorMessage = 'CLEANING_ASSIGN_PERIOD_EXTEND'.tr();
+      errorSolution = '';
+    } else if (errorCode == cleaningAssignPeriodExtendedWithEmptyEnd) {
+      errorMessage = 'CLEANING_ASSIGN_PERIOD_EXTEND_EMPTY_END'.tr();
+      errorSolution = '';
+    } else if (errorCode == cleaningAssigned) {
+      errorMessage = 'CLEANING_ASSIGNED'.tr();
+      errorSolution = '';
+    } else if (errorCode == cleaningAssignedWithEmptyEnd) {
+      errorMessage = 'CLEANING_ASSIGN_EMPTY_END'.tr();
+      errorSolution = '';
     } else {
       errorMessage = 'ERROR_UNKNOWN_CODE_MESSAGE'.tr();
       errorSolution = 'ERROR_UNKNOWN_CODE_SOLUTION'.tr();

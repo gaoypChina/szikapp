@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
-import '../../screens/error_screen.dart';
+import '../../screens/screens.dart';
 import '../../utils/utils.dart';
 import '../shimmers/list_screen_shimmer.dart';
 
@@ -13,11 +13,11 @@ class CustomFutureBuilder<T> extends StatelessWidget {
   final Widget child;
 
   const CustomFutureBuilder({
-    Key? key,
+    super.key,
     required this.future,
     this.shimmer = const ListScreenShimmer(),
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ class CustomScaffold extends StatelessWidget {
 
   ///Shiny Scaffold with optional [BottomNavigationBar] and [AppBar].
   const CustomScaffold({
-    Key? key,
+    super.key,
     this.appBarTitle,
     this.body,
     this.floatingActionButton,
@@ -30,7 +30,7 @@ class CustomScaffold extends StatelessWidget {
     this.withAppBar = true,
     this.withBackButton = true,
     this.withNavigationBar = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

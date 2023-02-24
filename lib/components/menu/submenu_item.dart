@@ -20,9 +20,9 @@ class SubMenuItem extends StatelessWidget {
   final SubMenuItemData data;
 
   const SubMenuItem({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

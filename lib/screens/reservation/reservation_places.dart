@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../business/reservation_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
-import '../../models/resource.dart';
+import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 
 class ReservationPlacesScreen extends StatelessWidget {
@@ -19,9 +19,9 @@ class ReservationPlacesScreen extends StatelessWidget {
   }
 
   const ReservationPlacesScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

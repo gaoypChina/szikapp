@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../business/reservation_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
 
 class ReservationAccountsListScreen extends StatelessWidget {
@@ -17,9 +17,9 @@ class ReservationAccountsListScreen extends StatelessWidget {
   }
 
   const ReservationAccountsListScreen({
-    Key? key,
+    super.key,
     required this.manager,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
