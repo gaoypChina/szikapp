@@ -19,10 +19,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
-      permissions: (json['permissions'] as List<dynamic>?)
-              ?.map((e) => $enumDecode(_$PermissionEnumMap, e))
-              .toList() ??
-          const [],
+      permissions: json['permissions'] == null
+          ? const []
+          : Permission.permissionsFromJson(json['permissions'] as List),
       groupIDs: (json['group_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??

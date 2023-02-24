@@ -27,6 +27,7 @@ class User implements Identifiable, Cachable {
   String? _secondaryPhone;
   @JsonKey(name: 'group_ids')
   List<String> groupIDs;
+  @JsonKey(fromJson: Permission.permissionsFromJson)
   List<Permission> permissions;
   @override
   @JsonKey(name: 'last_update')

@@ -16,10 +16,9 @@ Group _$GroupFromJson(Map<String, dynamic> json) => Group(
               .toList() ??
           const [],
       maxMemberCount: json['max_member_count'] as int? ?? 999,
-      permissions: (json['permissions'] as List<dynamic>?)
-              ?.map((e) => $enumDecode(_$PermissionEnumMap, e))
-              .toList() ??
-          const [],
+      permissions: json['permissions'] == null
+          ? const []
+          : Permission.permissionsFromJson(json['permissions'] as List),
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
