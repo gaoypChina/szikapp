@@ -121,7 +121,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                             Provider.of<SzikAppStateManager>(context)
                                 .users
                                 .firstWhere((user) => user.id == participantID)
-                                .showableName,
+                                .name,
                             style: strongFont,
                           ),
                         )
