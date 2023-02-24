@@ -1,3 +1,5 @@
+import '../utils/utils.dart';
+
 ///Az applikációban előforduló jogosultságokat reprezentáló enum típus.
 enum Permission {
   admin,
@@ -74,4 +76,27 @@ enum Permission {
 
   @override
   String toString() => name;
+
+  static Permission decodePermission(dynamic source) {
+    for (var permission in Permission.values) {
+      if (permission.toString() == source.toString()) {
+        return permission;
+      }
+    }
+    throw NotValidPermissionException(
+      '`$source` is not one of the supported values.',
+    );
+  }
+
+  static List<Permission> permissionsFromJson(List<dynamic> rawPermissions) {
+    var permissions = <Permission>[];
+    for (var rawPermission in rawPermissions) {
+      try {
+        permissions.add(Permission.decodePermission(rawPermission));
+      } on NotValidPermissionException catch (_) {
+        continue;
+      }
+    }
+    return permissions;
+  }
 }

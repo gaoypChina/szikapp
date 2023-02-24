@@ -9,6 +9,7 @@ const int noConnectionExceptionCode = 820;
 const int notValidPhoneExceptionCode = 921;
 const int nonHungarianPhoneExceptionCode = 922;
 const int notValidBirthdayExceptionCode = 923;
+const int notValidPermissionExceptionCode = 924;
 const int notSupportedCallFunctionalityExceptionCode = 931;
 const int notSupportedEmailFunctionalityExceptionCode = 932;
 const int notSupportedBrowserFunctionalityExceptionCode = 933;
@@ -67,6 +68,11 @@ class IOUnknownException extends IOException {
 
 abstract class ValidationException extends BaseException {
   ValidationException(code, message) : super(code, message);
+}
+
+class NotValidPermissionException extends ValidationException {
+  NotValidPermissionException(message)
+      : super(notValidPermissionExceptionCode, message);
 }
 
 class NotValidPhoneException extends ValidationException {
