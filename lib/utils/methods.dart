@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../navigation/app_state_manager.dart';
-import 'exceptions.dart';
+import '../navigation/navigation.dart';
+import 'utils.dart';
 
 String userIDsToString(BuildContext context, List<String> userIDs) {
   var users = Provider.of<SzikAppStateManager>(context).users;

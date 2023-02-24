@@ -19,6 +19,7 @@ export 'controls/time_picker.dart';
 export 'custom_icon.dart';
 export 'dialog.dart';
 export 'document_details.dart';
+export 'feature_link_page.dart';
 export 'gdpr_widget.dart';
 export 'invitation_card.dart';
 export 'menu/menu_item.dart';

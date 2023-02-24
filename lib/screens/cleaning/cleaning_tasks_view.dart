@@ -182,10 +182,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
 
   Widget _buildReportTile() {
     var theme = Theme.of(context);
-    var yesterday = DateTime.now().subtract(const Duration(days: 1));
-    var reportableItem = _tasks.firstWhere(
-      (task) => task.start.isSameDate(yesterday),
-    );
+    var reportableItem = widget.manager.getYesterdayTask();
     var alreadyReported =
         reportableItem.status == TaskStatus.awaitingApproval ||
             reportableItem.status == TaskStatus.approved ||

@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../navigation/navigation.dart';
 import '../utils/utils.dart';
-import 'interfaces.dart';
 import 'models.dart';
 
 part 'user.g.dart';

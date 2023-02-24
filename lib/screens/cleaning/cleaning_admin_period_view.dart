@@ -41,15 +41,15 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     _activePeriod = widget.manager.getCurrentPeriod();
   }
 
-  void _onStartChanged(DateTime? newDate) {
+  void _onStartChanged(DateTime newDate) {
     setState(() {
-      _startDate = newDate ?? DateTime.now();
+      _startDate = newDate;
     });
   }
 
-  void _onEndChanged(DateTime? newDate) {
+  void _onEndChanged(DateTime newDate) {
     setState(() {
-      _endDate = newDate?.copyWith(hour: 22) ?? DateTime.now();
+      _endDate = newDate.copyWith(hour: 22);
     });
   }
 

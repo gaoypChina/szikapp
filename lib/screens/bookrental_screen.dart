@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../components/components.dart';
-import '../components/feature_link_page.dart';
 import '../ui/themes.dart';
 
 class BookRentalScreen extends StatelessWidget {

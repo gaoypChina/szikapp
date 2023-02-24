@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../business/business.dart';
 import '../navigation/navigation.dart';
-import '../screens/bookrental_screen.dart';
 import '../screens/screens.dart';
 import '../utils/utils.dart';
 
@@ -367,7 +366,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     }
   }
 
-  void performFunctionSecurely(
+  Future<void> performFunctionSecurely(
     BuildContext context,
     Future<dynamic> Function() callback,
   ) async {

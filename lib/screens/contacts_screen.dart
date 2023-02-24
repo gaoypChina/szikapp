@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toggle_list/toggle_list.dart';
 
-import '../business/contacts_manager.dart';
+import '../business/business.dart';
 import '../components/components.dart';
 import '../main.dart';
 import '../models/models.dart';

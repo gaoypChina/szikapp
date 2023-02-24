@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/goodtoknow.dart';
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../models/models.dart';
+import '../utils/utils.dart';
 
 class GoodToKnowManager extends ChangeNotifier {
   List<GoodToKnow> _posts = [];

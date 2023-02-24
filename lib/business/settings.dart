@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Felhasználói beállításokat implementáló osztály. Specifikus interfészt
 ///biztosít a [SharedPreferences] lokális perzisztens adattárolóhoz.

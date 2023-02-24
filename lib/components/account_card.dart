@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/models.dart';
 import '../ui/themes.dart';
-import '../utils/methods.dart';
+import '../utils/utils.dart';
 import 'components.dart';
 
 class AccountCard extends StatelessWidget {

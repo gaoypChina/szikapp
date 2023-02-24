@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../components/custom_icon.dart';
+import '../components/components.dart';
 import '../navigation/navigation.dart';
 
 class Shortcut {

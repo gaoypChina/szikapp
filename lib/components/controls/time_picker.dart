@@ -29,7 +29,7 @@ class TimePicker extends StatefulWidget {
 }
 
 class TimePickerState extends State<TimePicker> {
-  void _selectTime() async {
+  Future<void> _selectTime() async {
     final newTime = await showTimePicker(
       context: context,
       initialTime: widget.time,

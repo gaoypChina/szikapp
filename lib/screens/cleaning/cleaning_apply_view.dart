@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../business/business.dart';
-import '../../components/custom_icon.dart';
+import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/models.dart';
 import '../../ui/themes.dart';

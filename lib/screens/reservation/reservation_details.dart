@@ -6,7 +6,7 @@ import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/models.dart';
-import '../../navigation/app_state_manager.dart';
+import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
@@ -86,10 +86,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
         widget.manager.selectedDate?.toLocal() ?? DateTime.now().toLocal();
   }
 
-  void _onDateChanged(DateTime? date) {
+  void _onDateChanged(DateTime date) {
     widget.manager.selectDate(date);
     setState(() {
-      _currentDate = date ?? DateTime.now().toLocal();
+      _currentDate = date;
     });
   }
 

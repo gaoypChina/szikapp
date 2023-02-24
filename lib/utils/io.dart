@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../business/auth_manager.dart';
+import '../business/business.dart';
 import '../models/models.dart';
 import 'exceptions.dart';
 import 'types.dart';
