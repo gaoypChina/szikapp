@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../models/permission.dart';
+import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';

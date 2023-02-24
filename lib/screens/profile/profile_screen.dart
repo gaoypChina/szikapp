@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../business/auth_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../navigation/navigation.dart';
 import '../progress_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/goodtoknow.dart';
+import '../../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
 import 'components.dart';

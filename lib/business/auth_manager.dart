@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../models/user.dart' as szikapp_user;
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../models/models.dart' as szikapp_user;
+import '../utils/utils.dart';
 
 enum SignInMethod {
   google,

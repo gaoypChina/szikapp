@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../ui/themes.dart';
-import '../utils/methods.dart';
+import '../utils/utils.dart';
 
 class InvitationCard extends StatelessWidget {
   final TimetableTask data;

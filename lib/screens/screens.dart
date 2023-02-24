@@ -1,6 +1,7 @@
 ///SzikApp Screens library
 library screens;
 
+export 'bookrental_screen.dart';
 export 'calendar_screen.dart';
 export 'cleaning/cleaning_admin_screen.dart';
 export 'cleaning/cleaning_screen.dart';

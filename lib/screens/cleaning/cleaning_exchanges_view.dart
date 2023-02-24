@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../models/models.dart';
-import '../../navigation/app_state_manager.dart';
+import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 

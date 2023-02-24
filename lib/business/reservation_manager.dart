@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/resource.dart';
 
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../utils/utils.dart';
 
 class ReservationMode {

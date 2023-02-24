@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/cleaning_exchange.dart';
-import '../models/cleaning_period.dart';
-import '../models/tasks.dart';
+import '../models/models.dart';
 import '../utils/utils.dart';
 
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
