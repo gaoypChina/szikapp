@@ -8,6 +8,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../models/models.dart' as szikapp_user;
 import '../utils/utils.dart';
+import 'business.dart';
 
 enum SignInMethod {
   google,
@@ -177,6 +178,8 @@ class AuthManager extends ChangeNotifier {
   /// adatstruktúrát.
   Future<void> signOut() async {
     try {
+      Settings.instance.savePreferences();
+      await pushUserUpdate();
       await _auth.signOut();
       await GoogleSignIn().signOut();
       _user = null;
