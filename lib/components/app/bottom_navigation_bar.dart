@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../business/business.dart';
-import '../../navigation/app_state_manager.dart';
+import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../components.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../business/reservation_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
 
 class ReservationAccountsListScreen extends StatelessWidget {

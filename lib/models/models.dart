@@ -5,6 +5,7 @@ export 'cleaning_exchange.dart';
 export 'cleaning_period.dart';
 export 'goodtoknow.dart';
 export 'group.dart';
+export 'interfaces.dart';
 export 'notification.dart';
 export 'permission.dart';
 export 'preferences.dart';

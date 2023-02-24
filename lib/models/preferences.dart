@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../utils/types.dart';
-import 'interfaces.dart';
-import 'notification.dart';
+import '../utils/utils.dart';
+import 'models.dart';
 
 part 'preferences.g.dart';
 

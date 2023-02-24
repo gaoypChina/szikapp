@@ -165,10 +165,11 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
   }
 
   void _onParticipantGroupIDsChanged(List<Group>? groups) {
-    groups = groups ?? [];
     participantGroupIDs = [];
-    for (var group in groups) {
-      participantGroupIDs.add(group.id);
+    if (groups != null) {
+      for (var group in groups) {
+        participantGroupIDs.add(group.id);
+      }
     }
     setState(() {});
   }

@@ -17,7 +17,7 @@ import 'firebase_options.dart';
 import 'models/models.dart';
 import 'navigation/navigation.dart';
 import 'ui/themes.dart';
-import 'utils/io.dart';
+import 'utils/utils.dart';
 
 ///Program belépési pont. Futtatja az applikációt a megfelelő kontextus,
 ///lokalizáció és kezdeti beállítások elvégzése után.
