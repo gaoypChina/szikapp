@@ -19,7 +19,7 @@ class InvitationScreen extends StatelessWidget {
     );
   }
 
-  const InvitationScreen({super.key});
+  const InvitationScreen({super.key = const Key('InvitationScreen')});
 
   @override
   Widget build(BuildContext context) {

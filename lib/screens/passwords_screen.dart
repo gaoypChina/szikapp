@@ -17,7 +17,7 @@ class PasswordsScreen extends StatelessWidget {
   }
 
   const PasswordsScreen({
-    super.key,
+    super.key = const Key('PasswordsScreen'),
     required this.manager,
   });
 

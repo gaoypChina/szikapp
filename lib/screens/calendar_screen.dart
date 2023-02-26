@@ -14,7 +14,7 @@ class CalendarScreen extends StatelessWidget {
     );
   }
 
-  const CalendarScreen({super.key});
+  const CalendarScreen({super.key = const Key('CalendarScreen')});
 
   @override
   Widget build(BuildContext context) {

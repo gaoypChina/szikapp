@@ -16,7 +16,7 @@ class StartScreen extends StatelessWidget {
     );
   }
 
-  const StartScreen({super.key});
+  const StartScreen({super.key = const Key('StartScreen')});
 
   @override
   Widget build(BuildContext context) {

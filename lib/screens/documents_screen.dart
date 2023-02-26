@@ -21,7 +21,7 @@ class DocumentsScreen extends StatelessWidget {
   }
 
   const DocumentsScreen({
-    super.key,
+    super.key = const Key('DocumentsScreen'),
     required this.manager,
   });
 

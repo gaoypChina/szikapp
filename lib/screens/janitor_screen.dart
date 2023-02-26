@@ -14,7 +14,7 @@ class JanitorScreen extends StatelessWidget {
     );
   }
 
-  const JanitorScreen({super.key});
+  const JanitorScreen({super.key = const Key('JanitorScreen')});
 
   @override
   Widget build(BuildContext context) {

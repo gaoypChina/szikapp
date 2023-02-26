@@ -15,7 +15,7 @@ class BookRentalScreen extends StatelessWidget {
     );
   }
 
-  const BookRentalScreen({super.key});
+  const BookRentalScreen({super.key = const Key('BookrentalScreen')});
 
   @override
   Widget build(BuildContext context) {

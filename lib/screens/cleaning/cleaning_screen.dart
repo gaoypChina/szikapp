@@ -23,7 +23,7 @@ class CleaningScreen extends StatelessWidget {
   final KitchenCleaningManager manager;
 
   const CleaningScreen({
-    super.key,
+    super.key = const Key('CleaningScreen'),
     required this.manager,
   });
 
