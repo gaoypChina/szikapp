@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CurveShapeBorder extends ContinuousRectangleBorder {
-  const CurveShapeBorder(this.curveHeight);
   final double curveHeight;
+
+  const CurveShapeBorder({required this.curveHeight});
 
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) => Path()

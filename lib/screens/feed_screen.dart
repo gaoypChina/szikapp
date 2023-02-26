@@ -92,8 +92,8 @@ class FeedScreenState extends State<FeedScreen> {
               borderRadius: BorderRadius.circular(kBorderRadiusNormal),
             ),
             child: GestureDetector(
-              onTap: () =>
-                  appStateManager.selectFeature(SzikAppFeature.profile),
+              onTap: () => appStateManager.selectFeature(
+                  feature: SzikAppFeature.profile),
               child: Row(
                 children: [
                   Expanded(
@@ -125,7 +125,8 @@ class FeedScreenState extends State<FeedScreen> {
             ),
           ),
           if (authManager.isSignedIn &&
-              (user?.hasPermission(Permission.contactsView) ?? false))
+              (user?.hasPermission(permission: Permission.contactsView) ??
+                  false))
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
               child: BirthdayBar(),
@@ -139,7 +140,7 @@ class FeedScreenState extends State<FeedScreen> {
                 children: feedShortcuts.map<WrappedIconButton>(
                   (shortcut) {
                     var userCanRouteToLink = (user?.hasPermissionToAccess(
-                            SzikAppLink(currentFeature: shortcut)) ??
+                            link: SzikAppLink(currentFeature: shortcut)) ??
                         false);
                     return WrappedIconButton(
                       assetPath:
@@ -147,7 +148,8 @@ class FeedScreenState extends State<FeedScreen> {
                       color: theme.colorScheme.primaryContainer,
                       backgroundColor: theme.colorScheme.background,
                       onTap: userCanRouteToLink
-                          ? () => appStateManager.selectFeature(shortcut)
+                          ? () =>
+                              appStateManager.selectFeature(feature: shortcut)
                           : null,
                     );
                   },

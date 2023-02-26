@@ -110,7 +110,7 @@ class SzikAppStateManager extends ChangeNotifier {
     }
   }
 
-  void setError(BaseException error) {
+  void setError({required BaseException error}) {
     _hasError = true;
     _error = error;
     notifyListeners();
@@ -122,7 +122,7 @@ class SzikAppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectTab(int index) {
+  void selectTab({required int index}) {
     if (_selectedTab != SzikAppTab.menu && index == SzikAppTab.menu) {
       _selectedTab = SzikAppTab.menu;
       _selectedSubMenu = _lastMenuLink?.currentSubMenu ?? SzikAppSubMenu.none;
@@ -142,7 +142,7 @@ class SzikAppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectSubMenu(int index) {
+  void selectSubMenu({required int index}) {
     _selectedSubMenu = index;
     notifyListeners();
   }
@@ -152,7 +152,7 @@ class SzikAppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectFeature(int feature) {
+  void selectFeature({required int feature}) {
     /*if (feature == SzikAppFeature.settings) {
       _selectedTab = SzikAppTab.settings;
     } else*/

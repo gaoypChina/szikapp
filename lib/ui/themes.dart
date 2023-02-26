@@ -21,8 +21,9 @@ const double kBorderRadiusLarge = 30;
 
 const double kCurveHeight = 8;
 
-const double kCalendarMarkerSize = 5.0;
-const double kDaysOfWeekSize = 20.0;
+const double kCalendarMarkerSize = 5;
+const double kDaysOfWeekSize = 20;
+const double kSearchBarIconSize = 30;
 
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);

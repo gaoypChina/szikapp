@@ -16,10 +16,8 @@ class PasswordsScreen extends StatelessWidget {
     );
   }
 
-  const PasswordsScreen({
-    super.key = const Key('PasswordsScreen'),
-    required this.manager,
-  });
+  const PasswordsScreen(
+      {super.key = const Key('PasswordsScreen'), required this.manager});
 
   @override
   Widget build(BuildContext context) {

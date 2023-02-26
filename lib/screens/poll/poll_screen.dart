@@ -115,7 +115,7 @@ class PollTileViewState extends State<PollTileView> {
                           : 2,
                       crossAxisSpacing: kPaddingNormal,
                       mainAxisSpacing: kPaddingNormal,
-                      children: _buildPolls(context),
+                      children: _buildPolls(),
                     ),
                   ),
           ),
@@ -124,7 +124,7 @@ class PollTileViewState extends State<PollTileView> {
     );
   }
 
-  List<Widget> _buildPolls(BuildContext context) {
+  List<Widget> _buildPolls() {
     var theme = Theme.of(context);
     return _polls.map<GestureDetector>((poll) {
       String timeInformation;

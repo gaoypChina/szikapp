@@ -121,12 +121,12 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                           onPressed: () {
                             SzikAppState.analytics.logEvent(name: 'poll_vote');
                             widget.manager.addVote(
-                              Vote(
+                              poll: widget.poll,
+                              vote: Vote(
                                 voterID: user.id,
                                 votes: _selected,
                                 lastUpdate: DateTime.now(),
                               ),
-                              widget.poll,
                             );
                           },
                           child: Padding(
@@ -167,7 +167,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                     .copyWith(color: theme.colorScheme.surface),
               ),
             ),
-            if (user.hasPermissionToModify(widget.poll) &&
+            if (user.hasPermissionToModify(task: widget.poll) &&
                 (isOpen || widget.poll.start.isAfter(DateTime.now())))
               Padding(
                 padding: const EdgeInsets.only(left: kPaddingLarge),
@@ -175,7 +175,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   onTap: () {
                     SzikAppState.analytics.logEvent(name: 'poll_open_edit');
                     widget.manager
-                        .editPoll(widget.manager.indexOf(widget.poll));
+                        .editPoll(index: widget.manager.indexOf(widget.poll));
                   },
                   child: const CustomIcon(CustomIcons.pencil),
                 ),

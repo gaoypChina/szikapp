@@ -9,10 +9,7 @@ import 'components.dart';
 class DocumentDetails extends StatelessWidget {
   final GoodToKnow? document;
 
-  const DocumentDetails({
-    super.key,
-    this.document,
-  });
+  const DocumentDetails({super.key, this.document});
 
   @override
   Widget build(BuildContext context) {

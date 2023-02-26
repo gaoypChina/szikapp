@@ -66,34 +66,34 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createNewPlaceReservation(int placeIndex) {
+  void createNewPlaceReservation({required int placeIndex}) {
     createNewReservation(placeIndex: placeIndex);
   }
 
-  void createNewGameReservation(int gameIndex) {
+  void createNewGameReservation({required int gameIndex}) {
     createNewReservation(gameIndex: gameIndex);
   }
 
-  void createNewAccountReservation(int accountIndex) {
+  void createNewAccountReservation({required int accountIndex}) {
     createNewReservation(accountIndex: accountIndex);
   }
 
-  void selectGame(int index) {
+  void selectGame({required int index}) {
     _selectedGame = index;
     notifyListeners();
   }
 
-  void selectPlace(int index) {
+  void selectPlace({required int index}) {
     _selectedPlace = index;
     notifyListeners();
   }
 
-  void selectAccount(int index) {
+  void selectAccount({required int index}) {
     _selectedAccount = index;
     notifyListeners();
   }
 
-  void selectDate(DateTime? date) {
+  void selectDate({required DateTime? date}) {
     _selectedDate = date;
     notifyListeners();
   }
@@ -113,19 +113,19 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editPlaceReservation(int index, int placeIndex) {
+  void editPlaceReservation({required int index, required int placeIndex}) {
     editReservation(index, placeIndex: placeIndex);
   }
 
-  void editGameReservation(int index, int gameIndex) {
+  void editGameReservation({required int index, required int gameIndex}) {
     editReservation(index, gameIndex: gameIndex);
   }
 
-  void editAccountReservation(int index, int accountIndex) {
+  void editAccountReservation({required int index, required int accountIndex}) {
     editReservation(index, accountIndex: accountIndex);
   }
 
-  void selectMode(int mode) {
+  void selectMode({required int mode}) {
     _selectedMode = mode;
     notifyListeners();
   }
@@ -142,7 +142,7 @@ class ReservationManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedReservationTask(String id) {
+  void setSelectedReservationTask({required String id}) {
     final index =
         _reservations.indexWhere((reservation) => reservation.id == id);
     _selectedIndex = index;
@@ -178,9 +178,9 @@ class ReservationManager extends ChangeNotifier {
 
   ///Új foglalás hozzáadása. A függvény feltölti a szerverre az új foglalást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
-  Future<bool> addReservation(TimetableTask task) async {
+  Future<bool> addReservation({required TimetableTask task}) async {
     var io = IO();
-    await io.postReservation(task);
+    await io.postReservation(data: task);
 
     _reservations.add(task);
     _createNewReservation = false;
@@ -193,10 +193,10 @@ class ReservationManager extends ChangeNotifier {
   ///Foglalás szerkesztése. A függvény feltölti a szerverre a módosított
   ///foglalást, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
   ///a listán.
-  Future<bool> updateReservation(TimetableTask task) async {
+  Future<bool> updateReservation({required TimetableTask task}) async {
     var io = IO();
     var parameter = {'id': task.id};
-    await io.putReservation(task, parameter);
+    await io.putReservation(data: task, parameters: parameter);
 
     _reservations.removeWhere((reservation) => reservation.id == task.id);
     _reservations.add(task);
@@ -209,14 +209,15 @@ class ReservationManager extends ChangeNotifier {
 
   ///Foglalás törlése. A függvény törli a szerverről a foglalást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
-  Future<bool> deleteReservation(TimetableTask task) async {
+  Future<bool> deleteReservation({required TimetableTask task}) async {
     if (!_reservations.any((reservation) => reservation.id == task.id)) {
       return false;
     }
 
     var io = IO();
     var parameter = {'id': task.id};
-    await io.deleteReservation(parameter, task.lastUpdate);
+    await io.deleteReservation(
+        parameters: parameter, lastUpdate: task.lastUpdate);
 
     _reservations.remove(task);
     _createNewReservation = false;
@@ -241,7 +242,7 @@ class ReservationManager extends ChangeNotifier {
 
     try {
       var io = IO();
-      _reservations = await io.getReservation(parameter);
+      _reservations = await io.getReservation(parameters: parameter);
       _reservations.sort((a, b) => a.start.compareTo(b.start));
     } on IONotModifiedException {
       _reservations = [];
@@ -266,24 +267,27 @@ class ReservationManager extends ChangeNotifier {
     }
   }
 
-  bool isReserved(String id) {
+  bool isReserved({required String id}) {
     return reservations.any((task) => (task.resourceIDs.contains(id) &&
         DateTime.now().isInInterval(task.start, task.end)));
   }
 
   ///Szűrés. A függvény a megadott paraméterek alapján szűri a foglaláslistát.
   ///Ha minden paraméter üres, a teljes listát adja vissza.
-  List<TimetableTask> filter(
-      DateTime startTime, DateTime endTime, List<String> resourceIDs) {
+  List<TimetableTask> filter({
+    required DateTime start,
+    required DateTime end,
+    required List<String> resourceIDs,
+  }) {
     var results = <TimetableTask>[];
-    var startTimeLocal = startTime.toLocal();
-    var endTimeLocal = endTime.toLocal();
+    var startLocal = start.toLocal();
+    var endLocal = end.toLocal();
 
     if (resourceIDs.isEmpty) {
       //csak időpontra szűrünk
       for (var reservation in reservations) {
-        if (reservation.start.isInInterval(startTimeLocal, endTimeLocal) ||
-            reservation.end.isInInterval(startTimeLocal, endTimeLocal)) {
+        if (reservation.start.isInInterval(startLocal, endLocal) ||
+            reservation.end.isInInterval(startLocal, endLocal)) {
           results.add(reservation);
         }
       }
@@ -292,8 +296,8 @@ class ReservationManager extends ChangeNotifier {
       for (var reservation in reservations) {
         for (var resourceID in reservation.resourceIDs) {
           if (resourceIDs.contains(resourceID) &&
-              (reservation.start.isInInterval(startTimeLocal, endTimeLocal) ||
-                  reservation.end.isInInterval(startTimeLocal, endTimeLocal))) {
+              (reservation.start.isInInterval(startLocal, endLocal) ||
+                  reservation.end.isInInterval(startLocal, endLocal))) {
             results.add(reservation);
           }
         }

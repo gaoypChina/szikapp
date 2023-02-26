@@ -93,7 +93,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             PollCreateEditScreen.page(
               onCreate: (poll) {
                 performFunctionSecurely(
-                    context, () => pollManager.addPoll(poll));
+                    context, () => pollManager.addPoll(poll: poll));
               },
               onUpdate: (_, __) {},
               onDelete: (_, __) {},
@@ -104,11 +104,11 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               onCreate: (_) {},
               onUpdate: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.updatePoll(poll));
+                    context, () => pollManager.updatePoll(poll: poll));
               },
               onDelete: (poll, index) {
                 performFunctionSecurely(
-                    context, () => pollManager.deletePoll(poll));
+                    context, () => pollManager.deletePoll(poll: poll));
               },
             ),
           if (reservationManager.selectedMode == ReservationMode.place)
@@ -125,8 +125,8 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationCreateEditScreen.page(
               manager: reservationManager,
               onCreate: (task) {
-                performFunctionSecurely(
-                    context, () => reservationManager.addReservation(task));
+                performFunctionSecurely(context,
+                    () => reservationManager.addReservation(task: task));
               },
               onUpdate: (_, __) {},
               onDelete: (_, __) {},
@@ -137,12 +137,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
               originalItem: reservationManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (task, index) {
-                performFunctionSecurely(
-                    context, () => reservationManager.updateReservation(task));
+                performFunctionSecurely(context,
+                    () => reservationManager.updateReservation(task: task));
               },
               onDelete: (task, index) {
-                performFunctionSecurely(
-                    context, () => reservationManager.deleteReservation(task));
+                performFunctionSecurely(context,
+                    () => reservationManager.deleteReservation(task: task));
               },
             ),
           if (kitchenCleaningManager.isAdminEditing)
@@ -203,15 +203,15 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     }
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.boardgame) {
-      reservationManager.selectGame(-1);
+      reservationManager.selectGame(index: -1);
     }
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.place) {
-      reservationManager.selectPlace(-1);
+      reservationManager.selectPlace(index: -1);
     }
     if (route.settings.name == SzikAppLink.kReservationDetailsPath &&
         reservationManager.selectedMode == ReservationMode.account) {
-      reservationManager.selectAccount(-1);
+      reservationManager.selectAccount(index: -1);
     }
     if (route.settings.name == SzikAppLink.kKitchenCleaningAdminPath) {
       kitchenCleaningManager.performBackButtonPressed();
@@ -319,47 +319,48 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         appStateManager.initStarting();
         break;
       case SzikAppLink.kHomePath:
-        appStateManager.selectTab(configuration.currentTab ?? SzikAppTab.feed);
+        appStateManager.selectTab(
+            index: configuration.currentTab ?? SzikAppTab.feed);
         break;
       case SzikAppLink.kSubMenuPath:
-        appStateManager
-            .selectSubMenu(configuration.currentSubMenu ?? SzikAppSubMenu.data);
+        appStateManager.selectSubMenu(
+            index: configuration.currentSubMenu ?? SzikAppSubMenu.data);
         break;
       case SzikAppLink.kArticlePath:
-        appStateManager.selectFeature(SzikAppFeature.article);
+        appStateManager.selectFeature(feature: SzikAppFeature.article);
         break;
       case SzikAppLink.kBookRentalPath:
-        appStateManager.selectFeature(SzikAppFeature.bookrental);
+        appStateManager.selectFeature(feature: SzikAppFeature.bookrental);
         break;
       case SzikAppLink.kInvitationPath:
-        appStateManager.selectFeature(SzikAppFeature.invitation);
+        appStateManager.selectFeature(feature: SzikAppFeature.invitation);
         break;
       case SzikAppLink.kCalendarPath:
-        appStateManager.selectFeature(SzikAppFeature.calendar);
+        appStateManager.selectFeature(feature: SzikAppFeature.calendar);
         break;
       case SzikAppLink.kContactsPath:
-        appStateManager.selectFeature(SzikAppFeature.contacts);
+        appStateManager.selectFeature(feature: SzikAppFeature.contacts);
         break;
       case SzikAppLink.kDocumentsPath:
-        appStateManager.selectFeature(SzikAppFeature.documents);
+        appStateManager.selectFeature(feature: SzikAppFeature.documents);
         break;
       case SzikAppLink.kErrorPath:
-        appStateManager.selectFeature(SzikAppFeature.error);
+        appStateManager.selectFeature(feature: SzikAppFeature.error);
         break;
       case SzikAppLink.kJanitorPath:
-        appStateManager.selectFeature(SzikAppFeature.janitor);
+        appStateManager.selectFeature(feature: SzikAppFeature.janitor);
         break;
       case SzikAppLink.kPasswordsPath:
-        appStateManager.selectFeature(SzikAppFeature.passwords);
+        appStateManager.selectFeature(feature: SzikAppFeature.passwords);
         break;
       case SzikAppLink.kProfilePath:
-        appStateManager.selectFeature(SzikAppFeature.profile);
+        appStateManager.selectFeature(feature: SzikAppFeature.profile);
         break;
       case SzikAppLink.kReservationPath:
-        appStateManager.selectFeature(SzikAppFeature.reservation);
+        appStateManager.selectFeature(feature: SzikAppFeature.reservation);
         break;
       case SzikAppLink.kSettingsPath:
-        appStateManager.selectFeature(SzikAppFeature.settings);
+        appStateManager.selectFeature(feature: SzikAppFeature.settings);
         break;
       default:
         break;

@@ -117,12 +117,12 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
     ];
   }
 
-  List<Widget> _buildGridItems(BuildContext context) {
+  List<Widget> _buildGridItems() {
     var items = <Widget>[];
     var user = Provider.of<AuthManager>(context, listen: false).user;
     for (var item in subMenus[widget.selectedSubMenu]) {
       if (user!.hasPermissionToAccess(
-        SzikAppLink(currentFeature: item.feature),
+        link: SzikAppLink(currentFeature: item.feature),
       )) {
         items.add(SubMenuItem(data: item));
       }
@@ -153,7 +153,7 @@ class _SubMenuScreenState extends State<SubMenuScreen> {
             crossAxisCount: 2,
             crossAxisSpacing: kPaddingNormal,
             mainAxisSpacing: kPaddingNormal,
-            children: _buildGridItems(context),
+            children: _buildGridItems(),
           ),
         ),
       ),

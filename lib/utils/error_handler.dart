@@ -11,7 +11,7 @@ class ErrorInformation {
   late String errorMessage;
   late String errorSolution;
 
-  ErrorInformation.fromCode(this.errorCode) {
+  ErrorInformation.fromCode({required this.errorCode}) {
     if (errorCode > 100 && errorCode < 600) {
       errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
       errorSolution = 'ERROR_HTTP_SOLUTION'.tr();
@@ -47,7 +47,7 @@ class ErrorInformation {
       errorSolution = 'ERROR_UNKNOWN_CODE_SOLUTION'.tr();
     }
   }
-  ErrorInformation.fromException(BaseException exception) {
+  ErrorInformation.fromException({required BaseException exception}) {
     switch (exception.runtimeType) {
       case IOConflictException:
         errorCode = exception.code;
@@ -80,7 +80,7 @@ class ErrorInformation {
     }
   }
   factory ErrorInformation.unknown() {
-    return ErrorInformation.fromCode(unknownExceptionCode);
+    return ErrorInformation.fromCode(errorCode: unknownExceptionCode);
   }
 }
 
@@ -93,45 +93,51 @@ class ErrorHandler {
   }) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
-      errorInformation = ErrorInformation.fromCode(errorCode);
+      errorInformation = ErrorInformation.fromCode(errorCode: errorCode);
     } else if (exception != null) {
-      errorInformation = ErrorInformation.fromException(exception);
+      errorInformation = ErrorInformation.fromException(exception: exception);
     } else if (information != null) {
       errorInformation = information;
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildBanner(context, errorInformation);
+    return _buildBanner(context, errorInformation: errorInformation);
   }
 
-  static SnackBar buildSnackbar(BuildContext context,
-      {int? errorCode, BaseException? exception}) {
+  static SnackBar buildSnackbar(
+    BuildContext context, {
+    int? errorCode,
+    BaseException? exception,
+  }) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
-      errorInformation = ErrorInformation.fromCode(errorCode);
+      errorInformation = ErrorInformation.fromCode(errorCode: errorCode);
     } else if (exception != null) {
-      errorInformation = ErrorInformation.fromException(exception);
+      errorInformation = ErrorInformation.fromException(exception: exception);
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildSnackBar(context, errorInformation);
+    return _buildSnackBar(context, errorInformation: errorInformation);
   }
 
-  static Widget buildInset(BuildContext context,
-      {int? errorCode, BaseException? exception}) {
+  static Widget buildInset(
+    BuildContext context, {
+    int? errorCode,
+    BaseException? exception,
+  }) {
     ErrorInformation errorInformation;
     if (errorCode != null) {
-      errorInformation = ErrorInformation.fromCode(errorCode);
+      errorInformation = ErrorInformation.fromCode(errorCode: errorCode);
     } else if (exception != null) {
-      errorInformation = ErrorInformation.fromException(exception);
+      errorInformation = ErrorInformation.fromException(exception: exception);
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildInset(context, errorInformation);
+    return _buildInset(context, errorInformation: errorInformation);
   }
 
-  static Widget _buildInset(
-      BuildContext context, ErrorInformation errorInformation) {
+  static Widget _buildInset(BuildContext context,
+      {required ErrorInformation errorInformation}) {
     var theme = Theme.of(context);
     return Container(
       key: const Key('ErrorBanner'),
@@ -211,8 +217,8 @@ class ErrorHandler {
     );
   }
 
-  static MaterialBanner _buildBanner(
-      BuildContext context, ErrorInformation errorInformation) {
+  static MaterialBanner _buildBanner(BuildContext context,
+      {required ErrorInformation errorInformation}) {
     return MaterialBanner(
       content: Text(errorInformation.errorMessage),
       actions: [
@@ -225,8 +231,8 @@ class ErrorHandler {
     );
   }
 
-  static SnackBar _buildSnackBar(
-      BuildContext context, ErrorInformation errorInformation) {
+  static SnackBar _buildSnackBar(BuildContext context,
+      {required ErrorInformation errorInformation}) {
     return SnackBar(
       content: Text(errorInformation.errorMessage),
       behavior: SnackBarBehavior.floating,

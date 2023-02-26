@@ -202,7 +202,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
             showDialog(
               context: context,
               builder: (BuildContext context) =>
-                  _buildReportDialog(reportableItem),
+                  _buildReportDialog(reportableItem: reportableItem),
             );
           }
         },
@@ -274,7 +274,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     );
   }
 
-  Widget _buildReportDialog(CleaningTask reportableItem) {
+  Widget _buildReportDialog({required CleaningTask reportableItem}) {
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_REPORT_TITLE'.tr(),
       bodytext: 'CLEANING_DIALOG_REPORT_TEXT'.tr(args: [
@@ -284,7 +284,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
-        await widget.manager.reportInsufficiency(reportableItem);
+        await widget.manager.reportInsufficiency(task: reportableItem);
         setState(() {});
       },
     );

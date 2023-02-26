@@ -64,7 +64,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         isLive: true,
       );
 
-      await widget.manager.createCleaningPeriod(newPeriod);
+      await widget.manager.createCleaningPeriod(period: newPeriod);
       await widget.manager.refreshPeriods();
       SzikAppState.analytics.logEvent(name: 'cleaning_add_period');
       setState(() {
@@ -82,7 +82,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       _openPeriod.start = _startDate;
       _openPeriod.end = _endDate;
       _openPeriod.lastUpdate = DateTime.now();
-      await widget.manager.editCleaningPeriod(_openPeriod);
+      await widget.manager.editCleaningPeriod(period: _openPeriod);
       await widget.manager.refreshPeriods();
       SzikAppState.analytics.logEvent(name: 'cleaning_edit_period');
       setState(() {

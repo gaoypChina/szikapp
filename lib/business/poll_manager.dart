@@ -48,7 +48,7 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editPoll(int index) {
+  void editPoll({required int index}) {
     _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = true;
@@ -57,7 +57,7 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void vote(int index) {
+  void vote({required int index}) {
     _selectedIndex = index;
     _createNewPoll = false;
     _editPoll = false;
@@ -67,7 +67,7 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedPollTask(String id) {
+  void setSelectedPollTask({required String id}) {
     final index = _polls.indexWhere((poll) => poll.id == id);
     _createNewPoll = false;
     _editPoll = true;
@@ -77,7 +77,7 @@ class PollManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void viewPollResults(int index) {
+  void viewPollResults({required int index}) {
     _createNewPoll = false;
     _editPoll = false;
     _vote = false;
@@ -106,9 +106,9 @@ class PollManager extends ChangeNotifier {
 
   ///Új szavazás hozzáadása. A függvény feltölti a szerverre az új szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is hozzáadja a listához.
-  Future<bool> addPoll(PollTask poll) async {
+  Future<bool> addPoll({required PollTask poll}) async {
     var io = IO();
-    await io.postPoll(poll);
+    await io.postPoll(data: poll);
 
     _polls.add(poll);
     _createNewPoll = false;
@@ -123,10 +123,10 @@ class PollManager extends ChangeNotifier {
   ///Szavazás szerkesztése. A függvény feltölti a szerverre a módosított
   ///szavazást, ha a művelet hiba nélkül befejeződik, lokálisan is módosítja
   ///a listán.
-  Future<bool> updatePoll(PollTask poll) async {
+  Future<bool> updatePoll({required PollTask poll}) async {
     var io = IO();
     var parameter = {'id': poll.id};
-    await io.patchPoll(poll, parameter);
+    await io.patchPoll(data: poll, parameters: parameter);
 
     _polls.removeWhere((element) => element.id == poll.id);
     _polls.add(poll);
@@ -140,12 +140,12 @@ class PollManager extends ChangeNotifier {
 
   ///Szavazás törlése. A függvény törli a szerverről a szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
-  Future<bool> deletePoll(PollTask poll) async {
+  Future<bool> deletePoll({required PollTask poll}) async {
     if (!_polls.any((element) => element.id == poll.id)) return false;
 
     var io = IO();
     var parameter = {'id': poll.id};
-    await io.deletePoll(parameter, poll.lastUpdate);
+    await io.deletePoll(parameters: parameter, lastUpdate: poll.lastUpdate);
 
     _polls.remove(poll);
     _createNewPoll = false;
@@ -159,12 +159,12 @@ class PollManager extends ChangeNotifier {
 
   ///Szavazat leadása. A függvény leadja a felhasználó szavazatát a megadott
   ///szavazáson. Ha a szerveren sikeres a változtatás, lokálisan is megteszi.
-  Future<bool> addVote(Vote vote, PollTask poll) async {
+  Future<bool> addVote({required Vote vote, required PollTask poll}) async {
     if (poll.answers.contains(vote)) return false;
 
     var io = IO();
-    var param = {'id': poll.id};
-    await io.putPoll(vote, param);
+    var parameter = {'id': poll.id};
+    await io.putPoll(data: vote, parameters: parameter);
 
     poll.answers.add(vote);
     _createNewPoll = false;
@@ -177,10 +177,7 @@ class PollManager extends ChangeNotifier {
 
   /// Szavazás eredményeinek megtekintése. Összegzi és megjeleníthető formába
   /// hozza a szavazás eredményeit.
-  Json getResults({
-    required PollTask poll,
-    required List<Group> groups,
-  }) {
+  Json getResults({required PollTask poll, required List<Group> groups}) {
     var voters = <String>{};
     var results = <String, dynamic>{
       'allVoteCount': 0,
@@ -253,7 +250,7 @@ class PollManager extends ChangeNotifier {
 
     try {
       var io = IO();
-      _polls = await io.getPoll(parameter);
+      _polls = await io.getPoll(parameters: parameter);
     } on IONotModifiedException {
       _polls = [];
     }

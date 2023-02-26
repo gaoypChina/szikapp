@@ -7,10 +7,7 @@ import 'components.dart';
 class NotificationCard extends StatelessWidget {
   final CustomNotification data;
 
-  const NotificationCard({
-    super.key,
-    required this.data,
-  });
+  const NotificationCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

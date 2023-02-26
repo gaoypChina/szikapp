@@ -19,7 +19,7 @@ PreferredSizeWidget buildCustomAppBar({
 
   void onTrailingPressed() {
     Provider.of<SzikAppStateManager>(context, listen: false)
-        .selectFeature(SzikAppFeature.profile);
+        .selectFeature(feature: SzikAppFeature.profile);
   }
 
   var profilePicture =
@@ -28,7 +28,7 @@ PreferredSizeWidget buildCustomAppBar({
   return AppBar(
     elevation: elevation,
     centerTitle: true,
-    shape: const CurveShapeBorder(kCurveHeight),
+    shape: const CurveShapeBorder(curveHeight: kCurveHeight),
     backgroundColor: theme.colorScheme.primary,
     title: Text(
       appBarTitle.toUpperCase(),

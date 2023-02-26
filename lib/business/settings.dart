@@ -138,7 +138,7 @@ class Settings extends ChangeNotifier {
 
   ///Feltölti a felhasználó preferenciáit a szerverre.
   Future<bool> savePreferences() async {
-    var prefs = Preferences(lastUpdate: DateTime.now())
+    var preferences = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
       ..theme = theme
@@ -146,7 +146,7 @@ class Settings extends ChangeNotifier {
       ..notifications = notificationSettings
       ..feedShortcuts = feedShortcuts;
     var io = IO();
-    await io.putUserPreferences(prefs);
+    await io.putUserPreferences(data: preferences);
     return true;
   }
 

@@ -25,7 +25,8 @@ class JanitorScreen extends StatelessWidget {
       body: FeatureLinkPage(
         icon: CustomIcons.wrench,
         urls: const [
-          'https://docs.google.com/spreadsheets/d/1v-g9gMaGB9En4YVNiWaa-cnYq5ehp-HMM_iDwNlrln0/edit'
+          'https://docs.google.com/spreadsheets/d/1v-g9gMaGB9En4YVNiWaa'
+              '-cnYq5ehp-HMM_iDwNlrln0/edit'
         ],
         urlTexts: ['JANITOR_TITLE_SPREADSHEET'.tr()],
         description: Text(

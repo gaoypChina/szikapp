@@ -16,7 +16,7 @@ class SearchBar extends StatefulWidget {
     this.validator,
     this.filter,
     required this.placeholder,
-    this.searchBarIconSize = 30.0,
+    this.searchBarIconSize = kSearchBarIconSize,
   });
 
   @override

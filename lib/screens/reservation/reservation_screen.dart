@@ -35,18 +35,18 @@ class ReservationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ModeMenuItem(
-              onTap: () => manager.selectMode(ReservationMode.place),
+              onTap: () => manager.selectMode(mode: ReservationMode.place),
               leadingAssetPath: CustomIcons.armchair,
               title: 'RESERVATION_MODE_PLACE'.tr(),
             ),
             ModeMenuItem(
-              onTap: () => manager.selectMode(ReservationMode.account),
+              onTap: () => manager.selectMode(mode: ReservationMode.account),
               leadingAssetPath: CustomIcons.chalkboard,
               title: 'RESERVATION_MODE_ACCOUNT'.tr(),
               color: theme.colorScheme.primary,
             ),
             ModeMenuItem(
-              onTap: () => manager.selectMode(ReservationMode.boardgame),
+              onTap: () => manager.selectMode(mode: ReservationMode.boardgame),
               leadingAssetPath: CustomIcons.dice,
               title: 'RESERVATION_MODE_BOARDGAME'.tr(),
               color: theme.colorScheme.primaryContainer,

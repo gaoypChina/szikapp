@@ -77,7 +77,7 @@ class ReservationGamesList extends StatelessWidget {
                         onTap: () => Provider.of<ReservationManager>(context,
                                 listen: false)
                             .selectGame(
-                          manager.games.indexOf(game),
+                          index: manager.games.indexOf(game),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(kPaddingNormal),
