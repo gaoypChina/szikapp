@@ -21,7 +21,7 @@ dependencies:
   firebase_dynamic_links: ^5.0.11
   firebase_performance: ^0.9.0+10
   flutter_signin_button: ^2.0.0
-  google_sign_in: ^5.4.3
+  google_sign_in: ^6.0.1
   http: ^0.13.5
   json_annotation: ^4.8.0
   provider: ^6.0.5
