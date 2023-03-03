@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import '../utils/utils.dart';
 import 'models.dart';
 
-part 'cleaning_period.g.dart';
+part 'cleaning_administration.g.dart';
 
 ///Konyhatakarítás periódus adatmodell osztály. Takarítások [CleaningTask]
 ///összefüggő időszakát reprezentálja. Szerializálható `JSON` formátumba és
@@ -31,4 +31,26 @@ class CleaningPeriod implements Identifiable, Cachable {
   Json toJson() => _$CleaningPeriodToJson(this);
 
   factory CleaningPeriod.fromJson(Json json) => _$CleaningPeriodFromJson(json);
+}
+
+@JsonSerializable()
+class CleaningParticipants implements Cachable {
+  @JsonKey(name: 'group_ids')
+  List<String> groupIDs;
+  @JsonKey(name: 'black_list')
+  List<String> blackList;
+  @override
+  @JsonKey(name: 'last_update')
+  DateTime lastUpdate;
+
+  CleaningParticipants({
+    required this.groupIDs,
+    required this.blackList,
+    required this.lastUpdate,
+  });
+
+  Json toJson() => _$CleaningParticipantsToJson(this);
+
+  factory CleaningParticipants.fromJson(Json json) =>
+      _$CleaningParticipantsFromJson(json);
 }

@@ -1,8 +1,8 @@
 ///SzikApp - collection of data models
 library models;
 
+export 'cleaning_administration.dart';
 export 'cleaning_exchange.dart';
-export 'cleaning_period.dart';
 export 'goodtoknow.dart';
 export 'group.dart';
 export 'interfaces.dart';
