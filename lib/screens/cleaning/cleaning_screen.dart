@@ -40,6 +40,7 @@ class CleaningScreen extends StatelessWidget {
     await manager.refreshPeriods();
     await manager.refreshTasks();
     await manager.refreshExchanges(status: TaskStatus.created);
+    await manager.refreshCleaningParticipants();
   }
 }
 

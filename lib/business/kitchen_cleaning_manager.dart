@@ -6,11 +6,11 @@ import '../utils/utils.dart';
 ///Konyhatakarítás funkció logikai működését megvalósító singleton
 ///háttérosztály.
 class KitchenCleaningManager extends ChangeNotifier {
-  ///Csoport, aminek a konyhatakát végeznie kell
-  static const String cleaningGroupEmail = 'lakok@szentignac.hu';
+  ///Csoportok, aminek a konyhatakát végeznie kell
+  List<String> _participantGroupIDs = [];
 
   ///Csoporttagok, akik nem vesznek részt a konyhatakában
-  static const List<String> cleaningUserBlackList = ['u900', 'u901'];
+  List<String> _participantBlackList = [];
 
   ///Konyhatakarítási feladatok listája
   List<CleaningTask> _cleaningTasks = [];
@@ -33,6 +33,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Privát kontruktor, ami inicializálja a [cleaningPeriods] paramétert.
   KitchenCleaningManager._privateConstructor();
 
+  List<String> get participantGroupIDs =>
+      List.unmodifiable(_participantGroupIDs);
+  List<String> get participantBlackList =>
+      List.unmodifiable(_participantBlackList);
   List<CleaningTask> get tasks => List.unmodifiable(_cleaningTasks);
   List<CleaningExchange> get exchanges => List.unmodifiable(_cleaningExchanges);
   List<CleaningPeriod> get periods => List.unmodifiable(_cleaningPeriods);
@@ -162,6 +166,18 @@ class KitchenCleaningManager extends ChangeNotifier {
       _cleaningPeriods = await io.getCleaningPeriod(parameter);
     } on IONotModifiedException {
       _cleaningPeriods = [];
+    }
+  }
+
+  Future<void> refreshCleaningParticipants() async {
+    try {
+      var io = IO();
+      var participantData = await io.getCleaningParticipants();
+      _participantBlackList = participantData.blackList;
+      _participantGroupIDs = participantData.groupIDs;
+    } on IOException {
+      _participantBlackList = [];
+      _participantGroupIDs = [];
     }
   }
 
