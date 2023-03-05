@@ -27,6 +27,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   bool _hasOpenPeriod = false;
   late CleaningPeriod _openPeriod;
   late CleaningPeriod _activePeriod;
+  List<String> _memberIDs = [];
 
   @override
   void initState() {
@@ -39,6 +40,16 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         ? _openPeriod.end
         : _startDate.add(const Duration(days: 31));
     _activePeriod = widget.manager.getCurrentPeriod();
+    Provider.of<SzikAppStateManager>(context, listen: false)
+        .groups
+        .where((group) => widget.manager.participantGroupIDs.contains(group.id))
+        .forEach((group) {
+      _memberIDs.addAll(group.memberIDs);
+    });
+    _memberIDs = _memberIDs.toSet().toList();
+    _memberIDs.removeWhere(
+      (memberID) => widget.manager.participantBlackList.contains(memberID),
+    );
   }
 
   void _onStartChanged(DateTime newDate) {
@@ -109,15 +120,6 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var memberIDs = Provider.of<SzikAppStateManager>(context, listen: false)
-        .groups
-        .firstWhere(
-            (group) => group.email == KitchenCleaningManager.cleaningGroupEmail)
-        .memberIDs;
-    memberIDs.removeWhere(
-      (memberID) =>
-          KitchenCleaningManager.cleaningUserBlackList.contains(memberID),
-    );
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -211,7 +213,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     ),
                     Text(
-                      memberIDs.length.toString(),
+                      _memberIDs.length.toString(),
                       style: theme.textTheme.displaySmall,
                     )
                   ],

@@ -38,6 +38,7 @@ class IO {
   final _cleaningEndpoint = '/cleaning';
   final _cleaningExchangeEndpoint = '/cleaning/exchange';
   final _cleaningAssignEndpoint = '/cleaning/assign';
+  final _cleaningParticipantsEndpoint = '/cleaning/participants';
   final _contactsEndpoint = '/contacts';
   final _goodToKnowEndpoint = '/goodtoknow';
   final _groupEndpoint = '/group';
@@ -661,6 +662,20 @@ class IO {
         body: json.encode({'data': data.toJson()}));
 
     if (response.statusCode != 200) throw _handleErrors(response);
+  }
+
+  Future<CleaningParticipants> getCleaningParticipants(
+      {KeyValuePairs? parameters}) async {
+    var uri = '$_vmAddress$_cleaningParticipantsEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.get(Uri.parse(uri, 0, uri.length - 1),
+        headers: {...await _commonHeaders()});
+
+    if (response.statusCode == 200) {
+      var parsed = json.decode(utf8.decode(response.bodyBytes));
+      return CleaningParticipants.fromJson(parsed['results']);
+    }
+    throw _handleErrors(response);
   }
 
   ///Automatikusan beosztja a takarítókat a következő periódusra.
