@@ -121,7 +121,7 @@ class ErrorHandler {
   }
 
   static Widget buildInset(
-    BuildContext context, {
+    {BuildContext context,
     int? errorCode,
     BaseException? exception,
   }) {
