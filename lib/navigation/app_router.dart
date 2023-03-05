@@ -41,7 +41,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         if (appStateManager.hasError) ...[
           ErrorScreen.page(
             errorInset: ErrorHandler.buildInset(
-              context,
+              context: context,
               errorCode: appStateManager.error?.code,
             ),
           )
@@ -374,11 +374,12 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     try {
       await callback();
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } on SocketException {
-      var snackbar =
-          ErrorHandler.buildSnackbar(context, errorCode: socketExceptionCode);
+      var snackbar = ErrorHandler.buildSnackbar(
+          context: context, errorCode: socketExceptionCode);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }

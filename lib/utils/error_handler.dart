@@ -85,8 +85,8 @@ class ErrorInformation {
 }
 
 class ErrorHandler {
-  static MaterialBanner buildBanner(
-    BuildContext context, {
+  static MaterialBanner buildBanner({
+    required BuildContext context,
     int? errorCode,
     BaseException? exception,
     ErrorInformation? information,
@@ -101,11 +101,11 @@ class ErrorHandler {
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildBanner(context, errorInformation: errorInformation);
+    return _buildBanner(context: context, errorInformation: errorInformation);
   }
 
-  static SnackBar buildSnackbar(
-    BuildContext context, {
+  static SnackBar buildSnackbar({
+    required BuildContext context,
     int? errorCode,
     BaseException? exception,
   }) {
@@ -117,11 +117,11 @@ class ErrorHandler {
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildSnackBar(context, errorInformation: errorInformation);
+    return _buildSnackBar(context: context, errorInformation: errorInformation);
   }
 
-  static Widget buildInset(
-    {BuildContext context,
+  static Widget buildInset({
+    required BuildContext context,
     int? errorCode,
     BaseException? exception,
   }) {
@@ -133,11 +133,12 @@ class ErrorHandler {
     } else {
       errorInformation = ErrorInformation.unknown();
     }
-    return _buildInset(context, errorInformation: errorInformation);
+    return _buildInset(context: context, errorInformation: errorInformation);
   }
 
-  static Widget _buildInset(BuildContext context,
-      {required ErrorInformation errorInformation}) {
+  static Widget _buildInset(
+      {required BuildContext context,
+      required ErrorInformation errorInformation}) {
     var theme = Theme.of(context);
     return Container(
       key: const Key('ErrorBanner'),
@@ -217,8 +218,9 @@ class ErrorHandler {
     );
   }
 
-  static MaterialBanner _buildBanner(BuildContext context,
-      {required ErrorInformation errorInformation}) {
+  static MaterialBanner _buildBanner(
+      {required BuildContext context,
+      required ErrorInformation errorInformation}) {
     return MaterialBanner(
       content: Text(errorInformation.errorMessage),
       actions: [
@@ -231,8 +233,9 @@ class ErrorHandler {
     );
   }
 
-  static SnackBar _buildSnackBar(BuildContext context,
-      {required ErrorInformation errorInformation}) {
+  static SnackBar _buildSnackBar(
+      {required BuildContext context,
+      required ErrorInformation errorInformation}) {
     return SnackBar(
       content: Text(errorInformation.errorMessage),
       behavior: SnackBarBehavior.floating,

@@ -95,7 +95,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAlreadyApplied = true;
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -111,7 +112,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAlreadyApplied = false;
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }

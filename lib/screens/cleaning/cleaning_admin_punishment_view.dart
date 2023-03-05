@@ -48,7 +48,8 @@ class _CleaningAdminPunishmentViewState
             .toList();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -69,7 +70,8 @@ class _CleaningAdminPunishmentViewState
             .toList();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }

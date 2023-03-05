@@ -30,7 +30,7 @@ class CustomFutureBuilder<T> extends StatelessWidget {
           if (SzikAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
               errorInset: ErrorHandler.buildInset(
-                context,
+                context: context,
                 errorCode: noConnectionExceptionCode,
               ),
             );

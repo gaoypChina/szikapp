@@ -83,7 +83,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         _openPeriod = widget.manager.getOpenPeriod();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -101,7 +102,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
         _openPeriod = widget.manager.getOpenPeriod();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -111,8 +113,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       await widget.manager.autoAssignTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_assign_automatically');
     } on InformationException catch (exception) {
-      var snackbar =
-          ErrorHandler.buildSnackbar(context, errorCode: exception.code);
+      var snackbar = ErrorHandler.buildSnackbar(
+          context: context, errorCode: exception.code);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
