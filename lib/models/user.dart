@@ -116,11 +116,11 @@ class User implements Identifiable, Cachable {
     permissions = await io.getUserPermissions();
   }
 
-  bool hasPermission(Permission permission) {
+  bool hasPermission({required Permission permission}) {
     return permissions.any((element) => element == permission);
   }
 
-  bool hasPermissionToAccess(SzikAppLink link) {
+  bool hasPermissionToAccess({required SzikAppLink link}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
@@ -128,7 +128,7 @@ class User implements Identifiable, Cachable {
         permission.index == featurePermissions[link.currentFeature]?.index);
   }
 
-  bool hasPermissionToCreate(Type type) {
+  bool hasPermissionToCreate({required Type type}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
@@ -142,7 +142,7 @@ class User implements Identifiable, Cachable {
     }
   }
 
-  bool hasPermissionToRead(Task task) {
+  bool hasPermissionToRead({required Task task}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
@@ -154,7 +154,7 @@ class User implements Identifiable, Cachable {
     }
   }
 
-  bool hasPermissionToModify(Task task) {
+  bool hasPermissionToModify({required Task task}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }

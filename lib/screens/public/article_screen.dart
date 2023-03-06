@@ -20,7 +20,7 @@ class ArticleScreen extends StatelessWidget {
     );
   }
 
-  const ArticleScreen({super.key});
+  const ArticleScreen({super.key = const Key('ArticleScreen')});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ArticleScreen extends StatelessWidget {
           if (SzikAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
               errorInset: ErrorHandler.buildInset(
-                context,
+                context: context,
                 errorCode: noConnectionExceptionCode,
               ),
             );

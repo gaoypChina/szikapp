@@ -11,6 +11,9 @@ class ContactsManager {
   List<User> _contacts = [];
   List<Group> _groups = [];
 
+  static const String collegeMembersGroupID = 'g100';
+  static const String tenantsGroupID = 'g106';
+
   ///Singleton osztálypéldány
   static final ContactsManager _instance =
       ContactsManager._privateConstructor();
@@ -33,7 +36,7 @@ class ContactsManager {
   ///Keresés. A függvény a megadott szöveg alapján keres egyezéseket a
   ///kontaktlista név, ímélcím, telefonszám, születésnap mezőiben. Ha a
   ///megadott keresőkifejezés üres, a teljes listával tér vissza.
-  List<User> search(String text) {
+  List<User> search({required String text}) {
     if (text == '') {
       return contacts;
     } else {
@@ -65,7 +68,7 @@ class ContactsManager {
   ///Keresés a csoportok között. A függvény a megadott szöveg alapján keres
   ///egyezéseket a csoportlista név és ímélcím mezőiben.
   ///Ha a megadott keresőkifejezés üres, a teljes listával tér vissza.
-  List<Group> findGroup(String text) {
+  List<Group> findGroup({required String text}) {
     if (text == '') {
       return groups;
     } else {
@@ -84,7 +87,7 @@ class ContactsManager {
 
   ///Szűrés. A függvény a megadott csoport azonosító alapján visszaadja a
   ///csoport tagjait. Ha az azonosító üres, a teljes listával tér vissza.
-  List<User> findMembers(List<String?> groupIDs) {
+  List<User> findMembers({required List<String?> groupIDs}) {
     if (groupIDs.isEmpty) {
       return contacts;
     } else {
@@ -100,7 +103,7 @@ class ContactsManager {
 
   ///Hívásindítás. A függvény a megadott számot átviszi a telefon tárcsázójába,
   ///ahonnan a szám már gombnyomásra hívható.
-  Future<void> makePhoneCall(String phoneNumber) async {
+  Future<void> makePhoneCall({required String phoneNumber}) async {
     var url = 'tel:$phoneNumber';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
@@ -111,8 +114,8 @@ class ContactsManager {
 
   ///Ímél írása. A függvény a megadott címmel elindítja a telefonon
   ///alapértelmezett levelező klienst.
-  Future<void> makeEmail(String emailAddress) async {
-    var url = 'mailto:$emailAddress';
+  Future<void> makeEmail({required String address}) async {
+    var url = 'mailto:$address';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {

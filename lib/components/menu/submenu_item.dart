@@ -19,10 +19,7 @@ class SubMenuItemData {
 class SubMenuItem extends StatelessWidget {
   final SubMenuItemData data;
 
-  const SubMenuItem({
-    super.key,
-    required this.data,
-  });
+  const SubMenuItem({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +27,7 @@ class SubMenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Provider.of<SzikAppStateManager>(context, listen: false)
-            .selectFeature(data.feature);
+            .selectFeature(feature: data.feature);
       },
       child: Container(
         width: double.infinity,

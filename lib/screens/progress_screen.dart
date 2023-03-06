@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ProgressScreen extends StatefulWidget {
-  const ProgressScreen({super.key});
+  const ProgressScreen({super.key = const Key('ProgressScreen')});
 
   @override
   ProgressScreenState createState() => ProgressScreenState();

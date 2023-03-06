@@ -36,13 +36,13 @@ class Group implements Identifiable, Cachable {
 
   String get initials => name.substring(0, 2);
 
-  void addMember(String userID) {
+  void addMember({required String userID}) {
     if (!memberIDs.contains(userID) && memberIDs.length < maxMemberCount) {
       memberIDs.add(userID);
     }
   }
 
-  void removeMember(String userID) {
+  void removeMember({required String userID}) {
     if (memberIDs.contains(userID)) {
       memberIDs.remove(userID);
     }

@@ -31,7 +31,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   DateTime? birthday;
   String? phone;
 
-  String buildGroupNamesFromIDs(List<String>? ids) {
+  String buildGroupNamesFromIDs({List<String>? ids}) {
     var result = '';
     if (ids == null || ids.isEmpty) return result;
     var groups = Provider.of<SzikAppStateManager>(context).groups;
@@ -154,8 +154,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var userCanModify =
-        widget.manager.user?.hasPermission(Permission.profileEdit) ?? false;
+    var userCanModify = widget.manager.user
+            ?.hasPermission(permission: Permission.profileEdit) ??
+        false;
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'PROFILE_TITLE'.tr(),
@@ -238,7 +239,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                   ProfileTextField(
                     label: 'PROFILE_GROUPS'.tr(),
                     initialValue: buildGroupNamesFromIDs(
-                      widget.manager.user?.groupIDs,
+                      ids: widget.manager.user?.groupIDs,
                     ),
                     readOnly: true,
                   ),

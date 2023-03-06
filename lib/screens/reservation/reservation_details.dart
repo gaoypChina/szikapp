@@ -87,7 +87,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   }
 
   void _onDateChanged(DateTime date) {
-    widget.manager.selectDate(date);
+    widget.manager.selectDate(date: date);
     setState(() {
       _currentDate = date;
     });
@@ -96,35 +96,39 @@ class _ReservationDetailsState extends State<ReservationDetails> {
   void _onCreateTask() {
     SzikAppState.analytics.logEvent(name: 'reservation_open_create');
     if (_selectedMode == ReservationMode.place) {
-      widget.manager
-          .createNewPlaceReservation(widget.manager.selectedPlaceIndex);
+      widget.manager.createNewPlaceReservation(
+        placeIndex: widget.manager.selectedPlaceIndex,
+      );
     } else if (_selectedMode == ReservationMode.boardgame) {
-      widget.manager.createNewGameReservation(widget.manager.selectedGameIndex);
+      widget.manager.createNewGameReservation(
+        gameIndex: widget.manager.selectedGameIndex,
+      );
     } else {
-      widget.manager
-          .createNewAccountReservation(widget.manager.selectedAccountIndex);
+      widget.manager.createNewAccountReservation(
+        accountIndex: widget.manager.selectedAccountIndex,
+      );
     }
   }
 
   void _onEditTask(int reservationIndex) {
     SzikAppState.analytics.logEvent(name: 'reservation_open_edit');
     widget.manager.setSelectedReservationTask(
-      widget.manager.reservations[reservationIndex].id,
+      id: widget.manager.reservations[reservationIndex].id,
     );
     if (_selectedMode == ReservationMode.place) {
       widget.manager.editPlaceReservation(
-        widget.manager.selectedIndex,
-        widget.manager.selectedPlaceIndex,
+        index: widget.manager.selectedIndex,
+        placeIndex: widget.manager.selectedPlaceIndex,
       );
     } else if (_selectedMode == ReservationMode.boardgame) {
       widget.manager.editGameReservation(
-        widget.manager.selectedIndex,
-        widget.manager.selectedGameIndex,
+        index: widget.manager.selectedIndex,
+        gameIndex: widget.manager.selectedGameIndex,
       );
     } else {
       widget.manager.editAccountReservation(
-        widget.manager.selectedIndex,
-        widget.manager.selectedAccountIndex,
+        index: widget.manager.selectedIndex,
+        accountIndex: widget.manager.selectedAccountIndex,
       );
     }
   }
@@ -134,7 +138,11 @@ class _ReservationDetailsState extends State<ReservationDetails> {
     return Positioned.fill(
       child: Stack(
         children: widget.manager
-            .filter(_currentDateStart, _currentDateEnd, [_resourceID])
+            .filter(
+              start: _currentDateStart,
+              end: _currentDateEnd,
+              resourceIDs: [_resourceID],
+            )
             .map(
               (reservation) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +159,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                         onTap: () =>
                             Provider.of<AuthManager>(context, listen: false)
                                     .user!
-                                    .hasPermissionToModify(reservation)
+                                    .hasPermissionToModify(task: reservation)
                                 ? _onEditTask(
                                     Provider.of<ReservationManager>(
                                       context,

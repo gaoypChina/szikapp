@@ -41,21 +41,23 @@ class MenuScreen extends StatelessWidget {
           CustomMenuItem(
             name: 'ARTICLE_TITLE'.tr(),
             picture: CustomIcons.article,
-            onTap: () => appStateManager.selectFeature(SzikAppFeature.article),
+            onTap: () =>
+                appStateManager.selectFeature(feature: SzikAppFeature.article),
             height: fifth,
             reversed: true,
           ),
           CustomMenuItem(
             name: 'INVITATION_TITLE'.tr(),
             picture: CustomIcons.envelope,
-            onTap: () =>
-                appStateManager.selectFeature(SzikAppFeature.invitation),
+            onTap: () => appStateManager.selectFeature(
+                feature: SzikAppFeature.invitation),
             height: fifth,
           ),
           CustomMenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: CustomIcons.settings,
-            onTap: () => appStateManager.selectFeature(SzikAppFeature.settings),
+            onTap: () =>
+                appStateManager.selectFeature(feature: SzikAppFeature.settings),
             height: fifth,
             reversed: true,
           ),
@@ -83,7 +85,8 @@ class MenuScreen extends StatelessWidget {
           CustomMenuItem(
             name: 'SUBMENU_DATA_TITLE'.tr(),
             picture: CustomIcons.bookOpen,
-            onTap: () => appStateManager.selectSubMenu(SzikAppSubMenu.data),
+            onTap: () =>
+                appStateManager.selectSubMenu(index: SzikAppSubMenu.data),
             height: fifth,
             reversed: true,
           ),
@@ -91,32 +94,37 @@ class MenuScreen extends StatelessWidget {
             name: 'SUBMENU_COMMUNITY_TITLE'.tr(),
             picture: CustomIcons.smiley,
             onTap: () =>
-                appStateManager.selectSubMenu(SzikAppSubMenu.community),
+                appStateManager.selectSubMenu(index: SzikAppSubMenu.community),
             height: fifth,
           ),
           CustomMenuItem(
             name: 'SUBMENU_EVERYDAY_TITLE'.tr(),
             picture: CustomIcons.house,
-            onTap: () => appStateManager.selectSubMenu(SzikAppSubMenu.everyday),
+            onTap: () =>
+                appStateManager.selectSubMenu(index: SzikAppSubMenu.everyday),
             height: fifth,
             reversed: true,
           ),
           if (Provider.of<AuthManager>(context, listen: false)
                   .user
                   ?.hasPermissionToAccess(
-                      SzikAppLink(currentFeature: SzikAppFeature.calendar)) ??
+                    link: SzikAppLink(
+                      currentFeature: SzikAppFeature.calendar,
+                    ),
+                  ) ??
               false)
             CustomMenuItem(
               name: 'MENU_CALENDAR'.tr(),
               picture: CustomIcons.calendar,
-              onTap: () =>
-                  appStateManager.selectFeature(SzikAppFeature.calendar),
+              onTap: () => appStateManager.selectFeature(
+                  feature: SzikAppFeature.calendar),
               height: fifth,
             ),
           CustomMenuItem(
             name: 'MENU_SETTINGS'.tr(),
             picture: CustomIcons.settings,
-            onTap: () => appStateManager.selectFeature(SzikAppFeature.settings),
+            onTap: () =>
+                appStateManager.selectFeature(feature: SzikAppFeature.settings),
             height: fifth,
             reversed: true,
           ),

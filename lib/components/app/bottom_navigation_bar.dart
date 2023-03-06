@@ -15,11 +15,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required this.selectedTab,
   });
 
-  Color _getSelectionColor(
-    int selectedTab,
-    int currentIndex,
-    Color defaultColor,
-  ) {
+  Color _getSelectionColor({
+    required int selectedTab,
+    required int currentIndex,
+    required Color defaultColor,
+  }) {
     return selectedTab == currentIndex
         ? defaultColor
         : defaultColor.withOpacity(0.7);
@@ -46,16 +46,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Provider.of<KitchenCleaningManager>(context, listen: false)
               .performBackButtonPressed();
         }
-        appStateManager.selectTab(index);
+        appStateManager.selectTab(index: index);
       },
       items: [
         BottomNavigationBarItem(
           icon: CustomIcon(
             CustomIcons.feed,
             color: _getSelectionColor(
-              selectedTab,
-              0,
-              theme.colorScheme.onPrimary,
+              selectedTab: selectedTab,
+              currentIndex: 0,
+              defaultColor: theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_FEED'.tr(),
@@ -65,9 +65,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
             CustomIcons.cedar,
             size: kIconSizeLarge,
             color: _getSelectionColor(
-              selectedTab,
-              1,
-              theme.colorScheme.onPrimary,
+              selectedTab: selectedTab,
+              currentIndex: 1,
+              defaultColor: theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_HOME'.tr(),
@@ -76,9 +76,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: CustomIcon(
             CustomIcons.settings,
             color: _getSelectionColor(
-              selectedTab,
-              2,
-              theme.colorScheme.onPrimary,
+              selectedTab: selectedTab,
+              currentIndex: 2,
+              defaultColor: theme.colorScheme.onPrimary,
             ),
           ),
           label: 'MENU_SETTINGS'.tr(),

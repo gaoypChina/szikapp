@@ -19,10 +19,7 @@ class CleaningAdminScreen extends StatefulWidget {
     );
   }
 
-  const CleaningAdminScreen({
-    super.key,
-    required this.manager,
-  });
+  const CleaningAdminScreen({super.key, required this.manager});
 
   @override
   State<CleaningAdminScreen> createState() => _CleaningAdminScreenState();

@@ -77,7 +77,7 @@ enum Permission {
   @override
   String toString() => name;
 
-  static Permission decodePermission(dynamic source) {
+  static Permission decodePermission({required dynamic source}) {
     for (var permission in Permission.values) {
       if (permission.toString() == source.toString()) {
         return permission;
@@ -92,7 +92,7 @@ enum Permission {
     var permissions = <Permission>[];
     for (var rawPermission in rawPermissions) {
       try {
-        permissions.add(Permission.decodePermission(rawPermission));
+        permissions.add(Permission.decodePermission(source: rawPermission));
       } on NotValidPermissionException catch (_) {
         continue;
       }

@@ -21,7 +21,7 @@ class DocumentsScreen extends StatelessWidget {
   }
 
   const DocumentsScreen({
-    super.key,
+    super.key = const Key('DocumentsScreen'),
     required this.manager,
   });
 
@@ -38,29 +38,26 @@ class DocumentsScreen extends StatelessWidget {
 class DocumentsListView extends StatefulWidget {
   final GoodToKnowManager manager;
 
-  const DocumentsListView({
-    super.key,
-    required this.manager,
-  });
+  const DocumentsListView({super.key, required this.manager});
 
   @override
   DocumentsListViewState createState() => DocumentsListViewState();
 }
 
 class DocumentsListViewState extends State<DocumentsListView> {
-  List<GoodToKnow> items = [];
-  int index = 0;
+  List<GoodToKnow> _items = [];
+  int _index = 0;
 
   @override
   void initState() {
     super.initState();
-    items = widget.manager.items;
+    _items = widget.manager.items;
   }
 
   void _onSearchFieldChanged(String query) {
-    var newItems = widget.manager.search(query);
+    var newItems = widget.manager.search(text: query);
     setState(() {
-      items = newItems;
+      _items = newItems;
     });
   }
 
@@ -75,17 +72,18 @@ class DocumentsListViewState extends State<DocumentsListView> {
     List<GoodToKnow> newItems;
     switch (newValue) {
       case 2:
-        newItems = widget.manager.filter(GoodToKnowCategory.document);
+        newItems = widget.manager.filter(category: GoodToKnowCategory.document);
         break;
       case 1:
-        newItems = widget.manager.filter(GoodToKnowCategory.pinnedPost);
+        newItems =
+            widget.manager.filter(category: GoodToKnowCategory.pinnedPost);
         break;
       default:
         newItems = widget.manager.items;
         break;
     }
     setState(() {
-      items = newItems;
+      _items = newItems;
     });
   }
 
@@ -94,13 +92,13 @@ class DocumentsListViewState extends State<DocumentsListView> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          index = newIndex;
+          _index = newIndex;
         });
         showDialog(
           context: context,
           builder: (context) {
             return DocumentDetails(
-              document: (items.length <= index) ? null : items[index],
+              document: (_items.length <= _index) ? null : _items[_index],
             );
           },
         );
@@ -121,7 +119,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
           border: Border.all(color: theme.colorScheme.primary),
         ),
         child: Text(
-          items[newIndex].title,
+          _items[newIndex].title,
           style: theme.textTheme.bodyLarge,
         ),
       ),
@@ -188,7 +186,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
                 onChanged: _onTabChanged,
               ),
               Expanded(
-                child: items.isEmpty
+                child: _items.isEmpty
                     ? Center(
                         child: Text('PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr()),
                       )
@@ -196,7 +194,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
                         onRefresh: () => widget.manager.refresh(),
                         child: ListView.builder(
                           itemBuilder: _buildListItem,
-                          itemCount: items.length,
+                          itemCount: _items.length,
                         ),
                       ),
               ),

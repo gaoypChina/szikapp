@@ -19,7 +19,7 @@ class InvitationScreen extends StatelessWidget {
     );
   }
 
-  const InvitationScreen({super.key});
+  const InvitationScreen({super.key = const Key('InvitationScreen')});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class InvitationScreen extends StatelessWidget {
           if (SzikAppState.connectionStatus == ConnectivityResult.none) {
             return ErrorScreen(
               errorInset: ErrorHandler.buildInset(
-                context,
+                context: context,
                 errorCode: noConnectionExceptionCode,
               ),
             );

@@ -36,7 +36,7 @@ class _CleaningAdminPunishmentViewState
   Future<void> _onRefusedPressed(CleaningTask task) async {
     try {
       task.status = TaskStatus.approved;
-      await widget.manager.editCleaningTask(task);
+      await widget.manager.editCleaningTask(task: task);
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_refuse_report');
       setState(() {
@@ -48,7 +48,8 @@ class _CleaningAdminPunishmentViewState
             .toList();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -56,7 +57,7 @@ class _CleaningAdminPunishmentViewState
   Future<void> _onAcceptedPressed(CleaningTask task) async {
     try {
       task.status = TaskStatus.refused;
-      await widget.manager.editCleaningTask(task);
+      await widget.manager.editCleaningTask(task: task);
       await widget.manager.refreshTasks();
       SzikAppState.analytics
           .logEvent(name: 'cleaning_accept_report_or_payment');
@@ -69,7 +70,8 @@ class _CleaningAdminPunishmentViewState
             .toList();
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }

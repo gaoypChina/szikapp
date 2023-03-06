@@ -78,12 +78,14 @@ class ReservationCreateEditScreenState
     description = widget.isEdit ? widget.originalItem!.description : null;
     start = widget.isEdit
         ? widget.originalItem!.start
-        : _getCorrectLocalDate(widget.manager.selectedDate ?? DateTime.now())
-            .add(const Duration(hours: 1));
+        : _getCorrectLocalDate(
+            date: widget.manager.selectedDate ?? DateTime.now(),
+          ).add(const Duration(hours: 1));
     end = widget.isEdit
         ? widget.originalItem!.end
-        : _getCorrectLocalDate(widget.manager.selectedDate ?? DateTime.now())
-            .add(const Duration(hours: 2));
+        : _getCorrectLocalDate(
+            date: widget.manager.selectedDate ?? DateTime.now(),
+          ).add(const Duration(hours: 2));
 
     if (widget.manager.selectedMode == ReservationMode.place) {
       selectedResource =
@@ -98,7 +100,7 @@ class ReservationCreateEditScreenState
     resourceIDs.add(selectedResource.id);
   }
 
-  DateTime _getCorrectLocalDate(DateTime date) {
+  DateTime _getCorrectLocalDate({required DateTime date}) {
     var now = DateTime.now();
     return date
         .copyWith(
@@ -129,8 +131,8 @@ class ReservationCreateEditScreenState
   }
 
   void _onDateChanged(DateTime date) {
-    widget.manager
-        .selectDate(date.copyWith(hour: start.hour, minute: start.minute));
+    widget.manager.selectDate(
+        date: date.copyWith(hour: start.hour, minute: start.minute));
     setState(() {
       start = date.copyWith(hour: start.hour, minute: start.minute);
       end = date.copyWith(hour: end.hour, minute: end.minute);

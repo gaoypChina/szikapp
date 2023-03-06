@@ -37,7 +37,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
     _user = Provider.of<AuthManager>(context, listen: false).user!;
     _userAppliedSelectedEvent =
         _selectedEvent?.participantIDs.contains(_user.id) ?? false;
-    _userAlreadyApplied = widget.manager.userHasAppliedOpenTask(_user.id);
+    _userAlreadyApplied =
+        widget.manager.userHasAppliedOpenTask(userID: _user.id);
   }
 
   List<CleaningTask> _getEventsForDay(DateTime pickedDay) {
@@ -86,7 +87,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   Future<void> _onApplyPressed() async {
     try {
       _selectedEvent!.participantIDs.add(_user.id);
-      await widget.manager.editCleaningTask(_selectedEvent!);
+      await widget.manager.editCleaningTask(task: _selectedEvent!);
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_apply_task');
       setState(() {
@@ -94,7 +95,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAlreadyApplied = true;
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -102,7 +104,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   Future<void> _onWithdrawPressed() async {
     try {
       _selectedEvent!.participantIDs.remove(_user.id);
-      await widget.manager.editCleaningTask(_selectedEvent!);
+      await widget.manager.editCleaningTask(task: _selectedEvent!);
       await widget.manager.refreshTasks();
       SzikAppState.analytics.logEvent(name: 'cleaning_withdraw_task');
       setState(() {
@@ -110,7 +112,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
         _userAlreadyApplied = false;
       });
     } on IOException catch (exception) {
-      var snackbar = ErrorHandler.buildSnackbar(context, exception: exception);
+      var snackbar =
+          ErrorHandler.buildSnackbar(context: context, exception: exception);
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }

@@ -60,7 +60,7 @@ class AccountListView extends StatelessWidget {
                   account: account,
                   showReservationButton: isReservation,
                   onReservationTap: () => manager.selectAccount(
-                    manager.accounts
+                    index: manager.accounts
                         .indexWhere((item) => item.id == account.id),
                   ),
                 ),

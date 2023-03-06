@@ -97,13 +97,13 @@ class ContactsListViewState extends State<ContactsListView>
   ///és megjeleníti a találatokat.
   void _onSearchFieldChanged(String query) {
     if (_selectedTab == 0) {
-      var newItems = widget.manager.search(query);
+      var newItems = widget.manager.search(text: query);
       setState(() {
         _users = newItems;
         _groupFilter = [];
       });
     } else {
-      var newItems = widget.manager.findGroup(query);
+      var newItems = widget.manager.findGroup(text: query);
       setState(() {
         _groups = newItems;
         _groupFilter = [];
@@ -125,7 +125,7 @@ class ContactsListViewState extends State<ContactsListView>
     } else {
       _groupFilter.remove(group);
     }
-    var newItems = widget.manager.findMembers(_groupFilter);
+    var newItems = widget.manager.findMembers(groupIDs: _groupFilter);
     setState(() {
       _users = newItems;
       _selectedTab = 0;
@@ -142,7 +142,7 @@ class ContactsListViewState extends State<ContactsListView>
   ///A szűrőmező tartalmának változásakor szűri a kontaktlistát
   ///és megjeleníti a találatokat.
   void _onMembersTapped(Group? group) {
-    var newItems = widget.manager.findMembers([group?.id]);
+    var newItems = widget.manager.findMembers(groupIDs: [group?.id]);
     SzikAppState.analytics.logSearch(searchTerm: group?.name ?? 'no_search');
     setState(() {
       _users = newItems;
@@ -241,8 +241,12 @@ class ContactsListViewState extends State<ContactsListView>
               children: [
                 Checkbox(
                   activeColor: theme.colorScheme.primary,
-                  value: _groupFilter.contains('g100'),
-                  onChanged: (value) => _onMembersFilterChanged(value, 'g100'),
+                  value: _groupFilter
+                      .contains(ContactsManager.collegeMembersGroupID),
+                  onChanged: (value) => _onMembersFilterChanged(
+                    value,
+                    ContactsManager.collegeMembersGroupID,
+                  ),
                 ),
                 Text(
                   'CONTACTS_GROUP_MEMBERS'.tr(),
@@ -258,8 +262,11 @@ class ContactsListViewState extends State<ContactsListView>
               children: [
                 Checkbox(
                   activeColor: theme.colorScheme.primary,
-                  value: _groupFilter.contains('g106'),
-                  onChanged: (value) => _onMembersFilterChanged(value, 'g106'),
+                  value: _groupFilter.contains(ContactsManager.tenantsGroupID),
+                  onChanged: (value) => _onMembersFilterChanged(
+                    value,
+                    ContactsManager.tenantsGroupID,
+                  ),
                 ),
                 Text(
                   'CONTACTS_GROUP_TENANTS'.tr(),
@@ -338,7 +345,7 @@ class ContactsListViewState extends State<ContactsListView>
                     if (user.phone != null) {
                       try {
                         SzikAppState.analytics.logEvent(name: 'phone_call');
-                        widget.manager.makePhoneCall(user.phone!);
+                        widget.manager.makePhoneCall(phoneNumber: user.phone!);
                       } on NotSupportedCallFunctionalityException catch (exception) {
                         _showSnackBar(exception.message);
                       }
@@ -367,7 +374,7 @@ class ContactsListViewState extends State<ContactsListView>
                   onTap: () {
                     try {
                       SzikAppState.analytics.logEvent(name: 'make_email');
-                      widget.manager.makeEmail(user.email);
+                      widget.manager.makeEmail(address: user.email);
                     } on NotSupportedEmailFunctionalityException catch (exception) {
                       _showSnackBar(exception.message);
                     }
@@ -473,7 +480,7 @@ class ContactsListViewState extends State<ContactsListView>
                     if (group.email != null) {
                       try {
                         SzikAppState.analytics.logEvent(name: 'make_email');
-                        widget.manager.makeEmail(group.email!);
+                        widget.manager.makeEmail(address: group.email!);
                       } on NotSupportedEmailFunctionalityException catch (exception) {
                         _showSnackBar(exception.message);
                       }

@@ -102,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var theme = Theme.of(context);
     var userCanModify = Provider.of<AuthManager>(context)
             .user
-            ?.hasPermission(Permission.profileEdit) ??
+            ?.hasPermission(permission: Permission.profileEdit) ??
         false;
     return CustomScaffold(
       withNavigationBar: widget.withNavigationBar,

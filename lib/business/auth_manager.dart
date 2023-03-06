@@ -68,7 +68,7 @@ class AuthManager extends ChangeNotifier {
 
   Future<UserCredential> _signInWithApple() async {
     final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
+    final nonce = sha256ofString(input: rawNonce);
 
     final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
@@ -204,7 +204,7 @@ class AuthManager extends ChangeNotifier {
   Future<bool> pushUserUpdate() async {
     if (isSignedIn && !isUserGuest) {
       var io = IO();
-      await io.putUser(_user!);
+      await io.putUser(data: _user!);
       return true;
     }
     return false;
@@ -230,7 +230,7 @@ class AuthManager extends ChangeNotifier {
         .join();
   }
 
-  String sha256ofString(String input) {
+  String sha256ofString({required String input}) {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();

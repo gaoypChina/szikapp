@@ -35,7 +35,7 @@ class ReservationPlacesScreen extends StatelessWidget {
         body: ListView.builder(
           itemCount: places.length,
           itemBuilder: (context, index) {
-            var reserved = manager.isReserved(places[index].id);
+            var reserved = manager.isReserved(id: places[index].id);
             return places[index].type == PlaceType.public
                 ? ListTile(
                     leading: const Icon(Icons.place),
@@ -44,7 +44,7 @@ class ReservationPlacesScreen extends StatelessWidget {
                     ),
                     onTap: () =>
                         Provider.of<ReservationManager>(context, listen: false)
-                            .selectPlace(index),
+                            .selectPlace(index: index),
                     trailing: IconButton(
                       tooltip: reserved
                           ? 'RESERVATION_CURRENTLY_RESERVED'.tr()

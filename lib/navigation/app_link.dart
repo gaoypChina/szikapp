@@ -45,7 +45,7 @@ class SzikAppLink {
     this.itemId,
   });
 
-  static SzikAppLink fromLocation(String? location) {
+  static SzikAppLink fromLocation({required String? location}) {
     var locationUri = Uri.decodeFull(location ?? '');
 
     final uri = Uri.parse(locationUri);

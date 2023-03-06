@@ -35,7 +35,7 @@ class GoodToKnowManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedGoodToKnowItem(String id) {
+  void setSelectedGoodToKnowItem({required String id}) {
     final index = _posts.indexWhere((post) => post.id == id);
     _selectedIndex = index;
     _createNewItem = false;
@@ -43,9 +43,9 @@ class GoodToKnowManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> addItem(GoodToKnow item) async {
+  Future<bool> addItem({required GoodToKnow item}) async {
     var io = IO();
-    await io.postGoodToKnow(item);
+    await io.postGoodToKnow(data: item);
 
     _posts.add(item);
     _createNewItem = false;
@@ -55,12 +55,12 @@ class GoodToKnowManager extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> updateItem(GoodToKnow item) async {
+  Future<bool> updateItem({required GoodToKnow item}) async {
     if (!_posts.any((post) => post.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};
-    await io.putGoodToKnow(item, parameter);
+    await io.putGoodToKnow(data: item, parameters: parameter);
 
     _posts.removeWhere((post) => post.id == item.id);
     _posts.add(item);
@@ -71,12 +71,13 @@ class GoodToKnowManager extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> deleteItem(GoodToKnow item) async {
+  Future<bool> deleteItem({required GoodToKnow item}) async {
     if (!_posts.any((post) => post.id == item.id)) return false;
 
     var io = IO();
     var parameter = {'id': item.id};
-    await io.deleteGoodToKnow(parameter, item.lastUpdate);
+    await io.deleteGoodToKnow(
+        parameters: parameter, lastUpdate: item.lastUpdate);
 
     _posts.remove(item);
     _createNewItem = false;
@@ -86,7 +87,7 @@ class GoodToKnowManager extends ChangeNotifier {
     return true;
   }
 
-  List<GoodToKnow> search(String text) {
+  List<GoodToKnow> search({required String text}) {
     if (text == '') {
       return _posts;
     } else {
@@ -100,7 +101,7 @@ class GoodToKnowManager extends ChangeNotifier {
     }
   }
 
-  List<GoodToKnow> filter(GoodToKnowCategory category) {
+  List<GoodToKnow> filter({required GoodToKnowCategory category}) {
     return List.unmodifiable(
       _posts.where((post) => post.category == category).toList(),
     );

@@ -6,7 +6,7 @@ class SzikAppRouteParser extends RouteInformationParser<SzikAppLink> {
   @override
   Future<SzikAppLink> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final link = SzikAppLink.fromLocation(routeInformation.location);
+    final link = SzikAppLink.fromLocation(location: routeInformation.location);
     return link;
   }
 
