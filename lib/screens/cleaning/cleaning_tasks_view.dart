@@ -95,16 +95,18 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     );
     return ToggleListItem(
       headerDecoration: BoxDecoration(
-        color: backgroundColor,
+        color: theme.colorScheme.surface,
         borderRadius: const BorderRadius.all(
           Radius.circular(kBorderRadiusNormal),
         ),
+        border: Border.all(color: theme.colorScheme.primaryContainer),
       ),
       expandedHeaderDecoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(kBorderRadiusNormal),
-        ),
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(kBorderRadiusNormal),
+            topLeft: Radius.circular(kBorderRadiusNormal)),
+        border: Border.all(color: theme.colorScheme.primaryContainer),
       ),
       title: Padding(
         padding: const EdgeInsets.all(kPaddingLarge),
@@ -140,21 +142,15 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
       ),
       content: Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(kBorderRadiusNormal),
-          ),
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(kBorderRadiusNormal),
+              bottomLeft: Radius.circular(kBorderRadiusNormal)),
+          border: Border.all(color: theme.colorScheme.primaryContainer),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Divider(
-              height: 1,
-              thickness: 1,
-              indent: kPaddingNormal,
-              endIndent: kPaddingNormal,
-              color: foregroundColor,
-            ),
             Padding(
               padding: const EdgeInsets.all(kPaddingLarge),
               child: Text.rich(
@@ -163,12 +159,15 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                     TextSpan(
                       text: '${'CLEANING_LABEL_EXTENSION'.tr()}: ',
                       style: weakFont.copyWith(
+                        color: theme.colorScheme.surface,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
                       text: task.description,
-                      style: weakFont,
+                      style: weakFont.copyWith(
+                        color: theme.colorScheme.surface,
+                      ),
                     ),
                   ],
                 ),
