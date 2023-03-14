@@ -77,7 +77,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
             ? 'CLEANING_DIALOG_NO_MATE'.tr()
             : userIDsToString(context, mateIDs),
         style: theme.textTheme.titleMedium!.copyWith(
-          color: theme.colorScheme.primaryContainer,
+          color: theme.colorScheme.primary,
           fontStyle: FontStyle.italic,
         ),
       ),
@@ -125,8 +125,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
       child: Container(
         margin: const EdgeInsets.only(bottom: kPaddingSmall),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kPaddingLarge),
-          color: Theme.of(context).colorScheme.background,
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
+          border: Border.all(color: theme.colorScheme.primaryContainer),
         ),
         clipBehavior: Clip.hardEdge,
         child: Column(
@@ -206,7 +209,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                 borderRadius: BorderRadius.circular(kBorderRadiusNormal),
                 color: Theme.of(context).colorScheme.background,
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primaryContainer,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               child: _selectedEvent != null
@@ -229,9 +232,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                                 BorderRadius.circular(kBorderRadiusNormal),
                             color: Theme.of(context).colorScheme.background,
                             border: Border.all(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           child: Column(
@@ -248,7 +249,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                                 _selectedEvent?.description ?? '',
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                  color: theme.colorScheme.primaryContainer,
+                                  color: theme.colorScheme.primary,
                                   fontStyle: FontStyle.italic,
                                 ),
                               ),
@@ -263,9 +264,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                                 BorderRadius.circular(kBorderRadiusNormal),
                             color: Theme.of(context).colorScheme.background,
                             border: Border.all(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           child: Row(

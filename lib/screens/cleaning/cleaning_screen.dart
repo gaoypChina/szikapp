@@ -104,12 +104,12 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
           kPaddingNormal,
           0,
         ),
-        decoration: const BoxDecoration(
+        /*decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/pictures/background_1.jpg'),
             fit: BoxFit.cover,
           ),
-        ),
+        ),*/
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
