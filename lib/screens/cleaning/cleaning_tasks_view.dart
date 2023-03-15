@@ -95,14 +95,14 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     );
     return ToggleListItem(
       headerDecoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: backgroundColor,
         borderRadius: const BorderRadius.all(
           Radius.circular(kBorderRadiusNormal),
         ),
         border: Border.all(color: theme.colorScheme.primaryContainer),
       ),
       expandedHeaderDecoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: backgroundColor,
         borderRadius: const BorderRadius.only(
             topRight: Radius.circular(kBorderRadiusNormal),
             topLeft: Radius.circular(kBorderRadiusNormal)),
