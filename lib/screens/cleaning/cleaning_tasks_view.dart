@@ -5,6 +5,7 @@ import 'package:toggle_list/toggle_list.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
+import '../../main.dart';
 import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
@@ -284,6 +285,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
       onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.reportInsufficiency(task: reportableItem);
+        SzikAppState.analytics.logEvent(name: 'cleaning_report_task');
         setState(() {});
       },
     );

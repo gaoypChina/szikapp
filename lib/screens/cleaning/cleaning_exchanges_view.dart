@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
+import '../../main.dart';
 import '../../models/models.dart';
 import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
@@ -596,6 +597,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.createCleaningExchangeOccasion(exchange: exchange);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_create');
         refreshWidget();
       },
     );
@@ -614,6 +616,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.offerCleaningExchangeOccasion(
             exchange: exchange, replaceUid: replaceUid);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_offer');
         refreshWidget();
       },
     );
@@ -632,6 +635,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.withdrawCleaningExchangeOccasion(
             exchange: exchange, replaceUid: replaceUid);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_withdraw');
         refreshWidget();
       },
     );
@@ -650,6 +654,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.acceptCleaningExchangeOccasion(
             exchange: exchange, replaceUid: replaceUid);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_accept');
         refreshWidget();
       },
     );
@@ -669,6 +674,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.rejectCleaningExchangeOccasion(
             exchange: exchange, replaceUid: replaceUid);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_refuse');
         refreshWidget();
       },
     );
@@ -686,6 +692,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
       onStrongButtonClick: () async {
         Navigator.of(context, rootNavigator: true).pop();
         await widget.manager.deleteCleaningExchangeOccasion(exchange: exchange);
+        SzikAppState.analytics.logEvent(name: 'cleaning_exchange_delete');
         refreshWidget();
       },
     );
