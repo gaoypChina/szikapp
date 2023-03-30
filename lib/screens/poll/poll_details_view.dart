@@ -53,6 +53,12 @@ class _PollDetailsViewState extends State<PollDetailsView> {
   Widget _buildPoll({required bool isOpen}) {
     var theme = Theme.of(context);
     var user = Provider.of<AuthManager>(context, listen: false).user!;
+
+    var results = widget.manager.getResults(
+      poll: widget.poll,
+      groups: Provider.of<SzikAppStateManager>(context).groups,
+    );
+    
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -139,6 +145,11 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                             child: Text('BUTTON_SEND'.tr()),
                           ),
                         ),
+                if (!widget.poll.isConfidential)
+                  Divider(
+                    thickness: 2,
+                    color: theme.colorScheme.secondary,
+                  ),
               ],
             ),
           ),
