@@ -184,11 +184,11 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
               calendarBuilders: CalendarBuilders(
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
-                  var markerColor = statusRed;
+                  var markerColor = statusGreen;
                   if (participantCount == 1) {
                     markerColor = statusYellow;
                   } else if (participantCount == 2) {
-                    markerColor = statusGreen;
+                    markerColor = statusRed;
                   }
                   return Container(
                     height: kCalendarMarkerSize,
