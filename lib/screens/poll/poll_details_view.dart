@@ -150,6 +150,23 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                     thickness: 2,
                     color: theme.colorScheme.secondary,
                   ),
+                  ExpansionTile(
+                title: Text('POLL_VOTED'.tr()),
+                children: results.keys
+                    .map((key) => Text(key.toString()))
+                    .toList(),
+              ),
+              ExpansionTile(
+                title: Text('POLL_NOT_VOTED'.tr()),
+                children: Provider.of<SzikAppStateManager>(context)
+                    .groups
+                    .expand((group) => group.memberIDs)
+                    .where((id) => id != user.id)
+                    .where((id) => !results.keys.contains(id))
+                    .map((id) => Text(id.toString()))
+                    .toList(),
+              ),
+
               ],
             ),
           ),

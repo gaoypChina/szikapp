@@ -107,6 +107,8 @@
         "POLL_ALREADY_VOTED": "You've already voted.",
         "POLL_VOTE": "{} votes",
         "POLL_HINT_THANKS":"Thank you for voting!",
+        "POLL_VOTED":"Voted",
+        "POLL_NOT_VOTED":"Has not voted",
     "FEED": null,
         "FEED_GREETINGS": "Belépés",
         "FEED_GREETINGS_SIGNEDIN": "Hello {}",
