@@ -26,7 +26,7 @@ class CleaningExchangesView extends StatefulWidget {
 
 class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   bool _userHasActiveExchange = false;
-  bool _userHasAppliedTask = false;
+  bool _userHasAppliedCurrentTask = false;
   List<CleaningExchange> _exchanges = [];
 
   @override
@@ -36,7 +36,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     _exchanges = _customSorted(list: widget.manager.exchanges);
     _userHasActiveExchange =
         widget.manager.userHasActiveExchange(userID: user.id);
-    _userHasAppliedTask = widget.manager.userHasAppliedTask(userID: user.id);
+    _userHasAppliedCurrentTask =
+        widget.manager.userHasAppliedCurrentTask(userID: user.id);
   }
 
   Future<void> refreshWidget() async {
@@ -69,8 +70,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
         child: Column(
           children: [
-            if (!_userHasAppliedTask)
-              _buildInfoTile(text: 'CLEANING_INFO_NO_TASK'.tr())
+            if (!_userHasAppliedCurrentTask)
+              _buildInfoTile(text: 'CLEANING_INFO_NO_CURRENT_TASK'.tr())
             else if (!_userHasActiveExchange)
               _buildNewExchangeTile(),
             Expanded(
@@ -101,7 +102,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   Widget _buildNewExchangeTile() {
     var theme = Theme.of(context);
     var user = Provider.of<AuthManager>(context).user!;
-    var exchangableItem = widget.manager.getUserTask(userID: user.id);
+    var exchangableItem = widget.manager.getUserCurrentTask(userID: user.id);
     return Padding(
       padding: const EdgeInsets.all(kPaddingNormal),
       child: Container(
@@ -195,8 +196,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var user = Provider.of<AuthManager>(context).user;
     var isOwnItem = user!.id == exchange.initiatorID;
     var theme = Theme.of(context);
-    var hasTask =
-        widget.manager.tasks.any((task) => task.id == exchange.taskID);
+    var userHasCurrentTask =
+        widget.manager.userHasAppliedCurrentTask(userID: user.id);
     var backgroundColor = isOwnItem
         ? theme.colorScheme.primaryContainer
         : theme.colorScheme.surface;
@@ -237,7 +238,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                 style: strongFont,
               ),
             ),
-            if (hasTask)
+            if (userHasCurrentTask)
               Flexible(
                 child: Text(
                   DateFormat('MM. dd.').format(
@@ -251,7 +252,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           ],
         ),
       ),
-      content: hasTask
+      content: userHasCurrentTask
           ? Container(
               decoration: BoxDecoration(
                 color: backgroundColor,
@@ -270,7 +271,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(kPaddingLarge),
-                    child: hasTask
+                    child: userHasCurrentTask
                         ? isOwnItem
                             ? _buildOwnItemBody(
                                 exchange: exchange,
@@ -282,7 +283,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                             : _buildOtherItemBody(
                                 exchange: exchange,
                                 ownTaskID: widget.manager
-                                    .getUserTask(userID: user.id)
+                                    .getUserCurrentTask(userID: user.id)
                                     .id,
                                 backgroundColor: backgroundColor,
                                 foregroundColor: foregroundColor,

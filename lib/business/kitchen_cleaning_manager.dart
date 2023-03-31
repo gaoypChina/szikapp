@@ -53,6 +53,8 @@ class KitchenCleaningManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool hasCurrentPeriod() => periods
+      .any((period) => DateTime.now().isInInterval(period.start, period.end));
   CleaningPeriod getCurrentPeriod() => periods.firstWhere(
       (period) => DateTime.now().isInInterval(period.start, period.end));
 
@@ -67,7 +69,8 @@ class KitchenCleaningManager extends ChangeNotifier {
           exchange.initiatorID == userID);
 
   ///Checks whether user has applied task for the current period
-  bool userHasAppliedTask({required String userID}) {
+  bool userHasAppliedCurrentTask({required String userID}) {
+    if (!hasCurrentPeriod()) return false;
     var currentPeriod = getCurrentPeriod();
     return tasks.any((task) =>
         task.participantIDs.contains(userID) &&
@@ -76,6 +79,7 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   ///Checks whether user has applied task for the next period
   bool userHasAppliedOpenTask({required String userID}) {
+    if (!hasOpenPeriod()) return false;
     var openPeriod = getOpenPeriod();
     return tasks.any((task) =>
         task.participantIDs.contains(userID) &&
@@ -83,7 +87,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   }
 
   ///Returns the applied task for the user from the current period
-  CleaningTask getUserTask({required String userID}) {
+  CleaningTask getUserCurrentTask({required String userID}) {
     var currentPeriod = getCurrentPeriod();
     return tasks.firstWhere((task) =>
         task.participantIDs.contains(userID) &&
@@ -92,6 +96,7 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   ///Returns all tasks of the current period
   List<CleaningTask> getCurrentTasks() {
+    if (!hasCurrentPeriod()) return [];
     var currentPeriod = getCurrentPeriod();
     return tasks
         .where((task) =>
@@ -101,11 +106,17 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   ///Returns all tasks of the next period
   List<CleaningTask> getOpenTasks() {
+    if (!hasOpenPeriod()) return [];
     var openPeriod = getOpenPeriod();
     return tasks
         .where(
             (task) => task.start.isInInterval(openPeriod.start, openPeriod.end))
         .toList();
+  }
+
+  bool hasYesterdayTask() {
+    var yesterday = DateTime.now().subtract(const Duration(days: 1));
+    return tasks.any((task) => task.start.isSameDate(yesterday));
   }
 
   /// Returns yesterday's cleaning task

@@ -50,7 +50,9 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: _buildReportTile(),
+                  child: widget.manager.hasYesterdayTask()
+                      ? _buildReportTile()
+                      : _buildInactiveReportTile(),
                 ),
                 _buildOpener(),
               ],
@@ -240,6 +242,43 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInactiveReportTile() {
+    var theme = Theme.of(context);
+    var strongFont = theme.textTheme.displaySmall!
+        .copyWith(color: theme.colorScheme.surface);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kPaddingSmall),
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: kPaddingNormal,
+          vertical: kPaddingSmall,
+        ),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.secondaryContainer,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kBorderRadiusNormal),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(kPaddingNormal),
+          child: Row(
+            children: [
+              const CustomIcon(CustomIcons.report),
+              Flexible(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: kPaddingNormal),
+                  child:
+                      Text('CLEANING_REPORT_INACTIVE'.tr(), style: strongFont),
+                ),
+              ),
+            ],
           ),
         ),
       ),
