@@ -252,6 +252,12 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           ],
         ),
       ),
+      divider: Container(
+        height: 2,
+        color: backgroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
+        child: Container(color: foregroundColor),
+      ),
       content: userHasCurrentTask
           ? Container(
               decoration: BoxDecoration(
@@ -260,42 +266,31 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
                   bottom: Radius.circular(kBorderRadiusNormal),
                 ),
               ),
-              child: Column(
-                children: [
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: kPaddingNormal,
-                    endIndent: kPaddingNormal,
-                    color: foregroundColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(kPaddingLarge),
-                    child: userHasCurrentTask
-                        ? isOwnItem
-                            ? _buildOwnItemBody(
-                                exchange: exchange,
-                                backgroundColor: backgroundColor,
-                                foregroundColor: foregroundColor,
-                                strongFont: strongFont,
-                                weakFont: weakFont,
-                              )
-                            : _buildOtherItemBody(
-                                exchange: exchange,
-                                ownTaskID: widget.manager
-                                    .getUserCurrentTask(userID: user.id)
-                                    .id,
-                                backgroundColor: backgroundColor,
-                                foregroundColor: foregroundColor,
-                                strongFont: strongFont,
-                                weakFont: weakFont,
-                              )
-                        : _buildNoTaskItemBody(
-                            font: weakFont,
-                            textColor: foregroundColor,
-                          ),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(kPaddingLarge),
+                child: userHasCurrentTask
+                    ? isOwnItem
+                        ? _buildOwnItemBody(
+                            exchange: exchange,
+                            backgroundColor: backgroundColor,
+                            foregroundColor: foregroundColor,
+                            strongFont: strongFont,
+                            weakFont: weakFont,
+                          )
+                        : _buildOtherItemBody(
+                            exchange: exchange,
+                            ownTaskID: widget.manager
+                                .getUserCurrentTask(userID: user.id)
+                                .id,
+                            backgroundColor: backgroundColor,
+                            foregroundColor: foregroundColor,
+                            strongFont: strongFont,
+                            weakFont: weakFont,
+                          )
+                    : _buildNoTaskItemBody(
+                        font: weakFont,
+                        textColor: foregroundColor,
+                      ),
               ),
             )
           : Container(),
