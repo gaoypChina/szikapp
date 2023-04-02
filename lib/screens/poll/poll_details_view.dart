@@ -61,6 +61,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
     int allVoteCount = results.remove('allVoteCount');
     int allVoterCount = results.remove('allVoterCount');
     var nonVoterIDs = results.remove('nonVoterIDs');
+    int nonVoterCount = nonVoterIDs.length;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -154,26 +155,49 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                     color: theme.colorScheme.secondary,
                   ),
                   ExpansionTile(
-                    title: Text('POLL_VOTED'.tr()),
+                    tilePadding: const EdgeInsets.all(0),
+                    title: Text(
+                      '${'POLL_VOTED'.tr()} - $allVoterCount',
+                      style: theme.textTheme.titleMedium!.copyWith(
+                      color: theme.colorScheme.outline,
+                      fontStyle: FontStyle.normal,
+                      ),
+                    ),
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: results.entries.map((entry) {
                           final key = entry.key;
                           final value = entry.value['voterIDs'];
+                          int voters = entry.value['voteCount'];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                key,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  '$key - $voters',
+                                  style: theme.textTheme.titleMedium!.copyWith(
+                                  color: theme.colorScheme.outline,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: value.length,
                                 itemBuilder: (context, index) {
-                                  return Text(value[index]);
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 16.0, top: 4.0),
+                                    child: Text(
+                                      value[index],
+                                      style: theme.textTheme.titleMedium!.copyWith(
+                                      color: theme.colorScheme.outline,
+                                      fontStyle: FontStyle.normal),    
+                                  ),
+                                );
                                 },
                               ),
                             ],
@@ -184,15 +208,33 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   ),
 
                   ExpansionTile(
-                    title: Text('POLL_NOT_VOTED'.tr()),
-                    children: Provider.of<SzikAppStateManager>(context)
-                        .groups
-                        .expand((group) => group.memberIDs)
-                        .where((id) => id != user.id)
-                        .where((id) => !results.keys.contains(id))
-                        .map((id) => Text(id.toString()))
-                        .toList(),
+                    tilePadding: 
+                      const EdgeInsets.all(0),
+                    title: Text('${'POLL_NOT_VOTED'.tr()} - $nonVoterCount'),
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: Provider.of<SzikAppStateManager>(context)
+                            .groups
+                            .expand((group) => group.memberIDs)
+                            .where((id) => id != user.id)
+                            .where((id) => !results.keys.contains(id))
+                            .map((id) => Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    id.toString(),
+                                    style: theme.textTheme.titleMedium!.copyWith(
+                                      color: theme.colorScheme.outline,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                   ),
+
+
               ],
             ),
           ),
