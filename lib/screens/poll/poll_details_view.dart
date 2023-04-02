@@ -58,7 +58,10 @@ class _PollDetailsViewState extends State<PollDetailsView> {
       poll: widget.poll,
       groups: Provider.of<SzikAppStateManager>(context).groups,
     );
-    
+    int allVoteCount = results.remove('allVoteCount');
+    int allVoterCount = results.remove('allVoterCount');
+    var nonVoterIDs = results.remove('nonVoterIDs');
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -151,22 +154,45 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                     color: theme.colorScheme.secondary,
                   ),
                   ExpansionTile(
-                title: Text('POLL_VOTED'.tr()),
-                children: results.keys
-                    .map((key) => Text(key.toString()))
-                    .toList(),
-              ),
-              ExpansionTile(
-                title: Text('POLL_NOT_VOTED'.tr()),
-                children: Provider.of<SzikAppStateManager>(context)
-                    .groups
-                    .expand((group) => group.memberIDs)
-                    .where((id) => id != user.id)
-                    .where((id) => !results.keys.contains(id))
-                    .map((id) => Text(id.toString()))
-                    .toList(),
-              ),
+                    title: Text('POLL_VOTED'.tr()),
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: results.entries.map((entry) {
+                          final key = entry.key;
+                          final value = entry.value['voterIDs'];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                key,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: value.length,
+                                itemBuilder: (context, index) {
+                                  return Text(value[index]);
+                                },
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
 
+                  ExpansionTile(
+                    title: Text('POLL_NOT_VOTED'.tr()),
+                    children: Provider.of<SzikAppStateManager>(context)
+                        .groups
+                        .expand((group) => group.memberIDs)
+                        .where((id) => id != user.id)
+                        .where((id) => !results.keys.contains(id))
+                        .map((id) => Text(id.toString()))
+                        .toList(),
+                  ),
               ],
             ),
           ),
