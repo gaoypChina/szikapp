@@ -77,15 +77,6 @@ class KitchenCleaningManager extends ChangeNotifier {
         task.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
-  ///Checks whether user has applied task for the next period
-  bool userHasAppliedOpenTask({required String userID}) {
-    if (!hasOpenPeriod()) return false;
-    var openPeriod = getOpenPeriod();
-    return tasks.any((task) =>
-        task.participantIDs.contains(userID) &&
-        task.start.isInInterval(openPeriod.start, openPeriod.end));
-  }
-
   ///Returns the applied task for the user from the current period
   CleaningTask getUserCurrentTask({required String userID}) {
     var currentPeriod = getCurrentPeriod();
@@ -104,6 +95,23 @@ class KitchenCleaningManager extends ChangeNotifier {
         .toList();
   }
 
+  ///Checks whether user has applied task for the next period
+  bool userHasAppliedOpenTask({required String userID}) {
+    if (!hasOpenPeriod()) return false;
+    var openPeriod = getOpenPeriod();
+    return tasks.any((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(openPeriod.start, openPeriod.end));
+  }
+
+  ///Returns the applied task for the user from the open period
+  CleaningTask getUserOpenTask({required String userID}) {
+    var openPeriod = getOpenPeriod();
+    return tasks.firstWhere((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(openPeriod.start, openPeriod.end));
+  }
+
   ///Returns all tasks of the next period
   List<CleaningTask> getOpenTasks() {
     if (!hasOpenPeriod()) return [];
@@ -114,12 +122,13 @@ class KitchenCleaningManager extends ChangeNotifier {
         .toList();
   }
 
+  ///Checks if there is a task that was due yesterday.
   bool hasYesterdayTask() {
     var yesterday = DateTime.now().subtract(const Duration(days: 1));
     return tasks.any((task) => task.start.isSameDate(yesterday));
   }
 
-  /// Returns yesterday's cleaning task
+  /// Returns yesterday's cleaning task.
   CleaningTask getYesterdayTask() {
     var yesterday = DateTime.now().subtract(const Duration(days: 1));
     return tasks.firstWhere((task) => task.start.isSameDate(yesterday));

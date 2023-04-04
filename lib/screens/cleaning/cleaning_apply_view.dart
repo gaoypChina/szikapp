@@ -183,6 +183,24 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                 }
               },
               calendarBuilders: CalendarBuilders(
+                defaultBuilder: (context, day, focusedDay) {
+                  if (_userAlreadyApplied &&
+                      widget.manager
+                          .getUserOpenTask(userID: _user.id)
+                          .start
+                          .isSameDate(day)) {
+                    return Center(
+                      child: Text(
+                        DateFormat('d').format(day),
+                        style: theme.textTheme.titleMedium!.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  }
+                },
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
                   var markerColor = statusGreen;
