@@ -159,7 +159,7 @@
         "CLEANING_TAB_PUNISHMENT": "Büntetés",
         "CLEANING_REPORT": "Jelentés",
         "CLEANING_REPORT_INACTIVE": "Nincs jelenthető feladat",
-        "CLEANING_INFO_NO_CURRENT_TASK": "Cserélni csak a jelenleg futó időszakbeli feladatodat tudod.",
+        "CLEANING_INFO_NO_CURRENT_TASK": "Időpontot cserélni csak a jelentkezés lezárulta után tudsz.",
         "CLEANING_ALREADY_REPORTED": "Bejelentve",
         "CLEANING_DIALOG_OFFER_TITLE": "Csere felajánlása",
         "CLEANING_DIALOG_DELETE_TITLE": "Csere törlése",

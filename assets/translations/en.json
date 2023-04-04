@@ -159,7 +159,7 @@
         "CLEANING_TAB_PUNISHMENT": "Punishment",
         "CLEANING_REPORT": "Report",
         "CLEANING_REPORT_INACTIVE": "No reportable task",
-        "CLEANING_INFO_NO_CURRENT_TASK": "You can only exchange your task of the current period.",
+        "CLEANING_INFO_NO_CURRENT_TASK": "You can exchange your task only after the application period has been finished.",
         "CLEANING_ALREADY_REPORTED": "Already reported",
         "CLEANING_DIALOG_OFFER_TITLE": "Offer exchange",
         "CLEANING_DIALOG_DELETE_TITLE": "Delete offer",
