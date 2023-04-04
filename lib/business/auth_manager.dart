@@ -134,8 +134,11 @@ class AuthManager extends ChangeNotifier {
   /// Bejelentkezés. A függvény a Google autentikáció segítségével
   /// hitelesíti a felhasználót, majd az API által közölt adatok alapján
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
-  Future<void> signIn({required SignInMethod method}) async {
-    if (isSignedIn) {
+  Future<void> signIn({
+    required SignInMethod method,
+    bool forced = false,
+  }) async {
+    if (isSignedIn && !forced) {
       return;
     }
     try {
@@ -178,8 +181,10 @@ class AuthManager extends ChangeNotifier {
   /// adatstruktúrát.
   Future<void> signOut() async {
     try {
-      Settings.instance.savePreferences();
-      await pushUserUpdate();
+      if (!_isGuest) {
+        Settings.instance.savePreferences();
+        await pushUserUpdate();
+      }
       await _auth.signOut();
       await GoogleSignIn().signOut();
       _user = null;
@@ -188,6 +193,22 @@ class AuthManager extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (exception) {
       throw AuthException(exception.toString());
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      if (!_isGuest) {
+        Settings.instance.savePreferences();
+        await pushUserUpdate();
+      }
+      await _auth.currentUser?.delete();
+      _user = null;
+      _isGuest = true;
+      _signedIn = false;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.toString());
     }
   }
 
