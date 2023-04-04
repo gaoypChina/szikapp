@@ -85,6 +85,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   Future<void> _onApplyPressed() async {
+    if (_selectedEvent!.participantIDs.length > 1) return;
     try {
       _selectedEvent!.participantIDs.add(_user.id);
       await widget.manager.editCleaningTask(task: _selectedEvent!);
