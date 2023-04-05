@@ -200,6 +200,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                       ),
                     );
                   }
+                  return null;
                 },
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
