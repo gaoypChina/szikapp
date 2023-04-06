@@ -21,6 +21,8 @@ const int cleaningAssignPeriodExtendedWithEmptyEnd = 2025;
 const int cleaningAssigned = 2000;
 const int cleaningAssignedWithEmptyEnd = 2005;
 
+const int signInRequiredExceptionCode = 6010;
+
 ///Sablon kivétel, ami a specifikus típusok őse.
 class BaseException implements Exception {
   ///Hibakód

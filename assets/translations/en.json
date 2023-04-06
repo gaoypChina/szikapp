@@ -29,6 +29,7 @@
         "ERROR_SOCKET_SOLUTION": "Please check your internet connection.",
         "ERROR_UNKNOWN_EXCEPTION_MESSAGE": "An unknown error occured while using the application.",
         "ERROR_UNKNOWN_EXCEPTION_SOLUTION": "Please try restarting the application.",
+        "ERROR_SIGN_IN_REQUIRED_MESSAGE": "You have to sign in again to perform this operation.",
     "SIGN_IN": null,
         "SIGN_IN_TITLE": "Sign in",
         "SIGN_IN_BUTTON_GOOGLE": "Sign in with Google",

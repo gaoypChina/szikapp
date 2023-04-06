@@ -29,6 +29,7 @@
         "ERROR_SOCKET_SOLUTION": "Kérlek ellenőrizd a kapcsolódást az internethez.",
         "ERROR_UNKNOWN_EXCEPTION_MESSAGE": "Ismeretlen hiba történt az alkalmazás használata közben.",
         "ERROR_UNKNOWN_EXCEPTION_SOLUTION": "Kérlek próbáld újraindítani az alkalmazást.",
+        "ERROR_SIGN_IN_REQUIRED_MESSAGE": "A művelet elvégzéséhez jelentkezz be újra.",
     "SIGN_IN": null,
         "SIGN_IN_TITLE": "Bejelentkezés",
         "SIGN_IN_BUTTON_GOOGLE": "Belépés Google fiókkal",

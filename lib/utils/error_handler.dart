@@ -42,6 +42,9 @@ class ErrorInformation {
     } else if (errorCode == cleaningAssignedWithEmptyEnd) {
       errorMessage = 'CLEANING_ASSIGN_EMPTY_END'.tr();
       errorSolution = '';
+    } else if (errorCode == signInRequiredExceptionCode) {
+      errorMessage = 'ERROR_SIGN_IN_REQUIRED_MESSAGE'.tr();
+      errorSolution = '';
     } else {
       errorMessage = 'ERROR_UNKNOWN_CODE_MESSAGE'.tr();
       errorSolution = 'ERROR_UNKNOWN_CODE_SOLUTION'.tr();

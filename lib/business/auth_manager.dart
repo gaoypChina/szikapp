@@ -109,8 +109,8 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       notifyListeners();
-    } on IOClientException catch (exception) {
-      if (exception.code == 401) {
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
         _user = szikapp_user.User(
           id: 'u999',
           name: _auth.currentUser!.displayName ?? '',
@@ -125,9 +125,9 @@ class AuthManager extends ChangeNotifier {
         _signedIn = false;
         throw AuthException(e.toString());
       }
-    } on Exception catch (exception) {
+    } on Exception catch (e) {
       _signedIn = false;
-      throw AuthException(exception.toString());
+      throw AuthException(e.toString());
     }
   }
 
@@ -136,9 +136,8 @@ class AuthManager extends ChangeNotifier {
   /// létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<void> signIn({
     required SignInMethod method,
-    bool forced = false,
   }) async {
-    if (isSignedIn && !forced) {
+    if (isSignedIn) {
       return;
     }
     try {
@@ -153,8 +152,8 @@ class AuthManager extends ChangeNotifier {
       _signedIn = true;
       _method = method;
       notifyListeners();
-    } on IOClientException catch (exception) {
-      if (exception.code == 401) {
+    } on IOClientException catch (e) {
+      if (e.code == 401) {
         _user = szikapp_user.User(
           id: 'u999',
           name: _auth.currentUser!.displayName ?? '',
@@ -170,9 +169,9 @@ class AuthManager extends ChangeNotifier {
         _signedIn = false;
         throw AuthException(e.toString());
       }
-    } on Exception catch (exception) {
+    } on Exception catch (e) {
       _signedIn = false;
-      throw AuthException(exception.toString());
+      throw AuthException(e.toString());
     }
   }
 
@@ -191,11 +190,12 @@ class AuthManager extends ChangeNotifier {
       _isGuest = true;
       _signedIn = false;
       notifyListeners();
-    } on Exception catch (exception) {
-      throw AuthException(exception.toString());
+    } on Exception catch (e) {
+      throw AuthException(e.toString());
     }
   }
 
+  ///Fiók törlése. A függvény kijelentkezteti, majd törli a felhasználó fiókját.
   Future<void> deleteAccount() async {
     try {
       if (!_isGuest) {

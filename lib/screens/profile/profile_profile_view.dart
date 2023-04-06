@@ -190,8 +190,17 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
       title: 'ACCOUNT_DELETE_DESCRIPTION'.tr(),
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () async {
-        Provider.of<AuthManager>(context, listen: false).deleteAccount();
-        SzikAppState.analytics.logEvent(name: 'profile_delete');
+        try {
+          Provider.of<AuthManager>(context, listen: false).deleteAccount();
+          SzikAppState.analytics.logEvent(name: 'profile_delete');
+        } on AuthException catch (_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            ErrorHandler.buildSnackbar(
+              context: context,
+              errorCode: signInRequiredExceptionCode,
+            ),
+          );
+        }
         Navigator.of(context, rootNavigator: true).pop();
       },
     );
