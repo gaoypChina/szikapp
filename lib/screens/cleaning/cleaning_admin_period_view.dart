@@ -238,7 +238,24 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     if (_hasOpenPeriod) ...[
                       ElevatedButton(
-                        onPressed: _onEditPeriod,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomDialog.confirmation(
+                              title: 'CLEANING_ADMIN_EDIT_PERIOD'.tr(),
+                              bodytext:
+                                  'CLEANING_ADMIN_EDIT_PERIOD_DESCRIPTION'.tr(),
+                              onWeakButtonClick: () =>
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(),
+                              onStrongButtonClick: () {
+                                _onEditPeriod();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                          );
+                        },
                         child: Text(
                           'BUTTON_EDIT'.tr(),
                           style: theme.textTheme.labelSmall!.copyWith(
@@ -247,7 +264,24 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: _onAutoAssign,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomDialog.confirmation(
+                              title: 'CLEANING_ADMIN_AUTO_ASSIGN'.tr(),
+                              bodytext:
+                                  'CLEANING_ADMIN_AUTO_ASSIGN_DESCRIPTION'.tr(),
+                              onWeakButtonClick: () =>
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(),
+                              onStrongButtonClick: () {
+                                _onAutoAssign();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                          );
+                        },
                         child: Text(
                           'CLEANING_ADMIN_AUTO_ASSIGN'.tr(),
                           style: theme.textTheme.labelSmall!.copyWith(
