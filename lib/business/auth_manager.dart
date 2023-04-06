@@ -202,6 +202,7 @@ class AuthManager extends ChangeNotifier {
         Settings.instance.savePreferences();
         await pushUserUpdate();
       }
+      await GoogleSignIn().signOut();
       await _auth.currentUser?.delete();
       _user = null;
       _isGuest = true;
