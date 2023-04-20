@@ -162,54 +162,59 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                       title: Text(
                         '${'POLL_VOTED'.tr()} - $allVoterCount ${'POLL_MEMBERS'.tr()}',
                         style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.outline,
-                        fontStyle: FontStyle.normal,
+                          color: theme.colorScheme.outline,
+                          fontStyle: FontStyle.normal,
                         ),
                       ),
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: results.entries.map((entry) {
-                            final key = entry.key;
-                            List<String> value = entry.value['voterIDs'];
-                            int voters = entry.value['voteCount'];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, top:4.0, bottom: 2.0),
-                                  child: Text(
-                                    '$key ($voters)',
-                                    style: theme.textTheme.titleMedium!.copyWith(
-                                    color: theme.colorScheme.outline,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.bold,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: results.entries.map((entry) {
+                              final key = entry.key;
+                              List<String> value = entry.value['voterIDs'];
+                              int voters = entry.value['voteCount'];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0, top: 4.0, bottom: 2.0),
+                                    child: Text(
+                                      '$key ($voters)',
+                                      style: theme.textTheme.titleMedium!.copyWith(
+                                        color: theme.colorScheme.outline,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const ClampingScrollPhysics(),
-                                  itemCount: value.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-                                      child: Text(
-                                        Provider.of<SzikAppStateManager>(context, listen: false).users.firstWhere((element) => element.id == value[index]).name,
-                                        style: theme.textTheme.titleMedium!.copyWith(
-                                        color: theme.colorScheme.outline,
-                                        fontStyle: FontStyle.normal),    
-                                    ),
-                                  );
-                                  },
-                                ),
-                              ],
-                            );
-                          }).toList(),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const ClampingScrollPhysics(),
+                                    itemCount: value.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(left: 16.0, top: 4.0),
+                                        child: Text(
+                                          Provider.of<SzikAppStateManager>(context, listen: false).users.firstWhere((element) => element.id == value[index]).name,
+                                          style: theme.textTheme.titleMedium!.copyWith(
+                                            color: theme.colorScheme.outline,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ],
                     ),
                   ),
+
 
                   Theme(
                     data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -225,7 +230,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                       ),
                       children: [
                         SizedBox(
-                          height: 200,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           child:
                             ListView.builder(
                               shrinkWrap: true,
