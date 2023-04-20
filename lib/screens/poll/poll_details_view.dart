@@ -58,7 +58,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
       poll: widget.poll,
       groups: Provider.of<SzikAppStateManager>(context).groups,
     );
-    int allVoteCount = results.remove('allVoteCount');
+    results.remove('allVoteCount');
     int allVoterCount = results.remove('allVoterCount');
     var nonVoterIDs = results.remove('nonVoterIDs');
     int nonVoterCount = nonVoterIDs.length;
@@ -157,7 +157,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   ExpansionTile(
                     tilePadding: const EdgeInsets.all(0),
                     title: Text(
-                      '${'POLL_VOTED'.tr()} - $allVoterCount',
+                      '${'POLL_VOTED'.tr()} - $allVoterCount ${'POLL_MEMBERS'.tr()}',
                       style: theme.textTheme.titleMedium!.copyWith(
                       color: theme.colorScheme.outline,
                       fontStyle: FontStyle.normal,
@@ -168,15 +168,15 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: results.entries.map((entry) {
                           final key = entry.key;
-                          final value = entry.value['voterIDs'];
+                          List<String> value = entry.value['voterIDs'];
                           int voters = entry.value['voteCount'];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0, top:4.0, bottom: 2.0),
                                 child: Text(
-                                  '$key - $voters',
+                                  '$key ($voters)',
                                   style: theme.textTheme.titleMedium!.copyWith(
                                   color: theme.colorScheme.outline,
                                   fontStyle: FontStyle.normal,
@@ -192,7 +192,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                                     child: Text(
-                                      value[index],
+                                      Provider.of<SzikAppStateManager>(context, listen: false).users.firstWhere((element) => element.id == value[index]).name,
                                       style: theme.textTheme.titleMedium!.copyWith(
                                       color: theme.colorScheme.outline,
                                       fontStyle: FontStyle.normal),    
@@ -210,19 +210,24 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   ExpansionTile(
                     tilePadding: 
                       const EdgeInsets.all(0),
-                    title: Text('${'POLL_NOT_VOTED'.tr()} - $nonVoterCount'),
+                    title: Text(
+                      '${'POLL_NOT_VOTED'.tr()} - $nonVoterCount ${'POLL_MEMBERS'.tr()}',
+                      style: theme.textTheme.titleMedium!.copyWith(
+                      color: theme.colorScheme.outline,
+                      fontStyle: FontStyle.normal,
+                      ),
+                    ),
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: Provider.of<SzikAppStateManager>(context)
+                        children: Provider.of<SzikAppStateManager>(context) //poll : participantIDs
                             .groups
                             .expand((group) => group.memberIDs)
-                            .where((id) => id != user.id)
                             .where((id) => !results.keys.contains(id))
                             .map((id) => Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
+                                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                                   child: Text(
-                                    id.toString(),
+                                    Provider.of<SzikAppStateManager>(context, listen: false).users.firstWhere((element) => element.id == id).name,
                                     style: theme.textTheme.titleMedium!.copyWith(
                                       color: theme.colorScheme.outline,
                                       fontStyle: FontStyle.normal,
@@ -230,7 +235,7 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                                   ),
                                 ))
                             .toList(),
-                      ),
+                      ), // Listviewbuilder legyen, expansiontile-ről a divider kiszedése
                     ],
                   ),
 
