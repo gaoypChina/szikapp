@@ -113,7 +113,7 @@
         "POLL_HINT_THANKS":"Köszönjük szavazatodat!",
         "POLL_VOTED":"Szavazott",
         "POLL_NOT_VOTED":"Nem szavazott",
-        "POLL_MEMBERS":"fő", 
+        "POLL_MEMBERS":"{} fő", 
     "FEED": null,
         "FEED_GREETINGS": "Belépés",
         "FEED_GREETINGS_SIGNEDIN": "Szia {}",
