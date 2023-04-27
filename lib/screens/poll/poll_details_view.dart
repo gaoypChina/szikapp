@@ -53,6 +53,19 @@ class _PollDetailsViewState extends State<PollDetailsView> {
   Widget _buildPoll({required bool isOpen}) {
     var theme = Theme.of(context);
     var user = Provider.of<AuthManager>(context, listen: false).user!;
+
+    var results = widget.manager.getResults(
+      poll: widget.poll,
+      groups: Provider.of<SzikAppStateManager>(context)
+          .groups
+          .where((group) => widget.poll.participantIDs.contains(group.id))
+          .toList(),
+    );
+    results.remove('allVoteCount');
+    int allVoterCount = results.remove('allVoterCount');
+    Set<String> nonVoterIDs = results.remove('nonVoterIDs');
+    var nonVoterCount = nonVoterIDs.length;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -60,9 +73,8 @@ class _PollDetailsViewState extends State<PollDetailsView> {
         Flexible(
           child: Padding(
             padding: const EdgeInsets.all(kPaddingLarge),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 Text(
                   widget.poll.question,
@@ -83,13 +95,10 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                   thickness: 2,
                   color: theme.colorScheme.secondary,
                 ),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: isOpen
-                        ? _buildOpenAnswerItems()
-                        : _buildClosedAnswerItems(),
-                  ),
+                Column(
+                  children: isOpen
+                      ? _buildOpenAnswerItems()
+                      : _buildClosedAnswerItems(),
                 ),
                 const SizedBox(height: kPaddingNormal),
                 if (isOpen)
@@ -139,6 +148,115 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                             child: Text('BUTTON_SEND'.tr()),
                           ),
                         ),
+                if (!widget.poll.isConfidential)
+                  Divider(
+                    thickness: 2,
+                    color: theme.colorScheme.secondary,
+                  ),
+                Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    tilePadding: const EdgeInsets.all(0),
+                    title: Text(
+                      '${'POLL_VOTED'.tr()} - ${'POLL_MEMBERS'.tr(args: [
+                            allVoterCount.toString()
+                          ])}',
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        color: theme.colorScheme.outline,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                    expandedAlignment: Alignment.topLeft,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                    children: results.entries.map((entry) {
+                      var key = entry.key;
+                      List<String> value = entry.value['voterIDs'];
+                      int voteCount = entry.value['voteCount'];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: kPaddingSmall,
+                              vertical: kPaddingNormal,
+                            ),
+                            child: Text(
+                              '$key ($voteCount)',
+                              style: theme.textTheme.titleMedium!.copyWith(
+                                color: theme.colorScheme.outline,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          ...value
+                              .map(
+                                (voterID) => Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: kPaddingNormal,
+                                    top: kPaddingSmall,
+                                  ),
+                                  child: Text(
+                                    Provider.of<SzikAppStateManager>(context,
+                                            listen: false)
+                                        .users
+                                        .firstWhere(
+                                            (user) => user.id == voterID)
+                                        .name,
+                                    style:
+                                        theme.textTheme.titleMedium!.copyWith(
+                                      color: theme.colorScheme.outline,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList()
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    tilePadding: const EdgeInsets.all(0),
+                    title: Text(
+                      '${'POLL_NOT_VOTED'.tr()} - ${'POLL_MEMBERS'.tr(args: [
+                            nonVoterCount.toString()
+                          ])}',
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        color: theme.colorScheme.outline,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                    expandedAlignment: Alignment.topLeft,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                    children: nonVoterIDs
+                        .map(
+                          (id) => Padding(
+                            padding: const EdgeInsets.only(
+                              left: kPaddingNormal,
+                              top: kPaddingSmall,
+                            ),
+                            child: Text(
+                              Provider.of<SzikAppStateManager>(context,
+                                      listen: false)
+                                  .users
+                                  .firstWhere((user) => user.id == id)
+                                  .name,
+                              style: theme.textTheme.titleMedium!.copyWith(
+                                color: theme.colorScheme.outline,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ],
             ),
           ),
