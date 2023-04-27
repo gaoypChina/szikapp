@@ -25,8 +25,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   late DateTime _startDate;
   late DateTime _endDate;
   bool _hasOpenPeriod = false;
+  bool _hasCurrentPeriod = false;
   late CleaningPeriod _openPeriod;
-  late CleaningPeriod _activePeriod;
+  late CleaningPeriod _currentPeriod;
   List<String> _memberIDs = [];
 
   @override
@@ -39,7 +40,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     _endDate = _hasOpenPeriod
         ? _openPeriod.end
         : _startDate.add(const Duration(days: 31));
-    _activePeriod = widget.manager.getCurrentPeriod();
+    _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
+    if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
     Provider.of<SzikAppStateManager>(context, listen: false)
         .groups
         .where((group) => widget.manager.participantGroupIDs.contains(group.id))
@@ -236,7 +238,24 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     if (_hasOpenPeriod) ...[
                       ElevatedButton(
-                        onPressed: _onEditPeriod,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomDialog.confirmation(
+                              title: 'CLEANING_ADMIN_EDIT_PERIOD'.tr(),
+                              bodytext:
+                                  'CLEANING_ADMIN_EDIT_PERIOD_DESCRIPTION'.tr(),
+                              onWeakButtonClick: () =>
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(),
+                              onStrongButtonClick: () {
+                                _onEditPeriod();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                          );
+                        },
                         child: Text(
                           'BUTTON_EDIT'.tr(),
                           style: theme.textTheme.labelSmall!.copyWith(
@@ -245,7 +264,24 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: _onAutoAssign,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomDialog.confirmation(
+                              title: 'CLEANING_ADMIN_AUTO_ASSIGN'.tr(),
+                              bodytext:
+                                  'CLEANING_ADMIN_AUTO_ASSIGN_DESCRIPTION'.tr(),
+                              onWeakButtonClick: () =>
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(),
+                              onStrongButtonClick: () {
+                                _onAutoAssign();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                          );
+                        },
                         child: Text(
                           'CLEANING_ADMIN_AUTO_ASSIGN'.tr(),
                           style: theme.textTheme.labelSmall!.copyWith(
@@ -279,72 +315,90 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                   style: theme.textTheme.displaySmall,
                 ),
                 const SizedBox(height: kPaddingSmall),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'CLEANING_PERIOD_START'.tr(),
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('yyyy. MM. dd.').format(_activePeriod.start),
-                      style: theme.textTheme.labelLarge!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: kPaddingSmall),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'CLEANING_PERIOD_END'.tr(),
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('yyyy. MM. dd.').format(_activePeriod.end),
-                      style: theme.textTheme.labelLarge!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: kPaddingNormal),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'CLEANING_ADMIN_NUMOFDAYS'.tr(),
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Text(
-                      '${_activePeriod.end.difference(_activePeriod.start).inDays * 2}',
-                      style: theme.textTheme.displaySmall,
-                    )
-                  ],
-                ),
+                ..._buildCurrentPeriodBody(),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildCurrentPeriodBody() {
+    var theme = Theme.of(context);
+    if (!_hasCurrentPeriod) {
+      return [
+        Text(
+          'CLEANING_ADMIN_NO_ACTIVE_PERIOD_INFO'.tr(),
+          style: theme.textTheme.titleMedium!.copyWith(
+            color: theme.colorScheme.primaryContainer,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+      ];
+    }
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'CLEANING_PERIOD_START'.tr(),
+            style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Text(
+            DateFormat('yyyy. MM. dd.').format(_currentPeriod.start),
+            style: theme.textTheme.labelLarge!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontStyle: FontStyle.italic,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: kPaddingSmall),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'CLEANING_PERIOD_END'.tr(),
+            style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Text(
+            DateFormat('yyyy. MM. dd.').format(_currentPeriod.end),
+            style: theme.textTheme.labelLarge!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontStyle: FontStyle.italic,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: kPaddingNormal),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'CLEANING_ADMIN_NUMOFDAYS'.tr(),
+            style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Text(
+            '${_currentPeriod.end.difference(_currentPeriod.start).inDays * 2}',
+            style: theme.textTheme.displaySmall,
+          )
+        ],
+      )
+    ];
   }
 }

@@ -85,6 +85,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   Future<void> _onApplyPressed() async {
+    if (_selectedEvent!.participantIDs.length > 1) return;
     try {
       _selectedEvent!.participantIDs.add(_user.id);
       await widget.manager.editCleaningTask(task: _selectedEvent!);
@@ -182,13 +183,32 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                 }
               },
               calendarBuilders: CalendarBuilders(
+                defaultBuilder: (context, day, focusedDay) {
+                  if (_userAlreadyApplied &&
+                      widget.manager
+                          .getUserOpenTask(userID: _user.id)
+                          .start
+                          .isSameDate(day)) {
+                    return Center(
+                      child: Text(
+                        DateFormat('d').format(day),
+                        style: theme.textTheme.titleMedium!.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  }
+                  return null;
+                },
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
-                  var markerColor = statusRed;
+                  var markerColor = statusGreen;
                   if (participantCount == 1) {
                     markerColor = statusYellow;
                   } else if (participantCount == 2) {
-                    markerColor = statusGreen;
+                    markerColor = statusRed;
                   }
                   return Container(
                     height: kCalendarMarkerSize,

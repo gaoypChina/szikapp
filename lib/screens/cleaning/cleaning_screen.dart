@@ -63,17 +63,14 @@ class _CleaningScreenViewState extends State<CleaningScreenView> {
   @override
   void initState() {
     super.initState();
-    isApplyingLive = widget.manager.periods
-        .any((period) => period.start.isAfter(DateTime.now()));
+    isApplyingLive = widget.manager.hasOpenPeriod();
     if (!isApplyingLive) _selectedTab = 1;
   }
 
   void _onTabChanged(int? newValue) {
     var newTab = newValue ?? 0;
     if (!isApplyingLive) newTab += 1;
-    setState(() {
-      _selectedTab = newTab;
-    });
+    setState(() => _selectedTab = newTab);
   }
 
   Widget _buildBody() {

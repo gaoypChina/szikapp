@@ -42,6 +42,8 @@ class ProfileTextField extends StatelessWidget {
                     onChanged: onChanged,
                     readOnly: readOnly,
                     textAlign: TextAlign.end,
+                    maxLines: 5,
+                    minLines: 1,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,

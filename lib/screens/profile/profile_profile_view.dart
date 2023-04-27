@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/link.dart';
 
 import '../../business/business.dart';
 import '../../components/components.dart';
@@ -113,13 +114,15 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     SzikAppState.analytics.logEvent(name: 'profile_update_cancelled');
   }
 
-  List<Widget> _buildActionButtons() {
+  List<Widget> _buildDataActionButtons() {
+    var theme = Theme.of(context);
     return changed
         ? [
             ElevatedButton.icon(
-              icon: const CustomIcon(
+              icon: CustomIcon(
                 CustomIcons.close,
                 size: kIconSizeNormal,
+                color: theme.colorScheme.surface,
               ),
               label: Text('BUTTON_DISMISS'.tr()),
               onPressed: _onCancel,
@@ -128,9 +131,10 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               ),
             ),
             ElevatedButton.icon(
-              icon: const CustomIcon(
+              icon: CustomIcon(
                 CustomIcons.done,
                 size: kIconSizeNormal,
+                color: theme.colorScheme.surface,
               ),
               label: Text('BUTTON_SAVE'.tr()),
               onPressed: _onSend,
@@ -140,6 +144,66 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
             )
           ]
         : [];
+  }
+
+  List<Widget> _buildAccountActionButtons() {
+    var theme = Theme.of(context);
+    return [
+      ElevatedButton.icon(
+        onPressed: () {
+          SzikAppState.analytics.logEvent(name: 'sign_out');
+          Provider.of<AuthManager>(context, listen: false).signOut();
+        },
+        icon: CustomIcon(
+          CustomIcons.logout,
+          size: kIconSizeSmall,
+          color: theme.colorScheme.surface,
+        ),
+        label: Text('SIGN_OUT_LABEL'.tr()),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+        ),
+      ),
+      ElevatedButton.icon(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) =>
+                _buildAccountDeleteConfirmationDialog(),
+          );
+        },
+        icon: CustomIcon(
+          CustomIcons.trash,
+          size: kIconSizeSmall,
+          color: theme.colorScheme.surface,
+        ),
+        label: Text('ACCOUNT_DELETE_LABEL'.tr()),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+        ),
+      ),
+    ];
+  }
+
+  Widget _buildAccountDeleteConfirmationDialog() {
+    return CustomDialog.alert(
+      title: 'ACCOUNT_DELETE_DESCRIPTION'.tr(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () async {
+        try {
+          Provider.of<AuthManager>(context, listen: false).deleteAccount();
+          SzikAppState.analytics.logEvent(name: 'profile_delete');
+        } on AuthException catch (_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            ErrorHandler.buildSnackbar(
+              context: context,
+              errorCode: signInRequiredExceptionCode,
+            ),
+          );
+        }
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
   }
 
   @override
@@ -157,12 +221,14 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     var userCanModify = widget.manager.user
             ?.hasPermission(permission: Permission.profileEdit) ??
         false;
+    var isUserGuest =
+        Provider.of<AuthManager>(context, listen: false).isUserGuest;
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'PROFILE_TITLE'.tr(),
       body: Container(
         color: theme.colorScheme.background,
-        padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
+        padding: const EdgeInsets.symmetric(horizontal: kPaddingNormal),
         child: ListView(
           children: [
             Container(
@@ -181,26 +247,6 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                       color: theme.colorScheme.primary,
                     ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    SzikAppState.analytics.logEvent(name: 'sign_out');
-                    Provider.of<AuthManager>(context, listen: false).signOut();
-                  },
-                  icon: CustomIcon(
-                    CustomIcons.logout,
-                    size: kIconSizeSmall,
-                    color: theme.colorScheme.surface,
-                  ),
-                  label: Text('SIGN_OUT_LABEL'.tr()),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                  ),
-                ),
-              ],
-            ),
             Form(
               key: _formKey,
               child: Column(
@@ -211,48 +257,80 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     onChanged: _onNameChanged,
                     readOnly: !userCanModify,
                   ),
-                  ProfileTextField(
-                    label: 'PROFILE_NICKNAME'.tr(),
-                    initialValue: nick,
-                    onChanged: _onNickChanged,
-                    readOnly: !userCanModify,
-                  ),
+                  if (!isUserGuest)
+                    ProfileTextField(
+                      label: 'PROFILE_NICKNAME'.tr(),
+                      initialValue: nick,
+                      onChanged: _onNickChanged,
+                      readOnly: !userCanModify,
+                    ),
                   ProfileTextField(
                     label: 'PROFILE_EMAIL'.tr(),
                     initialValue: widget.manager.user?.email,
                     readOnly: true,
                   ),
-                  ProfileTextField(
-                    label: 'PROFILE_BIRTHDAY'.tr(),
-                    initialValue: birthday != null
-                        ? DateFormat('yyyy. MM. dd.').format(birthday!)
-                        : null,
-                    onChanged: _onBirthdayChanged,
-                    readOnly: !userCanModify,
-                  ),
-                  ProfileTextField(
-                    label: 'PROFILE_PHONENUMBER'.tr(),
-                    initialValue: phone,
-                    onChanged: _onPhoneChanged,
-                    readOnly: !userCanModify,
-                  ),
-                  ProfileTextField(
-                    label: 'PROFILE_GROUPS'.tr(),
-                    initialValue: buildGroupNamesFromIDs(
-                      ids: widget.manager.user?.groupIDs,
+                  if (!isUserGuest)
+                    ProfileTextField(
+                      label: 'PROFILE_BIRTHDAY'.tr(),
+                      initialValue: birthday != null
+                          ? DateFormat('yyyy. MM. dd.').format(birthday!)
+                          : null,
+                      onChanged: _onBirthdayChanged,
+                      readOnly: !userCanModify,
                     ),
-                    readOnly: true,
-                  ),
+                  if (!isUserGuest)
+                    ProfileTextField(
+                      label: 'PROFILE_PHONENUMBER'.tr(),
+                      initialValue: phone,
+                      onChanged: _onPhoneChanged,
+                      readOnly: !userCanModify,
+                    ),
+                  if (!isUserGuest)
+                    ProfileTextField(
+                      label: 'PROFILE_GROUPS'.tr(),
+                      initialValue: buildGroupNamesFromIDs(
+                        ids: widget.manager.user?.groupIDs,
+                      ),
+                      readOnly: true,
+                    ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              padding: const EdgeInsets.only(top: kPaddingLarge),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: userCanModify ? _buildActionButtons() : [],
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: userCanModify ? _buildDataActionButtons() : [],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: kPaddingNormal),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _buildAccountActionButtons(),
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+                child: Link(
+                  uri: Uri.parse('https://szikapp.netlify.app'),
+                  target: LinkTarget.defaultTarget,
+                  builder: (context, followLink) {
+                    return InkWell(
+                      onTap: followLink,
+                      child: Text(
+                        'PRIVACY_POLICY_LINK'.tr(),
+                        style: theme.textTheme.bodySmall!.copyWith(
+                          color: theme.colorScheme.secondaryContainer,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
