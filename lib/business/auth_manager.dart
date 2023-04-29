@@ -51,7 +51,12 @@ class AuthManager extends ChangeNotifier {
   /// autentikálja a felhasználót
   Future<UserCredential> _signInWithGoogle() async {
     // Trigger the authentication flow
-    final googleUser = await GoogleSignIn().signIn();
+    final googleUser = await GoogleSignIn(scopes: [
+      'openid',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/firebase.messaging',
+    ]).signIn();
 
     // Obtain the auth details from the request
     final googleAuth = await googleUser!.authentication;

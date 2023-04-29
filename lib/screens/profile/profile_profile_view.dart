@@ -314,7 +314,8 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
                 child: Link(
-                  uri: Uri.parse('https://szikapp.netlify.app'),
+                  uri: Uri.parse(
+                      'https://szikapp.netlify.app/privacy_policy.html'),
                   target: LinkTarget.defaultTarget,
                   builder: (context, followLink) {
                     return InkWell(

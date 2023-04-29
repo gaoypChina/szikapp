@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/link.dart';
 
 import '../ui/themes.dart';
 
@@ -31,16 +32,31 @@ class GDPRWidget extends StatelessWidget {
           kPaddingNormal,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  'GDPR_AGREEMENT'.tr(),
-                  style: theme.textTheme.labelSmall!.copyWith(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
+            Text(
+              'GDPR_AGREEMENT'.tr(),
+              style: theme.textTheme.labelLarge!.copyWith(
+                color: theme.colorScheme.primary,
               ),
+            ),
+            const SizedBox(height: kPaddingNormal),
+            Link(
+              uri: Uri.parse('https://szikapp.netlify.app/privacy_policy.html'),
+              target: LinkTarget.defaultTarget,
+              builder: (context, followLink) {
+                return InkWell(
+                  onTap: followLink,
+                  child: Text(
+                    'PRIVACY_POLICY_LINK'.tr(),
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                );
+              },
             ),
             Flex(
               direction: Axis.horizontal,
