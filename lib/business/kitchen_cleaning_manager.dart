@@ -77,6 +77,15 @@ class KitchenCleaningManager extends ChangeNotifier {
         task.start.isInInterval(currentPeriod.start, currentPeriod.end));
   }
 
+  ///User has a task in the current period that was not due yet
+  bool usersAppliedCurrentTaskIsNotInThePast({required String userID}) {
+    if (!hasCurrentPeriod()) return false;
+    var currentPeriod = getCurrentPeriod();
+    return tasks.any((task) =>
+        task.participantIDs.contains(userID) &&
+        task.start.isInInterval(DateTime.now(), currentPeriod.end));
+  }
+
   ///Returns the applied task for the user from the current period
   CleaningTask getUserCurrentTask({required String userID}) {
     var currentPeriod = getCurrentPeriod();

@@ -27,6 +27,7 @@ class CleaningExchangesView extends StatefulWidget {
 class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   bool _userHasActiveExchange = false;
   bool _userHasAppliedCurrentTask = false;
+  bool _usersAppliedTaskNotInThePast = false;
   List<CleaningExchange> _exchanges = [];
 
   @override
@@ -38,6 +39,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         widget.manager.userHasActiveExchange(userID: user.id);
     _userHasAppliedCurrentTask =
         widget.manager.userHasAppliedCurrentTask(userID: user.id);
+    _usersAppliedTaskNotInThePast =
+        widget.manager.usersAppliedCurrentTaskIsNotInThePast(userID: user.id);
   }
 
   Future<void> refreshWidget() async {
@@ -56,12 +59,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var tasks = Provider.of<KitchenCleaningManager>(context).tasks;
     var filteredExchanges = _exchanges
         .where(
-          (exchange) =>
-              exchange.status != TaskStatus.approved &&
-              tasks
-                  .firstWhere((task) => task.id == exchange.taskID)
-                  .end
-                  .isAfter(DateTime.now()),
+          (exchange) => tasks
+              .firstWhere((task) => task.id == exchange.taskID)
+              .end
+              .isAfter(DateTime.now()),
         )
         .toList();
     return RefreshIndicator(
@@ -72,8 +73,10 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           children: [
             if (!_userHasAppliedCurrentTask)
               _buildInfoTile(text: 'CLEANING_INFO_NO_CURRENT_TASK'.tr())
-            else if (!_userHasActiveExchange)
-              _buildNewExchangeTile(),
+            else if (!_userHasActiveExchange && _usersAppliedTaskNotInThePast)
+              _buildNewExchangeTile()
+            else
+              _buildInfoTile(text: 'CLEANING_INFO_TASK_IN_THE_PAST'.tr()),
             Expanded(
               child: ToggleList(
                 divider: const SizedBox(height: kPaddingNormal),
