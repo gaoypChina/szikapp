@@ -220,12 +220,14 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         borderRadius: const BorderRadius.all(
           Radius.circular(kBorderRadiusNormal),
         ),
+        border: Border.all(color: theme.colorScheme.primaryContainer),
       ),
       expandedHeaderDecoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(kBorderRadiusNormal),
         ),
+        border: Border.all(color: theme.colorScheme.primaryContainer),
       ),
       title: Padding(
         padding: const EdgeInsets.all(kPaddingLarge),
@@ -255,19 +257,14 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
           ],
         ),
       ),
-      divider: Container(
-        height: 2,
-        color: backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
-        child: Container(color: foregroundColor),
-      ),
       content: userHasCurrentTask
           ? Container(
               decoration: BoxDecoration(
                 color: backgroundColor,
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(kBorderRadiusNormal),
-                ),
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(kBorderRadiusNormal),
+                    bottomLeft: Radius.circular(kBorderRadiusNormal)),
+                border: Border.all(color: theme.colorScheme.primaryContainer),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(kPaddingLarge),
@@ -450,7 +447,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
         .toList();
 
     Widget iconButton;
-    if (userOfferedExchangeIDs.isEmpty) {
+    if (userOfferedExchangeIDs.isEmpty && _usersAppliedTaskNotInThePast) {
       iconButton = IconButton(
         padding: const EdgeInsets.all(0),
         alignment: Alignment.bottomRight,
