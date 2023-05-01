@@ -199,7 +199,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     ),
                     Text(
-                      '${_endDate.difference(_startDate).inDays * 2}',
+                      '${(_endDate.difference(_startDate).inDays + 1) * 2}',
                       style: theme.textTheme.displaySmall,
                     )
                   ],

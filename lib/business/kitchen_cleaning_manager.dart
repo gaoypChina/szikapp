@@ -163,7 +163,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     try {
       var io = IO();
       var parameter = <String, String>{};
-      if (status == null) {
+      if (status != null) {
         parameter = {'status': status.toString()};
       }
       _cleaningExchanges = await io.getCleaningExchange(parameters: parameter);
