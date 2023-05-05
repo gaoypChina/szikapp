@@ -43,50 +43,6 @@ class GoodToKnowManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> addItem({required GoodToKnow item}) async {
-    var io = IO();
-    await io.postGoodToKnow(data: item);
-
-    _posts.add(item);
-    _createNewItem = false;
-    _editItem = false;
-    _selectedIndex = -1;
-    notifyListeners();
-    return true;
-  }
-
-  Future<bool> updateItem({required GoodToKnow item}) async {
-    if (!_posts.any((post) => post.id == item.id)) return false;
-
-    var io = IO();
-    var parameter = {'id': item.id};
-    await io.putGoodToKnow(data: item, parameters: parameter);
-
-    _posts.removeWhere((post) => post.id == item.id);
-    _posts.add(item);
-    _createNewItem = false;
-    _editItem = false;
-    _selectedIndex = -1;
-    notifyListeners();
-    return true;
-  }
-
-  Future<bool> deleteItem({required GoodToKnow item}) async {
-    if (!_posts.any((post) => post.id == item.id)) return false;
-
-    var io = IO();
-    var parameter = {'id': item.id};
-    await io.deleteGoodToKnow(
-        parameters: parameter, lastUpdate: item.lastUpdate);
-
-    _posts.remove(item);
-    _createNewItem = false;
-    _editItem = false;
-    _selectedIndex = -1;
-    notifyListeners();
-    return true;
-  }
-
   List<GoodToKnow> search({required String text}) {
     if (text == '') {
       return _posts;

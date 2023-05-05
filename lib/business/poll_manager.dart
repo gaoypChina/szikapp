@@ -126,7 +126,7 @@ class PollManager extends ChangeNotifier {
   Future<bool> updatePoll({required PollTask poll}) async {
     var io = IO();
     var parameter = {'id': poll.id};
-    await io.patchPoll(data: poll, parameters: parameter);
+    await io.putPoll(data: poll, parameters: parameter);
 
     _polls.removeWhere((element) => element.id == poll.id);
     _polls.add(poll);
@@ -164,7 +164,7 @@ class PollManager extends ChangeNotifier {
 
     var io = IO();
     var parameter = {'id': poll.id};
-    await io.putPoll(data: vote, parameters: parameter);
+    await io.patchPoll(data: vote, parameters: parameter);
 
     poll.answers.add(vote);
     _createNewPoll = false;
