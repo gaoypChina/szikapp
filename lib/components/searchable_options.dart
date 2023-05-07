@@ -142,7 +142,7 @@ class SearchableOptions<T> extends StatelessWidget {
             autoValidateMode: AutovalidateMode.onUserInteraction,
             compareFn: compare,
             items: items,
-            selectedItem: selectedItems.first,
+            selectedItem: selectedItems.isNotEmpty ? selectedItems.first : null,
             onChanged: (item) => onItemsChanged(item == null ? [] : [item]),
             enabled: !readonly,
             clearButtonProps: const ClearButtonProps(
