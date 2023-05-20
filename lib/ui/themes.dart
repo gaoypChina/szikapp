@@ -25,6 +25,9 @@ const double kCalendarMarkerSize = 5;
 const double kDaysOfWeekSize = 20;
 const double kSearchBarIconSize = 30;
 
+const double kColorPickerHeight = 100;
+
+
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
 const Color szikLavenderBlush = Color(0xfffffafb);

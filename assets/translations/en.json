@@ -59,6 +59,7 @@
         "RESERVATION_LABEL_TIME_FROM": "Start",
         "RESERVATION_LABEL_TIME_TO": "End",
         "RESERVATION_LABEL_DESCRIPTION": "Details",
+        "RESERVATION_LABEL_COLOR":"Color",
         "RESERVATION_MODE_PLACE": "Room",
         "RESERVATION_MODE_ACCOUNT": "Account",
         "RESERVATION_MODE_BOARDGAME": "Boardgame ",

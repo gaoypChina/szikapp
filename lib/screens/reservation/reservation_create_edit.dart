@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -68,6 +69,7 @@ class ReservationCreateEditScreenState
   late DateTime start;
   late DateTime end;
   late Resource selectedResource;
+  late Color color;
 
   String timeFieldError = '';
 
@@ -194,7 +196,8 @@ class ReservationCreateEditScreenState
         managerIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
-        resourceIDs: resourceIDs,
+        resourceIDs: resourceIDs, 
+        color: color,
       );
       SzikAppState.analytics.logEvent(name: 'reservation_create');
       widget.onCreate(task);
@@ -218,6 +221,12 @@ class ReservationCreateEditScreenState
     SzikAppState.analytics.logEvent(name: 'reservation_delete');
     widget.onDelete(widget.originalItem!, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _onColorChanged(Color color) {
+    setState(() {
+      this.color = color;
+    });
   }
 
   @override
@@ -473,6 +482,46 @@ class ReservationCreateEditScreenState
                         Container(
                           width: leftColumnWidth,
                           margin: const EdgeInsets.only(right: kPaddingNormal),
+                          child: Text(
+                            'RESERVATION_LABEL_COLOR'.tr(),
+                            style: theme.textTheme.displaySmall!.copyWith(
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: kColorPickerHeight, // Adjust the height as needed
+                            child: BlockPicker(
+                              pickerColor: theme.primaryColor, // default color
+                              onColorChanged: _onColorChanged,
+                              availableColors: const [
+                                Color.fromARGB(255, 139, 89, 89),
+                                Color.fromARGB(255, 200, 70, 93),
+                                Color.fromARGB(255, 249, 200, 199),
+                                Color.fromARGB(255, 249, 216, 216),
+                                Color.fromARGB(255, 184, 184, 184),
+                                Color.fromARGB(255, 89, 163, 176),
+                                Color.fromARGB(255, 9, 85, 85),
+                                Color.fromARGB(255, 4, 49, 48),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: widget.isEdit
                               ? IconButton(
                                   icon: CustomIcon(
@@ -513,4 +562,6 @@ class ReservationCreateEditScreenState
       ),
     );
   }
+  
+
 }
