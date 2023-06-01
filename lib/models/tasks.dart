@@ -103,7 +103,7 @@ class TimetableTask extends Task {
   @JsonKey(name: 'resource_ids')
   List<String> resourceIDs;
   String? url;
-  Color? color;
+  int color;
 
   TimetableTask({
     required super.id,
@@ -117,7 +117,7 @@ class TimetableTask extends Task {
     required super.lastUpdate,
     required this.resourceIDs,
     this.url,
-    this.color,
+    required this.color,
   });
 
   @override

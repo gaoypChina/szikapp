@@ -76,6 +76,7 @@ class ReservationCreateEditScreenState
   @override
   void initState() {
     super.initState();
+    color = widget.isEdit? Color(widget.originalItem!.color): const Color(0xFF59A3B0); //widget.originalItem;
     name = widget.isEdit ? widget.originalItem!.name : null;
     description = widget.isEdit ? widget.originalItem!.description : null;
     start = widget.isEdit
@@ -197,7 +198,7 @@ class ReservationCreateEditScreenState
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
         resourceIDs: resourceIDs, 
-        color: color,
+        color: color.value,
       );
       SzikAppState.analytics.logEvent(name: 'reservation_create');
       widget.onCreate(task);
@@ -211,6 +212,7 @@ class ReservationCreateEditScreenState
       task.description = description;
       task.start = start;
       task.end = end;
+      task.color = color.value;
 
       SzikAppState.analytics.logEvent(name: 'reservation_edit');
       widget.onUpdate(task, widget.index);
@@ -223,9 +225,9 @@ class ReservationCreateEditScreenState
     Navigator.of(context, rootNavigator: true).pop();
   }
 
-  void _onColorChanged(Color color) {
+  void _onColorChanged(Color newColor) {
     setState(() {
-      this.color = color;
+      color = newColor;
     });
   }
 
@@ -498,14 +500,14 @@ class ReservationCreateEditScreenState
                               pickerColor: theme.primaryColor, // default color
                               onColorChanged: _onColorChanged,
                               availableColors: const [
-                                Color.fromARGB(255, 139, 89, 89),
-                                Color.fromARGB(255, 200, 70, 93),
-                                Color.fromARGB(255, 249, 200, 199),
-                                Color.fromARGB(255, 249, 216, 216),
-                                Color.fromARGB(255, 184, 184, 184),
-                                Color.fromARGB(255, 89, 163, 176),
-                                Color.fromARGB(255, 9, 85, 85),
-                                Color.fromARGB(255, 4, 49, 48),
+                                Color(0xFF8B5959),
+                                Color(0xFFC8465D),
+                                Color(0xFFF9C8C7),
+                                Color(0xFFF9D8D8),
+                                Color(0xFFB8B8B8),
+                                Color(0xFF59A3B0),
+                                Color(0xFF095555),
+                                Color(0xFF043130),
                               ],
                             ),
                           ),

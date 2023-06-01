@@ -62,6 +62,8 @@ const Map<TaskStatus, Color> taskStatusColors = {
   TaskStatus.approved: statusGreen,
 };
 
+
+
 TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.
   ///Nunito, Semi-bold, 18 pt

@@ -177,7 +177,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
-                            color: theme.colorScheme.primary,
+                            color: Color(reservation.color),
                           ),
                           padding: const EdgeInsets.all(kPaddingLarge),
                           child: Column(
