@@ -497,18 +497,9 @@ class ReservationCreateEditScreenState
                           child: SizedBox(
                             height: kColorPickerHeight, // Adjust the height as needed
                             child: BlockPicker(
-                              pickerColor: theme.primaryColor, // default color
+                              pickerColor:  color, // selected color
                               onColorChanged: _onColorChanged,
-                              availableColors: const [
-                                Color(0xFF8B5959),
-                                Color(0xFFC8465D),
-                                Color(0xFFF9C8C7),
-                                Color(0xFFF9D8D8),
-                                Color(0xFFB8B8B8),
-                                Color(0xFF59A3B0),
-                                Color(0xFF095555),
-                                Color(0xFF043130),
-                              ],
+                              availableColors: reservationColors,
                             ),
                           ),
                         ),
