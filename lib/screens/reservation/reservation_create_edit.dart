@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -68,12 +69,16 @@ class ReservationCreateEditScreenState
   late DateTime start;
   late DateTime end;
   late Resource selectedResource;
+  late Color color;
 
   String timeFieldError = '';
 
   @override
   void initState() {
     super.initState();
+    color = widget.isEdit
+        ? Color(widget.originalItem!.color)
+        : const Color(0xFF59A3B0);
     name = widget.isEdit ? widget.originalItem!.name : null;
     description = widget.isEdit ? widget.originalItem!.description : null;
     start = widget.isEdit
@@ -177,6 +182,12 @@ class ReservationCreateEditScreenState
     });
   }
 
+  void _onColorChanged(Color newColor) {
+    setState(() {
+      color = newColor;
+    });
+  }
+
   void _onNewSent() {
     if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
       var uuid = const Uuid();
@@ -195,6 +206,7 @@ class ReservationCreateEditScreenState
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
         resourceIDs: resourceIDs,
+        color: color.value,
       );
       SzikAppState.analytics.logEvent(name: 'reservation_create');
       widget.onCreate(task);
@@ -208,6 +220,7 @@ class ReservationCreateEditScreenState
       task.description = description;
       task.start = start;
       task.end = end;
+      task.color = color.value;
 
       SzikAppState.analytics.logEvent(name: 'reservation_edit');
       widget.onUpdate(task, widget.index);
@@ -461,6 +474,36 @@ class ReservationCreateEditScreenState
                                   const EdgeInsets.all(kPaddingSmall),
                             ),
                             onChanged: _onDescriptionChanged,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: kPaddingLarge),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: leftColumnWidth,
+                          margin: const EdgeInsets.only(right: kPaddingNormal),
+                          child: Text(
+                            'RESERVATION_LABEL_COLOR'.tr(),
+                            style: theme.textTheme.displaySmall!.copyWith(
+                              fontSize: 14,
+                              color: theme.colorScheme.primary,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height:
+                                kColorPickerHeight, // Adjust the height as needed
+                            child: BlockPicker(
+                              pickerColor: color, // selected color
+                              onColorChanged: _onColorChanged,
+                              availableColors: reservationColors,
+                            ),
                           ),
                         ),
                       ],

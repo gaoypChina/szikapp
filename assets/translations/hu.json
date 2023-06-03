@@ -59,6 +59,7 @@
         "RESERVATION_LABEL_TIME_FROM": "Kezdés",
         "RESERVATION_LABEL_TIME_TO": "Befejezés",
         "RESERVATION_LABEL_DESCRIPTION": "Részletek",
+        "RESERVATION_LABEL_COLOR":"Szín",
         "RESERVATION_MODE_PLACE": "Teremfoglalás",
         "RESERVATION_MODE_ACCOUNT": "Fiók foglalás",
         "RESERVATION_MODE_BOARDGAME": "Társas foglalás",

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../ui/themes.dart';
 import 'components.dart';
 
-class SearchBar extends StatefulWidget {
+class CustomSearchBar extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final FormFieldValidator<String>? validator;
   final Widget? filter;
   final String placeholder;
   final double searchBarIconSize;
 
-  const SearchBar({
+  const CustomSearchBar({
     super.key,
     required this.onChanged,
     this.validator,
@@ -20,10 +20,10 @@ class SearchBar extends StatefulWidget {
   });
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar>
+class _CustomSearchBarState extends State<CustomSearchBar>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _easeInTween =
       CurveTween(curve: Curves.easeIn);
