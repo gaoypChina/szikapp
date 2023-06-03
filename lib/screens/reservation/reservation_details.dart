@@ -177,7 +177,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.circular(kBorderRadiusNormal),
-                            color: theme.colorScheme.primary,
+                            color: Color(reservation.color),
                           ),
                           padding: const EdgeInsets.all(kPaddingLarge),
                           child: Column(
@@ -185,7 +185,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                               Text(
                                 reservation.name.useCorrectEllipsis(),
                                 style: theme.textTheme.bodySmall!.copyWith(
-                                  color: theme.colorScheme.surface,
+                                  color: darkReservationColors
+                                          .contains(Color(reservation.color))
+                                      ? theme.colorScheme.surface
+                                      : theme.colorScheme.scrim,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
@@ -200,7 +203,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                       .toList()
                                       .join(', '),
                                   style: theme.textTheme.bodySmall!.copyWith(
-                                    color: theme.colorScheme.surface,
+                                    color: darkReservationColors
+                                            .contains(Color(reservation.color))
+                                        ? theme.colorScheme.surface
+                                        : theme.colorScheme.scrim,
                                   ),
                                   overflow: TextOverflow.fade,
                                 ),
