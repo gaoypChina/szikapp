@@ -27,7 +27,6 @@ const double kSearchBarIconSize = 30;
 
 const double kColorPickerHeight = 100;
 
-
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
 const Color szikLavenderBlush = Color(0xfffffafb);
@@ -63,14 +62,14 @@ const Map<TaskStatus, Color> taskStatusColors = {
 };
 
 ///foglalások színei
-const Color reservationColor1 = Color(0xFF8B5959); //dark
-const Color reservationColor2 = Color(0xFFC8465D); //dark
-const Color reservationColor3 = Color(0xFFF9C8C7); //light
-const Color reservationColor4 = Color(0xFFF9D8D8); //light
-const Color reservationColor5 = Color(0xFFB8B8B8); //light
-const Color reservationColor6 = Color(0xFF59A3B0); //dark
-const Color reservationColor7 = Color(0xFF095555); //dark
-const Color reservationColor8 = Color(0xFF043130); //dark
+const Color reservationColor1 = Color(0xff8b5959); //dark
+const Color reservationColor2 = Color(0xffc8465d); //dark
+const Color reservationColor3 = Color(0xfff9c8c7); //light
+const Color reservationColor4 = Color(0xfff9d8d8); //light
+const Color reservationColor5 = Color(0xffb8b8b8); //light
+const Color reservationColor6 = Color(0xff59a3b0); //dark
+const Color reservationColor7 = Color(0xff095555); //dark
+const Color reservationColor8 = Color(0xff043130); //dark
 
 const reservationColors = [
   reservationColor1,

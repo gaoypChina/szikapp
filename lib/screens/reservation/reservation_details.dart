@@ -185,7 +185,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                               Text(
                                 reservation.name.useCorrectEllipsis(),
                                 style: theme.textTheme.bodySmall!.copyWith(
-                                  color: darkReservationColors.contains(Color(reservation.color)) ? theme.colorScheme.surface : theme.colorScheme.scrim,
+                                  color: darkReservationColors
+                                          .contains(Color(reservation.color))
+                                      ? theme.colorScheme.surface
+                                      : theme.colorScheme.scrim,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
@@ -200,7 +203,10 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                       .toList()
                                       .join(', '),
                                   style: theme.textTheme.bodySmall!.copyWith(
-                                  color: darkReservationColors.contains(Color(reservation.color)) ? theme.colorScheme.surface : theme.colorScheme.scrim,
+                                    color: darkReservationColors
+                                            .contains(Color(reservation.color))
+                                        ? theme.colorScheme.surface
+                                        : theme.colorScheme.scrim,
                                   ),
                                   overflow: TextOverflow.fade,
                                 ),

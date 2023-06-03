@@ -76,7 +76,9 @@ class ReservationCreateEditScreenState
   @override
   void initState() {
     super.initState();
-    color = widget.isEdit? Color(widget.originalItem!.color): const Color(0xFF59A3B0); //widget.originalItem;
+    color = widget.isEdit
+        ? Color(widget.originalItem!.color)
+        : const Color(0xFF59A3B0);
     name = widget.isEdit ? widget.originalItem!.name : null;
     description = widget.isEdit ? widget.originalItem!.description : null;
     start = widget.isEdit
@@ -180,6 +182,12 @@ class ReservationCreateEditScreenState
     });
   }
 
+  void _onColorChanged(Color newColor) {
+    setState(() {
+      color = newColor;
+    });
+  }
+
   void _onNewSent() {
     if (_formKey.currentState!.validate() && !_timeFieldHasErrors()) {
       var uuid = const Uuid();
@@ -197,7 +205,7 @@ class ReservationCreateEditScreenState
         managerIDs: <String>[
           Provider.of<AuthManager>(context, listen: false).user!.id
         ],
-        resourceIDs: resourceIDs, 
+        resourceIDs: resourceIDs,
         color: color.value,
       );
       SzikAppState.analytics.logEvent(name: 'reservation_create');
@@ -223,12 +231,6 @@ class ReservationCreateEditScreenState
     SzikAppState.analytics.logEvent(name: 'reservation_delete');
     widget.onDelete(widget.originalItem!, widget.index);
     Navigator.of(context, rootNavigator: true).pop();
-  }
-
-  void _onColorChanged(Color newColor) {
-    setState(() {
-      color = newColor;
-    });
   }
 
   @override
@@ -495,18 +497,17 @@ class ReservationCreateEditScreenState
                         ),
                         Expanded(
                           child: SizedBox(
-                            height: kColorPickerHeight, // Adjust the height as needed
+                            height:
+                                kColorPickerHeight, // Adjust the height as needed
                             child: BlockPicker(
-                              pickerColor:  color, // selected color
+                              pickerColor: color, // selected color
                               onColorChanged: _onColorChanged,
                               availableColors: reservationColors,
                             ),
                           ),
                         ),
-
                       ],
                     ),
-                    
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: kPaddingLarge),
@@ -555,6 +556,4 @@ class ReservationCreateEditScreenState
       ),
     );
   }
-  
-
 }
