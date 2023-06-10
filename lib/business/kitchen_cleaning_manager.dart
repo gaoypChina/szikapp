@@ -159,7 +159,7 @@ class KitchenCleaningManager extends ChangeNotifier {
 
     try {
       var io = IO();
-      _cleaningTasks = await io.getCleaning(parameters: parameter);
+      _cleaningTasks = await io.getCleaningTask(parameters: parameter);
     } on IONotModifiedException {
       _cleaningTasks = [];
     }
@@ -222,7 +222,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     var io = IO();
     task.status = TaskStatus.awaitingApproval;
     var parameter = {'id': task.id};
-    await io.putCleaning(data: task, parameters: parameter);
+    await io.putCleaningTask(data: task, parameters: parameter);
     _cleaningTasks.removeWhere((cleaningTask) => cleaningTask.id == task.id);
     _cleaningTasks.add(task);
     return true;
@@ -244,7 +244,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> editCleaningPeriod({required CleaningPeriod period}) async {
     var io = IO();
     var parameter = {'id': period.id};
-    await io.patchCleaningPeriod(data: period, parameters: parameter);
+    await io.putCleaningPeriod(data: period, parameters: parameter);
     _cleaningPeriods
         .removeWhere((cleaningPeriod) => cleaningPeriod.id == period.id);
     _cleaningPeriods.add(period);
@@ -257,7 +257,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> editCleaningTask({required CleaningTask task}) async {
     var io = IO();
     var parameter = {'id': task.id};
-    await io.putCleaning(data: task, parameters: parameter);
+    await io.putCleaningTask(data: task, parameters: parameter);
     _cleaningTasks.removeWhere((cleaningTask) => cleaningTask.id == task.id);
     _cleaningTasks.add(task);
     return true;
@@ -277,11 +277,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> offerCleaningExchangeOccasion(
       {required CleaningExchange exchange, required String replaceUid}) async {
     var io = IO();
-    var parameter = {'id': exchange.id};
-    await io.patchCleaningExchange(
-      parameters: parameter,
+    var parameters = {'exchangeId': exchange.id, 'replacementId': replaceUid};
+    await io.getCleaningExchangeOffer(
+      parameters: parameters,
       lastUpdate: exchange.lastUpdate,
-      data: replaceUid,
     );
     return true;
   }
@@ -290,11 +289,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> acceptCleaningExchangeOccasion(
       {required CleaningExchange exchange, required String replaceUid}) async {
     var io = IO();
-    var parameters = {'id': exchange.id, 'accept': 'true'};
-    await io.patchCleaningExchange(
+    var parameters = {'exchangeId': exchange.id, 'replacementId': replaceUid};
+    await io.getCleaningExchangeAccept(
       parameters: parameters,
       lastUpdate: exchange.lastUpdate,
-      data: replaceUid,
     );
     return true;
   }
@@ -303,11 +301,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> withdrawCleaningExchangeOccasion(
       {required CleaningExchange exchange, required String replaceUid}) async {
     var io = IO();
-    var parameter = {'id': exchange.id};
-    await io.putCleaningExchange(
-      parameters: parameter,
+    var parameters = {'exchangeId': exchange.id, 'replacementId': replaceUid};
+    await io.getCleaningExchangeWithdraw(
+      parameters: parameters,
       lastUpdate: exchange.lastUpdate,
-      data: replaceUid,
     );
     return true;
   }
@@ -316,11 +313,10 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<bool> rejectCleaningExchangeOccasion(
       {required CleaningExchange exchange, required String replaceUid}) async {
     var io = IO();
-    var parameters = {'id': exchange.id, 'reject': 'true'};
-    await io.putCleaningExchange(
+    var parameters = {'exchangeId': exchange.id, 'replacementId': replaceUid};
+    await io.getCleaningExchangeReject(
       parameters: parameters,
       lastUpdate: exchange.lastUpdate,
-      data: replaceUid,
     );
     return true;
   }

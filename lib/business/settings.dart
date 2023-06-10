@@ -146,7 +146,7 @@ class Settings extends ChangeNotifier {
       ..notifications = notificationSettings
       ..feedShortcuts = feedShortcuts;
     var io = IO();
-    await io.putUserPreferences(data: preferences);
+    await io.postUserPreferences(data: preferences);
     return true;
   }
 
