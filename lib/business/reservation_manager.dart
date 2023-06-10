@@ -19,6 +19,7 @@ class ReservationManager extends ChangeNotifier {
   int _selectedIndex = -1;
   int _selectedGame = -1;
   int _selectedPlace = -1;
+  int _lastSelectedPlace = -1;
   int _selectedAccount = -1;
   int _selectedMode = ReservationMode.none;
   bool _createNewReservation = false;
@@ -41,6 +42,7 @@ class ReservationManager extends ChangeNotifier {
   int get selectedIndex => _selectedIndex;
   int get selectedGameIndex => _selectedGame;
   int get selectedPlaceIndex => _selectedPlace;
+  int get lastSelectedPlaceIndex => _lastSelectedPlace;
   int get selectedAccountIndex => _selectedAccount;
   int get selectedMode => _selectedMode;
   TimetableTask? get selectedTask =>
@@ -86,6 +88,10 @@ class ReservationManager extends ChangeNotifier {
   void selectPlace({required int index}) {
     _selectedPlace = index;
     notifyListeners();
+  }
+
+  void selectLastSelectedPlace({required int index}) {
+    _lastSelectedPlace = index;
   }
 
   void selectAccount({required int index}) {

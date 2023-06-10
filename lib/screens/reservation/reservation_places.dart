@@ -29,11 +29,12 @@ class ReservationPlacesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-        future: manager.refresh(),
-        shimmer: const ListScreenShimmer(),
-        child: ReservationPlacesCalendar(
-          manager: manager,
-        ));
+      future: manager.refresh(),
+      shimmer: const ListScreenShimmer(),
+      child: ReservationPlacesCalendar(
+        manager: manager,
+      ),
+    );
   }
 }
 
@@ -50,30 +51,25 @@ class ReservationPlacesCalendar extends StatefulWidget {
 
 class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
   late List<Place> _allPlaces;
-
   late List<Place> _publicPlaces;
-
   late Place _selectedPlace;
-
   late DateTime _focusedDay;
-
   late DateTime _selectedDay;
 
   @override
   void initState() {
     super.initState();
-    _allPlaces = Provider.of<SzikAppStateManager>(context, listen: false)
-        .places
-        .toList();
+    _allPlaces =
+        Provider.of<SzikAppStateManager>(context, listen: false).places;
     _publicPlaces = Provider.of<SzikAppStateManager>(context, listen: false)
         .places
-        .where((element) => element.type == PlaceType.public)
+        .where((place) => place.type == PlaceType.public)
         .toList();
-    _focusedDay = DateTime.now();
-    _selectedDay = DateTime.now();
-    _selectedPlace = widget.manager.selectedPlaceIndex == -1
+    _focusedDay = widget.manager.selectedDate ?? DateTime.now();
+    _selectedDay = _focusedDay;
+    _selectedPlace = widget.manager.lastSelectedPlaceIndex == -1
         ? _publicPlaces.first
-        : _allPlaces[widget.manager.selectedPlaceIndex];
+        : _allPlaces[widget.manager.lastSelectedPlaceIndex];
   }
 
   List<TimetableTask> _getReservationsForDay(DateTime pickedDay) {
@@ -103,6 +99,8 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
   }
 
   void _showReservationDatePicker() {
+    widget.manager
+        .selectLastSelectedPlace(index: _allPlaces.indexOf(_selectedPlace));
     widget.manager.selectDate(date: _selectedDay);
     widget.manager.selectPlace(index: _allPlaces.indexOf(_selectedPlace));
   }
@@ -110,11 +108,6 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var places = Provider.of<SzikAppStateManager>(context, listen: false)
-        .places
-        .where((element) => element.type == PlaceType.public)
-        .toList();
-
     return CustomScaffold(
         appBarTitle: 'RESERVATION_MAP_TITLE'.tr(),
         body: Padding(
@@ -122,14 +115,14 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
           child: Column(
             children: [
               SearchableOptions<Place>(
-                items: places,
-                selectedItem: places.first,
+                items: _publicPlaces,
+                selectedItem: _selectedPlace,
                 onItemChanged: _onPlaceChanged,
                 compare: (i, s) => i!.isEqual(s),
               ),
               TableCalendar<TimetableTask>(
                 locale: context.locale.toString(),
-                firstDay: DateTime.now().subtract(const Duration(days: 90)),
+                firstDay: DateTime.now(),
                 lastDay: DateTime.now().add(const Duration(days: 90)),
                 focusedDay: _focusedDay,
                 eventLoader: _getReservationsForDay,
@@ -182,7 +175,10 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
                     );
                   },
                   singleMarkerBuilder: (context, day, event) {
-                    var markerColor = statusYellow;
+                    var markerColor = theme.colorScheme.secondaryContainer;
+                    if (DateTime.now().isInInterval(event.start, event.end)) {
+                      markerColor = statusRed;
+                    }
                     return Container(
                       height: kCalendarMarkerSize,
                       width: kCalendarMarkerSize,
@@ -200,6 +196,7 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
         floatingActionButton: CustomFloatingActionButton(
           onPressed: _showReservationDatePicker,
           typeToCreate: TimetableTask,
+          icon: CustomIcons.doubleArrowRight,
         ));
   }
 }

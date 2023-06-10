@@ -17,7 +17,7 @@ class SzikAppLink {
   static const String kPollCreateEditPath = '/poll/createedit';
   static const String kProfilePath = '/me';
   static const String kReservationDetailsPath = '/reservation/details';
-  static const String kReservationPlacesMapPath = '/reservation/places';
+  static const String kReservationPlacesPath = '/reservation/places';
   static const String kReservationAccountsListPath = '/reservation/accounts';
   static const String kReservationGamesListPath = '/reservation/games';
   static const String kReservationCreateEditPath = '/reservation/createedit';
