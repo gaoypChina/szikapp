@@ -132,7 +132,7 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
                 ),
                 TableCalendar<TimetableTask>(
                   locale: context.locale.toString(),
-                  firstDay: DateTime.now(),
+                  firstDay: DateTime.now().subtract(const Duration(days: 120)),
                   lastDay: DateTime.now().add(const Duration(days: 90)),
                   focusedDay: _focusedDay,
                   eventLoader: _getReservationsForDay,

@@ -358,10 +358,13 @@ class _ReservationDetailsState extends State<ReservationDetails> {
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingActionButton(
-        onPressed: _onCreateTask,
-        typeToCreate: TimetableTask,
-      ),
+      floatingActionButton: _currentDate.isBefore(DateTime.now().copyWith(
+              hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0))
+          ? null
+          : CustomFloatingActionButton(
+              onPressed: _onCreateTask,
+              typeToCreate: TimetableTask,
+            ),
     );
   }
 }
