@@ -25,6 +25,8 @@ const double kCalendarMarkerSize = 5;
 const double kDaysOfWeekSize = 20;
 const double kSearchBarIconSize = 30;
 
+const double kColorPickerHeight = 100;
+
 ///Light theme színek
 const Color szikAmour = Color(0xfffefbfc);
 const Color szikLavenderBlush = Color(0xfffffafb);
@@ -58,6 +60,39 @@ const Map<TaskStatus, Color> taskStatusColors = {
   TaskStatus.awaitingApproval: statusYellow,
   TaskStatus.approved: statusGreen,
 };
+
+///foglalások színei
+const Color reservationColor1 = Color(0xff8b5959); //dark
+const Color reservationColor2 = Color(0xffc8465d); //dark
+const Color reservationColor3 = Color(0xfff9c8c7); //light
+const Color reservationColor4 = Color(0xfff9d8d8); //light
+const Color reservationColor5 = Color(0xffb8b8b8); //light
+const Color reservationColor6 = Color(0xff59a3b0); //dark
+const Color reservationColor7 = Color(0xff095555); //dark
+const Color reservationColor8 = Color(0xff043130); //dark
+
+const reservationColors = [
+  reservationColor1,
+  reservationColor2,
+  reservationColor3,
+  reservationColor4,
+  reservationColor5,
+  reservationColor6,
+  reservationColor7,
+  reservationColor8,
+];
+const darkReservationColors = [
+  reservationColor1,
+  reservationColor2,
+  reservationColor5,
+  reservationColor6,
+  reservationColor7,
+  reservationColor8,
+];
+const lightReservationColors = [
+  reservationColor3,
+  reservationColor4,
+];
 
 TextTheme szikTextTheme = const TextTheme(
   ///Used for emphasizing text that would otherwise be bodyText2.

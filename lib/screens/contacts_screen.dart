@@ -185,7 +185,7 @@ class ContactsListViewState extends State<ContactsListView>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SearchBar(
+          CustomSearchBar(
             onChanged: _onSearchFieldChanged,
             validator: _validateTextField,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
