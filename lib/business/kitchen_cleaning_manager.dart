@@ -167,15 +167,18 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
-  ///szinkronizálja.
-  Future<void> refreshExchanges({TaskStatus? status}) async {
+  ///szinkronizálja az aktuális periódusból.
+  Future<void> refreshExchanges({TaskStatus? status, DateTime? start}) async {
     try {
       var io = IO();
-      var parameter = <String, String>{};
-      if (status != null) {
-        parameter = {'status': status.toString()};
-      }
-      _cleaningExchanges = await io.getCleaningExchange(parameters: parameter);
+      var parameters = <String, String>{};
+      start ??= hasCurrentPeriod() ? getCurrentPeriod().start : DateTime.now();
+      parameters = {
+        'start': start.toIso8601String(),
+        if (status != null) 'status': status.toString()
+      };
+
+      _cleaningExchanges = await io.getCleaningExchange(parameters: parameters);
     } on IONotModifiedException {
       _cleaningExchanges = [];
     }

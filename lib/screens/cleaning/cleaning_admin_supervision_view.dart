@@ -7,20 +7,21 @@ import '../../models/models.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
-class CleaningAdminPunishmentView extends StatefulWidget {
+class CleaningAdminSupervisionView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
-  const CleaningAdminPunishmentView({super.key, required this.manager});
+  const CleaningAdminSupervisionView({super.key, required this.manager});
 
   @override
-  State<CleaningAdminPunishmentView> createState() =>
-      _CleaningAdminPunishmentViewState();
+  State<CleaningAdminSupervisionView> createState() =>
+      _CleaningAdminSupervisionViewState();
 }
 
-class _CleaningAdminPunishmentViewState
-    extends State<CleaningAdminPunishmentView> {
+class _CleaningAdminSupervisionViewState
+    extends State<CleaningAdminSupervisionView> {
   List<CleaningTask> _pendingTasks = [];
   List<CleaningTask> _refusedTasks = [];
+  CleaningTask? lastTask;
 
   @override
   void initState() {
@@ -31,6 +32,9 @@ class _CleaningAdminPunishmentViewState
     _refusedTasks = widget.manager.tasks
         .where((task) => task.status == TaskStatus.refused)
         .toList();
+    lastTask = widget.manager.hasYesterdayTask()
+        ? widget.manager.getYesterdayTask()
+        : null;
   }
 
   Future<void> _onRefusedPressed(CleaningTask task) async {
@@ -81,6 +85,52 @@ class _CleaningAdminPunishmentViewState
     var theme = Theme.of(context);
     return ListView(
       children: [
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(kBorderRadiusNormal),
+            ),
+            border: Border.all(color: theme.colorScheme.primary),
+          ),
+          padding: const EdgeInsets.all(kPaddingNormal),
+          child: Column(
+            children: [
+              Text(
+                'CLEANING_ADMIN_LAST_CLEANERS'.tr(),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.displaySmall!
+                    .copyWith(color: theme.colorScheme.primaryContainer),
+              ),
+              const SizedBox(height: kPaddingNormal),
+              lastTask == null
+                  ? Text(
+                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        color: theme.colorScheme.primaryContainer,
+                      ),
+                    )
+                  : Text(
+                      userIDsToString(context, lastTask!.participantIDs),
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        color: theme.colorScheme.primaryContainer,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              if (lastTask != null)
+                Text(
+                  lastTask!.description ?? '',
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: kPaddingNormal),
         Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
