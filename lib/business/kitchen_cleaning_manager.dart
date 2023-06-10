@@ -147,8 +147,8 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
   Future<void> refreshTasks({DateTime? start, DateTime? end}) async {
-    if (_cleaningPeriods.isEmpty) refreshPeriods();
-
+    if (_cleaningPeriods.isEmpty) await refreshPeriods();
+    if (_cleaningPeriods.isEmpty) return;
     start ??= _cleaningPeriods.first.start.subtract(const Duration(days: 1));
     end ??= _cleaningPeriods.last.end;
 

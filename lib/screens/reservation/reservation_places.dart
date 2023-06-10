@@ -111,86 +111,98 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
     return CustomScaffold(
         appBarTitle: 'RESERVATION_MAP_TITLE'.tr(),
         body: Padding(
-          padding: const EdgeInsets.all(kPaddingLarge),
-          child: Column(
-            children: [
-              SearchableOptions<Place>(
-                items: _publicPlaces,
-                selectedItem: _selectedPlace,
-                onItemChanged: _onPlaceChanged,
-                compare: (i, s) => i!.isEqual(s),
+          padding: const EdgeInsets.all(kPaddingNormal),
+          child: Container(
+            padding: const EdgeInsets.all(kPaddingNormal),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(kBorderRadiusNormal),
               ),
-              TableCalendar<TimetableTask>(
-                locale: context.locale.toString(),
-                firstDay: DateTime.now(),
-                lastDay: DateTime.now().add(const Duration(days: 90)),
-                focusedDay: _focusedDay,
-                eventLoader: _getReservationsForDay,
-                selectedDayPredicate: (day) => _selectedDay.isSameDate(day),
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                calendarFormat: CalendarFormat.month,
-                rangeSelectionMode: RangeSelectionMode.disabled,
-                daysOfWeekHeight: kDaysOfWeekSize,
-                daysOfWeekStyle: DaysOfWeekStyle(
-                    weekdayStyle: theme.textTheme.titleMedium!,
-                    weekendStyle: theme.textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
-                availableGestures: AvailableGestures.horizontalSwipe,
-                headerStyle: HeaderStyle(
-                  titleCentered: true,
-                  formatButtonVisible: false,
-                  titleTextStyle: theme.textTheme.displaySmall!.copyWith(
-                    color: theme.colorScheme.primaryContainer,
-                  ),
+              border: Border.all(color: theme.colorScheme.primary),
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              children: [
+                SearchableOptions<Place>(
+                  items: _publicPlaces,
+                  selectedItem: _selectedPlace,
+                  onItemChanged: _onPlaceChanged,
+                  compare: (i, s) => i!.isEqual(s),
                 ),
-                calendarStyle: CalendarStyle(
-                  outsideDaysVisible: false,
-                  todayDecoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withOpacity(0.8),
-                    shape: BoxShape.circle,
+                TableCalendar<TimetableTask>(
+                  locale: context.locale.toString(),
+                  firstDay: DateTime.now(),
+                  lastDay: DateTime.now().add(const Duration(days: 90)),
+                  focusedDay: _focusedDay,
+                  eventLoader: _getReservationsForDay,
+                  selectedDayPredicate: (day) => _selectedDay.isSameDate(day),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  calendarFormat: CalendarFormat.month,
+                  rangeSelectionMode: RangeSelectionMode.disabled,
+                  daysOfWeekHeight: kDaysOfWeekSize,
+                  daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: theme.textTheme.titleMedium!,
+                      weekendStyle: theme.textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      )),
+                  availableGestures: AvailableGestures.horizontalSwipe,
+                  headerStyle: HeaderStyle(
+                    titleCentered: true,
+                    formatButtonVisible: false,
+                    titleTextStyle: theme.textTheme.displaySmall!.copyWith(
+                      color: theme.colorScheme.primaryContainer,
+                    ),
                   ),
-                  selectedDecoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    shape: BoxShape.circle,
+                  calendarStyle: CalendarStyle(
+                    outsideDaysVisible: false,
+                    todayDecoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withOpacity(0.8),
+                      shape: BoxShape.circle,
+                    ),
+                    selectedDecoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    defaultTextStyle: theme.textTheme.titleMedium!,
+                    weekendTextStyle: theme.textTheme.titleMedium!,
                   ),
-                  defaultTextStyle: theme.textTheme.titleMedium!,
-                  weekendTextStyle: theme.textTheme.titleMedium!,
-                ),
-                onDaySelected: _onDaySelected,
-                onPageChanged: (focusedDay) {
-                  _focusedDay = focusedDay;
-                },
-                calendarBuilders: CalendarBuilders(
-                  defaultBuilder: (context, day, focusedDay) {
-                    return Center(
-                      child: Text(
-                        DateFormat('d').format(day),
-                        style: theme.textTheme.titleMedium!.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  onDaySelected: _onDaySelected,
+                  onPageChanged: (focusedDay) {
+                    _focusedDay = focusedDay;
+                  },
+                  calendarBuilders: CalendarBuilders(
+                    defaultBuilder: (context, day, focusedDay) {
+                      return Center(
+                        child: Text(
+                          DateFormat('d').format(day),
+                          style: theme.textTheme.titleMedium!.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  singleMarkerBuilder: (context, day, event) {
-                    var markerColor = theme.colorScheme.secondaryContainer;
-                    if (DateTime.now().isInInterval(event.start, event.end)) {
-                      markerColor = statusRed;
-                    }
-                    return Container(
-                      height: kCalendarMarkerSize,
-                      width: kCalendarMarkerSize,
-                      decoration: BoxDecoration(
-                        color: markerColor,
-                        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                    singleMarkerBuilder: (context, day, event) {
+                      var markerColor = theme.colorScheme.secondaryContainer;
+                      if (DateTime.now().isInInterval(event.start, event.end)) {
+                        markerColor = statusRed;
+                      }
+                      return Container(
+                        height: kCalendarMarkerSize,
+                        width: kCalendarMarkerSize,
+                        decoration: BoxDecoration(
+                          color: markerColor,
+                          borderRadius:
+                              BorderRadius.circular(kBorderRadiusLarge),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButton: CustomFloatingActionButton(

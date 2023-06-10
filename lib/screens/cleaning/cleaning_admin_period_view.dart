@@ -34,14 +34,19 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   void initState() {
     super.initState();
     _hasOpenPeriod = widget.manager.hasOpenPeriod();
-    if (_hasOpenPeriod) _openPeriod = widget.manager.getOpenPeriod();
-    _startDate =
-        _hasOpenPeriod ? _openPeriod.start : widget.manager.periods.last.end;
-    _endDate = _hasOpenPeriod
-        ? _openPeriod.end
-        : _startDate.add(const Duration(days: 31));
-    _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
-    if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
+    if (widget.manager.periods.isNotEmpty) {
+      if (_hasOpenPeriod) _openPeriod = widget.manager.getOpenPeriod();
+      _startDate =
+          _hasOpenPeriod ? _openPeriod.start : widget.manager.periods.last.end;
+      _endDate = _hasOpenPeriod
+          ? _openPeriod.end
+          : _startDate.add(const Duration(days: 31));
+      _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
+      if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
+    } else {
+      _startDate = DateTime.now();
+      _endDate = _startDate.add(const Duration(days: 30));
+    }
     Provider.of<SzikAppStateManager>(context, listen: false)
         .groups
         .where((group) => widget.manager.participantGroupIDs.contains(group.id))

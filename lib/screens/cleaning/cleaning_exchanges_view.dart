@@ -523,6 +523,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
     var copiedList = List<CleaningExchange>.from(list);
     var tasks = Provider.of<KitchenCleaningManager>(context, listen: false)
         .getCurrentTasks();
+    if (tasks.isEmpty) return [];
     copiedList.sort((a, b) {
       var aTask = tasks.firstWhere((task) => task.id == a.taskID);
       var bTask = tasks.firstWhere((task) => task.id == b.taskID);
