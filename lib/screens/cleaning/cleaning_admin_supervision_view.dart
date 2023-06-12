@@ -103,22 +103,22 @@ class _CleaningAdminSupervisionViewState
                     .copyWith(color: theme.colorScheme.primaryContainer),
               ),
               const SizedBox(height: kPaddingNormal),
-              lastTask == null
-                  ? Text(
-                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                      ),
-                    )
-                  : Text(
-                      userIDsToString(context, lastTask!.participantIDs),
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: theme.colorScheme.primaryContainer,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-              if (lastTask != null)
+              if (lastTask == null)
+                Text(
+                  'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                )
+              else ...[
+                Text(
+                  userIDsToString(context, lastTask!.participantIDs),
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.primaryContainer,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 Text(
                   lastTask!.description ?? '',
                   style: theme.textTheme.titleMedium!.copyWith(
@@ -127,6 +127,7 @@ class _CleaningAdminSupervisionViewState
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ],
             ],
           ),
         ),

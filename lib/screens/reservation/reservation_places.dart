@@ -95,7 +95,6 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
         _selectedPlace = newPlace!;
       });
     }
-    setState(() {});
   }
 
   void _showReservationDatePicker() {
