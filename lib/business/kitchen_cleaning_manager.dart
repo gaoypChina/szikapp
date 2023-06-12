@@ -147,8 +147,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
   Future<void> refreshTasks({DateTime? start, DateTime? end}) async {
-    if (_cleaningPeriods.isEmpty) refreshPeriods();
-
+    if (_cleaningPeriods.isEmpty) return;
     start ??= _cleaningPeriods.first.start.subtract(const Duration(days: 1));
     end ??= _cleaningPeriods.last.end;
 
@@ -167,15 +166,18 @@ class KitchenCleaningManager extends ChangeNotifier {
 
   ///Frissítés. A függvény lekéri a szerverről a legfrissebb
   ///konyhatakarítás-csere listát. Alapértelmezetten csak a nyitott cseréket
-  ///szinkronizálja.
-  Future<void> refreshExchanges({TaskStatus? status}) async {
+  ///szinkronizálja az aktuális periódusból.
+  Future<void> refreshExchanges({TaskStatus? status, DateTime? start}) async {
     try {
       var io = IO();
-      var parameter = <String, String>{};
-      if (status != null) {
-        parameter = {'status': status.toString()};
-      }
-      _cleaningExchanges = await io.getCleaningExchange(parameters: parameter);
+      var parameters = <String, String>{};
+      start ??= hasCurrentPeriod() ? getCurrentPeriod().start : DateTime.now();
+      parameters = {
+        'start': start.toIso8601String(),
+        if (status != null) 'status': status.toString()
+      };
+
+      _cleaningExchanges = await io.getCleaningExchange(parameters: parameters);
     } on IONotModifiedException {
       _cleaningExchanges = [];
     }

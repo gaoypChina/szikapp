@@ -5,7 +5,7 @@ import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../ui/themes.dart';
 import 'cleaning_admin_period_view.dart';
-import 'cleaning_admin_punishment_view.dart';
+import 'cleaning_admin_supervision_view.dart';
 
 class CleaningAdminScreen extends StatefulWidget {
   static const String route = '/cleaning/admin';
@@ -51,7 +51,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
             TabChoice(
               labels: [
                 'CLEANING_TAB_PERIOD'.tr(),
-                'CLEANING_TAB_PUNISHMENT'.tr(),
+                'CLEANING_TAB_SUPERVISION'.tr(),
               ],
               wrapColor: theme.colorScheme.background,
               onChanged: _onTabChanged,
@@ -60,7 +60,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
             Expanded(
               child: _selectedTab == 0
                   ? CleaningAdminPeriodView(manager: widget.manager)
-                  : CleaningAdminPunishmentView(manager: widget.manager),
+                  : CleaningAdminSupervisionView(manager: widget.manager),
             )
           ],
         ),
