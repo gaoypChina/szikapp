@@ -38,6 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late bool _preferDarkMode;
   late Language _preferedLanguage;
   late List<int> _feedShortcuts;
+  late List<NotificationTopic> _notifications;
 
   @override
   void initState() {
@@ -46,6 +47,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
     _preferedLanguage = Settings.instance.language;
     _feedShortcuts = Settings.instance.feedShortcuts;
+    _notifications = Settings.instance.notificationSettings;
+  }
+
+  List<bool> _getNotificationSwitchValues(List<NotificationTopic> topics) {
+    var result = <bool>[];
+    for (var item in notificationSettings.keys) {
+      if (topics.contains(item)) {
+        result.add(true);
+      } else {
+        result.add(false);
+      }
+    }
+    return result;
+  }
+
+  List<NotificationTopic> _getNotificationEnumValues(List<bool> newValues) {
+    var result = <NotificationTopic>[];
+    for (var index in List.generate(newValues.length, (index) => index)) {
+      if (newValues[index]) {
+        result.add(List.from(notificationSettings.keys)[index]);
+      }
+    }
+    return result;
   }
 
   void _onAutomaticThemeChanged(bool newValue) {
@@ -88,12 +112,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Settings.instance.savePreferences();
   }
 
-  void _onFeedShortcutsChanged(List<bool> boolList) {
-    var intList = boolListToInt(boolList);
+  void _onFeedShortcutsChanged(List<bool> newValues) {
+    var intList = boolListToInt(newValues);
     setState(() {
       _feedShortcuts = intList;
     });
     Settings.instance.feedShortcuts = intList;
+    Settings.instance.savePreferences();
+  }
+
+  void _onNotificationsChanged(List<bool> newValues) {
+    var enumValues = _getNotificationEnumValues(newValues);
+    var difference =
+        enumValues.toSet().difference(_notifications.toSet()).toList();
+    if (difference.isNotEmpty && enumValues.length > _notifications.length) {
+      NotificationManager.instance.subscribeToTopics(difference);
+    } else if (difference.isNotEmpty &&
+        enumValues.length < _notifications.length) {
+      NotificationManager.instance.unsubscribeFromTopics(difference);
+    }
+    setState(() {
+      _notifications = enumValues;
+    });
+    Settings.instance.notificationSettings = enumValues;
     Settings.instance.savePreferences();
   }
 
@@ -230,29 +271,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   border: Border.all(color: theme.colorScheme.primary),
                 ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'SETTINGS_NOTIFICATIONS'.tr(),
-                        style: theme.textTheme.displaySmall!.copyWith(
-                          color: theme.colorScheme.primary,
+                child: CustomSwitchList(
+                  title: Text(
+                    'SETTINGS_NOTIFICATIONS'.tr(),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
                         ),
-                      ),
-                    ),
-                    CustomSwitch(
-                      titleText: Text(
-                        'SETTINGS_APP_NOTIFICATIONS'.tr(),
-                        style: theme.textTheme.titleLarge!.copyWith(
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      onChanged: (bool switchState) {
-                        setState(() {});
-                      },
-                    )
-                  ],
+                  ),
+                  switchLabels: notificationSettings.entries
+                      .map((e) => e.value.label)
+                      .toList(),
+                  enabled: notificationSettings.entries
+                      .map((e) => e.value.enabled)
+                      .toList(),
+                  initValues: _getNotificationSwitchValues(_notifications),
+                  onChanged: _onNotificationsChanged,
                 ),
               ),
             //Shortcutok

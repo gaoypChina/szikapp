@@ -28,6 +28,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Settings.instance.initialize();
+  await NotificationManager.instance.initialize();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/Montserrat/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
@@ -75,6 +76,7 @@ class SzikAppState extends State<SzikApp> {
   final _kitchenCleaningManager = KitchenCleaningManager();
   final _pollManager = PollManager();
   final _reservationManager = ReservationManager();
+  final _notificationManager = NotificationManager();
   final _settings = Settings();
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -133,6 +135,8 @@ class SzikAppState extends State<SzikApp> {
       reservationManager: _reservationManager,
     );
 
+    _notificationManager.setupInteractedMessage();
+
     super.initState();
   }
 
@@ -158,6 +162,7 @@ class SzikAppState extends State<SzikApp> {
         ChangeNotifierProvider(create: (context) => _pollManager),
         ChangeNotifierProvider(create: (context) => _reservationManager),
         ChangeNotifierProvider(create: (context) => _settings),
+        ChangeNotifierProvider(create: (context) => _notificationManager),
       ],
       child: Consumer<Settings>(
         builder: (context, settings, child) {

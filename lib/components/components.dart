@@ -15,6 +15,7 @@ export 'controls/date_picker.dart';
 export 'controls/radio_button.dart';
 export 'controls/slider.dart';
 export 'controls/switch.dart';
+export 'controls/switch_list.dart';
 export 'controls/time_picker.dart';
 export 'custom_icon.dart';
 export 'dialog.dart';

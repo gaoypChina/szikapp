@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../business/business.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
 import 'components.dart';
@@ -39,14 +40,15 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Router.of(context).routerDelegate.setNewRoutePath(data.route);
+              Router.of(context).routerDelegate.setNewRoutePath(data.route);
             },
             trailing: IconButton(
               icon: CustomIcon(
                 CustomIcons.close,
                 color: theme.colorScheme.secondary,
               ),
-              onPressed: () {},
+              onPressed: () =>
+                  NotificationManager.instance.dismissMessage(data),
             ),
           )
         ],

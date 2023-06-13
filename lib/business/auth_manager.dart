@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,7 @@ class AuthManager extends ChangeNotifier {
       _user?.profilePicture = _auth.currentUser!.photoURL;
       _isGuest = false;
       _signedIn = true;
+      NotificationManager.instance.saveTokenToDatabase(null);
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
@@ -156,6 +158,7 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       _method = method;
+      NotificationManager.instance.saveTokenToDatabase(null);
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
