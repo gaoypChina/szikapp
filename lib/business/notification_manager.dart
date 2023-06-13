@@ -15,9 +15,9 @@ Future<void> _firebaseMessagingInitialHandler(RemoteMessage message) async {
 ///Handler a háttérben lévő appnak érkező üzenetek feldolgozására.
 ///Az FCM követelményei szerint top-level függvény lehet csak.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  //TODO: Ha kell, akkor itt lehet előre feldolgozni az üzenetet.
-  //TODO: Viszont mivel itt nincs megnyitva az app, nincs context és semmi egyéb.
-  if (message.notification != null) {}
+  if (message.notification != null) {
+    NotificationManager.instance.addMessage(message);
+  }
 }
 
 ///Értesítéseket kezelő singleton osztály. Szerver és kliens közti rétegként
@@ -49,8 +49,7 @@ class NotificationManager extends ChangeNotifier {
         result.add(CustomNotification(
           title: item.notification!.title ?? '',
           body: item.notification!.body,
-          //TODO: route implementálása
-          //TODO: iconPath implementálása
+          //TODO: route implementálása + iconPath implementálása
         ));
       }
     }
