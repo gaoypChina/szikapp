@@ -10,7 +10,7 @@ export 'app/floating_action_button.dart';
 export 'app/future_builder.dart';
 export 'article_card.dart';
 export 'birthday_bar.dart';
-export 'controls/checkbox.dart';
+export 'controls/checkbox_list.dart';
 export 'controls/date_picker.dart';
 export 'controls/radio_button.dart';
 export 'controls/slider.dart';

@@ -122,19 +122,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _onNotificationsChanged(List<bool> newValues) {
-    var enumValues = _getNotificationEnumValues(newValues);
-    var difference =
-        enumValues.toSet().difference(_notifications.toSet()).toList();
-    if (difference.isNotEmpty && enumValues.length > _notifications.length) {
-      NotificationManager.instance.subscribeToTopics(difference);
-    } else if (difference.isNotEmpty &&
-        enumValues.length < _notifications.length) {
-      NotificationManager.instance.unsubscribeFromTopics(difference);
+    var newEnumValues = _getNotificationEnumValues(newValues);
+    var positiveDifference =
+        newEnumValues.toSet().difference(_notifications.toSet()).toList();
+    if (positiveDifference.isNotEmpty) {
+      NotificationManager.instance.subscribeToTopics(positiveDifference);
+    }
+    var negativeDifference =
+        _notifications.toSet().difference(newEnumValues.toSet()).toList();
+    if (negativeDifference.isNotEmpty) {
+      NotificationManager.instance.unsubscribeFromTopics(negativeDifference);
     }
     setState(() {
-      _notifications = enumValues;
+      _notifications = newEnumValues;
     });
-    Settings.instance.notificationSettings = enumValues;
+    Settings.instance.notificationSettings = newEnumValues;
     Settings.instance.savePreferences();
   }
 

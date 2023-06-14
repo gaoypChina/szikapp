@@ -26,7 +26,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class NotificationManager extends ChangeNotifier {
   final messaging = FirebaseMessaging.instance;
 
-  final List<RemoteMessage> _messages = [];
+  final List<CustomNotification> _notifications = [];
 
   /// Singleton osztálypéldány
   static final NotificationManager _instance =
@@ -39,43 +39,32 @@ class NotificationManager extends ChangeNotifier {
   /// Privát konstruktor
   NotificationManager._privateConstructor();
 
-  List<RemoteMessage> get messages => _messages;
-
-  List<CustomNotification> get notifications => _buildCustomNotifications();
-
-  List<CustomNotification> _buildCustomNotifications() {
-    var result = <CustomNotification>[];
-    for (var item in _messages) {
-      var rawTopic = item.data['topic'];
-      var topic = NotificationTopic.values
-          .where((topic) => topic.toString() == rawTopic);
-      var notificationPath = notificationPaths[topic];
-      if (item.notification != null) {
-        result.add(CustomNotification(
-          title: item.notification!.title ?? '',
-          body: item.notification!.body,
-          route: notificationPath?.path,
-          iconPath: notificationPath?.iconPath ?? CustomIcons.bell,
-        ));
-      }
-    }
-    return result;
-  }
+  List<CustomNotification> get notifications => _notifications;
 
   void addMessage(RemoteMessage message) {
-    _messages.add(message);
+    var rawTopic = message.data['topic'];
+    var topic =
+        NotificationTopic.values.where((topic) => topic.toString() == rawTopic);
+    var notificationPath = notificationPaths[topic];
+    if (message.notification != null) {
+      _notifications.add(CustomNotification(
+        title: message.notification!.title ?? '',
+        body: message.notification!.body,
+        route: notificationPath?.path,
+        iconPath: notificationPath?.iconPath ?? CustomIcons.bell,
+      ));
+    }
     notifyListeners();
   }
 
   void dismissMessage(CustomNotification message) {
-    _messages.remove(_messages
-        .firstWhere((element) => element.notification?.title == message.title));
+    _notifications.remove(message);
     notifyListeners();
   }
 
   //Call on the Feed Screen
   void dismissAllMessages() {
-    _messages.removeRange(0, _messages.length);
+    _notifications.removeRange(0, _notifications.length);
     notifyListeners();
   }
 
@@ -128,8 +117,9 @@ class NotificationManager extends ChangeNotifier {
 
   Future<void> saveTokenToDatabase(String? token) async {
     var fcmToken = token ?? await messaging.getToken();
+    if (fcmToken == null) return;
     var io = IO();
-    io.saveFCMToken(parameters: {'token': fcmToken ?? ''});
+    io.saveFCMToken(parameters: {'token': fcmToken});
   }
 
   Future<void> setupInteractedMessage() async {
@@ -153,7 +143,7 @@ class NotificationManager extends ChangeNotifier {
 
   Future<void> subscribeToTopics(List<NotificationTopic> topics) async {
     for (var topic in topics) {
-      await messaging.subscribeToTopic(topic.toString());
+      messaging.subscribeToTopic(topic.toString());
     }
   }
 
@@ -163,7 +153,7 @@ class NotificationManager extends ChangeNotifier {
 
   Future<void> unsubscribeFromTopics(List<NotificationTopic> topics) async {
     for (var topic in topics) {
-      await messaging.unsubscribeFromTopic(topic.toString());
+      messaging.unsubscribeFromTopic(topic.toString());
     }
   }
 }

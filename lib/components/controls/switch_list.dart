@@ -8,32 +8,22 @@ class CustomSwitchList extends StatefulWidget {
   final List<String> switchLabels;
 
   /// Azonos méretű a [switchLabels] listával. A switchek állapotát tárolja
-  final List<bool> initValues;
+  final List<bool>? initValues;
 
   ///Az egyes switchek állíthatóságának jelzése
-  final List<bool> enabled;
+  final List<bool>? enabled;
 
   ///A switchek változásakor visszatér a gomb aktuális értékével
   final ValueChanged<List<bool>> onChanged;
 
-  CustomSwitchList({
+  const CustomSwitchList({
     Key? key,
     required this.title,
     required this.switchLabels,
     required this.onChanged,
-    List<bool>? initValues,
-    List<bool>? enabled,
-  })  : initValues = initValues ??
-            List.generate(
-              switchLabels.length,
-              (index) => false,
-            ),
-        enabled = enabled ??
-            List.generate(
-              switchLabels.length,
-              (index) => true,
-            ),
-        super(key: key);
+    this.initValues,
+    this.enabled,
+  }) : super(key: key);
 
   @override
   State<CustomSwitchList> createState() => _CustomSwitchListState();
@@ -41,10 +31,21 @@ class CustomSwitchList extends StatefulWidget {
 
 class _CustomSwitchListState extends State<CustomSwitchList> {
   late List<bool> _switchValues = [];
+  late List<bool> _enabled = [];
 
   @override
   void initState() {
-    _switchValues = widget.initValues;
+    _switchValues = widget.initValues ??
+        List.generate(
+          widget.switchLabels.length,
+          (index) => false,
+        );
+
+    _enabled = widget.enabled ??
+        List.generate(
+          widget.switchLabels.length,
+          (index) => true,
+        );
     super.initState();
   }
 
@@ -60,7 +61,7 @@ class _CustomSwitchListState extends State<CustomSwitchList> {
           return SwitchListTile(
             title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
             value: _switchValues[widget.switchLabels.indexOf(title)],
-            onChanged: widget.enabled[index]
+            onChanged: _enabled[index]
                 ? (bool? value) {
                     setState(() {
                       _switchValues[index] = value ?? false;
