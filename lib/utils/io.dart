@@ -50,6 +50,7 @@ class IO {
   final _cleaningParticipantsEndpoint = '/cleaning/participants';
   final _cleaningPeriodEndpoint = '/cleaning/periods';
   final _contactsEndpoint = '/contacts';
+  final _fcmEndpoint = '/fcm';
   final _goodToKnowEndpoint = '/goodtoknow';
   final _groupEndpoint = '/group';
   final _invitationEndpoint = '/invitation';
@@ -141,6 +142,20 @@ class IO {
     );
 
     if (response.statusCode != ApiResponseCode.ok) {
+      throw _handleErrors(response);
+    }
+  }
+
+  ///Elmenti egy felhasználó tokenjét.
+  Future<void> saveFCMToken({KeyValuePairs? parameters}) async {
+    var uri = '$_vmAddress$_fcmEndpoint?';
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(
+      Uri.parse(uri, 0, uri.length - 1),
+      headers: await _commonHeaders(),
+    );
+
+    if (response.statusCode != ApiResponseCode.created) {
       throw _handleErrors(response);
     }
   }
