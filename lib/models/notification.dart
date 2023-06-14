@@ -17,23 +17,83 @@ class CustomNotification {
 }
 
 enum NotificationTopic {
-  birthdays,
   advertisements,
-  reservationStart,
-  reservationEnd,
-  janitorStatusUpdate,
-  pollAvailable,
-  pollVotingReminder,
-  pollVotingEnded,
-  cleaningTaskDueDate,
+  birthdays,
+  cleaningExchangeAvailable,
+  cleaningExchangeUpdate,
   cleaningTasksAvailable,
   cleaningTaskAssigned,
-  cleaningExchangeAvailable,
-  cleaningExchangeUpdate;
+  cleaningTaskDueDate,
+  janitorStatusUpdate,
+  pollAvailable,
+  pollVotingEnded,
+  pollVotingReminder,
+  reservationEnd,
+  reservationStart;
 
   @override
   String toString() => name;
 }
+
+typedef NotificationPath = ({
+  SzikAppLink path,
+  String iconPath,
+});
+
+Map<NotificationTopic, NotificationPath> notificationPaths = {
+  NotificationTopic.advertisements: (
+    iconPath: CustomIcons.bell,
+    path: SzikAppLink(currentTab: SzikAppTab.feed)
+  ),
+  NotificationTopic.birthdays: (
+    iconPath: CustomIcons.description,
+    path: SzikAppLink(currentTab: SzikAppTab.feed)
+  ),
+  NotificationTopic.cleaningExchangeAvailable: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+  ),
+  NotificationTopic.cleaningExchangeUpdate: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+  ),
+  NotificationTopic.cleaningTaskAssigned: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+  ),
+  NotificationTopic.cleaningTasksAvailable: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+  ),
+  NotificationTopic.cleaningTaskDueDate: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+  ),
+  NotificationTopic.janitorStatusUpdate: (
+    iconPath: CustomIcons.wrench,
+    path: SzikAppLink(currentFeature: SzikAppFeature.janitor)
+  ),
+  NotificationTopic.pollAvailable: (
+    iconPath: CustomIcons.handpalm,
+    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+  ),
+  NotificationTopic.pollVotingEnded: (
+    iconPath: CustomIcons.handpalm,
+    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+  ),
+  NotificationTopic.pollVotingReminder: (
+    iconPath: CustomIcons.handpalm,
+    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+  ),
+  NotificationTopic.reservationEnd: (
+    iconPath: CustomIcons.hourglass,
+    path: SzikAppLink(currentFeature: SzikAppFeature.reservation)
+  ),
+  NotificationTopic.reservationStart: (
+    iconPath: CustomIcons.hourglass,
+    path: SzikAppLink(currentFeature: SzikAppFeature.reservation)
+  ),
+};
 
 class NotificationSetting {
   final NotificationTopic topic;
@@ -71,14 +131,14 @@ Map<NotificationTopic, NotificationSetting> notificationSettings = {
     label: 'NF_CLEANING_TASK_ASSIGNED_LABEL'.tr(),
     enabled: false,
   ),
-  NotificationTopic.cleaningTaskDueDate: NotificationSetting(
-    topic: NotificationTopic.cleaningTaskDueDate,
-    label: 'NF_CLEANING_TASK_DUE_DATE_LABEL'.tr(),
-    enabled: false,
-  ),
   NotificationTopic.cleaningTasksAvailable: NotificationSetting(
     topic: NotificationTopic.cleaningTasksAvailable,
     label: 'NF_CLEANING_TASKS_AVAILABLE_LABEL'.tr(),
+    enabled: false,
+  ),
+  NotificationTopic.cleaningTaskDueDate: NotificationSetting(
+    topic: NotificationTopic.cleaningTaskDueDate,
+    label: 'NF_CLEANING_TASK_DUE_DATE_LABEL'.tr(),
     enabled: false,
   ),
   NotificationTopic.janitorStatusUpdate: NotificationSetting(
@@ -96,7 +156,7 @@ Map<NotificationTopic, NotificationSetting> notificationSettings = {
     label: 'NF_POLL_VOTING_ENDED_LABEL'.tr(),
   ),
   NotificationTopic.pollVotingReminder: NotificationSetting(
-    topic: NotificationTopic.cleaningExchangeAvailable,
+    topic: NotificationTopic.pollVotingReminder,
     label: 'NF_POLL_VOTING_REMINDER_LABEL'.tr(),
     enabled: false,
   ),

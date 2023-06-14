@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
+import '../components/components.dart';
 import '../models/notification.dart';
 import '../utils/utils.dart';
 
@@ -45,11 +46,16 @@ class NotificationManager extends ChangeNotifier {
   List<CustomNotification> _buildCustomNotifications() {
     var result = <CustomNotification>[];
     for (var item in _messages) {
+      var rawTopic = item.data['topic'];
+      var topic = NotificationTopic.values
+          .where((topic) => topic.toString() == rawTopic);
+      var notificationPath = notificationPaths[topic];
       if (item.notification != null) {
         result.add(CustomNotification(
           title: item.notification!.title ?? '',
           body: item.notification!.body,
-          //TODO: route implementálása + iconPath implementálása
+          route: notificationPath?.path,
+          iconPath: notificationPath?.iconPath ?? CustomIcons.bell,
         ));
       }
     }
