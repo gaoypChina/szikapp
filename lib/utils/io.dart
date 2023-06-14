@@ -147,14 +147,17 @@ class IO {
   }
 
   ///Elmenti egy felhasználó tokenjét.
-  Future<bool> saveFCMToken(String token) async {
+  Future<void> saveFCMToken({KeyValuePairs? parameters}) async {
     var uri = '$_vmAddress$_fcmEndpoint?';
-    var response = await client.post(Uri.parse(uri, 0, uri.length - 1),
-        headers: {...await _commonHeaders(), ..._contentTypeHeader()},
-        body: json.encode({'fcm_token': token}));
+    parameters?.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.post(
+      Uri.parse(uri, 0, uri.length - 1),
+      headers: await _commonHeaders(),
+    );
 
-    if (response.statusCode == 200) return true;
-    throw _handleErrors(response);
+    if (response.statusCode != ApiResponseCode.created) {
+      throw _handleErrors(response);
+    }
   }
 
   ///Törli egy felhasználó preferenciáit.

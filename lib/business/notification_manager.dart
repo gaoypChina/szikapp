@@ -123,7 +123,7 @@ class NotificationManager extends ChangeNotifier {
   Future<void> saveTokenToDatabase(String? token) async {
     var fcmToken = token ?? await messaging.getToken();
     var io = IO();
-    io.saveFCMToken(fcmToken ?? '');
+    io.saveFCMToken(parameters: {'token': fcmToken ?? ''});
   }
 
   Future<void> setupInteractedMessage() async {
