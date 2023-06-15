@@ -12,9 +12,8 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
       language: json['language'] == null
           ? Language.hu
           : Language.languageFromJson(json['language']),
-      theme: json['theme'] == null
-          ? SzikAppTheme.defaultTheme
-          : SzikAppTheme.themeFromJson(json['theme']),
+      theme: $enumDecodeNullable(_$SzikAppThemeEnumMap, json['theme']) ??
+          SzikAppTheme.defaultTheme,
       notifications: json['notifications'] == null
           ? const []
           : NotificationTopic.topicsFromJson(json['notifications'] as List),
@@ -49,13 +48,13 @@ const _$DarkModeEnumMap = {
   DarkMode.light: 'light',
 };
 
+const _$SzikAppThemeEnumMap = {
+  SzikAppTheme.defaultTheme: 'default',
+};
+
 const _$LanguageEnumMap = {
   Language.hu: 'hu',
   Language.en: 'en',
-};
-
-const _$SzikAppThemeEnumMap = {
-  SzikAppTheme.defaultTheme: 'default',
 };
 
 const _$NotificationTopicEnumMap = {

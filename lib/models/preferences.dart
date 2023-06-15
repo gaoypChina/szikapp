@@ -6,11 +6,8 @@ part 'preferences.g.dart';
 
 ///Sötét mód beállításokat tartalmazó típus.
 enum DarkMode {
-  @JsonValue('system')
   system,
-  @JsonValue('dark')
   dark,
-  @JsonValue('light')
   light;
 
   @override
@@ -24,9 +21,7 @@ enum DarkMode {
 
 ///Nyelvi beállításokat tartalmazó típus.
 enum Language {
-  @JsonValue('hu')
   hu,
-  @JsonValue('en')
   en;
 
   @override
@@ -61,15 +56,6 @@ enum SzikAppTheme {
     if (other == null) return false;
     return index == other.index;
   }
-
-  static SzikAppTheme themeFromJson(dynamic rawTheme) {
-    for (var theme in SzikAppTheme.values) {
-      if (theme.toString() == rawTheme.toString()) {
-        return theme;
-      }
-    }
-    return SzikAppTheme.defaultTheme;
-  }
 }
 
 ///A felhasználó beállításait tároló adatmodell osztály.
@@ -80,7 +66,6 @@ class Preferences implements Cachable {
   DarkMode darkMode;
   @JsonKey(fromJson: Language.languageFromJson)
   Language language;
-  @JsonKey(fromJson: SzikAppTheme.themeFromJson)
   SzikAppTheme theme;
   @JsonKey(fromJson: NotificationTopic.topicsFromJson)
   List<NotificationTopic> notifications;

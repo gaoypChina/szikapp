@@ -107,7 +107,7 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) => JanitorTask(
               .toList() ??
           const [],
       placeID: json['place_id'] as String,
-      status: TaskStatus.statusFromJson(json['status']),
+      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
       answer: json['answer'] as String?,
     );
 
@@ -172,7 +172,7 @@ CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) => CleaningTask(
               ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      status: TaskStatus.statusFromJson(json['status']),
+      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
     );
 
 Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
