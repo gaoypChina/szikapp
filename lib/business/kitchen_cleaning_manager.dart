@@ -7,10 +7,13 @@ import '../utils/utils.dart';
 ///háttérosztály.
 class KitchenCleaningManager extends ChangeNotifier {
   ///Csoportok, aminek a konyhatakát végeznie kell
-  List<String> _participantGroupIDs = [];
-
-  ///Csoporttagok, akik nem vesznek részt a konyhatakában
-  List<String> _participantBlackList = [];
+  CleaningParticipants _participantData = CleaningParticipants(
+    groupIDs: [],
+    blackListGroup: [],
+    blackListUser: [],
+    whiteListUser: [],
+    lastUpdate: DateTime.now(),
+  );
 
   ///Konyhatakarítási feladatok listája
   List<CleaningTask> _cleaningTasks = [];
@@ -33,10 +36,7 @@ class KitchenCleaningManager extends ChangeNotifier {
   ///Privát kontruktor, ami inicializálja a [cleaningPeriods] paramétert.
   KitchenCleaningManager._privateConstructor();
 
-  List<String> get participantGroupIDs =>
-      List.unmodifiable(_participantGroupIDs);
-  List<String> get participantBlackList =>
-      List.unmodifiable(_participantBlackList);
+  CleaningParticipants get cleaningParticipants => _participantData;
   List<CleaningTask> get tasks => List.unmodifiable(_cleaningTasks);
   List<CleaningExchange> get exchanges => List.unmodifiable(_cleaningExchanges);
   List<CleaningPeriod> get periods => List.unmodifiable(_cleaningPeriods);
@@ -143,6 +143,29 @@ class KitchenCleaningManager extends ChangeNotifier {
     return tasks.firstWhere((task) => task.start.isSameDate(yesterday));
   }
 
+  List<String> getParticipantIDs(List<Group> groups) {
+    var participantIDs = <String>[];
+    for (var groupID in _participantData.groupIDs) {
+      participantIDs.addAll(
+        groups.firstWhere((group) => group.id == groupID).memberIDs,
+      );
+    }
+    participantIDs.toSet().toList();
+    for (var groupID in _participantData.blackListGroup) {
+      participantIDs.removeWhere(
+        (participantID) =>
+            groups
+                .firstWhere((group) => group.id == groupID)
+                .memberIDs
+                .contains(participantID) ||
+            _participantData.blackListUser.contains(participantID),
+      );
+    }
+    participantIDs.addAll(_participantData.whiteListUser);
+    participantIDs.toSet().toList();
+    return participantIDs;
+  }
+
   ///Konyhatakarítási feladatok frissítése. A függvény lekéri a szerverről a
   ///legfrissebb feladatlistát. Alapértelmezetten az aktuális napot megelőző
   ///naptól a folyó konhatakarítási periódus végéig szinkronizál.
@@ -205,12 +228,9 @@ class KitchenCleaningManager extends ChangeNotifier {
   Future<void> refreshCleaningParticipants() async {
     try {
       var io = IO();
-      var participantData = await io.getCleaningParticipants();
-      _participantBlackList = participantData.blackList;
-      _participantGroupIDs = participantData.groupIDs;
+      _participantData = await io.getCleaningParticipants();
     } on IOException {
-      _participantBlackList = [];
-      _participantGroupIDs = [];
+      return;
     }
   }
 

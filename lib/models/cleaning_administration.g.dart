@@ -29,7 +29,13 @@ CleaningParticipants _$CleaningParticipantsFromJson(
     CleaningParticipants(
       groupIDs:
           (json['group_ids'] as List<dynamic>).map((e) => e as String).toList(),
-      blackList: (json['black_list'] as List<dynamic>)
+      blackListGroup: (json['blacklist_group'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      blackListUser: (json['blacklist_user'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      whiteListUser: (json['whitelist_user'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
       lastUpdate: DateTime.parse(json['last_update'] as String),
@@ -39,6 +45,8 @@ Map<String, dynamic> _$CleaningParticipantsToJson(
         CleaningParticipants instance) =>
     <String, dynamic>{
       'group_ids': instance.groupIDs,
-      'black_list': instance.blackList,
+      'blacklist_group': instance.blackListGroup,
+      'blacklist_user': instance.blackListUser,
+      'whitelist_user': instance.whiteListUser,
       'last_update': instance.lastUpdate.toIso8601String(),
     };

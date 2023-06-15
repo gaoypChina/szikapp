@@ -600,6 +600,22 @@ class IO {
     throw _handleErrors(response);
   }
 
+  Future<void> putCleaningParticipants(
+      {required CleaningParticipants data,
+      required KeyValuePairs parameters}) async {
+    var uri = '$_vmAddress$_cleaningParticipantsEndpoint?';
+    parameters.forEach((key, value) => uri += '$key=$value&');
+    var response = await client.put(
+      Uri.parse(uri, 0, uri.length - 1),
+      headers: {...await _commonHeaders(), ..._contentTypeHeader()},
+      body: json.encode(data.toJson()),
+    );
+
+    if (response.statusCode != ApiResponseCode.ok) {
+      throw _handleErrors(response);
+    }
+  }
+
   ///Automatikusan beosztja a takarítókat a következő periódusra.
   Future<void> getCleaningAutoAssign() async {
     var uri = '$_vmAddress$_cleaningAssignEndpoint';

@@ -28,7 +28,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   bool _hasCurrentPeriod = false;
   late CleaningPeriod _openPeriod;
   late CleaningPeriod _currentPeriod;
-  List<String> _memberIDs = [];
+  int _participantCount = 0;
 
   @override
   void initState() {
@@ -45,18 +45,13 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
     } else {
       _startDate = DateTime.now();
-      _endDate = _startDate.add(const Duration(days: 30));
+      _endDate = _startDate.add(const Duration(days: 31));
     }
-    Provider.of<SzikAppStateManager>(context, listen: false)
-        .groups
-        .where((group) => widget.manager.participantGroupIDs.contains(group.id))
-        .forEach((group) {
-      _memberIDs.addAll(group.memberIDs);
-    });
-    _memberIDs = _memberIDs.toSet().toList();
-    _memberIDs.removeWhere(
-      (memberID) => widget.manager.participantBlackList.contains(memberID),
-    );
+
+    var groups =
+        Provider.of<SzikAppStateManager>(context, listen: false).groups;
+    var participantIDs = widget.manager.getParticipantIDs(groups);
+    _participantCount = participantIDs.length;
   }
 
   void _onStartChanged(DateTime newDate) {
@@ -76,8 +71,20 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       var uuid = const Uuid();
       var newPeriod = CleaningPeriod(
         id: uuid.v4().toUpperCase(),
-        start: _startDate,
-        end: _endDate,
+        start: _startDate.copyWith(
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+          microsecond: 0,
+        ),
+        end: _endDate.copyWith(
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+          microsecond: 0,
+        ),
         lastUpdate: DateTime.now(),
         isLive: true,
       );
@@ -98,8 +105,20 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   Future<void> _onEditPeriod() async {
     try {
-      _openPeriod.start = _startDate;
-      _openPeriod.end = _endDate;
+      _openPeriod.start = _startDate.copyWith(
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
+      _openPeriod.end = _endDate.copyWith(
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
       _openPeriod.lastUpdate = DateTime.now();
       await widget.manager.editCleaningPeriod(period: _openPeriod);
       await widget.manager.refreshPeriods();
@@ -168,6 +187,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     DatePicker(
                       onChanged: _onStartChanged,
                       initialDate: _startDate,
+                      startDate: DateTime.now()
+                          .copyWith(hour: 0, minute: 0, second: 0)
+                          .add(const Duration(days: 1)),
                       endDate: _endDate,
                     )
                   ],
@@ -222,7 +244,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     ),
                     Text(
-                      _memberIDs.length.toString(),
+                      _participantCount.toString(),
                       style: theme.textTheme.displaySmall,
                     )
                   ],
