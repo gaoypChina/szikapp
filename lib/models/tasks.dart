@@ -54,6 +54,15 @@ enum TaskStatus {
     if (other == null) return false;
     return index == other.index;
   }
+
+  static TaskStatus statusFromJson(dynamic rawStatus) {
+    for (var status in TaskStatus.values) {
+      if (status.toString() == rawStatus.toString()) {
+        return status;
+      }
+    }
+    return TaskStatus.created;
+  }
 }
 
 ///Alapvető feladat adatmodell ősosztály. Szerializálható `JSON` formátumba és
@@ -131,6 +140,7 @@ class JanitorTask extends Task {
   List<Feedback> feedback;
   @JsonKey(name: 'place_id')
   String placeID;
+  @JsonKey(fromJson: TaskStatus.statusFromJson)
   TaskStatus status;
   String? answer;
 
@@ -187,6 +197,7 @@ class Feedback implements Identifiable, Cachable {
 @JsonSerializable(explicitToJson: true)
 class CleaningTask extends Task {
   List<Feedback> feedback;
+  @JsonKey(fromJson: TaskStatus.statusFromJson)
   TaskStatus status;
 
   CleaningTask({

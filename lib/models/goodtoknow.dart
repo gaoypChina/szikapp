@@ -8,7 +8,16 @@ enum GoodToKnowCategory {
   @JsonValue('document')
   document,
   @JsonValue('pinned_post')
-  pinnedPost,
+  pinnedPost;
+
+  static GoodToKnowCategory categoryFromJson(dynamic rawCategory) {
+    for (var category in GoodToKnowCategory.values) {
+      if (category.toString() == rawCategory.toString()) {
+        return category;
+      }
+    }
+    return GoodToKnowCategory.document;
+  }
 }
 
 @JsonSerializable()
@@ -16,6 +25,7 @@ class GoodToKnow extends Resource implements Identifiable, Cachable {
   static const String urlKey = 'url';
 
   String title;
+  @JsonKey(fromJson: GoodToKnowCategory.categoryFromJson)
   GoodToKnowCategory category;
   @JsonKey(name: 'key_value_pairs')
   KeyValuePairs? keyValuePairs;

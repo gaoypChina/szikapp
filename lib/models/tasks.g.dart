@@ -67,7 +67,7 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       url: json['url'] as String?,
-      color: json['color'] as int? ?? 0xFF59A3B0,
+      color: json['color'] as int,
     );
 
 Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>
@@ -107,7 +107,7 @@ JanitorTask _$JanitorTaskFromJson(Map<String, dynamic> json) => JanitorTask(
               .toList() ??
           const [],
       placeID: json['place_id'] as String,
-      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
+      status: TaskStatus.statusFromJson(json['status']),
       answer: json['answer'] as String?,
     );
 
@@ -172,7 +172,7 @@ CleaningTask _$CleaningTaskFromJson(Map<String, dynamic> json) => CleaningTask(
               ?.map((e) => Feedback.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      status: $enumDecode(_$TaskStatusEnumMap, json['status']),
+      status: TaskStatus.statusFromJson(json['status']),
     );
 
 Map<String, dynamic> _$CleaningTaskToJson(CleaningTask instance) =>
