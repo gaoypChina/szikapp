@@ -67,7 +67,7 @@ TimetableTask _$TimetableTaskFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       url: json['url'] as String?,
-      color: json['color'] as int? ?? 0xFF59A3B0,
+      color: json['color'] as int,
     );
 
 Map<String, dynamic> _$TimetableTaskToJson(TimetableTask instance) =>

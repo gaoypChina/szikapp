@@ -83,7 +83,7 @@ enum Permission {
         return permission;
       }
     }
-    throw NotValidPermissionException(
+    throw NotValidEnumValueException(
       '`$source` is not one of the supported values.',
     );
   }
@@ -93,7 +93,7 @@ enum Permission {
     for (var rawPermission in rawPermissions) {
       try {
         permissions.add(Permission.decodePermission(source: rawPermission));
-      } on NotValidPermissionException catch (_) {
+      } on NotValidEnumValueException catch (_) {
         continue;
       }
     }

@@ -6,11 +6,8 @@ part 'preferences.g.dart';
 
 ///Sötét mód beállításokat tartalmazó típus.
 enum DarkMode {
-  @JsonValue('system')
   system,
-  @JsonValue('dark')
   dark,
-  @JsonValue('light')
   light;
 
   @override
@@ -24,9 +21,7 @@ enum DarkMode {
 
 ///Nyelvi beállításokat tartalmazó típus.
 enum Language {
-  @JsonValue('hu')
   hu,
-  @JsonValue('en')
   en;
 
   @override
@@ -37,6 +32,15 @@ enum Language {
   bool isEqual(Language? other) {
     if (other == null) return false;
     return index == other.index;
+  }
+
+  static Language languageFromJson(dynamic rawLanguage) {
+    for (var language in Language.values) {
+      if (language.toString() == rawLanguage.toString()) {
+        return language;
+      }
+    }
+    return Language.hu;
   }
 }
 
@@ -60,8 +64,10 @@ enum SzikAppTheme {
 class Preferences implements Cachable {
   @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
+  @JsonKey(fromJson: Language.languageFromJson)
   Language language;
   SzikAppTheme theme;
+  @JsonKey(fromJson: NotificationTopic.topicsFromJson)
   List<NotificationTopic> notifications;
   @JsonKey(name: 'feed_shortcuts')
   List<int> feedShortcuts;
