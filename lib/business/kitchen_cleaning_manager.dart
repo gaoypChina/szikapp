@@ -153,14 +153,14 @@ class KitchenCleaningManager extends ChangeNotifier {
     participantIDs = participantIDs.toSet().toList();
     for (var groupID in _participantData.blackListGroup) {
       participantIDs.removeWhere(
-        (participantID) =>
-            _participantData.blackListUser.contains(participantID) ||
-            groups
-                .firstWhere((group) => group.id == groupID)
-                .memberIDs
-                .contains(participantID),
+        (participantID) => groups
+            .firstWhere((group) => group.id == groupID)
+            .memberIDs
+            .contains(participantID),
       );
     }
+    participantIDs.removeWhere((participantID) =>
+        _participantData.blackListUser.contains(participantID));
     participantIDs.addAll(_participantData.whiteListUser);
     participantIDs = participantIDs.toSet().toList();
     return participantIDs;
