@@ -251,7 +251,7 @@ class PollManager extends ChangeNotifier {
     try {
       var io = IO();
       _polls = await io.getPoll(parameters: parameter);
-    } on IONotModifiedException {
+    } on IOException {
       _polls = [];
     }
   }

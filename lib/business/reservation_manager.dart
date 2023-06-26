@@ -250,7 +250,7 @@ class ReservationManager extends ChangeNotifier {
       var io = IO();
       _reservations = await io.getReservation(parameters: parameter);
       _reservations.sort((a, b) => a.start.compareTo(b.start));
-    } on IONotModifiedException {
+    } on IOException {
       _reservations = [];
     }
   }
@@ -259,7 +259,7 @@ class ReservationManager extends ChangeNotifier {
     try {
       var io = IO();
       _games = await io.getBoardgame();
-    } on IONotModifiedException {
+    } on IOException {
       _games = [];
     }
   }
@@ -268,7 +268,7 @@ class ReservationManager extends ChangeNotifier {
     try {
       var io = IO();
       _accounts = await io.getAccount();
-    } on IONotModifiedException {
+    } on IOException {
       _accounts = [];
     }
   }

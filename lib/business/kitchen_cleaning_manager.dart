@@ -182,7 +182,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     try {
       var io = IO();
       _cleaningTasks = await io.getCleaningTask(parameters: parameter);
-    } on IONotModifiedException {
+    } on IOException {
       _cleaningTasks = [];
     }
   }
@@ -201,7 +201,7 @@ class KitchenCleaningManager extends ChangeNotifier {
       };
 
       _cleaningExchanges = await io.getCleaningExchange(parameters: parameters);
-    } on IONotModifiedException {
+    } on IOException {
       _cleaningExchanges = [];
     }
   }
@@ -220,7 +220,7 @@ class KitchenCleaningManager extends ChangeNotifier {
     try {
       var io = IO();
       _cleaningPeriods = await io.getCleaningPeriod(parameters: parameter);
-    } on IONotModifiedException {
+    } on IOException {
       _cleaningPeriods = [];
     }
   }

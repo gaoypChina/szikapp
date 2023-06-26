@@ -132,14 +132,14 @@ class ContactsManager {
     if (_contacts.isEmpty || forceRefresh) {
       try {
         _contacts = await io.getContacts();
-      } on IONotModifiedException {
+      } on IOException {
         _contacts = [];
       }
     }
     if (_groups.isEmpty || forceRefresh) {
       try {
         _groups = await io.getGroup();
-      } on IONotModifiedException {
+      } on IOException {
         _groups = [];
       }
     }

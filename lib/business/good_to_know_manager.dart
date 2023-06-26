@@ -67,7 +67,7 @@ class GoodToKnowManager extends ChangeNotifier {
     try {
       var io = IO();
       _posts = await io.getGoodToKnow();
-    } on IONotModifiedException {
+    } on IO {
       _posts = [];
     }
   }
