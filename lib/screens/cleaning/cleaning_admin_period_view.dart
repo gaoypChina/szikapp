@@ -44,7 +44,15 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
       if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
     } else {
-      _startDate = DateTime.now();
+      _startDate = DateTime.now()
+          .copyWith(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+            microsecond: 0,
+          )
+          .add(const Duration(days: 1));
       _endDate = _startDate.add(const Duration(days: 31));
     }
 
@@ -56,13 +64,25 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   void _onStartChanged(DateTime newDate) {
     setState(() {
-      _startDate = newDate;
+      _startDate = newDate.copyWith(
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
     });
   }
 
   void _onEndChanged(DateTime newDate) {
     setState(() {
-      _endDate = newDate.copyWith(hour: 22);
+      _endDate = newDate.copyWith(
+        hour: 23,
+        minute: 59,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
     });
   }
 
@@ -71,20 +91,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       var uuid = const Uuid();
       var newPeriod = CleaningPeriod(
         id: uuid.v4().toUpperCase(),
-        start: _startDate.copyWith(
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-          microsecond: 0,
-        ),
-        end: _endDate.copyWith(
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-          microsecond: 0,
-        ),
+        start: _startDate,
+        end: _endDate,
         lastUpdate: DateTime.now(),
         isLive: true,
       );
@@ -105,20 +113,8 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   Future<void> _onEditPeriod() async {
     try {
-      _openPeriod.start = _startDate.copyWith(
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-        microsecond: 0,
-      );
-      _openPeriod.end = _endDate.copyWith(
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-        microsecond: 0,
-      );
+      _openPeriod.start = _startDate;
+      _openPeriod.end = _endDate;
       _openPeriod.lastUpdate = DateTime.now();
       await widget.manager.editCleaningPeriod(period: _openPeriod);
       await widget.manager.refreshPeriods();
