@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../ui/themes.dart';
+import 'cleaning_admin_participants_view.dart';
 import 'cleaning_admin_period_view.dart';
 import 'cleaning_admin_supervision_view.dart';
 
@@ -34,6 +35,18 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
     });
   }
 
+  Widget _buildBody() {
+    switch (_selectedTab) {
+      case 1:
+        return CleaningParticipantsView(manager: widget.manager);
+      case 2:
+        return CleaningAdminSupervisionView(manager: widget.manager);
+      case 0:
+      default:
+        return CleaningAdminPeriodView(manager: widget.manager);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -51,6 +64,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
             TabChoice(
               labels: [
                 'CLEANING_TAB_PERIOD'.tr(),
+                'CLEANING_TAB_PARTICIPANTS'.tr(),
                 'CLEANING_TAB_SUPERVISION'.tr(),
               ],
               wrapColor: theme.colorScheme.background,
@@ -58,9 +72,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
             ),
             const SizedBox(height: kPaddingLarge),
             Expanded(
-              child: _selectedTab == 0
-                  ? CleaningAdminPeriodView(manager: widget.manager)
-                  : CleaningAdminSupervisionView(manager: widget.manager),
+              child: _buildBody(),
             )
           ],
         ),

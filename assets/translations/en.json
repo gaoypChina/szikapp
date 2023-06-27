@@ -166,6 +166,7 @@
         "CLEANING_TAB_EXCHANGES": "Exchanges",
         "CLEANING_TAB_PERIOD": "Periods",
         "CLEANING_TAB_SUPERVISION": "Supervision",
+        "CLEANING_TAB_PARTICIPANTS": "Participants",
         "CLEANING_REPORT": "Report",
         "CLEANING_REPORT_INACTIVE": "No reportable task",
         "CLEANING_INFO_NO_CURRENT_TASK": "You can exchange your task only after the application period has been finished.",

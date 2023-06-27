@@ -166,6 +166,7 @@
         "CLEANING_TAB_EXCHANGES": "Csere",
         "CLEANING_TAB_PERIOD": "Blokkok",
         "CLEANING_TAB_SUPERVISION": "Felügyelet",
+        "CLEANING_TAB_PARTICIPANTS": "Résztvevők",
         "CLEANING_REPORT": "Jelentés",
         "CLEANING_REPORT_INACTIVE": "Nincs jelenthető feladat",
         "CLEANING_INFO_NO_CURRENT_TASK": "Időpontot cserélni csak a jelentkezés lezárulta után tudsz.",
