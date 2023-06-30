@@ -169,7 +169,8 @@ class User implements Identifiable, Cachable {
     return '#$id $name';
   }
 
-  bool isEqual(User other) {
+  bool isEqual(User? other) {
+    if (other == null) return false;
     return id == other.id;
   }
 

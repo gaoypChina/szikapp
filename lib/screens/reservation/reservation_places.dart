@@ -41,8 +41,7 @@ class ReservationPlacesScreen extends StatelessWidget {
 class ReservationPlacesCalendar extends StatefulWidget {
   final ReservationManager manager;
 
-  const ReservationPlacesCalendar({Key? key, required this.manager})
-      : super(key: key);
+  const ReservationPlacesCalendar({super.key, required this.manager});
 
   @override
   State<ReservationPlacesCalendar> createState() =>

@@ -25,12 +25,12 @@ class ProfileScreenView extends StatefulWidget {
 
 class _ProfileScreenViewState extends State<ProfileScreenView> {
   final _formKey = GlobalKey<FormState>();
-  bool changed = false;
-  bool error = false;
-  late String name;
-  String? nick;
-  DateTime? birthday;
-  String? phone;
+  bool _changed = false;
+  bool _error = false;
+  late String _name;
+  String? _nick;
+  DateTime? _birthday;
+  String? _phone;
 
   String buildGroupNamesFromIDs({List<String>? ids}) {
     var result = '';
@@ -45,22 +45,22 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
 
   void _onNameChanged(String newValue) {
     setState(() {
-      newValue.isEmpty ? name = widget.manager.user!.name : name = newValue;
-      changed = true;
+      newValue.isEmpty ? _name = widget.manager.user!.name : _name = newValue;
+      _changed = true;
     });
   }
 
   void _onNickChanged(String newValue) {
     setState(() {
-      newValue.isEmpty ? nick = null : nick = newValue;
-      changed = true;
+      newValue.isEmpty ? _nick = null : _nick = newValue;
+      _changed = true;
     });
   }
 
   void _onPhoneChanged(String newValue) {
     setState(() {
-      phone = newValue;
-      changed = true;
+      _phone = newValue;
+      _changed = true;
     });
   }
 
@@ -73,8 +73,8 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         int.parse(parsed[2].trim()),
       );
       setState(() {
-        birthday = date;
-        changed = true;
+        _birthday = date;
+        _changed = true;
       });
     }
   }
@@ -82,41 +82,41 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   Future<void> _onSend() async {
     try {
       if (_formKey.currentState!.validate()) {
-        widget.manager.user!.name = name;
-        widget.manager.user!.nick = nick;
-        widget.manager.user!.phone = phone;
-        widget.manager.user!.birthday = birthday;
+        widget.manager.user!.name = _name;
+        widget.manager.user!.nick = _nick;
+        widget.manager.user!.phone = _phone;
+        widget.manager.user!.birthday = _birthday;
         await widget.manager.pushUserUpdate();
         setState(() {
-          changed = false;
+          _changed = false;
         });
         SzikAppState.analytics.logEvent(name: 'profile_update');
       }
     } on NotValidPhoneException {
       setState(() {
-        error = true;
+        _error = true;
       });
     } on NotValidBirthdayException {
       setState(() {
-        error = true;
+        _error = true;
       });
     }
   }
 
   void _onCancel() {
     setState(() {
-      name = widget.manager.user!.name;
-      nick = widget.manager.user!.nick;
-      birthday = widget.manager.user!.birthday;
-      phone = widget.manager.user!.phone;
-      changed = false;
+      _name = widget.manager.user!.name;
+      _nick = widget.manager.user!.nick;
+      _birthday = widget.manager.user!.birthday;
+      _phone = widget.manager.user!.phone;
+      _changed = false;
     });
     SzikAppState.analytics.logEvent(name: 'profile_update_cancelled');
   }
 
   List<Widget> _buildDataActionButtons() {
     var theme = Theme.of(context);
-    return changed
+    return _changed
         ? [
             ElevatedButton.icon(
               icon: CustomIcon(
@@ -209,10 +209,10 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   @override
   void initState() {
     super.initState();
-    name = widget.manager.user!.name;
-    nick = widget.manager.user?.nick;
-    birthday = widget.manager.user?.birthday;
-    phone = widget.manager.user?.phone;
+    _name = widget.manager.user!.name;
+    _nick = widget.manager.user?.nick;
+    _birthday = widget.manager.user?.birthday;
+    _phone = widget.manager.user?.phone;
   }
 
   @override
@@ -253,14 +253,14 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                 children: [
                   ProfileTextField(
                     label: 'PROFILE_NAME'.tr(),
-                    initialValue: name,
+                    initialValue: _name,
                     onChanged: _onNameChanged,
                     readOnly: !userCanModify,
                   ),
                   if (!isUserGuest)
                     ProfileTextField(
                       label: 'PROFILE_NICKNAME'.tr(),
-                      initialValue: nick,
+                      initialValue: _nick,
                       onChanged: _onNickChanged,
                       readOnly: !userCanModify,
                     ),
@@ -272,8 +272,8 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                   if (!isUserGuest)
                     ProfileTextField(
                       label: 'PROFILE_BIRTHDAY'.tr(),
-                      initialValue: birthday != null
-                          ? DateFormat('yyyy. MM. dd.').format(birthday!)
+                      initialValue: _birthday != null
+                          ? DateFormat('yyyy. MM. dd.').format(_birthday!)
                           : null,
                       onChanged: _onBirthdayChanged,
                       readOnly: !userCanModify,
@@ -281,7 +281,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                   if (!isUserGuest)
                     ProfileTextField(
                       label: 'PROFILE_PHONENUMBER'.tr(),
-                      initialValue: phone,
+                      initialValue: _phone,
                       onChanged: _onPhoneChanged,
                       readOnly: !userCanModify,
                     ),

@@ -234,6 +234,14 @@ class KitchenCleaningManager extends ChangeNotifier {
     }
   }
 
+  Future<void> editCleaningParticipants(
+      {required CleaningParticipants newParticipantData}) async {
+    var io = IO();
+    await io.putCleaningParticipants(data: newParticipantData);
+    _participantData = newParticipantData;
+    notifyListeners();
+  }
+
   Future<void> autoAssignTasks() async {
     var io = IO();
     await io.getCleaningAutoAssign();

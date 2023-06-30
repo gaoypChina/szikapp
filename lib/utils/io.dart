@@ -601,10 +601,9 @@ class IO {
   }
 
   Future<void> putCleaningParticipants(
-      {required CleaningParticipants data,
-      required KeyValuePairs parameters}) async {
+      {required CleaningParticipants data, KeyValuePairs? parameters}) async {
     var uri = '$_vmAddress$_cleaningParticipantsEndpoint?';
-    parameters.forEach((key, value) => uri += '$key=$value&');
+    parameters?.forEach((key, value) => uri += '$key=$value&');
     var response = await client.put(
       Uri.parse(uri, 0, uri.length - 1),
       headers: {...await _commonHeaders(), ..._contentTypeHeader()},
