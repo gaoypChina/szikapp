@@ -76,6 +76,20 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         birthday = date;
         changed = true;
       });
+    } else if (parsed.length == 3) {
+      var date = DateTime(
+        9999,
+        int.parse(parsed[0].trim()),
+        int.parse(parsed[1].trim()),
+      );
+      setState(() {
+        birthday = date;
+        changed = true;
+      });
+    } else {
+      setState(() {
+        error = true;
+      });
     }
   }
 
@@ -273,7 +287,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     ProfileTextField(
                       label: 'PROFILE_BIRTHDAY'.tr(),
                       initialValue: birthday != null
-                          ? DateFormat('yyyy. MM. dd.').format(birthday!)
+                          ? DateFormat('MM. dd.').format(birthday!)
                           : null,
                       onChanged: _onBirthdayChanged,
                       readOnly: !userCanModify,
