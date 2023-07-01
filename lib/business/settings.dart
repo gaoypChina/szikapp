@@ -20,7 +20,11 @@ class Settings extends ChangeNotifier {
   Settings._privateConstructor();
 
   ///Lekéri az első futtatást jelző flaget.
-  bool get firstRun => _preferences.getBool('firstRun') ?? true;
+  bool get gdprAccepted => _preferences.getBool('gdprAccepted') ?? false;
+  DateTime? get gdprAcceptanceDate =>
+      _preferences.getString('gdprAcceptanceDate') != null
+          ? DateTime.parse(_preferences.getString('gdprAcceptanceDate')!)
+          : null;
 
   ///Lekéri a sötét mód beállítást.
   DarkMode get darkMode {
@@ -71,7 +75,15 @@ class Settings extends ChangeNotifier {
   }
 
   ///Elmenti az első futtatást jelző flaget.
-  set firstRun(bool isFirstRun) => _preferences.setBool('firstRun', false);
+  set gdprAccepted(bool gdprAccepted) =>
+      _preferences.setBool('gdprAccepted', false);
+
+  set gdprAcceptanceDate(DateTime? gdprAcceptanceDate) {
+    if (gdprAcceptanceDate != null) {
+      _preferences.setString(
+          'gdprAcceptanceDate', gdprAcceptanceDate.toIso8601String());
+    }
+  }
 
   ///Elmenti a sötét mód beállítást.
   set darkMode(DarkMode mode) {
@@ -133,6 +145,8 @@ class Settings extends ChangeNotifier {
     dataLite = serverPreferences.dataLite;
     notificationSettings = serverPreferences.notifications;
     feedShortcuts = serverPreferences.feedShortcuts;
+    gdprAccepted = serverPreferences.gdprAccepted;
+    gdprAcceptanceDate = serverPreferences.gdprAcceptanceDate;
     return true;
   }
 
@@ -144,7 +158,9 @@ class Settings extends ChangeNotifier {
       ..theme = theme
       ..dataLite = dataLite
       ..notifications = notificationSettings
-      ..feedShortcuts = feedShortcuts;
+      ..feedShortcuts = feedShortcuts
+      ..gdprAccepted = gdprAccepted
+      ..gdprAcceptanceDate = gdprAcceptanceDate;
     var io = IO();
     await io.postUserPreferences(data: preferences);
     return true;

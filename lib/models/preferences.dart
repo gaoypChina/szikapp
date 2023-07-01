@@ -62,6 +62,10 @@ enum SzikAppTheme {
 ///Szerializálható `JSON` formátumba és vice versa.
 @JsonSerializable()
 class Preferences implements Cachable {
+  @JsonKey(name: 'gdpr_accepted')
+  bool gdprAccepted;
+  @JsonKey(name: 'gdprAcceptanceDate')
+  DateTime? gdprAcceptanceDate;
   @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
   @JsonKey(fromJson: Language.languageFromJson)
@@ -82,6 +86,8 @@ class Preferences implements Cachable {
   final DateTime lastUpdate;
 
   Preferences({
+    this.gdprAccepted = false,
+    this.gdprAcceptanceDate,
     this.darkMode = DarkMode.system,
     this.language = Language.hu,
     this.theme = SzikAppTheme.defaultTheme,
