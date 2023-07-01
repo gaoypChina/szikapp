@@ -8,7 +8,10 @@ enum GoodToKnowCategory {
   @JsonValue('document')
   document,
   @JsonValue('pinned_post')
-  pinnedPost,
+  pinnedPost;
+
+  @override
+  String toString() => name;
 }
 
 @JsonSerializable()

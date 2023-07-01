@@ -9,14 +9,14 @@ part of 'preferences.dart';
 Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
       darkMode: $enumDecodeNullable(_$DarkModeEnumMap, json['dark_mode']) ??
           DarkMode.system,
-      language: $enumDecodeNullable(_$LanguageEnumMap, json['language']) ??
-          Language.hu,
+      language: json['language'] == null
+          ? Language.hu
+          : Language.languageFromJson(json['language']),
       theme: $enumDecodeNullable(_$SzikAppThemeEnumMap, json['theme']) ??
           SzikAppTheme.defaultTheme,
-      notifications: (json['notifications'] as List<dynamic>?)
-              ?.map((e) => $enumDecode(_$NotificationTopicEnumMap, e))
-              .toList() ??
-          const [],
+      notifications: json['notifications'] == null
+          ? const []
+          : NotificationTopic.topicsFromJson(json['notifications'] as List),
       feedShortcuts: (json['feed_shortcuts'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??
@@ -48,27 +48,27 @@ const _$DarkModeEnumMap = {
   DarkMode.light: 'light',
 };
 
+const _$SzikAppThemeEnumMap = {
+  SzikAppTheme.defaultTheme: 'default',
+};
+
 const _$LanguageEnumMap = {
   Language.hu: 'hu',
   Language.en: 'en',
 };
 
-const _$SzikAppThemeEnumMap = {
-  SzikAppTheme.defaultTheme: 'default',
-};
-
 const _$NotificationTopicEnumMap = {
-  NotificationTopic.birthdays: 'birthdays',
   NotificationTopic.advertisements: 'advertisements',
-  NotificationTopic.reservationStart: 'reservationStart',
-  NotificationTopic.reservationEnd: 'reservationEnd',
-  NotificationTopic.janitorStatusUpdate: 'janitorStatusUpdate',
-  NotificationTopic.pollAvailable: 'pollAvailable',
-  NotificationTopic.pollVotingReminder: 'pollVotingReminder',
-  NotificationTopic.pollVotingEnded: 'pollVotingEnded',
-  NotificationTopic.cleaningTaskDueDate: 'cleaningTaskDueDate',
-  NotificationTopic.cleaningTasksAvailable: 'cleaningTasksAvailable',
-  NotificationTopic.cleaningTaskAssigned: 'cleaningTaskAssigned',
+  NotificationTopic.birthdays: 'birthdays',
   NotificationTopic.cleaningExchangeAvailable: 'cleaningExchangeAvailable',
   NotificationTopic.cleaningExchangeUpdate: 'cleaningExchangeUpdate',
+  NotificationTopic.cleaningTasksAvailable: 'cleaningTasksAvailable',
+  NotificationTopic.cleaningTaskAssigned: 'cleaningTaskAssigned',
+  NotificationTopic.cleaningTaskDueDate: 'cleaningTaskDueDate',
+  NotificationTopic.janitorStatusUpdate: 'janitorStatusUpdate',
+  NotificationTopic.pollAvailable: 'pollAvailable',
+  NotificationTopic.pollVotingEnded: 'pollVotingEnded',
+  NotificationTopic.pollVotingReminder: 'pollVotingReminder',
+  NotificationTopic.reservationEnd: 'reservationEnd',
+  NotificationTopic.reservationStart: 'reservationStart',
 };
