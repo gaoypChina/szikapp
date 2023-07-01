@@ -44,9 +44,10 @@ class _SignInScreenViewState extends State<SignInScreenView> {
     } else {
       var gdprAcceptanceDate =
           Settings.instance.gdprAcceptanceDate ?? DateTime(1800);
-      if (Settings.instance.gdprAccepted &&
-          gdprAcceptanceDate
-              .isBefore(DateTime.now().subtract(const Duration(days: 730)))) {
+      if (!Settings.instance.gdprAccepted ||
+          (Settings.instance.gdprAccepted &&
+              gdprAcceptanceDate.isBefore(
+                  DateTime.now().subtract(const Duration(days: 730))))) {
         showDialog(
           context: context,
           builder: (context) {
