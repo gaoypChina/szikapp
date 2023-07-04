@@ -76,7 +76,7 @@ class Settings extends ChangeNotifier {
 
   ///Elmenti az első futtatást jelző flaget.
   set gdprAccepted(bool gdprAccepted) =>
-      _preferences.setBool('gdprAccepted', false);
+      _preferences.setBool('gdprAccepted', gdprAccepted);
 
   set gdprAcceptanceDate(DateTime? gdprAcceptanceDate) {
     if (gdprAcceptanceDate != null) {

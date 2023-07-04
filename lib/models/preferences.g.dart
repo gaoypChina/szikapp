@@ -7,6 +7,10 @@ part of 'preferences.dart';
 // **************************************************************************
 
 Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
+      gdprAccepted: json['gdpr_accepted'] as bool? ?? false,
+      gdprAcceptanceDate: json['gdpr_acceptance_date'] == null
+          ? null
+          : DateTime.parse(json['gdpr_acceptance_date'] as String),
       darkMode: $enumDecodeNullable(_$DarkModeEnumMap, json['dark_mode']) ??
           DarkMode.system,
       language: json['language'] == null
@@ -29,6 +33,8 @@ Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences(
 
 Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
     <String, dynamic>{
+      'gdpr_accepted': instance.gdprAccepted,
+      'gdpr_acceptance_date': instance.gdprAcceptanceDate?.toIso8601String(),
       'dark_mode': _$DarkModeEnumMap[instance.darkMode]!,
       'language': _$LanguageEnumMap[instance.language]!,
       'theme': _$SzikAppThemeEnumMap[instance.theme]!,

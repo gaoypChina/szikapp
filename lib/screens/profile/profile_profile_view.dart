@@ -110,10 +110,6 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
       setState(() {
         error = true;
       });
-    } on NotValidBirthdayException {
-      setState(() {
-        error = true;
-      });
     }
   }
 

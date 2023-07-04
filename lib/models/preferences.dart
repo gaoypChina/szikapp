@@ -64,7 +64,7 @@ enum SzikAppTheme {
 class Preferences implements Cachable {
   @JsonKey(name: 'gdpr_accepted')
   bool gdprAccepted;
-  @JsonKey(name: 'gdprAcceptanceDate')
+  @JsonKey(name: 'gdpr_acceptance_date')
   DateTime? gdprAcceptanceDate;
   @JsonKey(name: 'dark_mode')
   DarkMode darkMode;
