@@ -42,7 +42,12 @@ class _SignInScreenViewState extends State<SignInScreenView> {
       Provider.of<SzikAppStateManager>(context, listen: false)
           .setError(error: NoConnectionException('ERROR_NO_INTERNET'.tr()));
     } else {
-      if (Settings.instance.firstRun) {
+      var gdprAcceptanceDate =
+          Settings.instance.gdprAcceptanceDate ?? DateTime(1800);
+      if (!Settings.instance.gdprAccepted ||
+          (Settings.instance.gdprAccepted &&
+              gdprAcceptanceDate.isBefore(
+                  DateTime.now().subtract(const Duration(days: 730))))) {
         showDialog(
           context: context,
           builder: (context) {
@@ -51,6 +56,9 @@ class _SignInScreenViewState extends State<SignInScreenView> {
                 Provider.of<AuthManager>(context, listen: false)
                     .signIn(method: method);
                 SzikAppState.analytics.logEvent(name: 'sign_in');
+                Settings.instance.gdprAccepted = true;
+                Settings.instance.gdprAcceptanceDate = DateTime.now();
+                Settings.instance.savePreferences();
                 Navigator.pop(context);
               },
               onDisagreePressed: () {

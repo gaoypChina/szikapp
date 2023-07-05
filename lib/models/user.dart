@@ -54,15 +54,7 @@ class User implements Identifiable, Cachable {
 
   DateTime? get birthday => _birthday;
   set birthday(DateTime? date) {
-    if (date == null) {
-      _birthday = null;
-    } else if (date.isBefore(DateTime(1930, 1, 1)) ||
-        date.isAfter(DateTime.now().subtract((const Duration(days: 6400))))) {
-      throw NotValidBirthdayException(
-          'ERROR_INVALID_VALUE'.tr(args: ['birthday', date.toIso8601String()]));
-    } else {
-      _birthday = date;
-    }
+    _birthday = date?.copyWith(year: 9999);
   }
 
   String? get phone => _phone;

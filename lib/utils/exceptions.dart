@@ -8,7 +8,6 @@ const int socketExceptionCode = 810;
 const int noConnectionExceptionCode = 820;
 const int notValidPhoneExceptionCode = 921;
 const int nonHungarianPhoneExceptionCode = 922;
-const int notValidBirthdayExceptionCode = 923;
 const int notValidEnumValueExceptionCode = 924;
 const int notSupportedCallFunctionalityExceptionCode = 931;
 const int notSupportedEmailFunctionalityExceptionCode = 932;
@@ -94,11 +93,6 @@ class NotValidPhoneException extends ValidationException {
 class NonHungarianPhoneException extends ValidationException {
   NonHungarianPhoneException(message)
       : super(nonHungarianPhoneExceptionCode, message);
-}
-
-class NotValidBirthdayException extends ValidationException {
-  NotValidBirthdayException(message)
-      : super(notValidBirthdayExceptionCode, message);
 }
 
 abstract class FunctionalityException extends BaseException {
