@@ -188,6 +188,8 @@
         "CLEANING_DIALOG_WITH": "with:",
         "CLEANING_DIALOG_APPLIED": "Applied",
         "CLEANING_DIALOG_NO_MATE": "Nobody yet",
+        "CLEANING_DIALOG_PARTICIPANTS_TITLE": "Edit participants",
+        "CLEANING_DIALOG_PARTICIPANTS_TEXT": "Are you sure you want to edit the participants of the cleaning?",
         "CLEANING_BUTTON_WITHDRAW": "Withdraw",
         "CLEANING_LABEL_EXTENSION": "Unique task",
         "CLEANING_LABEL_WITH": "With",

@@ -188,6 +188,8 @@
         "CLEANING_DIALOG_WITH": "vele:",
         "CLEANING_DIALOG_APPLIED": "Jelentkeztél",
         "CLEANING_DIALOG_NO_MATE": "Még senki",
+        "CLEANING_DIALOG_PARTICIPANTS_TITLE": "Résztvevők szerkesztése",
+        "CLEANING_DIALOG_PARTICIPANTS_TEXT": "Biztos szerkeszteni szeretnéd a konyhatakarítás résztvevőit?",
         "CLEANING_BUTTON_WITHDRAW": "Visszavonás",
         "CLEANING_LABEL_EXTENSION": "Pluszfeladat",
         "CLEANING_LABEL_WITH": "Vele",

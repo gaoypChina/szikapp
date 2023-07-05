@@ -65,26 +65,33 @@ class _CleaningParticipantsViewState extends State<CleaningParticipantsView> {
     });
   }
 
-  Future<void> _onSave() async {
-    try {
-      var newParticipantData = CleaningParticipants(
-        groupIDs: _groupIDs,
-        blackListGroup: _blackListGroup,
-        blackListUser: _blackListUser,
-        whiteListUser: _whiteListUser,
-        lastUpdate: DateTime.now(),
-      );
-      await widget.manager
-          .editCleaningParticipants(newParticipantData: newParticipantData);
-      SzikAppState.analytics.logEvent(name: 'cleaning_participants_edit');
-      setState(() {
-        _modified = false;
-      });
-    } on IOException catch (exception) {
-      var snackbar =
-          ErrorHandler.buildSnackbar(context: context, exception: exception);
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    }
+  Widget _buildOnSaveDialog() {
+    var newParticipantData = CleaningParticipants(
+      groupIDs: _groupIDs,
+      blackListGroup: _blackListGroup,
+      blackListUser: _blackListUser,
+      whiteListUser: _whiteListUser,
+      lastUpdate: DateTime.now(),
+    );
+    return CustomDialog.confirmation(
+      title: 'CLEANING_DIALOG_PARTICIPANTS_TITLE'.tr(),
+      bodytext: 'CLEANING_DIALOG_PARTICIPANTS_TEXT'.tr(),
+      onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
+      onStrongButtonClick: () async {
+        try {
+          await widget.manager
+              .editCleaningParticipants(newParticipantData: newParticipantData);
+          SzikAppState.analytics.logEvent(name: 'cleaning_participants_edit');
+          setState(() {
+            _modified = false;
+          });
+        } on IOException catch (exception) {
+          var snackbar = ErrorHandler.buildSnackbar(
+              context: context, exception: exception);
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      },
+    );
   }
 
   void _onCancel() {
@@ -121,7 +128,10 @@ class _CleaningParticipantsViewState extends State<CleaningParticipantsView> {
                 color: theme.colorScheme.surface,
               ),
               label: Text('BUTTON_SAVE'.tr()),
-              onPressed: _onSave,
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => _buildOnSaveDialog(),
+              ),
               style: ElevatedButton.styleFrom(
                 elevation: 0,
               ),
