@@ -61,14 +61,17 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
           children: [
-            TabChoice(
-              labels: [
-                'CLEANING_TAB_PERIOD'.tr(),
-                'CLEANING_TAB_PARTICIPANTS'.tr(),
-                'CLEANING_TAB_SUPERVISION'.tr(),
-              ],
-              wrapColor: theme.colorScheme.background,
-              onChanged: _onTabChanged,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: TabChoice(
+                labels: [
+                  'CLEANING_TAB_PERIOD'.tr(),
+                  'CLEANING_TAB_PARTICIPANTS'.tr(),
+                  'CLEANING_TAB_SUPERVISION'.tr(),
+                ],
+                wrapColor: theme.colorScheme.background,
+                onChanged: _onTabChanged,
+              ),
             ),
             const SizedBox(height: kPaddingLarge),
             Expanded(
