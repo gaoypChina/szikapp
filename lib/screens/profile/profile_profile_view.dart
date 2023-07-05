@@ -76,6 +76,20 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         _birthday = date;
         _changed = true;
       });
+    } else if (parsed.length == 3) {
+      var date = DateTime(
+        9999,
+        int.parse(parsed[0].trim()),
+        int.parse(parsed[1].trim()),
+      );
+      setState(() {
+        birthday = date;
+        changed = true;
+      });
+    } else {
+      setState(() {
+        error = true;
+      });
     }
   }
 
@@ -93,10 +107,6 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         SzikAppState.analytics.logEvent(name: 'profile_update');
       }
     } on NotValidPhoneException {
-      setState(() {
-        _error = true;
-      });
-    } on NotValidBirthdayException {
       setState(() {
         _error = true;
       });
@@ -273,7 +283,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     ProfileTextField(
                       label: 'PROFILE_BIRTHDAY'.tr(),
                       initialValue: _birthday != null
-                          ? DateFormat('yyyy. MM. dd.').format(_birthday!)
+                          ? DateFormat('MM. dd.').format(_birthday!)
                           : null,
                       onChanged: _onBirthdayChanged,
                       readOnly: !userCanModify,
