@@ -417,7 +417,8 @@ class ContactsListViewState extends State<ContactsListView>
                     ),
                     Text(
                       user.birthday != null
-                          ? DateFormat('MM. dd.').format(user.birthday!)
+                          ? DateFormat('MMMM dd.', context.locale.toString())
+                              .format(user.birthday!)
                           : 'BIRTHDAY_NOT_FOUND'.tr(),
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: theme.colorScheme.primaryContainer,

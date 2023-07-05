@@ -28,7 +28,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   bool _hasCurrentPeriod = false;
   late CleaningPeriod _openPeriod;
   late CleaningPeriod _currentPeriod;
-  List<String> _memberIDs = [];
+  int _participantCount = 0;
 
   @override
   void initState() {
@@ -44,30 +44,45 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
       if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
     } else {
-      _startDate = DateTime.now();
-      _endDate = _startDate.add(const Duration(days: 30));
+      _startDate = DateTime.now()
+          .copyWith(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+            microsecond: 0,
+          )
+          .add(const Duration(days: 1));
+      _endDate = _startDate.add(const Duration(days: 31));
     }
-    Provider.of<SzikAppStateManager>(context, listen: false)
-        .groups
-        .where((group) => widget.manager.participantGroupIDs.contains(group.id))
-        .forEach((group) {
-      _memberIDs.addAll(group.memberIDs);
-    });
-    _memberIDs = _memberIDs.toSet().toList();
-    _memberIDs.removeWhere(
-      (memberID) => widget.manager.participantBlackList.contains(memberID),
-    );
+
+    var groups =
+        Provider.of<SzikAppStateManager>(context, listen: false).groups;
+    var participantIDs = widget.manager.getParticipantIDs(groups);
+    _participantCount = participantIDs.length;
   }
 
   void _onStartChanged(DateTime newDate) {
     setState(() {
-      _startDate = newDate;
+      _startDate = newDate.copyWith(
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
     });
   }
 
   void _onEndChanged(DateTime newDate) {
     setState(() {
-      _endDate = newDate.copyWith(hour: 22);
+      _endDate = newDate.copyWith(
+        hour: 23,
+        minute: 59,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
     });
   }
 
@@ -168,6 +183,9 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     DatePicker(
                       onChanged: _onStartChanged,
                       initialDate: _startDate,
+                      startDate: DateTime.now()
+                          .copyWith(hour: 0, minute: 0, second: 0)
+                          .add(const Duration(days: 1)),
                       endDate: _endDate,
                     )
                   ],
@@ -222,7 +240,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     ),
                     Text(
-                      _memberIDs.length.toString(),
+                      _participantCount.toString(),
                       style: theme.textTheme.displaySmall,
                     )
                   ],

@@ -60,25 +60,30 @@ class TabChoiceState extends State<TabChoice> {
         children: List<Widget>.generate(
           widget.labels.length,
           (index) {
-            return ChoiceChip(
-              label: Text(widget.labels[index],
-                  style: TextStyle(color: widget.fontColor)),
-              selected: _value == index,
-              onSelected: (selected) {
-                var newValue = index; //selected ? index : null;
-                widget.onChanged(newValue);
-                setState(() {
-                  _value = newValue;
-                });
-              },
-              labelPadding:
-                  const EdgeInsets.symmetric(horizontal: kPaddingLarge),
-              selectedColor: widget.choiceColor ??
-                  theme.colorScheme.primary.withOpacity(0.3),
-              disabledColor: Colors.transparent,
-              labelStyle: theme.textTheme.displaySmall!.copyWith(
-                fontSize: 14,
-                color: theme.colorScheme.primaryContainer,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kPaddingSmall),
+              child: ChoiceChip(
+                label: Text(
+                  widget.labels[index],
+                  style: TextStyle(color: widget.fontColor),
+                ),
+                selected: _value == index,
+                onSelected: (selected) {
+                  var newValue = index; //selected ? index : null;
+                  widget.onChanged(newValue);
+                  setState(() {
+                    _value = newValue;
+                  });
+                },
+                labelPadding:
+                    const EdgeInsets.symmetric(horizontal: kPaddingLarge),
+                selectedColor: widget.choiceColor ??
+                    theme.colorScheme.primary.withOpacity(0.3),
+                disabledColor: Colors.transparent,
+                labelStyle: theme.textTheme.displaySmall!.copyWith(
+                  fontSize: 14,
+                  color: theme.colorScheme.primaryContainer,
+                ),
               ),
             );
           },

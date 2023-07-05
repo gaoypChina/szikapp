@@ -118,14 +118,15 @@ class _CleaningAdminSupervisionViewState
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 Text(
                   lastTask!.description ?? '',
                   style: theme.textTheme.titleMedium!.copyWith(
                     color: theme.colorScheme.primaryContainer,
                     fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ],

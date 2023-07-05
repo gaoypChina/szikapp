@@ -37,15 +37,21 @@ class CleaningPeriod implements Identifiable, Cachable {
 class CleaningParticipants implements Cachable {
   @JsonKey(name: 'group_ids')
   List<String> groupIDs;
-  @JsonKey(name: 'black_list')
-  List<String> blackList;
+  @JsonKey(name: 'blacklist_group')
+  List<String> blackListGroup;
+  @JsonKey(name: 'blacklist_user')
+  List<String> blackListUser;
+  @JsonKey(name: 'whitelist_user')
+  List<String> whiteListUser;
   @override
   @JsonKey(name: 'last_update')
   DateTime lastUpdate;
 
   CleaningParticipants({
     required this.groupIDs,
-    required this.blackList,
+    required this.blackListGroup,
+    required this.blackListUser,
+    required this.whiteListUser,
     required this.lastUpdate,
   });
 

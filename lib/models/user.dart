@@ -20,7 +20,7 @@ class User implements Identifiable, Cachable {
   @JsonKey(name: 'profile_picture')
   String? profilePicture;
   String? nick;
-  DateTime? _birthday;
+  DateTime? birthday;
   String? _phone;
   Preferences? preferences;
   @JsonKey(name: 'secondary_phone')
@@ -41,20 +41,14 @@ class User implements Identifiable, Cachable {
     String? phone,
     String? secondaryPhone,
     this.preferences,
-    DateTime? birthday,
+    this.birthday,
     this.permissions = const [],
     this.groupIDs = const [],
     this.profilePicture,
     required this.lastUpdate,
   }) {
-    this.birthday = birthday;
     this.phone = phone;
     this.secondaryPhone = secondaryPhone;
-  }
-
-  DateTime? get birthday => _birthday;
-  set birthday(DateTime? date) {
-    _birthday = date?.copyWith(year: 9999);
   }
 
   String? get phone => _phone;
@@ -161,7 +155,8 @@ class User implements Identifiable, Cachable {
     return '#$id $name';
   }
 
-  bool isEqual(User other) {
+  bool isEqual(User? other) {
+    if (other == null) return false;
     return id == other.id;
   }
 
