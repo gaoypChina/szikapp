@@ -26,7 +26,6 @@ class ProfileScreenView extends StatefulWidget {
 class _ProfileScreenViewState extends State<ProfileScreenView> {
   final _formKey = GlobalKey<FormState>();
   bool _changed = false;
-  bool _error = false;
   late String _name;
   String? _nick;
   DateTime? _birthday;
@@ -64,33 +63,11 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
     });
   }
 
-  void _onBirthdayChanged(String newValue) {
-    var parsed = newValue.split('.');
-    if (parsed.length == 4) {
-      var date = DateTime(
-        int.parse(parsed.first.trim()),
-        int.parse(parsed[1].trim()),
-        int.parse(parsed[2].trim()),
-      );
-      setState(() {
-        _birthday = date;
-        _changed = true;
-      });
-    } else if (parsed.length == 3) {
-      var date = DateTime(
-        9999,
-        int.parse(parsed[0].trim()),
-        int.parse(parsed[1].trim()),
-      );
-      setState(() {
-        birthday = date;
-        changed = true;
-      });
-    } else {
-      setState(() {
-        error = true;
-      });
-    }
+  void _onBirthdayChanged(DateTime newValue) {
+    setState(() {
+      _birthday = newValue;
+      _changed = true;
+    });
   }
 
   Future<void> _onSend() async {
@@ -107,9 +84,8 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         SzikAppState.analytics.logEvent(name: 'profile_update');
       }
     } on NotValidPhoneException {
-      setState(() {
-        _error = true;
-      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('ERROR_NOT_VALID_PHONE'.tr())));
     }
   }
 
@@ -280,11 +256,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                     readOnly: true,
                   ),
                   if (!isUserGuest)
-                    ProfileTextField(
+                    ProfileDateField(
                       label: 'PROFILE_BIRTHDAY'.tr(),
-                      initialValue: _birthday != null
-                          ? DateFormat('MM. dd.').format(_birthday!)
-                          : null,
+                      initialValue: _birthday,
                       onChanged: _onBirthdayChanged,
                       readOnly: !userCanModify,
                     ),

@@ -61,8 +61,10 @@ class TabChoiceState extends State<TabChoice> {
           widget.labels.length,
           (index) {
             return ChoiceChip(
-              label: Text(widget.labels[index],
-                  style: TextStyle(color: widget.fontColor)),
+              label: Text(
+                widget.labels[index],
+                style: TextStyle(color: widget.fontColor),
+              ),
               selected: _value == index,
               onSelected: (selected) {
                 var newValue = index; //selected ? index : null;

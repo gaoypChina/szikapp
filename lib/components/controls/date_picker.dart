@@ -33,6 +33,8 @@ class DatePicker extends StatefulWidget {
 
   final EdgeInsets padding;
 
+  final DateFormat? dateFormat;
+
   const DatePicker({
     super.key,
     required this.onChanged,
@@ -42,6 +44,7 @@ class DatePicker extends StatefulWidget {
     this.endDate,
     this.color = szikTarawera,
     this.fontSize = 14,
+    this.dateFormat,
     this.borderRadius = const BorderRadius.all(
       Radius.circular(kBorderRadiusSmall),
     ),
@@ -75,6 +78,7 @@ class DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var finalFormat = widget.dateFormat ?? DateFormat('yyyy. MM. dd.');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: theme.colorScheme.primary),
@@ -84,8 +88,7 @@ class DatePickerState extends State<DatePicker> {
       child: GestureDetector(
         onTap: widget.readonly ? null : _selectDate,
         child: Text(
-          DateFormat('yyyy. MM. dd.')
-              .format(widget.initialDate ?? DateTime.now()),
+          finalFormat.format(widget.initialDate ?? DateTime.now()),
           style: theme.textTheme.labelLarge!.copyWith(
             color: widget.readonly
                 ? theme.colorScheme.secondaryContainer
