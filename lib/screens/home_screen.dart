@@ -46,7 +46,6 @@ class HomeScreenState extends State<HomeScreen> {
     var authManager = Provider.of<AuthManager>(context, listen: false);
     if (authManager.isSignedIn && !authManager.isUserGuest) {
       Provider.of<SzikAppStateManager>(context, listen: false).loadEarlyData();
-      Settings.instance.loadPreferences();
     }
   }
 

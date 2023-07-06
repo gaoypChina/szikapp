@@ -143,7 +143,11 @@ class Settings extends ChangeNotifier {
     theme = serverPreferences.theme;
     language = serverPreferences.language;
     dataLite = serverPreferences.dataLite;
-    notificationSettings = serverPreferences.notifications;
+
+    var finalNotifications = serverPreferences.notifications;
+    finalNotifications.addAll(obligatoryTopics);
+    notificationSettings = finalNotifications.toSet().toList();
+
     feedShortcuts = serverPreferences.feedShortcuts;
     gdprAccepted = serverPreferences.gdprAccepted;
     gdprAcceptanceDate = serverPreferences.gdprAcceptanceDate;
@@ -152,12 +156,14 @@ class Settings extends ChangeNotifier {
 
   ///Feltölti a felhasználó preferenciáit a szerverre.
   Future<bool> savePreferences() async {
+    var finalNotificationTopics = notificationSettings;
+    finalNotificationTopics.addAll(obligatoryTopics);
     var preferences = Preferences(lastUpdate: DateTime.now())
       ..darkMode = darkMode
       ..language = language
       ..theme = theme
       ..dataLite = dataLite
-      ..notifications = notificationSettings
+      ..notifications = finalNotificationTopics.toSet().toList()
       ..feedShortcuts = feedShortcuts
       ..gdprAccepted = gdprAccepted
       ..gdprAcceptanceDate = gdprAcceptanceDate;

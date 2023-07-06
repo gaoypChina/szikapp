@@ -59,6 +59,17 @@ enum NotificationTopic {
   }
 }
 
+final obligatoryTopics = <NotificationTopic>[
+  NotificationTopic.advertisements,
+  NotificationTopic.cleaningExchangeUpdate,
+  NotificationTopic.cleaningTaskAssigned,
+  NotificationTopic.cleaningTaskDueDate,
+  NotificationTopic.cleaningTasksAvailable,
+  NotificationTopic.janitorStatusUpdate,
+  NotificationTopic.pollAvailable,
+  NotificationTopic.cleaningExchangeAvailable,
+];
+
 typedef NotificationPath = ({
   SzikAppLink path,
   String iconPath,

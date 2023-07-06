@@ -88,18 +88,6 @@ class NotificationManager extends ChangeNotifier {
       );
 
       // Feliratkozás minden kötelező notification topicra
-
-      var obligatoryTopics = <NotificationTopic>[
-        NotificationTopic.advertisements,
-        NotificationTopic.cleaningExchangeUpdate,
-        NotificationTopic.cleaningTaskAssigned,
-        NotificationTopic.cleaningTaskDueDate,
-        NotificationTopic.cleaningTasksAvailable,
-        NotificationTopic.janitorStatusUpdate,
-        NotificationTopic.pollAvailable,
-        NotificationTopic.cleaningExchangeAvailable,
-      ];
-
       subscribeToTopics(obligatoryTopics);
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {

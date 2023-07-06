@@ -115,6 +115,7 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       NotificationManager.instance.saveTokenToDatabase(null);
+      Settings.instance.loadPreferences();
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
@@ -159,6 +160,7 @@ class AuthManager extends ChangeNotifier {
       _signedIn = true;
       _method = method;
       NotificationManager.instance.saveTokenToDatabase(null);
+      Settings.instance.loadPreferences();
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {

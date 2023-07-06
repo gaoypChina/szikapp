@@ -98,6 +98,7 @@ class SzikAppStateManager extends ChangeNotifier {
   ///A háttérben letölti azokat az adatokat, melyekre bármelyik funkciónak
   ///szüksége lehet.
   Future<void> loadEarlyData() async {
+    if (_places.isNotEmpty || _groups.isNotEmpty || _users.isNotEmpty) return;
     try {
       var io = IO();
       _places = await io.getPlace();
