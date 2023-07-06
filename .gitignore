@@ -1,8 +1,12 @@
+# VSCode settings
+.vscode/settings.json
+
 # Secrets
 android/app/google-services.json
 android/key.properties
 lib/config.dart
 *.jks
+
 # Miscellaneous
 *.lock
 *.class
