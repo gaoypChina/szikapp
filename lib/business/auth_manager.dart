@@ -228,7 +228,7 @@ class AuthManager extends ChangeNotifier {
   /// a szerveroldali szolgáltatásoknál.
   /// Ha a [forceRefresh] paraméter értéke true, a lejárati idejétől függetlenül
   /// újragenerálja a tokent.
-  Future<String> getAuthToken({bool forceRefresh = false}) async {
+  Future<String?> getAuthToken({bool forceRefresh = false}) async {
     return _auth.currentUser!.getIdToken(forceRefresh);
   }
 

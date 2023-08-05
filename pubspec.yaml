@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.0.0+343
+version: 2.0.0+344
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -10,17 +10,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  connectivity_plus: ^4.0.0
+  connectivity_plus: ^4.0.2
   easy_localization: ^3.0.1
   dropdown_search: ^5.0.6
   # Firebase:
-  firebase_analytics: ^10.4.3
-  firebase_auth: ^4.6.3
-  firebase_core: ^2.14.0
-  firebase_crashlytics: ^3.3.3
-  firebase_performance: ^0.9.2+3
-  firebase_dynamic_links: ^5.3.3
-  firebase_messaging: ^14.6.3
+  firebase_analytics: ^10.4.4
+  firebase_auth: ^4.7.2
+  firebase_core: ^2.15.0
+  firebase_crashlytics: ^3.3.4
+  firebase_performance: ^0.9.2+4
+  firebase_dynamic_links: ^5.3.4
+  firebase_messaging: ^14.6.5
   flutter_signin_button: ^2.0.0
   google_sign_in: ^6.1.4
   http: ^1.1.0
@@ -31,7 +31,7 @@ dependencies:
   toggle_list: ^0.3.0
   flutter_launcher_icons: ^0.13.0
   flutter_svg: ^1.1.6
-  url_launcher: ^6.1.10
+  url_launcher: ^6.1.12
   uuid: ^3.0.7
   sign_in_with_apple: ^5.0.0
   crypto: ^3.0.2

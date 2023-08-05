@@ -894,7 +894,7 @@ class IO {
     }
     return {
       'User': authManager!.firebaseUser?.email ?? '',
-      'AuthToken': await authManager!.getAuthToken(),
+      'AuthToken': await authManager!.getAuthToken() ?? '',
     };
   }
 
