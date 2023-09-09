@@ -15,10 +15,13 @@ Future<void> _firebaseMessagingInitialHandler(RemoteMessage message) async {
 
 ///Handler a háttérben lévő appnak érkező üzenetek feldolgozására.
 ///Az FCM követelményei szerint top-level függvény lehet csak.
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  /*await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   if (message.notification != null) {
     NotificationManager.instance.addMessage(message);
-  }
+  }*/
 }
 
 ///Értesítéseket kezelő singleton osztály. Szerver és kliens közti rétegként

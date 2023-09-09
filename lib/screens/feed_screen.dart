@@ -40,134 +40,134 @@ class FeedScreenState extends State<FeedScreen> {
     var notifications = context.select(
       (NotificationManager manager) => manager.notifications,
     );
-    return Container(
-      padding: const EdgeInsets.fromLTRB(
-        kPaddingLarge,
-        kPaddingLarge,
-        kPaddingLarge,
-        0,
-      ),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/pictures/background_1.jpg'),
-          fit: BoxFit.cover,
+    return Consumer<NotificationManager>(
+        builder: (context, notificationManager, child) {
+      return Container(
+        padding: const EdgeInsets.fromLTRB(
+          kPaddingLarge,
+          kPaddingLarge,
+          kPaddingLarge,
+          0,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(kPaddingLarge),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.background,
-              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
-            ),
-            child: GestureDetector(
-              onTap: () => appStateManager.selectFeature(
-                  feature: SzikAppFeature.profile),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      authManager.isSignedIn
-                          ? 'FEED_GREETINGS_SIGNEDIN'
-                              .tr(args: [user!.showableName])
-                          : 'FEED_GREETINGS'.tr(),
-                      style: theme.textTheme.displayLarge!.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                  user?.profilePicture != null
-                      ? CircleAvatar(
-                          foregroundImage: NetworkImage(
-                            user!.profilePicture!,
-                          ),
-                        )
-                      : CustomIcon(
-                          CustomIcons.user,
-                          size: kIconSizeGiant,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/pictures/background_1.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(kPaddingLarge),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.background,
+                borderRadius: BorderRadius.circular(kBorderRadiusNormal),
+              ),
+              child: GestureDetector(
+                onTap: () => appStateManager.selectFeature(
+                    feature: SzikAppFeature.profile),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        authManager.isSignedIn
+                            ? 'FEED_GREETINGS_SIGNEDIN'
+                                .tr(args: [user!.showableName])
+                            : 'FEED_GREETINGS'.tr(),
+                        style: theme.textTheme.displayLarge!.copyWith(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
                         ),
+                      ),
+                    ),
+                    user?.profilePicture != null
+                        ? CircleAvatar(
+                            foregroundImage: NetworkImage(
+                              user!.profilePicture!,
+                            ),
+                          )
+                        : CustomIcon(
+                            CustomIcons.user,
+                            size: kIconSizeGiant,
+                            color: theme.colorScheme.primary,
+                          ),
+                  ],
+                ),
+              ),
+            ),
+            if (authManager.isSignedIn &&
+                (user?.hasPermission(permission: Permission.contactsView) ??
+                    false))
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+                child: BirthdayBar(),
+              ),
+            if (authManager.isSignedIn && !authManager.isUserGuest)
+              Container(
+                margin: const EdgeInsets.all(kBorderRadiusNormal),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: feedShortcuts.map<WrappedIconButton>(
+                    (shortcut) {
+                      var userCanRouteToLink = (user?.hasPermissionToAccess(
+                              link: SzikAppLink(currentFeature: shortcut)) ??
+                          false);
+                      return WrappedIconButton(
+                        assetPath: shortcutData[shortcut]?.assetPath ??
+                            CustomIcons.bell,
+                        color: theme.colorScheme.primaryContainer,
+                        backgroundColor: theme.colorScheme.background,
+                        onTap: userCanRouteToLink
+                            ? () =>
+                                appStateManager.selectFeature(feature: shortcut)
+                            : null,
+                      );
+                    },
+                  ).toList(),
+                ),
+              ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
+              padding: const EdgeInsets.only(left: kPaddingNormal),
+              child: Row(
+                children: [
+                  Text(
+                    'FEED_NOTIFICATIONS'.tr(),
+                    style: theme.textTheme.displayMedium!.copyWith(
+                      fontSize: 20,
+                      color: theme.colorScheme.background,
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () =>
+                          NotificationManager.instance.dismissAllMessages(),
+                      icon: CustomIcon(
+                        CustomIcons.closeOutlined,
+                        color: theme.colorScheme.background,
+                      ),
+                      alignment: Alignment.centerRight,
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-          if (authManager.isSignedIn &&
-              (user?.hasPermission(permission: Permission.contactsView) ??
-                  false))
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-              child: BirthdayBar(),
-            ),
-          if (authManager.isSignedIn && !authManager.isUserGuest)
-            Container(
-              margin: const EdgeInsets.all(kBorderRadiusNormal),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: feedShortcuts.map<WrappedIconButton>(
-                  (shortcut) {
-                    var userCanRouteToLink = (user?.hasPermissionToAccess(
-                            link: SzikAppLink(currentFeature: shortcut)) ??
-                        false);
-                    return WrappedIconButton(
-                      assetPath:
-                          shortcutData[shortcut]?.assetPath ?? CustomIcons.bell,
-                      color: theme.colorScheme.primaryContainer,
-                      backgroundColor: theme.colorScheme.background,
-                      onTap: userCanRouteToLink
-                          ? () =>
-                              appStateManager.selectFeature(feature: shortcut)
-                          : null,
-                    );
-                  },
-                ).toList(),
-              ),
-            ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-            padding: const EdgeInsets.only(left: kPaddingNormal),
-            child: Row(
-              children: [
-                Text(
-                  'FEED_NOTIFICATIONS'.tr(),
-                  style: theme.textTheme.displayMedium!.copyWith(
-                    fontSize: 20,
-                    color: theme.colorScheme.background,
-                  ),
-                ),
-                Expanded(
-                  child: IconButton(
-                    onPressed: () =>
-                        NotificationManager.instance.dismissAllMessages(),
-                    icon: CustomIcon(
-                      CustomIcons.closeOutlined,
-                      color: theme.colorScheme.background,
-                    ),
-                    alignment: Alignment.centerRight,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          authManager.isSignedIn
-              ? Expanded(
-                  child: notifications.isEmpty
-                      ? Center(
-                          child: Text(
-                            'PLACEHOLDER_NOTIFICATIONS_EMPTY'.tr(),
-                            style: theme.textTheme.displayMedium!.copyWith(
-                              fontSize: 16,
-                              color: theme.colorScheme.background,
+            authManager.isSignedIn
+                ? Expanded(
+                    child: notifications.isEmpty
+                        ? Center(
+                            child: Text(
+                              'PLACEHOLDER_NOTIFICATIONS_EMPTY'.tr(),
+                              style: theme.textTheme.displayMedium!.copyWith(
+                                fontSize: 16,
+                                color: theme.colorScheme.background,
+                              ),
                             ),
-                          ),
-                        )
-                      : RefreshIndicator(
-                          onRefresh: () async {},
-                          child: ListView(
+                          )
+                        : ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             children: notifications.map<NotificationCard>(
                               (notification) {
@@ -175,21 +175,21 @@ class FeedScreenState extends State<FeedScreen> {
                               },
                             ).toList(),
                           ),
+                  )
+                : Expanded(
+                    child: Center(
+                      child: Text(
+                        'PLACEHOLDER_NOTIFICATIONS_SIGNIN'.tr(),
+                        style: theme.textTheme.displayMedium!.copyWith(
+                          fontSize: 16,
+                          color: theme.colorScheme.background,
                         ),
-                )
-              : Expanded(
-                  child: Center(
-                    child: Text(
-                      'PLACEHOLDER_NOTIFICATIONS_SIGNIN'.tr(),
-                      style: theme.textTheme.displayMedium!.copyWith(
-                        fontSize: 16,
-                        color: theme.colorScheme.background,
                       ),
                     ),
                   ),
-                ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
