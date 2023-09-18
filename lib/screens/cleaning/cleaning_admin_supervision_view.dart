@@ -191,7 +191,7 @@ class _CleaningAdminSupervisionViewState
                           ElevatedButton(
                             onPressed: () => _onRefusedPressed(task),
                             child: Text(
-                              'BUTTON_DISAGREE'.tr(),
+                              'BUTTON_IN_ORDER'.tr(),
                               style: theme.textTheme.labelSmall!.copyWith(
                                 color: theme.colorScheme.surface,
                               ),
@@ -200,7 +200,7 @@ class _CleaningAdminSupervisionViewState
                           ElevatedButton(
                             onPressed: () => _onAcceptedPressed(task),
                             child: Text(
-                              'BUTTON_APPROVE'.tr(),
+                              'BUTTON_MISSED'.tr(),
                               style: theme.textTheme.labelSmall!.copyWith(
                                 color: theme.colorScheme.surface,
                               ),
