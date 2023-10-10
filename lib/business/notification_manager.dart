@@ -46,8 +46,8 @@ class NotificationManager extends ChangeNotifier {
 
   void addMessage(RemoteMessage message) {
     var rawTopic = message.data['topic'];
-    var topic =
-        NotificationTopic.values.where((topic) => topic.toString() == rawTopic);
+    var topic = NotificationTopic.values
+        .firstWhere((topic) => topic.toString() == rawTopic);
     var notificationPath = notificationPaths[topic];
     if (message.notification != null) {
       _notifications.add(CustomNotification(
