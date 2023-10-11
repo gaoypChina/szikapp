@@ -3,7 +3,11 @@ List<({String name, String message, String url})> contributors = [
   (name: 'Appel Judit', message: '', url: ''),
   (name: 'Breuer-Barcza Mátyás Sámuel', message: '', url: ''),
   (name: 'Bolf Márton', message: '', url: ''),
-  (name: 'Csertán Tamás', message: '', url: ''),
+  (
+    name: 'Csertán Tamás',
+    message: 'Miért pont itt lenne bármi?',
+    url: 'https://youtu.be/z0UzBrJ6nd4?si=strGAJWdlX-zStxK'
+  ),
   (name: 'Duray Csilla', message: '', url: ''),
   (name: 'Gaál Gréta', message: '', url: ''),
   (name: 'Győri Eszter', message: '', url: ''),
