@@ -29,7 +29,10 @@ class ReservationPlacesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-      future: manager.refresh(),
+      future: manager.refresh(
+        start: DateTime.now().subtract(const Duration(days: 7)),
+        end: DateTime.now().add(const Duration(days: 15)),
+      ),
       shimmer: const ListScreenShimmer(),
       child: ReservationPlacesCalendar(
         manager: manager,
@@ -183,7 +186,7 @@ class _ReservationPlacesCalendarState extends State<ReservationPlacesCalendar> {
                       );
                     },
                     singleMarkerBuilder: (context, day, event) {
-                      var markerColor = theme.colorScheme.secondaryContainer;
+                      var markerColor = theme.colorScheme.primaryContainer;
                       if (DateTime.now().isInInterval(event.start, event.end)) {
                         markerColor = statusRed;
                       }

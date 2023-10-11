@@ -36,7 +36,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late bool _isAutomaticDarkModeEnabled;
   late bool _preferDarkMode;
-  late Language _preferedLanguage;
+  late Language _preferredLanguage;
   late List<int> _feedShortcuts;
   late List<NotificationTopic> _notifications;
 
@@ -45,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _isAutomaticDarkModeEnabled = Settings.instance.darkMode == DarkMode.system;
     _preferDarkMode = Settings.instance.darkMode == DarkMode.dark;
-    _preferedLanguage = Settings.instance.language;
+    _preferredLanguage = Settings.instance.language;
     _feedShortcuts = Settings.instance.feedShortcuts;
     _notifications = Settings.instance.notificationSettings;
   }
@@ -94,14 +94,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       Settings.instance.darkMode = DarkMode.light;
     }
-    Settings.instance.savePreferences();
+    if (!Provider.of<AuthManager>(context, listen: false).isUserGuest) {
+      Settings.instance.savePreferences();
+    }
   }
 
   void _onLanguageChanged(String preferedLanguage) {
     var language = Language.values.firstWhere(
         (enumValue) => enumValue.toCapitalizedString() == preferedLanguage);
     setState(() {
-      _preferedLanguage = language;
+      _preferredLanguage = language;
       if (language == Language.hu) {
         context.setLocale(const Locale('hu'));
       } else {
@@ -109,7 +111,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     });
     Settings.instance.language = language;
-    Settings.instance.savePreferences();
+    if (!Provider.of<AuthManager>(context, listen: false).isUserGuest) {
+      Settings.instance.savePreferences();
+    }
   }
 
   void _onFeedShortcutsChanged(List<bool> newValues) {
@@ -240,7 +244,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Language.en.toCapitalizedString(),
                       Language.hu.toCapitalizedString(),
                     ],
-                    initValue: _preferedLanguage.toCapitalizedString(),
+                    initValue: _preferredLanguage.toCapitalizedString(),
                     onChanged: _onLanguageChanged,
                   )
                 ],

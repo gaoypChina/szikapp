@@ -13,6 +13,8 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var notificationText =
+        data.body != null ? '${data.title} - ${data.body}' : data.title;
     return Card(
       color: theme.colorScheme.background,
       clipBehavior: Clip.antiAlias,
@@ -23,24 +25,24 @@ class NotificationCard extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: Container(
-              width: kIconSizeNormal,
-              height: kIconSizeNormal,
-              margin: const EdgeInsets.only(right: kPaddingSmall),
-              child: CustomIcon(
+            leading: IconButton(
+              onPressed: null,
+              icon: CustomIcon(
                 data.iconPath,
                 color: theme.colorScheme.secondary,
               ),
             ),
             title: Text(
-              data.title,
+              notificationText,
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontSize: 14,
                 color: theme.colorScheme.primaryContainer,
               ),
             ),
             onTap: () {
-              Router.of(context).routerDelegate.setNewRoutePath(data.route);
+              if (data.route != null) {
+                Router.of(context).routerDelegate.setNewRoutePath(data.route);
+              }
             },
             trailing: IconButton(
               icon: CustomIcon(
@@ -50,7 +52,7 @@ class NotificationCard extends StatelessWidget {
               onPressed: () =>
                   NotificationManager.instance.dismissMessage(data),
             ),
-          )
+          ),
         ],
       ),
     );

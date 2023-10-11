@@ -53,12 +53,19 @@ class _SignInScreenViewState extends State<SignInScreenView> {
           builder: (context) {
             return GDPRWidget(
               onAgreePressed: () {
-                Provider.of<AuthManager>(context, listen: false)
-                    .signIn(method: method);
-                SzikAppState.analytics.logEvent(name: 'sign_in');
-                Settings.instance.gdprAccepted = true;
-                Settings.instance.gdprAcceptanceDate = DateTime.now();
-                Settings.instance.savePreferences();
+                var authManager =
+                    Provider.of<AuthManager>(context, listen: false);
+                authManager.signIn(method: method).then(
+                  (_) {
+                    SzikAppState.analytics.logEvent(name: 'sign_in');
+                    Settings.instance.gdprAccepted = true;
+                    Settings.instance.gdprAcceptanceDate = DateTime.now();
+                    if (!authManager.isUserGuest) {
+                      Settings.instance.savePreferences();
+                    }
+                  },
+                );
+
                 Navigator.pop(context);
               },
               onDisagreePressed: () {

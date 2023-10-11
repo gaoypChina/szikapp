@@ -17,13 +17,13 @@ class CustomSwitchList extends StatefulWidget {
   final ValueChanged<List<bool>> onChanged;
 
   const CustomSwitchList({
-    Key? key,
+    super.key,
     required this.title,
     required this.switchLabels,
     required this.onChanged,
     this.initValues,
     this.enabled,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomSwitchList> createState() => _CustomSwitchListState();

@@ -102,7 +102,7 @@ class AuthManager extends ChangeNotifier {
   /// amennyiben a felhasználó már be van jelentkezve a Google fiókjával.
   /// Létrehoz egy vendég vagy egy normál app [szikapp_user.User]-t.
   Future<void> signInSilently() async {
-    if (isSignedIn) {
+    if (_signedIn) {
       return;
     } else if (_auth.currentUser == null) {
       return;
@@ -115,6 +115,7 @@ class AuthManager extends ChangeNotifier {
       _isGuest = false;
       _signedIn = true;
       NotificationManager.instance.saveTokenToDatabase(null);
+      Settings.instance.loadPreferences();
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
@@ -144,7 +145,7 @@ class AuthManager extends ChangeNotifier {
   Future<void> signIn({
     required SignInMethod method,
   }) async {
-    if (isSignedIn) {
+    if (_signedIn) {
       return;
     }
     try {
@@ -159,6 +160,7 @@ class AuthManager extends ChangeNotifier {
       _signedIn = true;
       _method = method;
       NotificationManager.instance.saveTokenToDatabase(null);
+      Settings.instance.loadPreferences();
       notifyListeners();
     } on IOClientException catch (e) {
       if (e.code == 401) {
@@ -189,7 +191,7 @@ class AuthManager extends ChangeNotifier {
   Future<void> signOut() async {
     try {
       if (!_isGuest) {
-        Settings.instance.savePreferences();
+        await Settings.instance.savePreferences();
         await pushUserUpdate();
       }
       await _auth.signOut();
@@ -207,7 +209,7 @@ class AuthManager extends ChangeNotifier {
   Future<void> deleteAccount() async {
     try {
       if (!_isGuest) {
-        Settings.instance.savePreferences();
+        await Settings.instance.savePreferences();
         await pushUserUpdate();
       }
       await GoogleSignIn().signOut();
@@ -226,13 +228,13 @@ class AuthManager extends ChangeNotifier {
   /// a szerveroldali szolgáltatásoknál.
   /// Ha a [forceRefresh] paraméter értéke true, a lejárati idejétől függetlenül
   /// újragenerálja a tokent.
-  Future<String> getAuthToken({bool forceRefresh = false}) async {
-    return _auth.currentUser!.getIdToken(forceRefresh);
+  Future<String?> getAuthToken({bool forceRefresh = false}) async {
+    return _auth.currentUser?.getIdToken(forceRefresh);
   }
 
   ///Synchronizes local updates on the user profile.
   Future<bool> pushUserUpdate() async {
-    if (isSignedIn && !isUserGuest) {
+    if (_signedIn && !_isGuest) {
       var io = IO();
       await io.putUser(data: _user!);
       return true;
@@ -242,7 +244,7 @@ class AuthManager extends ChangeNotifier {
 
   ///Synchronizes remote updates on the user profile.
   Future<bool> pullUserUpdate() async {
-    if (isSignedIn && !isUserGuest) {
+    if (_signedIn && !_isGuest) {
       var io = IO();
 
       _user = await io.getUser();

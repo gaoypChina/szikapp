@@ -15,10 +15,13 @@ Future<void> _firebaseMessagingInitialHandler(RemoteMessage message) async {
 
 ///Handler a háttérben lévő appnak érkező üzenetek feldolgozására.
 ///Az FCM követelményei szerint top-level függvény lehet csak.
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  /*await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   if (message.notification != null) {
     NotificationManager.instance.addMessage(message);
-  }
+  }*/
 }
 
 ///Értesítéseket kezelő singleton osztály. Szerver és kliens közti rétegként
@@ -43,8 +46,8 @@ class NotificationManager extends ChangeNotifier {
 
   void addMessage(RemoteMessage message) {
     var rawTopic = message.data['topic'];
-    var topic =
-        NotificationTopic.values.where((topic) => topic.toString() == rawTopic);
+    var topic = NotificationTopic.values
+        .firstWhere((topic) => topic.toString() == rawTopic);
     var notificationPath = notificationPaths[topic];
     if (message.notification != null) {
       _notifications.add(CustomNotification(
@@ -88,18 +91,6 @@ class NotificationManager extends ChangeNotifier {
       );
 
       // Feliratkozás minden kötelező notification topicra
-
-      var obligatoryTopics = <NotificationTopic>[
-        NotificationTopic.advertisements,
-        NotificationTopic.cleaningExchangeUpdate,
-        NotificationTopic.cleaningTaskAssigned,
-        NotificationTopic.cleaningTaskDueDate,
-        NotificationTopic.cleaningTasksAvailable,
-        NotificationTopic.janitorStatusUpdate,
-        NotificationTopic.pollAvailable,
-        NotificationTopic.cleaningExchangeAvailable,
-      ];
-
       subscribeToTopics(obligatoryTopics);
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {

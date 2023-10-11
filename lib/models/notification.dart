@@ -59,6 +59,17 @@ enum NotificationTopic {
   }
 }
 
+final obligatoryTopics = <NotificationTopic>[
+  NotificationTopic.advertisements,
+  NotificationTopic.cleaningExchangeUpdate,
+  NotificationTopic.cleaningTaskAssigned,
+  NotificationTopic.cleaningTaskDueDate,
+  NotificationTopic.cleaningTasksAvailable,
+  NotificationTopic.janitorStatusUpdate,
+  NotificationTopic.pollAvailable,
+  NotificationTopic.cleaningExchangeAvailable,
+];
+
 typedef NotificationPath = ({
   SzikAppLink path,
   String iconPath,
@@ -67,55 +78,94 @@ typedef NotificationPath = ({
 Map<NotificationTopic, NotificationPath> notificationPaths = {
   NotificationTopic.advertisements: (
     iconPath: CustomIcons.bell,
-    path: SzikAppLink(currentTab: SzikAppTab.feed)
+    path: SzikAppLink(
+      currentTab: SzikAppTab.feed,
+      location: SzikAppLink.kHomePath,
+    )
   ),
   NotificationTopic.birthdays: (
     iconPath: CustomIcons.description,
-    path: SzikAppLink(currentTab: SzikAppTab.feed)
+    path: SzikAppLink(
+      currentTab: SzikAppTab.feed,
+      location: SzikAppLink.kHomePath,
+    )
   ),
   NotificationTopic.cleaningExchangeAvailable: (
     iconPath: CustomIcons.knife,
-    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningPath,
+    )
   ),
   NotificationTopic.cleaningExchangeUpdate: (
     iconPath: CustomIcons.knife,
-    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningPath,
+    )
   ),
   NotificationTopic.cleaningTaskAssigned: (
     iconPath: CustomIcons.knife,
-    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningPath,
+    )
   ),
   NotificationTopic.cleaningTasksAvailable: (
     iconPath: CustomIcons.knife,
-    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningPath,
+    )
   ),
   NotificationTopic.cleaningTaskDueDate: (
     iconPath: CustomIcons.knife,
-    path: SzikAppLink(currentFeature: SzikAppFeature.cleaning)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningPath,
+    )
   ),
   NotificationTopic.janitorStatusUpdate: (
     iconPath: CustomIcons.wrench,
-    path: SzikAppLink(currentFeature: SzikAppFeature.janitor)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.janitor,
+      location: SzikAppLink.kJanitorPath,
+    )
   ),
   NotificationTopic.pollAvailable: (
     iconPath: CustomIcons.handpalm,
-    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.poll,
+      location: SzikAppLink.kPollPath,
+    )
   ),
   NotificationTopic.pollVotingEnded: (
     iconPath: CustomIcons.handpalm,
-    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.poll,
+      location: SzikAppLink.kPollPath,
+    )
   ),
   NotificationTopic.pollVotingReminder: (
     iconPath: CustomIcons.handpalm,
-    path: SzikAppLink(currentFeature: SzikAppFeature.poll)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.poll,
+      location: SzikAppLink.kPollPath,
+    )
   ),
   NotificationTopic.reservationEnd: (
     iconPath: CustomIcons.hourglass,
-    path: SzikAppLink(currentFeature: SzikAppFeature.reservation)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.reservation,
+      location: SzikAppLink.kReservationPath,
+    )
   ),
   NotificationTopic.reservationStart: (
     iconPath: CustomIcons.hourglass,
-    path: SzikAppLink(currentFeature: SzikAppFeature.reservation)
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.reservation,
+      location: SzikAppLink.kReservationPath,
+    )
   ),
 };
 
