@@ -2,12 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/themes.dart';
+import '../utils/utils.dart';
 import 'components.dart';
 
 enum DialogType {
   alert,
   confirmation,
   feedback,
+  eastereggWithLink,
+  eastereggWithoutLink,
 }
 
 class CustomDialog extends StatelessWidget {
@@ -33,13 +36,26 @@ class CustomDialog extends StatelessWidget {
     required this.onStrongButtonClick,
   }) : type = DialogType.confirmation;
 
-  CustomDialog.feedback({
+  const CustomDialog.feedback({
     super.key,
     required this.title,
   })  : type = DialogType.feedback,
         bodytext = '',
-        onWeakButtonClick = (() => (null)),
-        onStrongButtonClick = (() => (null));
+        onWeakButtonClick = _onInactiveButtonPressed,
+        onStrongButtonClick = _onInactiveButtonPressed;
+
+  CustomDialog.easteregg({
+    super.key,
+    required text,
+    required String linkUrl,
+    required this.onWeakButtonClick,
+  })  : type = linkUrl.isEmpty
+            ? DialogType.eastereggWithoutLink
+            : DialogType.eastereggWithLink,
+        title = 'EASTER_EGG_TITLE'.tr(),
+        bodytext =
+            linkUrl.isEmpty ? text : '$text\n\n${'EASTER_EGG_TEXT'.tr()}',
+        onStrongButtonClick = (() => openUrl(linkUrl));
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +72,13 @@ class CustomDialog extends StatelessWidget {
         strongButtonLabel = 'BUTTON_YES'.tr();
         break;
       case DialogType.feedback:
+        break;
+      case DialogType.eastereggWithoutLink:
+        weakButtonLabel = 'BUTTON_CANCEL'.tr();
+        break;
+      case DialogType.eastereggWithLink:
+        weakButtonLabel = 'BUTTON_CANCEL'.tr();
+        strongButtonLabel = 'BUTTON_YES'.tr();
         break;
     }
     return Dialog(
@@ -183,4 +206,6 @@ class CustomDialog extends StatelessWidget {
       ),
     );
   }
+
+  static void _onInactiveButtonPressed() {}
 }

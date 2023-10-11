@@ -5,6 +5,7 @@ import 'package:url_launcher/link.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
+import '../data/data.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
@@ -321,6 +322,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onChanged: _onFeedShortcutsChanged,
                 ),
               ),
+            //Contributors
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(kPaddingLarge),
+              margin: const EdgeInsets.symmetric(
+                vertical: kPaddingSmall,
+                horizontal: kPaddingLarge,
+              ),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(kBorderRadiusNormal),
+                ),
+                border: Border.all(color: theme.colorScheme.primary),
+              ),
+              child: Theme(
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  title: Text(
+                    'SETTINGS_CONTRIBUTORS'.tr(),
+                    style: theme.textTheme.displaySmall!.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  tilePadding: const EdgeInsets.all(0),
+                  children: contributors.map<Widget>((contributor) {
+                    if (contributor.message.isEmpty) {
+                      return _buildContributorTile(contributor);
+                    } else {
+                      return EasterEgg(
+                        message: contributor.message,
+                        link: contributor.url,
+                        child: _buildContributorTile(contributor),
+                      );
+                    }
+                  }).toList(),
+                ),
+              ),
+            ),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(kPaddingLarge),
@@ -410,6 +451,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildContributorTile(
+      ({String name, String message, String url}) contributor) {
+    return ListTile(
+      title: Text(contributor.name),
     );
   }
 }
