@@ -5,7 +5,6 @@ import 'package:url_launcher/link.dart';
 
 import '../business/business.dart';
 import '../components/components.dart';
-import '../data/data.dart';
 import '../models/models.dart';
 import '../ui/themes.dart';
 import '../utils/utils.dart';
