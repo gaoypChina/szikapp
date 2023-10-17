@@ -20,6 +20,7 @@ export 'controls/time_picker.dart';
 export 'custom_icon.dart';
 export 'dialog.dart';
 export 'document_details.dart';
+export 'easter_egg_widget.dart';
 export 'feature_link_page.dart';
 export 'gdpr_widget.dart';
 export 'invitation_card.dart';

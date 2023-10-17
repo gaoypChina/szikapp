@@ -1,0 +1,26 @@
+List<({String name, String message, String url})> contributors = [
+  (name: 'Ágoston Zsófia', message: '', url: ''),
+  (name: 'Appel Judit', message: '', url: ''),
+  (name: 'Breuer-Barcza Mátyás Sámuel', message: '', url: ''),
+  (name: 'Bolf Márton', message: '', url: ''),
+  (
+    name: 'Csertán Tamás',
+    message: 'Miért pont itt lenne bármi?',
+    url: 'https://youtu.be/z0UzBrJ6nd4?si=strGAJWdlX-zStxK'
+  ),
+  (name: 'Duray Csilla', message: '', url: ''),
+  (name: 'Gaál Gréta', message: '', url: ''),
+  (name: 'Győri Eszter', message: '', url: ''),
+  (name: 'Hertelendy Barnabás', message: '', url: ''),
+  (name: 'Inges Domonkos', message: '', url: ''),
+  (name: 'Kovács Áron', message: '', url: ''),
+  (name: 'Kraus Harry Csanád', message: '', url: ''),
+  (name: 'Nádas András', message: '', url: ''),
+  (name: 'Novák-Szabó Enikő', message: '', url: ''),
+  (name: 'Németh Ambrus', message: '', url: ''),
+  (name: 'Salánki Péter István', message: '', url: ''),
+  (name: 'Sárvári Márk', message: '', url: ''),
+  (name: 'Sárvári Panna', message: '', url: ''),
+  (name: 'Sólyomvári Kata', message: '', url: ''),
+  (name: 'Thuránszky Barnabás', message: '', url: ''),
+];
