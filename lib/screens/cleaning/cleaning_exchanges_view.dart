@@ -388,7 +388,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               ],
             ),
           );
-        }).toList(),
+        }),
         Align(
           alignment: Alignment.centerRight,
           child: Padding(

@@ -46,15 +46,15 @@ class AuthException extends BaseException {
 }
 
 abstract class IOException extends BaseException {
-  IOException(code, message) : super(code, message);
+  IOException(super.code, super.message);
 }
 
 class InformationException extends BaseException {
-  InformationException(code, message) : super(code, message);
+  InformationException(super.code, super.message);
 }
 
 class IOServerException extends IOException {
-  IOServerException(code, message) : super(code, message);
+  IOServerException(super.code, super.message);
 }
 
 class IOConflictException extends IOException {
@@ -62,7 +62,7 @@ class IOConflictException extends IOException {
 }
 
 class IOClientException extends IOException {
-  IOClientException(code, message) : super(code, message);
+  IOClientException(super.code, super.message);
 }
 
 class IONotModifiedException extends IOException {
@@ -74,11 +74,11 @@ class NoConnectionException extends IOException {
 }
 
 class IOUnknownException extends IOException {
-  IOUnknownException(code, message) : super(code, message);
+  IOUnknownException(super.code, super.message);
 }
 
 abstract class ValidationException extends BaseException {
-  ValidationException(code, message) : super(code, message);
+  ValidationException(super.code, super.message);
 }
 
 class NotValidEnumValueException extends ValidationException {
@@ -96,7 +96,7 @@ class NonHungarianPhoneException extends ValidationException {
 }
 
 abstract class FunctionalityException extends BaseException {
-  FunctionalityException(code, message) : super(code, message);
+  FunctionalityException(super.code, super.message);
 }
 
 class NotSupportedCallFunctionalityException extends FunctionalityException {

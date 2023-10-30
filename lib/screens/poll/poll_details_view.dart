@@ -191,29 +191,25 @@ class _PollDetailsViewState extends State<PollDetailsView> {
                                 ),
                               ),
                             ),
-                            ...value
-                                .map(
-                                  (voterID) => Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: kPaddingNormal,
-                                      top: kPaddingSmall,
-                                    ),
-                                    child: Text(
-                                      Provider.of<SzikAppStateManager>(context,
-                                              listen: false)
-                                          .users
-                                          .firstWhere(
-                                              (user) => user.id == voterID)
-                                          .name,
-                                      style:
-                                          theme.textTheme.titleMedium!.copyWith(
-                                        color: theme.colorScheme.outline,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
+                            ...value.map(
+                              (voterID) => Padding(
+                                padding: const EdgeInsets.only(
+                                  left: kPaddingNormal,
+                                  top: kPaddingSmall,
+                                ),
+                                child: Text(
+                                  Provider.of<SzikAppStateManager>(context,
+                                          listen: false)
+                                      .users
+                                      .firstWhere((user) => user.id == voterID)
+                                      .name,
+                                  style: theme.textTheme.titleMedium!.copyWith(
+                                    color: theme.colorScheme.outline,
+                                    fontStyle: FontStyle.normal,
                                   ),
-                                )
-                                .toList()
+                                ),
+                              ),
+                            )
                           ],
                         );
                       }).toList(),
