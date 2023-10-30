@@ -52,29 +52,29 @@ class ErrorInformation {
   }
   ErrorInformation.fromException({required BaseException exception}) {
     switch (exception.runtimeType) {
-      case IOConflictException:
+      case const (IOConflictException):
         errorCode = exception.code;
         errorMessage = 'ERROR_CONFLICT_MESSAGE'.tr();
         errorSolution = 'ERROR_CONFLICT_SOLUTION'.tr();
         break;
-      case IOServerException:
+      case const (IOServerException):
         errorCode = exception.code;
         errorMessage = 'ERROR_HTTP_MESSAGE'.tr();
         errorSolution = 'ERROR_HTTP_SOLUTION'.tr();
         break;
-      case SocketException:
+      case const (SocketException):
         errorCode = socketExceptionCode;
         errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
         errorSolution = 'ERROR_SOCKET_SOLUTION'.tr();
         break;
-      case NoConnectionException:
+      case const (NoConnectionException):
         errorCode = noConnectionExceptionCode;
         errorMessage = 'ERROR_SOCKET_MESSAGE'.tr();
         errorSolution = 'ERROR_SOCKET_SOLUTION'.tr();
         break;
-      case IOUnknownException:
-      case IOClientException:
-      case IONotModifiedException:
+      case const (IOUnknownException):
+      case const (IOClientException):
+      case const (IONotModifiedException):
       default:
         errorCode = exception.code;
         errorMessage = 'ERROR_UNKNOWN_EXCEPTION_MESSAGE'.tr();

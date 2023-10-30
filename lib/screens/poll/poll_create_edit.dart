@@ -389,7 +389,7 @@ class PollCreateEditScreenState extends State<PollCreateEditScreen> {
                             ),
                           );
                         },
-                      ).toList(),
+                      ),
                       if (widget.isEdit == false)
                         SizedBox(
                           height: 40,

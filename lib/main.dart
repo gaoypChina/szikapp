@@ -1,5 +1,3 @@
-///[SzikApp] is an awesome application made in Flutter for the lovely people
-///in da SZIK.
 import 'dart:async';
 import 'dart:io';
 
