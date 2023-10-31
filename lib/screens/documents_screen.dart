@@ -61,13 +61,6 @@ class DocumentsListViewState extends State<DocumentsListView> {
     });
   }
 
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
   void _onTabChanged(int? newValue) {
     List<GoodToKnow> newItems;
     switch (newValue) {
@@ -139,7 +132,6 @@ class DocumentsListViewState extends State<DocumentsListView> {
             children: [
               CustomSearchBar(
                 onChanged: _onSearchFieldChanged,
-                validator: _validateTextField,
                 placeholder: 'PLACEHOLDER_SEARCH'.tr(),
               ),
               /*
