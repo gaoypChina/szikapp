@@ -103,7 +103,7 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermission({required Permission permission}) {
-    return permissions.any((element) => element == permission);
+    return permissions.any((item) => item == permission);
   }
 
   bool hasPermissionToAccess({required SzikAppLink link}) {

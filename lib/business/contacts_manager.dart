@@ -41,23 +41,24 @@ class ContactsManager {
       return contacts;
     } else {
       var results = <User>[];
-      for (var item in contacts) {
-        var emailUserName = item.email.substring(0, item.email.indexOf('@'));
-        if (item.name.toLowerCase().contains(text.toLowerCase())) {
-          results.add(item);
+      for (var contact in contacts) {
+        var emailUserName =
+            contact.email.substring(0, contact.email.indexOf('@'));
+        if (contact.name.toLowerCase().contains(text.toLowerCase())) {
+          results.add(contact);
         } else if (emailUserName.contains(text.toLowerCase())) {
-          results.add(item);
-        } else if (item.phone != null) {
-          if (item.phone!.contains(text)) results.add(item);
-        } else if (item.birthday != null) {
+          results.add(contact);
+        } else if (contact.phone != null) {
+          if (contact.phone!.contains(text)) results.add(contact);
+        } else if (contact.birthday != null) {
           var intInString = RegExp(r'\d{1,2}');
           var matches = intInString.allMatches(text);
           if (matches.length == 2 &&
-              item.birthday!.month.toString() ==
+              contact.birthday!.month.toString() ==
                   matches.first.group(0).toString() &&
-              item.birthday!.day.toString() ==
+              contact.birthday!.day.toString() ==
                   matches.last.group(0).toString()) {
-            results.add(item);
+            results.add(contact);
           }
         }
       }
@@ -73,12 +74,12 @@ class ContactsManager {
       return groups;
     } else {
       var results = <Group>[];
-      for (var item in groups) {
-        if (item.name.toLowerCase().contains(text.toLowerCase())) {
-          results.add(item);
-        } else if (item.email != null &&
-            item.email!.contains(text.toLowerCase())) {
-          results.add(item);
+      for (var group in groups) {
+        if (group.name.toLowerCase().contains(text.toLowerCase())) {
+          results.add(group);
+        } else if (group.email != null &&
+            group.email!.contains(text.toLowerCase())) {
+          results.add(group);
         }
       }
       return results;
@@ -92,9 +93,9 @@ class ContactsManager {
       return contacts;
     } else {
       var results = <User>[];
-      for (var item in contacts) {
+      for (var contact in contacts) {
         for (var id in groupIDs) {
-          if (item.groupIDs.contains(id)) results.add(item);
+          if (contact.groupIDs.contains(id)) results.add(contact);
         }
       }
       return results;

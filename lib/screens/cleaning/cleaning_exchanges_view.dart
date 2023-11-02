@@ -238,7 +238,7 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
               child: Text(
                 Provider.of<SzikAppStateManager>(context)
                     .users
-                    .firstWhere((element) => element.id == exchange.initiatorID)
+                    .firstWhere((item) => item.id == exchange.initiatorID)
                     .name,
                 style: strongFont,
               ),
@@ -678,8 +678,8 @@ class _CleaningExchangesViewState extends State<CleaningExchangesView> {
   }
 
   Widget _buildExchangeDeleteDialog({required CleaningExchange exchange}) {
-    var task = widget.manager.tasks
-        .firstWhere((element) => element.id == exchange.taskID);
+    var task =
+        widget.manager.tasks.firstWhere((item) => item.id == exchange.taskID);
 
     return CustomDialog.confirmation(
       title: 'CLEANING_DIALOG_DELETE_TITLE'.tr(),

@@ -128,7 +128,7 @@ class PollManager extends ChangeNotifier {
     var parameter = {'id': poll.id};
     await io.putPoll(data: poll, parameters: parameter);
 
-    _polls.removeWhere((element) => element.id == poll.id);
+    _polls.removeWhere((item) => item.id == poll.id);
     _polls.add(poll);
     _createNewPoll = false;
     _editPoll = false;
@@ -141,7 +141,7 @@ class PollManager extends ChangeNotifier {
   ///Szavazás törlése. A függvény törli a szerverről a szavazást,
   ///ha a művelet hiba nélkül befejeződik, lokálisan is eltávolítja a listából.
   Future<bool> deletePoll({required PollTask poll}) async {
-    if (!_polls.any((element) => element.id == poll.id)) return false;
+    if (!_polls.any((item) => item.id == poll.id)) return false;
 
     var io = IO();
     var parameter = {'id': poll.id};
