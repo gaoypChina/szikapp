@@ -153,6 +153,7 @@
         "CLEANING_ADMIN_EDIT_PERIOD_DESCRIPTION": "Biztosan szerkeszted? Ez a művelet újragenerálja a feladatokat és törli az eddigi jelentkezéseket.",
         "CLEANING_ADMIN_ACTIVE_PERIOD": "Aktív időszak",
         "CLEANING_ADMIN_NO_ACTIVE_PERIOD_INFO": "Jelenleg nincs aktív időszak.",
+        "CLEANING_ADMIN_PARTICIPANTS_PER_TASK": "Napi takarítók száma",
         "CLEANING_ADMIN_AUTO_ASSIGN": "Auto beosztás",
         "CLEANING_ADMIN_AUTO_ASSIGN_DESCRIPTION": "Beosztod az összes kimaradó embert?",
         "CLEANING_ADMIN_FEE_PAYMENT": "Befizetésre vár",

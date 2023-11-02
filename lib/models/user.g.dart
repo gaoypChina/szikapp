@@ -36,12 +36,12 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'email': instance.email,
       'profile_picture': instance.profilePicture,
       'nick': instance.nick,
+      'birthday': instance.birthday?.toIso8601String(),
       'preferences': instance.preferences?.toJson(),
       'group_ids': instance.groupIDs,
       'permissions':
           instance.permissions.map((e) => _$PermissionEnumMap[e]!).toList(),
       'last_update': instance.lastUpdate.toIso8601String(),
-      'birthday': instance.birthday?.toIso8601String(),
       'phone': instance.phone,
       'secondaryPhone': instance.secondaryPhone,
     };

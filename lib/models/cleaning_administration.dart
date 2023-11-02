@@ -16,6 +16,8 @@ class CleaningPeriod implements Identifiable, Cachable {
   DateTime end;
   @JsonKey(name: 'is_live')
   bool isLive;
+  @JsonKey(name: 'participants_per_task')
+  int participantsPerTask;
   @override
   @JsonKey(name: 'last_update')
   DateTime lastUpdate;
@@ -25,6 +27,7 @@ class CleaningPeriod implements Identifiable, Cachable {
     required this.start,
     required this.end,
     this.isLive = false,
+    this.participantsPerTask = 2,
     required this.lastUpdate,
   });
 
