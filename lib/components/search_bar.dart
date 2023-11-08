@@ -5,7 +5,6 @@ import 'components.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final ValueChanged<String> onChanged;
-  final FormFieldValidator<String>? validator;
   final Widget? filter;
   final String placeholder;
   final double searchBarIconSize;
@@ -13,7 +12,6 @@ class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({
     super.key,
     required this.onChanged,
-    this.validator,
     this.filter,
     required this.placeholder,
     this.searchBarIconSize = kSearchBarIconSize,
@@ -56,63 +54,45 @@ class _CustomSearchBarState extends State<CustomSearchBar>
       padding: const EdgeInsets.all(kPaddingLarge),
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.background,
-              border: Border.all(color: theme.colorScheme.primary, width: 2),
-              borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+          SearchBar(
+            leading: CustomIcon(
+              CustomIcons.search,
+              color: theme.colorScheme.primary,
+              size: widget.searchBarIconSize,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(kPaddingNormal),
-                  child: CustomIcon(
-                    CustomIcons.search,
-                    color: theme.colorScheme.primary,
-                    size: widget.searchBarIconSize,
-                  ),
+            onChanged: widget.onChanged,
+            hintText: widget.placeholder,
+            elevation: const MaterialStatePropertyAll(0),
+            shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+              (Set<MaterialState> states) => RoundedRectangleBorder(
+                side: BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: 2,
                 ),
-                Expanded(
-                  child: TextFormField(
-                    validator: widget.validator,
-                    autofocus: false,
-                    style: theme.textTheme.displaySmall!.copyWith(
-                      fontSize: 14,
+                borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+              ),
+            ),
+            trailing: [
+              if (widget.filter != null)
+                GestureDetector(
+                  onTap: () => setState(
+                    () {
+                      _isFilterExpanded = !_isFilterExpanded;
+                      _isFilterExpanded
+                          ? _filterToggleController.forward()
+                          : _filterToggleController.reverse();
+                    },
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(kPaddingNormal),
+                    child: CustomIcon(
+                      CustomIcons.filter,
                       color: theme.colorScheme.primary,
+                      size: widget.searchBarIconSize,
                     ),
-                    decoration: InputDecoration(
-                      hintText: widget.placeholder,
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                    ),
-                    onChanged: widget.onChanged,
                   ),
                 ),
-                if (widget.filter != null)
-                  GestureDetector(
-                    onTap: () => setState(
-                      () {
-                        _isFilterExpanded = !_isFilterExpanded;
-                        _isFilterExpanded
-                            ? _filterToggleController.forward()
-                            : _filterToggleController.reverse();
-                      },
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(kPaddingNormal),
-                      child: CustomIcon(
-                        CustomIcons.filter,
-                        color: theme.colorScheme.primary,
-                        size: widget.searchBarIconSize,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+            ],
           ),
           SizeTransition(
             sizeFactor: _heightFactor,
