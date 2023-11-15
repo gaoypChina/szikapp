@@ -166,15 +166,6 @@ class ContactsListViewState extends State<ContactsListView>
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
-  ///Segédfüggvény [TextField]-ekhez, ami ellenőrzi, hogy üres-e az elküldött
-  ///mező.
-  String? _validateTextField(value) {
-    if (value == null || value.isEmpty) {
-      return 'ERROR_EMPTY_FIELD'.tr();
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -187,7 +178,6 @@ class ContactsListViewState extends State<ContactsListView>
         children: [
           CustomSearchBar(
             onChanged: _onSearchFieldChanged,
-            validator: _validateTextField,
             placeholder: 'PLACEHOLDER_SEARCH'.tr(),
             filter: _buildFilter(),
           ),
