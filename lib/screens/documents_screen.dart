@@ -128,7 +128,6 @@ class DocumentsListViewState extends State<DocumentsListView> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'DOCUMENTS_TITLE'.tr(),
       body: Stack(

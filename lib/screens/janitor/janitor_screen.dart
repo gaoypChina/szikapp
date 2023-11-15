@@ -379,14 +379,16 @@ class JanitorListViewState extends State<JanitorListView> {
       ),
     );
     var buttons = <Widget>[];
-    var userID = Provider.of<AuthManager>(context, listen: false).user!.id;
-    if ((task.participantIDs.contains(userID) &&
-            (task.status == TaskStatus.sent ||
-                task.status == TaskStatus.inProgress)) ||
-        userID == 'u904') {
+
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var janitors = getJanitorIDs(context);
+
+    if ((user.hasPermissionToModify(task: task) &&
+        (task.status == TaskStatus.sent ||
+            task.status == TaskStatus.inProgress))) {
       buttons.add(
         OutlinedButton(
-          onPressed: () => userID == 'u904'
+          onPressed: () => janitors.contains(user.id)
               ? _onEditJanitorPressed(task)
               : _onEditPressed(task),
           style: buttonStyle,
@@ -414,7 +416,7 @@ class JanitorListViewState extends State<JanitorListView> {
         ),
       );
     }
-    if (task.participantIDs.contains(userID) &&
+    if (task.participantIDs.contains(user.id) &&
         task.status == TaskStatus.awaitingApproval) {
       buttons.add(
         OutlinedButton(
@@ -435,8 +437,10 @@ class JanitorListViewState extends State<JanitorListView> {
   Widget _buildFeedbackList(JanitorTask task) {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
-    return Provider.of<AuthManager>(context, listen: false).user!.id ==
-                'u904' &&
+
+    var janitors = getJanitorIDs(context);
+    return janitors.contains(
+                Provider.of<AuthManager>(context, listen: false).user!.id) &&
             task.feedback.isNotEmpty
         ? Container(
             margin: const EdgeInsets.only(bottom: kPaddingNormal),
@@ -448,7 +452,7 @@ class JanitorListViewState extends State<JanitorListView> {
                     'JANITOR_LABEL_FEEDBACK'.tr(),
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: 14,
-                      color: theme.colorScheme.background,
+                      color: theme.colorScheme.primaryContainer,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -458,7 +462,8 @@ class JanitorListViewState extends State<JanitorListView> {
                     padding: const EdgeInsets.all(kPaddingNormal),
                     decoration: BoxDecoration(
                       color: Colors.transparent,
-                      border: Border.all(color: theme.colorScheme.background),
+                      border:
+                          Border.all(color: theme.colorScheme.primaryContainer),
                       borderRadius: BorderRadius.circular(kBorderRadiusNormal),
                     ),
                     child: Column(
@@ -470,7 +475,7 @@ class JanitorListViewState extends State<JanitorListView> {
                             style: theme.textTheme.titleMedium!.copyWith(
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w600,
-                              color: theme.colorScheme.background,
+                              color: theme.colorScheme.primaryContainer,
                             ),
                           );
                         },

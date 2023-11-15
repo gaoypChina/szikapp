@@ -49,7 +49,6 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     return CustomScaffold(
       appBarTitle: 'CLEANING_ADMIN_TITLE'.tr(),
       body: Container(

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../business/auth_manager.dart';
+import '../../business/janitor_manager.dart';
 import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/models.dart';
@@ -97,6 +98,9 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
   }
 
   void _onNewSent() {
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var janitors = getJanitorIDs(context);
+
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
       var task = JanitorTask(
@@ -108,11 +112,10 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         type: TaskType.janitor,
         lastUpdate: DateTime.now(),
         placeID: placeID!,
-        //Gondnok ID !!
         participantIDs: <String>[
-          Provider.of<AuthManager>(context, listen: false).user!.id,
-          'u904'
+          user.id,
         ],
+        managerIDs: [user.id, ...janitors],
         status: TaskStatus.created,
       );
       task.status = TaskStatus.sent;
@@ -171,24 +174,20 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         padding: const EdgeInsets.symmetric(horizontal: kPaddingNormal),
         child: ListView(
           children: [
-            Container(
-              margin: const EdgeInsets.only(
-                top: kPaddingLarge,
-                bottom: kPaddingNormal,
-              ),
-              width: width * 0.5,
-              height: width * 0.5,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/pictures/gyuri_800.png'),
-                    fit: BoxFit.contain),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPaddingLarge),
+              child: Center(
+                child: Text(
+                  'JANITOR_TITLE'.tr().toUpperCase(),
+                  style: theme.textTheme.displayLarge!.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 5,
+                  ),
+                ),
               ),
             ),
             Divider(
-              height: 1,
-              thickness: 2,
-              indent: 25,
-              endIndent: 25,
               color: theme.colorScheme.secondary,
             ),
             //Details, text fields and buttons

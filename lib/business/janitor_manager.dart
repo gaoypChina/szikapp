@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/tasks.dart';
+import '../navigation/app_state_manager.dart';
 import '../utils/exceptions.dart';
 import '../utils/io.dart';
 
@@ -195,4 +197,16 @@ class JanitorManager extends ChangeNotifier {
     }
     return List.unmodifiable(results);
   }
+}
+
+List<String> getJanitorIDs(BuildContext context) {
+  var appstateManager =
+      Provider.of<SzikAppStateManager>(context, listen: false);
+  var janitorGroupMemberIDs = appstateManager.groups
+      .firstWhere((group) => group.id == 'g006')
+      .memberIDs;
+  return appstateManager.users
+      .where((item) => janitorGroupMemberIDs.contains(item.id))
+      .map((item) => item.id)
+      .toList();
 }

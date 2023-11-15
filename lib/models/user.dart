@@ -117,12 +117,16 @@ class User implements Identifiable, Cachable {
   bool hasPermissionToCreate({required Type type}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
-    }
-    if (type == PollTask) {
+    } else if (type == PollTask) {
       return permissions.contains(Permission.pollCreate);
-    }
-    if (type == CleaningPeriod) {
+    } else if (type == CleaningPeriod) {
       return permissions.contains(Permission.cleaningPeriodCreate);
+    } else if (type == JanitorTask) {
+      return permissions.contains(Permission.janitorTaskCreate);
+    } else if (type == TimetableTask) {
+      return permissions.contains(Permission.reservationAccountCreate) ||
+          permissions.contains(Permission.reservationBoardgameCreate) ||
+          permissions.contains(Permission.reservationPlaceCreate);
     } else {
       return true;
     }
