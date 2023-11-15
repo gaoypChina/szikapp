@@ -266,10 +266,23 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                         fontStyle: FontStyle.italic,
                       ),
                     ),
-                    TextFormField(
-                      initialValue: _participantsPerTask.toString(),
-                      onChanged: _onParticipantsPerTaskChanged,
-                      style: theme.textTheme.displaySmall,
+                    SizedBox(
+                      width: 50,
+                      child: TextFormField(
+                        initialValue: _participantsPerTask.toString(),
+                        onChanged: _onParticipantsPerTaskChanged,
+                        style: theme.textTheme.displaySmall,
+                        textAlign: TextAlign.end,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusSmall),
+                          ),
+                          contentPadding: const EdgeInsets.all(kPaddingSmall),
+                        ),
+                      ),
                     )
                   ],
                 ),
