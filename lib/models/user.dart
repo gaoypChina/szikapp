@@ -54,14 +54,10 @@ class User implements Identifiable, Cachable {
   String? get phone => _phone;
   set phone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
-    var validationHU = RegExp(r'^(\+36(1|20|30|31|50|70)\d{7})$');
     if (value == null) {
       _phone = null;
     } else if (validationPhone.hasMatch(value)) {
       _phone = value;
-      if (!validationHU.hasMatch(value)) {
-        throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
-      }
     } else {
       throw NotValidPhoneException(
         'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
@@ -72,14 +68,10 @@ class User implements Identifiable, Cachable {
   String? get secondaryPhone => _secondaryPhone;
   set secondaryPhone(String? value) {
     var validationPhone = RegExp(r'^((\+|00)\d{10,12})$');
-    var validationHU = RegExp(r'^(\+36(20|30|70)\d{7})$');
     if (value == null) {
       _secondaryPhone = null;
     } else if (validationPhone.hasMatch(value)) {
       _secondaryPhone = value;
-      if (!validationHU.hasMatch(value)) {
-        throw NonHungarianPhoneException('ERROR_NON_HUNGARIAN_PHONE'.tr());
-      }
     } else {
       throw NotValidPhoneException(
         'ERROR_INVALID_VALUE'.tr(args: ['phone', value]),
