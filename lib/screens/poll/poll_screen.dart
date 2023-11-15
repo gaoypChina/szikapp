@@ -85,9 +85,11 @@ class PollTileViewState extends State<PollTileView> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(
-              vertical: kPaddingLarge,
-              horizontal: kPaddingNormal,
+            margin: const EdgeInsets.fromLTRB(
+              kPaddingNormal,
+              kPaddingLarge,
+              kPaddingNormal,
+              kPaddingSmall,
             ),
             child: TabChoice(
               labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],

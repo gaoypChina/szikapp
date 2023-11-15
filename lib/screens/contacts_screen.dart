@@ -230,6 +230,7 @@ class ContactsListViewState extends State<ContactsListView>
       child: Column(
         children: [
           TabChoice(
+            wrapColor: Colors.transparent,
             labels: [
               'CONTACTS_TITLE'.tr(),
               'GROUPS_TITLE'.tr(),

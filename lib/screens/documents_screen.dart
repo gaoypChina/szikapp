@@ -175,9 +175,7 @@ class DocumentsListViewState extends State<DocumentsListView> {
               ),
               */
               TabChoice(
-                choiceColor: theme.colorScheme.secondary,
-                wrapColor: theme.colorScheme.background,
-                fontColor: theme.colorScheme.background,
+                wrapColor: Colors.transparent,
                 labels: [
                   'DOCUMENTS_ALL'.tr(),
                   'DOCUMENTS_PINNED'.tr(),

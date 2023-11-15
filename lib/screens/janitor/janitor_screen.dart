@@ -119,23 +119,16 @@ class JanitorListViewState extends State<JanitorListView> {
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
       appBarTitle: 'JANITOR_TITLE'.tr(),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(
-          kPaddingNormal,
-          kPaddingLarge,
-          kPaddingNormal,
-          0,
-        ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/pictures/background_1.jpg'),
-            fit: BoxFit.cover,
-            opacity: 0.5,
-          ),
-        ),
-        child: Column(
-          children: [
-            TabChoice(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              kPaddingNormal,
+              kPaddingLarge,
+              kPaddingNormal,
+              kPaddingNormal,
+            ),
+            child: TabChoice(
               labels: [
                 'JANITOR_TAB_ALL'.tr(),
                 'JANITOR_TAB_ACTIVE'.tr(),
@@ -143,17 +136,17 @@ class JanitorListViewState extends State<JanitorListView> {
               ],
               onChanged: _onTabChanged,
             ),
-            Expanded(
-              child: items.isEmpty
-                  ? Center(
-                      child: Text(
-                        'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
-                      ),
-                    )
-                  : _buildTasks(),
-            )
-          ],
-        ),
+          ),
+          Expanded(
+            child: items.isEmpty
+                ? Center(
+                    child: Text(
+                      'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
+                    ),
+                  )
+                : _buildTasks(),
+          )
+        ],
       ),
       floatingActionButton: CustomFloatingActionButton(
         onPressed: _onCreateTask,
@@ -166,110 +159,104 @@ class JanitorListViewState extends State<JanitorListView> {
     var theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: _onManualRefresh,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: kPaddingNormal),
-        child: ToggleList(
-          divider: const SizedBox(height: 10),
-          trailing: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
-            child: CustomIcon(
-              CustomIcons.doubleArrowDown,
-              size: theme.textTheme.displaySmall!.fontSize ?? 14,
-              color: theme.colorScheme.primary,
-            ),
+      child: ToggleList(
+        divider: const SizedBox(height: 10),
+        trailing: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
+          child: CustomIcon(
+            CustomIcons.doubleArrowDown,
+            size: theme.textTheme.displaySmall!.fontSize ?? 14,
+            color: theme.colorScheme.primary,
           ),
-          children: items.map<ToggleListItem>((item) {
-            return ToggleListItem(
-              headerDecoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(kBorderRadiusNormal),
-                ),
-              ),
-              expandedHeaderDecoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(kBorderRadiusNormal),
-                ),
-              ),
-              title: _buildTitle(task: item, isOpen: false),
-              expandedTitle: _buildTitle(task: item, isOpen: true),
-              content: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      width: kBorderRadiusNormal,
-                      decoration: BoxDecoration(
-                        color: taskStatusColors[item.status]!,
-                        borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(kBorderRadiusNormal),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: kBorderRadiusNormal),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surface,
-                      borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(kBorderRadiusNormal),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Divider(
-                          height: 1,
-                          thickness: 1,
-                          indent: kPaddingNormal,
-                          endIndent: kPaddingNormal,
-                          color: theme.colorScheme.primaryContainer,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(kPaddingNormal),
-                          child: Column(
-                            children: [
-                              _buildRow(
-                                label: 'JANITOR_LABEL_TITLE'.tr(),
-                                value: item.name,
-                              ),
-                              _buildRow(
-                                label: 'JANITOR_LABEL_DESCRIPTION'.tr(),
-                                value: item.description ?? '',
-                              ),
-                              _buildRow(
-                                label: 'JANITOR_LABEL_START'.tr(),
-                                value: DateFormat('yyyy. MM. dd. hh:mm')
-                                    .format(item.start),
-                              ),
-                              _buildRow(
-                                label: 'JANITOR_LABEL_STATUS'.tr(),
-                                value: item.status.name.tr(),
-                              ),
-                              if (item.answer != null)
-                                _buildRow(
-                                  label: 'JANITOR_LABEL_ANSWER',
-                                  value: item.answer!,
-                                ),
-                            ],
-                          ),
-                        ),
-                        _buildFeedbackList(item),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: kPaddingNormal),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: _buildActionButtons(item),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
         ),
+        children: items.map<ToggleListItem>((item) {
+          return ToggleListItem(
+            headerDecoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(kBorderRadiusNormal),
+              ),
+              border: Border.all(color: theme.colorScheme.primaryContainer),
+            ),
+            expandedHeaderDecoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(kBorderRadiusNormal),
+              ),
+              border: Border.all(color: theme.colorScheme.primaryContainer),
+            ),
+            title: _buildTitle(task: item, isOpen: false),
+            expandedTitle: _buildTitle(task: item, isOpen: true),
+            content: Stack(
+              children: [
+                Positioned.fill(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    width: kBorderRadiusNormal,
+                    decoration: BoxDecoration(
+                      color: taskStatusColors[item.status]!,
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(kBorderRadiusNormal),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: kBorderRadiusNormal),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(kBorderRadiusNormal),
+                    ),
+                    border:
+                        Border.all(color: theme.colorScheme.primaryContainer),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(kPaddingNormal),
+                        child: Column(
+                          children: [
+                            _buildRow(
+                              label: 'JANITOR_LABEL_TITLE'.tr(),
+                              value: item.name,
+                            ),
+                            _buildRow(
+                              label: 'JANITOR_LABEL_DESCRIPTION'.tr(),
+                              value: item.description ?? '',
+                            ),
+                            _buildRow(
+                              label: 'JANITOR_LABEL_START'.tr(),
+                              value: DateFormat('yyyy. MM. dd. HH:mm')
+                                  .format(item.start),
+                            ),
+                            _buildRow(
+                              label: 'JANITOR_LABEL_STATUS'.tr(),
+                              value: item.status.name.tr(),
+                            ),
+                            if (item.answer != null)
+                              _buildRow(
+                                label: 'JANITOR_LABEL_ANSWER'.tr(),
+                                value: item.answer!,
+                              ),
+                          ],
+                        ),
+                      ),
+                      _buildFeedbackList(item),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: kPaddingNormal),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: _buildActionButtons(item),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }
