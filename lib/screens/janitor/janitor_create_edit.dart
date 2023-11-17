@@ -222,6 +222,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                                 : places.first,
                             onItemChanged: _onPlaceChanged,
                             compare: (i, s) => i!.isEqual(s),
+                            readonly: widget.isEdit,
                           ),
                         ),
                       ],
