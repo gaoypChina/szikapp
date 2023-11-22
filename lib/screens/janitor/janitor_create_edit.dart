@@ -3,8 +3,7 @@ import 'package:flutter/material.dart' hide Feedback;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../business/auth_manager.dart';
-import '../../business/janitor_manager.dart';
+import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
 import '../../models/models.dart';
@@ -52,7 +51,7 @@ class JanitorCreateEditScreen extends StatefulWidget {
     required this.onCreate,
     required this.onUpdate,
     required this.onDelete,
-  }) : isEdit = (originalItem != null);
+  }) : isEdit = (originalItem != null) && !isFeedback;
 
   @override
   JanitorCreateEditScreenState createState() => JanitorCreateEditScreenState();
@@ -93,13 +92,17 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
     this.title = title;
   }
 
-  void _onDescriptionChanged(String text) {
-    widget.isFeedback ? feedback = text : description = text;
+  void _onDescriptionChanged(String description) {
+    this.description = description;
+  }
+
+  void _onFeedbackChanged(String feedback) {
+    this.feedback = feedback;
   }
 
   void _onNewSent() {
     var user = Provider.of<AuthManager>(context, listen: false).user!;
-    var janitors = getJanitorIDs(context);
+    var janitorIDs = getJanitorIDs(context);
 
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
@@ -115,7 +118,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         participantIDs: <String>[
           user.id,
         ],
-        managerIDs: [user.id, ...janitors],
+        managerIDs: [user.id, ...janitorIDs],
         status: TaskStatus.created,
       );
       task.status = TaskStatus.sent;
@@ -164,11 +167,17 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: _onAcceptDelete,
     );
+    var appBarTitle = '';
+    if (widget.isEdit) {
+      appBarTitle = 'JANITOR_TITLE_EDIT'.tr();
+    } else if (widget.isFeedback) {
+      appBarTitle = 'JANITOR_TITLE_FEEDBACK'.tr();
+    } else {
+      appBarTitle = 'JANITOR_TITLE_CREATE'.tr();
+    }
     return CustomScaffold(
       resizeToAvoidBottomInset: true,
-      appBarTitle: widget.isEdit
-          ? 'JANITOR_TITLE_EDIT'.tr()
-          : 'JANITOR_TITLE_CREATE'.tr(),
+      appBarTitle: appBarTitle,
       body: Container(
         color: theme.colorScheme.background,
         padding: const EdgeInsets.symmetric(horizontal: kPaddingNormal),
@@ -190,14 +199,10 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
             Divider(
               color: theme.colorScheme.secondary,
             ),
-            //Details, text fields and buttons
             Form(
               key: _formKey,
               child: Flex(
                 direction: Axis.vertical,
-                /*child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,*/
                 children: [
                   Container(
                     margin: const EdgeInsets.only(top: kPaddingNormal),
@@ -216,13 +221,13 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                         Expanded(
                           child: SearchableOptions<Place>(
                             items: places,
-                            selectedItem: widget.isEdit
+                            selectedItem: widget.isEdit || widget.isFeedback
                                 ? places.firstWhere((item) =>
                                     item.id == widget.originalItem!.placeID)
                                 : places.first,
                             onItemChanged: _onPlaceChanged,
                             compare: (i, s) => i!.isEqual(s),
-                            readonly: widget.isEdit,
+                            readonly: widget.isEdit || widget.isFeedback,
                           ),
                         ),
                       ],
@@ -281,9 +286,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                           width: leftColumnWidth,
                           margin: const EdgeInsets.only(right: kPaddingNormal),
                           child: Text(
-                            widget.isFeedback
-                                ? 'JANITOR_LABEL_FEEDBACK'.tr()
-                                : 'JANITOR_LABEL_DESCRIPTION'.tr(),
+                            'JANITOR_LABEL_DESCRIPTION'.tr(),
                             style: theme.textTheme.displaySmall!.copyWith(
                                 fontSize: 14, color: theme.colorScheme.primary),
                             textAlign: TextAlign.end,
@@ -291,7 +294,8 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            initialValue: (widget.isEdit && !widget.isFeedback)
+                            readOnly: widget.isFeedback,
+                            initialValue: widget.isEdit || widget.isFeedback
                                 ? widget.originalItem!.description
                                 : null,
                             style: theme.textTheme.displaySmall!.copyWith(
@@ -318,6 +322,55 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                       ],
                     ),
                   ),
+                  if (widget.isFeedback) ...[
+                    Divider(
+                      color: theme.colorScheme.primary,
+                      height: kPaddingXLarge,
+                      thickness: 2,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: kPaddingNormal),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: leftColumnWidth,
+                            margin:
+                                const EdgeInsets.only(right: kPaddingNormal),
+                            child: Text(
+                              'JANITOR_LABEL_FEEDBACK'.tr(),
+                              style: theme.textTheme.displaySmall!.copyWith(
+                                  fontSize: 14,
+                                  color: theme.colorScheme.primary),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              style: theme.textTheme.displaySmall!.copyWith(
+                                fontSize: 14,
+                                color: theme.colorScheme.primaryContainer,
+                                fontStyle: FontStyle.italic,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'PLACEHOLDER_FEEDBACK'.tr(),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(kBorderRadiusSmall),
+                                  borderSide: BorderSide(
+                                    color: theme.colorScheme.primary,
+                                    width: 2,
+                                  ),
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.all(kPaddingSmall),
+                              ),
+                              onChanged: _onFeedbackChanged,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                   Container(
                     margin: const EdgeInsets.only(top: kPaddingNormal),
                     child: Row(
@@ -342,8 +395,10 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                         ),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: widget.isEdit ? _onEditSent : _onNewSent,
-                            child: Text(widget.isEdit
+                            onPressed: widget.isEdit || widget.isFeedback
+                                ? _onEditSent
+                                : _onNewSent,
+                            child: Text(widget.isEdit || widget.isFeedback
                                 ? 'BUTTON_SAVE'.tr()
                                 : 'BUTTON_SEND'.tr()),
                           ),

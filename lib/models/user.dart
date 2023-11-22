@@ -140,6 +140,9 @@ class User implements Identifiable, Cachable {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
     }
+    if (task.runtimeType == JanitorTask) {
+      return task.participantIDs.contains(id);
+    }
     return task.managerIDs.contains(id);
   }
 

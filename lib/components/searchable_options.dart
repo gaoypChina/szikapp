@@ -33,6 +33,8 @@ class SearchableOptions<T> extends StatelessWidget {
 
   final bool readonly;
 
+  final String Function(T) itemAsString;
+
   SearchableOptions({
     super.key,
     this.hint,
@@ -40,24 +42,30 @@ class SearchableOptions<T> extends StatelessWidget {
     required void Function(T?) onItemChanged,
     T? selectedItem,
     required this.compare,
+    String Function(T)? itemNameTransformer,
     this.readonly = false,
     this.showClearButton = false,
     this.nullValidated = true,
   })  : allowMultiSelection = false,
         selectedItems = selectedItem == null ? const [] : [selectedItem],
-        onItemsChanged = ((value) => onItemChanged(value.first));
+        onItemsChanged = ((value) => onItemChanged(value.first)),
+        itemAsString =
+            (itemNameTransformer ?? (T itemName) => itemName.toString());
 
-  const SearchableOptions.multiSelection({
+  SearchableOptions.multiSelection({
     super.key,
     this.hint,
     required this.items,
     required this.onItemsChanged,
     this.selectedItems = const [],
     required this.compare,
+    String Function(T)? itemNameTransformer,
     this.readonly = false,
     this.showClearButton = false,
     this.nullValidated = true,
-  }) : allowMultiSelection = true;
+  })  : allowMultiSelection = true,
+        itemAsString =
+            (itemNameTransformer ?? (T itemName) => itemName.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +86,7 @@ class SearchableOptions<T> extends StatelessWidget {
               icon: CustomIcon(CustomIcons.close),
             ),
             items: items,
+            itemAsString: itemAsString,
             selectedItems: selectedItems,
             onChanged: onItemsChanged,
             enabled: !readonly,
@@ -142,6 +151,7 @@ class SearchableOptions<T> extends StatelessWidget {
             autoValidateMode: AutovalidateMode.onUserInteraction,
             compareFn: compare,
             items: items,
+            itemAsString: itemAsString,
             selectedItem: selectedItems.isNotEmpty ? selectedItems.first : null,
             onChanged: (item) => onItemsChanged(item == null ? [] : [item]),
             enabled: !readonly,

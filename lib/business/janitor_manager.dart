@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
-import '../utils/exceptions.dart';
-import '../utils/io.dart';
+import '../utils/utils.dart';
 
 ///Gondnoki kérések funkció logikai működését megvalósító singleton
 ///háttérosztály.
@@ -14,7 +13,6 @@ class JanitorManager extends ChangeNotifier {
   int _selectedIndex = -1;
   bool _createNewTask = false;
   bool _editTask = false;
-  bool _adminEditTask = false;
   bool _feedbackTask = false;
 
   ///Singleton osztálypéldány
@@ -33,7 +31,6 @@ class JanitorManager extends ChangeNotifier {
       selectedIndex != -1 ? _tasks[selectedIndex] : null;
   bool get isCreatingNewTask => _createNewTask;
   bool get isEditingTask => _editTask;
-  bool get isAdminEditingTask => _adminEditTask;
   bool get isGivingFeedback => _feedbackTask;
 
   int indexOf(JanitorTask task) {
@@ -46,7 +43,6 @@ class JanitorManager extends ChangeNotifier {
   void createNewTask() {
     _createNewTask = true;
     _editTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     notifyListeners();
   }
@@ -55,7 +51,6 @@ class JanitorManager extends ChangeNotifier {
     _selectedIndex = -1;
     _createNewTask = false;
     _editTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     notifyListeners();
   }
@@ -64,14 +59,12 @@ class JanitorManager extends ChangeNotifier {
     _editTask = true;
     _selectedIndex = index;
     _createNewTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     notifyListeners();
   }
 
   void adminEditTask(int index) {
     _selectedIndex = index;
-    _adminEditTask = true;
     _createNewTask = false;
     _editTask = false;
     _feedbackTask = false;
@@ -83,7 +76,6 @@ class JanitorManager extends ChangeNotifier {
     _feedbackTask = true;
     _createNewTask = false;
     _editTask = false;
-    _adminEditTask = false;
     notifyListeners();
   }
 
@@ -92,7 +84,6 @@ class JanitorManager extends ChangeNotifier {
     _selectedIndex = index;
     _createNewTask = false;
     _editTask = true;
-    _adminEditTask = false;
     _feedbackTask = false;
     notifyListeners();
   }
@@ -108,7 +99,6 @@ class JanitorManager extends ChangeNotifier {
     _tasks.add(task);
     _createNewTask = false;
     _editTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
@@ -129,7 +119,6 @@ class JanitorManager extends ChangeNotifier {
     _tasks.add(task);
     _createNewTask = false;
     _editTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
@@ -148,7 +137,6 @@ class JanitorManager extends ChangeNotifier {
     _tasks.remove(task);
     _createNewTask = false;
     _editTask = false;
-    _adminEditTask = false;
     _feedbackTask = false;
     _selectedIndex = -1;
     notifyListeners();
@@ -180,7 +168,7 @@ class JanitorManager extends ChangeNotifier {
     String participantID = '',
   }) {
     if (placeIDs.isEmpty && statuses.isEmpty && participantID.isEmpty) {
-      return tasks;
+      return List.unmodifiable(tasks);
     }
     var results = <JanitorTask>[];
 

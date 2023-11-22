@@ -10,7 +10,6 @@ export 'documents_screen.dart';
 export 'error_screen.dart';
 export 'feed_screen.dart';
 export 'home_screen.dart';
-export 'janitor/janitor_admin_screen.dart';
 export 'janitor/janitor_create_edit.dart';
 export 'janitor/janitor_screen.dart';
 export 'menu_screen.dart';

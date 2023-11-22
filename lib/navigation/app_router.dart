@@ -128,18 +128,6 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                     context, () => janitorManager.deleteTask(item));
               },
             ),
-          if (janitorManager.isAdminEditingTask)
-            JanitorAdminScreen.page(
-              item: janitorManager.selectedTask!,
-              onDelete: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.deleteTask(item));
-              },
-              onUpdate: (item, index) {
-                performFunctionSecurely(
-                    context, () => janitorManager.updateTask(item));
-              },
-            ),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
               onCreate: (poll) {
@@ -242,8 +230,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kSettingsPath) {
       appStateManager.unselectFeature();
     }
-    if (route.settings.name == SzikAppLink.kJanitorCreateEditPath ||
-        route.settings.name == SzikAppLink.kJanitorEditAdminPath) {
+    if (route.settings.name == SzikAppLink.kJanitorCreateEditPath) {
       janitorManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kPollCreateEditPath) {

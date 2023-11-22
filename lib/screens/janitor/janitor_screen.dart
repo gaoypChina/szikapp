@@ -53,6 +53,11 @@ class JanitorListViewState extends State<JanitorListView> {
     items = widget.manager.tasks;
   }
 
+  Future<void> _onManualRefresh() async {
+    await widget.manager.refresh();
+    setState(() => items = widget.manager.tasks);
+  }
+
   void _onTabChanged(int? newValue) {
     List<JanitorTask> newItems;
     switch (newValue) {
@@ -78,40 +83,6 @@ class JanitorListViewState extends State<JanitorListView> {
   void _onCreateTask() {
     SzikAppState.analytics.logEvent(name: 'janitor_task_open_create');
     widget.manager.createNewTask();
-  }
-
-  void _onEditPressed(JanitorTask task) {
-    SzikAppState.analytics.logEvent(name: 'janitor_task_open_edit');
-    var index = widget.manager.indexOf(task);
-    widget.manager.editTask(index);
-  }
-
-  void _onEditJanitorPressed(JanitorTask task) {
-    SzikAppState.analytics.logEvent(name: 'janitor_task_open_admin_edit');
-    var index = widget.manager.indexOf(task);
-    widget.manager.adminEditTask(index);
-  }
-
-  void _onFeedbackPressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaitingApproval ||
-        task.status == TaskStatus.approved) {
-      SzikAppState.analytics.logEvent(name: 'janitor_task_open_feedback');
-      var index = widget.manager.indexOf(task);
-      widget.manager.feedbackTask(index);
-    }
-  }
-
-  void _onApprovePressed(JanitorTask task) {
-    if (task.status == TaskStatus.awaitingApproval) {
-      SzikAppState.analytics.logEvent(name: 'janitor_task_approve');
-      task.status = TaskStatus.approved;
-      widget.manager.updateTask(task);
-    }
-  }
-
-  Future<void> _onManualRefresh() async {
-    await widget.manager.refresh();
-    setState(() => items = widget.manager.tasks);
   }
 
   @override
@@ -144,7 +115,7 @@ class JanitorListViewState extends State<JanitorListView> {
                       'PLACEHOLDER_EMPTY_SEARCH_RESULTS'.tr(),
                     ),
                   )
-                : _buildTasks(),
+                : _buildTaskList(),
           )
         ],
       ),
@@ -155,7 +126,7 @@ class JanitorListViewState extends State<JanitorListView> {
     );
   }
 
-  Widget _buildTasks() {
+  Widget _buildTaskList() {
     var theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: _onManualRefresh,
@@ -211,11 +182,11 @@ class JanitorListViewState extends State<JanitorListView> {
                     border:
                         Border.all(color: theme.colorScheme.primaryContainer),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(kPaddingNormal),
-                        child: Column(
+                  child: Padding(
+                    padding: const EdgeInsets.all(kPaddingNormal),
+                    child: Column(
+                      children: [
+                        Column(
                           children: [
                             _buildRow(
                               label: 'JANITOR_LABEL_TITLE'.tr(),
@@ -241,16 +212,15 @@ class JanitorListViewState extends State<JanitorListView> {
                               ),
                           ],
                         ),
-                      ),
-                      _buildFeedbackList(item),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: kPaddingNormal),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _buildActionButtons(item),
+                        _buildFeedbackList(item),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: kPaddingNormal),
+                          child: Wrap(
+                            children: _buildActionButtons(item),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -263,7 +233,6 @@ class JanitorListViewState extends State<JanitorListView> {
 
   Widget _buildTitle({required JanitorTask task, required bool isOpen}) {
     var theme = Theme.of(context);
-
     return Stack(
       children: [
         Positioned.fill(
@@ -365,6 +334,119 @@ class JanitorListViewState extends State<JanitorListView> {
   }
 
   List<Widget> _buildActionButtons(JanitorTask task) {
+    var buttons = <Widget>[];
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var janitorIDs = getJanitorIDs(context);
+    var userIsParticipant = user.hasPermissionToModify(task: task);
+    var userIsJanitor = janitorIDs.contains(user.id);
+    var taskCanGetFeedback = [
+      TaskStatus.inProgress,
+      TaskStatus.awaitingApproval,
+      TaskStatus.refused,
+      TaskStatus.approved,
+      TaskStatus.irresolvable
+    ].contains(task.status);
+
+    if (userIsParticipant && task.status == TaskStatus.sent) {
+      buttons.add(generateEditButton(task));
+    }
+    if ((userIsParticipant || userIsJanitor) && (taskCanGetFeedback)) {
+      buttons.add(generateFeedbackButton(task));
+    }
+    if (userIsJanitor && task.status == TaskStatus.created) {
+      buttons.add(generateToInProgressButton(task));
+    }
+    if (userIsJanitor && task.status == TaskStatus.inProgress) {
+      buttons.add(generateToAwaitingApprovalButton(task));
+      buttons.add(generateToIrresolvable(task));
+    }
+    if (userIsParticipant && task.status == TaskStatus.awaitingApproval) {
+      buttons.add(generateToApprovedButton(task));
+      buttons.add(generateToRefusedButton(task));
+    }
+    if (userIsJanitor && task.status == TaskStatus.refused) {
+      buttons.add(generateToInProgressButton(task));
+    }
+    return buttons;
+  }
+
+  Widget generateEditButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_open_edit');
+      var index = widget.manager.indexOf(task);
+      widget.manager.editTask(index);
+    }
+
+    return generateButton('BUTTON_EDIT'.tr(), () => callback(task));
+  }
+
+  Widget generateFeedbackButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_open_feedback');
+      var index = widget.manager.indexOf(task);
+      widget.manager.feedbackTask(index);
+    }
+
+    return generateButton('BUTTON_FEEDBACK'.tr(), () => callback(task));
+  }
+
+  Widget generateToInProgressButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_marked_in_progress');
+      task.status = TaskStatus.inProgress;
+      widget.manager.updateTask(task);
+    }
+
+    return generateButton(
+        'JANITOR_BUTTON_START_TASK'.tr(), () => callback(task));
+  }
+
+  Widget generateToAwaitingApprovalButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics
+          .logEvent(name: 'janitor_task_marked_awaiting_approval');
+      task.status = TaskStatus.awaitingApproval;
+      widget.manager.updateTask(task);
+    }
+
+    return generateButton(
+        'JANITOR_BUTTON_FINISH_TASK'.tr(), () => callback(task));
+  }
+
+  Widget generateToIrresolvable(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_marked_irresolvable');
+      task.status = TaskStatus.irresolvable;
+      widget.manager.updateTask(task);
+    }
+
+    return generateButton(
+        'JANITOR_BUTTON_IRRESOLVABLE_TASK'.tr(), () => callback(task));
+  }
+
+  Widget generateToApprovedButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_approve');
+      task.status = TaskStatus.approved;
+      widget.manager.updateTask(task);
+    }
+
+    return generateButton(
+        'JANITOR_BUTTON_APPROVE_TASK'.tr(), () => callback(task));
+  }
+
+  Widget generateToRefusedButton(JanitorTask task) {
+    void callback(JanitorTask task) {
+      SzikAppState.analytics.logEvent(name: 'janitor_task_marked_refused');
+      task.status = TaskStatus.refused;
+      widget.manager.updateTask(task);
+    }
+
+    return generateButton(
+        'JANITOR_BUTTON_REFUSE_TASK'.tr(), () => callback(task));
+  }
+
+  Widget generateButton(String text, VoidCallback onPressed) {
     var theme = Theme.of(context);
     var buttonStyle = theme.outlinedButtonTheme.style!.copyWith(
       foregroundColor: MaterialStateColor.resolveWith(
@@ -377,71 +459,37 @@ class JanitorListViewState extends State<JanitorListView> {
           borderRadius: BorderRadius.circular(kBorderRadiusNormal),
         ),
       ),
+      padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
+        (states) => const EdgeInsets.symmetric(
+          horizontal: kPaddingNormal,
+          vertical: kPaddingSmall,
+        ),
+      ),
     );
-    var buttons = <Widget>[];
-
-    var user = Provider.of<AuthManager>(context, listen: false).user!;
-    var janitors = getJanitorIDs(context);
-
-    if ((user.hasPermissionToModify(task: task) &&
-        (task.status == TaskStatus.sent ||
-            task.status == TaskStatus.inProgress))) {
-      buttons.add(
-        OutlinedButton(
-          onPressed: () => janitors.contains(user.id)
-              ? _onEditJanitorPressed(task)
-              : _onEditPressed(task),
-          style: buttonStyle,
-          child: Text(
-            'BUTTON_EDIT'.tr(),
-            style: theme.textTheme.bodyLarge!.copyWith(
-              color: theme.colorScheme.primaryContainer,
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(kPaddingSmall),
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: buttonStyle,
+        child: Text(
+          text,
+          style: theme.textTheme.bodyLarge!.copyWith(
+            color: theme.colorScheme.primaryContainer,
           ),
         ),
-      );
-    }
-    if (task.status == TaskStatus.approved ||
-        task.status == TaskStatus.awaitingApproval) {
-      buttons.add(
-        OutlinedButton(
-          onPressed: () => _onFeedbackPressed(task),
-          style: buttonStyle,
-          child: Text(
-            'BUTTON_FEEDBACK'.tr(),
-            style: theme.textTheme.bodyLarge!.copyWith(
-              color: theme.colorScheme.primaryContainer,
-            ),
-          ),
-        ),
-      );
-    }
-    if (task.participantIDs.contains(user.id) &&
-        task.status == TaskStatus.awaitingApproval) {
-      buttons.add(
-        OutlinedButton(
-          onPressed: () => _onApprovePressed(task),
-          style: buttonStyle,
-          child: Text(
-            'BUTTON_APPROVE'.tr(),
-            style: theme.textTheme.bodyLarge!.copyWith(
-              color: theme.colorScheme.primaryContainer,
-            ),
-          ),
-        ),
-      );
-    }
-    return buttons;
+      ),
+    );
   }
 
   Widget _buildFeedbackList(JanitorTask task) {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
+    var user = Provider.of<AuthManager>(context, listen: false).user!;
+    var janitorIDs = getJanitorIDs(context);
+    var userIsParticipant = user.hasPermissionToModify(task: task);
+    var userIsJanitor = janitorIDs.contains(user.id);
 
-    var janitors = getJanitorIDs(context);
-    return janitors.contains(
-                Provider.of<AuthManager>(context, listen: false).user!.id) &&
-            task.feedback.isNotEmpty
+    return (userIsParticipant || userIsJanitor) && task.feedback.isNotEmpty
         ? Container(
             margin: const EdgeInsets.only(bottom: kPaddingNormal),
             child: Row(
@@ -470,8 +518,14 @@ class JanitorListViewState extends State<JanitorListView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: task.feedback.map(
                         (item) {
+                          var feedbackWriter =
+                              Provider.of<SzikAppStateManager>(context)
+                                  .users
+                                  .firstWhere((user) => user.id == item.userID)
+                                  .name;
+                          var time = item.lastUpdate;
                           return Text(
-                            '${item.lastUpdate.month}. ${item.lastUpdate.day}: ${item.message}',
+                            '$feedbackWriter - ${time.month}. ${time.day}. ${time.hour}:${time.minute}\n${item.message}\n',
                             style: theme.textTheme.titleMedium!.copyWith(
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w600,
