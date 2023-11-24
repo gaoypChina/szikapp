@@ -77,7 +77,7 @@
         "ACCOUNT_CARD_BUTTON_RESERVE": "Foglalok",
     "JANITOR": null,
         "JANITOR_TITLE": "Gondnoki kérések",
-        "JANITOR_TAB_ALL": "Összes",
+        "JANITOR_TAB_ARCHIVE": "Archív",
         "JANITOR_TAB_ACTIVE": "Aktív",
         "JANITOR_TAB_OWN": "Saját",
         "JANITOR_TITLE_CREATE": "Új bejegyzés",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/models.dart';
 import '../models/tasks.dart';
 import '../navigation/app_state_manager.dart';
 import '../utils/utils.dart';
@@ -160,41 +161,23 @@ class JanitorManager extends ChangeNotifier {
     }
   }
 
-  ///Szűrés. A függvény a megadott paraméterek alapján szűri a feladatlistát.
-  ///Ha minden paraméter üres, a teljes listát adja vissza.
-  List<JanitorTask> filter({
-    List<TaskStatus> statuses = const <TaskStatus>[],
-    List<String> placeIDs = const <String>[],
-    String participantID = '',
-  }) {
-    if (placeIDs.isEmpty && statuses.isEmpty && participantID.isEmpty) {
-      return List.unmodifiable(tasks);
-    }
+  ///Szűrés. A függvény azon feladatokat adja vissza,
+  ///amelyre a paraméterként adott kifejezést igazként értékelődik ki.
+  List<JanitorTask> filter(bool Function(JanitorTask) predicate) {
     var results = <JanitorTask>[];
-
-    //Filter by all options that are specified
     for (var task in tasks) {
-      if (participantID.isNotEmpty &&
-          task.participantIDs.contains(participantID)) {
-        results.add(task);
-      } else if (statuses.isNotEmpty && statuses.contains(task.status)) {
-        results.add(task);
-      } else if (placeIDs.isNotEmpty && placeIDs.contains(task.placeID)) {
+      if (predicate(task)) {
         results.add(task);
       }
     }
     return List.unmodifiable(results);
   }
-}
 
-List<String> getJanitorIDs(BuildContext context) {
-  var appstateManager =
-      Provider.of<SzikAppStateManager>(context, listen: false);
-  var janitorGroupMemberIDs = appstateManager.groups
-      .firstWhere((group) => group.id == 'g006')
-      .memberIDs;
-  return appstateManager.users
-      .where((item) => janitorGroupMemberIDs.contains(item.id))
-      .map((item) => item.id)
-      .toList();
+  List<String> getJanitorIDs(BuildContext context) {
+    var appstateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
+    return appstateManager.groups
+        .firstWhere((group) => group.id == 'g006')
+        .memberIDs;
+  }
 }

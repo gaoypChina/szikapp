@@ -15,6 +15,7 @@ class JanitorCreateEditScreen extends StatefulWidget {
 
   static MaterialPage page({
     JanitorTask? originalItem,
+    required JanitorManager manager,
     bool isFeedback = false,
     int index = -1,
     required Function(JanitorTask) onCreate,
@@ -28,6 +29,7 @@ class JanitorCreateEditScreen extends StatefulWidget {
         originalItem: originalItem,
         isFeedback: isFeedback,
         index: index,
+        manager: manager,
         onCreate: onCreate,
         onUpdate: onUpdate,
         onDelete: onDelete,
@@ -39,6 +41,7 @@ class JanitorCreateEditScreen extends StatefulWidget {
   final bool isFeedback;
   final JanitorTask? originalItem;
   final int index;
+  final JanitorManager manager;
   final Function(JanitorTask) onCreate;
   final Function(JanitorTask, int) onDelete;
   final Function(JanitorTask, int) onUpdate;
@@ -48,6 +51,7 @@ class JanitorCreateEditScreen extends StatefulWidget {
     this.isFeedback = false,
     this.originalItem,
     this.index = -1,
+    required this.manager,
     required this.onCreate,
     required this.onUpdate,
     required this.onDelete,
@@ -102,7 +106,6 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
 
   void _onNewSent() {
     var user = Provider.of<AuthManager>(context, listen: false).user!;
-    var janitorIDs = getJanitorIDs(context);
 
     if (_formKey.currentState!.validate()) {
       var uuid = const Uuid();
@@ -115,10 +118,8 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         type: TaskType.janitor,
         lastUpdate: DateTime.now(),
         placeID: placeID!,
-        participantIDs: <String>[
-          user.id,
-        ],
-        managerIDs: [user.id, ...janitorIDs],
+        participantIDs: <String>[user.id],
+        managerIDs: widget.manager.getJanitorIDs(context),
         status: TaskStatus.created,
       );
       task.status = TaskStatus.sent;
@@ -130,8 +131,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
 
   void _onEditSent() {
     if (_formKey.currentState!.validate()) {
-      var task = widget.originalItem;
-      task!.name = title!;
+      var task = widget.originalItem!;
       widget.isFeedback
           ? task.feedback.add(
               Feedback(
@@ -144,9 +144,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
             )
           : task.description = description;
 
-      task.placeID = placeID!;
-
-      SzikAppState.analytics.logEvent(name: 'janitor_task_edit');
+      SzikAppState.analytics.logEvent(name: 'janitor_task_edit_feedback');
       widget.onUpdate(task, widget.index);
     }
   }
@@ -249,7 +247,7 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            readOnly: widget.isFeedback,
+                            readOnly: widget.isEdit || widget.isFeedback,
                             initialValue: widget.isEdit || widget.isFeedback
                                 ? widget.originalItem!.name
                                 : null,

@@ -6,7 +6,7 @@ import 'package:toggle_list/toggle_list.dart';
 import '../../business/business.dart';
 import '../../components/components.dart';
 import '../../main.dart';
-import '../../models/tasks.dart';
+import '../../models/models.dart';
 import '../../navigation/app_state_manager.dart';
 import '../../ui/themes.dart';
 
@@ -46,34 +46,54 @@ class JanitorListView extends StatefulWidget {
 
 class JanitorListViewState extends State<JanitorListView> {
   List<JanitorTask> items = [];
+  int activeTab = 0;
 
   @override
   void initState() {
     super.initState();
     items = widget.manager.tasks;
+    _setShowingItems();
   }
 
   Future<void> _onManualRefresh() async {
     await widget.manager.refresh();
-    setState(() => items = widget.manager.tasks);
+    _setShowingItems();
   }
 
   void _onTabChanged(int? newValue) {
+    activeTab = newValue ?? 0;
+    _setShowingItems();
+  }
+
+  void _setShowingItems() {
+    var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
+    var activeStatuses = [
+      TaskStatus.created,
+      TaskStatus.sent,
+      TaskStatus.inProgress,
+      TaskStatus.awaitingApproval,
+    ];
     List<JanitorTask> newItems;
-    switch (newValue) {
-      case 2:
-        var ownID = Provider.of<AuthManager>(context, listen: false).user!.id;
-        newItems = widget.manager.filter(participantID: ownID);
+    switch (activeTab) {
+      case 0:
+        newItems = widget.manager.filter((task) {
+          var place = Provider.of<SzikAppStateManager>(context, listen: false)
+              .places
+              .firstWhere((place) => place.id == task.placeID);
+          return (task.participantIDs.contains(ownID) ||
+                  place.type != PlaceType.room) &&
+              activeStatuses.contains(task.status);
+        });
         break;
       case 1:
-        newItems = widget.manager.filter(statuses: [
-          TaskStatus.sent,
-          TaskStatus.inProgress,
-          TaskStatus.awaitingApproval
-        ]);
+        newItems = widget.manager.filter((task) {
+          return activeStatuses.contains(task.status);
+        });
         break;
       default:
-        newItems = widget.manager.filter();
+        newItems = widget.manager.filter((task) {
+          return !activeStatuses.contains(task.status);
+        });
     }
     setState(() {
       items = newItems;
@@ -101,9 +121,9 @@ class JanitorListViewState extends State<JanitorListView> {
             ),
             child: TabChoice(
               labels: [
-                'JANITOR_TAB_ALL'.tr(),
-                'JANITOR_TAB_ACTIVE'.tr(),
                 'JANITOR_TAB_OWN'.tr(),
+                'JANITOR_TAB_ACTIVE'.tr(),
+                'JANITOR_TAB_ARCHIVE'.tr(),
               ],
               onChanged: _onTabChanged,
             ),
@@ -131,7 +151,7 @@ class JanitorListViewState extends State<JanitorListView> {
     return RefreshIndicator(
       onRefresh: _onManualRefresh,
       child: ToggleList(
-        divider: const SizedBox(height: 10),
+        divider: const SizedBox(height: kPaddingNormal),
         trailing: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPaddingLarge),
           child: CustomIcon(
@@ -142,22 +162,18 @@ class JanitorListViewState extends State<JanitorListView> {
         ),
         children: items.map<ToggleListItem>((item) {
           return ToggleListItem(
-            headerDecoration: BoxDecoration(
+            itemDecoration: BoxDecoration(
               color: theme.colorScheme.surface,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(kBorderRadiusNormal),
-              ),
-              border: Border.all(color: theme.colorScheme.primaryContainer),
-            ),
-            expandedHeaderDecoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(kBorderRadiusNormal),
-              ),
+              borderRadius: BorderRadius.circular(kBorderRadiusNormal),
               border: Border.all(color: theme.colorScheme.primaryContainer),
             ),
             title: _buildTitle(task: item, isOpen: false),
             expandedTitle: _buildTitle(task: item, isOpen: true),
+            divider: Divider(
+              height: 1,
+              thickness: 1,
+              color: theme.colorScheme.primaryContainer,
+            ),
             content: Stack(
               children: [
                 Positioned.fill(
@@ -166,9 +182,6 @@ class JanitorListViewState extends State<JanitorListView> {
                     width: kBorderRadiusNormal,
                     decoration: BoxDecoration(
                       color: taskStatusColors[item.status]!,
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(kBorderRadiusNormal),
-                      ),
                     ),
                   ),
                 ),
@@ -176,11 +189,6 @@ class JanitorListViewState extends State<JanitorListView> {
                   margin: const EdgeInsets.only(left: kBorderRadiusNormal),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(kBorderRadiusNormal),
-                    ),
-                    border:
-                        Border.all(color: theme.colorScheme.primaryContainer),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(kPaddingNormal),
@@ -336,7 +344,7 @@ class JanitorListViewState extends State<JanitorListView> {
   List<Widget> _buildActionButtons(JanitorTask task) {
     var buttons = <Widget>[];
     var user = Provider.of<AuthManager>(context, listen: false).user!;
-    var janitorIDs = getJanitorIDs(context);
+    var janitorIDs = widget.manager.getJanitorIDs(context);
     var userIsParticipant = user.hasPermissionToModify(task: task);
     var userIsJanitor = janitorIDs.contains(user.id);
     var taskCanGetFeedback = [
@@ -485,11 +493,16 @@ class JanitorListViewState extends State<JanitorListView> {
     var theme = Theme.of(context);
     var leftColumnWidth = MediaQuery.of(context).size.width * 0.25;
     var user = Provider.of<AuthManager>(context, listen: false).user!;
-    var janitorIDs = getJanitorIDs(context);
     var userIsParticipant = user.hasPermissionToModify(task: task);
-    var userIsJanitor = janitorIDs.contains(user.id);
+    var userIsJanitor = widget.manager.getJanitorIDs(context).contains(user.id);
+    var place = Provider.of<SzikAppStateManager>(context)
+        .places
+        .firstWhere((place) => place.id == task.placeID);
+    var userCanSee = place.type == PlaceType.room
+        ? userIsParticipant || userIsJanitor
+        : true;
 
-    return (userIsParticipant || userIsJanitor) && task.feedback.isNotEmpty
+    return userCanSee && task.feedback.isNotEmpty
         ? Container(
             margin: const EdgeInsets.only(bottom: kPaddingNormal),
             child: Row(

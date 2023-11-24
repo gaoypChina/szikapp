@@ -77,7 +77,7 @@
         "ACCOUNT_CARD_BUTTON_RESERVE": "I'll reserve",
     "JANITOR": null,
         "JANITOR_TITLE": "Requests to the Janitor",
-        "JANITOR_TAB_ALL": "All",
+        "JANITOR_TAB_ARCHIVE": "Archive",
         "JANITOR_TAB_ACTIVE": "Active",
         "JANITOR_TAB_OWN": "Own",
         "JANITOR_TITLE_CREATE": "New request",

@@ -94,6 +94,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             SettingsScreen.page(),
           if (janitorManager.isCreatingNewTask)
             JanitorCreateEditScreen.page(
+              manager: janitorManager,
               onCreate: (item) {
                 performFunctionSecurely(
                     context, () => janitorManager.addTask(item));
@@ -103,6 +104,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (janitorManager.isEditingTask)
             JanitorCreateEditScreen.page(
+              manager: janitorManager,
               originalItem: janitorManager.selectedTask,
               onCreate: (_) {},
               onUpdate: (item, index) {
@@ -116,6 +118,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ),
           if (janitorManager.isGivingFeedback)
             JanitorCreateEditScreen.page(
+              manager: janitorManager,
               originalItem: janitorManager.selectedTask,
               isFeedback: true,
               onCreate: (_) {},
