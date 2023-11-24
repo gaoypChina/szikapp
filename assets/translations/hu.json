@@ -90,6 +90,7 @@
         "JANITOR_LABEL_START": "Beküldve",
         "JANITOR_LABEL_ANSWER": "Válasz",
         "JANITOR_LABEL_FEEDBACK": "Visszajelzés",
+        "JANITOR_LABEL_ROOMMATE": "Szobatárs",
         "JANITOR_DESCRIPTION": "Jelenleg az alábbi táblázatban jelezheted az igényeidet, problémákat.",
         "JANITOR_BUTTON_START_TASK": "Kezdés",
         "JANITOR_BUTTON_FINISH_TASK": "Leadás jóváhagyásra",

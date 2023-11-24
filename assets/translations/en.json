@@ -90,6 +90,7 @@
         "JANITOR_LABEL_START": "Sent",
         "JANITOR_LABEL_ANSWER": "Answer",
         "JANITOR_LABEL_FEEDBACK": "Feedback",
+        "JANITOR_LABEL_ROOMMATE": "Roommate",
         "JANITOR_DESCRIPTION": "You can indicate your needs and problems in the table below.",
         "JANITOR_BUTTON_START_TASK": "Start",
         "JANITOR_BUTTON_FINISH_TASK": "Handover to approval",

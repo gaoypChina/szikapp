@@ -64,20 +64,36 @@ class JanitorCreateEditScreen extends StatefulWidget {
 class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Place> places = [];
-  String? placeID;
+  Place? place;
   String? title;
   String? description;
+  List<User> possibleRoommates = [];
+  List<User> roommates = [];
   String? feedback;
 
   @override
   void initState() {
     super.initState();
-    places = Provider.of<SzikAppStateManager>(context, listen: false).places;
-    placeID = places.first.id;
+    var appStateManager =
+        Provider.of<SzikAppStateManager>(context, listen: false);
+    places = appStateManager.places;
+    possibleRoommates = appStateManager.users
+        .where((user) => user.groupIDs.contains('g029'))
+        .toList();
+    possibleRoommates.remove(
+      Provider.of<AuthManager>(context, listen: false).user!,
+    );
     if (widget.isFeedback || widget.isEdit) {
       title = widget.originalItem!.name;
       description = widget.originalItem!.description;
-      placeID = widget.originalItem!.placeID;
+      place = places
+          .firstWhere((place) => place.id == widget.originalItem!.placeID);
+      roommates = possibleRoommates
+          .where(
+              (user) => widget.originalItem!.participantIDs.contains(user.id))
+          .toList();
+    } else {
+      place = places.first;
     }
   }
 
@@ -88,8 +104,12 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
     return null;
   }
 
-  void _onPlaceChanged(Place? item) {
-    placeID = item!.id;
+  void _onPlaceChanged(Place? place) {
+    this.place = place!;
+  }
+
+  void _onRoommatesChanged(List<User> roommates) {
+    this.roommates = roommates;
   }
 
   void _onTitleChanged(String title) {
@@ -117,8 +137,11 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
         end: DateTime.now(),
         type: TaskType.janitor,
         lastUpdate: DateTime.now(),
-        placeID: placeID!,
-        participantIDs: <String>[user.id],
+        placeID: place!.id,
+        participantIDs: <String>[
+          user.id,
+          ...roommates.map((roommate) => roommate.id),
+        ],
         managerIDs: widget.manager.getJanitorIDs(context),
         status: TaskStatus.created,
       );
@@ -320,6 +343,41 @@ class JanitorCreateEditScreenState extends State<JanitorCreateEditScreen> {
                       ],
                     ),
                   ),
+                  if (place!.type == PlaceType.room)
+                    Container(
+                      margin: const EdgeInsets.only(top: kPaddingNormal),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: leftColumnWidth,
+                            margin:
+                                const EdgeInsets.only(right: kPaddingNormal),
+                            child: Text(
+                              'JANITOR_LABEL_ROOMMATE'.tr(),
+                              style: theme.textTheme.displaySmall!.copyWith(
+                                  fontSize: 14,
+                                  color: theme.colorScheme.primary),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                          Expanded(
+                            child: SearchableOptions<User>.multiSelection(
+                              items: possibleRoommates,
+                              selectedItems: widget.isEdit || widget.isFeedback
+                                  ? possibleRoommates
+                                      .where((item) => widget
+                                          .originalItem!.participantIDs
+                                          .contains(item.id))
+                                      .toList()
+                                  : [],
+                              onItemsChanged: _onRoommatesChanged,
+                              compare: (i, s) => i!.isEqual(s),
+                              readonly: widget.isEdit || widget.isFeedback,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   if (widget.isFeedback) ...[
                     Divider(
                       color: theme.colorScheme.primary,
