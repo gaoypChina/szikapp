@@ -22,9 +22,10 @@ enum NotificationTopic {
   birthdays,
   cleaningExchangeAvailable,
   cleaningExchangeUpdate,
-  cleaningTasksAvailable,
   cleaningTaskAssigned,
   cleaningTaskDueDate,
+  cleaningTaskReported,
+  cleaningTasksAvailable,
   janitorStatusUpdate,
   pollAvailable,
   pollVotingEnded,
@@ -111,14 +112,21 @@ Map<NotificationTopic, NotificationPath> notificationPaths = {
       location: SzikAppLink.kKitchenCleaningPath,
     )
   ),
-  NotificationTopic.cleaningTasksAvailable: (
+  NotificationTopic.cleaningTaskReported: (
+    iconPath: CustomIcons.knife,
+    path: SzikAppLink(
+      currentFeature: SzikAppFeature.cleaning,
+      location: SzikAppLink.kKitchenCleaningAdminPath,
+    )
+  ),
+  NotificationTopic.cleaningTaskDueDate: (
     iconPath: CustomIcons.knife,
     path: SzikAppLink(
       currentFeature: SzikAppFeature.cleaning,
       location: SzikAppLink.kKitchenCleaningPath,
     )
   ),
-  NotificationTopic.cleaningTaskDueDate: (
+  NotificationTopic.cleaningTasksAvailable: (
     iconPath: CustomIcons.knife,
     path: SzikAppLink(
       currentFeature: SzikAppFeature.cleaning,
@@ -201,14 +209,19 @@ Map<NotificationTopic, NotificationSetting> notificationSettings = {
     label: 'NF_CLEANING_TASK_ASSIGNED_LABEL'.tr(),
     enabled: false,
   ),
-  NotificationTopic.cleaningTasksAvailable: (
-    topic: NotificationTopic.cleaningTasksAvailable,
-    label: 'NF_CLEANING_TASKS_AVAILABLE_LABEL'.tr(),
-    enabled: false,
-  ),
   NotificationTopic.cleaningTaskDueDate: (
     topic: NotificationTopic.cleaningTaskDueDate,
     label: 'NF_CLEANING_TASK_DUE_DATE_LABEL'.tr(),
+    enabled: false,
+  ),
+  NotificationTopic.cleaningTaskReported: (
+    topic: NotificationTopic.cleaningTaskReported,
+    label: 'NF_CLEANING_TASK_REPORTED_LABEL'.tr(),
+    enabled: false,
+  ),
+  NotificationTopic.cleaningTasksAvailable: (
+    topic: NotificationTopic.cleaningTasksAvailable,
+    label: 'NF_CLEANING_TASKS_AVAILABLE_LABEL'.tr(),
     enabled: false,
   ),
   NotificationTopic.janitorStatusUpdate: (

@@ -247,6 +247,7 @@
         "NF_CLEANING_EXCHANGE_UPDATE_LABEL": "Konyhataka csere frissítések",
         "NF_CLEANING_TASK_ASSIGNED_LABEL": "Automatikus konyhataka beosztás",
         "NF_CLEANING_TASK_DUE_DATE_LABEL": "Konyhatakarítás aktuális",
+        "NF_CLEANING_TASK_REPORTED_LABEL": "Konyhatakarítás elmaradása",
         "NF_CLEANING_TASKS_AVAILABLE_LABEL": "Új konyhataka időszak",
         "NF_JANITOR_STATUS_UPDATE_LABEL": "Gondnoki kérés frissítések",
         "NF_POLL_AVAILABLE_LABEL": "Új szavazások",

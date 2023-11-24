@@ -247,6 +247,7 @@
         "NF_CLEANING_EXCHANGE_UPDATE_LABEL": "Cleaning excange updates",
         "NF_CLEANING_TASK_ASSIGNED_LABEL": "Automatic kitchen cleaning assignments",
         "NF_CLEANING_TASK_DUE_DATE_LABEL": "Kitchen cleanings",
+        "NF_CLEANING_TASK_REPORTED_LABEL": "Reported kitchen cleanings",
         "NF_CLEANING_TASKS_AVAILABLE_LABEL": "New kitchen cleaning period",
         "NF_JANITOR_STATUS_UPDATE_LABEL": "Janitor request updates",
         "NF_POLL_AVAILABLE_LABEL": "Available polls",
