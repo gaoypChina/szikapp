@@ -79,12 +79,13 @@ class _CleaningParticipantsViewState extends State<CleaningParticipantsView> {
       onWeakButtonClick: () => Navigator.of(context, rootNavigator: true).pop(),
       onStrongButtonClick: () async {
         try {
-          await widget.manager
+          widget.manager
               .editCleaningParticipants(newParticipantData: newParticipantData);
           SzikAppState.analytics.logEvent(name: 'cleaning_participants_edit');
           setState(() {
             _modified = false;
           });
+          Navigator.of(context, rootNavigator: true).pop();
         } on IOException catch (exception) {
           var snackbar = ErrorHandler.buildSnackbar(
               context: context, exception: exception);
