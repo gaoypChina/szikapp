@@ -139,14 +139,14 @@ const _$TaskStatusEnumMap = {
 };
 
 Feedback _$FeedbackFromJson(Map<String, dynamic> json) => Feedback(
-      id: json['id'] as String,
+      id: json['uid'] as String,
       userID: json['user_id'] as String,
       message: json['message'] as String,
       lastUpdate: DateTime.parse(json['last_update'] as String),
     );
 
 Map<String, dynamic> _$FeedbackToJson(Feedback instance) => <String, dynamic>{
-      'id': instance.id,
+      'uid': instance.id,
       'user_id': instance.userID,
       'message': instance.message,
       'last_update': instance.lastUpdate.toIso8601String(),

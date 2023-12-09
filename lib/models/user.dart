@@ -95,7 +95,7 @@ class User implements Identifiable, Cachable {
   }
 
   bool hasPermission({required Permission permission}) {
-    return permissions.any((element) => element == permission);
+    return permissions.any((item) => item == permission);
   }
 
   bool hasPermissionToAccess({required SzikAppLink link}) {
@@ -109,12 +109,16 @@ class User implements Identifiable, Cachable {
   bool hasPermissionToCreate({required Type type}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
-    }
-    if (type == PollTask) {
+    } else if (type == PollTask) {
       return permissions.contains(Permission.pollCreate);
-    }
-    if (type == CleaningPeriod) {
+    } else if (type == CleaningPeriod) {
       return permissions.contains(Permission.cleaningPeriodCreate);
+    } else if (type == JanitorTask) {
+      return permissions.contains(Permission.janitorTaskCreate);
+    } else if (type == TimetableTask) {
+      return permissions.contains(Permission.reservationAccountCreate) ||
+          permissions.contains(Permission.reservationBoardgameCreate) ||
+          permissions.contains(Permission.reservationPlaceCreate);
     } else {
       return true;
     }
@@ -135,6 +139,9 @@ class User implements Identifiable, Cachable {
   bool hasPermissionToModify({required Task task}) {
     if (permissions.any((permission) => permission == Permission.admin)) {
       return true;
+    }
+    if (task.runtimeType == JanitorTask) {
+      return task.participantIDs.contains(id);
     }
     return task.managerIDs.contains(id);
   }

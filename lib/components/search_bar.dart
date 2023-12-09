@@ -51,7 +51,12 @@ class _CustomSearchBarState extends State<CustomSearchBar>
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.all(kPaddingLarge),
+      padding: const EdgeInsets.fromLTRB(
+        kPaddingLarge,
+        kPaddingLarge,
+        kPaddingLarge,
+        kPaddingSmall,
+      ),
       child: Column(
         children: [
           SearchBar(

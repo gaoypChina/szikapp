@@ -54,7 +54,7 @@ class DocumentDetails extends StatelessWidget {
               Text(
                 'LABEL_LAST_MODIFIED'.tr(
                   args: [
-                    DateFormat('yyyy.MM.dd. hh:mm:ss')
+                    DateFormat('yyyy.MM.dd. HH:mm:ss')
                         .format(document?.lastUpdate ?? DateTime.now())
                   ],
                 ),

@@ -13,6 +13,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
   final SzikAppStateManager appStateManager;
   final AuthManager authManager;
   final GoodToKnowManager goodToKnowManager;
+  final JanitorManager janitorManager;
   final KitchenCleaningManager kitchenCleaningManager;
   final PollManager pollManager;
   final ReservationManager reservationManager;
@@ -21,6 +22,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     required this.appStateManager,
     required this.authManager,
     required this.goodToKnowManager,
+    required this.janitorManager,
     required this.kitchenCleaningManager,
     required this.pollManager,
     required this.reservationManager,
@@ -28,6 +30,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     appStateManager.addListener(notifyListeners);
     authManager.addListener(notifyListeners);
     goodToKnowManager.addListener(notifyListeners);
+    janitorManager.addListener(notifyListeners);
     kitchenCleaningManager.addListener(notifyListeners);
     pollManager.addListener(notifyListeners);
     reservationManager.addListener(notifyListeners);
@@ -80,7 +83,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
                   NotImplementedException('Not implemented.'),
             ),
           if (appStateManager.selectedFeature == SzikAppFeature.janitor)
-            JanitorScreen.page(),
+            JanitorScreen.page(manager: janitorManager),
           if (appStateManager.selectedFeature == SzikAppFeature.passwords)
             PasswordsScreen.page(manager: reservationManager),
           if (appStateManager.selectedFeature == SzikAppFeature.profile)
@@ -89,6 +92,45 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
             ReservationScreen.page(),
           if (appStateManager.selectedFeature == SzikAppFeature.settings)
             SettingsScreen.page(),
+          if (janitorManager.isCreatingNewTask)
+            JanitorCreateEditScreen.page(
+              manager: janitorManager,
+              onCreate: (item) {
+                performFunctionSecurely(
+                    context, () => janitorManager.addTask(item));
+              },
+              onUpdate: (item, index) {},
+              onDelete: (item, index) {},
+            ),
+          if (janitorManager.isEditingTask)
+            JanitorCreateEditScreen.page(
+              manager: janitorManager,
+              originalItem: janitorManager.selectedTask,
+              onCreate: (_) {},
+              onUpdate: (item, index) {
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
+              },
+              onDelete: (item, index) {
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
+              },
+            ),
+          if (janitorManager.isGivingFeedback)
+            JanitorCreateEditScreen.page(
+              manager: janitorManager,
+              originalItem: janitorManager.selectedTask,
+              isFeedback: true,
+              onCreate: (_) {},
+              onUpdate: (item, index) {
+                performFunctionSecurely(
+                    context, () => janitorManager.updateTask(item));
+              },
+              onDelete: (item, index) {
+                performFunctionSecurely(
+                    context, () => janitorManager.deleteTask(item));
+              },
+            ),
           if (pollManager.isCreatingNewPoll)
             PollCreateEditScreen.page(
               onCreate: (poll) {
@@ -158,6 +200,7 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
     appStateManager.removeListener(notifyListeners);
     authManager.removeListener(notifyListeners);
     goodToKnowManager.removeListener(notifyListeners);
+    janitorManager.removeListener(notifyListeners);
     kitchenCleaningManager.removeListener(notifyListeners);
     pollManager.removeListener(notifyListeners);
     reservationManager.removeListener(notifyListeners);
@@ -189,6 +232,9 @@ class SzikAppRouter extends RouterDelegate<SzikAppLink>
         route.settings.name == SzikAppLink.kReservationPath ||
         route.settings.name == SzikAppLink.kSettingsPath) {
       appStateManager.unselectFeature();
+    }
+    if (route.settings.name == SzikAppLink.kJanitorCreateEditPath) {
+      janitorManager.performBackButtonPressed();
     }
     if (route.settings.name == SzikAppLink.kPollCreateEditPath) {
       pollManager.performBackButtonPressed();

@@ -161,6 +161,7 @@ class JanitorTask extends Task {
 @JsonSerializable()
 class Feedback implements Identifiable, Cachable {
   @override
+  @JsonKey(name: 'uid')
   String id;
 
   @JsonKey(name: 'user_id')

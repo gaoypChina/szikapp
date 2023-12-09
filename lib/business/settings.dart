@@ -56,9 +56,9 @@ class Settings extends ChangeNotifier {
   List<NotificationTopic> get notificationSettings {
     var enabled = _preferences.getStringList('notificationsEnabled') ?? [];
     var result = <NotificationTopic>[];
-    for (var item in enabled) {
+    for (var topic in enabled) {
       result.add(NotificationTopic.values
-          .firstWhere((enumValue) => enumValue.toString() == item));
+          .firstWhere((enumValue) => enumValue.toString() == topic));
     }
     return result;
   }
@@ -115,8 +115,8 @@ class Settings extends ChangeNotifier {
   set notificationSettings(List<NotificationTopic> notifications) {
     var enabled = <String>[];
 
-    for (var item in notifications) {
-      enabled.add(item.toString());
+    for (var topic in notifications) {
+      enabled.add(topic.toString());
     }
 
     _preferences
