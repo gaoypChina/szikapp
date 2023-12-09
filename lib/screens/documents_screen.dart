@@ -166,16 +166,17 @@ class DocumentsListViewState extends State<DocumentsListView> {
                 ),
               ),
               */
-              TabChoice(
-                choiceColor: theme.colorScheme.secondary,
-                wrapColor: theme.colorScheme.background,
-                fontColor: theme.colorScheme.background,
-                labels: [
-                  'DOCUMENTS_ALL'.tr(),
-                  'DOCUMENTS_PINNED'.tr(),
-                  'DOCUMENTS_OFFICIAL'.tr(),
-                ],
-                onChanged: _onTabChanged,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: TabChoice(
+                  wrapColor: Colors.transparent,
+                  labels: [
+                    'DOCUMENTS_ALL'.tr(),
+                    'DOCUMENTS_PINNED'.tr(),
+                    'DOCUMENTS_OFFICIAL'.tr(),
+                  ],
+                  onChanged: _onTabChanged,
+                ),
               ),
               Expanded(
                 child: _items.isEmpty

@@ -71,7 +71,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
                   'CLEANING_TAB_PARTICIPANTS'.tr(),
                   'CLEANING_TAB_SUPERVISION'.tr(),
                 ],
-                wrapColor: theme.colorScheme.background,
+                wrapColor: Colors.transparent,
                 onChanged: _onTabChanged,
               ),
             ),
