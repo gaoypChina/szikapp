@@ -87,7 +87,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   Future<void> _onApplyPressed() async {
-    if (_selectedEvent!.participantIDs.length > 1) return;
+    if (_selectedEvent!.participantIDs.length >
+        _openPeriod.participantsPerTask - 1) return;
     try {
       _selectedEvent!.participantIDs.add(_user.id);
       await widget.manager.editCleaningTask(task: _selectedEvent!);
@@ -209,8 +210,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                   var markerColor = statusGreen;
                   if (participantCount > 0) {
                     markerColor = statusYellow;
-                  } else if (participantCount ==
-                      _openPeriod.participantsPerTask) {
+                  }
+                  if (participantCount >= _openPeriod.participantsPerTask) {
                     markerColor = statusRed;
                   }
                   return Container(
