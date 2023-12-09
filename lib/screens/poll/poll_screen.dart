@@ -94,6 +94,7 @@ class PollTileViewState extends State<PollTileView> {
             child: TabChoice(
               labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
               onChanged: _onTabChanged,
+              wrapColor: Colors.transparent,
             ),
           ),
           Expanded(

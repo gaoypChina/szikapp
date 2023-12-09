@@ -119,13 +119,17 @@ class JanitorListViewState extends State<JanitorListView> {
               kPaddingNormal,
               kPaddingNormal,
             ),
-            child: TabChoice(
-              labels: [
-                'JANITOR_TAB_OWN'.tr(),
-                'JANITOR_TAB_ACTIVE'.tr(),
-                'JANITOR_TAB_ARCHIVE'.tr(),
-              ],
-              onChanged: _onTabChanged,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: TabChoice(
+                labels: [
+                  'JANITOR_TAB_OWN'.tr(),
+                  'JANITOR_TAB_ACTIVE'.tr(),
+                  'JANITOR_TAB_ARCHIVE'.tr(),
+                ],
+                wrapColor: Colors.transparent,
+                onChanged: _onTabChanged,
+              ),
             ),
           ),
           Expanded(

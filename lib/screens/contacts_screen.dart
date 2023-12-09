@@ -213,9 +213,10 @@ class ContactsListViewState extends State<ContactsListView>
   Widget _buildFilter() {
     var theme = Theme.of(context);
     return Container(
+      padding: const EdgeInsets.only(top: kPaddingSmall),
       decoration: BoxDecoration(
         color: theme.colorScheme.secondaryContainer.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
+        borderRadius: BorderRadius.circular(kBorderRadiusNormal),
       ),
       child: Column(
         children: [
