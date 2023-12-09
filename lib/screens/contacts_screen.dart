@@ -226,7 +226,6 @@ class ContactsListViewState extends State<ContactsListView>
               'CONTACTS_TITLE'.tr(),
               'GROUPS_TITLE'.tr(),
             ],
-            wrapColor: Colors.transparent,
             onChanged: _onTabChanged,
           ),
           if (_selectedTab == 0)

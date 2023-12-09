@@ -95,7 +95,6 @@ class PollTileViewState extends State<PollTileView> {
               labels: ['POLL_TAB_ACTIVE'.tr(), 'POLL_TAB_EXPIRED'.tr()],
               wrapColor: Colors.transparent,
               onChanged: _onTabChanged,
-              wrapColor: Colors.transparent,
             ),
           ),
           Expanded(
