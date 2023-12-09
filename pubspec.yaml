@@ -2,7 +2,7 @@ name: szikapp
 description: Awesome application for doing business in da SZIK.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.0.3+360
+version: 2.0.3+361
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -10,19 +10,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  connectivity_plus: ^5.0.1
+  connectivity_plus: ^5.0.2
   easy_localization: ^3.0.3
   dropdown_search: ^5.0.6
   # Firebase:
-  firebase_analytics: ^10.7.0
-  firebase_auth: ^4.14.0
-  firebase_core: ^2.22.0
-  firebase_crashlytics: ^3.4.4
-  firebase_performance: ^0.9.3+4
-  firebase_messaging: ^14.7.4
+  firebase_analytics: ^10.7.4
+  firebase_auth: ^4.15.2
+  firebase_core: ^2.24.2
+  firebase_crashlytics: ^3.4.8
+  firebase_performance: ^0.9.3+8
+  firebase_messaging: ^14.7.8
   flutter_signin_button: ^2.0.0
-  google_sign_in: ^6.1.6
-  http: ^1.1.0
+  google_sign_in: ^6.2.0
+  http: ^1.1.2
   json_annotation: ^4.8.1
   provider: ^6.1.1
   shared_preferences: ^2.2.2
@@ -30,7 +30,7 @@ dependencies:
   toggle_list: ^0.3.1
   flutter_launcher_icons: ^0.13.0
   flutter_svg: ^2.0.8
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.2
   uuid: ^4.1.0
   sign_in_with_apple: ^5.0.0
   crypto: ^3.0.2
@@ -42,8 +42,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.6
-  flutter_native_splash: ^2.3.4
+  build_runner: ^2.4.7
+  flutter_native_splash: ^2.3.8
   flutter_lints: ^3.0.0
   json_serializable: ^6.7.1
 
