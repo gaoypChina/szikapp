@@ -11,6 +11,8 @@ import '../../navigation/navigation.dart';
 import '../../ui/themes.dart';
 import '../../utils/utils.dart';
 
+const int defaultParticipantsPerTask = 2;
+
 class CleaningAdminPeriodView extends StatefulWidget {
   final KitchenCleaningManager manager;
 
@@ -29,6 +31,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
   late CleaningPeriod _openPeriod;
   late CleaningPeriod _currentPeriod;
   int _participantCount = 0;
+  int _participantsPerTask = defaultParticipantsPerTask;
 
   @override
   void initState() {
@@ -36,23 +39,19 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
     _hasOpenPeriod = widget.manager.hasOpenPeriod();
     if (widget.manager.periods.isNotEmpty) {
       if (_hasOpenPeriod) _openPeriod = widget.manager.getOpenPeriod();
-      _startDate =
-          _hasOpenPeriod ? _openPeriod.start : widget.manager.periods.last.end;
+      _startDate = _hasOpenPeriod
+          ? _openPeriod.start
+          : widget.manager.periods.last.end.add(const Duration(days: 1));
       _endDate = _hasOpenPeriod
           ? _openPeriod.end
           : _startDate.add(const Duration(days: 31));
+      _participantsPerTask = _hasOpenPeriod
+          ? _openPeriod.participantsPerTask
+          : defaultParticipantsPerTask;
       _hasCurrentPeriod = widget.manager.hasCurrentPeriod();
       if (_hasCurrentPeriod) _currentPeriod = widget.manager.getCurrentPeriod();
     } else {
-      _startDate = DateTime.now()
-          .copyWith(
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-            microsecond: 0,
-          )
-          .add(const Duration(days: 1));
+      _startDate = DateTime.now().add(const Duration(days: 1));
       _endDate = _startDate.add(const Duration(days: 31));
     }
 
@@ -64,25 +63,23 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   void _onStartChanged(DateTime newDate) {
     setState(() {
-      _startDate = newDate.copyWith(
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-        microsecond: 0,
-      );
+      _startDate = newDate;
     });
   }
 
   void _onEndChanged(DateTime newDate) {
     setState(() {
-      _endDate = newDate.copyWith(
-        hour: 23,
-        minute: 59,
-        second: 0,
-        millisecond: 0,
-        microsecond: 0,
-      );
+      _endDate = newDate;
+    });
+  }
+
+  void _onParticipantsPerTaskChanged(String newValue) {
+    var newParticipantsPerTask =
+        int.tryParse(newValue) ?? defaultParticipantsPerTask;
+    setState(() {
+      _participantsPerTask = newParticipantsPerTask > _participantCount
+          ? defaultParticipantsPerTask
+          : newParticipantsPerTask;
     });
   }
 
@@ -91,8 +88,17 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
       var uuid = const Uuid();
       var newPeriod = CleaningPeriod(
         id: uuid.v4().toUpperCase(),
-        start: _startDate,
-        end: _endDate,
+        start: _startDate.copyWith(
+          hour: 0,
+          minute: 0,
+          second: 0,
+        ),
+        end: _endDate.copyWith(
+          hour: 23,
+          minute: 59,
+          second: 59,
+        ),
+        participantsPerTask: _participantsPerTask,
         lastUpdate: DateTime.now(),
         isLive: true,
       );
@@ -113,9 +119,18 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
 
   Future<void> _onEditPeriod() async {
     try {
-      _openPeriod.start = _startDate;
-      _openPeriod.end = _endDate;
+      _openPeriod.start = _startDate.copyWith(
+        hour: 0,
+        minute: 0,
+        second: 0,
+      );
+      _openPeriod.end = _endDate.copyWith(
+        hour: 23,
+        minute: 59,
+        second: 59,
+      );
       _openPeriod.lastUpdate = DateTime.now();
+      _openPeriod.participantsPerTask = _participantsPerTask;
       await widget.manager.editCleaningPeriod(period: _openPeriod);
       await widget.manager.refreshPeriods();
       SzikAppState.analytics.logEvent(name: 'cleaning_edit_period');
@@ -222,7 +237,7 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                       ),
                     ),
                     Text(
-                      '${(_endDate.difference(_startDate).inDays + 1) * 2}',
+                      '${(_endDate.difference(_startDate).inDays + 1) * _participantsPerTask}',
                       style: theme.textTheme.displaySmall,
                     )
                   ],
@@ -242,6 +257,38 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
                     Text(
                       _participantCount.toString(),
                       style: theme.textTheme.displaySmall,
+                    )
+                  ],
+                ),
+                const SizedBox(height: kPaddingSmall),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'CLEANING_ADMIN_PARTICIPANTS_PER_TASK'.tr(),
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        color: theme.colorScheme.primaryContainer,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 50,
+                      child: TextFormField(
+                        initialValue: _participantsPerTask.toString(),
+                        onChanged: _onParticipantsPerTaskChanged,
+                        style: theme.textTheme.displaySmall,
+                        textAlign: TextAlign.end,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: theme.colorScheme.primary),
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusSmall),
+                          ),
+                          contentPadding: const EdgeInsets.all(kPaddingSmall),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -417,11 +464,29 @@ class _CleaningAdminPeriodViewState extends State<CleaningAdminPeriodView> {
             ),
           ),
           Text(
-            '${_currentPeriod.end.difference(_currentPeriod.start).inDays * 2}',
+            '${_currentPeriod.end.difference(_currentPeriod.start).inDays * _currentPeriod.participantsPerTask}',
             style: theme.textTheme.displaySmall,
           )
         ],
-      )
+      ),
+      const SizedBox(height: kPaddingNormal),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'CLEANING_ADMIN_PARTICIPANTS_PER_TASK'.tr(),
+            style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.primaryContainer,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Text(
+            _currentPeriod.participantsPerTask.toString(),
+            style: theme.textTheme.displaySmall,
+          )
+        ],
+      ),
     ];
   }
 }

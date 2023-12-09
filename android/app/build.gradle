@@ -35,18 +35,19 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
-    lintOptions {
-        disable 'InvalidPackage'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-
+    kotlin {
+        jvmToolchain(17)
+    }
     defaultConfig {
         applicationId "com.szik.szikapp"
+        compileSdk 33
         minSdkVersion 23
         targetSdkVersion 33
         multiDexEnabled true
@@ -67,6 +68,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'com.szik.szikapp'
+    lint {
+        disable 'InvalidPackage'
+    }
 }
 
 flutter {
@@ -75,13 +80,13 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation platform('com.google.firebase:firebase-bom:32.6.0')
     implementation 'com.google.android.gms:play-services-basement:18.2.0'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-perf'
     implementation 'com.google.firebase:firebase-dynamic-links'
-    implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'com.android.support:multidex:1.0.3'
 }

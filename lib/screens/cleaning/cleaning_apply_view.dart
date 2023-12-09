@@ -23,6 +23,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   CleaningTask? _selectedEvent;
   late DateTime _focusedDay;
   late DateTime _selectedDay;
+  late CleaningPeriod _openPeriod;
   late User _user;
   bool _userAppliedSelectedEvent = false;
   bool _userAlreadyApplied = false;
@@ -34,6 +35,7 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
     _selectedDay = _focusedDay;
     var eventsForDay = _getEventsForDay(_selectedDay);
     if (eventsForDay.isNotEmpty) _selectedEvent = eventsForDay.first;
+    _openPeriod = widget.manager.getOpenPeriod();
     _user = Provider.of<AuthManager>(context, listen: false).user!;
     _userAppliedSelectedEvent =
         _selectedEvent?.participantIDs.contains(_user.id) ?? false;
@@ -85,7 +87,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
   }
 
   Future<void> _onApplyPressed() async {
-    if (_selectedEvent!.participantIDs.length > 1) return;
+    if (_selectedEvent!.participantIDs.length >
+        _openPeriod.participantsPerTask - 1) return;
     try {
       _selectedEvent!.participantIDs.add(_user.id);
       await widget.manager.editCleaningTask(task: _selectedEvent!);
@@ -205,9 +208,10 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                 singleMarkerBuilder: (context, day, event) {
                   var participantCount = event.participantIDs.length;
                   var markerColor = statusGreen;
-                  if (participantCount == 1) {
+                  if (participantCount > 0) {
                     markerColor = statusYellow;
-                  } else if (participantCount == 2) {
+                  }
+                  if (participantCount >= _openPeriod.participantsPerTask) {
                     markerColor = statusRed;
                   }
                   return Container(
@@ -304,7 +308,8 @@ class _CleaningApplyViewState extends State<CleaningApplyView> {
                         ),
                         if (!_userAlreadyApplied &&
                             !_userAppliedSelectedEvent &&
-                            _selectedEvent!.participantIDs.length < 2)
+                            _selectedEvent!.participantIDs.length <
+                                _openPeriod.participantsPerTask)
                           ElevatedButton.icon(
                             onPressed: _onApplyPressed,
                             label: Text('BUTTON_APPLY'.tr()),
