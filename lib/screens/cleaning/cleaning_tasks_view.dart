@@ -36,7 +36,7 @@ class _CleaningTasksViewState extends State<CleaningTasksView> {
     var yesterday = DateTime.now().subtract(const Duration(days: 1));
     var showingTasks = _isShowingPastTasks
         ? _tasks.where((task) => !task.start.isSameDate(yesterday)).toList()
-        : _tasks.where((task) => task.start.isAfter(DateTime.now())).toList();
+        : _tasks.where((task) => task.end.isAfter(DateTime.now())).toList();
     return RefreshIndicator(
       onRefresh: () async {
         await widget.manager.refreshTasks();

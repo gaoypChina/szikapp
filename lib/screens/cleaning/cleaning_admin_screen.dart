@@ -52,9 +52,11 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
     return CustomScaffold(
       appBarTitle: 'CLEANING_ADMIN_TITLE'.tr(),
       body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kPaddingNormal,
-          vertical: kPaddingSmall,
+        padding: const EdgeInsets.fromLTRB(
+          kPaddingNormal,
+          kPaddingNormal,
+          kPaddingNormal,
+          0,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,7 +74,7 @@ class _CleaningAdminScreenState extends State<CleaningAdminScreen> {
                 onChanged: _onTabChanged,
               ),
             ),
-            const SizedBox(height: kPaddingLarge),
+            const SizedBox(height: kPaddingSmall),
             Expanded(
               child: _buildBody(),
             )
